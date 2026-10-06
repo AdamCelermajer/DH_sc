@@ -1,0 +1,209 @@
+{
+  "scope": "read-only source audit; no inferred runtime duration/counts and no production edits",
+  "sources": [
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "2fff3f390dc75a64422f7e2cba213bd55a97baf469d7a94d5ee7ff07f0311f03",
+      "matches": [
+        {
+          "line": 949,
+          "text": "w=view.width;h=view.height;rgba.resize(std::size_t(w)*h*4);"
+        },
+        {
+          "line": 1018,
+          "text": "glBufferData(GL_ARRAY_BUFFER,draw.cpu_vertices.size()*sizeof(Vertex),draw.cpu_vertices.data(),GL_DYNAMIC_DRAW);"
+        },
+        {
+          "line": 1020,
+          "text": "glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*sizeof(std::uint16_t),indices.data(),GL_STATIC_DRAW);"
+        },
+        {
+          "line": 1118,
+          "text": "void reset_context(){begin_gameplay_camera_release_v20();class_preview_actors.clear();menu_background=class_scene=false;clear_retained_loot_gpu_v27(true);clear_combat_fx_gpu(true);if(player_equipment)player_equipment->detach_visual();equipment_draws.clear();equipment_images.clear();equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();resume_world=resume_world||world_mode;if(world_mode){saved_actors.clear();for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.kind==1)saved_actors.push_back(actor);}world_mode=false;move_x=move_y=0;draws.clear();images.clear();object_groups.clear();world_objects.clear();prince_locomotion=dh2::actor::BlendedPlayback{};prince_visual={};prince_attack_clips.clear();prince_animation_bank={};scene_clock=0;inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;}"
+        },
+        {
+          "line": 1205,
+          "text": "batch.count=p.index_count;glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferData(GL_ARRAY_BUFFER,vertices.size()*sizeof(Vertex),vertices.data(),batch.skin.nodes.empty()?GL_STATIC_DRAW:GL_DYNAMIC_DRAW);"
+        },
+        {
+          "line": 1206,
+          "text": "glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*2,indices.data(),GL_STATIC_DRAW);check(\"Mesh buffer upload\");"
+        },
+        {
+          "line": 2453,
+          "text": "std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetManager* assets,const std::string& files_directory,const std::string& selected_mlx_uri){"
+        },
+        {
+          "line": 2591,
+          "text": "glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data(),primitive.skin.nodes.empty()?GL_STATIC_DRAW:GL_DYNAMIC_DRAW);"
+        },
+        {
+          "line": 2592,
+          "text": "glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*2,primitive.indices.data(),GL_STATIC_DRAW);check(\"Object buffer upload\");"
+        },
+        {
+          "line": 2612,
+          "text": "d.count=p.index_count;triangles+=p.index_count/3;glGenBuffers(1,&d.vertices);glBindBuffer(GL_ARRAY_BUFFER,d.vertices);glBufferData(GL_ARRAY_BUFFER,vertices.size()*sizeof(Vertex),vertices.data(),GL_STATIC_DRAW);"
+        },
+        {
+          "line": 2613,
+          "text": "glGenBuffers(1,&d.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,d.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*2,indices.data(),GL_STATIC_DRAW);check(\"World buffer upload\");"
+        },
+        {
+          "line": 2758,
+          "text": "for(unsigned a=0;a<first.size();++a)for(unsigned b=0;b<last.size();++b){"
+        },
+        {
+          "line": 2765,
+          "text": "dh2::floors::clear_route_cache(floors);pairs=successful=segments=0;digest=0xcbf29ce484222325ull;unsigned direct=0,graph_routes=0;path.resize(graph.node_count+1);dh2::navigation::RouteObject object{};"
+        },
+        {
+          "line": 2767,
+          "text": "for(unsigned a=0;a<floors.records.size();++a)for(unsigned b=0;b<floors.records.size();++b){"
+        },
+        {
+          "line": 2775,
+          "text": "dh2::floors::clear_route_cache(floors);"
+        },
+        {
+          "line": 2780,
+          "text": "for(unsigned a=0;a<floors.records.size();++a)for(unsigned b=0;b<floors.records.size();++b){"
+        },
+        {
+          "line": 2787,
+          "text": "dh2::floors::clear_route_cache(floors);"
+        },
+        {
+          "line": 2791,
+          "text": "for(unsigned a=0;a<floors.records.size();++a)for(unsigned b=0;b<floors.records.size();++b){"
+        },
+        {
+          "line": 2801,
+          "text": "for(unsigned a=0;a<floors.records.size();++a)for(unsigned b=0;b<floors.records.size();++b){"
+        },
+        {
+          "line": 2813,
+          "text": "for(unsigned floor=0;floor<registry.floor_count;++floor)for(unsigned i=0;i<registry.count;++i)if(entries[i].floor==buckets[floor])append_bytes(&entries[i],16);"
+        },
+        {
+          "line": 2817,
+          "text": "for(unsigned floor=0;floor<floors.records.size();++floor){"
+        },
+        {
+          "line": 2836,
+          "text": "for(unsigned floor=0;floor<floors.records.size();++floor){"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "sha256": "77f6de1b448054e1b002936d792aa8788024c4368459bdec69e08205d4ac8b9d",
+      "matches": [
+        {
+          "line": 15,
+          "text": "while(true){const auto count=std::fread(buffer.data(),1,buffer.size(),file);bytes.insert(bytes.end(),buffer.data(),buffer.data()+count);"
+        },
+        {
+          "line": 35,
+          "text": "void construct_native_level_c1_v25(AAssetManager* assets,const std::string& selected_mlx_uri,const std::shared_ptr<WorldScriptContext>& world,bool native_gs_launch_v27=false){"
+        },
+        {
+          "line": 54,
+          "text": "app.private_vm_limit=16u*1024u*1024u; // Same explicit private-VM policy as source-owner proof."
+        },
+        {
+          "line": 98,
+          "text": "gs.unload_level=[](const auto&,auto& e){e=\"Required whole original Level.Unload\";return false;};"
+        },
+        {
+          "line": 99,
+          "text": "gs.destroy_level=[](const auto&,auto& e){e=\"Required whole original Level destruction\";return false;};"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "68423a8a7b7b0de2abda7a76e6bf245e0709e0406380f54ac213daf520b62794",
+      "matches": [
+        {
+          "line": 120,
+          "text": "if(!original_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);"
+        },
+        {
+          "line": 121,
+          "text": "if(!front_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);"
+        },
+        {
+          "line": 198,
+          "text": "front_launch_report=model_renderer::load_world(bytes.data(),bytes.size(),gameplay_assets,front_directory,\"data/scene/x07_crypt_backup.mlx\");"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "sha256": "cb10f80b5666619c1aa64a02023642a053a2f35fee0609955e2d868a73c3f0c0",
+      "matches": [
+        {
+          "line": 191,
+          "text": "const auto n=AAsset_getLength64(asset.get());"
+        },
+        {
+          "line": 195,
+          "text": "if(count<=0){error=\"Short required UI input read\";return false;}at+=static_cast<std::size_t>(count);}"
+        },
+        {
+          "line": 646,
+          "text": "bool OriginalUiSession::render_player(int width,int height,const std::int32_t* sheet,std::size_t count,"
+        },
+        {
+          "line": 681,
+          "text": "if(!self.status->update(sheet,count,character,error))throw std::runtime_error(error);"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "sha256": "30117c2034aa5f58875b80add986a78731e166baa5e7159b4851d5957281944e",
+      "matches": [
+        {
+          "line": 41,
+          "text": "backing->fd=AAsset_openFileDescriptor64(asset,&backing->offset,&length);"
+        },
+        {
+          "line": 50,
+          "text": "if(next->files!=6833){e=\"Bundled original cache directory count differs from canonical input\";return false;}"
+        },
+        {
+          "line": 61,
+          "text": "return state->pack.read(uri,found,out,e);"
+        }
+      ]
+    },
+    {
+      "path": "port/asset-payloads/zip_asset_pack_v1.cpp",
+      "sha256": "badd8da04cdcce67778638af09f4cb6ca1f10c3c3e260202faa8274d044d5a8c",
+      "matches": [
+        {
+          "line": 4,
+          "text": "#include <limits>"
+        },
+        {
+          "line": 14,
+          "text": "constexpr std::uint32_t max_file=256u*1024u*1024u;"
+        },
+        {
+          "line": 15,
+          "text": "constexpr std::uint32_t max_directory=32u*1024u*1024u;"
+        },
+        {
+          "line": 70,
+          "text": "!count||directory_bytes>max_directory||directory==0xffffffffu||"
+        },
+        {
+          "line": 88,
+          "text": "bytes>max_file||compressed>max_file||std::uint64_t(local)+30>directory||"
+        }
+      ]
+    }
+  ]
+}

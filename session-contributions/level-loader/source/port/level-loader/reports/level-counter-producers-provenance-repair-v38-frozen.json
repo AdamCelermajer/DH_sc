@@ -1,0 +1,7 @@
+{
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\level-counter-producers-provenance-repair-v38-22293b6c9a439cd9.zip",
+  "archive_sha256": "221ec0d1ff1014855d6a40ebc9bf3f1476f4de2e29fa94eba18e474f1acf5c58",
+  "actual_proposed_header_sha256": "d673aca40592f36af03ebf6c216bf79130223325ae3a377c39dd99289bad46eb",
+  "payload_files": 4,
+  "all_members_readback_verified": true
+}

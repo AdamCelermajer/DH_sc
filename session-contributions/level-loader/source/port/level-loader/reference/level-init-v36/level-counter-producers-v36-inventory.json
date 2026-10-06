@@ -1,0 +1,1382 @@
+{
+  "functions": [
+    {
+      "entry": 4126156,
+      "size": 36,
+      "symbol": "Level::DisableFog(glitch::scene::ISceneNode*)"
+    },
+    {
+      "entry": 4132872,
+      "size": 908,
+      "symbol": "Level::_LoadCamera()"
+    },
+    {
+      "entry": 4128792,
+      "size": 432,
+      "symbol": "Level::_LoadPlayer()"
+    },
+    {
+      "entry": 4129772,
+      "size": 60,
+      "symbol": "Level::LoadFileData::~LoadFileData()"
+    },
+    {
+      "entry": 4129552,
+      "size": 52,
+      "symbol": "Level::LoadFileData::~LoadFileData()"
+    },
+    {
+      "entry": 4150692,
+      "size": 488,
+      "symbol": "Level::_FlushMeshes()"
+    },
+    {
+      "entry": 4129224,
+      "size": 228,
+      "symbol": "Level::_LoadFromXML(TiXmlElement*)"
+    },
+    {
+      "entry": 4155792,
+      "size": 6472,
+      "symbol": "Level::_LoadProcess()"
+    },
+    {
+      "entry": 4143704,
+      "size": 232,
+      "symbol": "Level::_LoadScripts()"
+    },
+    {
+      "entry": 4126228,
+      "size": 276,
+      "symbol": "Level::GetSpawnPoint()"
+    },
+    {
+      "entry": 4125220,
+      "size": 16,
+      "symbol": "Level::ResetIsLoaded()"
+    },
+    {
+      "entry": 4128116,
+      "size": 228,
+      "symbol": "Level::ResetSkinning()"
+    },
+    {
+      "entry": 4125240,
+      "size": 16,
+      "symbol": "Level::SG_BlockLevel(bool)"
+    },
+    {
+      "entry": 4127316,
+      "size": 152,
+      "symbol": "Level::SG_SavePlayer(Character*, bool)"
+    },
+    {
+      "entry": 4127468,
+      "size": 340,
+      "symbol": "Level::SG_SavePlayer(int, bool)"
+    },
+    {
+      "entry": 4152992,
+      "size": 232,
+      "symbol": "Level::_LoadBatchMap()"
+    },
+    {
+      "entry": 4139748,
+      "size": 596,
+      "symbol": "Level::_LoadBatching()"
+    },
+    {
+      "entry": 4146588,
+      "size": 884,
+      "symbol": "Level::_LoadLightSet()"
+    },
+    {
+      "entry": 4166900,
+      "size": 892,
+      "symbol": "Level::CanMoveTowards(Point3D<float> const&, Point3D<float> const&)"
+    },
+    {
+      "entry": 4129972,
+      "size": 232,
+      "symbol": "Level::CheckpointSave(Point3D<float> const&, bool)"
+    },
+    {
+      "entry": 4129832,
+      "size": 140,
+      "symbol": "Level::LoadCheckpoint()"
+    },
+    {
+      "entry": 4125196,
+      "size": 8,
+      "symbol": "Level::LoadScriptFile()"
+    },
+    {
+      "entry": 4134156,
+      "size": 436,
+      "symbol": "Level::SetLevelConfig(LevelConfig*)"
+    },
+    {
+      "entry": 4125312,
+      "size": 4,
+      "symbol": "Level::UpdateLightSet(bool, int)"
+    },
+    {
+      "entry": 4126192,
+      "size": 36,
+      "symbol": "Level::UpdateLightSet(int, std::vector<bool, std::allocator<bool>>&, glitch::scene::ISceneNode*)"
+    },
+    {
+      "entry": 4131552,
+      "size": 1320,
+      "symbol": "Level::UpdateListener()"
+    },
+    {
+      "entry": 4125236,
+      "size": 4,
+      "symbol": "Level::UpdateMaterial(bool, bool)"
+    },
+    {
+      "entry": 4137996,
+      "size": 320,
+      "symbol": "Level::_LoadBatchInit()"
+    },
+    {
+      "entry": 4140344,
+      "size": 1008,
+      "symbol": "Level::_LoadBatchList()"
+    },
+    {
+      "entry": 4127908,
+      "size": 208,
+      "symbol": "Level::_LoadFinalInit()"
+    },
+    {
+      "entry": 4670048,
+      "size": 184,
+      "symbol": "Level::GetRimLightFile()"
+    },
+    {
+      "entry": 4128664,
+      "size": 128,
+      "symbol": "Level::_LoadCharStates()"
+    },
+    {
+      "entry": 4143264,
+      "size": 440,
+      "symbol": "Level::_LoadScriptFile(std::string&)"
+    },
+    {
+      "entry": 4125692,
+      "size": 100,
+      "symbol": "Level::CleanUpAllSkills()"
+    },
+    {
+      "entry": 4127808,
+      "size": 100,
+      "symbol": "Level::SG_SaveAllPlayer(bool)"
+    },
+    {
+      "entry": 4125792,
+      "size": 72,
+      "symbol": "Level::UnlockAllObjects()"
+    },
+    {
+      "entry": 4167792,
+      "size": 800,
+      "symbol": "Level::UpdateCameraZoom()"
+    },
+    {
+      "entry": 4134592,
+      "size": 368,
+      "symbol": "Level::UpdateDynamicFog()"
+    },
+    {
+      "entry": 4125304,
+      "size": 8,
+      "symbol": "Level::SetObjectModuleId(int)"
+    },
+    {
+      "entry": 4125188,
+      "size": 4,
+      "symbol": "Level::_CheckLoadProcess()"
+    },
+    {
+      "entry": 4130736,
+      "size": 72,
+      "symbol": "Level::SG_SaveLocalPlayer(bool)"
+    },
+    {
+      "entry": 4130808,
+      "size": 160,
+      "symbol": "Level::GenerateRandomLevel(StreamBuffer&, unsigned int)"
+    },
+    {
+      "entry": 4125204,
+      "size": 4,
+      "symbol": "Level::_LoadResumeBatching()"
+    },
+    {
+      "entry": 4125184,
+      "size": 4,
+      "symbol": "Level::_SpawnLoadingThread()"
+    },
+    {
+      "entry": 4125192,
+      "size": 4,
+      "symbol": "Level::_ThreadLoadingProcess()"
+    },
+    {
+      "entry": 4130968,
+      "size": 584,
+      "symbol": "Level::PlaceFaeryAndFollowers(Character*)"
+    },
+    {
+      "entry": 4129452,
+      "size": 100,
+      "symbol": "Level::AssignSteamToLoadDataFile(StreamBuffer&)"
+    },
+    {
+      "entry": 4125208,
+      "size": 12,
+      "symbol": "Level::Load()"
+    },
+    {
+      "entry": 4130448,
+      "size": 288,
+      "symbol": "Level::Unload()"
+    },
+    {
+      "entry": 4162264,
+      "size": 2408,
+      "symbol": "Level::Update(bool)"
+    },
+    {
+      "entry": 4127136,
+      "size": 92,
+      "symbol": "Level::Restart()"
+    },
+    {
+      "entry": 4143936,
+      "size": 1556,
+      "symbol": "Level::LoadFile(std::string const&, std::string const&)"
+    },
+    {
+      "entry": 4145492,
+      "size": 1096,
+      "symbol": "Level::LoadTile(rnd::Tile*, int)"
+    },
+    {
+      "entry": 4133936,
+      "size": 220,
+      "symbol": "Level::EnableFog(glitch::scene::ISceneNode*)"
+    },
+    {
+      "entry": 4130204,
+      "size": 244,
+      "symbol": "Level::QuickSave(bool)"
+    },
+    {
+      "entry": 4137732,
+      "size": 264,
+      "symbol": "Level::UpdateFog(glitch::scene::ISceneNode*)"
+    },
+    {
+      "entry": 4141352,
+      "size": 920,
+      "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+    },
+    {
+      "entry": 4142272,
+      "size": 920,
+      "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+    },
+    {
+      "entry": 4166872,
+      "size": 28,
+      "symbol": "Level::~Level()"
+    },
+    {
+      "entry": 4166340,
+      "size": 532,
+      "symbol": "Level::~Level()"
+    },
+    {
+      "entry": 4165808,
+      "size": 532,
+      "symbol": "Level::~Level()"
+    },
+    {
+      "entry": 4126016,
+      "size": 140,
+      "symbol": "Level::GetMPReferee() const"
+    },
+    {
+      "entry": 4125864,
+      "size": 152,
+      "symbol": "Level::GetLevelConfig() const"
+    },
+    {
+      "entry": 4133780,
+      "size": 156,
+      "symbol": "Level::GetMPGameScript() const"
+    },
+    {
+      "entry": 4126636,
+      "size": 164,
+      "symbol": "Level::SG_IsMapLocSeen(int) const"
+    },
+    {
+      "entry": 4125260,
+      "size": 44,
+      "symbol": "Level::hasActiveDialog() const"
+    },
+    {
+      "entry": 4126968,
+      "size": 168,
+      "symbol": "Level::SG_IsLevelLocked(int) const"
+    },
+    {
+      "entry": 4126800,
+      "size": 168,
+      "symbol": "Level::SG_IsMapLocLocked(int) const"
+    },
+    {
+      "entry": 4126504,
+      "size": 132,
+      "symbol": "Level::SG_DBG_TraceDetailedQuestInformation(int) const"
+    },
+    {
+      "entry": 4138316,
+      "size": 928,
+      "symbol": "Level::Draw() const"
+    },
+    {
+      "entry": 4125256,
+      "size": 4,
+      "symbol": "Level::Draw2D() const"
+    }
+  ],
+  "direct_field_matches": [
+    {
+      "instruction": "3ef02c: e59fb134     \tldr\tr11, [pc, #0x134]       @ 0x3ef168 <LiftableObject::DeclareProperties()+0x17c>",
+      "owners": []
+    },
+    {
+      "instruction": "3ef030: e59f7134     \tldr\tr7, [pc, #0x134]        @ 0x3ef16c <LiftableObject::DeclareProperties()+0x180>",
+      "owners": []
+    },
+    {
+      "instruction": "3f3224: e5846134     \tstr\tr6, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4141352,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f322c: e5846138     \tstr\tr6, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4141352,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f35bc: e5846134     \tstr\tr6, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4142272,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f35c4: e5846138     \tstr\tr6, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4142272,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f4950: e5842134     \tstr\tr2, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f4bd4: e58d3134     \tstr\tr3, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f50d8: e59d2134     \tldr\tr2, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f51e8: e5842134     \tstr\tr2, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f684c: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x3f698c <_GLOBAL__I_.._.._sources_Game_Level_Level.cpp+0xa04>",
+      "owners": []
+    },
+    {
+      "instruction": "3f6ea8: e5942138     \tldr\tr2, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6eac: e5943134     \tldr\tr3, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6eb4: b5943138     \tldrlt\tr3, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6eb8: a5943134     \tldrge\tr3, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6ebc: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f7110: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f7270: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f751c: e5847134     \tstr\tr7, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f7520: e5847138     \tstr\tr7, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    }
+  ],
+  "supplemental_functions": [
+    {
+      "entry": 4127808,
+      "size": 100,
+      "symbol": "Level::SG_SaveAllPlayer(bool)"
+    },
+    {
+      "entry": 4162264,
+      "size": 2408,
+      "symbol": "Level::Update(bool)"
+    },
+    {
+      "entry": 4130204,
+      "size": 244,
+      "symbol": "Level::QuickSave(bool)"
+    },
+    {
+      "entry": 4141352,
+      "size": 920,
+      "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+    },
+    {
+      "entry": 4142272,
+      "size": 920,
+      "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+    },
+    {
+      "entry": 4166872,
+      "size": 28,
+      "symbol": "Level::~Level()"
+    },
+    {
+      "entry": 4166340,
+      "size": 532,
+      "symbol": "Level::~Level()"
+    },
+    {
+      "entry": 4165808,
+      "size": 532,
+      "symbol": "Level::~Level()"
+    }
+  ],
+  "all_Level_methods_scan_range": [
+    "0x3ef200",
+    "0x474318"
+  ],
+  "direct_actual_Level_accesses": [
+    {
+      "instruction": "3f3224: e5846134     \tstr\tr6, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4141352,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f322c: e5846138     \tstr\tr6, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4141352,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f35bc: e5846134     \tstr\tr6, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4142272,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f35c4: e5846138     \tstr\tr6, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4142272,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6ea8: e5942138     \tldr\tr2, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6eac: e5943134     \tldr\tr3, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6eb4: b5943138     \tldrlt\tr3, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6eb8: a5943134     \tldrge\tr3, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f6ebc: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f7110: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f7270: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f751c: e5847134     \tstr\tr7, [r4, #0x134]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f7520: e5847138     \tstr\tr7, [r4, #0x138]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    }
+  ],
+  "excluded_same_offset_matches": [
+    {
+      "instruction": "3f4950: e5842134     \tstr\tr2, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f4bd4: e58d3134     \tstr\tr3, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f50d8: e59d2134     \tldr\tr2, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f51e8: e5842134     \tstr\tr2, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "3f684c: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x3f698c <_GLOBAL__I_.._.._sources_Game_Level_Level.cpp+0xa04>",
+      "owners": []
+    },
+    {
+      "instruction": "3fd888: e59fa134     \tldr\tr10, [pc, #0x134]       @ 0x3fd9c4 <SortByEquipability::operator()(ItemInventory::Item const&, ItemInventory::Item const&)+0x3f4>",
+      "owners": []
+    },
+    {
+      "instruction": "4003b4: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x4004f4 <ItemInventory::_UnEquipItemFromSlot(unsigned int, int)+0x150>",
+      "owners": []
+    },
+    {
+      "instruction": "400898: e59f1138     \tldr\tr1, [pc, #0x138]        @ 0x4009d8 <ItemInventory::_EquipItemToSlot(unsigned int, unsigned int, bool)+0x3a4>",
+      "owners": []
+    },
+    {
+      "instruction": "40089c: e59f2138     \tldr\tr2, [pc, #0x138]        @ 0x4009dc <ItemInventory::_EquipItemToSlot(unsigned int, unsigned int, bool)+0x3a8>",
+      "owners": []
+    },
+    {
+      "instruction": "4008a4: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x4009e0 <ItemInventory::_EquipItemToSlot(unsigned int, unsigned int, bool)+0x3ac>",
+      "owners": []
+    },
+    {
+      "instruction": "401c58: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x401d94 <ItemInventory::_GetProbQuantity(int, int)+0x204>",
+      "owners": []
+    },
+    {
+      "instruction": "401c5c: e59f1134     \tldr\tr1, [pc, #0x134]        @ 0x401d98 <ItemInventory::_GetProbQuantity(int, int)+0x208>",
+      "owners": []
+    },
+    {
+      "instruction": "401c60: e59f2134     \tldr\tr2, [pc, #0x134]        @ 0x401d9c <ItemInventory::_GetProbQuantity(int, int)+0x20c>",
+      "owners": []
+    },
+    {
+      "instruction": "405dd4: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x405f14 <_GLOBAL__I_.._.._sources_Game_Controllers_v2Controller.cpp+0x258>",
+      "owners": []
+    },
+    {
+      "instruction": "405ddc: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x405f18 <_GLOBAL__I_.._.._sources_Game_Controllers_v2Controller.cpp+0x25c>",
+      "owners": []
+    },
+    {
+      "instruction": "407904: e58dc138     \tstr\tr12, [sp, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40790c: e58d3134     \tstr\tr3, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "407938: e58d3134     \tstr\tr3, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "408fc4: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x409100 <v2MixedController::AddController(v2Controller*)+0x140>",
+      "owners": []
+    },
+    {
+      "instruction": "4094dc: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x40961c <v2NetController::Update()+0x280>",
+      "owners": []
+    },
+    {
+      "instruction": "409738: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x409878 <_GLOBAL__I_.._.._sources_Game_Controllers_v2NetController.cpp+0x258>",
+      "owners": []
+    },
+    {
+      "instruction": "409740: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x40987c <_GLOBAL__I_.._.._sources_Game_Controllers_v2NetController.cpp+0x25c>",
+      "owners": []
+    },
+    {
+      "instruction": "40a7b8: e59f1134     \tldr\tr1, [pc, #0x134]        @ 0x40a8f4 <LightBase::Draw() const+0x170>",
+      "owners": []
+    },
+    {
+      "instruction": "40a99c: e5937134     \tldr\tr7, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40a9c4: e5941138     \tldr\tr1, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40a9cc: e5943134     \tldr\tr3, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40abf4: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40abf8: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40aca8: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40acac: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40af78: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x40b0b4 <LightBase::DeclareProperties()+0x2c4>",
+      "owners": []
+    },
+    {
+      "instruction": "40b108: e5940138     \tldr\tr0, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40b118: e5840138     \tstr\tr0, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40b3d8: e5924134     \tldr\tr4, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b400: e5808134     \tstr\tr8, [r0, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b408: e5850138     \tstr\tr0, [r5, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40b420: e5850138     \tstr\tr0, [r5, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40b4d4: e5960134     \tldr\tr0, [r6, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b4ec: e5842134     \tstr\tr2, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b4f8: e5842138     \tstr\tr2, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40b5d4: e5922134     \tldr\tr2, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b680: e5922134     \tldr\tr2, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b72c: e5922134     \tldr\tr2, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b88c: e5940134     \tldr\tr0, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40b890: e5941138     \tldr\tr1, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40bcfc: e5933134     \tldr\tr3, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "40d3bc: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x40d4fc <LightSetManager::SetLight(int, int, boost::intrusive_ptr<glitch::video::CLight> const&)+0x194>",
+      "owners": []
+    },
+    {
+      "instruction": "40e9ec: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "40ea1c: e593f134     \tldr\tpc, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "410bf0: e593f134     \tldr\tpc, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "413b20: e59f5134     \tldr\tr5, [pc, #0x134]        @ 0x413c5c <FlashAnimManager::FindAnimInstance(int)+0x140>",
+      "owners": []
+    },
+    {
+      "instruction": "413b24: e59f7134     \tldr\tr7, [pc, #0x134]        @ 0x413c60 <FlashAnimManager::FindAnimInstance(int)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "416b6c: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "416bbc: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "417384: e5d53138     \tldrb\tr3, [r5, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "417e78: e59f2138     \tldr\tr2, [pc, #0x138]        @ 0x417fb8 <GS_InterruptLoading::Update(StateMachine*, double)+0x5f0>",
+      "owners": []
+    },
+    {
+      "instruction": "41d738: e59f7134     \tldr\tr7, [pc, #0x134]        @ 0x41d874 <InfoHUDManager::applyOneTimeValues()+0x14c>",
+      "owners": []
+    },
+    {
+      "instruction": "41d73c: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x41d878 <InfoHUDManager::applyOneTimeValues()+0x150>",
+      "owners": []
+    },
+    {
+      "instruction": "41d740: e59f1134     \tldr\tr1, [pc, #0x134]        @ 0x41d87c <InfoHUDManager::applyOneTimeValues()+0x154>",
+      "owners": []
+    },
+    {
+      "instruction": "41e7ac: e58d9138     \tstr\tr9, [sp, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "422134: e59fa138     \tldr\tr10, [pc, #0x138]       @ 0x422274 <MenuBase::FS_StartGame(char const*, char const*, void*)+0x1d4>",
+      "owners": []
+    },
+    {
+      "instruction": "424544: e59f4134     \tldr\tr4, [pc, #0x134]        @ 0x424680 <MenuBase::FS_SetText2(char const*, char const*, void*)+0x140>",
+      "owners": []
+    },
+    {
+      "instruction": "424548: e59f5134     \tldr\tr5, [pc, #0x134]        @ 0x424684 <MenuBase::FS_SetText2(char const*, char const*, void*)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "425e80: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x425fc0 <_GLOBAL__I_.._.._sources_Game_Menus_MenuBase.cpp+0x898>",
+      "owners": []
+    },
+    {
+      "instruction": "426834: e59f4138     \tldr\tr4, [pc, #0x138]        @ 0x426974 <bool (*&std::map<std::string, bool (*)(char const*, char const*, void*), std::less<std::string>, std::allocator<std::pair<std::string const, bool (*)(char const*, char const*, void*)>>>::operator[]<char const*>(char const* const&))(char const*, char const*, void*) (.clone.14)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "426838: e59f7138     \tldr\tr7, [pc, #0x138]        @ 0x426978 <bool (*&std::map<std::string, bool (*)(char const*, char const*, void*), std::less<std::string>, std::allocator<std::pair<std::string const, bool (*)(char const*, char const*, void*)>>>::operator[]<char const*>(char const* const&))(char const*, char const*, void*) (.clone.14)+0x148>",
+      "owners": []
+    },
+    {
+      "instruction": "42683c: e59f8138     \tldr\tr8, [pc, #0x138]        @ 0x42697c <bool (*&std::map<std::string, bool (*)(char const*, char const*, void*), std::less<std::string>, std::allocator<std::pair<std::string const, bool (*)(char const*, char const*, void*)>>>::operator[]<char const*>(char const* const&))(char const*, char const*, void*) (.clone.14)+0x14c>",
+      "owners": []
+    },
+    {
+      "instruction": "429158: e593f134     \tldr\tpc, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42b680: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x42b7c0 <get_fontfile(char const*, bool, bool, char*, int)+0x434>",
+      "owners": []
+    },
+    {
+      "instruction": "42c04c: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "42c0bc: e593f134     \tldr\tpc, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42cfa0: e593a134     \tldr\tr10, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42d50c: e5935134     \tldr\tr5, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42d5bc: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x42d6fc <MenuManager::SwitchMenusToMainMenu()+0x160>",
+      "owners": []
+    },
+    {
+      "instruction": "42d750: e5930134     \tldr\tr0, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42d8ec: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x42da2c <_GLOBAL__I_.._.._sources_Game_Menus_MenuManager.cpp+0x258>",
+      "owners": []
+    },
+    {
+      "instruction": "42d8f4: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x42da30 <_GLOBAL__I_.._.._sources_Game_Menus_MenuManager.cpp+0x25c>",
+      "owners": []
+    },
+    {
+      "instruction": "42e91c: e592a134     \tldr\tr10, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42e970: e592a134     \tldr\tr10, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42ecc8: e593b134     \tldr\tr11, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42eec8: e5934134     \tldr\tr4, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42f024: e5934134     \tldr\tr4, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "42f490: e5823138     \tstr\tr3, [r2, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "430cdc: e592b134     \tldr\tr11, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "430f88: e5934134     \tldr\tr4, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "433044: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "433484: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "4334f4: e593f134     \tldr\tpc, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "433f44: e58d3134     \tstr\tr3, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "434260: e59d2134     \tldr\tr2, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "434c70: e59f1134     \tldr\tr1, [pc, #0x134]        @ 0x434dac <_GLOBAL__I_.._.._sources_Game_Menus_MenuMessageManager.cpp+0x788>",
+      "owners": []
+    },
+    {
+      "instruction": "435b10: e5945134     \tldr\tr5, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "435b40: e5947138     \tldr\tr7, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "4364bc: e5842138     \tstr\tr2, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "4364cc: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "436620: e5842138     \tstr\tr2, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "436630: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "4379d0: e5953134     \tldr\tr3, [r5, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "437a44: e5953134     \tldr\tr3, [r5, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "437e78: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "437e80: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "437ef8: e5843134     \tstr\tr3, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "437f00: e5843138     \tstr\tr3, [r4, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "437fe8: e5963134     \tldr\tr3, [r6, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "438008: e5868134     \tstr\tr8, [r6, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "438114: e5963134     \tldr\tr3, [r6, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "438134: e5868134     \tstr\tr8, [r6, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "438ac8: e59f1134     \tldr\tr1, [pc, #0x134]        @ 0x438c04 <MultiMenuManager::PushMenu(MenuBase*)+0x98c>",
+      "owners": []
+    },
+    {
+      "instruction": "43ce08: 95960134     \tldrls\tr0, [r6, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "43ce2c: 95960134     \tldrls\tr0, [r6, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "43dac8: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "43e1c4: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x43e300 <NativeStartGame(gameswf::fn_call const&)+0x230>",
+      "owners": []
+    },
+    {
+      "instruction": "44166c: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x4417ac <_GLOBAL__I_.._.._sources_Game_Menus_NativeCommands.cpp+0x86c>",
+      "owners": []
+    },
+    {
+      "instruction": "441868: e5950134     \tldr\tr0, [r5, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "441874: e5840134     \tstr\tr0, [r4, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "443aa8: e59d1138     \tldr\tr1, [sp, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "445ca4: e59d2134     \tldr\tr2, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "446834: e59f1134     \tldr\tr1, [pc, #0x134]        @ 0x446970 <NativeGetPlayerInfos(gameswf::fn_call const&)+0x2ac>",
+      "owners": []
+    },
+    {
+      "instruction": "446b00: e59f1134     \tldr\tr1, [pc, #0x134]        @ 0x446c3c <NativeGetPlayerStats(gameswf::fn_call const&)+0x140>",
+      "owners": []
+    },
+    {
+      "instruction": "446b04: e59f2134     \tldr\tr2, [pc, #0x134]        @ 0x446c40 <NativeGetPlayerStats(gameswf::fn_call const&)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "448634: e5cd3138     \tstrb\tr3, [sp, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "4486fc: e58d3134     \tstr\tr3, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "44a14c: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x44a288 <NativeSetOptions(gameswf::fn_call const&)+0x418>",
+      "owners": []
+    },
+    {
+      "instruction": "44c2fc: e59f2138     \tldr\tr2, [pc, #0x138]        @ 0x44c43c <NativeInvGetItemsListForSlot(gameswf::fn_call const&)+0x8a8>",
+      "owners": []
+    },
+    {
+      "instruction": "44c914: e59f1138     \tldr\tr1, [pc, #0x138]        @ 0x44ca54 <NativeGetCharMenuTutorialMessage(gameswf::fn_call const&)+0x2b4>",
+      "owners": []
+    },
+    {
+      "instruction": "44d5e4: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x44d724 <NativeInvGetItemDetails(gameswf::fn_call const&)+0xcc8>",
+      "owners": []
+    },
+    {
+      "instruction": "44ddb4: e59d0138     \tldr\tr0, [sp, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "44ddb8: e59d1134     \tldr\tr1, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "44eff0: e5dd3134     \tldrb\tr3, [sp, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "450060: e59d1138     \tldr\tr1, [sp, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "4520d0: e5cd3138     \tstrb\tr3, [sp, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "4525c4: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "452a3c: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "452aac: e593f134     \tldr\tpc, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "459dfc: e59f0138     \tldr\tr0, [pc, #0x138]        @ 0x459f3c <Script_AwardEndGameTrophies::Execute(bool, int)+0x438>",
+      "owners": []
+    },
+    {
+      "instruction": "45bfa0: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x45c0dc <_GLOBAL__I_.._.._sources_Game_Scripts_ScriptManager.cpp+0x8ac>",
+      "owners": []
+    },
+    {
+      "instruction": "45c7a0: e593f134     \tldr\tpc, [r3, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "45c7b8: e5927134     \tldr\tr7, [r2, #0x134]",
+      "owners": []
+    },
+    {
+      "instruction": "45dc60: e593f138     \tldr\tpc, [r3, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "45ded4: e59f4138     \tldr\tr4, [pc, #0x138]        @ 0x45e014 <Script_UnEquipHands::Execute(bool, int)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "45ded8: e59f6138     \tldr\tr6, [pc, #0x138]        @ 0x45e018 <Script_UnEquipHands::Execute(bool, int)+0x148>",
+      "owners": []
+    },
+    {
+      "instruction": "45dedc: e59f1138     \tldr\tr1, [pc, #0x138]        @ 0x45e01c <Script_UnEquipHands::Execute(bool, int)+0x14c>",
+      "owners": []
+    },
+    {
+      "instruction": "4607f8: e59f4134     \tldr\tr4, [pc, #0x134]        @ 0x460934 <Script_ExecScript::Execute(bool, int)+0x140>",
+      "owners": []
+    },
+    {
+      "instruction": "4607fc: e59f9134     \tldr\tr9, [pc, #0x134]        @ 0x460938 <Script_ExecScript::Execute(bool, int)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "4619f0: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x461b30 <_GLOBAL__I_.._.._sources_Game_SaveGames_LevelSavegame.cpp+0x258>",
+      "owners": []
+    },
+    {
+      "instruction": "4619f8: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x461b34 <_GLOBAL__I_.._.._sources_Game_SaveGames_LevelSavegame.cpp+0x25c>",
+      "owners": []
+    },
+    {
+      "instruction": "462398: e59f4138     \tldr\tr4, [pc, #0x138]        @ 0x4624d8 <LevelSavegame::CheckpointExists(int) const+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "46239c: e59f6138     \tldr\tr6, [pc, #0x138]        @ 0x4624dc <LevelSavegame::CheckpointExists(int) const+0x148>",
+      "owners": []
+    },
+    {
+      "instruction": "465ef8: e59f2138     \tldr\tr2, [pc, #0x138]        @ 0x466038 <void std::priv::__introsort_loop<std::string*, std::string, int, std::less<std::string>>(std::string*, std::string*, std::string*, int, std::less<std::string>)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "465efc: e59fc138     \tldr\tr12, [pc, #0x138]       @ 0x46603c <void std::priv::__introsort_loop<std::string*, std::string, int, std::less<std::string>>(std::string*, std::string*, std::string*, int, std::less<std::string>)+0x148>",
+      "owners": []
+    },
+    {
+      "instruction": "467874: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x4679b4 <_GLOBAL__I_.._.._sources_Game_SaveGames_PlayerSavegame_Data.cpp+0x258>",
+      "owners": []
+    },
+    {
+      "instruction": "46787c: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x4679b8 <_GLOBAL__I_.._.._sources_Game_SaveGames_PlayerSavegame_Data.cpp+0x25c>",
+      "owners": []
+    },
+    {
+      "instruction": "468f1c: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x469058 <PlayerSavegame::__SaveFaeries(IStreamBase*, void*)+0x140>",
+      "owners": []
+    },
+    {
+      "instruction": "4691d4: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x469314 <PlayerSavegame::__LoadFaeries(IStreamBase*, void*)+0x144>",
+      "owners": []
+    },
+    {
+      "instruction": "4691dc: e59fa134     \tldr\tr10, [pc, #0x134]       @ 0x469318 <PlayerSavegame::__LoadFaeries(IStreamBase*, void*)+0x148>",
+      "owners": []
+    },
+    {
+      "instruction": "46ab10: e59f2134     \tldr\tr2, [pc, #0x134]        @ 0x46ac4c <PlayerSavegame::__LoadLevelStates(IStreamBase*, void*)+0x280>",
+      "owners": []
+    },
+    {
+      "instruction": "46ab14: e59f3134     \tldr\tr3, [pc, #0x134]        @ 0x46ac50 <PlayerSavegame::__LoadLevelStates(IStreamBase*, void*)+0x284>",
+      "owners": []
+    },
+    {
+      "instruction": "46bcf4: e59f3138     \tldr\tr3, [pc, #0x138]        @ 0x46be34 <_GLOBAL__I_.._.._sources_Game_SaveGames_QuestSavegame.cpp+0x258>",
+      "owners": []
+    },
+    {
+      "instruction": "46bcfc: e59f0134     \tldr\tr0, [pc, #0x134]        @ 0x46be38 <_GLOBAL__I_.._.._sources_Game_SaveGames_QuestSavegame.cpp+0x25c>",
+      "owners": []
+    },
+    {
+      "instruction": "46f078: e5960138     \tldr\tr0, [r6, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "46f1fc: e5960138     \tldr\tr0, [r6, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "46f400: e5960138     \tldr\tr0, [r6, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "46f584: e5960138     \tldr\tr0, [r6, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "472bf0: e5c01138     \tstrb\tr1, [r0, #0x138]",
+      "owners": []
+    },
+    {
+      "instruction": "472e40: e5c01138     \tstrb\tr1, [r0, #0x138]",
+      "owners": []
+    }
+  ],
+  "possible_address_of_field_matches": [
+    {
+      "instruction": "3f7428: e28d2e13     \tadd\tr2, sp, #304",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f746c: e28d2f4d     \tadd\tr2, sp, #308",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    }
+  ],
+  "source_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

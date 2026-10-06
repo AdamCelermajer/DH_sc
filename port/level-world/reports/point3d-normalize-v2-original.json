@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "comparisons": 1008,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "621da5446b6c99e7367a0cb651ea86a50d529b07394975c833270651cf0aefdb",
+  "scope": "Whole original Point3D34d0b0/34d04c versus ARM64, including IEEE zero/NaN.",
+  "original_import_calls": {
+    "__aeabi_fmul": 3024,
+    "__aeabi_fadd": 2016,
+    "sqrtf": 1008,
+    "__aeabi_fdiv": 3024
+  }
+}

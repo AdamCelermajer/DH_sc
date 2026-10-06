@@ -1,0 +1,9 @@
+{
+  "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\canonical-connected-source-handoff-fbed9d0d5b3d99e3.zip",
+  "sha256": "6605e1d9cb0432463ea46c57f624a790bd6830c3f7f69c3b5614342855d7aa0a",
+  "entries": 186,
+  "bytes": 431015,
+  "checkpoint_sha256": "fbed9d0d5b3d99e3627aa0874b5fcee8d929df90bcc14c60c6f31af84795561e",
+  "validation": "PASS",
+  "full_loader_verified": false
+}

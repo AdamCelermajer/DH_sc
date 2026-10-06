@@ -11,7 +11,7 @@ add_library(dh2_level_loader STATIC xml_document_v1.cpp resource_paths_v1.cpp fi
  visual_transform_v1.cpp user_properties_v1.cpp fixed_map_v1.cpp fixed_declarations_v1.cpp
  procedural_random_v1.cpp procedural_file_list_v1.cpp procedural_sources_v1.cpp procedural_blocks_v1.cpp
  procedural_connections_v1.cpp procedural_lists_v1.cpp procedural_rules_v1.cpp procedural_instances_v1.cpp
- procedural_layout_v1.cpp procedural_modules_v1.cpp procedural_map_sources_v1.cpp object_initialization_v1.cpp object_entry_v1.cpp level_file_walk_v1.cpp module_load_v1.cpp cached_level_file_v1.cpp)
+ procedural_layout_v1.cpp procedural_modules_v1.cpp procedural_map_sources_v1.cpp object_initialization_v1.cpp object_entry_v1.cpp level_file_walk_v1.cpp module_load_v1.cpp cached_level_file_v1.cpp level_preparation_v1.cpp source_reference_repairs_v1.cpp static_decor_inspection_v1.cpp)
 target_compile_features(dh2_level_loader PUBLIC cxx_std_17)
 target_include_directories(dh2_level_loader PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(dh2_level_loader PRIVATE dh2_loader_xml_reference)
@@ -115,3 +115,114 @@ target_link_libraries(dh2_loader_module_load_probe PRIVATE dh2_level_loader)
 add_executable(dh2_loader_cached_level_file_probe tests/cached_level_file_probe.cpp)
 target_compile_options(dh2_loader_cached_level_file_probe PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(dh2_loader_cached_level_file_probe PRIVATE dh2_level_loader)
+add_executable(dh2_loader_level_preparation_probe tests/level_preparation_probe.cpp)
+target_compile_options(dh2_loader_level_preparation_probe PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_level_preparation_probe PRIVATE dh2_level_loader)
+
+add_executable(dh2_loader_recovery_probe tests/loader_recovery_probe.cpp)
+target_compile_options(dh2_loader_recovery_probe PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_recovery_probe PRIVATE dh2_level_loader)
+
+add_executable(dh2_loader_static_decor_inspection_probe tests/static_decor_inspection_probe.cpp)
+target_compile_options(dh2_loader_static_decor_inspection_probe PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_static_decor_inspection_probe PRIVATE dh2_level_loader)
+
+# Pinned first canonical handoff: narrow XML/registry adapter only. This target
+# is not linked into the map preview and does not publish a runtime world.
+set(DH2_LOADER_CANONICAL_OWNER_TARGET "" CACHE STRING "Existing canonical owner target for production integration")
+if(DH2_LOADER_CANONICAL_OWNER_TARGET)
+ if(NOT TARGET ${DH2_LOADER_CANONICAL_OWNER_TARGET})
+  message(FATAL_ERROR "DH2_LOADER_CANONICAL_OWNER_TARGET must be an existing canonical owner target")
+ endif()
+ set(dh2_loader_owner_target ${DH2_LOADER_CANONICAL_OWNER_TARGET})
+else()
+ # Pinned sources are for standalone adapter verification. The game passes
+ # its existing owner target above and uses that target's actual API headers.
+ add_library(dh2_loader_canonical_owners STATIC
+  vendor/canonical-owners-e8cc6acab5183a2b/canonical_object_manager_v1.cpp
+  vendor/canonical-owners-e8cc6acab5183a2b/canonical_object_factory_v1.cpp)
+ target_compile_features(dh2_loader_canonical_owners PUBLIC cxx_std_17)
+ target_include_directories(dh2_loader_canonical_owners PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/vendor/canonical-owners-e8cc6acab5183a2b
+  ${CMAKE_CURRENT_SOURCE_DIR}/../level-world)
+ target_compile_options(dh2_loader_canonical_owners PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off)
+ set_target_properties(dh2_loader_canonical_owners PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ set(dh2_loader_owner_target dh2_loader_canonical_owners)
+endif()
+add_library(dh2_loader_canonical_adapter STATIC canonical_source_adapter_v1.cpp)
+target_compile_features(dh2_loader_canonical_adapter PUBLIC cxx_std_17)
+target_link_libraries(dh2_loader_canonical_adapter PUBLIC dh2_level_loader ${dh2_loader_owner_target})
+target_compile_options(dh2_loader_canonical_adapter PRIVATE -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+set_target_properties(dh2_loader_canonical_adapter PROPERTIES POSITION_INDEPENDENT_CODE ON)
+add_executable(dh2_loader_canonical_source_adapter_probe tests/canonical_source_adapter_probe.cpp)
+target_compile_options(dh2_loader_canonical_source_adapter_probe PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_canonical_source_adapter_probe PRIVATE dh2_loader_canonical_adapter)
+add_test(NAME canonical_source_adapter COMMAND dh2_loader_canonical_source_adapter_probe)
+
+target_sources(dh2_loader_canonical_adapter PRIVATE canonical_cached_file_v1.cpp)
+
+# One Level receiver field authority and borrowed Application-current slot.
+# This target has no publication, gameplay or alternate Kill implementation.
+add_library(dh2_loader_canonical_level_context STATIC canonical_level_context_v1.cpp)
+target_compile_features(dh2_loader_canonical_level_context PUBLIC cxx_std_17)
+target_include_directories(dh2_loader_canonical_level_context PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../level-world)
+target_compile_options(dh2_loader_canonical_level_context PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_canonical_level_context PUBLIC dh2_level_loader)
+set_target_properties(dh2_loader_canonical_level_context PROPERTIES POSITION_INDEPENDENT_CODE ON)
+add_executable(dh2_loader_canonical_level_context_probe tests/canonical_level_context_probe.cpp)
+target_compile_options(dh2_loader_canonical_level_context_probe PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_canonical_level_context_probe PRIVATE dh2_loader_canonical_level_context)
+
+# Module load field verification may use the actual root owner target. The
+# default exact pinned TU is test-only, never linked into the loader receiver.
+set(DH2_LOADER_MODULE_OWNER_TARGET "" CACHE STRING "Existing root Module load owner target for the field probe")
+if(DH2_LOADER_MODULE_OWNER_TARGET)
+ if(NOT TARGET ${DH2_LOADER_MODULE_OWNER_TARGET})
+  message(FATAL_ERROR "Required existing Module owner target")
+ endif()
+ target_link_libraries(dh2_loader_canonical_level_context_probe PRIVATE ${DH2_LOADER_MODULE_OWNER_TARGET})
+else()
+ target_sources(dh2_loader_canonical_level_context_probe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/module-load-contract-cbbf271d1319c732/module_xml_selection_v1.cpp")
+ # Frozen Module header needs its own cstdint include on libstdc++. Keep the
+ # current-source capture exact and supply only the missing standard header.
+ set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/vendor/module-load-contract-cbbf271d1319c732/module_xml_selection_v1.cpp"
+  PROPERTIES COMPILE_OPTIONS "-include;cstdint;-Wno-misleading-indentation")
+ target_include_directories(dh2_loader_canonical_level_context_probe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/module-load-contract-cbbf271d1319c732")
+endif()
+
+add_library(dh2_loader_canonical_module_files STATIC canonical_module_files_v1.cpp)
+target_compile_features(dh2_loader_canonical_module_files PUBLIC cxx_std_17)
+target_compile_options(dh2_loader_canonical_module_files PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off)
+set_target_properties(dh2_loader_canonical_module_files PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_include_directories(dh2_loader_canonical_module_files PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(dh2_loader_canonical_module_files PUBLIC dh2_loader_canonical_adapter dh2_loader_canonical_level_context)
+if(DH2_LOADER_MODULE_OWNER_TARGET)
+ target_link_libraries(dh2_loader_canonical_module_files PUBLIC ${DH2_LOADER_MODULE_OWNER_TARGET})
+else()
+ target_include_directories(dh2_loader_canonical_module_files PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/vendor/module-load-contract-cbbf271d1319c732")
+endif()
+add_executable(dh2_loader_canonical_module_files_probe tests/canonical_module_files_probe.cpp)
+target_compile_options(dh2_loader_canonical_module_files_probe PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_canonical_module_files_probe PRIVATE dh2_loader_canonical_module_files)
+if(DH2_LOADER_MODULE_OWNER_TARGET)
+ target_link_libraries(dh2_loader_canonical_module_files_probe PRIVATE ${DH2_LOADER_MODULE_OWNER_TARGET})
+else()
+ target_sources(dh2_loader_canonical_module_files_probe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/module-load-contract-cbbf271d1319c732/module_xml_selection_v1.cpp")
+endif()
+
+add_executable(dh2_loader_cached_file_reentry_probe tests/canonical_cached_file_reentry_probe.cpp)
+target_compile_options(dh2_loader_cached_file_reentry_probe PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(dh2_loader_cached_file_reentry_probe PRIVATE dh2_loader_canonical_adapter)
+
+# Requires the existing owner exporting CanonicalClassReceiver/PropertyMap.
+# Legacy standalone factory-only snapshots cannot implement this interface.
+if(DH2_LOADER_CANONICAL_OWNER_TARGET)
+ add_library(dh2_loader_canonical_receiver_transport STATIC canonical_receiver_transport_v1.cpp)
+ target_compile_features(dh2_loader_canonical_receiver_transport PUBLIC cxx_std_17)
+ target_link_libraries(dh2_loader_canonical_receiver_transport PUBLIC dh2_loader_canonical_adapter)
+ target_compile_options(dh2_loader_canonical_receiver_transport PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off)
+ set_target_properties(dh2_loader_canonical_receiver_transport PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ add_executable(dh2_loader_receiver_transport_probe tests/canonical_receiver_transport_probe.cpp)
+ target_compile_options(dh2_loader_receiver_transport_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation)
+ target_link_libraries(dh2_loader_receiver_transport_probe PRIVATE dh2_loader_canonical_receiver_transport)
+endif()

@@ -1,0 +1,518 @@
+{
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "seed": 0,
+      "difficulty": -1,
+      "row": -1,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_000_0_000_000_level.savegame"
+    },
+    {
+      "seed": 1,
+      "difficulty": 0,
+      "row": -1,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_001_0_single_level.checkpoint"
+    },
+    {
+      "seed": 114,
+      "difficulty": 1,
+      "row": -1,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_114_0_001_000_level.savegame"
+    },
+    {
+      "seed": 4294967295,
+      "difficulty": 2147483647,
+      "row": -1,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_4294967295_0_single_level.checkpoint"
+    },
+    {
+      "seed": 0,
+      "difficulty": -1,
+      "row": 0,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_000_0_000_000_level.savegame"
+    },
+    {
+      "seed": 1,
+      "difficulty": 0,
+      "row": 0,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_001_0_single_level.checkpoint"
+    },
+    {
+      "seed": 114,
+      "difficulty": 1,
+      "row": 0,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_114_0_001_000_level.savegame"
+    },
+    {
+      "seed": 4294967295,
+      "difficulty": 2147483647,
+      "row": 0,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_4294967295_0_single_level.checkpoint"
+    },
+    {
+      "seed": 0,
+      "difficulty": -1,
+      "row": 433,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_000_0_000_433_level.savegame"
+    },
+    {
+      "seed": 1,
+      "difficulty": 0,
+      "row": 433,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_001_0_single_level.checkpoint"
+    },
+    {
+      "seed": 114,
+      "difficulty": 1,
+      "row": 433,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_114_0_001_433_level.savegame"
+    },
+    {
+      "seed": 4294967295,
+      "difficulty": 2147483647,
+      "row": 433,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_4294967295_0_single_level.checkpoint"
+    },
+    {
+      "seed": 0,
+      "difficulty": -1,
+      "row": -2147483648,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_000_0_000_000_level.savegame"
+    },
+    {
+      "seed": 1,
+      "difficulty": 0,
+      "row": -2147483648,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_001_0_single_level.checkpoint"
+    },
+    {
+      "seed": 114,
+      "difficulty": 1,
+      "row": -2147483648,
+      "mode": 0,
+      "checkpoint": 0,
+      "filename": "dh2_114_0_001_000_level.savegame"
+    },
+    {
+      "seed": 4294967295,
+      "difficulty": 2147483647,
+      "row": -2147483648,
+      "mode": 0,
+      "checkpoint": 1,
+      "filename": "dh2_4294967295_0_single_level.checkpoint"
+    },
+    {
+      "seed": 2125154140,
+      "difficulty": -1,
+      "row": -1,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_2125154140_1_000_000_level.savegame"
+    },
+    {
+      "seed": 349270860,
+      "difficulty": 0,
+      "row": -1,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_349270860_1_single_level.checkpoint"
+    },
+    {
+      "seed": 2894928510,
+      "difficulty": 1,
+      "row": -1,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_2894928510_1_001_000_level.savegame"
+    },
+    {
+      "seed": 1230876705,
+      "difficulty": 2147483647,
+      "row": -1,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_1230876705_1_single_level.checkpoint"
+    },
+    {
+      "seed": 3939206928,
+      "difficulty": -1,
+      "row": 0,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_3939206928_1_000_000_level.savegame"
+    },
+    {
+      "seed": 1239932734,
+      "difficulty": 0,
+      "row": 0,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_1239932734_1_single_level.checkpoint"
+    },
+    {
+      "seed": 2189680089,
+      "difficulty": 1,
+      "row": 0,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_2189680089_1_001_000_level.savegame"
+    },
+    {
+      "seed": 846715774,
+      "difficulty": 2147483647,
+      "row": 0,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_846715774_1_single_level.checkpoint"
+    },
+    {
+      "seed": 3362792169,
+      "difficulty": -1,
+      "row": 433,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_3362792169_1_000_433_level.savegame"
+    },
+    {
+      "seed": 2401051496,
+      "difficulty": 0,
+      "row": 433,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_2401051496_1_single_level.checkpoint"
+    },
+    {
+      "seed": 1001558373,
+      "difficulty": 1,
+      "row": 433,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_1001558373_1_001_433_level.savegame"
+    },
+    {
+      "seed": 2248509548,
+      "difficulty": 2147483647,
+      "row": 433,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_2248509548_1_single_level.checkpoint"
+    },
+    {
+      "seed": 2685933768,
+      "difficulty": -1,
+      "row": -2147483648,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_2685933768_1_000_000_level.savegame"
+    },
+    {
+      "seed": 2253709214,
+      "difficulty": 0,
+      "row": -2147483648,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_2253709214_1_single_level.checkpoint"
+    },
+    {
+      "seed": 3044222918,
+      "difficulty": 1,
+      "row": -2147483648,
+      "mode": 1,
+      "checkpoint": 0,
+      "filename": "dh2_3044222918_1_001_000_level.savegame"
+    },
+    {
+      "seed": 2340412394,
+      "difficulty": 2147483647,
+      "row": -2147483648,
+      "mode": 1,
+      "checkpoint": 1,
+      "filename": "dh2_2340412394_1_single_level.checkpoint"
+    },
+    {
+      "seed": 3691237057,
+      "difficulty": -1,
+      "row": -1,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_3691237057_4294967295_000_000_level.savegame"
+    },
+    {
+      "seed": 3245569875,
+      "difficulty": 0,
+      "row": -1,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_3245569875_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 3261724618,
+      "difficulty": 1,
+      "row": -1,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_3261724618_4294967295_001_000_level.savegame"
+    },
+    {
+      "seed": 138004943,
+      "difficulty": 2147483647,
+      "row": -1,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_138004943_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 462703888,
+      "difficulty": -1,
+      "row": 0,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_462703888_4294967295_000_000_level.savegame"
+    },
+    {
+      "seed": 49304721,
+      "difficulty": 0,
+      "row": 0,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_49304721_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 1010725550,
+      "difficulty": 1,
+      "row": 0,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_1010725550_4294967295_001_000_level.savegame"
+    },
+    {
+      "seed": 500344025,
+      "difficulty": 2147483647,
+      "row": 0,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_500344025_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 345121369,
+      "difficulty": -1,
+      "row": 433,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_345121369_4294967295_000_433_level.savegame"
+    },
+    {
+      "seed": 3181379926,
+      "difficulty": 0,
+      "row": 433,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_3181379926_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 1105319670,
+      "difficulty": 1,
+      "row": 433,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_1105319670_4294967295_001_433_level.savegame"
+    },
+    {
+      "seed": 1982930125,
+      "difficulty": 2147483647,
+      "row": 433,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_1982930125_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 2471659211,
+      "difficulty": -1,
+      "row": -2147483648,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_2471659211_4294967295_000_000_level.savegame"
+    },
+    {
+      "seed": 1833231099,
+      "difficulty": 0,
+      "row": -2147483648,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_1833231099_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 1582950554,
+      "difficulty": 1,
+      "row": -2147483648,
+      "mode": -1,
+      "checkpoint": 0,
+      "filename": "dh2_1582950554_4294967295_001_000_level.savegame"
+    },
+    {
+      "seed": 3759022926,
+      "difficulty": 2147483647,
+      "row": -2147483648,
+      "mode": -1,
+      "checkpoint": 1,
+      "filename": "dh2_3759022926_4294967295_single_level.checkpoint"
+    },
+    {
+      "seed": 935099459,
+      "difficulty": -1,
+      "row": -1,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_935099459_7_000_000_level.savegame"
+    },
+    {
+      "seed": 23966709,
+      "difficulty": 0,
+      "row": -1,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_23966709_7_single_level.checkpoint"
+    },
+    {
+      "seed": 368952893,
+      "difficulty": 1,
+      "row": -1,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_368952893_7_001_000_level.savegame"
+    },
+    {
+      "seed": 702206496,
+      "difficulty": 2147483647,
+      "row": -1,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_702206496_7_single_level.checkpoint"
+    },
+    {
+      "seed": 2141687237,
+      "difficulty": -1,
+      "row": 0,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_2141687237_7_000_000_level.savegame"
+    },
+    {
+      "seed": 576520621,
+      "difficulty": 0,
+      "row": 0,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_576520621_7_single_level.checkpoint"
+    },
+    {
+      "seed": 911119789,
+      "difficulty": 1,
+      "row": 0,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_911119789_7_001_000_level.savegame"
+    },
+    {
+      "seed": 550023499,
+      "difficulty": 2147483647,
+      "row": 0,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_550023499_7_single_level.checkpoint"
+    },
+    {
+      "seed": 713339206,
+      "difficulty": -1,
+      "row": 433,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_713339206_7_000_433_level.savegame"
+    },
+    {
+      "seed": 4061027317,
+      "difficulty": 0,
+      "row": 433,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_4061027317_7_single_level.checkpoint"
+    },
+    {
+      "seed": 3140331584,
+      "difficulty": 1,
+      "row": 433,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_3140331584_7_001_433_level.savegame"
+    },
+    {
+      "seed": 2784583512,
+      "difficulty": 2147483647,
+      "row": 433,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_2784583512_7_single_level.checkpoint"
+    },
+    {
+      "seed": 1966263096,
+      "difficulty": -1,
+      "row": -2147483648,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_1966263096_7_000_000_level.savegame"
+    },
+    {
+      "seed": 257459240,
+      "difficulty": 0,
+      "row": -2147483648,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_257459240_7_single_level.checkpoint"
+    },
+    {
+      "seed": 125609787,
+      "difficulty": 1,
+      "row": -2147483648,
+      "mode": 7,
+      "checkpoint": 0,
+      "filename": "dh2_125609787_7_001_000_level.savegame"
+    },
+    {
+      "seed": 2864251185,
+      "difficulty": 2147483647,
+      "row": -2147483648,
+      "mode": 7,
+      "checkpoint": 1,
+      "filename": "dh2_2864251185_7_single_level.checkpoint"
+    }
+  ],
+  "scope": "Whole LevelSavegame C1 and filename functions execute. Allocation/CString/libc and nested Savegame C1/initSectionInfo are declared service fixtures; file/cache body is not oracle-accepted."
+}

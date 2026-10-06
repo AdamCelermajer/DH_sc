@@ -1,0 +1,44 @@
+# Root executes against existing emulator5554 only. No launch/reset/root/settings.
+buffers { size_kb: 8192 fill_policy: RING_BUFFER }
+duration_ms: 20000
+write_into_file: true
+file_write_period_ms: 1000
+max_file_size_bytes: 8388608
+flush_timeout_ms: 1000
+data_source_stop_timeout_ms: 1000
+data_sources {
+  config {
+    name: "linux.ftrace"
+    ftrace_config {
+      buffer_size_kb: 256
+      drain_period_ms: 1000
+      ftrace_events: "sched/sched_switch"
+      ftrace_events: "sched/sched_waking"
+      ftrace_events: "sched/sched_wakeup"
+      ftrace_events: "power/cpu_frequency"
+      atrace_categories: "gfx"
+      atrace_categories: "view"
+      atrace_apps: "com.example.dh2"
+    }
+  }
+}
+data_sources {
+  config {
+    name: "linux.process_stats"
+    process_stats_config {
+      scan_all_processes_on_start: true
+      record_thread_names: true
+      proc_stats_poll_ms: 1000
+    }
+  }
+}
+data_sources {
+  config {
+    name: "linux.sys_stats"
+    sys_stats_config {
+      meminfo_period_ms: 1000
+      vmstat_period_ms: 1000
+    }
+  }
+}
+data_sources { config { name: "android.surfaceflinger.frametimeline" } }

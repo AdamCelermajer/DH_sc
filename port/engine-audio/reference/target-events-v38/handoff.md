@@ -1,0 +1,23 @@
+# Generic target events V38
+
+Use `audio_target_events_v38.hpp` and `audio_target_events_v38.cpp`. Compile the NEW source and replace the generic callee with **`dh2_audio_target_event_v38`**. It uses the SAME retained TargetEventState32, TargetEventServices40, TargetEventRequest64 and TargetEventResponse24 types. It copies all eight event0xa..0x11 coordinator handlers, including lifetime validation, Debug prefix, reentry and state mutation. The intended semantic change is in event0xd OnTargetInSight: `query.flag=0; query.integer=1`, preserving floats-1/-1 and unmodified copied XYZ. Shared target_events.cpp and renderer adapters were not edited.
+
+This fixes the generic coordinator rather than overriding an adapter request. OnTargetInSight captures AI sound table/count **before** owner AI-ID callback, selects the sound from that captured table, captures sound-manager identity **after** AI-ID but **before** Character target-position callback, copies actual XYZ, sends Play3D, then reloads active AIS identity and dispatches its actual endpoint. Null active suppresses only that last endpoint: it does not suppress the sound prefix. Shared source Debug/row/position/Play3D/AIS endpoints remain real synchronous providers, with failures explicit.
+
+Original addresses: OnTargetInSight3d22e4, AI row sound+24 at3d2368, manager capture3d2370, GetTargetPosition3d2374, Play3D3d23b8. The exact executable SHA256 is `36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80`. The original call has r3=0 (bool), first stack word=1 (integer), then raw float wordsbf800000/bf800000. `target-events-v38-differential.py` corrects the original oracle's ABI projection. The earlier shared differential incorrectly labelled r3 as integer and the first stack word as flag, concealing the original true/0 native defect. That old test and its old gold were not modified.
+
+Validation: **2247 PASS original vs optimized ARM64 comparisons**, zero mismatches. The2013 genuine corpus cases execute all eight original handlers against76 AI rows decoded by actual AIProps::read506f3c, state byte values0/1/255, null/alternate active AIS, character/noncharacter target branches, Debug values, raw signed zero/NaNs/infinities, callback table/manager/owner changes, and nested reentry. Original76 table sounds are all rawffffffff (-1).
+
+The additional234 cases expressly borrow runtime AI row sound words-1,0,33,190,232,478,637,INT_MAX,INT_MIN, preserving original instruction forwarding across active/state/debug combinations and all reached mutation/reentry stages. These positive IDs are fixture inputs; they are not live cache edits or fabricated source readiness. Each reached Play3D capture asserts bool=false, integer1, floats-1/-1. Actual manager/table snapshots and position bits are compared with the generic successor.
+
+O2 ASan+UBSan host replay passes both original gold corpora:2013 cases/196622 word checks and234 cases/32092 word checks. Each run additionally passes10 malformed-entry guards and14 explicit provider/lifetime failure-prefix checks. They stop at the reached failed service and retain already executed state effects. These native failure boundaries do not claim original undefined-read or void-provider failure parity. No sanitizers reported findings. Both ARM64 and x86_64 API23 compilation are strict with warnings as errors.
+
+Reproduce original differential with bundled Python:
+
+`port/engine-audio/reference/target-events-v38/target-events-v38-differential.py --library .local-inputs/audio-v38/target-events-v38-arm64.so`
+
+Build that isolated oracle with NDK clang++ `--target=aarch64-linux-android23 -std=c++17 -O2 -fPIC -shared -Wall -Wextra -Werror port/engine-audio/audio_target_events_v38.cpp -o .local-inputs/audio-v38/target-events-v38-arm64.so`.
+
+Build host replay with WSL g++ `-std=c++17 -O2 -g -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer port/engine-audio/audio_target_events_v38.cpp port/engine-audio/reference/target-events-v38/target-events-host.cpp -o .local-inputs/audio-v38/target-events-v38-host`. Run once with target-events-genuine.bin, once with target-events-positive.bin. Both gold files remain under this reference directory; compiled binaries remain under .local-inputs/audio-v38.
+
+`target-events-differential.json`, `host-receipt.json`, and `manifest.json` bind the source/gold/dependency evidence. Root owns callee/CMake wiring and guarded live acceptance. No emulator, ADB, APK, driver, World readiness or Level-phase mutation was used. Production calls with actual all-1 AI rows legitimately reach Vox negative-ID gating; that is not an excuse to leave positive generic ABI requests incorrect.

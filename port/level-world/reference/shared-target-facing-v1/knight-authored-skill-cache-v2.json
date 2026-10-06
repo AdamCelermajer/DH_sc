@@ -1,0 +1,819 @@
+{
+  "scope": "Read-only actual bundled cache decode following native SkillTables/AnimationTables stream layout; no video skill-ID inference or runtime acceptance.",
+  "sources": {
+    "port\\android-native\\app\\src\\main\\assets\\data\\skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "port\\android-native\\app\\src\\main\\assets\\data\\skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    "port\\android-native\\app\\src\\main\\assets\\data\\effects_pyarraynames.bin": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+    "port\\android-native\\app\\src\\main\\assets\\data\\effects_dictionary_pyarray.bin": "e0162462ed31315a637b3f784e6957949054855357cf09431e5249db5c42d294",
+    "port\\android-native\\app\\src\\main\\assets\\data\\effects_pyarray.bin": "9a743e51e4ba098a63fd274ee890efeaf0dc6f750d51fc53fd9ef2c01695f71b"
+  },
+  "lists": {
+    "Knight": [
+      7,
+      51,
+      13,
+      86,
+      53,
+      44,
+      59,
+      15,
+      102,
+      102,
+      102,
+      102,
+      102,
+      102,
+      102,
+      102
+    ],
+    "KnightBerserker": [
+      7,
+      51,
+      13,
+      86,
+      53,
+      44,
+      59,
+      15,
+      116,
+      55,
+      8,
+      91,
+      105,
+      58,
+      112,
+      57
+    ],
+    "KnightPaladin": [
+      7,
+      51,
+      13,
+      86,
+      53,
+      44,
+      59,
+      15,
+      80,
+      88,
+      52,
+      28,
+      100,
+      39,
+      18,
+      54
+    ]
+  },
+  "skills": [
+    {
+      "id": 7,
+      "name": "BashDown",
+      "Anim": 347,
+      "AnimIsMoving": 1,
+      "DisplayProps": [
+        173,
+        174,
+        175
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 3364149,
+      "Level": 0,
+      "Script": "prince_warrior_bashdown",
+      "SkillAssignable": 1,
+      "SkillCurrLevel": 1245354,
+      "SkillDescription": 1245353,
+      "SkillIcon": "sword_explosion",
+      "SkillName": 1245352,
+      "SkillNextLevel": 1245354,
+      "Type": 0
+    },
+    {
+      "id": 13,
+      "name": "Charge",
+      "Anim": 349,
+      "AnimIsMoving": 1,
+      "DisplayProps": [
+        173,
+        174,
+        175,
+        191
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 3364149,
+      "Level": 6,
+      "Script": "prince_warrior_charge",
+      "SkillAssignable": 1,
+      "SkillCurrLevel": 1245372,
+      "SkillDescription": 1245371,
+      "SkillIcon": "fire_right",
+      "SkillName": 1245370,
+      "SkillNextLevel": 1245372,
+      "Type": 0
+    },
+    {
+      "id": 15,
+      "name": "CombatMaster",
+      "Anim": -1,
+      "AnimIsMoving": 0,
+      "DisplayProps": [
+        190,
+        50
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 0,
+      "Level": 9,
+      "Script": "prince_warrior_combat_master",
+      "SkillAssignable": 0,
+      "SkillCurrLevel": 1245375,
+      "SkillDescription": 1245374,
+      "SkillIcon": "master_of_arms",
+      "SkillName": 1245373,
+      "SkillNextLevel": 1245375,
+      "Type": -1
+    },
+    {
+      "id": 44,
+      "name": "FastMetabolism",
+      "Anim": -1,
+      "AnimIsMoving": 0,
+      "DisplayProps": [
+        39,
+        40
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 0,
+      "Level": 3,
+      "Script": "prince_warrior_fast_metabolism",
+      "SkillAssignable": 0,
+      "SkillCurrLevel": 1245363,
+      "SkillDescription": 1245362,
+      "SkillIcon": "inner_strength",
+      "SkillName": 1245361,
+      "SkillNextLevel": 1245363,
+      "Type": -1
+    },
+    {
+      "id": 51,
+      "name": "GroundSlam",
+      "Anim": 350,
+      "AnimIsMoving": 0,
+      "DisplayProps": [
+        173,
+        174,
+        175,
+        190
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 3364149,
+      "Level": 3,
+      "Script": "prince_warrior_ground_slam",
+      "SkillAssignable": 1,
+      "SkillCurrLevel": 1245360,
+      "SkillDescription": 1245359,
+      "SkillIcon": "ground_slam",
+      "SkillName": 1245358,
+      "SkillNextLevel": 1245360,
+      "Type": 0
+    },
+    {
+      "id": 53,
+      "name": "Hardiness",
+      "Anim": -1,
+      "AnimIsMoving": 0,
+      "DisplayProps": [
+        59,
+        136,
+        134
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 0,
+      "Level": 0,
+      "Script": "prince_warrior_hardiness",
+      "SkillAssignable": 0,
+      "SkillCurrLevel": 1245357,
+      "SkillDescription": 1245356,
+      "SkillIcon": "battle_hardened",
+      "SkillName": 1245355,
+      "SkillNextLevel": 1245357,
+      "Type": -1
+    },
+    {
+      "id": 59,
+      "name": "Leadership",
+      "Anim": -1,
+      "AnimIsMoving": 0,
+      "DisplayProps": [
+        200,
+        201
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 0,
+      "Level": 6,
+      "Script": "prince_warrior_leadership",
+      "SkillAssignable": 0,
+      "SkillCurrLevel": 1245366,
+      "SkillDescription": 1245365,
+      "SkillIcon": "leadership",
+      "SkillName": 1245364,
+      "SkillNextLevel": 1245366,
+      "Type": -1
+    },
+    {
+      "id": 86,
+      "name": "PotionAddict",
+      "Anim": -1,
+      "AnimIsMoving": 0,
+      "DisplayProps": [
+        194
+      ],
+      "ElementalType": -1,
+      "FairieDependantText": 0,
+      "Flags": 0,
+      "Level": 9,
+      "Script": "prince_warrior_potion_addict",
+      "SkillAssignable": 0,
+      "SkillCurrLevel": 1245369,
+      "SkillDescription": 1245368,
+      "SkillIcon": "potion_capacity",
+      "SkillName": 1245367,
+      "SkillNextLevel": 1245369,
+      "Type": -1
+    }
+  ],
+  "related_sequences": [
+    {
+      "id": 339,
+      "name": "KnightBerserk_Berserk",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1235,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": 165,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 557,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_berseker_bersek.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 340,
+      "name": "KnightBerserk_Intimidation",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1236,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": 168,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 554,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_berseker_intimidate.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 341,
+      "name": "KnightBerserk_WhirlingDrift",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1237,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": 171,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 553,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_berseker_whirlwind.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 342,
+      "name": "KnightPaladin_DivineJudgement",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1242,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": 174,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 559,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 343,
+      "name": "KnightPaladin_GuardingAura",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1243,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 561,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_guarding_aura.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 344,
+      "name": "KnightPaladin_OffensiveAura",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1244,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 560,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_offensive_aura.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 345,
+      "name": "KnightPaladin_PurifyingAura",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1245,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 558,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_purifying_aura.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 346,
+      "name": "KnightPaladin_Shield",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1236,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_berseker_intimidate.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 347,
+      "name": "Knight_BashDown",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1234,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": 164,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 190,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 348,
+      "name": "Knight_Celest_DD",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1096,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_channeling.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 349,
+      "name": "Knight_Charge",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1238,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": 172,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 48,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_charge.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 350,
+      "name": "Knight_GroundSlam",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1239,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": 173,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": 185,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_crushing_blow.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 351,
+      "name": "Knight_Hotty_DD",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1100,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_pre_hotty.bdae"
+        },
+        {
+          "AnchorFX": 1,
+          "Anim": 1097,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_hotty.bdae"
+        }
+      ],
+      "Type": 1
+    },
+    {
+      "id": 352,
+      "name": "Knight_Menu_Idle",
+      "Loop": -1,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1063,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.0,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_menu_idle_knight.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 353,
+      "name": "Knight_Menu_OnSelect",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1064,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.0,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_menu_idle_knight_02.bdae"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "id": 354,
+      "name": "Knight_Rocky_DD",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1101,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_pre_rocky.bdae"
+        },
+        {
+          "AnchorFX": 1,
+          "Anim": 1105,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_rocky.bdae"
+        }
+      ],
+      "Type": 1
+    },
+    {
+      "id": 355,
+      "name": "Knight_Wetty_DD",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1103,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_pre_wetty.bdae"
+        },
+        {
+          "AnchorFX": 1,
+          "Anim": 1107,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_wetty.bdae"
+        }
+      ],
+      "Type": 1
+    },
+    {
+      "id": 356,
+      "name": "Knight_Windy_DD",
+      "Loop": 0,
+      "Steps": [
+        {
+          "AnchorFX": 1,
+          "Anim": 1104,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_pre_windy.bdae"
+        },
+        {
+          "AnchorFX": 1,
+          "Anim": 1108,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": 0,
+          "FX": -1,
+          "MoveGO": 1,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": 0,
+          "clip_or_redirect": "data/3D/characters/prince/animations/prince_spell_windy.bdae"
+        }
+      ],
+      "Type": 1
+    }
+  ],
+  "related_character_rows": {
+    "PlayerKnight": {
+      "Spells": [
+        348,
+        355,
+        356,
+        354,
+        351
+      ],
+      "Attack": [
+        248
+      ],
+      "AttackStatic": [
+        243
+      ]
+    }
+  },
+  "skill_effect_sets": [
+    {
+      "id": 164,
+      "name": "skill_dh2_prince_warrior_bash_down",
+      "force_cache": 0,
+      "loop": 0,
+      "steps": [
+        {
+          "file": 143,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": "",
+          "uri_or_set": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae"
+        }
+      ],
+      "type": 0
+    },
+    {
+      "id": 172,
+      "name": "skill_dh2_prince_warrior_charge",
+      "force_cache": 0,
+      "loop": 0,
+      "steps": [
+        {
+          "file": 151,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": "",
+          "uri_or_set": "data/3D/interface/skill_dh2_prince_warrior_charge.bdae"
+        }
+      ],
+      "type": 0
+    },
+    {
+      "id": 173,
+      "name": "skill_dh2_prince_warrior_ground_slam",
+      "force_cache": 0,
+      "loop": 0,
+      "steps": [
+        {
+          "file": 152,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": "",
+          "uri_or_set": "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+        }
+      ],
+      "type": 0
+    }
+  ]
+}

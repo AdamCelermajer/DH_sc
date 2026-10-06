@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "54a3fb6ce996459bd59d06d756c762d17cdf4ddac5431b696ce623a5d310e737",
+  "verified_entries": 165,
+  "coherent_files": 442,
+  "changed_existing": [
+    "port/level-world/actor_runtime.hpp"
+  ],
+  "snapshot": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\openable-graph-54a3fb6ce996459b",
+  "overlay": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\openable-graph-integration-54a3fb6ce996459b",
+  "full_loader_verified": false
+}

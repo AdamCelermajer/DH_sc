@@ -1,0 +1,35 @@
+{
+  "hard_limit_bytes": 67108864,
+  "checks": [
+    "hard_job_limit_readback",
+    "per_process_limit_readback",
+    "suspended_before_assignment",
+    "only_owned_pid_membership",
+    "OS_rejects_over_cap_commit",
+    "peak_within64MiB",
+    "host_logs_captured",
+    "automatic_descendant_membership",
+    "kill_on_close_owned_root",
+    "kill_on_close_owned_descendant"
+  ],
+  "before": {
+    "flags": 8968,
+    "job_memory_limit": 67108864,
+    "process_memory_limit": 67108864,
+    "peak_job_bytes": 0,
+    "active_process_limit": 32
+  },
+  "after": {
+    "flags": 8968,
+    "job_memory_limit": 67108864,
+    "process_memory_limit": 67108864,
+    "peak_job_bytes": 61706240,
+    "active_process_limit": 32
+  },
+  "child": {
+    "pid": 15640,
+    "committed_test_bytes": 50331648,
+    "allocation_failed": true,
+    "winerror": 1455
+  }
+}

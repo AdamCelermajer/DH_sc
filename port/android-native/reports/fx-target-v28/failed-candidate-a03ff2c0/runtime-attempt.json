@@ -1,0 +1,9 @@
+{
+  "pid": "5558",
+  "apk_sha256": "a03ff2c05ef9d60f0675bde496c805d3ad137b44654059b7dea3476b1eefe980",
+  "errors": [
+    "E/DH2Native( 5558): Native frame failed: Source CombatFX frame failed: Effect source default technique/plan binding unavailable"
+  ],
+  "visual_review_required": true,
+  "input": "normal movement/attack/skill, no actor or health mutation"
+}

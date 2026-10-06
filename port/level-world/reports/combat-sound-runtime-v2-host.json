@@ -1,0 +1,20 @@
+{
+  "scope": "Actual three original CharSounds rows and source Play3D ordered gates, bank parameter preservation, fixed native floats, required failure prefix. Platform/native bank deliveries are observer fixtures; no actual audio playback claim.",
+  "results": [
+    {
+      "optimization": "O1",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":25,\"audio_playback\":false}\n",
+      "stderr": ""
+    },
+    {
+      "optimization": "O2",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":25,\"audio_playback\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/level-world/tests/combat_sound_runtime_v2.cpp": "63af9209e21804dbe7f535ae4656b98a667445760ec5eab85e9201f5d34096b5",
+    "port/level-world/character_combat_sound_tables_v2.cpp": "87f331f7f309afbe6ae77e0d54c000684a21075d37a06c8f2d658c1aa98c595c",
+    "port/level-world/vox_play3d_owner_v2.cpp": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc"
+  }
+}

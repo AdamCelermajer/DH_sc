@@ -1,0 +1,2350 @@
+[
+  {
+    "offset": 290280,
+    "op": "function2",
+    "length": 8,
+    "name": "",
+    "args": [],
+    "registers": 3,
+    "flags": 105,
+    "body": [
+      {
+        "offset": 290291,
+        "op": "push_data",
+        "length": 6,
+        "values": [
+          {
+            "register": 2
+          },
+          {
+            "constant": 17,
+            "text": "FirstTimeClicked"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 290300,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290301,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 18,
+            "text": "Error"
+          }
+        ]
+      },
+      {
+        "offset": 290308,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290309,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 19,
+            "text": "ConfirmationBox"
+          }
+        ]
+      },
+      {
+        "offset": 290314,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290315,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 20,
+            "text": "btn_Ok"
+          }
+        ]
+      },
+      {
+        "offset": 290320,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290321,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290326,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290327,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 22,
+            "text": "GLOBAL_OK"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290341,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290342,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290343,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 24,
+            "text": "IN SHOW"
+          }
+        ]
+      },
+      {
+        "offset": 290348,
+        "op": "trace",
+        "length": 0
+      },
+      {
+        "offset": 290349,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 25,
+            "text": "current_slot"
+          }
+        ]
+      },
+      {
+        "offset": 290354,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 290355,
+        "op": "push_data",
+        "length": 7,
+        "values": [
+          1,
+          {
+            "constant": 26,
+            "text": "getSlot"
+          }
+        ]
+      },
+      {
+        "offset": 290365,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290366,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290367,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 27,
+            "text": "show"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 290381,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 290382,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290383,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 2
+          },
+          {
+            "constant": 28,
+            "text": "menu_bg"
+          }
+        ]
+      },
+      {
+        "offset": 290390,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290391,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 29,
+            "text": "BrownBG"
+          }
+        ]
+      },
+      {
+        "offset": 290396,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290397,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          false
+        ]
+      },
+      {
+        "offset": 290404,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290405,
+        "op": "push_data",
+        "length": 13,
+        "values": [
+          0.0,
+          {
+            "register": 1
+          },
+          {
+            "constant": 30,
+            "text": "setButtonsIcons"
+          }
+        ]
+      },
+      {
+        "offset": 290421,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 290422,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290423,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 10,
+            "text": "PlayerInfos"
+          }
+        ]
+      },
+      {
+        "offset": 290430,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290431,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 31,
+            "text": "DifficultyTitle"
+          }
+        ]
+      },
+      {
+        "offset": 290436,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290437,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290442,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290443,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 32,
+            "text": "MENU_DIFFICULTY"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290457,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290458,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 33,
+            "text": ":"
+          }
+        ]
+      },
+      {
+        "offset": 290463,
+        "op": "add_t",
+        "length": 0
+      },
+      {
+        "offset": 290464,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290465,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 34,
+            "text": "mySaveSlot"
+          }
+        ]
+      },
+      {
+        "offset": 290470,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 290471,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 35,
+            "text": "SlotID"
+          }
+        ]
+      },
+      {
+        "offset": 290476,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290477,
+        "op": "push_data",
+        "length": 7,
+        "values": [
+          1,
+          {
+            "constant": 36,
+            "text": "NativeSetSaveSlotIDToMainMenu"
+          }
+        ]
+      },
+      {
+        "offset": 290487,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290488,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290489,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 2
+          },
+          {
+            "constant": 28,
+            "text": "menu_bg"
+          }
+        ]
+      },
+      {
+        "offset": 290496,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290497,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 37,
+            "text": "TitleGraphic"
+          }
+        ]
+      },
+      {
+        "offset": 290502,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290503,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 290510,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290511,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 2
+          },
+          {
+            "constant": 28,
+            "text": "menu_bg"
+          }
+        ]
+      },
+      {
+        "offset": 290518,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290519,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 38,
+            "text": "RenderedBG"
+          }
+        ]
+      },
+      {
+        "offset": 290524,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290525,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 290532,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290533,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 39,
+            "text": "Idle"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 1,
+            "text": "btn_MENU_SINGLE_PLAYER"
+          }
+        ]
+      },
+      {
+        "offset": 290547,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290548,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 290553,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 290554,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290555,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 39,
+            "text": "Idle"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 5,
+            "text": "btn_MENU_OPTIONS"
+          }
+        ]
+      },
+      {
+        "offset": 290569,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290570,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 290575,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 290576,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290577,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 39,
+            "text": "Idle"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 9,
+            "text": "btn_MENU_INFO"
+          }
+        ]
+      },
+      {
+        "offset": 290591,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290592,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 290597,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 290598,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290599,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 9,
+            "text": "btn_MENU_INFO"
+          }
+        ]
+      },
+      {
+        "offset": 290606,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290607,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290612,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290613,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 40,
+            "text": "htmlText"
+          },
+          {
+            "constant": 41,
+            "text": "MENU_INFO"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290627,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290628,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290629,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 39,
+            "text": "Idle"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 7,
+            "text": "btn_MENU_MORE_GAMES"
+          }
+        ]
+      },
+      {
+        "offset": 290643,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290644,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 290649,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 290650,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 290651,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 7,
+            "text": "btn_MENU_MORE_GAMES"
+          }
+        ]
+      },
+      {
+        "offset": 290658,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290659,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290664,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290665,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 40,
+            "text": "htmlText"
+          },
+          {
+            "constant": 42,
+            "text": "MENU_MORE_GAMES"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290679,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290680,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290681,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 1,
+            "text": "btn_MENU_SINGLE_PLAYER"
+          }
+        ]
+      },
+      {
+        "offset": 290688,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290689,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290694,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290695,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 40,
+            "text": "htmlText"
+          },
+          {
+            "constant": 43,
+            "text": "MENU_START"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290709,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290710,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290711,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 5,
+            "text": "btn_MENU_OPTIONS"
+          }
+        ]
+      },
+      {
+        "offset": 290718,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290719,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290724,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290725,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 40,
+            "text": "htmlText"
+          },
+          {
+            "constant": 44,
+            "text": "MENU_OPTIONS"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290739,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290740,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290741,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 45,
+            "text": "Confirmation"
+          }
+        ]
+      },
+      {
+        "offset": 290748,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290749,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 19,
+            "text": "ConfirmationBox"
+          }
+        ]
+      },
+      {
+        "offset": 290754,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290755,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290760,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290761,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 46,
+            "text": "GAMEPLAYMENUS_ERASE"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290775,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290776,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290777,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 45,
+            "text": "Confirmation"
+          }
+        ]
+      },
+      {
+        "offset": 290784,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290785,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 19,
+            "text": "ConfirmationBox"
+          }
+        ]
+      },
+      {
+        "offset": 290790,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290791,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 47,
+            "text": "btn_GAMEPLAYMENUS_ACCEPT"
+          }
+        ]
+      },
+      {
+        "offset": 290796,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290797,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290802,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290803,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 48,
+            "text": "GAMEPLAYMENUS_ACCEPT"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290817,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290818,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290819,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 45,
+            "text": "Confirmation"
+          }
+        ]
+      },
+      {
+        "offset": 290826,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290827,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 19,
+            "text": "ConfirmationBox"
+          }
+        ]
+      },
+      {
+        "offset": 290832,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290833,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 49,
+            "text": "btn_GAMEPLAYMENUS_REFUSE"
+          }
+        ]
+      },
+      {
+        "offset": 290838,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290839,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290844,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290845,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 50,
+            "text": "GAMEPLAYMENUS_REFUSE"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290859,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290860,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290861,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 51,
+            "text": "ExitConfirmation"
+          }
+        ]
+      },
+      {
+        "offset": 290868,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290869,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 19,
+            "text": "ConfirmationBox"
+          }
+        ]
+      },
+      {
+        "offset": 290874,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290875,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290880,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290881,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 52,
+            "text": "GLOBAL_ASK_FOR_EXIT"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290895,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290896,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290897,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 51,
+            "text": "ExitConfirmation"
+          }
+        ]
+      },
+      {
+        "offset": 290904,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290905,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 19,
+            "text": "ConfirmationBox"
+          }
+        ]
+      },
+      {
+        "offset": 290910,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290911,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 47,
+            "text": "btn_GAMEPLAYMENUS_ACCEPT"
+          }
+        ]
+      },
+      {
+        "offset": 290916,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290917,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290922,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290923,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 48,
+            "text": "GAMEPLAYMENUS_ACCEPT"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290937,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290938,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290939,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 51,
+            "text": "ExitConfirmation"
+          }
+        ]
+      },
+      {
+        "offset": 290946,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290947,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 19,
+            "text": "ConfirmationBox"
+          }
+        ]
+      },
+      {
+        "offset": 290952,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290953,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 49,
+            "text": "btn_GAMEPLAYMENUS_REFUSE"
+          }
+        ]
+      },
+      {
+        "offset": 290958,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290959,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          }
+        ]
+      },
+      {
+        "offset": 290964,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290965,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 21,
+            "text": "text"
+          },
+          {
+            "constant": 50,
+            "text": "GAMEPLAYMENUS_REFUSE"
+          },
+          1,
+          {
+            "constant": 23,
+            "text": "NativeGetStringFromSymbol"
+          }
+        ]
+      },
+      {
+        "offset": 290979,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 290980,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 290981,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 2
+          },
+          {
+            "constant": 53,
+            "text": "IsAppleVersion"
+          }
+        ]
+      },
+      {
+        "offset": 290988,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 290989,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          false
+        ]
+      },
+      {
+        "offset": 290994,
+        "op": "eq_t",
+        "length": 0
+      },
+      {
+        "offset": 290995,
+        "op": "not",
+        "length": 0
+      },
+      {
+        "offset": 290996,
+        "op": "branch_if_true",
+        "length": 2,
+        "target": 291022
+      },
+      {
+        "offset": 291001,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 54,
+            "text": "btn_GLLive"
+          }
+        ]
+      },
+      {
+        "offset": 291008,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291009,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 291016,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291017,
+        "op": "goto",
+        "length": 2,
+        "target": 291038
+      },
+      {
+        "offset": 291022,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 54,
+            "text": "btn_GLLive"
+          }
+        ]
+      },
+      {
+        "offset": 291029,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291030,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          false
+        ]
+      },
+      {
+        "offset": 291037,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291038,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          0.0,
+          {
+            "constant": 55,
+            "text": "NativeHasPushNotification"
+          }
+        ]
+      },
+      {
+        "offset": 291052,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 291053,
+        "op": "not",
+        "length": 0
+      },
+      {
+        "offset": 291054,
+        "op": "branch_if_true",
+        "length": 2,
+        "target": 291128
+      },
+      {
+        "offset": 291059,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 5,
+            "text": "btn_MENU_OPTIONS"
+          }
+        ]
+      },
+      {
+        "offset": 291066,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291067,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          false
+        ]
+      },
+      {
+        "offset": 291074,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291075,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 7,
+            "text": "btn_MENU_MORE_GAMES"
+          }
+        ]
+      },
+      {
+        "offset": 291082,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291083,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          false
+        ]
+      },
+      {
+        "offset": 291090,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291091,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 9,
+            "text": "btn_MENU_INFO"
+          }
+        ]
+      },
+      {
+        "offset": 291098,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291099,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          false
+        ]
+      },
+      {
+        "offset": 291106,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291107,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 54,
+            "text": "btn_GLLive"
+          }
+        ]
+      },
+      {
+        "offset": 291114,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291115,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          false
+        ]
+      },
+      {
+        "offset": 291122,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291123,
+        "op": "goto",
+        "length": 2,
+        "target": 291192
+      },
+      {
+        "offset": 291128,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 5,
+            "text": "btn_MENU_OPTIONS"
+          }
+        ]
+      },
+      {
+        "offset": 291135,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291136,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 291143,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291144,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 7,
+            "text": "btn_MENU_MORE_GAMES"
+          }
+        ]
+      },
+      {
+        "offset": 291151,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291152,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 291159,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291160,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 9,
+            "text": "btn_MENU_INFO"
+          }
+        ]
+      },
+      {
+        "offset": 291167,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291168,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 291175,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 291176,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "register": 1
+          },
+          {
+            "constant": 54,
+            "text": "btn_GLLive"
+          }
+        ]
+      },
+      {
+        "offset": 291183,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 291184,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 12,
+            "text": "_visible"
+          },
+          true
+        ]
+      },
+      {
+        "offset": 291191,
+        "op": "set_member",
+        "length": 0
+      }
+    ]
+  },
+  {
+    "offset": 294106,
+    "op": "function2",
+    "length": 8,
+    "name": "",
+    "args": [],
+    "registers": 2,
+    "flags": 41,
+    "body": [
+      {
+        "offset": 294117,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 143,
+            "text": "MenuSelect"
+          },
+          1,
+          {
+            "constant": 63,
+            "text": "NativePlaySoundFX"
+          }
+        ]
+      },
+      {
+        "offset": 294129,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 294130,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 294131,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 13,
+            "text": "Show"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 145,
+            "text": "_parent"
+          }
+        ]
+      },
+      {
+        "offset": 294145,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 294146,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 51,
+            "text": "ExitConfirmation"
+          }
+        ]
+      },
+      {
+        "offset": 294151,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 294152,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 294157,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 294158,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 294159,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 148,
+            "text": "quit"
+          },
+          1,
+          {
+            "constant": 149,
+            "text": "NativeHUDInteract"
+          }
+        ]
+      },
+      {
+        "offset": 294171,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 294172,
+        "op": "pop",
+        "length": 0
+      }
+    ]
+  },
+  {
+    "offset": 294274,
+    "op": "function2",
+    "length": 8,
+    "name": "",
+    "args": [],
+    "registers": 2,
+    "flags": 41,
+    "body": [
+      {
+        "offset": 294285,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 62,
+            "text": "MenuConfirm"
+          },
+          1,
+          {
+            "constant": 63,
+            "text": "NativePlaySoundFX"
+          }
+        ]
+      },
+      {
+        "offset": 294297,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 294298,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 294299,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 150,
+            "text": "Hide"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 145,
+            "text": "_parent"
+          }
+        ]
+      },
+      {
+        "offset": 294313,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 294314,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 145,
+            "text": "_parent"
+          }
+        ]
+      },
+      {
+        "offset": 294319,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 294320,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 294325,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 294326,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 294327,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 151,
+            "text": "yes"
+          },
+          1,
+          {
+            "constant": 149,
+            "text": "NativeHUDInteract"
+          }
+        ]
+      },
+      {
+        "offset": 294339,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 294340,
+        "op": "pop",
+        "length": 0
+      }
+    ]
+  },
+  {
+    "offset": 294371,
+    "op": "function2",
+    "length": 8,
+    "name": "",
+    "args": [],
+    "registers": 2,
+    "flags": 41,
+    "body": [
+      {
+        "offset": 294382,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 152,
+            "text": "MenuBack"
+          },
+          1,
+          {
+            "constant": 63,
+            "text": "NativePlaySoundFX"
+          }
+        ]
+      },
+      {
+        "offset": 294394,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 294395,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 294396,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          {
+            "constant": 150,
+            "text": "Hide"
+          },
+          1,
+          {
+            "register": 1
+          },
+          {
+            "constant": 145,
+            "text": "_parent"
+          }
+        ]
+      },
+      {
+        "offset": 294410,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 294411,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 145,
+            "text": "_parent"
+          }
+        ]
+      },
+      {
+        "offset": 294416,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 294417,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "gotoAndPlay"
+          }
+        ]
+      },
+      {
+        "offset": 294422,
+        "op": "call_method",
+        "length": 0
+      },
+      {
+        "offset": 294423,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 294424,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 153,
+            "text": "no"
+          },
+          1,
+          {
+            "constant": 149,
+            "text": "NativeHUDInteract"
+          }
+        ]
+      },
+      {
+        "offset": 294436,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 294437,
+        "op": "pop",
+        "length": 0
+      }
+    ]
+  }
+]

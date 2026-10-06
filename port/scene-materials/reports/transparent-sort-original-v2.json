@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "cases": 160,
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "f00e6e9afec97243c34f10fef2c47dc1ce9f6861d73d9d8be3f1f06cd23273ff",
+  "scope": "Whole original heapsort, heapsink and transparent comparator instructions; actual null-material domain including IEEE nonfinite inputs and equal-key permutations. Not a whole-scene GPU receipt."
+}

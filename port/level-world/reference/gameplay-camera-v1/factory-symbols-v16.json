@@ -1,0 +1,112 @@
+[
+  {
+    "name": "_GLOBAL__I_.._source_glitch_scene_CDefaultSceneNodeFactory.cpp",
+    "address": "0x6b9e24",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch5scene24CDefaultSceneNodeFactory18SSceneNodeTypePairENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE9push_backERKS3_",
+    "address": "0x6ba990",
+    "size": 344
+  },
+  {
+    "name": "_ZNSt4priv7__ufillIPN6glitch5scene24CDefaultSceneNodeFactory18SSceneNodeTypePairES4_iEEvT_S6_RKT0_RKSt26random_access_iterator_tagPT1_",
+    "address": "0x6ba7b0",
+    "size": 104
+  },
+  {
+    "name": "_ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreateableSceneNodeTypeNameENS0_17E_SCENE_NODE_TYPEE",
+    "address": "0x6b9da0",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv7__ucopyIPN6glitch5scene24CDefaultSceneNodeFactory18SSceneNodeTypePairES5_iEET0_T_S7_S6_RKSt26random_access_iterator_tagPT1_",
+    "address": "0x6ba818",
+    "size": 132
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactory12addSceneNodeEPKcPNS0_10ISceneNodeE",
+    "address": "0x6b9f04",
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactoryC1EPNS0_13CSceneManagerEPNS_3gui14ICursorControlERKN5boost13intrusive_ptrINS_2io11IFileSystemEEE",
+    "address": "0x6bb008",
+    "size": 1312
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode9setParentEPS1_",
+    "address": "0x5971e0",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch5scene24CDefaultSceneNodeFactory18SSceneNodeTypePairENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEED1Ev",
+    "address": "0x6ba89c",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactoryD1Ev",
+    "address": "0x6ba8f8",
+    "size": 72
+  },
+  {
+    "name": "_ZNK6glitch5scene24CDefaultSceneNodeFactory15getTypeFromNameEPKc",
+    "address": "0x6b9e58",
+    "size": 172
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactory12addSceneNodeENS0_17E_SCENE_NODE_TYPEEPNS0_10ISceneNodeE",
+    "address": "0x6b9f30",
+    "size": 2116
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNodeC2EiRKNS_4core8vector3dIfEES6_b",
+    "address": "0x583878",
+    "size": 276
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactory18SSceneNodeTypePairC1ENS0_17E_SCENE_NODE_TYPEEPKc",
+    "address": "0x6ba774",
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode21onChangedSceneManagerEv",
+    "address": "0x596ec0",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNodeC1EiRKNS_4core8vector3dIfEES6_b",
+    "address": "0x583734",
+    "size": 324
+  },
+  {
+    "name": "_ZNK6glitch5scene24CDefaultSceneNodeFactory26getCreateableSceneNodeTypeEj",
+    "address": "0x6b9d1c",
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactoryD0Ev",
+    "address": "0x6ba940",
+    "size": 80
+  },
+  {
+    "name": "_ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreatableSceneNodeTypeCountEv",
+    "address": "0x6b9cf0",
+    "size": 44
+  },
+  {
+    "name": "_ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreateableSceneNodeTypeNameEj",
+    "address": "0x6b9d60",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactoryC2EPNS0_13CSceneManagerEPNS_3gui14ICursorControlERKN5boost13intrusive_ptrINS_2io11IFileSystemEEE",
+    "address": "0x6baae8",
+    "size": 1312
+  },
+  {
+    "name": "_ZTVN6glitch5scene24CDefaultSceneNodeFactoryE",
+    "address": "0x987960",
+    "size": 44
+  }
+]

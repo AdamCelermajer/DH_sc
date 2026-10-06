@@ -1,0 +1,1547 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x33dd2c",
+      "symbol": "_ZN10ObjectBase9GetHandleEv",
+      "size": 68,
+      "sha256": "d5c62cf46e3cf4763fd953611ce5210db2ddd75fa566e3d1d878e760412eb4d3"
+    },
+    {
+      "address": "0x33ddc8",
+      "symbol": "_ZN10ObjectBase9SetEnableEb",
+      "size": 60,
+      "sha256": "4e05a1e3d74b287a26dba956ec69e7ab644ff42cc11c14bbca9bc3337129b2b5"
+    },
+    {
+      "address": "0x33e404",
+      "symbol": "_ZN11PropertyMap11AddPropertyISsEEvPKcRT_S3_",
+      "size": 168,
+      "sha256": "623a134380f9b4b89f1f1b052051efcb4ef084dabf619949f6fabfd7c393d832"
+    },
+    {
+      "address": "0x33e4ac",
+      "symbol": "_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_",
+      "size": 140,
+      "sha256": "83935b8602daae7a1c29a8a5b12895530d50223ca6b41264677329b9ab676db8"
+    },
+    {
+      "address": "0x33e6d4",
+      "symbol": "_ZN10ObjectBase19TestEnableConditionEb",
+      "size": 244,
+      "sha256": "2db4ca28227502cb58092eeb3deea42affe55f3494c31ce82099647e90105e09"
+    },
+    {
+      "address": "0x33ef7c",
+      "symbol": "_ZN11PropertyMap11AddPropertyISsEEvPKcRT_",
+      "size": 144,
+      "sha256": "b3e70f07846a14cf03a29dbb66124dcce1d035314c49244a856168a09c86dc38"
+    },
+    {
+      "address": "0x33f00c",
+      "symbol": "_ZThn4_N10ObjectBase17DeclarePropertiesEv",
+      "size": 8,
+      "sha256": "fa04763cc015275f81b1d864426513948ce8bfb90e0889b5098b558301847cdd"
+    },
+    {
+      "address": "0x33f014",
+      "symbol": "_ZN10ObjectBase17DeclarePropertiesEv",
+      "size": 328,
+      "sha256": "301524fd43f26e05df3d6e56e414b4d5b5aa7ba9fdf9719a42484c9f6cfb2067"
+    },
+    {
+      "address": "0x33f15c",
+      "symbol": "_ZN10ObjectBaseC1ENS_6GO_IDSE",
+      "size": 436,
+      "sha256": "0ee65c6207e36d8093719ec258764d35eeecf7bcefe76b5db93889c74b23518a"
+    },
+    {
+      "address": "0x33f310",
+      "symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "size": 436,
+      "sha256": "e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67"
+    },
+    {
+      "address": "0x33f50c",
+      "symbol": "_ZN12ObjectHandleC1Ev",
+      "size": 24,
+      "sha256": "47e30047b9c90e299cc78910fbe6d24dce4837d7d2bae83691b346f0cad213ac"
+    },
+    {
+      "address": "0x33f524",
+      "symbol": "_ZN12ObjectHandleC1EP10ObjectBase",
+      "size": 84,
+      "sha256": "7c9f52b1c3d2243254aec49d78d86b8c4dbbc0252775d4a569f3fe6657daa32b"
+    },
+    {
+      "address": "0x33f578",
+      "symbol": "_ZN12ObjectHandleC2EP10ObjectBase",
+      "size": 84,
+      "sha256": "95ca2f1f3fb3e19469d1720a2031bc74b8d5ea97927f292abbb9b44ffef27fea"
+    },
+    {
+      "address": "0x33fc88",
+      "symbol": "_ZNSt3mapIi14ObjectListItemSt4lessIiESaISt4pairIKiS0_EEEixIjEERS0_RKT_",
+      "size": 312,
+      "sha256": "4daa1dcb00a3a199839166cd1ab7d4503b1499bd6fdf7e7a2e28346b13facfe0"
+    },
+    {
+      "address": "0x34024c",
+      "symbol": "_ZN13ObjectManager6Draw2DEv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "address": "0x340250",
+      "symbol": "_ZN13ObjectManager18DoOnlineStateFlushEv",
+      "size": 36,
+      "sha256": "35a5201980b728ccaeb292788dd2cca302351826667a54c725a79b618be2426f"
+    },
+    {
+      "address": "0x340274",
+      "symbol": "_ZN13ObjectManager20DoRemoteUpdateUpdateEf",
+      "size": 128,
+      "sha256": "db71cb7738600a33f2139564ec7d45e57f7e780f78c8f963cac793fbd88bc649"
+    },
+    {
+      "address": "0x3402f4",
+      "symbol": "_ZN13ObjectManager24GetNetworkIdByObjectBaseEPK10ObjectBase",
+      "size": 16,
+      "sha256": "19c21e73d9dbe42211a6ebf80715271029c3d80b2d8cd5980cbeb5e5a512e7eb"
+    },
+    {
+      "address": "0x340304",
+      "symbol": "_ZN13ObjectManager19DBG_DumpRoomObjectsEv",
+      "size": 56,
+      "sha256": "ceae5dcf591a6c181b88289f1ed6224b646bffe09c4ce9b6872fc8e5c4f261f5"
+    },
+    {
+      "address": "0x34064c",
+      "symbol": "_ZN13ObjectManager12DoCharAIInitEv",
+      "size": 96,
+      "sha256": "9662bf7f293269b0724de4ce9854e3d2f2d5a8fa25658b9f38d7b9e389364d1e"
+    },
+    {
+      "address": "0x3406ac",
+      "symbol": "_ZN13ObjectManager12ObjectReInitEv",
+      "size": 128,
+      "sha256": "e477a567fa668c4cc392c596ad17c4da9e340a64a0bb857b125f104f358725d5"
+    },
+    {
+      "address": "0x34072c",
+      "symbol": "_ZN13ObjectManager24DeleteRandomOnlineObjectEv",
+      "size": 116,
+      "sha256": "0ca2b40706b96292181a08963d575a8325acc41f74c32134893ca69af2dcaca8"
+    },
+    {
+      "address": "0x3407a0",
+      "symbol": "_ZN13ObjectManager26GetObjectHandleByNetworkIdEi",
+      "size": 96,
+      "sha256": "cb00bd6a93e526f7bb113349115f37e7e2aa73391cdf1fc24c71290cea796e0f"
+    },
+    {
+      "address": "0x340800",
+      "symbol": "_Z14GetNewInstanceI9CharacterEP10ObjectBasev",
+      "size": 36,
+      "sha256": "63f745161d2e2c7b17a117558370197a77798ed2ea216dd8514cae831d0e4c2f"
+    },
+    {
+      "address": "0x340824",
+      "symbol": "_Z14GetNewInstanceI4DoorEP10ObjectBasev",
+      "size": 36,
+      "sha256": "e43f3ecc20a423a7677b04f2adb91f247a8c27582cfd402a6593a15ef3af3047"
+    },
+    {
+      "address": "0x340848",
+      "symbol": "_ZN13ObjectManager13CanSendUpdateEP10ObjectBase",
+      "size": 256,
+      "sha256": "1c4fc14f83aa3a7ebb938662fd69e4074b6ed5342ae6a87dd7d036021086f8c7"
+    },
+    {
+      "address": "0x340948",
+      "symbol": "_ZN13ObjectManager22IsRemotePlayerOfMemberEiP9Character",
+      "size": 172,
+      "sha256": "75ca6edf9241349856e3818df79142a5bb35a6e9dda059062171283b277138ca"
+    },
+    {
+      "address": "0x3409f4",
+      "symbol": "_ZN13ObjectManager20IsObjectSerializableEP10ObjectBasei",
+      "size": 464,
+      "sha256": "437ab5be554aa688656e4e16aebec8d8aa1eb427badf9038357338184d6f09aa"
+    },
+    {
+      "address": "0x340bc4",
+      "symbol": "_ZN13ObjectManager18NetworkUnInitLevelEv",
+      "size": 28,
+      "sha256": "593bff98d122e959598c09a4d03629e1053d0924850677becdc35041cc9946b0"
+    },
+    {
+      "address": "0x340be0",
+      "symbol": "_ZN13ObjectManager16NetworkInitLevelEv",
+      "size": 116,
+      "sha256": "d91b16a105be59e0fefc94a451e36938a9a24b0bda13bdaa1d45e44cd6c96757"
+    },
+    {
+      "address": "0x340c54",
+      "symbol": "_ZN13ObjectManager14GetObjectByPtrEP10ObjectBase",
+      "size": 84,
+      "sha256": "3386f0e28cc59512625bec41935a50f55441c5f1f3baf8f3883de62472bb0389"
+    },
+    {
+      "address": "0x340ca8",
+      "symbol": "_Z14GetNewInstanceI11LevelConfigEP10ObjectBasev",
+      "size": 36,
+      "sha256": "a2403ca2d91dc6140065986071c3af2c2b5d02df0fef3cd8c461c3b6a5d1cb7c"
+    },
+    {
+      "address": "0x340ccc",
+      "symbol": "_Z14GetNewInstanceI12SoundEmitterEP10ObjectBasev",
+      "size": 36,
+      "sha256": "8609e5b89f6be5a3d01837c9957cdcb72b81408b0b92ebda1bac549882ee1119"
+    },
+    {
+      "address": "0x340cf0",
+      "symbol": "_Z14GetNewInstanceI19LaserTypeProjectileEP10ObjectBasev",
+      "size": 36,
+      "sha256": "a81f20bfc1b511fd48d3fe0b417e27dc63a543e5010a3b17e08f80366baf8589"
+    },
+    {
+      "address": "0x340d14",
+      "symbol": "_Z14GetNewInstanceI10ProjectileEP10ObjectBasev",
+      "size": 36,
+      "sha256": "9e97b098e03502902d0f71789c62489e1cf2631cd152b8654d2c53048ec16af4"
+    },
+    {
+      "address": "0x340d38",
+      "symbol": "_Z14GetNewInstanceI10ItemObjectEP10ObjectBasev",
+      "size": 36,
+      "sha256": "f249ab60007c6dae84e831b6bf5116edda0d527b590e651aedbdb1557355dd85"
+    },
+    {
+      "address": "0x340d5c",
+      "symbol": "_Z14GetNewInstanceI21DestructibleContainerEP10ObjectBasev",
+      "size": 36,
+      "sha256": "0965071b828a3fe3bd6cdddadf68f99761a99286fc0b6cb96eb5fbc6c485076a"
+    },
+    {
+      "address": "0x340d80",
+      "symbol": "_Z14GetNewInstanceI13SlotContainerEP10ObjectBasev",
+      "size": 36,
+      "sha256": "32bd9532c7ff4d8d51883374c5df876cf7692f7442adcf3609a92a6d0162ff44"
+    },
+    {
+      "address": "0x340da4",
+      "symbol": "_Z14GetNewInstanceI17OpenableContainerEP10ObjectBasev",
+      "size": 36,
+      "sha256": "8e196434392879f09376323804d7727f012dcd8189c9b3abb262bef440d051ad"
+    },
+    {
+      "address": "0x340dc8",
+      "symbol": "_Z14GetNewInstanceI14LiftableObjectEP10ObjectBasev",
+      "size": 36,
+      "sha256": "3fba76bb1455e2884c0ec63a804fb15aec2644ac7c49dd44576c7eafa5ed58cb"
+    },
+    {
+      "address": "0x340dec",
+      "symbol": "_Z14GetNewInstanceI9SpawnSpotEP10ObjectBasev",
+      "size": 36,
+      "sha256": "4f584f433ec16aa88ce383c63ded6bc3bb0662ff15903ae5f4080ace1b527859"
+    },
+    {
+      "address": "0x340e10",
+      "symbol": "_Z14GetNewInstanceI10SpawnPointEP10ObjectBasev",
+      "size": 36,
+      "sha256": "fa649faf79e121f2c88b2b4fa3b16b5234d723765ac53b570d75afe0554ede01"
+    },
+    {
+      "address": "0x340e34",
+      "symbol": "_Z14GetNewInstanceI14ProjectileTrapEP10ObjectBasev",
+      "size": 36,
+      "sha256": "add38a53c47dc45ec9e308429c0091b0609a71058edae883454825c5869e8cbd"
+    },
+    {
+      "address": "0x340e58",
+      "symbol": "_Z14GetNewInstanceI9TimerTrapEP10ObjectBasev",
+      "size": 36,
+      "sha256": "5b051abea30633532e07050edd828bce112142b2fb92702b26bb8a235643e71c"
+    },
+    {
+      "address": "0x340e7c",
+      "symbol": "_Z14GetNewInstanceI11TriggerTrapEP10ObjectBasev",
+      "size": 36,
+      "sha256": "a0e02449d0451563661a7332da9cbfa8c97a9b3692a1f5ce9ab1e9afdc43e2a2"
+    },
+    {
+      "address": "0x340ea0",
+      "symbol": "_Z14GetNewInstanceI20TriggerZoneExitLevelEP10ObjectBasev",
+      "size": 36,
+      "sha256": "a49d6fb93d74e0bc08ccf6042773a006f8011441481018e1d2db0e79fa9d5fd0"
+    },
+    {
+      "address": "0x340ec4",
+      "symbol": "_Z14GetNewInstanceI11TriggerZoneEP10ObjectBasev",
+      "size": 36,
+      "sha256": "193e56ef1608efcda6c98fb2d5321db4b52f648baf97e621f3b90fa116f41acb"
+    },
+    {
+      "address": "0x340ee8",
+      "symbol": "_Z14GetNewInstanceI12TriggerPlateEP10ObjectBasev",
+      "size": 36,
+      "sha256": "428ca814471bd2d19195ea30e79e6d0a951e87b3ded4b0a212d5732f38f214f8"
+    },
+    {
+      "address": "0x340f0c",
+      "symbol": "_Z14GetNewInstanceI13TriggerObjectEP10ObjectBasev",
+      "size": 32,
+      "sha256": "2b0d6591b3e613d869c99b4e789f098fe0033e7ab75316458ae08e0f34cc2dbd"
+    },
+    {
+      "address": "0x340f2c",
+      "symbol": "_Z14GetNewInstanceI14CheckpointZoneEP10ObjectBasev",
+      "size": 36,
+      "sha256": "48ada459d1a61264b8f0dfa4d060dfce2e639504de9c0c5e5964a090cb766625"
+    },
+    {
+      "address": "0x340f50",
+      "symbol": "_Z14GetNewInstanceI15QuestMoveInZoneEP10ObjectBasev",
+      "size": 36,
+      "sha256": "839ba7dd138c67391d8b6dadd5ad725b5454919e3269056c21ab01a5bcafb33a"
+    },
+    {
+      "address": "0x340f74",
+      "symbol": "_Z14GetNewInstanceI8RoomZoneEP10ObjectBasev",
+      "size": 36,
+      "sha256": "afe07d7868e4796ebb2d801d858949cfc61fb50af8035a9605c961173f00f199"
+    },
+    {
+      "address": "0x340f98",
+      "symbol": "_Z14GetNewInstanceI6ModuleEP10ObjectBasev",
+      "size": 36,
+      "sha256": "581c2e060433045c076d51e31d67b9babe7789b372301e41e7738e53ceb2b1a6"
+    },
+    {
+      "address": "0x340fbc",
+      "symbol": "_Z14GetNewInstanceI9BillboardEP10ObjectBasev",
+      "size": 36,
+      "sha256": "aaa8d5bb9f02951adef94c6d14f04b2eef491c0b38cb8ec3f900d6744b11e217"
+    },
+    {
+      "address": "0x340fe0",
+      "symbol": "_Z14GetNewInstanceI6ColBoxEP10ObjectBasev",
+      "size": 108,
+      "sha256": "60ced2f7ccbedc82b363c3aa5c7708449865dbbf2b06cad5bbfbdc2afae01bc5"
+    },
+    {
+      "address": "0x34104c",
+      "symbol": "_Z14GetNewInstanceI5FloorEP10ObjectBasev",
+      "size": 88,
+      "sha256": "e265b70cadca2eefb4eaa7384abe131c78c3f4047c41c71722fd014da53ed0b1"
+    },
+    {
+      "address": "0x3410a4",
+      "symbol": "_Z14GetNewInstanceI5DummyEP10ObjectBasev",
+      "size": 88,
+      "sha256": "9470c2c569e623b6ebe248870c14eaf005d2495a19c29ed851371d450ea89f79"
+    },
+    {
+      "address": "0x3410fc",
+      "symbol": "_Z14GetNewInstanceI5DecorEP10ObjectBasev",
+      "size": 96,
+      "sha256": "17be497b846d6a13902e0e0f4817f43f4187e41ff319476be948e054a872ab51"
+    },
+    {
+      "address": "0x34115c",
+      "symbol": "_Z14GetNewInstanceI10LightPointEP10ObjectBasev",
+      "size": 32,
+      "sha256": "9ae436673346e061b47ce08bcfe8c01f358ff1ca21d1bd46b6a87fa6247e98d1"
+    },
+    {
+      "address": "0x34163c",
+      "symbol": "_ZN13ObjectManager11UpdateRoomsEv",
+      "size": 96,
+      "sha256": "000cebb07053ea5454cc6b86f766896cd83f91b7c5b2c4b3cf043130fca9c493"
+    },
+    {
+      "address": "0x34169c",
+      "symbol": "_ZN13ObjectManager22ForceEverythingVisibleEv",
+      "size": 48,
+      "sha256": "f125fa6352025d9f6515eba4f4aafb88ee3ccfbbbc5807b6946f1f34d5f9bd67"
+    },
+    {
+      "address": "0x3419a8",
+      "symbol": "_ZN13ObjectManager23GetDynamicFogColorAtPosERK7Point3DIfEf",
+      "size": 548,
+      "sha256": "34dbdd8e274775e2b5ab8cbba7502f48b2d9f81596378a7ed956a43b17dd1a49"
+    },
+    {
+      "address": "0x342600",
+      "symbol": "_Z14GetNewInstanceI13AnimatedDecorEP10ObjectBasev",
+      "size": 144,
+      "sha256": "658079f089bcee1fb0b17a6385db1e03c0d1b0ef8a6a83a86ea5d8db7835bd8a"
+    },
+    {
+      "address": "0x3426b0",
+      "symbol": "_ZNK13ObjectManager16GetObjectsByTypeEPKcRSt4listIP9CharacterSaIS4_EE",
+      "size": 240,
+      "sha256": "4f6815d759af0cbeaa38e06ff324a09a32c7254b58ba6a134ab94a660dc3743c"
+    },
+    {
+      "address": "0x3427a0",
+      "symbol": "_ZN13ObjectManager14AddRoomObjectsEPSt4listIP10GameObjectSaIS2_EE",
+      "size": 336,
+      "sha256": "7e1d17b8d9cb714a81d1822441a2f423fc1f287c3c9dc4bb6a3adb6617172cba"
+    },
+    {
+      "address": "0x342f30",
+      "symbol": "_ZN13ObjectManager13IsPacketValidEii",
+      "size": 536,
+      "sha256": "0eb92725637fd44043f6b9ba2b0efd315a3abe07ee2b6059bae12a6f23702934"
+    },
+    {
+      "address": "0x343188",
+      "symbol": "_ZN13ObjectManager29AddOrphanRenderObjectToDeleteEP10ObjectBase",
+      "size": 56,
+      "sha256": "1be8c0c12f6856f7375e8ca36a343de8bda3e4245db17348efed50458c8d4eb2"
+    },
+    {
+      "address": "0x3431c0",
+      "symbol": "_ZN13ObjectManager21AssignObjectNetworkIdEP10ObjectBase",
+      "size": 312,
+      "sha256": "3d1ec0f5529329ea2e21f972c382a31d4a7ad1c610ea4ab34780bcba2307b414"
+    },
+    {
+      "address": "0x3432f8",
+      "symbol": "_ZN13ObjectManager15MarkForDeletionEP10ObjectBase",
+      "size": 116,
+      "sha256": "0c427b016692a20bd138039b54f1df9d4a4c6f8baa8835681ef2e8a126ffc526"
+    },
+    {
+      "address": "0x34336c",
+      "symbol": "_ZNK13ObjectManager16GetLightBaseListERSt4listIP9LightBaseSaIS2_EE",
+      "size": 228,
+      "sha256": "e4d0425b0bde43ec4d615977be59b322f5b4144f8534338252d1c9cc8af5db56"
+    },
+    {
+      "address": "0x344184",
+      "symbol": "_ZN13ObjectManager15AddNoRoomObjectEP10GameObject",
+      "size": 84,
+      "sha256": "30f5141986d53112043ae0ceb3264166f513a9608ac5e5575f61e715468636f2"
+    },
+    {
+      "address": "0x3454dc",
+      "symbol": "_ZN13ObjectManager27FlushAllOrphanRenderObjectsEv",
+      "size": 80,
+      "sha256": "56b26a6dc55d9a0b8f56b1a34337633ff999b121b0d1aac0da2dae54cbb0a815"
+    },
+    {
+      "address": "0x34552c",
+      "symbol": "_ZN13ObjectManager8InitPostEv",
+      "size": 936,
+      "sha256": "4100b540ee7537f60070334b0a6621f88df1a3164f5bae979fe98b751973a1eb"
+    },
+    {
+      "address": "0x345954",
+      "symbol": "_ZN13ObjectManager19HandleNoRoomObjectsEv",
+      "size": 248,
+      "sha256": "2eb2e1ead55bd8b3e53bd42fb362a7ed8d993466159ea7cf19e09b8d4a41ec5b"
+    },
+    {
+      "address": "0x345bcc",
+      "symbol": "_ZNK13ObjectManager19GetNumObjectsByTypeEPKc",
+      "size": 84,
+      "sha256": "d71332f9a9815932faa5805a8b87cfaf9f67b6a615e42716872688fffd29bc2a"
+    },
+    {
+      "address": "0x345c20",
+      "symbol": "_ZN13ObjectManager15GetObjectByTypeEPKc",
+      "size": 116,
+      "sha256": "5aa54377717ec323218730885653da05cad954bc21e5dbc0a3a9cb2a577ae101"
+    },
+    {
+      "address": "0x345e30",
+      "symbol": "_ZN13ObjectManager22AskNetResendByObjectIdEi",
+      "size": 212,
+      "sha256": "b8cab6acc2f7a20e88fb06f6d31c4be64918b2835d0f5eb70f8a4e4d3592f8cf"
+    },
+    {
+      "address": "0x345fbc",
+      "symbol": "_ZN13ObjectManager14DelRoomObjectsEPSt4listIP10GameObjectSaIS2_EE",
+      "size": 212,
+      "sha256": "f10bfaa5229639f403a02eb76bae66018ad30a40ce74e46058449914cf3685ac"
+    },
+    {
+      "address": "0x3460cc",
+      "symbol": "_ZN13ObjectManager34ProcessNextGameObjectToStartUpdateEv",
+      "size": 80,
+      "sha256": "81c438b912f55d6c4b8310719ef605f970a98edbe91e5e4b145fd4c9ce22f7a8"
+    },
+    {
+      "address": "0x346178",
+      "symbol": "_ZN13ObjectManager25ProcessAcknowledgedPacketEii",
+      "size": 268,
+      "sha256": "e89cf632baddfb7b5169e4e43143124b37055ecd319c51e288d3f4382b3d328e"
+    },
+    {
+      "address": "0x346284",
+      "symbol": "_ZN13ObjectManager26sProcessAcknowledgedPacketEii",
+      "size": 52,
+      "sha256": "93261004f2f0804de8458ca64c66da943a05c7de1da446be18629f71436686c0"
+    },
+    {
+      "address": "0x3462b8",
+      "symbol": "_ZN13ObjectManager18RemoveNoRoomObjectEP10GameObject",
+      "size": 92,
+      "sha256": "f2fc35ced90e4a07015f159bd64206db8c9bf64eced46fb01beb5beba0c0fd85"
+    },
+    {
+      "address": "0x346510",
+      "symbol": "_ZN13ObjectManager26SerializeGameObjectNetDataEiiR12NetBitStream",
+      "size": 2916,
+      "sha256": "33c01c15992c2f08e9e6d74da22145bfc7e125f06ba9ea92c910dc9cecc3c13e"
+    },
+    {
+      "address": "0x347074",
+      "symbol": "_ZN13ObjectManager16sWritePacketDataEiiR12NetBitStream",
+      "size": 140,
+      "sha256": "973376bdd88dd1c1b62bbe37894737f2282ce215d9f8d8cc70e5b86298bed876"
+    },
+    {
+      "address": "0x347100",
+      "symbol": "_ZN13ObjectManager19InitModulesFogColorERKSt6vectorI7Point3DIfESaIS2_EEi",
+      "size": 604,
+      "sha256": "033f750ed7f4a257b5eca1fc8b386e7a5b1b1f830c5d7b4810af6c80109caa25"
+    },
+    {
+      "address": "0x34735c",
+      "symbol": "_ZN13ObjectManager21LoadGameObjectNetDataEiiR12NetBitStream",
+      "size": 2612,
+      "sha256": "8be7f929c4d909239c7c7b34ba874b520ef8302a73dde74dd013f98f34b1933c"
+    },
+    {
+      "address": "0x347d90",
+      "symbol": "_ZN13ObjectManager15sReadPacketDataEiiR12NetBitStream",
+      "size": 92,
+      "sha256": "812c0c033f129b7595c58a0f5ea9d1eb775bebb3dfd769638d0623b338e42226"
+    },
+    {
+      "address": "0x347dec",
+      "symbol": "_ZN13ObjectManager16IsOnlineDeferredEP10ObjectBase",
+      "size": 232,
+      "sha256": "2e50aac49994832b9fbda19c3431de1c78c59f74bda9b71c373e8c4098099ee1"
+    },
+    {
+      "address": "0x347fd0",
+      "symbol": "_ZN13ObjectManager15ForceFullUpdateEv",
+      "size": 1652,
+      "sha256": "b23157a9515f5dd243d0d449d769ed1346172e946fa91e807f49a7b9468a4a41"
+    },
+    {
+      "address": "0x348644",
+      "symbol": "_ZN13ObjectManager17ProcessLostPacketEii",
+      "size": 224,
+      "sha256": "7e23d91f00bd8fa5dfe6067ec42c012077d88b000bf82be1b208174c968a334e"
+    },
+    {
+      "address": "0x348724",
+      "symbol": "_ZN13ObjectManager18sProcessLostPacketEii",
+      "size": 52,
+      "sha256": "cecdeecb940c3a762c78e8418f19dedd51b5daad702f957609fdfd369532187d"
+    },
+    {
+      "address": "0x348988",
+      "symbol": "_ZN13ObjectManager6Draw3DEv",
+      "size": 1308,
+      "sha256": "efd525f3f83cef0e56cb7a6e528967299157a9de1ce994cfcfa74109a694c390"
+    },
+    {
+      "address": "0x348ea4",
+      "symbol": "_ZN13ObjectManager6RemoveE12ObjectHandle",
+      "size": 924,
+      "sha256": "121527a7d64665c16afea90c70de7de75af5301b40f26a4d46ace71697386982"
+    },
+    {
+      "address": "0x349240",
+      "symbol": "_ZN13ObjectManager10FakeRemoveE12ObjectHandle",
+      "size": 748,
+      "sha256": "63dd64da35ea830bc7b065dac15a609b1cae158e65b895a41626e167a9404f05"
+    },
+    {
+      "address": "0x3496b8",
+      "symbol": "_ZN13ObjectManager5FlushEv",
+      "size": 1116,
+      "sha256": "17f602de5678f0eb2660acc4debc3a89580e9ef950d0d0cd193aec1f4a49589f"
+    },
+    {
+      "address": "0x349b14",
+      "symbol": "_ZN13ObjectManagerD1Ev",
+      "size": 860,
+      "sha256": "65926ee2e5ea87c6181059166653f17543ceacf84faa9d83f3e1f748a0ba02cc"
+    },
+    {
+      "address": "0x349e70",
+      "symbol": "_ZN13ObjectManagerD0Ev",
+      "size": 28,
+      "sha256": "1c9d28a5dcb3cbbcff474ccab2a92674d3e9ff171c10f2a6c3c71e463ff88e38"
+    },
+    {
+      "address": "0x349e8c",
+      "symbol": "_ZN13ObjectManagerD2Ev",
+      "size": 860,
+      "sha256": "69417bbbac966b3fe824f57a2797d9fe548632eb609a5e04c7dba16f623b242b"
+    },
+    {
+      "address": "0x34a1e8",
+      "symbol": "_ZN13ObjectManagerC1Ev",
+      "size": 540,
+      "sha256": "cf408a077d8c7d8e4279c0532d8e5f934b5b3b5b2fc49a8ef6d62dce6b3b24dc"
+    },
+    {
+      "address": "0x34a404",
+      "symbol": "_ZN13ObjectManagerC2Ev",
+      "size": 540,
+      "sha256": "3a56b6e20a93a3cced2b074f713d5911b0db8cebca5173c3eb8e89668ca526fa"
+    },
+    {
+      "address": "0x34a620",
+      "symbol": "_ZN13ObjectManager6UpdateEf",
+      "size": 1528,
+      "sha256": "893c7c9a3b63661be61276828a757602fc7e37af3bf189a036385525c67ffa89"
+    },
+    {
+      "address": "0x34ac18",
+      "symbol": "_ZN10ObjectBase7SetNameEPKc",
+      "size": 136,
+      "sha256": "425f9ce03d577851df93e476200075c5d05577847e0407bcaf5a2abccb32541f"
+    },
+    {
+      "address": "0x34aca0",
+      "symbol": "_ZN13ObjectManager15GetObjectByNameEPKcibS1_",
+      "size": 964,
+      "sha256": "c91cab9b67405ec2ece1c06917cccff61f8e282a18d381da82a6e91d3b5c560a"
+    },
+    {
+      "address": "0x34b064",
+      "symbol": "_ZN13ObjectManager22GetHighestThreatPlayerEPKcib",
+      "size": 268,
+      "sha256": "16e511d9edbf9c8cd2d320ec80bd04fdfb728c41d14821467f74470f583110f4"
+    },
+    {
+      "address": "0x34b270",
+      "symbol": "_ZN13ObjectManager3AddEP10ObjectBasePKcS3_ib",
+      "size": 688,
+      "sha256": "0b6b3291cfe38335813a0a5c7f17cc37cefd0ca8e90a4e5c474bf2de93f0d555"
+    },
+    {
+      "address": "0x34b520",
+      "symbol": "_ZN13ObjectManager12GetNewObjectEPKcS1_ib",
+      "size": 516,
+      "sha256": "8e0c07455d1b227c5d22463c98b8696fed91206d80860e23602d8ac4814618aa"
+    },
+    {
+      "address": "0x34b724",
+      "symbol": "_ZN13ObjectManager5SpawnEPKcS1_bb",
+      "size": 324,
+      "sha256": "6beb9d831117e3220f0dbf904de3447d94a2e130f5b639692496f7f32daf36b6"
+    },
+    {
+      "address": "0x34b868",
+      "symbol": "_ZN13ObjectManager11LoadFromXMLEP12TiXmlElementPKcRK7Point3DIfEi",
+      "size": 892,
+      "sha256": "27a7810895bce281410afb617edacb4c3178605f20214fdc7d2fb9c118b59ec8"
+    },
+    {
+      "address": "0x34bbe4",
+      "symbol": "_ZN13ObjectManager11LoadFromXMLEP12TiXmlElementPKc",
+      "size": 48,
+      "sha256": "51c7fae3eecafaed0cb40654c370cb57c5c213a47b073090238396a0b86d6111"
+    },
+    {
+      "address": "0x387d84",
+      "symbol": "_ZN9BillboardC2EN10ObjectBase6GO_IDSE",
+      "size": 188,
+      "sha256": "f4909f3ac4bd712f1d9e9edeed5a75acdd7451303a20da0d6bedac2580a5e703"
+    },
+    {
+      "address": "0x38815c",
+      "symbol": "_ZN9BillboardC1EN10ObjectBase6GO_IDSE",
+      "size": 188,
+      "sha256": "197f55091eb2ad8a8baa4d839752be965906b191497b4a93e5361d6f855de1e9"
+    },
+    {
+      "address": "0x3883dc",
+      "symbol": "_ZNK13AnimatedDecor10IsAnimatedEv",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "address": "0x3884f8",
+      "symbol": "_ZNK13AnimatedDecor9IsZonableEv",
+      "size": 4,
+      "sha256": "40513514668745e2911c29fdf4e5b143341e82f83f47388e6bbdca29a6e4bcba"
+    },
+    {
+      "address": "0x388a2c",
+      "symbol": "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2",
+      "size": 108,
+      "sha256": "56ada32da05ad2b9a8aaafffbd9f2ed02cff3e09606be435fa1649820f3364b6"
+    },
+    {
+      "address": "0x388cec",
+      "symbol": "_ZN13AnimatedDecor19__CallbackRandomAllEPN6glitch5scene19ITimelineControllerEPv",
+      "size": 224,
+      "sha256": "4946f45764426888ca315d6b10946ac08a46eef4b1805884b6c3971e78bde803"
+    },
+    {
+      "address": "0x389090",
+      "symbol": "_ZThn36_N13AnimatedDecorD1Ev",
+      "size": 8,
+      "sha256": "0ded1e40bf45877f3e1ebf69d486a944141c910157afc4f3813ea8d390a694ec"
+    },
+    {
+      "address": "0x389098",
+      "symbol": "_ZN13AnimatedDecorD1Ev",
+      "size": 108,
+      "sha256": "e530c6fd0c86ea7ee0fe7f13cc447c2868b8ff6fa8b6e3b77916df6d4cd7cc4d"
+    },
+    {
+      "address": "0x389104",
+      "symbol": "_ZThn36_N13AnimatedDecorD0Ev",
+      "size": 8,
+      "sha256": "0ded1e40bf45877f3e1ebf69d486a944141c910157afc4f3813ea8d390a694ec"
+    },
+    {
+      "address": "0x38910c",
+      "symbol": "_ZN13AnimatedDecorD0Ev",
+      "size": 28,
+      "sha256": "9170ca6dd117c229c2c6d196ebb8b0cb6fc024261f24c7d53f33c5941c6d7a94"
+    },
+    {
+      "address": "0x389128",
+      "symbol": "_ZN13AnimatedDecor8InitPostEv",
+      "size": 532,
+      "sha256": "34ba7f6920fc88567fb1a476f8c85606e8ae2d6da5a0a1ffd86d9dac6fe48433"
+    },
+    {
+      "address": "0x389894",
+      "symbol": "_ZN11PropertyMap11AddPropertyI7Point3DIfEEEvPKcRT_S5_",
+      "size": 156,
+      "sha256": "7387e4db366b0ffcddcb2a2a144d90fbc5d80ac4560e1853b395610610e69e35"
+    },
+    {
+      "address": "0x389dcc",
+      "symbol": "_ZThn4_N13AnimatedDecor17DeclarePropertiesEv",
+      "size": 8,
+      "sha256": "fa04763cc015275f81b1d864426513948ce8bfb90e0889b5098b558301847cdd"
+    },
+    {
+      "address": "0x389dd4",
+      "symbol": "_ZN13AnimatedDecor17DeclarePropertiesEv",
+      "size": 40,
+      "sha256": "34d09a40e69bfd3d3b514284b6cc31c5f2096fe327b5269e0819b8c4abe2d450"
+    },
+    {
+      "address": "0x389fa8",
+      "symbol": "_ZN6ModuleC1EN10ObjectBase6GO_IDSE",
+      "size": 344,
+      "sha256": "ae82f4d45b6bf421464ea8c3d12b8320d4634a329c82ff43599d2df7c7457bb4"
+    },
+    {
+      "address": "0x38a100",
+      "symbol": "_ZN6ModuleC2EN10ObjectBase6GO_IDSE",
+      "size": 344,
+      "sha256": "1f2e328faa3a7911baa5f9dc058a72dd290a3b6196477214ebf3fbda9e1d70af"
+    },
+    {
+      "address": "0x38aac8",
+      "symbol": "_ZN10GameObject18UpdateAbsoluteAABBEv",
+      "size": 152,
+      "sha256": "8bdb0944ef983e11a5d18d269aab552dea3f691fa7b03abcc0f56c1b75471297"
+    },
+    {
+      "address": "0x38c130",
+      "symbol": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "size": 616,
+      "sha256": "a87e66980322f425ead92f941ba031ae4a716a7ad53b252bbb70633a31a6aaa4"
+    },
+    {
+      "address": "0x38c398",
+      "symbol": "_ZN10GameObjectC2EN10ObjectBase6GO_IDSE",
+      "size": 616,
+      "sha256": "0a7dbcf73d215c9d9e9e4f291afe046c1a709254983b3383428dfbdcbce06bff"
+    },
+    {
+      "address": "0x38cee0",
+      "symbol": "_ZThn4_N10GameObject17DeclarePropertiesEv",
+      "size": 8,
+      "sha256": "fa04763cc015275f81b1d864426513948ce8bfb90e0889b5098b558301847cdd"
+    },
+    {
+      "address": "0x38cee8",
+      "symbol": "_ZN10GameObject17DeclarePropertiesEv",
+      "size": 604,
+      "sha256": "adce76d0e1830dd1356a2ac606ec6ed23903b5f5113acd625d204752e05b1ef8"
+    },
+    {
+      "address": "0x38e680",
+      "symbol": "_ZNSt6vectorIP10GameObjectSaIS1_EEC1ERKS3_",
+      "size": 128,
+      "sha256": "7061f576fb641eaa9e7e55259e6c1060c0f2ccda1ba9e6b9811b1448df9a122b"
+    },
+    {
+      "address": "0x38ebf0",
+      "symbol": "_ZN10GameObject8_GetNameERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "size": 12,
+      "sha256": "f57d50206ecdecbdb9652d4086434c3b592019c23115562713a670851652b733"
+    },
+    {
+      "address": "0x39503c",
+      "symbol": "_ZN11PropertyMap11AddPropertyIfEEvPKcRT_S3_",
+      "size": 140,
+      "sha256": "6138e102420984c9601c9891724af16f06e84c9d6008a9d45aec62df2165c9ad"
+    },
+    {
+      "address": "0x39551c",
+      "symbol": "_ZN12SoundEmitterC1EN10ObjectBase6GO_IDSE",
+      "size": 140,
+      "sha256": "b987d2c6d130af1a38882be17995f8d4fdf2e099327a892564bdc22d8104ab29"
+    },
+    {
+      "address": "0x3955a8",
+      "symbol": "_ZN12SoundEmitterC2EN10ObjectBase6GO_IDSE",
+      "size": 140,
+      "sha256": "f830bd92e51ab9dcbfbe65530f8d7fb90b91210d8ebc08bf95f17e11a0bf3f30"
+    },
+    {
+      "address": "0x39594c",
+      "symbol": "_ZN14CheckpointZoneC1EN10ObjectBase6GO_IDSE",
+      "size": 104,
+      "sha256": "ddac624d3c8ce588250b88323dc22e0dab398c12fac526bb11dee0c663494c7d"
+    },
+    {
+      "address": "0x3959b4",
+      "symbol": "_ZN14CheckpointZoneC2EN10ObjectBase6GO_IDSE",
+      "size": 104,
+      "sha256": "daef7f775e6ea8097ff1469ecc3e46ddf8f0445004053c8adb56f5d5a807af85"
+    },
+    {
+      "address": "0x396330",
+      "symbol": "_ZN15QuestMoveInZoneC1EN10ObjectBase6GO_IDSE",
+      "size": 72,
+      "sha256": "3407b37798a2e0510354ca37afb3fad9be1b13b09dab84553fb3d516727b1595"
+    },
+    {
+      "address": "0x396378",
+      "symbol": "_ZN15QuestMoveInZoneC2EN10ObjectBase6GO_IDSE",
+      "size": 72,
+      "sha256": "de72ff379094d191e9838f9c99dfa918cb3e3375db716094a8c49e46169a43d1"
+    },
+    {
+      "address": "0x396558",
+      "symbol": "_ZN8RoomZoneC1EN10ObjectBase6GO_IDSE",
+      "size": 108,
+      "sha256": "9bbd25d193786a5755621c726deb342582cf72b15d54c59440b0d3e0b49d2733"
+    },
+    {
+      "address": "0x3965c4",
+      "symbol": "_ZN8RoomZoneC2EN10ObjectBase6GO_IDSE",
+      "size": 108,
+      "sha256": "cc976b415e84f0282dbfc4113fb4f436d929af26fb48f2ce34a84321f9bd3217"
+    },
+    {
+      "address": "0x397c2c",
+      "symbol": "_ZN4ZoneC1EN10ObjectBase6GO_IDSEbb",
+      "size": 116,
+      "sha256": "bab8be2e6fe26fc431f8383e0076b482d1712e1369cd70d2f3a0661d85a37dea"
+    },
+    {
+      "address": "0x397ca0",
+      "symbol": "_ZN4ZoneC2EN10ObjectBase6GO_IDSEbb",
+      "size": 116,
+      "sha256": "008890a76addfa7bbbbbcf7c8e1b3839027ad708e90142f98aa88acefcfd749c"
+    },
+    {
+      "address": "0x397ec0",
+      "symbol": "_ZN6ZoneExC1EN10ObjectBase6GO_IDSEbb",
+      "size": 104,
+      "sha256": "79ffa745eabc101b6acea78ecc70ad8ab8eb8aa4bd0d050fee70f0271c54e03e"
+    },
+    {
+      "address": "0x397f28",
+      "symbol": "_ZN6ZoneExC2EN10ObjectBase6GO_IDSEbb",
+      "size": 104,
+      "sha256": "85d37d7c52063b7133005d5501baf6831e9554f4f6b0abe6959eec5061393b7c"
+    },
+    {
+      "address": "0x398878",
+      "symbol": "_ZN11PropertyMap11AddPropertyIiEEvPKcRT_S3_",
+      "size": 140,
+      "sha256": "61d8d3e3993ec03c7e2515b31b0fcfd8d77014d9bbab8a47f3ab19183b6f6c34"
+    },
+    {
+      "address": "0x398f44",
+      "symbol": "_ZN7TriggerC1EN10ObjectBase6GO_IDSEbb",
+      "size": 144,
+      "sha256": "051cb3135d1c0ef357c603b1dcfe15367f6d14d3090123f674cf2e07c9403a2a"
+    },
+    {
+      "address": "0x398fd4",
+      "symbol": "_ZN7TriggerC2EN10ObjectBase6GO_IDSEbb",
+      "size": 144,
+      "sha256": "e3ea323aa07bb79d24c8930c23a03916bc18d420c13779bd435997d1062d04a3"
+    },
+    {
+      "address": "0x39af04",
+      "symbol": "_ZN12TriggerPlateC1EN10ObjectBase6GO_IDSE",
+      "size": 220,
+      "sha256": "593f52f628ad2e4dd66bb40f8115bc6ed0b827a6a966caa8ccd60147aedf9e5e"
+    },
+    {
+      "address": "0x39afe0",
+      "symbol": "_ZN12TriggerPlateC2EN10ObjectBase6GO_IDSE",
+      "size": 220,
+      "sha256": "19e61375bd96485255e7e1a7539ed4c914d4dad02feb57e74131bd17a7df883a"
+    },
+    {
+      "address": "0x39b890",
+      "symbol": "_ZN11TriggerZoneC1EN10ObjectBase6GO_IDSE",
+      "size": 256,
+      "sha256": "25e2874904967c9c1b1c1f6f600e0a93c45e9c4c4eda87b8248e052a2b4c6b48"
+    },
+    {
+      "address": "0x39b990",
+      "symbol": "_ZN11TriggerZoneC2EN10ObjectBase6GO_IDSE",
+      "size": 256,
+      "sha256": "c566e12a28f73471ccda83ce43669ae5b8a935dbc86375914158a8cea131efd5"
+    },
+    {
+      "address": "0x39bf10",
+      "symbol": "_ZN11PropertyMap11AddPropertyIiEEvPKcRT_S3_.clone.2",
+      "size": 140,
+      "sha256": "3391b894c89e1162ee6fb6f8e16a0fc7d6990755ba33eaaac1eba7d4645faec9"
+    },
+    {
+      "address": "0x39c83c",
+      "symbol": "_ZN11PropertyMap11AddPropertyIiEEvPKcRT_S3_.clone.1",
+      "size": 140,
+      "sha256": "65aee0a7e46ab973ffb465f44ab02b65b87b0d8345fb4d3daab81f438e3a5851"
+    },
+    {
+      "address": "0x39c9a4",
+      "symbol": "_ZN20TriggerZoneExitLevelC1EN10ObjectBase6GO_IDSE",
+      "size": 156,
+      "sha256": "71683d59e1fa7db522e5bf7df4e424e47dec0468d2d7d5040b4a20a4119d661a"
+    },
+    {
+      "address": "0x39ca40",
+      "symbol": "_ZN20TriggerZoneExitLevelC2EN10ObjectBase6GO_IDSE",
+      "size": 156,
+      "sha256": "73493222a9cb9e154c2370b5d59ec626f67b1adf8d4939db7098f1ee666e8ec5"
+    },
+    {
+      "address": "0x39d280",
+      "symbol": "_ZN14ProjectileTrapC1EN10ObjectBase6GO_IDSE",
+      "size": 64,
+      "sha256": "15fd69ecb45f9e18bfb64703053deb7204162f426eee7da5327b1999d5864f1b"
+    },
+    {
+      "address": "0x39d2c0",
+      "symbol": "_ZN14ProjectileTrapC2EN10ObjectBase6GO_IDSE",
+      "size": 64,
+      "sha256": "adb23ad8278337b4690771e323802a6c9ad2ddc978318444b77572403f38a1aa"
+    },
+    {
+      "address": "0x39da54",
+      "symbol": "_ZN9TimerTrapC1EN10ObjectBase6GO_IDSE",
+      "size": 72,
+      "sha256": "ff11286bf6fd209f10c504e77cabb498d9e329b00490af1f045cdca4dac4de7c"
+    },
+    {
+      "address": "0x39da9c",
+      "symbol": "_ZN9TimerTrapC2EN10ObjectBase6GO_IDSE",
+      "size": 72,
+      "sha256": "4bf42ebfe618fc36a1df1903073b4b44dce66704c9df506a57b1ee44f010109f"
+    },
+    {
+      "address": "0x39e670",
+      "symbol": "_ZN11TriggerTrapC2EN10ObjectBase6GO_IDSE",
+      "size": 200,
+      "sha256": "3336b8d22536647052ad2d2083864a6b7da118d906c3c02f8595ea7d1ccd56db"
+    },
+    {
+      "address": "0x39ecd4",
+      "symbol": "_ZN11TriggerTrapC1EN10ObjectBase6GO_IDSE",
+      "size": 200,
+      "sha256": "7ced13c022afb5f0262635bdefff89a21be9c124b97f85eaed7d977f56f2d9b9"
+    },
+    {
+      "address": "0x39fc2c",
+      "symbol": "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2",
+      "size": 108,
+      "sha256": "562eccd1fcbfb4e193c80d0fd09585b83023598339bac2e4a72245fa6b44536e"
+    },
+    {
+      "address": "0x3a06dc",
+      "symbol": "_ZN9ContainerC1EN10ObjectBase6GO_IDSE",
+      "size": 172,
+      "sha256": "e31d6194b582793b27e2ed42fc1e8cefd7f98cef4270660c2d226a948e510d81"
+    },
+    {
+      "address": "0x3a0788",
+      "symbol": "_ZN9ContainerC2EN10ObjectBase6GO_IDSE",
+      "size": 172,
+      "sha256": "7839ee5a0a146988f4a31ed8fc44e667e1eccb85ea730058e03f146fd33a27f1"
+    },
+    {
+      "address": "0x3a14bc",
+      "symbol": "_ZN21DestructibleContainerC1EN10ObjectBase6GO_IDSE",
+      "size": 76,
+      "sha256": "e6dce4add02a65d65a0e37810d1c849fa9bd2c5528b0279f2f22aeeae3ac8618"
+    },
+    {
+      "address": "0x3a1508",
+      "symbol": "_ZN21DestructibleContainerC2EN10ObjectBase6GO_IDSE",
+      "size": 76,
+      "sha256": "039754bd7e1759b69c595e94cd23d2c519876d3094afca39e77d18e52234df12"
+    },
+    {
+      "address": "0x3a1634",
+      "symbol": "_ZNK17OpenableContainer9GetScriptEv",
+      "size": 60,
+      "sha256": "0c02d5c865e9b9420b8394c06df7a121c97782bfa6a2a272c8f2af25966b7e45"
+    },
+    {
+      "address": "0x3a1670",
+      "symbol": "_ZNK17OpenableContainer9GetVisualEv",
+      "size": 56,
+      "sha256": "ab563426573baa5cf4ca1af3b5530b45318a628e5ecd1a0c56e3ac4e00b4851c"
+    },
+    {
+      "address": "0x3a16a8",
+      "symbol": "_ZNK17OpenableContainer8IsLockedEv",
+      "size": 36,
+      "sha256": "4cfa549f5eb90399a9953e04d131297c0d181bdd10bffbb5da1e2817ccb2b532"
+    },
+    {
+      "address": "0x3a16cc",
+      "symbol": "_ZNK17OpenableContainer18GetInteractionTypeEP10GameObject",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "address": "0x3a177c",
+      "symbol": "_ZNK17OpenableContainer11KeepPhysicsEv",
+      "size": 72,
+      "sha256": "103e708fcf6425bfe882270ac07204953eb2001a60ca1c58aae35794e08a9306"
+    },
+    {
+      "address": "0x3a17c4",
+      "symbol": "_ZNK17OpenableContainer8GetSoundEv",
+      "size": 64,
+      "sha256": "6d66bbf29eb1295c81b3f950330718db51e66455c33dcd74c34c685939b788a7"
+    },
+    {
+      "address": "0x3a1804",
+      "symbol": "_ZNK17OpenableContainer7GetLootEv",
+      "size": 64,
+      "sha256": "87491684775dd24717fe281e15223cc96166ade5bf57406c7ad1161a0d70e449"
+    },
+    {
+      "address": "0x3a1844",
+      "symbol": "_ZNK17OpenableContainer9GetDataIdEv",
+      "size": 28,
+      "sha256": "cb40dc3e600a334d856e94a92521cecd3fa2335af7172f9674889e706fcfe9a6"
+    },
+    {
+      "address": "0x3a1860",
+      "symbol": "_ZN17OpenableContainer6UnlockEP9Character",
+      "size": 92,
+      "sha256": "44110d886305f27d22a1b69a205861af0eed3fc7cb673f2c08494e0bb5e1d10a"
+    },
+    {
+      "address": "0x3a18bc",
+      "symbol": "_ZN17OpenableContainer12TryUnlockingEP10GameObject",
+      "size": 72,
+      "sha256": "25cc6a3b541343acb83373bc372160d140208f21a6d9697d60260f60a6df8af0"
+    },
+    {
+      "address": "0x3a1904",
+      "symbol": "_ZN17OpenableContainer8InteractEP10GameObject",
+      "size": 608,
+      "sha256": "a9030da2c089a236d26802688ab52293df736ce1994d27ecfd34fc9adde4deee"
+    },
+    {
+      "address": "0x3a1b64",
+      "symbol": "_ZN17OpenableContainer8InitPostEv",
+      "size": 136,
+      "sha256": "5a2da0d28a460ce3f5a1d577a731ea68e4aba410864f04a11a09b9e734bc71f5"
+    },
+    {
+      "address": "0x3a1bec",
+      "symbol": "_ZThn36_N17OpenableContainerD1Ev",
+      "size": 8,
+      "sha256": "0ded1e40bf45877f3e1ebf69d486a944141c910157afc4f3813ea8d390a694ec"
+    },
+    {
+      "address": "0x3a1bf4",
+      "symbol": "_ZN17OpenableContainerD1Ev",
+      "size": 76,
+      "sha256": "62637164fe546fabbc2527996fdaf27825015908726c3e7dba36c6ab2491dfad"
+    },
+    {
+      "address": "0x3a1c40",
+      "symbol": "_ZThn36_N17OpenableContainerD0Ev",
+      "size": 8,
+      "sha256": "0ded1e40bf45877f3e1ebf69d486a944141c910157afc4f3813ea8d390a694ec"
+    },
+    {
+      "address": "0x3a1c48",
+      "symbol": "_ZN17OpenableContainerD0Ev",
+      "size": 28,
+      "sha256": "a840ba85e69a8bf45e516435f4f8c8a65424f2c7ee693adb7e658152322c3b89"
+    },
+    {
+      "address": "0x3a1c64",
+      "symbol": "_ZN17OpenableContainerD2Ev",
+      "size": 76,
+      "sha256": "0bdf57cf22b2afac8d0b35a4d65d5790b9937302ab16467e0684f431d6a374b6"
+    },
+    {
+      "address": "0x3a1cb0",
+      "symbol": "_ZN17OpenableContainerC1EN10ObjectBase6GO_IDSE",
+      "size": 124,
+      "sha256": "93a5f845994515278d050b35287d78ae63f84d9bbac25512ddab5eef16e5a49c"
+    },
+    {
+      "address": "0x3a1d2c",
+      "symbol": "_ZN17OpenableContainerC2EN10ObjectBase6GO_IDSE",
+      "size": 124,
+      "sha256": "86ea8a19ed6e64a35b45330798b852e833592e891c65f94a821f68f5be5312f2"
+    },
+    {
+      "address": "0x3a1e84",
+      "symbol": "_ZThn4_N17OpenableContainer17DeclarePropertiesEv",
+      "size": 8,
+      "sha256": "fa04763cc015275f81b1d864426513948ce8bfb90e0889b5098b558301847cdd"
+    },
+    {
+      "address": "0x3a1e8c",
+      "symbol": "_ZN17OpenableContainer17DeclarePropertiesEv",
+      "size": 516,
+      "sha256": "d3f9d5eb1e8d34767872e1a2456a73da77a60ab50275a2e6d94fb85a571da1e2"
+    },
+    {
+      "address": "0x3a2bcc",
+      "symbol": "_ZN13SlotContainerC1EN10ObjectBase6GO_IDSE",
+      "size": 136,
+      "sha256": "19d82d3fa6b26ea53f2b45927ef82a0b14ed0f136a64dad585437aaed4b39eb6"
+    },
+    {
+      "address": "0x3a2c54",
+      "symbol": "_ZN13SlotContainerC2EN10ObjectBase6GO_IDSE",
+      "size": 136,
+      "sha256": "0ca5b1d76fd94834b9217b87a24de760215748a1ddbe068e0b45d568adcf888d"
+    },
+    {
+      "address": "0x3a6a24",
+      "symbol": "_ZN9Character18NetStructCharacterC1Ev",
+      "size": 1256,
+      "sha256": "b5b8e31bb82dfd4952c9f54dd6a10c1b118b2179e6d2845685c0afc211e8cb9a"
+    },
+    {
+      "address": "0x3a92b4",
+      "symbol": "_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_.clone.21",
+      "size": 140,
+      "sha256": "2282d3e039676c83001306b92e856a40c4068c670ba9e10a112c11e7823d4116"
+    },
+    {
+      "address": "0x3a9340",
+      "symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+      "size": 1448,
+      "sha256": "ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb"
+    },
+    {
+      "address": "0x3a9fdc",
+      "symbol": "_ZThn4_N9Character17DeclarePropertiesEv",
+      "size": 8,
+      "sha256": "fa04763cc015275f81b1d864426513948ce8bfb90e0889b5098b558301847cdd"
+    },
+    {
+      "address": "0x3a9fe4",
+      "symbol": "_ZN9Character17DeclarePropertiesEv",
+      "size": 464,
+      "sha256": "7067155e23c3cca49658df549bbf37d50bb90eff3d4e1c44a92c092af6d2c186"
+    },
+    {
+      "address": "0x3aa1b4",
+      "symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    },
+    {
+      "address": "0x3b4010",
+      "symbol": "_ZN11POCharacterC2EP13PhysicalWorldP10GameObjectbsttb.clone.2",
+      "size": 120,
+      "sha256": "172350683f3aa5c8e71de7ef1e9d0e9b568ced5cf60e35c197bdc7eda59778f2"
+    },
+    {
+      "address": "0x3ccf9c",
+      "symbol": "_ZNSt6vectorIP9CharacterSaIS1_EEC1Ej.clone.3",
+      "size": 72,
+      "sha256": "127f83bc4278c41aa4277e7aac23ecc2dee2b4564aa49c8bb023ef98848a2b89"
+    },
+    {
+      "address": "0x3cde2c",
+      "symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+      "size": 336,
+      "sha256": "e755548faab63d7cf4f2cb9b89529661532ef7752e67019871d075623daa2959"
+    },
+    {
+      "address": "0x3d2d60",
+      "symbol": "_ZNSt6vectorIP9CharacterSaIS1_EEC1ERKS3_",
+      "size": 128,
+      "sha256": "9cec0eec486147e402cd12d400f91f0c8f6cf6bea0beaebb0479352335c70912"
+    },
+    {
+      "address": "0x3e4b6c",
+      "symbol": "_ZN19LaserTypeProjectileC1EN10ObjectBase6GO_IDSE",
+      "size": 92,
+      "sha256": "f9a7783ed4c749cc663c2513713328174422e0b3fd018ed5fefa893482afcd0a"
+    },
+    {
+      "address": "0x3e4bc8",
+      "symbol": "_ZN19LaserTypeProjectileC2EN10ObjectBase6GO_IDSE",
+      "size": 92,
+      "sha256": "e7c717ba6f74001e6cfb586825d1de96e0ad6249c5fe322c3908dd8f4885c856"
+    },
+    {
+      "address": "0x3e5e40",
+      "symbol": "_ZN10ProjectileC1EN10ObjectBase6GO_IDSE",
+      "size": 156,
+      "sha256": "dd6e912f0b6f19cd8a1958d917f1f36375926c10920de40e011cd0ca714d1b99"
+    },
+    {
+      "address": "0x3e5edc",
+      "symbol": "_ZN10ProjectileC2EN10ObjectBase6GO_IDSE",
+      "size": 156,
+      "sha256": "6f2a5572f4d4021fcdaf0e5c7df6e5489ac50cf642fd762036e3ce304c84789f"
+    },
+    {
+      "address": "0x3e7ffc",
+      "symbol": "_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_.clone.5",
+      "size": 140,
+      "sha256": "207beab2a9f3ebca70552e27faaa40be3972c4733963e9673fd2b5243ed862a7"
+    },
+    {
+      "address": "0x3e8274",
+      "symbol": "_ZN4DoorC1EN10ObjectBase6GO_IDSE",
+      "size": 176,
+      "sha256": "62a01cc2408e2df0379a8ef35a6dde073d7f602452d696df0108ae9909bea98a"
+    },
+    {
+      "address": "0x3e8324",
+      "symbol": "_ZN4DoorC2EN10ObjectBase6GO_IDSE",
+      "size": 176,
+      "sha256": "247584da0401981fd78439023d10072ab659f6d75ac0dce5162058564196f527"
+    },
+    {
+      "address": "0x3ea388",
+      "symbol": "_ZN10SpawnPointC1EN10ObjectBase6GO_IDSE",
+      "size": 116,
+      "sha256": "f6209047447b68492d0958c9adc1201d6bc2ef7dab2b1fd3ff07af8f9870d084"
+    },
+    {
+      "address": "0x3ea3fc",
+      "symbol": "_ZN10SpawnPointC2EN10ObjectBase6GO_IDSE",
+      "size": 116,
+      "sha256": "12777dcc175a04ec96a783a5b2670d6af5844f52a8f44ca36c0f7316aefcf92b"
+    },
+    {
+      "address": "0x3ea8e4",
+      "symbol": "_ZN9SpawnSpotC1EN10ObjectBase6GO_IDSE",
+      "size": 104,
+      "sha256": "4b39589623282213e7bcf3f7a43fee66dc187479ae0ec83431c03488907a239b"
+    },
+    {
+      "address": "0x3ea94c",
+      "symbol": "_ZN9SpawnSpotC2EN10ObjectBase6GO_IDSE",
+      "size": 104,
+      "sha256": "d7c5e6ab99e99c5e416165312df7ca86cbbbb0bf6f67079eae1cf516678ac99f"
+    },
+    {
+      "address": "0x3ec324",
+      "symbol": "_ZN10ItemObjectC1EN10ObjectBase6GO_IDSE",
+      "size": 168,
+      "sha256": "552aa338439303845fbf7217fec77a2e0a9a64125c84ab20966ac64a734ab2d7"
+    },
+    {
+      "address": "0x3ec3cc",
+      "symbol": "_ZN10ItemObjectC2EN10ObjectBase6GO_IDSE",
+      "size": 168,
+      "sha256": "2f3b70b33148f60505896d8236b2f47f3cf74f5beea23f54706d1d1e4c1ed142"
+    },
+    {
+      "address": "0x3eec88",
+      "symbol": "_ZN14LiftableObjectC1EN10ObjectBase6GO_IDSE",
+      "size": 136,
+      "sha256": "43b0f00d58f93a99b36c500d9dc886a8a0cc0747b201ad90ae992f5df5273929"
+    },
+    {
+      "address": "0x3eed10",
+      "symbol": "_ZN14LiftableObjectC2EN10ObjectBase6GO_IDSE",
+      "size": 136,
+      "sha256": "adb1764ca6ff5379ee5a20b2b27bca0f4f5b165f9622426b16608e1bf525e9f6"
+    },
+    {
+      "address": "0x3f4910",
+      "symbol": "_ZN11LevelConfigC2EN10ObjectBase6GO_IDSE",
+      "size": 644,
+      "sha256": "194792981c8c5d79040bfcf14242dfa94dbbd2e9328213373d3b9750b99c6990"
+    },
+    {
+      "address": "0x3f51a8",
+      "symbol": "_ZN11LevelConfigC1EN10ObjectBase6GO_IDSE",
+      "size": 644,
+      "sha256": "98a7abc7e7b9c9ead8d36dc33735e9509e88c1302b757d9935518840c0ef1d63"
+    },
+    {
+      "address": "0x40aba4",
+      "symbol": "_ZN9LightBaseC1EN10ObjectBase6GO_IDSE",
+      "size": 180,
+      "sha256": "158a4282a0239c3c9e83ff6bc1bb42ce5852b615319f56c8d8ad9a7c358326d2"
+    },
+    {
+      "address": "0x40ac58",
+      "symbol": "_ZN9LightBaseC2EN10ObjectBase6GO_IDSE",
+      "size": 180,
+      "sha256": "1e4696a904e51e106c620416b87b5bea8ab685a793ef97f09a0411f1182acd46"
+    },
+    {
+      "address": "0x46ef68",
+      "symbol": "_ZN14PhysicalObjectC1EP13PhysicalWorldP10GameObjectbbbbstti",
+      "size": 904,
+      "sha256": "4c4b473e089e2fdbd175bf10d07e84149cc976a909991166bf4d72ba41617ef7"
+    },
+    {
+      "address": "0x46f2f0",
+      "symbol": "_ZN14PhysicalObjectC2EP13PhysicalWorldP10GameObjectbbbbstti",
+      "size": 904,
+      "sha256": "96b06ba5890cea07739112419832da3d76766492012e6e27529b7cb450e993af"
+    },
+    {
+      "address": "0x472a0c",
+      "symbol": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+      "size": 592,
+      "sha256": "009dcf6e02d189677a66323fc1b3319734ce8913147232978c3ec55b23cdd0f9"
+    },
+    {
+      "address": "0x472c5c",
+      "symbol": "_ZN12VisualObjectC2EP10GameObjectRKSsS3_",
+      "size": 592,
+      "sha256": "95f6267f1da7c8bbbdc8574258dbbb244bbc1cd5eddc7c552e4d2a00bc715cc1"
+    },
+    {
+      "address": "0x4770d0",
+      "symbol": "_ZN10AnchorBaseC1EP10GameObjectNS_10AnchorTypeE",
+      "size": 208,
+      "sha256": "0b356d317b24e39344f18f6e70c56554449111964d9470a44c6ca68b1db36437"
+    },
+    {
+      "address": "0x4771a0",
+      "symbol": "_ZN10AnchorBaseC2EP10GameObjectNS_10AnchorTypeE",
+      "size": 208,
+      "sha256": "d92051144859ad5629e7adc355d3a489c69e1d477aface99e0d0ae4a1adb8dda"
+    },
+    {
+      "address": "0x477a80",
+      "symbol": "_ZN13AnchorForwardC1EP10GameObjectfffN10AnchorBase10AnchorTypeE",
+      "size": 596,
+      "sha256": "c0705c208106318458ebbade85e15b071847c9e847ded865a7c1181969500234"
+    },
+    {
+      "address": "0x477cd4",
+      "symbol": "_ZN13AnchorForwardC2EP10GameObjectfffN10AnchorBase10AnchorTypeE",
+      "size": 596,
+      "sha256": "7fa276821a7282ea8517ca1715afe2c1d7ec60043b049421563bb26ca5777235"
+    },
+    {
+      "address": "0x478578",
+      "symbol": "_ZN11AnchorGroupC1EP10GameObjectN10AnchorBase10AnchorTypeE",
+      "size": 60,
+      "sha256": "d4a1449e6ae7c5651d6a945499a498442f48edf6c71a0d19884231959efcef5c"
+    },
+    {
+      "address": "0x4785b4",
+      "symbol": "_ZN11AnchorGroupC2EP10GameObjectN10AnchorBase10AnchorTypeE",
+      "size": 60,
+      "sha256": "9ca8df0c0952c2d2ea9ea6616da5f8b70f4920cc3d890ed2d737f3656873c34f"
+    },
+    {
+      "address": "0x4a191c",
+      "symbol": "_ZN14ObjectSearcher10TargetList12SetRefObjectEP10GameObject",
+      "size": 52,
+      "sha256": "352e90a1c50195ce1c9d5527196cfe14bf209e6dc80bf1c422b30d56820b569c"
+    },
+    {
+      "address": "0x4a2730",
+      "symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii",
+      "size": 296,
+      "sha256": "d91cd6624877041b7b8bae61aae1b85691210bfa839a68916ccf9b138d36d88a"
+    },
+    {
+      "address": "0x4a348c",
+      "symbol": "_ZN14ObjectSearcher10TargetListC2EP10GameObjectiii",
+      "size": 296,
+      "sha256": "ae046cc0ab98514b8702844baf6c66aec7bb9ac4b210de1e547833bc14fd48b0"
+    },
+    {
+      "address": "0x4ae234",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_17OpenableContainerEEEiPKc",
+      "size": 88,
+      "sha256": "09d02f093c7a912ca0ee51831a145b4d83c41fa9522c7d9ec4405d62d65410db"
+    },
+    {
+      "address": "0x4d9ee8",
+      "symbol": "_ZN7Structs17OpenableContainer8finalizeEv",
+      "size": 40,
+      "sha256": "fe84779bc40ff75015ad875ac64ca8c80e589316d5e42f6c245ec5e850182283"
+    },
+    {
+      "address": "0x4d9f10",
+      "symbol": "_ZN7Structs17OpenableContainerD1Ev",
+      "size": 64,
+      "sha256": "16d7edf16c97f18e5cc3bee40d2cf9d0969919d4cbcaa56af5f9b2f7b5ca6984"
+    },
+    {
+      "address": "0x4d9f50",
+      "symbol": "_ZN7Structs17OpenableContainerD0Ev",
+      "size": 28,
+      "sha256": "e31be26a4f09a5c9813d1af1dda2bca1f3042575c19ad5f18717d5ddf8934c52"
+    },
+    {
+      "address": "0x4d9f6c",
+      "symbol": "_ZN7Structs17OpenableContainerD2Ev",
+      "size": 64,
+      "sha256": "679d58866491b0bea8a01d46655f7bdebc2df2cd74a92a3aa377bd19ae178222"
+    },
+    {
+      "address": "0x4fdb90",
+      "symbol": "_ZN7Structs17OpenableContainer4readEP11IStreamBase",
+      "size": 752,
+      "sha256": "b69d6276536ee51ed6efc0c389abf473f109a1d5834ed7159743ee9a7446f52a"
+    },
+    {
+      "address": "0x510b4c",
+      "symbol": "_ZN11PropertyMap16GetThisClassNameEv",
+      "size": 152,
+      "sha256": "b7133e7c49c9de3ec6f7214dfd08ec27c2fd0b88ffecc41f5062f938b9353615"
+    },
+    {
+      "address": "0x510dec",
+      "symbol": "_ZN11PropertyMap19DestroyPropertyMapsEv",
+      "size": 500,
+      "sha256": "5d71472be37e1aefcc19083d35926b2e5d89f22b4b60e5e997e74818fdfbb7ec"
+    },
+    {
+      "address": "0x5124d4",
+      "symbol": "_ZNSt3mapISsS_ISsS_ISsP8PropertySt4lessISsESaISt4pairIKSsS1_EEES3_SaIS4_IS5_S8_EEES3_SaIS4_IS5_SB_EEEixIPKcEERSB_RKT_.clone.2",
+      "size": 412,
+      "sha256": "5974eaaa8a62d3d1c8cfdf86424d6ca0d5f3f5ba4051e5328b75d12011a46f6f"
+    },
+    {
+      "address": "0x5134c0",
+      "symbol": "_ZN11PropertyMap14GetPropertyMapEv",
+      "size": 48,
+      "sha256": "cdfc646297a8cebe9e65ddf5424373373692b6d965f8a625070f9f2033832ee1"
+    },
+    {
+      "address": "0x5134f0",
+      "symbol": "_ZN11PropertyMap19SavePropertiesToXMLEP12TiXmlElementPKc",
+      "size": 388,
+      "sha256": "a6d7a61c53ac382ec29c585d98e250b732d7a07a5d9924b8295cb468bdd813ac"
+    },
+    {
+      "address": "0x513674",
+      "symbol": "_ZN11PropertyMap14DumpPropertiesEv",
+      "size": 120,
+      "sha256": "610b26aa0929950f8de29f4a783f35bf5b5a01554f3dd03c9f258b225022d130"
+    },
+    {
+      "address": "0x5136ec",
+      "symbol": "_ZN11PropertyMap21LoadDefaultPropertiesEv",
+      "size": 284,
+      "sha256": "08ed071e09c164a789fb948f8087d6456a0650ab03855681be38049629f67add"
+    },
+    {
+      "address": "0x513808",
+      "symbol": "_ZN11PropertyMap7GetPropEPKc",
+      "size": 40,
+      "sha256": "2b512adde5b9c53f6fd08b3974fccc6a8df213bb8afda5ab817d389bd5d66dba"
+    },
+    {
+      "address": "0x513830",
+      "symbol": "_ZN11PropertyMap20SetTemplateParameterEPKcS1_",
+      "size": 40,
+      "sha256": "adf80fb09f789fb29034ee7fd5ab81c38a32b533c4d2ca7c6f8760740f27cfad"
+    },
+    {
+      "address": "0x513858",
+      "symbol": "_ZN11PropertyMap11GetPropertyEPKc",
+      "size": 36,
+      "sha256": "8700111f867e5cffe03cb8e843d25722d879888c366fd87c12a25ebc6cc1847b"
+    },
+    {
+      "address": "0x51387c",
+      "symbol": "_ZN11PropertyMap11SetPropertyEPKcS1_",
+      "size": 128,
+      "sha256": "5d7120dc4767077eba0dade71f901cd539d2fcee9abfc1fd564181a8175e6895"
+    },
+    {
+      "address": "0x5138fc",
+      "symbol": "_ZN11PropertyMap15ClonePropertiesERS_",
+      "size": 260,
+      "sha256": "f7ee4219d303350f7cb53ce71beb6df11c9b36ebad519e873c5f775851d31dc6"
+    },
+    {
+      "address": "0x513a00",
+      "symbol": "_ZN11PropertyMap20LoadOverridesFromXMLEP12TiXmlElement",
+      "size": 168,
+      "sha256": "a5f635fe47a119b53bc72820faa05e19fb96398cdca3ad90d4102e30cea90a44"
+    },
+    {
+      "address": "0x513aa8",
+      "symbol": "_ZNSt3mapISsS_ISsP8PropertySt4lessISsESaISt4pairIKSsS1_EEES3_SaIS4_IS5_S8_EEEixIA1_cEERS8_RKT_.clone.3",
+      "size": 572,
+      "sha256": "3738bed74c558f384d04027f4897fc342d215fc43a32885ab96b7f26840361cb"
+    },
+    {
+      "address": "0x513ce4",
+      "symbol": "_ZN11PropertyMap11AddPropertyEPKcP8Property",
+      "size": 148,
+      "sha256": "a3a4b0aab29bef9f83cc4d235f1bef4928e1ee61345048b7786e3e92ff570580"
+    },
+    {
+      "address": "0x513d78",
+      "symbol": "_ZN11PropertyMap14InitPropertiesEv",
+      "size": 628,
+      "sha256": "a4d23f889fbf3c35aa6f72ce918a8509cd76ec54c91ce4136938fdc2f72fd4e5"
+    },
+    {
+      "address": "0x513fec",
+      "symbol": "_ZN11PropertyMap11SetTemplateERKSs",
+      "size": 400,
+      "sha256": "895565f3c2d28027d59cb2012a17fc91b186d669344f526b95c1db33f917879a"
+    },
+    {
+      "address": "0x51419c",
+      "symbol": "_ZN11PropertyMap12LoadTemplateEv",
+      "size": 136,
+      "sha256": "36a8724506bcb0c527b63d96bd456fd7d50de03ac8079fe5b7324507eff882fb"
+    },
+    {
+      "address": "0x524644",
+      "symbol": "_ZN8PFObjectC1Ev",
+      "size": 268,
+      "sha256": "d4267a65f3179da535492b827836f9aecaa8907694f9766204068c4f0401687d"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "validation": "PASS",
+  "genuine": {
+    "cases": 2013,
+    "ordered_services": 11534,
+    "corpus_sha256": "e2bd2fae3259adaf556fceb18f4997573343a5579835b895d88e67c4fd912202",
+    "genuine_ai_sound_ids": [
+      4294967295
+    ]
+  },
+  "positive_borrowed": {
+    "cases": 234,
+    "ordered_services": 1918,
+    "sound_words": [
+      -1,
+      0,
+      33,
+      190,
+      232,
+      478,
+      637,
+      2147483647,
+      -2147483648
+    ],
+    "corpus_sha256": "547596742a06b422d07cf6f6675ca2368722306eb825bc5c9c41538db42e7512"
+  },
+  "comparisons": 2247,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "a2682da41fe3a6bea43ec91e836148c25d1f85404dd9eb133d1093ff4daada5a",
+  "original_manifest_sha256": "01996c952b683936ec49cc11c1e5ddfafcec8c0578037d16ff6f9c20ef906e5b",
+  "ai_rows": 76,
+  "ai_table_sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+  "source_sha256": {
+    "port\\engine-audio\\audio_target_events_v38.hpp": "f763e54dadfcd70c5601bf6e5dc0b71da6fb5d5908a8cb199d8e44db5fe256ce",
+    "port\\engine-audio\\audio_target_events_v38.cpp": "0d45d663aadfd9f5fe6d34ce04cbfbf3a5088faa1703da132b70fa503ef098ba",
+    "port\\engine-audio\\reference\\target-events-v38\\target-events-v38-differential.py": "47a9f7277a8a3986700d328001f360a49c1d0495e7666efca39b2a1e0fbb1e5f"
+  },
+  "scope": "Complete original CharAI target handlers vs O2 ARM64 V38.\n\nDebug/string, target-character/aggro, position and active virtual services are\nexplicit synchronous boundaries. Sound words are decoded by actual original\nAIProps stream instructions from the bundled cache table, never invented IDs.\n V38 original ABI oracle corrected: register r3 is bool flag, first stack word is integer. Prior test swapped them. Both captures and successor now assert false/1/-1/-1. Positive AI fields are labelled borrowed runtime fixtures; no live readiness or phase is created."
+}

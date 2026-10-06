@@ -59,6 +59,9 @@ struct CharacterScriptSessionV3::Impl {
  std::vector<std::string> missing;
  struct PrivateBinding {Impl* self;std::uintptr_t identity;dh2_script_vm* vm;dh2_script_aliases* aliases;bool objects_installed=false;};
  std::map<std::uintptr_t,PrivateBinding> private_bindings;
+ const dh2_script_callback_scope* skill_callback_scope=nullptr;
+ struct ScopedGameplayBinding {Impl* self;Function function;void* context;};
+ std::map<std::pair<std::uintptr_t,std::uint32_t>,ScopedGameplayBinding> scoped_gameplay_bindings;
  struct UnsupportedBinding {std::string name;std::uint32_t original_callback;};
  std::map<std::pair<std::uint32_t,std::uint32_t>,UnsupportedBinding> unsupported_bindings;
  ScriptOwnerServicesV2 services{this,&service};
@@ -190,6 +193,15 @@ struct CharacterScriptSessionV3::Impl {
   if(error&&size)std::snprintf(error,size,"Unsupported source global %s (original callback 0x%08x)",b.name.c_str(),b.original_callback);
   return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
  }
+ static int skill_scoped_values(void* opaque,const dh2_script_callback_scope* scope,
+  const dh2_script_value* args,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,
+  std::uint32_t* returned,char* error,std::size_t size){
+  auto& binding=*static_cast<ScopedGameplayBinding*>(opaque);auto& t=*binding.self;
+  if(!binding.function||!dh2_script_callback_scope_valid(scope))return fail(error,size,"Malformed skill callback capability");
+  struct Restore{Impl& self;const dh2_script_callback_scope* previous;~Restore(){self.skill_callback_scope=previous;}} restore{t,t.skill_callback_scope};
+  t.skill_callback_scope=scope;
+  return binding.function(binding.context,args,count,out,capacity,returned,error,size);
+ }
  bool binding(const ScriptOwnerRequest& r){
   const auto& b=*r.binding;auto& c=private_bindings[r.session->identity];
   if(!c.vm)c={this,r.session->identity,r.session->vm,r.session->aliases};
@@ -197,7 +209,13 @@ struct CharacterScriptSessionV3::Impl {
   Function function=nullptr;void* context=nullptr;
   if(gameplay_binding){const int selected=gameplay_binding(gameplay_context,b.original_callback,&function,&context);
    if(selected<0||selected>1||(selected&&!function))throw std::runtime_error("Gameplay registration provider failed");
-   if(selected){if(dh2_script_vm_bind_source_values(c.vm,b.name,function,context))throw std::runtime_error("Gameplay registration failed");return true;}
+   if(selected){
+    if(b.original_callback==0x3b9fbc){
+     auto& scoped=scoped_gameplay_bindings[{c.identity,b.original_callback}];scoped={this,function,context};
+     if(dh2_script_vm_bind_source_scoped_values(c.vm,b.name,&skill_scoped_values,&scoped))throw std::runtime_error("Scoped F_Attack registration failed");
+    }else if(dh2_script_vm_bind_source_values(c.vm,b.name,function,context))throw std::runtime_error("Gameplay registration failed");
+    return true;
+   }
   }
   if(commands){
    dh2_script_scoped_function command=nullptr;
@@ -326,4 +344,7 @@ const std::string& CharacterScriptSessionV3::script_name()const noexcept{return 
 const std::vector<ScriptSessionRegistration>& CharacterScriptSessionV3::registrations()const noexcept{return impl_->delivered;}
 const std::vector<std::string>& CharacterScriptSessionV3::missing_bindings()const noexcept{return impl_->missing;}
 const std::string& CharacterScriptSessionV3::error()const noexcept{return impl_->message.empty()?impl_->owner->error():impl_->message;}
+const dh2_script_callback_scope* CharacterScriptSessionV3::current_skill_callback_scope()const noexcept{
+ const auto* scope=impl_->skill_callback_scope;return scope&&dh2_script_callback_scope_valid(scope)?scope:nullptr;
+}
 }

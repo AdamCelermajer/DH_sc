@@ -1,0 +1,774 @@
+{
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "flags": 0,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 7,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 8,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 15,
+      "alias": 0,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 0,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 7,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 8,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 15,
+      "alias": 1,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 0,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 7,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 8,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 15,
+      "alias": 2,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 0,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 7,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 8,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 23
+    },
+    {
+      "flags": 15,
+      "alias": 3,
+      "physical_reentry": false,
+      "calls": 123
+    },
+    {
+      "flags": 0,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 7,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 8,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 15,
+      "alias": 0,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 0,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 7,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 8,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 15,
+      "alias": 1,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 0,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 7,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 8,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 15,
+      "alias": 2,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 0,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 1,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 2,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 3,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 4,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 5,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 6,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 7,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 8,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 0
+    },
+    {
+      "flags": 9,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 1
+    },
+    {
+      "flags": 10,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 11,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 12
+    },
+    {
+      "flags": 12,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 3
+    },
+    {
+      "flags": 13,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 13
+    },
+    {
+      "flags": 14,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 2
+    },
+    {
+      "flags": 15,
+      "alias": 3,
+      "physical_reentry": true,
+      "calls": 12
+    }
+  ],
+  "scope": "Whole original SetPosition393db4, UpdateAbsoluteAABB38aac8, SetDestination393600 execute. Actual physical.setPosition and visual.SyncPosition are declared callback fixtures; alias and reentrant pointer reread cases retained."
+}

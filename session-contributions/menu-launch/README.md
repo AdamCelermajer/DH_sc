@@ -495,3 +495,57 @@ Latest build-only v67: MENU-PROFILE-METADATA-v67.md describes actual metadata-se
 Latest build-only v68: MENU-SAVE-SLOT-PROJECTION-v68.md covers localized class/level/location/date presentation, explicit regular/volatile quest selection and432 native integration cases. Live occupied menus and canonical game/save ownership agreement remain pending. Installed visual menu remains v66.
 
 Latest v69: CAMPAIGN-FILES-MENU-v69.md documents source backup reads and actual occupied fresh-profile menu screenshots at3sizes. Main ownership split agreed. Act label missing NativeGetParsedString; create/assignment/start/delete and canonicalQEST still pending. Test campaign files removed; installed emulator5580 now v69.
+
+Latest v70: PARSED-MENU-STRINGS-v70.md; source/native formatter comparison 176 PASS and visible Act 1 on occupied profiles at three sizes. Canonical Online/QEST and assignment/start/create/delete remain pending. Production no longer defaults quest selection to offline.
+
+Latest v71: CAMPAIGN-ERASE-v71.md documents actual authored erase/cancel file effects and menu refresh at three sizes. Confirmation text clipping and assignment/start remain pending.
+
+Latest v72: PLAIN-CONFIRMATION-CLIP-v72.md; complete erase/exit confirmation text at three sizes, installed APK verified. Preview callback is separate from canonical assignment/start.
+
+Latest v74: WEAPON-PREVIEWS-v74.md. Starting sword, two Rogue daggers and Mage staff connected in main/class previews; live installed build checked, snapshots retained. Canonical gameplay still pending.
+
+Latest v75: START-MENU-v75.md. Authored Start screen, Back and explicit pending gameplay-loading confirmation verified; canonical launch and online remain pending.
+
+Latest v76: DEVICE-MENU-v76.md. Original graphics-support producer connected to real Android Build facts/GLES2; authored full Start layout verified. Online/gameplay providers remain incomplete.
+
+Latest v77: MENU-MUSIC-v77.md. Authored title/pause/stop callbacks connected; retained playback/lifecycle/fades/context recreation verified. Broader goal incomplete.
+
+## v78 normal-launch cinematic
+
+See LAUNCH-CINEMATIC-v78.md and launch-cinematic-v78/validation.json. Normal launch now plays the original intro before main. Explicit inspection and loading entries remain available. Full game-loader transition remains pending.
+
+## v79 loading ring and launcher resume
+
+See LOADING-CINEMATIC-v79.md. Corrected original loading ring artwork and retained original timeline, fitted within startup art. Existing-task launcher resume no longer replays intro. Final APK full cinematic and loading verification retained; canonical loading transitions remain pending.
+
+## v80 authored Exit and same-process relaunch
+
+See EXIT-RELAUNCH-v80.md. Exit Yes now releases the front task; No returns to main. Two SWF engine teardown/reinitialization defects fixed. Verified three sizes, same process, preserved campaign/settings. Full game/loading integration remains pending.
+
+## v81 original loading hints and state kernels
+
+See LOADING-HINTS-v81.md. All16tips verified through actual AS/localization callbacks. Original progress/completion kernels compared with145executedARMcases and Androidnative checks. Full Level readiness integration remains pending; no artificial progress/timer added.
+
+## v82 Twitter/browser handoff
+
+See TWITTER-BROWSER-v82.md. Authored release opens original URL through Android ACTION_VIEW once; same-process Info/main return verified at three sizes. Remote redirect page unverified; More Games/GLive and gameplay loading remain pending.
+
+## v83 original More Games Activity
+
+See MORE-GAMES-v83.md. Authored native release now launches original catalog WebView with source language/URL/encryption. Current server returns404; error/Back and live resize verified. Gameloft Live and actual gameplay loading remain pending.
+
+## v84 retained loading-state callbacks
+
+See LOADING-STATE-CALLBACKS-v84.md. Real progress/EndLoading AS wrappers now take retained Level/Online providers;289Androidchecks PASS, main/tips unchanged. Canonical binding and visible gameplay-loading panel remain pending.
+
+## v86 actual shared gameplay loading panel
+
+See LOADING-PANEL-v86.md. Original panel mounted and inspected at3sizes plus resize/resume; source loader-driven entry/refresh exposed. Real gameplay owner/completion remains pending.
+
+## v86 actual shared gameplay loading panel
+
+See LOADING-MULTIPLAYER-v87.md. Original panel mounted and inspected at3sizes plus resize/resume; source loader-driven entry/refresh exposed. Real gameplay owner/completion remains pending.
+
+## v87 original loading readiness callbacks
+
+See LOADING-MULTIPLAYER-v87.md.972originalARM cases and31139Android AS checks passed; real owner bindings remain pending.

@@ -1,0 +1,219 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "allowed": false,
+      "casting": false,
+      "using": false,
+      "mode": false,
+      "released": false,
+      "has_actor": true,
+      "pending": 165,
+      "skill": -23131,
+      "calls": [
+        [
+          "allowed"
+        ]
+      ]
+    },
+    {
+      "allowed": true,
+      "casting": true,
+      "using": false,
+      "mode": false,
+      "released": false,
+      "has_actor": true,
+      "pending": 1,
+      "skill": -1,
+      "calls": [
+        [
+          "allowed"
+        ],
+        [
+          "mode"
+        ],
+        [
+          "casting"
+        ]
+      ]
+    },
+    {
+      "allowed": true,
+      "casting": true,
+      "using": false,
+      "mode": false,
+      "released": true,
+      "has_actor": true,
+      "pending": 0,
+      "skill": -1,
+      "calls": [
+        [
+          "allowed"
+        ],
+        [
+          "mode"
+        ],
+        [
+          "casting"
+        ]
+      ]
+    },
+    {
+      "allowed": true,
+      "casting": false,
+      "using": true,
+      "mode": false,
+      "released": false,
+      "has_actor": true,
+      "pending": 1,
+      "skill": -1,
+      "calls": [
+        [
+          "allowed"
+        ],
+        [
+          "mode"
+        ],
+        [
+          "casting"
+        ],
+        [
+          "using"
+        ]
+      ]
+    },
+    {
+      "allowed": true,
+      "casting": false,
+      "using": false,
+      "mode": false,
+      "released": false,
+      "has_actor": true,
+      "pending": 0,
+      "skill": -1,
+      "calls": [
+        [
+          "allowed"
+        ],
+        [
+          "mode"
+        ],
+        [
+          "casting"
+        ],
+        [
+          "using"
+        ],
+        [
+          "position",
+          "0x1110000"
+        ],
+        [
+          "interactive",
+          "0x1110000"
+        ],
+        [
+          "neutral",
+          "0x1110000"
+        ],
+        [
+          "enemy",
+          "0x1110000"
+        ],
+        [
+          "debug",
+          "isTracingChar_CTRL"
+        ],
+        [
+          "target",
+          "0x1110000",
+          0
+        ]
+      ]
+    },
+    {
+      "allowed": true,
+      "casting": false,
+      "using": false,
+      "mode": true,
+      "released": false,
+      "has_actor": false,
+      "pending": 0,
+      "skill": -1,
+      "calls": [
+        [
+          "allowed"
+        ],
+        [
+          "mode"
+        ],
+        [
+          "casting"
+        ],
+        [
+          "using"
+        ],
+        [
+          "debug",
+          "UseClickToMove"
+        ]
+      ]
+    },
+    {
+      "allowed": true,
+      "casting": false,
+      "using": false,
+      "mode": false,
+      "released": false,
+      "has_actor": false,
+      "pending": 0,
+      "skill": -1,
+      "calls": [
+        [
+          "allowed"
+        ],
+        [
+          "mode"
+        ],
+        [
+          "casting"
+        ],
+        [
+          "using"
+        ],
+        [
+          "debug",
+          "UseClickToMove"
+        ],
+        [
+          "debug",
+          "isTracingChar_CTRL"
+        ],
+        [
+          "target",
+          "0x0",
+          0
+        ],
+        [
+          "move",
+          false
+        ]
+      ]
+    }
+  ],
+  "actual_executed": [
+    "CharacterCtrl_Click3addc8",
+    "GameObjectIsNearby38ac0c",
+    "AI_SyncLastTarget3d49c4"
+  ],
+  "fixture_services": [
+    "FSM/application gates",
+    "actual list actors and DesignSettings backing",
+    "target position/interactive/relationships",
+    "softfloat primitive ABI",
+    "Debug/String",
+    "AI_SetTarget whole boundary (separately recovered)",
+    "movement virtuals"
+  ],
+  "production_touch_binding_verified": false
+}

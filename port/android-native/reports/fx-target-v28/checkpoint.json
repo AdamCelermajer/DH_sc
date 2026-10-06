@@ -1,0 +1,26 @@
+{
+  "status": "CHECKPOINT",
+  "created_utc": "2026-10-06T09:09:16.866147+00:00",
+  "apk": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\build\\checkpoints\\dh2-native-fx-target-v28-2334e8a8.apk",
+  "sha256": "2334e8a84f1d5bd1cc0c9ea108175533711502b5575b468b59537697989a6b46",
+  "bytes": 621444317,
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "embedded_original_cache": {
+    "entry": "assets/dh2-original-cache.zip",
+    "bytes": 433189197,
+    "sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679"
+  },
+  "runtime_pid": "6744",
+  "runtime": "Normal main menu -> character selection -> Crypt, movement/attack, real enemy red ring and sword trail, nonlethal targeted skill HP11266->5834. Landscape screenshots and recording inspected; no native frame error.",
+  "component_proof": {
+    "original_outer_matrix_cases": 192,
+    "original_anchor_rotation_cases": 192,
+    "marker_actual_asset_native_checks": 1271,
+    "floor_branch_sanitized_checks": 8
+  },
+  "remaining": "Whole death/reward/XP/player-init and full Swamp flow remain unfinished. Current-Level/GS/loading successor is staged only. Seven unsupported FX families have a separate active session. Full physical-device and all-skills/camera visual regression remain outstanding.",
+  "source_scope": "Frozen APK is exact; shared source workspace continues developing in parallel. Component handoffs retain their own immutable manifests."
+}

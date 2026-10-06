@@ -1,4 +1,5 @@
 #include "character_world_runtime_v1.hpp"
+#include "character_world_ai_neutral_v1.hpp"
 #include <algorithm>
 #include <cstring>
 namespace dh2::character::skills {
@@ -64,6 +65,13 @@ int CharacterWorldRuntimeV1::relationship(std::uintptr_t owner,std::uintptr_t ta
  const auto status=dh2_world_ai_relationship_v1(&result,&state,is_enemy,target,&service);if(status){error_="Required full source AI relationship continuation";return status;}*out=result.result;return 0;
 }
 int CharacterWorldRuntimeV1::enemy(void* p,std::uintptr_t a,std::uintptr_t b,std::uintptr_t* out){return static_cast<CharacterWorldRuntimeV1*>(p)->relationship(a,b,true,out);}
+int CharacterWorldRuntimeV1::neutral(std::uintptr_t owner,std::uintptr_t target,std::uintptr_t* out){
+ auto* r=find(owner);if(!r||!out)return -1;
+ WorldAiRelationshipV1 state{owner,r->actor.current_target,factions_.data(),std::uint32_t(factions_.size()),0,assert_mode_};
+ WorldAiServicesV1 service{this,ai_service};WorldAiOutputV1 result{};
+ const auto status=dh2_world_ai_neutral_v1(&result,&state,target,&service);
+ if(status){error_="Required full source AI neutral continuation";return status;}*out=result.result;return 0;
+}
 int CharacterWorldRuntimeV1::friendly(void* p,std::uintptr_t a,std::uintptr_t b,std::uintptr_t* out){return static_cast<CharacterWorldRuntimeV1*>(p)->relationship(a,b,false,out);}
 int CharacterWorldRuntimeV1::notify_death(std::uintptr_t id){WorldTargetActorBorrowV1 b{};if(borrow(this,id,&b)||!b.life||!b.life->dead)return -1;
  for(auto& r:actors_)if(r.actor.current_target&&*r.actor.current_target==id){if(!r.actor.target_died||r.actor.target_died(r.actor.context,id)){error_="Required source AI target Died delivery";return -2;}}return 0;}

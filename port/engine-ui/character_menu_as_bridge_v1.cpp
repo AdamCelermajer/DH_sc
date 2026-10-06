@@ -2,6 +2,21 @@
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_environment.h"
 #include "gameswf/gameswf_player.h"
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma clang diagnostic ignored "-Wself-assign"
+#pragma clang diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy"
+#pragma clang diagnostic ignored "-Wnon-virtual-dtor"
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#pragma clang diagnostic ignored "-Wmismatched-tags"
+#pragma clang diagnostic ignored "-Wnew-returns-null"
+#pragma clang diagnostic ignored "-Wignored-qualifiers"
+#endif
+#include "gameswf/gameswf_character.h"
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 #include "gameswf/gameswf_as_classes/as_array.h"
 #include <cmath>
 #include <cstring>
@@ -60,6 +75,23 @@ struct Frame {
   return nullptr;
  }
  void bind(){
+  call.invoke_boolean=[this](const char* path,const char* method,bool argument,std::string& error){
+   if(!path||!method||!source.env->get_target()){error="Required actual menu Invoke environment/path";return false;}
+   auto* receiver=source.env->get_target()->find_target(path);
+   if(!receiver)return true; // Original RenderFX Invoke missing receiver result.
+   gameswf::gc_ptr<gameswf::as_object> retained=receiver;
+   auto* env=receiver->get_environment();
+   if(!env&&receiver->is(gameswf::character::m_class_id)){
+    auto* parent=static_cast<gameswf::character*>(receiver)->get_parent();env=parent?parent->get_environment():nullptr;
+   }
+   if(!env){error="Required source RenderFX receiver environment";return false;}
+   struct Stack {gameswf::as_environment* env;int size;~Stack(){env->set_stack_size(size);}} stack{env,env->get_stack_size()};
+   env->push(gameswf::as_value(argument));
+   const ::array<gameswf::with_stack_entry> with;
+   const auto function=env->get_variable(method,with);
+   gameswf::call_method(function,env,gameswf::as_value(receiver),1,env->get_top_index());
+   return true;
+  };
   call.arguments.reserve(static_cast<std::size_t>(source.nargs));
   for(int i=0;i<source.nargs;++i)call.arguments.push_back(project(source.arg(i)));
   call.result=project(*source.result);

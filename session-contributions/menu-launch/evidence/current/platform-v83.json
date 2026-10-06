@@ -1,0 +1,176 @@
+{
+  "methods": [
+    {
+      "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+      "method": "OpenGLive",
+      "flags": "0x9",
+      "code": 208996,
+      "regs": 1,
+      "units": [
+        "0x1071",
+        "0x258",
+        "0x0",
+        "0xe"
+      ]
+    },
+    {
+      "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+      "method": "OpenIGP",
+      "flags": "0x9",
+      "code": 209020,
+      "regs": 1,
+      "units": [
+        "0x1071",
+        "0x259",
+        "0x0",
+        "0xe"
+      ]
+    },
+    {
+      "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+      "method": "launchIGP",
+      "flags": "0x9",
+      "code": 210132,
+      "regs": 4,
+      "units": [
+        "0x33b",
+        "0x3",
+        "0x312",
+        "0x367",
+        "0x6c",
+        "0x22",
+        "0x24",
+        "0x162",
+        "0x294",
+        "0x21c",
+        "0xc9",
+        "0x3070",
+        "0x6e",
+        "0x210",
+        "0x11a",
+        "0xcaa",
+        "0x306e",
+        "0x78",
+        "0x310",
+        "0x162",
+        "0x294",
+        "0x206e",
+        "0x67",
+        "0x1",
+        "0xe"
+      ]
+    },
+    {
+      "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+      "method": "openBrowser",
+      "flags": "0x9",
+      "code": 210276,
+      "regs": 4,
+      "units": [
+        "0x338",
+        "0x8",
+        "0x106e",
+        "0xd01",
+        "0x3",
+        "0xa",
+        "0x3c",
+        "0x3",
+        "0xe",
+        "0x22",
+        "0x24",
+        "0x11a",
+        "0x795",
+        "0x1071",
+        "0xd0",
+        "0x3",
+        "0x20c",
+        "0x3070",
+        "0x70",
+        "0x210",
+        "0x162",
+        "0x294",
+        "0x206e",
+        "0x67",
+        "0x1",
+        "0xef28",
+        "0xd",
+        "0x106e",
+        "0xcce",
+        "0x0",
+        "0xea28"
+      ]
+    }
+  ],
+  "types": {
+    "0xc9": "Lcom/gameloft/android/GAND/GloftD2SS/IGPActivity;"
+  },
+  "fields": {
+    "0x6c": [
+      "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+      "y",
+      "I"
+    ],
+    "0x294": [
+      "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+      "a",
+      "Landroid/content/Context;"
+    ]
+  },
+  "referenced_methods": {
+    "0x258": [
+      "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+      "launchGLLive",
+      370
+    ],
+    "0x259": [
+      "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+      "launchIGP",
+      370
+    ],
+    "0x6e": [
+      "Landroid/content/Intent;",
+      "<init>",
+      431
+    ],
+    "0x78": [
+      "Landroid/content/Intent;",
+      "putExtra",
+      97
+    ],
+    "0x67": [
+      "Landroid/content/Context;",
+      "startActivity",
+      442
+    ],
+    "0xd01": [
+      "Ljava/lang/String;",
+      "length",
+      9
+    ],
+    "0xd0": [
+      "Landroid/net/Uri;",
+      "parse",
+      121
+    ],
+    "0x70": [
+      "Landroid/content/Intent;",
+      "<init>",
+      652
+    ],
+    "0xcce": [
+      "Ljava/lang/Exception;",
+      "printStackTrace",
+      364
+    ]
+  },
+  "strings": {
+    "0xcaa": "language",
+    "0x795": "android.intent.action.VIEW"
+  },
+  "related_classes": [
+    "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain$GLiveJavaScriptInterface;",
+    "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain$HelloWebViewClient;",
+    "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain;",
+    "Lcom/gameloft/android/GAND/GloftD2SS/IGPActivity;"
+  ]
+}

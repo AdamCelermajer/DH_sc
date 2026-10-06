@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "6b0b5408e7bec23ef7c3a570b7b1a1e328cae302733159eb3de986872911d69e",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\authored_fx_model_inventory_v6.cpp",
+      "sha256": "c9bbbb11a4ea3c4623718c1b4a912c0426d0b56bfd60de25a9746f7aee5fda12"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "9060eb98316cbcba0ea9627759e072bc8eb3c5355713bed6e909bc822deccf01"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "e930e56debbd8eff93914f44df62e825c529b45d840ef817ee513bc6658aa9b9"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "4c9a3ffeee979edce27ac91542653ee87ebd8f56ce486cf4b437b85e322d1fbb"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "8b1aca640aab6592fb7c034d2b1dbcd3bf96a22c8694b40dcbb1650582b9e023"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "376f8041956e02608e889d516aef06248282c0b6e6a0975ea96eee49abb60617"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "0c3f7c42a567741c6dff64c68ce7da94603870337ccd4bd64efeee564760fa04"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "1398684f57fc5183a88b97ffeca1848fc9f9932f690682a382481d94894fdf06",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\authored_fx_model_inventory_v6.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-model-inventory-v6\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-model-inventory-v6\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-model-inventory-v6\\authored-fx-model-inventory-v6.bin"
+  ],
+  "stdout": "3 emitter GL_PCloud01-emitter directionType 1 spinAxisType 0 directionOffset 19736\n3 emitter gl_pcloud-emitter directionType 1 spinAxisType 2 directionOffset 19792\n3 geometry 0 kind 0\n4 emitter GL_PCloud02-emitter directionType 1 spinAxisType 0 directionOffset 39116\n4 emitter GL_PCloud04-emitter directionType 1 spinAxisType 0 directionOffset 39180\n4 geometry 0 kind 0\n4 geometry 1 kind 0\n4 geometry 2 kind 0\n4 geometry 3 kind 0\n5 emitter GL_PCloud02-emitter directionType 1 spinAxisType 0 directionOffset 43116\n5 emitter GL_PCloud04-emitter directionType 1 spinAxisType 0 directionOffset 43180\n5 geometry 0 kind 1\n5 geometry 1 kind 0\n5 geometry 2 kind 0\n5 geometry 3 kind 0\n5 geometry 4 kind 0\n6 emitter GL_PCloud02-emitter directionType 1 spinAxisType 0 directionOffset 39056\n6 emitter GL_PCloud04-emitter directionType 1 spinAxisType 0 directionOffset 39120\n6 geometry 0 kind 1\n6 geometry 1 kind 0\n6 geometry 2 kind 0\n6 geometry 3 kind 0\n6 geometry 4 kind 0\n7 emitter GL_PCloud02-emitter directionType 1 spinAxisType 0 directionOffset 26272\n7 emitter GL_PCloud04-emitter directionType 1 spinAxisType 0 directionOffset 26336\n7 geometry 0 kind 1\n7 geometry 1 kind 0\n7 geometry 2 kind 0\n7 geometry 3 kind 0\n7 geometry 4 kind 0\n8 emitter GL_PCloud02-emitter directionType 1 spinAxisType 0 directionOffset 27100\n8 emitter GL_PCloud04-emitter directionType 1 spinAxisType 0 directionOffset 27164\n8 geometry 0 kind 1\n8 geometry 1 kind 0\n8 geometry 2 kind 0\n8 geometry 3 kind 0\n8 geometry 4 kind 0\n9 emitter GL_PCloud02-emitter directionType 1 spinAxisType 0 directionOffset 27632\n9 emitter GL_PCloud04-emitter directionType 1 spinAxisType 0 directionOffset 27696\n9 geometry 0 kind 1\n9 geometry 1 kind 0\n9 geometry 2 kind 0\n9 geometry 3 kind 0\n9 geometry 4 kind 0\n",
+  "stderr": "",
+  "exit_code": 0
+}

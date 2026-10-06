@@ -1,0 +1,157 @@
+[
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState8postLoadEv",
+    "address": "0x5d901c",
+    "size": 476
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState13processAssignENSt4priv17_Rb_tree_iteratorISt4pairIKNS0_28IMaterialTechniqueMapsReader12SMapGroupKeyENS_4core19SSharedProcessArrayIhEEENS3_11_MapTraitsTISC_EEEEPKchSH_h",
+    "address": "0x5dbcec",
+    "size": 280
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRendererC1EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "address": "0x5d3124",
+    "size": 1448
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState11endMapGroupENS0_28IMaterialTechniqueMapsReader11E_MAP_GROUPE",
+    "address": "0x5d7ce8",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch5video9CMaterial23getRenderStateBlockSizeERKNS0_17CMaterialRendererE",
+    "address": "0x5c5d7c",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState5getIDENS0_28IMaterialTechniqueMapsReader11E_MAP_GROUPEPKc",
+    "address": "0x5df180",
+    "size": 228
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager12endTechniqueEbt",
+    "address": "0x5dd664",
+    "size": 424
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager14SCreationState13findTechniqueEPKc",
+    "address": "0x5dbac0",
+    "size": 136
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager25loadMaterialTechniqueMapsEPKcPNS_7collada15CColladaFactoryE",
+    "address": "0x5dc7cc",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video28IMaterialTechniqueMapsReaderC2ERNS0_24CMaterialRendererManagerE",
+    "address": "0x5df8ec",
+    "size": 96
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadStateD0Ev",
+    "address": "0x5d7ff8",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState6insertERKNS0_28IMaterialTechniqueMapsReader12SMapGroupKeyE",
+    "address": "0x5db8e0",
+    "size": 480
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager14beginTechniqueEPKcb",
+    "address": "0x5dd80c",
+    "size": 692
+  },
+  {
+    "name": "_ZNK6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState10getIDCountENS0_28IMaterialTechniqueMapsReader11E_MAP_GROUPE",
+    "address": "0x5d7cd4",
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState11processRuleEPKchS4_h",
+    "address": "0x5dbe04",
+    "size": 596
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager28createPinkWireFrameTechniqueEPKc",
+    "address": "0x5ddac0",
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState9assignMapENSt4priv17_Rb_tree_iteratorISt4pairIKNS0_28IMaterialTechniqueMapsReader12SMapGroupKeyENS_4core19SSharedProcessArrayIhEEENS3_11_MapTraitsTISC_EEEEthh",
+    "address": "0x5dbc44",
+    "size": 168
+  },
+  {
+    "name": "_ZNK6glitch5video17CMaterialRenderer14getTechniqueIDEPKc",
+    "address": "0x5d4714",
+    "size": 160
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState5clearEv",
+    "address": "0x5d9918",
+    "size": 320
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRenderer8allocateEPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEtPKPKNS0_19SShaderParameterDefEjtPKt",
+    "address": "0x5d4c48",
+    "size": 324
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadStateD1Ev",
+    "address": "0x5d7f90",
+    "size": 104
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRendererC2EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "address": "0x5d36cc",
+    "size": 1448
+  },
+  {
+    "name": "_ZNK6glitch5video24CMaterialRendererManager12getTechniqueENS1_12STemporaryIDE",
+    "address": "0x5d7cf4",
+    "size": 32
+  },
+  {
+    "name": "_ZNK6glitch5video24CMaterialRendererManager19isCreatingTechniqueEPKc",
+    "address": "0x5dc058",
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadState8clearIDsENS0_28IMaterialTechniqueMapsReader11E_MAP_GROUPE",
+    "address": "0x5dacd4",
+    "size": 76
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager14SCreationState13makeTechniqueEv",
+    "address": "0x5dc824",
+    "size": 540
+  },
+  {
+    "name": "_ZN6glitch5video28IMaterialTechniqueMapsReaderC1ERNS0_24CMaterialRendererManagerE",
+    "address": "0x5df94c",
+    "size": 96
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRenderer14setRenderStateEhhRKNS0_6detail10renderpass12SRenderStateE",
+    "address": "0x5d3034",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManager25loadMaterialTechniqueMapsEPNS_2io9IReadFileEPNS_7collada15CColladaFactoryE",
+    "address": "0x5dc71c",
+    "size": 176
+  },
+  {
+    "name": "_ZTVN6glitch5video24CMaterialRendererManager30CMaterialTechniqueMapLoadStateE",
+    "address": "0x978158",
+    "size": 52
+  },
+  {
+    "name": "_ZNK6glitch5video24CMaterialRendererManager14getTechniqueIDEPKc",
+    "address": "0x5dbb48",
+    "size": 24
+  }
+]

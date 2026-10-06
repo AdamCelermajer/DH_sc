@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "source_sha256": {
+    "port\\android-native\\tools\\menu_erase_slot_audit.cpp": "05fbb096420de652a6c0d7ec916c71083408eef27d9fd454d6d38826329622f6",
+    "port\\engine-ui\\swf_menu_save_slots.cpp": "78393ccf27fd9bc8d874fdf4947863756151974464fd014e7a5bbdd9667abba3",
+    "port\\engine-ui\\swf_menu_save_slots.hpp": "4eb3a504e5572093ae23d8350cf64c4c08191c334c7a5ba0f0cf3b1afe382bb0"
+  },
+  "native_library_sha256": "465f151b8e02a085e0610a02df7a6cba83d1a6143b961f7df668aea91e52a167",
+  "scope": "Real GamesWF conversion and ordered provider invocation; failure injection uses explicit fixture providers."
+}

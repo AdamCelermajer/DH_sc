@@ -1,0 +1,89 @@
+[
+  {
+    "vtable": "0x95c608",
+    "slots": [
+      {
+        "address": "0x33e5b0",
+        "symbol": "_ZN18SimpleTypePropertyIbE8ToStringEPv"
+      },
+      {
+        "address": "0x33e598",
+        "symbol": "_ZN18SimpleTypePropertyIbE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x33de64",
+        "symbol": "_ZN18SimpleTypePropertyIbE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x33de80",
+        "symbol": "_ZN18SimpleTypePropertyIbE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x33e580",
+        "symbol": "_ZN18SimpleTypePropertyIbE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x33eed8",
+        "symbol": "_ZN18SimpleTypePropertyIbE5CloneEv"
+      }
+    ]
+  },
+  {
+    "vtable": "0x964708",
+    "slots": [
+      {
+        "address": "0x38bac4",
+        "symbol": "_ZN18SimpleTypePropertyIiE8ToStringEPv"
+      },
+      {
+        "address": "0x38baac",
+        "symbol": "_ZN18SimpleTypePropertyIiE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x38ae00",
+        "symbol": "_ZN18SimpleTypePropertyIiE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x38ae1c",
+        "symbol": "_ZN18SimpleTypePropertyIiE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x38ba94",
+        "symbol": "_ZN18SimpleTypePropertyIiE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x38c08c",
+        "symbol": "_ZN18SimpleTypePropertyIiE5CloneEv"
+      }
+    ]
+  },
+  {
+    "vtable": "0x967680",
+    "slots": [
+      {
+        "address": "0x3f3858",
+        "symbol": "_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE8ToStringEPv"
+      },
+      {
+        "address": "0x3f8fc8",
+        "symbol": "_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x3f03d8",
+        "symbol": "_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x3f8eb4",
+        "symbol": "_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x3f8f7c",
+        "symbol": "_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x3f8ec8",
+        "symbol": "_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE5CloneEv"
+      }
+    ]
+  }
+]

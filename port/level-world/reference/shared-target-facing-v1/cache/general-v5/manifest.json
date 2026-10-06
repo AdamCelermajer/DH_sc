@@ -1,0 +1,753 @@
+[
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+    "skill_ids": [
+      20
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+    "bytes": 16068,
+    "sha256": "f0f6bb3a6799294e6a0c34de719e5c08b7d8f38d4bc3974abee73115a8a1b7f6",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_shockwave_B_nobatch-node_PIVOT",
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_00.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+    "skill_ids": [
+      21
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+    "bytes": 29136,
+    "sha256": "ab1f34ae1c0231a2a2ad5dabfbde349205ab82fedce4b14911c5b2047e586b04",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_shockwave_B_nobatch-node_PIVOT",
+      "_mesh_shockwave_B_nobatch01-node_PIVOT",
+      "_mesh_swoosh_nobatch01-node",
+      "_mesh_swoosh_nobatch02-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_01.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+    "skill_ids": [
+      22
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+    "bytes": 9612,
+    "sha256": "016a676b45a9d75ac5f0cf39e10ce5689096ccf1995d4600861186666df73e07",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_02.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae",
+    "skill_ids": [
+      23
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae",
+    "bytes": 20840,
+    "sha256": "c07166af37ad4d6939f62db0ed9f8f57159012e464f2b77a14d4b730d3daeaaa",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "_mesh_glow-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_03.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_01.bdae",
+    "skill_ids": [
+      119
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_attack_01.bdae",
+    "bytes": 48584,
+    "sha256": "b3d3d14829a76fb5d1a2f6ca7e54e38efa181146d4065ed923a906830c52d0af",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "_mesh_cone2_nobatch_02-node",
+      "_mesh_nobatch_02-node",
+      "_mesh_cone2_nobatch_01-node",
+      "_mesh_nobatch_01-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_04.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_02.bdae",
+    "skill_ids": [
+      121
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_attack_02.bdae",
+    "bytes": 52696,
+    "sha256": "7b721e0454499b23c08c851942c3ce4f57fc6ccd8c4503a84fe65566ce43c7fa",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "Circle01-node",
+      "_mesh_cone2_nobatch02-node",
+      "_mesh_nobatch02-node",
+      "_mesh_cone2_nobatch01-node",
+      "_mesh_nobatch01-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_05.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_03.bdae",
+    "skill_ids": [
+      120
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae",
+    "bytes": 48636,
+    "sha256": "1a74b8cd645b5a62df0d0d849952f722b47b53f7ea97abb567d0249beb779d90",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "Circle01-node",
+      "_mesh_cone2_nobatch02-node",
+      "_mesh_nobatch02-node",
+      "_mesh_cone2_nobatch01-node",
+      "_mesh_nobatch01-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_06.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+    "skill_ids": [
+      119
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+    "bytes": 40492,
+    "sha256": "f12fd64bd4da6507c1b210532e796e3894e905b87d4b6d573d04c399227fff26",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "Circle01-node",
+      "_mesh_tornado_b_nobatch02-node",
+      "_mesh_tornado_b_nobatch03-node_PIVOT",
+      "_mesh_tornado_b_nobatch04-node",
+      "_mesh_tornado_b_nobatch05-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_07.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+    "skill_ids": [
+      121
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+    "bytes": 41320,
+    "sha256": "f6f4879cbd4064eca6cecabb072635e6eb381b1e99e8d046d7edb1684ff34f12",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "Circle01-node",
+      "_mesh_tornado_b_nobatch02-node",
+      "_mesh_tornado_b_nobatch03-node_PIVOT",
+      "_mesh_tornado_b_nobatch04-node",
+      "_mesh_tornado_b_nobatch05-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_08.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+    "skill_ids": [
+      120
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+    "bytes": 41852,
+    "sha256": "9b1ab2eab19ec3dd0f534a7a7b61df1de4b96e802c8375c885eb078aa261c15e",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "Circle01-node",
+      "_mesh_tornado_b_nobatch02-node",
+      "_mesh_tornado_b_nobatch03-node_PIVOT",
+      "_mesh_tornado_b_nobatch04-node",
+      "_mesh_tornado_b_nobatch05-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_09.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae",
+    "skill_ids": [
+      37
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_lighthouse_melee.bdae",
+    "bytes": 17268,
+    "sha256": "c78a664b520ba59b32d6556e327a036746c88796b3fb05e964d6250a3edb7faf",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_blastcircle_nobatch-node",
+      "_mesh_blastwave_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_10.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+    "skill_ids": [
+      38
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+    "bytes": 14456,
+    "sha256": "e540421312c357e78350b24b39d739061ae05ba2388f467c1b0f05acadc46b3b",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_11.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+    "skill_ids": [
+      64
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+    "bytes": 18932,
+    "sha256": "195ab93329212f1317c190da73fcce09196158164bd5ffb29603d1db0fb26864",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_12.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+    "skill_ids": [
+      63
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+    "bytes": 20692,
+    "sha256": "43cf7b9e32dc7cf7682d77ecc2c6a2347184f7f8315ee945b4c398595c98bf1e",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_glow_nobatch-node_PIVOT",
+      "_mesh_glow_star_nobatch-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_13.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+    "skill_ids": [
+      63
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+    "bytes": 23964,
+    "sha256": "16dbfbb7e8aa3120c03db5147a5418eacf4c548af02b3937c099e942e9575ed3",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_Glowdelamuerta_nobatch-node_PIVOT",
+      "_mesh_LAZER_nobatch-node",
+      "_mesh_glow_star_nobatch-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_14.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+    "skill_ids": [
+      63
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+    "bytes": 15032,
+    "sha256": "8ca2e4dbed2e24118bac851c842efbd41b93410bd69ca757f1008ee74049d105",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_glow_nobatch-node_PIVOT",
+      "_mesh_glow_star_nobatch-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_15.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_root_troll_charge.bdae",
+    "skill_ids": [
+      96
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_root_troll_charge.bdae",
+    "bytes": 19964,
+    "sha256": "3955a176721c3629d5c61138195878dd9e8f05ad00c6498e498f38acb65094d2",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_16.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+    "skill_ids": [
+      49
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+    "bytes": 26284,
+    "sha256": "404fa288abb83fce820a6daa8e3b95dc49b704fb0638215e7f5194d10ab0b3c1",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_star_02_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_17.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+    "skill_ids": [
+      49
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+    "bytes": 26376,
+    "sha256": "b13e28c2ab80f53436d6f4673be0abd6a6d281b4717101e65cd4c4be25b2ab39",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_star_02_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_18.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+    "skill_ids": [
+      6
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+    "bytes": 13552,
+    "sha256": "8a829848c1d6cb060dd4b9f8ee557b74fcabc47e4212f847680625844d6fcbef",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_19.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+    "skill_ids": [
+      49
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+    "bytes": 26820,
+    "sha256": "5ac3759d38828ceeabec82da531551a8c4d8405602c11a8a5d892298fbbb0a2c",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_star_02_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_20.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae",
+    "skill_ids": [
+      14
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_cold_ray.bdae",
+    "bytes": 20440,
+    "sha256": "df5949273178514c56b7c36b8fc86872e1e93e26b2de2b0c035196eded7dd620",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_cone2_nobatch-node",
+      "_mesh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_21.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+    "skill_ids": [
+      19
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_cyclone.bdae",
+    "bytes": 26540,
+    "sha256": "4f631738a350f2af593b9bb42177c3e04fce9d0a4f1be671d5560c2311a0e8d3",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_tornado_a_nobatch-node",
+      "_mesh_tornado_b_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_22.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+    "skill_ids": [
+      30
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+    "bytes": 24888,
+    "sha256": "db9b3ec2a98e0092d3b342ff91e9fa6ef531149cab5d0b8c20c3d1a56746b3ae",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_eclipse_nobatch-node",
+      "_mesh_glow_a_nobatch-node",
+      "_mesh_floorglow_nobatch-node",
+      "_mesh_rayolight_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_23.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+    "skill_ids": [
+      45
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+    "bytes": 13884,
+    "sha256": "0f4f057d6e2d49a434fe0f714f863c34e1fc894affa28efc79cab148bfc2b167",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_ghosts_wooo_01-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_24.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+    "skill_ids": [
+      110
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+    "bytes": 31484,
+    "sha256": "566e505ddbea2c028fa6a0035adf840295236b112219f4421974c4e6c6b5ef81",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_floorglow2_nobatch-node",
+      "_mesh_glow_a_nobatch-node",
+      "_mesh_swirly_nobatch-node",
+      "_mesh_whoosh_nobatch-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_25.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+    "skill_ids": [
+      111
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+    "bytes": 30024,
+    "sha256": "507c27b61fd198c8e0ccacf30d568d9a9c7ee5351d054fbb0416f161b73cfb70",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_floorglow_nobatch-node",
+      "_mesh_floorglow_nobatch-node1",
+      "_mesh_ghosts_wooo_01-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_26.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+    "skill_ids": [
+      26
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+    "bytes": 56708,
+    "sha256": "86bf06d20c11014f2b8209f4a6090f8be31607e85aa78d210c05cae0180742f4",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "_mesh_opening_floor_nobatch-node",
+      "_mesh_swoosh_claw_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_27.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+    "skill_ids": [
+      47
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+    "bytes": 33612,
+    "sha256": "400a7f48e704138087441a29cf7f79365a19519a9ff8cbf7cf47ad78d306a6be",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "_mesh_floorglow_nobatch-node",
+      "_mesh_glow_a_nobatch-node_PIVOT",
+      "_mesh_symbol_nobatch-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_28.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+    "skill_ids": [
+      81
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+    "bytes": 24436,
+    "sha256": "b8f5a6063b50fbd288a609b7fdfefd3c09c291cdefeebf53111bee988d21b2e4",
+    "particle_emitters": 3,
+    "mesh_node_bindings": [
+      "Plane01-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_29.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+    "skill_ids": [
+      25,
+      34,
+      93
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+    "bytes": 14644,
+    "sha256": "6d83fde03477ac7a2d819f634043cd18a0995878466e55c95f9ae9bca68e256e",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_rise_02_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_30.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+    "skill_ids": [
+      5
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+    "bytes": 22120,
+    "sha256": "a693ed51a7432dec4ac8c5cdff26754dcce83bd280f8b9b6ef960409907d0721",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_shockwave_nobatch-node_PIVOT",
+      "_mesh_skull_nobatch-node_PIVOT",
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_31.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+    "skill_ids": [
+      9
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+    "bytes": 19452,
+    "sha256": "5d918f432e3970a50b3798fbf26686a5df0dcb902c3d47c877c128639ecf430c",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "_mesh_flash_01_nobatch-node",
+      "_mesh_flash_02_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_32.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+    "skill_ids": [
+      85
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+    "bytes": 33568,
+    "sha256": "2c269390c1675394f81393f0988fe050197382fedcefad595ce69eb917cfcf74",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "_mesh_floorglow_nobatch-node",
+      "_mesh_glow_a_nobatch-node_PIVOT",
+      "_mesh_symbol_nobatch-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_33.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+    "skill_ids": [
+      56
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+    "bytes": 38772,
+    "sha256": "14a5f50e9d3ea7fb3b9df6b675fe89e0cbe4fc35969ccb2337f3cdd4f091695d",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_blastwave_nobatch-node_PIVOT",
+      "_mesh_flash_nobatch-node",
+      "_mesh_secondarylayer_nobatch-node",
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_34.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+    "skill_ids": [
+      90
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_rogue_quickness.bdae",
+    "bytes": 28268,
+    "sha256": "306053d3483a2822bd5ce9d5daefe50e098e72c7e2d098ad56e38feb08bc0c38",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_logo_nobatch-node",
+      "_mesh_glow_a_nobatch-node",
+      "_mesh_swoosh_quickness_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_35.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+    "skill_ids": [
+      97
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+    "bytes": 18168,
+    "sha256": "ed0c2873f8c2fdbe60031ed1ac1d0c22a9d4b19ae48cfae7e54eb2ad6bd70d6d",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_shockwave_A_nobatch-node_PIVOT",
+      "_mesh_shockwave_B_nobatch-node_PIVOT",
+      "_mesh_shockwave_C_nobatch-node_PIVOT",
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_36.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+    "skill_ids": [
+      114
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+    "bytes": 30484,
+    "sha256": "bfe0a384dd7d4d89e8a39ea62bf052b15e0d3c953472f3f95e95e49446c45207",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_miniswoosh_nobatch-node_PIVOT",
+      "_mesh_shockwave_A_nobatch-node_PIVOT",
+      "_mesh_shockwave_B_nobatch-node_PIVOT",
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_37.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+    "skill_ids": [
+      7
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_warrior_bash_down.bdae",
+    "bytes": 34420,
+    "sha256": "21a31d374a80b9b6f7d1f9b7f273c62459dde9bfd9a2fabfa629fc2fae83a483",
+    "particle_emitters": 2,
+    "mesh_node_bindings": [
+      "_mesh_cracks_nobatch-node",
+      "_mesh_shockwave_nobatch-node_PIVOT",
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_38.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+    "skill_ids": [
+      8
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+    "bytes": 56964,
+    "sha256": "db062ce2f63406656dee399e312b17416d9e7139890facb44c754a5f3171883b",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_floorglow_nobatch-node",
+      "_mesh_shockwave_nobatch_03-node_PIVOT",
+      "_mesh_shockwave_nobatch_1-node_PIVOT",
+      "_mesh_shockwave_nobatch_2-node_PIVOT",
+      "_mesh_swoosh_001_nobatch-node",
+      "_mesh_swoosh_002_nobatch-node",
+      "_mesh_swoosh_003_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_39.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+    "skill_ids": [
+      55
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+    "bytes": 28716,
+    "sha256": "3b4ab3392f887d3036498b2005362ae227ad19972094ed18a77bfc65e70f2a2b",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_BlastwaveA_nobatch-node_PIVOT",
+      "_mesh_Blastwaveb_nobatch-node_PIVOT",
+      "_mesh_LAZER-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_40.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+    "skill_ids": [
+      116
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+    "bytes": 22116,
+    "sha256": "d6f8b20823b97bdf09b205b7b3b22d011b2eb5ccbd191bc073f86d9e5d126e3a",
+    "particle_emitters": 0,
+    "mesh_node_bindings": [
+      "_mesh_swoosh_nobatch-node",
+      "_mesh_tornado_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": false,
+    "local": "asset_41.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+    "skill_ids": [
+      13
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_warrior_charge.bdae",
+    "bytes": 23544,
+    "sha256": "10a9a78be5882e87ce921d2ec2649b0163d351148b8e23a054e934a3cdf87bfe",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_blastwave_nobatch-node",
+      "_mesh_trail_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_42.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+    "skill_ids": [
+      33,
+      51
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+    "bytes": 45180,
+    "sha256": "17cbcd5d103dc7e57fbd22890a48712890d18a5836fd96bc2a345d2a5ee8762c",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_billboard-node_PIVOT",
+      "_mesh_blastwave_01_nobatch-node",
+      "_mesh_star_01_nobatch-node",
+      "_mesh_star_02_nobatch-node",
+      "_mesh_swoosh_nobatch-node"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_43.bdae"
+  },
+  {
+    "uri": "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+    "skill_ids": [
+      28
+    ],
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+    "bytes": 33656,
+    "sha256": "37a71a99ef80c172bb39d571c55475474e497ffe8080c112905b6e6fedbb811a",
+    "particle_emitters": 1,
+    "mesh_node_bindings": [
+      "_mesh_blong_nobatch-node_PIVOT",
+      "_mesh_floorglow_nobatch-node",
+      "_mesh_runes_nobatch-node_PIVOT"
+    ],
+    "mixed_mesh_and_particles": true,
+    "local": "asset_44.bdae"
+  }
+]

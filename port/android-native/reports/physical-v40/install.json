@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "apk_sha256": "280c64e168cd6ae1dc15b0185817af6909b1da232ff2850ceb51cf05dc762943",
+  "adb_output": "Performing Streamed Install\nSuccess\n",
+  "existing_data_preserved": true
+}

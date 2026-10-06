@@ -1,0 +1,191 @@
+[
+  {
+    "literal": "0x2768",
+    "address": "0x36c728",
+    "symbol": "_ZN15VoxSoundManager10InitializeEv",
+    "start": "0x36c2e4",
+    "size": 1104
+  },
+  {
+    "literal": "0x4458",
+    "address": "0x36c72c",
+    "symbol": "_ZN15VoxSoundManager10InitializeEv",
+    "start": "0x36c2e4",
+    "size": 1104
+  },
+  {
+    "literal": "0x4458",
+    "address": "0x38172c",
+    "symbol": "_ZN6Device22IsProgrammablePipelineEv",
+    "start": "0x3816a8",
+    "size": 148
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x381730",
+    "symbol": "_ZN6Device22IsProgrammablePipelineEv",
+    "start": "0x3816a8",
+    "size": 148
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x417f6c",
+    "symbol": "_ZN19GS_InterruptLoading6UpdateEP12StateMachined",
+    "start": "0x4179c8",
+    "size": 1560
+  },
+  {
+    "literal": "0x4458",
+    "address": "0x417f70",
+    "symbol": "_ZN19GS_InterruptLoading6UpdateEP12StateMachined",
+    "start": "0x4179c8",
+    "size": 1560
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x42d48c",
+    "symbol": "_ZN11MenuManager19SwitchMenusToIngameEv",
+    "start": "0x42d30c",
+    "size": 432
+  },
+  {
+    "literal": "0x16e0",
+    "address": "0x42d490",
+    "symbol": "_ZN11MenuManager19SwitchMenusToIngameEv",
+    "start": "0x42d30c",
+    "size": 432
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x42d708",
+    "symbol": "_ZN11MenuManager21SwitchMenusToMainMenuEv",
+    "start": "0x42d59c",
+    "size": 400
+  },
+  {
+    "literal": "0x16e0",
+    "address": "0x42d70c",
+    "symbol": "_ZN11MenuManager21SwitchMenusToMainMenuEv",
+    "start": "0x42d59c",
+    "size": 400
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x42faf4",
+    "symbol": "_ZN11MenuManager4InitEv",
+    "start": "0x42f304",
+    "size": 6096
+  },
+  {
+    "literal": "0x16e0",
+    "address": "0x42faf8",
+    "symbol": "_ZN11MenuManager4InitEv",
+    "start": "0x42f304",
+    "size": 6096
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x4324c0",
+    "symbol": "_ZN11MenuManager8LoadMenuEi",
+    "start": "0x431ea4",
+    "size": 1592
+  },
+  {
+    "literal": "0x16e0",
+    "address": "0x4324c4",
+    "symbol": "_ZN11MenuManager8LoadMenuEi",
+    "start": "0x431ea4",
+    "size": 1592
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x432960",
+    "symbol": "_ZN11MenuManager12LoadMainMenuEv",
+    "start": "0x4324dc",
+    "size": 1192
+  },
+  {
+    "literal": "0x16e0",
+    "address": "0x432964",
+    "symbol": "_ZN11MenuManager12LoadMainMenuEv",
+    "start": "0x4324dc",
+    "size": 1192
+  },
+  {
+    "literal": "0x4458",
+    "address": "0x439f98",
+    "symbol": "_Z26NativeIsMultiplayerEnabledRKN7gameswf7fn_callE",
+    "start": "0x439f18",
+    "size": 140
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x439f9c",
+    "symbol": "_Z26NativeIsMultiplayerEnabledRKN7gameswf7fn_callE",
+    "start": "0x439f18",
+    "size": 140
+  },
+  {
+    "literal": "0x16e0",
+    "address": "0x439fa0",
+    "symbol": "_Z26NativeIsMultiplayerEnabledRKN7gameswf7fn_callE",
+    "start": "0x439f18",
+    "size": 140
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x43cd60",
+    "symbol": "_Z23NativeGetCreditMovementRKN7gameswf7fn_callE",
+    "start": "0x43ccec",
+    "size": 124
+  },
+  {
+    "literal": "0x4458",
+    "address": "0x43e0ac",
+    "symbol": "_Z23NativeStartFromGCInviteRKN7gameswf7fn_callE",
+    "start": "0x43de30",
+    "size": 672
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x43e0b0",
+    "symbol": "_Z23NativeStartFromGCInviteRKN7gameswf7fn_callE",
+    "start": "0x43de30",
+    "size": 672
+  },
+  {
+    "literal": "0x4458",
+    "address": "0x440d34",
+    "symbol": "_Z25NativeHasPushNotificationRKN7gameswf7fn_callE",
+    "start": "0x440c84",
+    "size": 184
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x440d38",
+    "symbol": "_Z25NativeHasPushNotificationRKN7gameswf7fn_callE",
+    "start": "0x440c84",
+    "size": 184
+  },
+  {
+    "literal": "0x16e0",
+    "address": "0x530e8c",
+    "symbol": "appInit",
+    "start": "0x530ba8",
+    "size": 772
+  },
+  {
+    "literal": "0x4458",
+    "address": "0x530ea0",
+    "symbol": "appInit",
+    "start": "0x530ba8",
+    "size": 772
+  },
+  {
+    "literal": "0x2768",
+    "address": "0x530ea8",
+    "symbol": "appInit",
+    "start": "0x530ba8",
+    "size": 772
+  }
+]

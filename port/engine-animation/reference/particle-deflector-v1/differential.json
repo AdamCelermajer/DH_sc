@@ -1,0 +1,16 @@
+{
+  "validation": "PASS",
+  "comparisons": 160,
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "reference_sha256": "907f1e124d58fae1c64399d67045b56c7650b3e23af77053b39927bf4d96ca6a",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "e4134dd1b86d00caf8e951480da4e60a19acbc875f4ed43b7643478a6d4dcfb6",
+  "source_sha256": {
+    "port/engine-animation/particle_deflector_v1.hpp": "2a9c856bf390a717c7ad604262002cca7f55ef14a3801b17fac83a1b3085f271",
+    "port/engine-animation/particle_deflector_v1.cpp": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff",
+    "port/engine-animation/tests/particle_deflector_v1_differential.py": "77349a9a8ff62f4221f64578f6f2732751027d5167a6548086f76faacd99bb59",
+    "port/engine-animation/tests/particle_deflector_v1_bridge.cpp": "7cea77ceea74e88c25744f56ca65c188674d5af7cc7851d4a555afc16c635f24"
+  },
+  "scope": "whole constructor and SParticle apply including history/markers/RNG over explicit live-matrix and seed fixture borrows; modeled libm, no historical Bionic libm parity claim"
+}

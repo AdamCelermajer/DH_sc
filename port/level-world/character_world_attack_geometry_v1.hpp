@@ -52,5 +52,7 @@ public:
  WorldAIAttackServicesV1 queries()noexcept{return {this,query};}
  bool melee_radius(std::uintptr_t id,float& value,std::string& error){return radius(id,value,error);}
  bool read(std::uintptr_t,std::uintptr_t,WorldAIAttackQueryV1,std::int32_t&,std::string&);
+ // Source3d63d8 over SAME registered owners/inventory; no chosen radius.
+ bool close_range_v38(std::uintptr_t owner,std::uintptr_t explicit_target,std::uintptr_t current_target,std::int32_t&,std::string&);
 };
 }

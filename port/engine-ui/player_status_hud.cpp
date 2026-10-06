@@ -10,11 +10,15 @@ void PlayerStatusHud::release(){
     advance_=HudAdvanceOwner{};
 }
 bool PlayerStatusHud::bind(const char* hash,std::string& error){
+    return bind(hash,"_root.menu_HUD_0",error);
+}
+bool PlayerStatusHud::bind(const char* hash,const char* menu,std::string& error){
     release();
+    if(!menu||!*menu){error="Source player status requires the selected HUD graph";return false;}
     std::array<SwfHudClip,5> candidate;
     for(unsigned i=0;i<candidate.size();++i){
         const auto* relative=hud_value_clip_path(HudValueClip(i));
-        const auto path=i==4?std::string(relative):std::string("_root.menu_HUD_0.")+relative;
+        const auto path=i==4?std::string(relative):std::string(menu)+'.'+relative;
         if(!movie_.hud_bind(path.c_str(),hash,candidate[i],error))return false;
     }
     clips_=std::move(candidate);bound_=true;error.clear();return true;

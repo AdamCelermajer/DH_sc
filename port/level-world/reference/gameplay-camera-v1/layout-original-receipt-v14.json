@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "cases": 224,
+  "mismatches": 0,
+  "scope": "Whole original UpdateCameraZoom and HandleCentering arithmetic/control branches vs ARM64 kernels; real virtual actor/projection/currentLevel/online boundaries declared fixtures; source softfloat modeled. No live scene or unprojection acceptance.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "9a04b4b5c2fb1f8f9c4dfb3eae688af3be62beb623700007fbd640bddae11275",
+  "imports": {
+    "__aeabi_fcmpge": 384,
+    "__aeabi_fsub": 1416,
+    "__aeabi_fcmplt": 514,
+    "__aeabi_fcmpgt": 1152,
+    "__aeabi_fadd": 668,
+    "__aeabi_fmul": 128,
+    "__aeabi_fcmpeq": 64
+  }
+}

@@ -1,0 +1,460 @@
+{
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "character": false,
+      "player": false,
+      "local": false,
+      "online": false,
+      "disabled": false,
+      "body": "00",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000010000000000000000",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": false,
+      "online": false,
+      "disabled": false,
+      "body": "010e1b2835424f5c697683909daab7c4d1de",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f6200070000001200000000000000010e1b2835424f5c697683909daab7c4d1de",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": false,
+      "online": false,
+      "disabled": false,
+      "body": "020f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a4754616e7b8895a2afbc",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f6200070000002300000000000000020f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a4754616e7b8895a2afbc",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": false,
+      "online": false,
+      "disabled": false,
+      "body": "03101d2a3744515e6b7885929facb9c6d3e0edfa0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9a",
+      "bytes": "01000000080000004d6f6e737465720012000000506c617965724368617261637465725f300007000000340000000000000003101d2a3744515e6b7885929facb9c6d3e0edfa0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9a",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": false,
+      "local": true,
+      "online": false,
+      "disabled": false,
+      "body": "04",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000010000000000000004",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": true,
+      "online": false,
+      "disabled": false,
+      "body": "05121f2c394653606d7a8794a1aebbc8d5e2",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000120000000000000005121f2c394653606d7a8794a1aebbc8d5e2",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": true,
+      "online": false,
+      "disabled": false,
+      "body": "0613202d3a4754616e7b8895a2afbcc9d6e3f0fd0a1724313e4b5865727f8c99a6b3c0",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000023000000000000000613202d3a4754616e7b8895a2afbcc9d6e3f0fd0a1724313e4b5865727f8c99a6b3c0",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": true,
+      "online": false,
+      "disabled": false,
+      "body": "0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919e",
+      "bytes": "01000000080000004d6f6e737465720012000000506c617965724368617261637465725f30000700000034000000000000000714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919e",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": false,
+      "local": false,
+      "online": true,
+      "disabled": false,
+      "body": "08",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000010000000000000008",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": false,
+      "online": true,
+      "disabled": false,
+      "body": "091623303d4a5764717e8b98a5b2bfccd9e6",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f6200070000001200000000000000091623303d4a5764717e8b98a5b2bfccd9e6",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": false,
+      "online": true,
+      "disabled": false,
+      "body": "0a1724313e4b5865727f8c99a6b3c0cddae7f4010e1b2835424f5c697683909daab7c4",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000023000000000000000a1724313e4b5865727f8c99a6b3c0cddae7f4010e1b2835424f5c697683909daab7c4",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": false,
+      "online": true,
+      "disabled": false,
+      "body": "0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a4754616e7b8895a2",
+      "bytes": "00000000",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "local"
+      ]
+    },
+    {
+      "character": false,
+      "player": false,
+      "local": true,
+      "online": true,
+      "disabled": false,
+      "body": "0c",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000001000000000000000c",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": true,
+      "online": true,
+      "disabled": false,
+      "body": "0d1a2734414e5b6875828f9ca9b6c3d0ddea",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000012000000000000000d1a2734414e5b6875828f9ca9b6c3d0ddea",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": true,
+      "online": true,
+      "disabled": false,
+      "body": "0e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000023000000000000000e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": true,
+      "online": true,
+      "disabled": false,
+      "body": "0f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a4754616e7b8895a2afbcc9d6e3f0fd0a1724313e4b5865727f8c99a6",
+      "bytes": "01000000080000004d6f6e737465720012000000506c617965724368617261637465725f30000700000034000000000000000f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a4754616e7b8895a2afbcc9d6e3f0fd0a1724313e4b5865727f8c99a6",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "local",
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": false,
+      "local": false,
+      "online": false,
+      "disabled": true,
+      "body": "10",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000010000000000000010",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": false,
+      "online": false,
+      "disabled": true,
+      "body": "111e2b3845525f6c798693a0adbac7d4e1ee",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f6200070000001200000000000000111e2b3845525f6c798693a0adbac7d4e1ee",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": false,
+      "online": false,
+      "disabled": true,
+      "body": "121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfcc",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f6200070000002300000000000000121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfcc",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": false,
+      "online": false,
+      "disabled": true,
+      "body": "13202d3a4754616e7b8895a2afbcc9d6e3f0fd0a1724313e4b5865727f8c99a6b3c0cddae7f4010e1b2835424f5c697683909daa",
+      "bytes": "01000000080000004d6f6e737465720012000000506c617965724368617261637465725f300007000000340000000000000013202d3a4754616e7b8895a2afbcc9d6e3f0fd0a1724313e4b5865727f8c99a6b3c0cddae7f4010e1b2835424f5c697683909daa",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": false,
+      "local": true,
+      "online": false,
+      "disabled": true,
+      "body": "14",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000010000000000000014",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": true,
+      "online": false,
+      "disabled": true,
+      "body": "15222f3c495663707d8a97a4b1becbd8e5f2",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000120000000000000015222f3c495663707d8a97a4b1becbd8e5f2",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": true,
+      "online": false,
+      "disabled": true,
+      "body": "1623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000023000000000000001623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0",
+      "cursor": 4,
+      "calls": [
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": true,
+      "online": false,
+      "disabled": true,
+      "body": "1724313e4b5865727f8c99a6b3c0cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1ae",
+      "bytes": "01000000080000004d6f6e737465720012000000506c617965724368617261637465725f30000700000034000000000000001724313e4b5865727f8c99a6b3c0cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1ae",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": false,
+      "local": false,
+      "online": true,
+      "disabled": true,
+      "body": "18",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f620007000000010000000000000018",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": false,
+      "online": true,
+      "disabled": true,
+      "body": "192633404d5a6774818e9ba8b5c2cfdce9f6",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f6200070000001200000000000000192633404d5a6774818e9ba8b5c2cfdce9f6",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": false,
+      "online": true,
+      "disabled": true,
+      "body": "1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c798693a0adbac7d4",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000023000000000000001a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c798693a0adbac7d4",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": false,
+      "online": true,
+      "disabled": true,
+      "body": "1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2",
+      "bytes": "00000000",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "local"
+      ]
+    },
+    {
+      "character": false,
+      "player": false,
+      "local": true,
+      "online": true,
+      "disabled": true,
+      "body": "1c",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000001000000000000001c",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": false,
+      "local": true,
+      "online": true,
+      "disabled": true,
+      "body": "1d2a3744515e6b7885929facb9c6d3e0edfa",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000012000000000000001d2a3744515e6b7885929facb9c6d3e0edfa",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "character",
+        "player"
+      ]
+    },
+    {
+      "character": false,
+      "player": true,
+      "local": true,
+      "online": true,
+      "disabled": true,
+      "body": "1e2b3845525f6c798693a0adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8",
+      "bytes": "01000000080000004d6f6e7374657200040000004d6f62000700000023000000000000001e2b3845525f6c798693a0adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "character"
+      ]
+    },
+    {
+      "character": true,
+      "player": true,
+      "local": true,
+      "online": true,
+      "disabled": true,
+      "body": "1f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6",
+      "bytes": "00000000",
+      "cursor": 4,
+      "calls": [
+        "character",
+        "player",
+        "local"
+      ]
+    }
+  ],
+  "scope": "Whole __SaveObjects462d84 executes actual source map walk, network/player/disabled filters, CString framing, payload length and final cursor. Actual map node, receiver virtual type/Save, Network/PlayerManager and stream byte methods are declared fixtures."
+}

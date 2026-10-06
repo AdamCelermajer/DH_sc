@@ -11,6 +11,14 @@ PlayerInjureBorrowV7 NpcInjuryRuntimeV1::kernel_borrow()const{return {borrow_.ma
 int NpcInjuryRuntimeV1::is_player(void* p,std::uintptr_t id,bool* out){auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);const auto& s=t.services_.queries;if(!out||!s.invoke)return -1;target_providers::Request24 q{target_providers::virtual_player,0,id,0};std::uintptr_t v{};if(s.invoke(s.context,&q,&v))return -1;*out=v!=0;return 0;}
 int NpcInjuryRuntimeV1::table(void* p,std::uintptr_t,int* out){auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);if(!out)return -1;const auto raw=t.borrow_.properties->resolved[2];*out=raw>=0&&std::size_t(raw)<t.borrow_.animations->characters.size()?raw:17;return 0;}
 int NpcInjuryRuntimeV1::animation_id(void* p,int table,bool* found,int* out){auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);if(!found||!out)return -1;*found=table>=0&&std::size_t(table)<t.borrow_.animations->characters.size();if(!*found)return 0;const auto& field=t.borrow_.animations->characters[table].fields[14];if(field.size()!=1)return -1;*out=field.front();return 0;}
+int NpcInjuryRuntimeV1::defensive_animation(void* p,int table,DefensiveAnimationV1 kind,bool* found,int* out){
+ auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);if(!found||!out||unsigned(kind)>1)return -1;
+ *found=table>=0&&std::size_t(table)<t.borrow_.animations->characters.size();if(!*found)return 0;
+ // Source CharAnimTable +0xc Blocking/+0x20 Dodging; the parsed authored
+ // schema excludes the original row's leading template pointer.
+ const auto& field=t.borrow_.animations->characters[table].fields[kind==DefensiveAnimationV1::blocking?2:7];
+ if(field.size()!=1)return -1;*out=field.front();return 0;
+}
 int NpcInjuryRuntimeV1::constant(void* p,const char* key,const char* group,int* out){auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);const auto* d=t.borrow_.design->design();return d&&d->lookup&&out?d->lookup(d->context,0,key,group,out):-1;}
 int NpcInjuryRuntimeV1::stance(void* p,std::uintptr_t id,int* out){
  auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);if(!out)return -1;bool player{};
@@ -32,6 +40,10 @@ int NpcInjuryRuntimeV1::animation(void* p,int value){auto& t=*static_cast<NpcInj
 int NpcInjuryRuntimeV1::cancel(void* p,std::uintptr_t id){auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);return id==t.borrow_.machine->native_fsm().character?t.cancel_sneaking():-1;}
 int NpcInjuryRuntimeV1::look(void* p,std::uintptr_t id){auto& t=*static_cast<NpcInjuryRuntimeV1*>(p);return t.services_.look_at?t.services_.look_at(t.services_.context,id,t.borrow_.target->target):-1;}
 int NpcInjuryRuntimeV1::injure(std::uintptr_t attacker,bool direct){if(!valid())return -1;const auto b=kernel_borrow();return player_set_injure_v7(&b,attacker,direct,&kernel_);}
+int NpcInjuryRuntimeV1::defensive(std::uintptr_t attacker,DefensiveAnimationV1 kind,bool direct){
+ if(!valid())return -1;const auto b=kernel_borrow();const DefensiveStateServicesV1 s{&kernel_,defensive_animation};
+ return character_defensive_state_v1(&b,attacker,direct,kind,&s);
+}
 int NpcInjuryRuntimeV1::cancel_sneaking(){
  if(!valid())return -1;
  struct Bridge {NpcInjuryRuntimeV1* owner;static int invoke(void* p,const sneaking::Request24* q,std::uint32_t* out){auto& t=*static_cast<Bridge*>(p)->owner;if(q->operation==sneaking::is_player){bool player{};if(is_player(&t,q->receiver,&player))return -1;*out=player;return 0;}const auto* s=t.borrow_.skill_services;return s&&s->invoke?s->invoke(s->context,q,out):-1;}} bridge{this};
@@ -52,9 +64,12 @@ int NpcInjuryRuntimeV1::body(StateOwnerMachine40* machine,const StateOwnerReques
  if(q.operation==state_owner_event&&q.source_function==0x3c0044)return player_injure_empty_v7(q.source_function);return 0;
 }
 int NpcInjuryRuntimeV1::application(const skills::SkillApplyRequestV6& q,skills::SkillApplyResponseV6* out){
- if(q.service!=skills::skill_apply_injure_v6&&q.service!=skills::skill_apply_cancel_sneaking_v6)return 0;
+  if(q.service!=skills::skill_apply_injure_v6&&q.service!=skills::skill_apply_cancel_sneaking_v6&&q.service!=skills::skill_apply_dodge_v6&&q.service!=skills::skill_apply_block_v6)return 0;
  if(!valid()||!out||q.subject!=borrow_.character->identity||q.target!=q.subject)return -1;
- const auto status=q.service==skills::skill_apply_injure_v6?injure(q.attacker,q.flags!=0):cancel_sneaking();
- if((q.service==skills::skill_apply_injure_v6&&status!=1)||(q.service==skills::skill_apply_cancel_sneaking_v6&&status!=0))return -2;*out={};return 1;
+  int status{};
+  if(q.service==skills::skill_apply_cancel_sneaking_v6)status=cancel_sneaking();
+  else if(q.service==skills::skill_apply_injure_v6)status=injure(q.attacker,q.flags!=0);
+  else status=defensive(q.attacker,q.service==skills::skill_apply_block_v6?DefensiveAnimationV1::blocking:DefensiveAnimationV1::dodging,q.flags!=0);
+  if(status!=(q.service==skills::skill_apply_cancel_sneaking_v6?0:1))return -2;*out={};return 1;
 }
 }

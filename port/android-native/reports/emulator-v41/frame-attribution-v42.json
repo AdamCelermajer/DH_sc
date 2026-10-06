@@ -1,0 +1,73 @@
+{
+  "schema": "dh2-frame-attribution-v42",
+  "tid": 3338,
+  "callback_wall": {
+    "samples": 512,
+    "median_ms": 2.369963,
+    "p95_ms": 3.437265,
+    "p99_ms": 10.023129,
+    "max_ms": 18.308131
+  },
+  "native_wall": {
+    "samples": 512,
+    "median_ms": 2.288599,
+    "p95_ms": 3.267,
+    "p99_ms": 6.691729,
+    "max_ms": 18.233423
+  },
+  "java_pre_native_wall": {
+    "samples": 512,
+    "median_ms": 0.022879,
+    "p95_ms": 0.038763,
+    "p99_ms": 0.163012,
+    "max_ms": 0.35188
+  },
+  "java_post_native_wall": {
+    "samples": 512,
+    "median_ms": 0.045662,
+    "p95_ms": 0.105648,
+    "p99_ms": 0.368044,
+    "max_ms": 7.854685
+  },
+  "guest_thread_cpu": {
+    "samples": 512,
+    "median_ms": 2.323472,
+    "p95_ms": 3.127387,
+    "p99_ms": 4.663249,
+    "max_ms": 6.044607
+  },
+  "callback_start_cadence": {
+    "samples": 511,
+    "median_ms": 19.425686,
+    "p95_ms": 39.135447,
+    "p99_ms": 49.144623,
+    "max_ms": 1019.020039
+  },
+  "intercallback_unattributed_gap": {
+    "samples": 511,
+    "median_ms": 16.891162,
+    "p95_ms": 36.926305,
+    "p99_ms": 46.917377,
+    "max_ms": 1016.266282
+  },
+  "actual_egl_swap_ms": null,
+  "actual_presented_fps": null,
+  "gpu_duration_ms": null,
+  "host_qemu_paging": null,
+  "interpretation": "Gap includes framework/driver swap, scheduling and waits until trace evidence separates them. Callback wall and cadence are not presentation; neither proves GPU-bound behavior.",
+  "input": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\emulator-v41\\frame-boundary-v42.json",
+  "apk_sha256": "b6ad798c6ceea5e1498a089bbeea04fe8387947cb7154943697ff9cc3c14cc10",
+  "capabilities": {
+    "schema": "dh2-present-capabilities-v42",
+    "tid": 3338,
+    "timer_extension_advertised": false,
+    "timer_functions": true,
+    "elapsed_counter_bits": 0,
+    "gpu_disjoint_at_discovery": 0,
+    "frame_timestamp_extension_advertised": true,
+    "frame_timestamp_functions": true,
+    "display_present_supported": false,
+    "gpu_or_present_samples_collected": false
+  },
+  "workload": "Warm stationary Crypt on visible API37 Swiftshader emulator under explicit 15GiB capped paging profile; captured with bounded Perfetto tracing active."
+}

@@ -1,0 +1,32 @@
+{
+  "status": "PASS full English erase/exit confirmation text and erase/cancel behavior at three sizes",
+  "apk_sha256": "547b5b0108d7d861ad4c7c6cd2534d9a0b4eb1d32752a569b7bb2871f49173cd",
+  "surfaces": [
+    {
+      "override": "1080x1920",
+      "cancel_keeps_all_files": true,
+      "confirmed_removes_base_backup_level": true,
+      "adjacent_backup_retained": true
+    },
+    {
+      "override": "1080x2400",
+      "cancel_keeps_all_files": true,
+      "confirmed_removes_base_backup_level": true,
+      "adjacent_backup_retained": true
+    },
+    {
+      "override": "1968x2184",
+      "cancel_keeps_all_files": true,
+      "confirmed_removes_base_backup_level": true,
+      "adjacent_backup_retained": true
+    }
+  ],
+  "restored_campaign_files": true,
+  "installed_apk_verified": true,
+  "visual_review": "All erase and exit confirmations reviewed at three sizes; full sentence, first letter and final question mark visible. Physical-size exit confirmation reviewed and left open.",
+  "known_missing": [
+    "Canonical Game/Online, QEST and gameplay assignment/start/create unconnected",
+    "NativeSetSaveSlotIDToMainMenu is a separate preview callback, still unconnected",
+    "Full original plain text formatting/border display remains unproven"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\canonical-level-context-handoff-f671cb0540c0cfac.zip",
+  "sha256": "0b279a1b80d916460ae19bb832fdac82d6a303c48605c6e82eedeeffb147c970",
+  "entries": 21,
+  "bytes": 49875,
+  "checkpoint_sha256": "f671cb0540c0cfac849ca311178bccac499f1df3b826b100528b5872e8ad41df",
+  "validation": "PASS",
+  "full_loader_verified": false
+}

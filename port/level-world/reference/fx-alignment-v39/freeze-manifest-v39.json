@@ -1,0 +1,99 @@
+{
+  "entries": [
+    {
+      "path": "port/level-world/authored_fx_alignment_v39.hpp",
+      "size": 792,
+      "sha256": "4d459dd2f2ed236b530857eae0917e69ae8810226cb0b42c4c3d354ca360c94e"
+    },
+    {
+      "path": "port/level-world/authored_fx_alignment_v39.cpp",
+      "size": 1843,
+      "sha256": "d89ae5a4b1981d4daf4d018b6778c41a2ae9be2d6e69ddf37410c5b422144025"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_alignment_v39.cpp",
+      "size": 5675,
+      "sha256": "61d06877f79a30a4f3c754dc641b8056791e1a5dcb822b65bc644bab43a1f1be"
+    },
+    {
+      "path": "port/level-world/tests/weapon_socket_alignment_v39.cpp",
+      "size": 4515,
+      "sha256": "36c20c652dadf8e55a6c14fcb7460d9cac2f46dfcc447ce37a8a9922b3280678"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_alignment_matrix_v39.cpp",
+      "size": 911,
+      "sha256": "787fa27aceb4ef55fb1700f6952b59129357681129a2261c7b40e475d900eb37"
+    },
+    {
+      "path": "port/level-world/tools/run_authored_fx_alignment_v39.py",
+      "size": 1096,
+      "sha256": "039855526ba3ca6f2b073c8698bd44fb3988cc40237ad59202fe8775750a59ff"
+    },
+    {
+      "path": "port/level-world/tools/run_weapon_socket_alignment_v39.py",
+      "size": 2028,
+      "sha256": "b383121c4fb37034496ac37efe4cb99b5fdd93d16c26a16c2a47f7521e1fea3c"
+    },
+    {
+      "path": "port/level-world/tools/capture_alignment_matrix_v39.py",
+      "size": 1516,
+      "sha256": "3f45a5ea3b4968737ed01096ed429adbb267d8e51f4114871a48cb8d944cfcf5"
+    },
+    {
+      "path": "port/level-world/reference/fx-alignment-v39/matrix-original.bin",
+      "size": 32164,
+      "sha256": "3e9429622dc5dd0069061f4adb04ad8a5b30cf58f1e488d9de726ac8ba37fe3e"
+    },
+    {
+      "path": "port/level-world/reference/fx-alignment-v39/matrix-original.json",
+      "size": 347,
+      "sha256": "c9d3f3e46b3b78e3bd5415d9921748b6de87ac2027e77ab4989a43c1d81c75be"
+    },
+    {
+      "path": "port/level-world/reference/fx-alignment-v39/handoff.md",
+      "size": 6145,
+      "sha256": "b958092eb7293ba557fc884a66678fb90ff3ead4ac59777b6692c9a638203d51"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-alignment-v39-v32.json",
+      "size": 4012,
+      "sha256": "aca2c05f4606b19c473295ed87be1a6853315c0bb6e49b91abeeb5a686493aa1"
+    },
+    {
+      "path": "port/level-world/reports/weapon-socket-alignment-v39.json",
+      "size": 4205,
+      "sha256": "65298232d28b295b4c8a4a337af4d54316ee9e4b19bfc871364b044478d98998"
+    },
+    {
+      "path": "port/level-world/reports/fx-alignment-v39-strict.json",
+      "size": 238,
+      "sha256": "d07c74a2cd397cf074403dbd44c61bfc50f6aa86b7e959e7d682ccdbc5cae05b"
+    },
+    {
+      "path": ".local-inputs/compile_fx_alignment_v39.py",
+      "size": 366,
+      "sha256": "3ff13ca2dc45fe397802138baa443cbff9964f3e8e07d6b43768d64929450ffc"
+    },
+    {
+      "path": "port/level-world/reports/fx-alignment-matrix-v39.json",
+      "size": 449,
+      "sha256": "8b096a156f0df68f16943f8d062edd78b9c071d0fbcbbcbe07230f5426c1ed52"
+    }
+  ],
+  "actual_weapon_inputs": [
+    {
+      "path": ".local-inputs/visual-skin-owner-v6/weapons/mc_rweapon_longsword_01.bdae",
+      "sha256": "ab502ff4ef77b0e7afa813de71685cac38e85e82327d24da6ef9cc7e002840f7",
+      "original_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/weapons/mc_rweapon_longsword_01.bdae"
+    },
+    {
+      "path": ".local-inputs/visual-skin-owner-v6/weapons/mc_rweapon_twohandssword_01.bdae",
+      "sha256": "9ece6b24d984fcabe08ad8e23e84dc94b1effd5d54ce8c2c9694fa03167668de",
+      "original_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/weapons/mc_rweapon_twohandssword_01.bdae"
+    }
+  ],
+  "archive_sha256": "6fbd65b635deb071e312cf71931ad65933d3ee309f6e85f57fe42ce1d2182619",
+  "shared_production_modified": false,
+  "live_visual_acceptance": false
+}

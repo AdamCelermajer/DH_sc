@@ -1,0 +1,185 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entries": [
+    {
+      "entry": "0x3f1008",
+      "bytes": 908,
+      "symbol": "Level::_LoadCamera()",
+      "disassembly": "level-3f1008.asm"
+    },
+    {
+      "entry": "0x3f0018",
+      "bytes": 432,
+      "symbol": "Level::_LoadPlayer()",
+      "disassembly": "level-3f0018.asm"
+    },
+    {
+      "entry": "0x3f03ec",
+      "bytes": 60,
+      "symbol": "Level::LoadFileData::~LoadFileData()",
+      "disassembly": "level-3f03ec.asm"
+    },
+    {
+      "entry": "0x3f0310",
+      "bytes": 52,
+      "symbol": "Level::LoadFileData::~LoadFileData()",
+      "disassembly": "level-3f0310.asm"
+    },
+    {
+      "entry": "0x3f01c8",
+      "bytes": 228,
+      "symbol": "Level::_LoadFromXML(TiXmlElement*)",
+      "disassembly": "level-3f01c8.asm"
+    },
+    {
+      "entry": "0x3f6990",
+      "bytes": 6472,
+      "symbol": "Level::_LoadProcess()",
+      "disassembly": "level-3f6990.asm"
+    },
+    {
+      "entry": "0x3f3a58",
+      "bytes": 232,
+      "symbol": "Level::_LoadScripts()",
+      "disassembly": "level-3f3a58.asm"
+    },
+    {
+      "entry": "0x3ef224",
+      "bytes": 16,
+      "symbol": "Level::ResetIsLoaded()",
+      "disassembly": "level-3ef224.asm"
+    },
+    {
+      "entry": "0x3f5ea0",
+      "bytes": 232,
+      "symbol": "Level::_LoadBatchMap()",
+      "disassembly": "level-3f5ea0.asm"
+    },
+    {
+      "entry": "0x3f2ae4",
+      "bytes": 596,
+      "symbol": "Level::_LoadBatching()",
+      "disassembly": "level-3f2ae4.asm"
+    },
+    {
+      "entry": "0x3f459c",
+      "bytes": 884,
+      "symbol": "Level::_LoadLightSet()",
+      "disassembly": "level-3f459c.asm"
+    },
+    {
+      "entry": "0x3f0428",
+      "bytes": 140,
+      "symbol": "Level::LoadCheckpoint()",
+      "disassembly": "level-3f0428.asm"
+    },
+    {
+      "entry": "0x3ef20c",
+      "bytes": 8,
+      "symbol": "Level::LoadScriptFile()",
+      "disassembly": "level-3ef20c.asm"
+    },
+    {
+      "entry": "0x3f240c",
+      "bytes": 320,
+      "symbol": "Level::_LoadBatchInit()",
+      "disassembly": "level-3f240c.asm"
+    },
+    {
+      "entry": "0x3f2d38",
+      "bytes": 1008,
+      "symbol": "Level::_LoadBatchList()",
+      "disassembly": "level-3f2d38.asm"
+    },
+    {
+      "entry": "0x3efca4",
+      "bytes": 208,
+      "symbol": "Level::_LoadFinalInit()",
+      "disassembly": "level-3efca4.asm"
+    },
+    {
+      "entry": "0x3eff98",
+      "bytes": 128,
+      "symbol": "Level::_LoadCharStates()",
+      "disassembly": "level-3eff98.asm"
+    },
+    {
+      "entry": "0x3f38a0",
+      "bytes": 440,
+      "symbol": "Level::_LoadScriptFile(std::string&)",
+      "disassembly": "level-3f38a0.asm"
+    },
+    {
+      "entry": "0x3ef204",
+      "bytes": 4,
+      "symbol": "Level::_CheckLoadProcess()",
+      "disassembly": "level-3ef204.asm"
+    },
+    {
+      "entry": "0x3ef214",
+      "bytes": 4,
+      "symbol": "Level::_LoadResumeBatching()",
+      "disassembly": "level-3ef214.asm"
+    },
+    {
+      "entry": "0x3ef200",
+      "bytes": 4,
+      "symbol": "Level::_SpawnLoadingThread()",
+      "disassembly": "level-3ef200.asm"
+    },
+    {
+      "entry": "0x3ef208",
+      "bytes": 4,
+      "symbol": "Level::_ThreadLoadingProcess()",
+      "disassembly": "level-3ef208.asm"
+    },
+    {
+      "entry": "0x3f02ac",
+      "bytes": 100,
+      "symbol": "Level::AssignSteamToLoadDataFile(StreamBuffer&)",
+      "disassembly": "level-3f02ac.asm"
+    },
+    {
+      "entry": "0x3ef218",
+      "bytes": 12,
+      "symbol": "Level::Load()",
+      "disassembly": "level-3ef218.asm"
+    },
+    {
+      "entry": "0x3f0690",
+      "bytes": 288,
+      "symbol": "Level::Unload()",
+      "disassembly": "level-3f0690.asm"
+    },
+    {
+      "entry": "0x3f3b40",
+      "bytes": 1556,
+      "symbol": "Level::LoadFile(std::string const&, std::string const&)",
+      "disassembly": "level-3f3b40.asm"
+    },
+    {
+      "entry": "0x3f4154",
+      "bytes": 1096,
+      "symbol": "Level::LoadTile(rnd::Tile*, int)",
+      "disassembly": "level-3f4154.asm"
+    },
+    {
+      "entry": "0x999764",
+      "bytes": 4,
+      "symbol": "Level::Update(bool)::s_autoLevelLoadWaitTime",
+      "disassembly": "level-999764.asm"
+    },
+    {
+      "entry": "0x956a54",
+      "bytes": 16,
+      "symbol": "Level::LoadFile(std::string const&, std::string const&)::hackToRemove",
+      "disassembly": "level-956a54.asm"
+    },
+    {
+      "entry": "0x956a44",
+      "bytes": 16,
+      "symbol": "Level::LoadFile(std::string const&, std::string const&)::potentialFolders",
+      "disassembly": "level-956a44.asm"
+    }
+  ]
+}

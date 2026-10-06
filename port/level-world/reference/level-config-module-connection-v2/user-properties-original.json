@@ -1,0 +1,94 @@
+{
+  "status": "CAPTURED",
+  "scope": "whole original UserProperties._ParseProperties; CString/strchr/strstr/AddProperty and ASCII libc ctype leaf contracts supplied; golden native comparison pending",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "input": "floortypes = %22door%22\r\n",
+      "output": {
+        "floortypes": "door"
+      }
+    },
+    {
+      "input": "floortypes = %22hole%22",
+      "output": {
+        "floortypes": "hole"
+      }
+    },
+    {
+      "input": "floortypes = %22water%22",
+      "output": {
+        "floortypes": "water"
+      }
+    },
+    {
+      "input": "floortypes = %22wood%22",
+      "output": {
+        "floortypes": "wood"
+      }
+    },
+    {
+      "input": "",
+      "output": {}
+    },
+    {
+      "input": " key = value",
+      "output": {
+        "key": " value"
+      }
+    },
+    {
+      "input": "a=one\na=two",
+      "output": {
+        "a": "two"
+      }
+    },
+    {
+      "input": "foo_bar=%22water%22",
+      "output": {
+        "foo": "water"
+      }
+    },
+    {
+      "input": "x=pre%22hole wall%22post",
+      "output": {
+        "x": "hole wall"
+      }
+    },
+    {
+      "input": "a=%22unclosed",
+      "output": {
+        "a": "%22unclosed"
+      }
+    },
+    {
+      "input": "noequal",
+      "output": {
+        "noequal": ""
+      }
+    },
+    {
+      "input": "   = value",
+      "output": {}
+    },
+    {
+      "input": "99key=%22void%22",
+      "output": {
+        "99key": "void"
+      }
+    },
+    {
+      "input": "a=\nb=%22%22",
+      "output": {
+        "a": "",
+        "b": ""
+      }
+    },
+    {
+      "input": "a=%22one%22%22two%22",
+      "output": {
+        "a": "one"
+      }
+    }
+  ]
+}

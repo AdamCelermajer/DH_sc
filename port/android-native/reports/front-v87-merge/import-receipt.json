@@ -1,0 +1,1455 @@
+{
+  "status": "verified_source_staged_and_additive_files_imported",
+  "manifest_sha256": "fc7f3b28926edc9f4a317a49d9807e4216f96b06d19ffe853da53c91e6935651",
+  "source_checkpoint": "C:\\Users\\adamc\\.codex\\visualizations\\2026\\10\\04\\01a107b4-cf84-74d0-9ff9-e8e0c3fe517c\\handoff\\checkpoints\\front-v87-source",
+  "v88_used": false,
+  "shared_files_overwritten": false,
+  "verified_files": 184,
+  "imported_new": [
+    "port/android-native/app/src/main/cpp/menu_frame_clock.hpp",
+    "port/android-native/app/src/main/cpp/original_menu_sound_data.hpp",
+    "port/android-native/app/src/main/java/com/example/dh2/CinematicActivity.java",
+    "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java",
+    "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogActivity.java",
+    "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogUrl.java",
+    "port/android-native/tools/menu_erase_slot_audit.cpp",
+    "port/android-native/tools/menu_frame_clock_audit.cpp",
+    "port/android-native/tools/menu_options_audit.cpp",
+    "port/android-native/tools/menu_renderer_scope_audit.cpp",
+    "port/android-native/tools/menu_save_slot_properties_audit.cpp",
+    "port/android-native/tools/menu_save_slot_services_audit.cpp",
+    "port/engine-ui/loading_menu_v1.cpp",
+    "port/engine-ui/loading_menu_v1.hpp",
+    "port/engine-ui/localization_parse_ex_v1.cpp",
+    "port/engine-ui/localization_parse_ex_v1.hpp",
+    "port/engine-ui/menu_avatar_preview_v1.cpp",
+    "port/engine-ui/menu_avatar_preview_v1.hpp",
+    "port/engine-ui/menu_manager_push_v1.cpp",
+    "port/engine-ui/menu_manager_push_v1.hpp",
+    "port/engine-ui/menu_native_event_v1.cpp",
+    "port/engine-ui/menu_native_event_v1.hpp",
+    "port/engine-ui/menu_save_slot_projection_v1.cpp",
+    "port/engine-ui/menu_save_slot_projection_v1.hpp",
+    "port/engine-ui/overlays/text-property-v1/gameswf_text.cpp",
+    "port/engine-ui/save_slot_date_v1.cpp",
+    "port/engine-ui/save_slot_date_v1.hpp",
+    "port/engine-ui/swf_loading_menu_v1.cpp",
+    "port/engine-ui/swf_loading_menu_v1.hpp",
+    "port/engine-ui/swf_menu_avatar_preview_v1.cpp",
+    "port/engine-ui/swf_menu_navigation.cpp",
+    "port/engine-ui/swf_menu_navigation.hpp",
+    "port/engine-ui/swf_menu_options.cpp",
+    "port/engine-ui/swf_menu_options.hpp",
+    "port/engine-ui/swf_menu_parsed_string_v1.cpp",
+    "port/engine-ui/swf_menu_parsed_string_v1.hpp",
+    "port/engine-ui/swf_menu_save_slots.cpp",
+    "port/engine-ui/swf_menu_save_slots.hpp",
+    "port/engine-ui/swf_menu_sound.cpp",
+    "port/engine-ui/swf_menu_sound.hpp",
+    "port/engine-ui/swf_text_layout_connection.cpp",
+    "port/engine-ui/swf_text_layout_connection.hpp",
+    "port/engine-ui/tests/localization_parse_ex_v1.cpp",
+    "port/engine-ui/tests/menu_avatar_preview_v1.cpp",
+    "port/engine-ui/tests/menu_save_slot_projection_v1.cpp",
+    "port/engine-ui/tests/save_slot_date_v1.cpp",
+    "port/game-data/campaign_profile_files_v1.cpp",
+    "port/game-data/campaign_profile_files_v1.hpp",
+    "port/game-data/class_preview_setup.cpp",
+    "port/game-data/class_preview_setup.hpp",
+    "port/game-data/fresh_player_profile_v1.cpp",
+    "port/game-data/fresh_player_profile_v1.hpp",
+    "port/game-data/menu_profile_metadata_v1.cpp",
+    "port/game-data/menu_profile_metadata_v1.hpp",
+    "port/game-data/quest_savegame_v1.cpp",
+    "port/game-data/quest_savegame_v1.hpp",
+    "port/game-data/reference/fresh-player-profile-v1/original-creation.json",
+    "port/game-data/reference/fresh-player-profile-v1/original-date-v59.json",
+    "port/game-data/reference/fresh-player-profile-v1/original-file-v56.json",
+    "port/game-data/reference/menu-profile-metadata-v1/original-reader.json",
+    "port/game-data/reference/player-entry-points-v1/original-menu-loader.json",
+    "port/game-data/reference/player-entry-points-v1/original-reader.json",
+    "port/game-data/reference/player-location-v1/original-reader.json",
+    "port/game-data/reference/quest-savegame-v1/original-dispatch.json",
+    "port/game-data/tests/campaign_profile_files_v1.cpp",
+    "port/game-data/tests/class_preview_setup.cpp",
+    "port/game-data/tests/fresh_player_profile_v1.cpp",
+    "port/game-data/tests/menu_profile_metadata_v1.cpp",
+    "port/game-data/tests/player_entry_points_v1.cpp",
+    "port/game-data/tests/player_location_v1.cpp",
+    "port/game-data/tests/quest_savegame_v1.cpp",
+    "port/level-world/tests/modular_resource.cpp",
+    "port/android-native/app/src/main/assets/data/help_pages_pyarray.bin",
+    "port/android-native/app/src/main/assets/data/help_pages_pyarraynames.bin",
+    "port/android-native/app/src/main/assets/data/help_pages_pystructnames.bin",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/design_pyarray.bin",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/design_pyarraynames.bin",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/design_pystructnames.bin",
+    "port/android-native/app/src/main/assets/data/loot_table_pyarray.bin",
+    "port/android-native/app/src/main/assets/data/loot_table_pyarraynames.bin",
+    "port/android-native/app/src/main/assets/data/loot_table_pystructnames.bin",
+    "port/android-native/app/src/main/assets/front-compat/dqmenus_droid.swf",
+    "port/android-native/app/src/main/assets/front-compat/keyboard-atlas-repair.json",
+    "port/android-native/app/src/main/assets/front-compat/loadanims_droid.swf",
+    "port/android-native/app/src/main/assets/front-compat/loading-atlas-repair.json",
+    "port/game-data/reference/fresh-player-profile-v1/dated-fixtures.bin",
+    "port/game-data/reference/fresh-player-profile-v1/fixtures.bin",
+    "port/game-data/reference/fresh-player-profile-v1/full-file-fixtures.bin",
+    "port/game-data/reference/player-location-v1/fixtures.bin",
+    "port/game-data/reference/player-entry-points-v1/fixtures.bin",
+    "port/game-data/reference/quest-savegame-v1/fixtures.bin",
+    "port/game-data/reference/menu-profile-metadata-v1/fixtures.bin"
+  ],
+  "merge_required": [
+    "port/android-native/app/build.gradle.kts",
+    "port/android-native/app/src/main/AndroidManifest.xml",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp",
+    "port/android-native/app/src/main/cpp/model_renderer.hpp",
+    "port/android-native/app/src/main/cpp/native_app.cpp",
+    "port/android-native/app/src/main/cpp/original_ui_asset_catalog.inc",
+    "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+    "port/android-native/app/src/main/cpp/original_ui_session.hpp",
+    "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+    "port/android-native/app/src/main/cpp/swf_gpu.hpp",
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+    "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java",
+    "port/engine-ui/CMakeLists.txt",
+    "port/engine-ui/hud_freetype_font.cpp",
+    "port/engine-ui/hud_freetype_font.hpp",
+    "port/engine-ui/localization.cpp",
+    "port/engine-ui/localization.hpp",
+    "port/engine-ui/owned_hud_settings_v1.cpp",
+    "port/engine-ui/owned_hud_settings_v1.hpp",
+    "port/engine-ui/swf_hud_freetype_provider.cpp",
+    "port/engine-ui/swf_hud_freetype_provider.hpp",
+    "port/engine-ui/swf_input_connection.cpp",
+    "port/engine-ui/swf_input_connection.hpp",
+    "port/engine-ui/swf_movie.cpp",
+    "port/engine-ui/swf_movie.hpp",
+    "port/engine-ui/vendor/gameswf1714/gameswf/gameswf_impl.cpp",
+    "port/engine-ui/vendor/gameswf1714/gameswf/gameswf_player.cpp",
+    "port/game-data/CMakeLists.txt",
+    "port/game-data/loot_tables_v2.cpp",
+    "port/game-data/player_savegame_v1.cpp",
+    "port/game-data/player_savegame_v1.hpp",
+    "port/level-world/objects.cpp",
+    "port/level-world/objects.hpp",
+    "port/scene-materials/scene.cpp",
+    "port/scene-materials/scene.hpp"
+  ],
+  "files": [
+    {
+      "path": "port/android-native/app/build.gradle.kts",
+      "sha256": "e1b5f9543456635d09bacc8141c4cbe16dd54f4d847c17a78ded120e2a8d1172",
+      "bytes": 1917,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/AndroidManifest.xml",
+      "sha256": "ab4156c0113862f0af8cbbdd627e76b513d0b12803baaba8507840e9180291cf",
+      "bytes": 1516,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "sha256": "a7be9c92dad91ae0affb99d696a871628f53c981a8166b09ba5e2a6682468905",
+      "bytes": 1574,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/menu_frame_clock.hpp",
+      "sha256": "324e0c43f760c0488cf947b6f63efe107a75eaabff37588787076e8cc3cd8035",
+      "bytes": 649,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "b126bbf2cbbf575116113f31ad58f43b53c453aea3b48d6d46005016238ba0ca",
+      "bytes": 178984,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.hpp",
+      "sha256": "c903bffd2b6ff1d999dda8879fc3535070e1877348801cb346784d656acd658a",
+      "bytes": 1670,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "52a632db4d93d11c9dfa755b3b02b8f7dd978557ae6f7217a29ca29a816bfd9e",
+      "bytes": 16461,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_menu_sound_data.hpp",
+      "sha256": "031b47ddadfd2553f561f256bfa51c8d35d0c671e5e9441424b92aac9aef772f",
+      "bytes": 10221,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_asset_catalog.inc",
+      "sha256": "03a835280d8e2bb2af012684bf6c564259371533c8d88d38062d9da0259ebb6a",
+      "bytes": 68146,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "sha256": "c9cf1066f5d664ddf8ae22bd65946e63a9c81229da25b05feaf0de07d1367a35",
+      "bytes": 103063,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.hpp",
+      "sha256": "0ad04dc0f2b873c30b8f1281f12405bd9ea3bf8b3f0f95028794dedadc1edf07",
+      "bytes": 3062,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "sha256": "a27d0e3abce44429002cfb2414731759aebdd25e5924528386f4ef80a958629a",
+      "bytes": 21688,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.hpp",
+      "sha256": "c70c6f1b664e489e2c403ebd0656f93a59712dcb507ae6ee1bf1c7cbb1373715",
+      "bytes": 1747,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/CinematicActivity.java",
+      "sha256": "60964f1101c3da30afdea48dfe79f3359db70dc2702c5cb924e5dcbd48d1b508",
+      "bytes": 7441,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java",
+      "sha256": "b6cbe7747a16c373c9c009ddb3817a6126481f42a8485522bf9b4daa17bb4913",
+      "bytes": 10485,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "sha256": "bd591a9bc28eac23ee681412e43aa22dd985226df06028ac2c65b8b6baad9972",
+      "bytes": 26285,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java",
+      "sha256": "c42b022f334f3a4715bb257757d266fb2b1160b373ebee1328b6f663df6e52e6",
+      "bytes": 1714,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogActivity.java",
+      "sha256": "1a146c9b3fb06bc955ece482628bde211e079307a7f5d3d7595c9859a0a5bbda",
+      "bytes": 6101,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogUrl.java",
+      "sha256": "7c44a3bd6b8daafb0cd1be3e21334729bfa7e7267a47b44a6bad577c131f541f",
+      "bytes": 2064,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/xml/original_catalog_network.xml",
+      "sha256": "a9248b5f41f1e903b4236f1c6e93349d8a29b5d80a39a896487a38c607c64b2d",
+      "bytes": 361,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/audit_loading_bitmap.py",
+      "sha256": "2f71b2f9ad263e0878dfe600da8df8769bd880ba356375583953a5781799ae77",
+      "bytes": 3664,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/audit_loading_resources.py",
+      "sha256": "58c47ae738133772271463cb5f29255d949121d1983a21670babff66890b3633",
+      "bytes": 4080,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/audit_menu_stack.py",
+      "sha256": "41a885fbdd36f76a5f5df5f9fc4fb71d3574873cebcec7a919c55095ae77c6b0",
+      "bytes": 4535,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/decode_title_music.py",
+      "sha256": "843c7ca6576189bf1d627d9927ebfb8d614b37a2b41385c9f3a7c38d09df2fcb",
+      "bytes": 3682,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_class_scene_smoke.py",
+      "sha256": "96971b259aa443a8c15e1f58bc1a1d6995644edf9a16fed0ce7b3e78737eff64",
+      "bytes": 5889,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_class_smoke.py",
+      "sha256": "9f3ad8b8f52a587ffa50b1c825cbe8728394f6a0b765220164c61779ff8b8699",
+      "bytes": 4412,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_input_smoke.py",
+      "sha256": "d48ff27e484329dbf77c1eaff24012824e135ef44949e28a955f869e36c26b55",
+      "bytes": 8980,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_keyboard_smoke.py",
+      "sha256": "382e43c9df5be0ae6b337df9c0f77816d2f16df7819f407d72b684607241496b",
+      "bytes": 4232,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_loading_smoke.py",
+      "sha256": "fafa0c0e64c625ed4b2c5abbb15f04f204cfe4b8eb86b84f6943349b9d626041",
+      "bytes": 5044,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_media_smoke.py",
+      "sha256": "550b0df20a87cd26ba8d91fa5d6527d1de969e4f06a5ba2f18b6b3c4bb259d5e",
+      "bytes": 6384,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_name_smoke.py",
+      "sha256": "dcc23ef7b1231e8b6fcbdf33b48ebd76b1169b18baf0943f903e1c9acfcd7ed6",
+      "bytes": 4089,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_navigation_smoke.py",
+      "sha256": "f8b2ba24be538887b19a5dbe1b01b9ad6a27f1de0b3987310fefe980d0fac3e3",
+      "bytes": 3773,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_pop_above_smoke.py",
+      "sha256": "c67dd4affda7a46c065b869113bbc3c5b4456aee520d2945814f3beb4f27e667",
+      "bytes": 4600,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_resize_transition_smoke.py",
+      "sha256": "c6a0d8d41612e531a9fbc6bde32a85a12159f321613fa90fb6a7b79f91b2171a",
+      "bytes": 3241,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_settings_smoke.py",
+      "sha256": "d666123d9932d09439b310eef08070a57872e21b8e1b5a6cbe2a874d6a2a18c9",
+      "bytes": 7022,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_shared_navigation_smoke.py",
+      "sha256": "93de54a4bf8398239512ecf6f0dbb62b125b6f03b010a79993f741b445ccefd5",
+      "bytes": 6999,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_sound_smoke.py",
+      "sha256": "11ac1da9b391ce800fa264cf7d557b47f1f10031023a1517110b8749d65595cf",
+      "bytes": 5125,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/front_text_smoke.py",
+      "sha256": "ff0fe3111a43823858cd2f4504e65583680b37ac6e2d12d8f84a6b4c8e33d18d",
+      "bytes": 5003,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/inspect_front_swf.py",
+      "sha256": "d59de38de74d498d9b99b8a9ca8d47493f4182006939692f9aa36ef69d88fd7b",
+      "bytes": 4489,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/menu_erase_slot_audit.cpp",
+      "sha256": "05fbb096420de652a6c0d7ec916c71083408eef27d9fd454d6d38826329622f6",
+      "bytes": 3154,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/menu_frame_clock_audit.cpp",
+      "sha256": "43a4a2cef03be69483738e8b68c1f96cf7738dc96eaf20ad6d48e758ca5fbab7",
+      "bytes": 1306,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/menu_manager_push_differential.py",
+      "sha256": "fb1566bd4467b80cce612b451d73c885aa101d3361ff5505cb256d4be146e9e2",
+      "bytes": 8599,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/menu_options_audit.cpp",
+      "sha256": "2d7ba4809258e372c1d22ba7d23be845c5cadf413d4fa185a583ac40917fa027",
+      "bytes": 11032,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/menu_renderer_scope_audit.cpp",
+      "sha256": "4c17e2ba16db27ff446c0338fb4ca640f1f555a8fb26563fb1cd66942d17bc4c",
+      "bytes": 7029,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/menu_save_slot_properties_audit.cpp",
+      "sha256": "0276cbf3b1bc8a5f6962454b170b8a47d689573e5ff291b7223aff471ced343e",
+      "bytes": 3884,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/menu_save_slot_services_audit.cpp",
+      "sha256": "f3f6a2de57fb9313301d5a5841325c95a70eeb5c6d601b7608ad170183b17852",
+      "bytes": 7731,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/package_front_handoff.py",
+      "sha256": "9d7c75e037b4963b6fccdbc5b4188cce88bbf5cabf8d089558b29250cad9ebdb",
+      "bytes": 9898,
+      "root_status": "new",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/tools/recover_menu_sounds.py",
+      "sha256": "e3be5f7a04328ba351f3cfc7f908ee177f0a21091f43f0be965168c5f1db2c00",
+      "bytes": 4098,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/repair_keyboard_atlas.py",
+      "sha256": "97489af9047daf088898da3a8cd0591eb44ba05c614ea99977eb6a9bdedc07f7",
+      "bytes": 9026,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/repair_loading_atlas.py",
+      "sha256": "e127c8a742fc68c9ca65a2f9a4e502f82c2e76f5891a27556538e69fd165d55d",
+      "bytes": 3333,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/run_menu_options_audit.py",
+      "sha256": "07d7ed67fd07cf468f82946bb0dfec1e7f6d5228f1ed880a0985319d0486240c",
+      "bytes": 2908,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/run_menu_renderer_scope_audit.py",
+      "sha256": "56b75f833dbdf9c05fa7a49bcf030c34811bfba902272870b87ab7cbda9a7032",
+      "bytes": 3262,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/android-native/tools/verify_keyboard_atlas.py",
+      "sha256": "4850382608d10528f0ac8f3351f37502b895ea8539fd3e96671dcc8c8388a4a3",
+      "bytes": 3820,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/CMakeLists.txt",
+      "sha256": "1d95d5ddfeaa91e4abfe810e31e9f7dcdc138b98bc91234847891af7aed611fe",
+      "bytes": 7819,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/gameswf_text_property_overlay_v1.cmake",
+      "sha256": "9285a8f3acf5c96599ed9bcef2b5d4e1f08779f21e3d44e43f6f4e5a7436cc8b",
+      "bytes": 472,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/hud_freetype_font.cpp",
+      "sha256": "12f04ad0933c8933406e38c6ef1162748a39c63695ca9cacdfc72f5cdd7dc99c",
+      "bytes": 5101,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/hud_freetype_font.hpp",
+      "sha256": "4c34db3ea0f705375d95f02815e16203acecb02a6f67d591bab469dee65a4209",
+      "bytes": 820,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/loading_menu_v1.cpp",
+      "sha256": "30ba37ebc50d0e3aedef2cb7d094ce588c4f6731c117ef0c731363c99a7fbe72",
+      "bytes": 7746,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/loading_menu_v1.hpp",
+      "sha256": "02e50f59c00b7f267913c3dcbc9fd0cb8f033715aa1a4a622094a7b6b511a10f",
+      "bytes": 3218,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/localization.cpp",
+      "sha256": "c872ebf8803bb0e3a2ac226044dc3761367933b2ff910e1846fd8e98b348be90",
+      "bytes": 16540,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/localization.hpp",
+      "sha256": "d423137bf9d968534c4d6f7c3d8475e352b1db23c30feb3ac519b5bb1e1aae95",
+      "bytes": 3936,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/localization_parse_ex_v1.cpp",
+      "sha256": "6499289c94411aee561f6bfa27f0431386c9adf0948cd27fe9ec7c21e2d7cbfd",
+      "bytes": 4242,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/localization_parse_ex_v1.hpp",
+      "sha256": "f00be3a99450659eca9b8db40afc9c4a25cb47b14e17847eb7415d10df43994d",
+      "bytes": 721,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_avatar_preview_v1.cpp",
+      "sha256": "8c4f4dfbb4a29b0fdc59bf897483b5bca32b456602385037178e68439de193b2",
+      "bytes": 891,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_avatar_preview_v1.hpp",
+      "sha256": "db277b5a49600fb497637d2a00b7b21dbe57a618e5c49d7da34bb911d1afaf7c",
+      "bytes": 1130,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_manager_push_v1.cpp",
+      "sha256": "4f9c05c1514517af8cda25b07d7be3d6f95fd30dc5548241b2afb895282db47d",
+      "bytes": 2275,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_manager_push_v1.hpp",
+      "sha256": "21bd79c69e38311a67044fcd88926fb5fdb7df13915d9987d9f09efa429b6e0a",
+      "bytes": 2105,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_native_event_v1.cpp",
+      "sha256": "2900d542a907b626163b074e309b6e3df9d4a76c7a95d6456a7f8ad816deae0e",
+      "bytes": 2702,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_native_event_v1.hpp",
+      "sha256": "b76202f4bdca8107c3b76ade6ab70c87325bbb417ef9aade1f928132cd73d981",
+      "bytes": 1259,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_save_slot_projection_v1.cpp",
+      "sha256": "5f68b72f7774667fcef47e9aeab37c21f5a339ff0dcfeac5a5c3fa077f80cfd1",
+      "bytes": 3521,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/menu_save_slot_projection_v1.hpp",
+      "sha256": "68d83c9c571419a37d368be33b36882f5b053bc8e7c1d04cb2d2166cc4899251",
+      "bytes": 1344,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/overlays/text-property-v1/gameswf_text.cpp",
+      "sha256": "57b905383b0fa7319b92c636cea0b2563b6ce01c87a9ae21c90f32f22fdd7a20",
+      "bytes": 53082,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/owned_hud_settings_v1.cpp",
+      "sha256": "2fcdfe74d955fe183b17f3651f6081fb034cc07e19dd0ed405fd3b247375c46e",
+      "bytes": 10729,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/owned_hud_settings_v1.hpp",
+      "sha256": "508e172e1bb233255e58ebbbda26c9a2b7f10fbc6c2797a3b1b47855c2bd5a36",
+      "bytes": 4855,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/save_slot_date_v1.cpp",
+      "sha256": "7faee6f8f97ef65bc0ee22c2e77b0121fcbf1270d053489e051ac22017a781f4",
+      "bytes": 781,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/save_slot_date_v1.hpp",
+      "sha256": "ed8fd2c6442fd79b967c4e7ca4b600e56341a189097f2adbd0c234c423faace7",
+      "bytes": 519,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_hud_freetype_provider.cpp",
+      "sha256": "a1e770550a87f97de5c50518e3337b1f1bf4720e5a6374b44f12ff972e50dd02",
+      "bytes": 5329,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_hud_freetype_provider.hpp",
+      "sha256": "0fcf8e569d87f0b5a4d0b9937b8270e141bcd31f23fb3d38963a8a718bb74559",
+      "bytes": 753,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_input_connection.cpp",
+      "sha256": "3e70922b09ae6ac328e32b4ab6487ebf63114dc585368d16344a7bba7e8aab78",
+      "bytes": 14797,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_input_connection.hpp",
+      "sha256": "cfbe98c6fac69babd8d32e6e25cfb8b6c553cae296783da71e2023cd7af349d8",
+      "bytes": 2572,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_loading_menu_v1.cpp",
+      "sha256": "0269f5765df7ad1fe1e6d91904c36359aae9f6f2b3e2aea0829f825a016b86de",
+      "bytes": 2621,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_loading_menu_v1.hpp",
+      "sha256": "8b4b65ebabf30b5c66434251fb5b3ba8abccb40e8f90c08210bab98fc3e2a0c4",
+      "bytes": 985,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_avatar_preview_v1.cpp",
+      "sha256": "9fdfb98139d4a76dabcbea80a0e46edbc69dfc17ae2e75936af325bbbe69c48e",
+      "bytes": 719,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_device_v1.cpp",
+      "sha256": "0670eb5c0d893aac80e04a01e22ad47c51123fc9aedf3c9ee60b4801ec22a0b9",
+      "bytes": 1468,
+      "root_status": "same",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_device_v1.hpp",
+      "sha256": "aae27ebd583ce65d3774bbb1cd2c667ec5b90704a5f3665e6adec299b5cd21e2",
+      "bytes": 508,
+      "root_status": "same",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_navigation.cpp",
+      "sha256": "e74e23797a0d602af52f1cbd32713927e41de80cde14fb705937a54f87a8bba5",
+      "bytes": 2350,
+      "root_status": "new",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_navigation.hpp",
+      "sha256": "001b3850ef9e4f933c20927e7c4965edc1d9b0dff5d7ef344bcc651c6a58b946",
+      "bytes": 1341,
+      "root_status": "new",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_options.cpp",
+      "sha256": "437115fe379d4c5d29cb557adfaa897968f652bca699bd6e360027e26da73ba9",
+      "bytes": 4839,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_options.hpp",
+      "sha256": "36667dc4dd7fcfc5b863b703328db67d00711437f637ff7cde33292b35f2b552",
+      "bytes": 1078,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_parsed_string_v1.cpp",
+      "sha256": "814f6c65375a6f65f773a2895752fb80747b951614c82525c93b0a6f47f574f4",
+      "bytes": 1316,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_parsed_string_v1.hpp",
+      "sha256": "5a83366ed0b8f03500c69fd7d575d36556b9483d70b4877eeb8896fec3987ca8",
+      "bytes": 357,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_save_slots.cpp",
+      "sha256": "aa4d2d7824678154a31dda80f4b76dc040a739ebb0a1491228e820fc6325b88c",
+      "bytes": 7071,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_save_slots.hpp",
+      "sha256": "4a4152cb54c046aff68f6f66f215599b53bc6d584f95a301c9bd1de5238bb2d4",
+      "bytes": 2991,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_sound.cpp",
+      "sha256": "d7023f2b04149ac775af45d20fb441c5ee2454e769a46d5ed79f91dc8efed223",
+      "bytes": 270,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_sound.hpp",
+      "sha256": "2931a6a5dafb79fdf40778c0484d9df378a7e909054205d1e242510aae119753",
+      "bytes": 314,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_movie.cpp",
+      "sha256": "76ae728917fcfca6d5725e2aebaaf3fe47710c5f37ceeae6a3e848261aa6fc26",
+      "bytes": 30811,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_movie.hpp",
+      "sha256": "a4b3fbcef703ed8292c06ae0559d21507c50abcb5cf9ef2380c9e8f8b843cf76",
+      "bytes": 7831,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/swf_text_layout_connection.cpp",
+      "sha256": "c0826fee1fd27847403f047665635c061a69adcad9059aac4a22a3900f41093c",
+      "bytes": 8495,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/swf_text_layout_connection.hpp",
+      "sha256": "79f7d21feba2bf1c5477eea8e7ca673274f673322668bc456467562849c0f0b9",
+      "bytes": 322,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/tests/localization_parse_ex_v1.cpp",
+      "sha256": "338e0d9edc9838962d67339cc0b0b2aeb6d8d486e94d32c4a49fd9d450761d28",
+      "bytes": 2507,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/tests/menu_avatar_preview_v1.cpp",
+      "sha256": "97ce14b911affbc15b35e7e594a8fe1c523b56b2ada9d765cefe681d0b3bb123",
+      "bytes": 2452,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/tests/menu_save_slot_projection_v1.cpp",
+      "sha256": "511eaf6c7156389679b7730ed156103452e08d6cc2bb54fc0a56192d28139eaf",
+      "bytes": 4806,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/tests/save_slot_date_v1.cpp",
+      "sha256": "a7440f50af9da1f5bc3cfb4c4aa5f01a25f049846bbd198f8227c12ce27e0e88",
+      "bytes": 1403,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/tools/build_text_property_overlay.py",
+      "sha256": "ed7b0ee425a9fed7a8fba23f017d9e1f8bc0e50e495bc75c773e06d7d549d6be",
+      "bytes": 4157,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/engine-ui/vendor/gameswf1714/gameswf/gameswf_impl.cpp",
+      "sha256": "72dac6a0c8a1f62b3f202fb6e874a1366d2d235db5eb3700cf9424a33e69ba19",
+      "bytes": 56457,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/engine-ui/vendor/gameswf1714/gameswf/gameswf_player.cpp",
+      "sha256": "caaf7c2d694babc6c71f29e1d63a69b5c0c33f006dc81097b8132d596c844690",
+      "bytes": 25032,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/game-data/campaign_profile_files_v1.cpp",
+      "sha256": "1df2eec19d42342bdc65ee6c6f58d09f31ae5836b3927ca9382b5900f4617b89",
+      "bytes": 4527,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/campaign_profile_files_v1.hpp",
+      "sha256": "65782d78b28efeebd47b8449b114d6da67023b02357a8ce329d40844697f358f",
+      "bytes": 1271,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/class_preview_setup.cpp",
+      "sha256": "b4e6d98d78277b0f8992acf81eaf9f325c9770307f80909502a9241365602312",
+      "bytes": 3379,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/class_preview_setup.hpp",
+      "sha256": "1d68419d6ec3a5346832250858b6692544a2ed0352910ba4ea9fbb230e8fcd57",
+      "bytes": 881,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/CMakeLists.txt",
+      "sha256": "4139d3348b92fa79bece8972577d20ba39c7d002d298fdb1c534de4de48b3df5",
+      "bytes": 5151,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/game-data/fresh_player_profile_v1.cpp",
+      "sha256": "5dabe3904996ffcf7734fb7fc0975d4fba96a21b5c84c90d6e3d8d71ca954b3f",
+      "bytes": 3009,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/fresh_player_profile_v1.hpp",
+      "sha256": "7b111db2b05e0198d2fc2d91a27917420d82b79b79a6b8bfabfd762b2aa45ab2",
+      "bytes": 778,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/loot_tables_v2.cpp",
+      "sha256": "d0179bd5ba0a14ea35ca92172d3b4440ef7c7b4dc12e5475c364ac625ac95b53",
+      "bytes": 6757,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/game-data/menu_profile_metadata_v1.cpp",
+      "sha256": "cf43f3deaa0302375981eac612b8040e643936c1cc8dc5abf523df8557adc21a",
+      "bytes": 2852,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/menu_profile_metadata_v1.hpp",
+      "sha256": "e46d6d92881545a89bcc6701d0912b3dd08ba16e781cc0cd14a69e0d68b658d7",
+      "bytes": 1747,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/player_savegame_v1.cpp",
+      "sha256": "7ec3f463a8c70fd3968743ab36fbab1ac01712e4b8b7b670f9401b201c2ef3ff",
+      "bytes": 12303,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/game-data/player_savegame_v1.hpp",
+      "sha256": "d5323b87ea3199e7c654e7344e4ded7a3c455cdb9d4706bf5274a2648b567f46",
+      "bytes": 6529,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/game-data/quest_savegame_v1.cpp",
+      "sha256": "cd4e231fbc172e0d681fa316406e842d7959d47312cb3b97a31fcc9839e57749",
+      "bytes": 3726,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/quest_savegame_v1.hpp",
+      "sha256": "9d35ec3c111db3f5352553114321b0087e7d3ef02a6133b8390d74bd4430d969",
+      "bytes": 2230,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/fresh-player-profile-v1/original-creation.json",
+      "sha256": "30442c97b6d6779d14f4281258aa5770eb1c4a0124882f0907d0630ee53de8b4",
+      "bytes": 12218,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/fresh-player-profile-v1/original-date-v59.json",
+      "sha256": "f36d398b71e43bdd41403b8c93ead949235863ae9588d002c2862f46ce5537b3",
+      "bytes": 15904,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/fresh-player-profile-v1/original-file-v56.json",
+      "sha256": "03322891c85dc7afbb161c2abe272eb96cb3ca350f4ef2d42537575507e44237",
+      "bytes": 15249,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/menu-profile-metadata-v1/original-reader.json",
+      "sha256": "6d6a7d28eab3cd43ae9ca854c813e36445de2e5a2fbad4d27c850a39b9434e65",
+      "bytes": 278133,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/player-entry-points-v1/original-menu-loader.json",
+      "sha256": "89b8ca31026470207793453041555317c5db120babfd81e0d4e7295e5b5fd961",
+      "bytes": 21305,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/player-entry-points-v1/original-reader.json",
+      "sha256": "bbe02b828779e13d4220e74e143388b8a6ee9102f03189a483b612c4b653bad3",
+      "bytes": 396,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/player-location-v1/original-reader.json",
+      "sha256": "1d95ca114234f7d4cc02063ae038f591ab1d38f67ea6b5c7e5e5ce1907a12ff3",
+      "bytes": 614,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/reference/quest-savegame-v1/original-dispatch.json",
+      "sha256": "4f234a5c40a916ea78338b41ad443aedd03067a893caa2f09522c4fcbd32b379",
+      "bytes": 508,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/tests/campaign_profile_files_v1.cpp",
+      "sha256": "38b8e2de88bc4173d26f40e0523e96238d27834acef63b17b29a648e1462e437",
+      "bytes": 4241,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/tests/class_preview_setup.cpp",
+      "sha256": "2b0a63de30e373276faa82214a27f36649cece46b841678bc18f478e2c0ecacf",
+      "bytes": 6613,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/tests/fresh_player_profile_v1.cpp",
+      "sha256": "c9507299d03ead2ad02984ff0b83a21fbbf0ff141971317c0b3a99790d09a546",
+      "bytes": 5169,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/tests/menu_profile_metadata_v1.cpp",
+      "sha256": "a1fdbc0ab11ed6ef18fd8bf15f26d4f0f33a2cc6a1f19d1df8f1578a91e8e6d4",
+      "bytes": 5807,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/tests/player_entry_points_v1.cpp",
+      "sha256": "54a5206e78183561b8bf1c5c72c2045381e92bda463083c814fd8ca6be66faba",
+      "bytes": 2619,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/tests/player_location_v1.cpp",
+      "sha256": "1769e38ffe96d265d7cb2c0d74f24cd274ade2a30f439c7fc633309a74394469",
+      "bytes": 2855,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/game-data/tests/quest_savegame_v1.cpp",
+      "sha256": "3cb0dd98f30259369c52ab0c1cc26b5808459c86491faf44464962b334bfa1e8",
+      "bytes": 5057,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/level-world/objects.cpp",
+      "sha256": "92da37944c1fcd50f6adc85e5ea33c592c3e93386347cdb9fb56053c85c072e0",
+      "bytes": 11080,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/level-world/objects.hpp",
+      "sha256": "be0c0719e5b09f09f2f09237e98c96b46367d4f4dd2a34b385f5f254afddc29f",
+      "bytes": 1848,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/level-world/tests/modular_resource.cpp",
+      "sha256": "d4bf574e3ef7cc3932eefb0cd0cba076d9df2b12a7c31961e8bddb1cbec3ef63",
+      "bytes": 2853,
+      "root_status": "new",
+      "kind": "new"
+    },
+    {
+      "path": "port/scene-materials/scene.cpp",
+      "sha256": "dbb464533bcf527aa3562bf4905227fdc1d15213314a2f512a19db8a644037cd",
+      "bytes": 11557,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "sha256": "591a32ebc189f5326bb255868c0ea5117d3c7d6fdd8cec74fd4d1591ebc7a231",
+      "bytes": 1582,
+      "root_status": "merge_required",
+      "kind": "modified"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/intro.mp4",
+      "sha256": "859f2dde32401f996a5faeaf8c914965b5410d0200315c0bfb90d8c71aa59b22",
+      "bytes": 20248857,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/m_title.vxn",
+      "sha256": "6dcd53d955ab1c923ea0bb951ce9c5d21dbf086d64d43314002ebfe2c2cd6f4f",
+      "bytes": 3837292,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_back.wav",
+      "sha256": "5de393048fc8c60f0d687d430bb4aa7bf49a317a3f2fe3cbf351e51b2ddc82e5",
+      "bytes": 254588,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_confirm.wav",
+      "sha256": "b8bd71d85b23c9a6f24b4650d98fc533b5a6e11034bbfb6277294fc1c9705ae5",
+      "bytes": 248108,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_select.wav",
+      "sha256": "8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d",
+      "bytes": 10784,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_spending.wav",
+      "sha256": "8535ff7019e1b23cfe356c215457d5ff126db3fe67e4af3cd6376444028b2c7b",
+      "bytes": 36426,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_tab.wav",
+      "sha256": "07aadc9a76daf36ea170f537a5f7875fc878f543e65bc54b5cbe50ceeaa08449",
+      "bytes": 59534,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/title_intro.wav",
+      "sha256": "424e61941a95020cf499dd933fd064b1357bc459702d984ced84af2be752e2f2",
+      "bytes": 746622,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/title_loop.wav",
+      "sha256": "2ad9ec9422c4a0f1c45c66abcaadde32d968d7bec60f02168c57767b9592dc4d",
+      "bytes": 14491470,
+      "root_status": "new",
+      "kind": "media_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/help_pages_pyarray.bin",
+      "sha256": "51836b2776dc172ae3f6972a1a75d3c146af35dffbfd3e1638dd74077ace3c60",
+      "bytes": 208,
+      "root_status": "new",
+      "kind": "original_loading_hint_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/help_pages_pyarraynames.bin",
+      "sha256": "f8ace58c341ccd9b99c51ce186a5b4c2995ccc53f83e6c24262e54bb24c83ef8",
+      "bytes": 343,
+      "root_status": "new",
+      "kind": "original_loading_hint_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/help_pages_pystructnames.bin",
+      "sha256": "496cf5aa6419cc14092f213e852504f2fec8356f952e68b7cf6d640c3d1053df",
+      "bytes": 80,
+      "root_status": "new",
+      "kind": "original_loading_hint_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/pydata/design_pyarray.bin",
+      "sha256": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+      "bytes": 692,
+      "root_status": "new",
+      "kind": "original_cache_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/pydata/design_pyarraynames.bin",
+      "sha256": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+      "bytes": 272,
+      "root_status": "new",
+      "kind": "original_cache_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/pydata/design_pystructnames.bin",
+      "sha256": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
+      "bytes": 1443,
+      "root_status": "new",
+      "kind": "original_cache_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/models/class_selection.bdae",
+      "sha256": "87303c458be43bafca5b1d717136b679d4f70623545ca1fea20841aa57033de9",
+      "bytes": 162572,
+      "root_status": "new",
+      "kind": "original_scene_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/loot_table_pyarray.bin",
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "bytes": 284104,
+      "root_status": "new",
+      "kind": "original_cache_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/loot_table_pyarraynames.bin",
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "bytes": 39604,
+      "root_status": "new",
+      "kind": "original_cache_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/loot_table_pystructnames.bin",
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+      "bytes": 8858,
+      "root_status": "new",
+      "kind": "original_cache_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/animations/prince_menu_idle_knight.bdae",
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+      "bytes": 19400,
+      "root_status": "same",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/animations/prince_menu_idle_knight_02.bdae",
+      "sha256": "f7c2c9da65f17b6bb737062bbdd13d3a2390332e6aa7504daf61af755df66aba",
+      "bytes": 36772,
+      "root_status": "new",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/animations/prince_menu_idle_rogue.bdae",
+      "sha256": "17dee5ad32e29307c25a83b4db898d14091de5e198ed5e50a5928c61444bbfa0",
+      "bytes": 14580,
+      "root_status": "new",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/animations/prince_menu_idle_rogue_02.bdae",
+      "sha256": "69a972b82dec287e392938a2aae3e810b135cec9a278f172b3a3ba7f592bbefe",
+      "bytes": 29472,
+      "root_status": "new",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/animations/prince_menu_idle_mage.bdae",
+      "sha256": "63f1673b3c8074079b8033514087f4f0a614f3d32c983fd2193bc48a14462058",
+      "bytes": 12884,
+      "root_status": "new",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/animations/prince_menu_idle_mage_02.bdae",
+      "sha256": "a9062d260e7b889fc3cf464c0d1edbed0f9b88323f5f0704a98d3d97e6df87c6",
+      "bytes": 34936,
+      "root_status": "new",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/animations/prince_template_anim.bdae",
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+      "bytes": 19908,
+      "root_status": "same",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/textures/atlas_modular_rogue.tga",
+      "sha256": "edbd02af477575a8f83f3a80933b44018e86c5f4300fa5c01b356759011c03fc",
+      "bytes": 524348,
+      "root_status": "new",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/textures/atlas_modular_mage.tga",
+      "sha256": "3a171eb9f83cc008fb577a4dd66fdbc98db65499eda85e6a5a7de62c064ce6b9",
+      "bytes": 524348,
+      "root_status": "new",
+      "kind": "original_class_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/models/mc_rweapon_longsword_01.bdae",
+      "sha256": "ab502ff4ef77b0e7afa813de71685cac38e85e82327d24da6ef9cc7e002840f7",
+      "bytes": 11092,
+      "root_status": "new",
+      "kind": "original_weapon_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/models/mc_rweapon_dagger_01.bdae",
+      "sha256": "d8361c9e2479f9a121767a97174ec468d8ddd7be738a8b9419147258a1ef3af9",
+      "bytes": 11660,
+      "root_status": "new",
+      "kind": "original_weapon_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/models/mc_rweapon_quarterstaff_01.bdae",
+      "sha256": "7edea6e46bf94ebb29ac9d21405ee49a0df8342d9ab99de99bfc2ae6ea161553",
+      "bytes": 8972,
+      "root_status": "new",
+      "kind": "original_weapon_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/textures/atlas_weapons_dh2.tga",
+      "sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1",
+      "bytes": 524348,
+      "root_status": "new",
+      "kind": "original_weapon_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/textures/envmap_swamp.tga",
+      "sha256": "db73421e085b1068185f7ec04f8a0950fa0cb5a768a0b81953a692cbafd47bb7",
+      "bytes": 2108,
+      "root_status": "new",
+      "kind": "original_weapon_preview_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/front-compat/dqmenus_droid.swf",
+      "sha256": "f01cbeec730848d57aed8923b51ed2c927403687122e870878d713a1d389d430",
+      "bytes": 315955,
+      "root_status": "new",
+      "kind": "keyboard_compatibility_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/front-compat/keyboard-atlas-repair.json",
+      "sha256": "aad7b2357c493ce1ad863013e26f5b8380a299bd34a8653310343aeb5683ce23",
+      "bytes": 5075,
+      "root_status": "new",
+      "kind": "keyboard_compatibility_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/front-compat/loadanims_droid.swf",
+      "sha256": "31a039dba1e180deb788d6899002f1ec05cdc72a14a6dc6f329b393b64998790",
+      "bytes": 1456,
+      "root_status": "new",
+      "kind": "keyboard_compatibility_asset"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/front-compat/loading-atlas-repair.json",
+      "sha256": "19e0678bbcc39af0d88df0d3e3c9a2402492719dd453ec2d6a39045fddecd8e9",
+      "bytes": 1142,
+      "root_status": "new",
+      "kind": "keyboard_compatibility_asset"
+    },
+    {
+      "path": "port/game-data/reference/fresh-player-profile-v1/dated-fixtures.bin",
+      "sha256": "50c3eb214e214b006e3631346b13bf455033496f2b4df4f93734022a133058eb",
+      "bytes": 3428,
+      "root_status": "new",
+      "kind": "original_profile_fixture"
+    },
+    {
+      "path": "port/game-data/reference/fresh-player-profile-v1/fixtures.bin",
+      "sha256": "4cbc4ff5200d7fd93331ca0d468660aee0c6b3ad681e7e4eb067d099b9d2d85c",
+      "bytes": 1949,
+      "root_status": "new",
+      "kind": "original_profile_fixture"
+    },
+    {
+      "path": "port/game-data/reference/fresh-player-profile-v1/full-file-fixtures.bin",
+      "sha256": "2e40b432bb36378b18f9887d570b9af58364fdf4d2b8a136c5858fa2bc398aba",
+      "bytes": 3392,
+      "root_status": "new",
+      "kind": "original_profile_fixture"
+    },
+    {
+      "path": "port/game-data/reference/player-location-v1/fixtures.bin",
+      "sha256": "4b879acc0db72e62a353de0a4889a940dd9bbe99b442849ddb6d2c203f7b0b01",
+      "bytes": 12520,
+      "root_status": "new",
+      "kind": "original_profile_fixture"
+    },
+    {
+      "path": "port/game-data/reference/player-entry-points-v1/fixtures.bin",
+      "sha256": "2c1ebf96bb6694bd961f2353dd1d907b3afe7bb990860f1dfc4dd85b3223b150",
+      "bytes": 5148,
+      "root_status": "new",
+      "kind": "original_profile_fixture"
+    },
+    {
+      "path": "port/game-data/reference/quest-savegame-v1/fixtures.bin",
+      "sha256": "d0bc9c0ec4f8231b7532c3d250267d3042d970eb556356053c3cf1ec631c2857",
+      "bytes": 28740,
+      "root_status": "new",
+      "kind": "original_profile_fixture"
+    },
+    {
+      "path": "port/game-data/reference/menu-profile-metadata-v1/fixtures.bin",
+      "sha256": "c30d799fd0880c3e024842e35796eb31d0a45bd3379d31477fb194cc38db15a4",
+      "bytes": 28969,
+      "root_status": "new",
+      "kind": "original_profile_fixture"
+    }
+  ],
+  "live_root_menu_start_game": false,
+  "additional_assets_imported": [
+    "port/android-native/app/src/main/assets/original-media/intro.mp4",
+    "port/android-native/app/src/main/assets/original-media/m_title.vxn",
+    "port/android-native/app/src/main/assets/original-media/sfx_menu_back.wav",
+    "port/android-native/app/src/main/assets/original-media/sfx_menu_confirm.wav",
+    "port/android-native/app/src/main/assets/original-media/sfx_menu_select.wav",
+    "port/android-native/app/src/main/assets/original-media/sfx_menu_spending.wav",
+    "port/android-native/app/src/main/assets/original-media/sfx_menu_tab.wav",
+    "port/android-native/app/src/main/assets/original-media/title_intro.wav",
+    "port/android-native/app/src/main/assets/original-media/title_loop.wav",
+    "port/android-native/app/src/main/assets/models/class_selection.bdae",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_knight_02.bdae",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_rogue.bdae",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_rogue_02.bdae",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_mage.bdae",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_mage_02.bdae",
+    "port/android-native/app/src/main/assets/textures/atlas_modular_rogue.tga",
+    "port/android-native/app/src/main/assets/textures/atlas_modular_mage.tga",
+    "port/android-native/app/src/main/assets/models/mc_rweapon_longsword_01.bdae",
+    "port/android-native/app/src/main/assets/models/mc_rweapon_dagger_01.bdae",
+    "port/android-native/app/src/main/assets/models/mc_rweapon_quarterstaff_01.bdae",
+    "port/android-native/app/src/main/assets/textures/atlas_weapons_dh2.tga",
+    "port/android-native/app/src/main/assets/textures/envmap_swamp.tga"
+  ]
+}

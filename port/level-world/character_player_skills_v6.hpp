@@ -20,6 +20,8 @@ public:
  int update();int cleanup(); // Original cleanup callbacks; no deletion emulation.
  int callback(std::uint32_t index,std::uint32_t operation,std::uint32_t* result);
  int skill_ai(std::uint32_t operation,std::uint32_t index,std::uint32_t* result);
+ // Exact same AI_Event dispatcher, preserving the reached Lua/native error.
+ int native_skill_animation_event(std::uint32_t* result);
  int update_timers(std::uint32_t dt_ms,std::uint32_t source_script_blocked);
  std::uint32_t buff_count()const noexcept;
  int buff_snapshot(BuffSnapshot48*,std::uint32_t ordered_index)const;
@@ -40,6 +42,10 @@ public:
  int native_cancel_sneaking(std::uint8_t* source_byte415);
  const data::PlayerSavegameV1* native_savegame()const noexcept;
  int native_reload_skills(const SkillSaveReloadServicesV6*);
+ // CharAI::InitSkills3d8cfc, configure existing SAME vectors. This is not
+ // AI_ReloadSkills: no delete/reset or Save.Load(8) is introduced.
+ int native_initialize_skill_instances();
+ std::shared_ptr<data::PlayerSavegameV1> native_saved_owner()const noexcept;
 
 };
 }

@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "6b0b5408e7bec23ef7c3a570b7b1a1e328cae302733159eb3de986872911d69e",
+  "sources": [
+    {
+      "path": "port\\scene-materials\\tests\\authored_fx_pass_inventory_v5.cpp",
+      "sha256": "53b0ef53c7d64c702b52eb4c91c0f9f6709d46ea9004082961b9ff3e76f38aa3"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "9060eb98316cbcba0ea9627759e072bc8eb3c5355713bed6e909bc822deccf01"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "e930e56debbd8eff93914f44df62e825c529b45d840ef817ee513bc6658aa9b9"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "4c9a3ffeee979edce27ac91542653ee87ebd8f56ce486cf4b437b85e322d1fbb"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "8b1aca640aab6592fb7c034d2b1dbcd3bf96a22c8694b40dcbb1650582b9e023"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "376f8041956e02608e889d516aef06248282c0b6e6a0975ea96eee49abb60617"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "0c3f7c42a567741c6dff64c68ce7da94603870337ccd4bd64efeee564760fa04"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "fcad8b455c481548c9bb231e46f171d6facb0ff5943e6974c4c92b4826791cd4",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\tests\\authored_fx_pass_inventory_v5.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-pass-inventory-v5\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-pass-inventory-v5\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-pass-inventory-v5\\authored-fx-pass-inventory-v5.bin"
+  ],
+  "stdout": "asset_00.bdae | asde | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_00.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_01.bdae | asde | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_01.bdae | asde2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_01.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_01.bdae | swoosh_MH2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_02.bdae | Standard_181 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_03.bdae | _7_-_Default | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_03.bdae | fire | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_03.bdae | fire1 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_04.bdae | Standard_16 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_04.bdae | fx_magic_lenz_flares_bwa | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_04.bdae | fx_magic_lenz_flares_spiral | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_05.bdae | Standard_16 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_05.bdae | fx_magic_lenz_flares_bwa | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_05.bdae | fx_magic_lenz_flares_spiral | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_06.bdae | Standard_16 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_06.bdae | fx_magic_lenz_flares_bwa | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_06.bdae | fx_magic_lenz_flares_spiral | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_07.bdae | Standard_10 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_07.bdae | Standard_7 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_08.bdae | Standard_10 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_08.bdae | Standard_7 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_09.bdae | Standard_10 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_09.bdae | Standard_7 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_10.bdae | Standard_7 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_10.bdae | Standard_71 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_11.bdae | smoke2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_11.bdae | smoke3 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_12.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_13.bdae | Standard_1911 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_13.bdae | Standard_1911dd | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_14.bdae | Standard_16sghdfghsaef | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_14.bdae | Standard_1911dd | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_14.bdae | lightning_01 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_15.bdae | Standard_1911 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_15.bdae | Standard_1911dd | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_16.bdae | Standard_8 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_17.bdae | GLOW2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_17.bdae | GLOW21 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_17.bdae | blastwave | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_18.bdae | GLOW2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_18.bdae | GLOW21 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_18.bdae | blastwave | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_19.bdae | Standard_9 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_19.bdae | Standard_9v | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_20.bdae | GLOW2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_20.bdae | GLOW21 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_20.bdae | blastwave | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_21.bdae | fx_magic_lenz_flares_spiral | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_21.bdae | fx_particles_additive | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_22.bdae | Standard_10 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_22.bdae | Standard_13 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 17\nasset_22.bdae | swoosh_MH2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 17\nasset_23.bdae | Standard_34 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_23.bdae | Standard_l | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_23.bdae | floor435 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_24.bdae | Standard_3 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_25.bdae | Standard_3 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 17\nasset_25.bdae | Standard_l | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_25.bdae | floor | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_25.bdae | fx_magic_lenz_flares_spiral | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_26.bdae | Standard_3 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_26.bdae | _435 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_26.bdae | floor | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_26.bdae | floor2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_27.bdae | Material__2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_27.bdae | Standard_2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_27.bdae | Standard_7 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_27.bdae | Standard_8 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_27.bdae | Standard_9 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 59\nasset_28.bdae | Standard_4 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_28.bdae | Standard_9 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_28.bdae | fire | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_28.bdae | fire2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_28.bdae | floor | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_29.bdae | black | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_29.bdae | smoke2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_29.bdae | smoke2dg | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_29.bdae | smoke3 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_30.bdae | lightfx | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_30.bdae | streak2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_31.bdae | asde | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_31.bdae | floor | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_31.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_32.bdae | Standard_7sadfc | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_32.bdae | asde0 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_32.bdae | star | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_33.bdae | Standard_4 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_33.bdae | Standard_9 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_33.bdae | fire | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_33.bdae | fire2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_33.bdae | floor | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_34.bdae | Standard_7 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_34.bdae | Standard_8 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_34.bdae | Standard_9 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_34.bdae | fx_particles_additive_001_fireblast | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_34.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_35.bdae | Material__0 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_35.bdae | Standard_l | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_35.bdae | Standard_l1 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_35.bdae | gradual_skill2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_36.bdae | asde | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_36.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_37.bdae | Standard_20 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_37.bdae | Standard_7sadfcs | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 36\nasset_37.bdae | asde | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_37.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_37.bdae | swoosh_charge | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_38.bdae | Standard_9 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_38.bdae | asde | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_38.bdae | fx_particles_alpha_001 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 17\nasset_38.bdae | fx_particles_alpha_002 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 17\nasset_38.bdae | swoosh_MH | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | asde | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | asde0 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | asde2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | fire2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | floor | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | gradual_skill | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | gradual_skill2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_39.bdae | gradual_skill3 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_40.bdae | Standard_9 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_40.bdae | fx_particles_additive_001_fireblast | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_40.bdae | lightRay | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_41.bdae | Standard_82 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_41.bdae | gradual_mainhand | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_42.bdae | Standard_8 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_42.bdae | _1_-_Default | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_42.bdae | fx_particles_alpha_002 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 17\nasset_43.bdae | GLOW | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_43.bdae | GLOW2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_43.bdae | HandGlow | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_43.bdae | Standard_181 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_43.bdae | blastwave | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_43.bdae | fire2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_44.bdae | Standard_13 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_44.bdae | fire2 | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_44.bdae | floor | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\nasset_44.bdae | lightray | transparent | ProfileCOMMON_emul_VS.glsl | 17 | 40\n{\"transparent_passes\":140,\"opaque_passes\":0,\"required\":0}\n",
+  "stderr": "",
+  "exit_code": 0
+}

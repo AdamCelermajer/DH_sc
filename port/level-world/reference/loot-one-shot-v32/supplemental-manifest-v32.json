@@ -1,0 +1,42 @@
+{
+  "scope": "actual source pickup FX/Despawn receiver; no live NPC award/Gear pickup or Hit8 publication",
+  "sources": [
+    {
+      "path": "port/level-world/character_loot_pickup_fx_v32.hpp",
+      "sha256": "a45314004622306e415ad61a413ef22e201088fcfa9ea848a3ef563e2ece46ea"
+    },
+    {
+      "path": "port/level-world/character_loot_pickup_fx_v32.cpp",
+      "sha256": "e157d4b3714908c391440d56b38e156436b46b0feb741551c84165a7710d11bf"
+    },
+    {
+      "path": "port/level-world/tests/character_loot_pickup_fx_v32.cpp",
+      "sha256": "e4ac04e361c2a384c8222bb1eb59eeed76aa2ddd53e814a28a6d9e5b1b833ac4"
+    },
+    {
+      "path": "port/level-world/reference/loot-one-shot-v32/runtime-integration.md",
+      "sha256": "96723dd47b9fce21fc782459c68e01eaa5aeecf0e6d2b7829dd6b996bb5e6fb0"
+    },
+    {
+      "path": "port/level-world/reference/loot-one-shot-v32/original.asm",
+      "sha256": "1b3118981a761c9f4ffbc3ecb5df38647bd48af9e16400e03a9e9b3ec8fe3823"
+    },
+    {
+      "path": "port/level-world/reference/loot-one-shot-v32/original.json",
+      "sha256": "3534a58ae5672c6fa87bd30444ef434ddbb3111113a2e537a63fc9562b36a26f"
+    },
+    {
+      "path": "port/level-world/reference/loot-one-shot-v32/pickup-queries.asm",
+      "sha256": "2035145ed6918b547a05144bcb65ccca7a9b1c4223dad1afec44cbffc355a4bd"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/loot-fx-v32/receipt.json",
+      "sha256": "49a96211dd168d261c24ec4464f98cc1d4439c386ee703e4f8b72f3d68b39f75"
+    }
+  ],
+  "archive_sha256": "bbdddffa48167a4be0b288fb5930f8f646246f8069450f75ec8581d2aaced42c",
+  "strict_both_abi": true,
+  "positive_fx_native_checks": 850,
+  "nonempty_particle_packets": 81,
+  "old_packages_unchanged": true
+}

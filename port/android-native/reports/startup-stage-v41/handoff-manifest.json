@@ -1,0 +1,68 @@
+{
+  "scope": "Read-only physical HWUI/source startup audit plus bounded explicit measurement core/JNI/Java helper and source-backed staged-loading extraction contract; no shared/device changes",
+  "proofs": {
+    "strict_native_ABI_compiles": 4,
+    "Java_strict_compile": true,
+    "UBSan_host_assertions": 10148,
+    "native_Java_stage_ID_parity": 34
+  },
+  "live_stage_timings_responsive_loading_FPS": "PENDING parent hook/device measurement; physical HWUI log is not per-stage or displayed-FPS proof",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/startup_stage_telemetry_v41.hpp",
+      "sha256": "61cf303221baacf6f4c33ccf7bc8bcd541c6402f735b1f5e0ec10814103525b7"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/startup_stage_telemetry_v41.cpp",
+      "sha256": "1ecf97b57403fa2f8c4695cd1b09c1202beaf0f31a182c46dc476d604b136c27"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/startup_stage_telemetry_jni_v41.cpp",
+      "sha256": "0c3a36b14b856239c669b96bad5bfd69e3683e166d3748c6986eab832a8327df"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/StartupStagesV41.java",
+      "sha256": "ec1ef61bf8028dc310947a2c07cad0bc8883a596cb3281eb5bb5c4ba77b8655c"
+    },
+    {
+      "path": "port/engine-ui/tests/startup_stage_telemetry_v41.cpp",
+      "sha256": "b5def1dfad1a7f7b5804c68882ca8e4ea6b2614f7bf771ec76efba9309198e08"
+    },
+    {
+      "path": ".local-inputs/audit_startup_physical_v41.py",
+      "sha256": "bb8741a3303e8bc08042107994c38a3bc2e07d901e7b488cc050ef8728ba1058"
+    },
+    {
+      "path": ".local-inputs/run_startup_stage_v41_host_linux.py",
+      "sha256": "d0fcf0f496bf781d2db8d60a61258b2d68c9a4c4536c115f86ba7c3957097aa6"
+    },
+    {
+      "path": ".local-inputs/compile_startup_stage_v41.py",
+      "sha256": "928a7a66a3306ce48d2603302bf7fbe6f0e334b5dfde2fba0aa033186f74ce31"
+    },
+    {
+      "path": "port/android-native/reports/startup-stage-v41/README.md",
+      "sha256": "bcca4a0e59cb9488c00fcc5d6eb7c4baea544338011940c3e97ba924e656bf8d"
+    },
+    {
+      "path": "port/android-native/reports/startup-stage-v41/ROOT-INTEGRATION.md",
+      "sha256": "1a56d0575291c823369e0a7b7475c2ea505b8e255d844a62bd365b4751ead6ec"
+    },
+    {
+      "path": "port/android-native/reports/startup-stage-v41/audit.json",
+      "sha256": "61aa105171582f57ab9f3986a25d70f4063e8f13d0ce905edb8a6a11c3fda96f"
+    },
+    {
+      "path": "port/android-native/reports/startup-stage-v41/source-snippets.txt",
+      "sha256": "8b935fde97d8b900633cbc05be7908afb6ea5e9dcd83f33e8857b4623f60fbdd"
+    },
+    {
+      "path": "port/android-native/reports/startup-stage-v41/host-receipt.json",
+      "sha256": "bc0396cf55e80d9d66f3a3772b022648690303c6866b701d9e7381cf95cd1d5e"
+    },
+    {
+      "path": "port/android-native/reports/startup-stage-v41/compile.json",
+      "sha256": "9b7ec4b5d618aa0b766c11d057b2eab09cbca255d030a3052ccba65fa1bb2999"
+    }
+  ]
+}

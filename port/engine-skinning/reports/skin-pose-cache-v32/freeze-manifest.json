@@ -1,0 +1,29 @@
+{
+  "status": "FROZEN",
+  "scope": "verified CPU pose/skinning reuse component; root owns live integration",
+  "files": {
+    ".local-inputs/compile_actor_pose_performance_v32.py": "d5ba8de440d03926a311edc331749fe4fb0ec9703bd5f6fb552e9b121437d522",
+    ".local-inputs/run_skin_pose_cache_v32_host.py": "d290560ae7177cbf575b4f2eff74ddd901a142135f549e8ce78e77fb9244b6fc",
+    "port/engine-animation/animation.cpp": "0e8a748b250650120870b2f1edd0dfeaef0175792ddc4f43dfb9d7c599ef5be4",
+    "port/engine-animation/animation.hpp": "c06bef3d4682ac991e1169c2ff770ba0e53447ef73c8c8d24bfb3ab29c71536c",
+    "port/engine-skinning/CMakeLists.txt": "534120140d1fec822a50168537f52c9325e8ce00ce6ed23d2aebc2fe658d79c5",
+    "port/engine-skinning/reports/arm64-differential.json": "8d30cc5ba058b09588805e7195968d79dcb9fa014ae03f59931c5977825af2ed",
+    "port/engine-skinning/reports/skin-pose-cache-v32/NOTES.md": "fabc73ea3234e7bf32239b70d6daa32c26d47da438b72dcb2a51a2537bad139c",
+    "port/engine-skinning/reports/skin-pose-cache-v32/README.md": "f3606080f62362acf1fb3161b6c36d6ef2bb06350c6d1aec5f800c4a87457072",
+    "port/engine-skinning/reports/skin-pose-cache-v32/android-compile.json": "04e12b500be2f2df97615e331044ea4cc9f98d7367b949bd068b8e664f7afb89",
+    "port/engine-skinning/reports/skin-pose-cache-v32/host-receipt-before-weapon.json": "79a69d2ac60a1a457b964c7702666f5f869826752a713fc5a8f5e4949a9a0478",
+    "port/engine-skinning/reports/skin-pose-cache-v32/host-receipt.json": "fa7fa042160327b4bc2cc02b7f4aba29ba7fb28d02c349ce2eb29dc5700c1d39",
+    "port/engine-skinning/reports/skin-pose-cache-v32/release-receipt.json": "c5d950115a10e7fee44147542a93bb32aa54b6dbd45d0c4850ca07324bf63d0d",
+    "port/engine-skinning/skin_pose_cache_v32.cpp": "ba56e46c1f8a9be55ba1201d95a74abf9a5cb43f99d4a92f0fc807d3b54157ed",
+    "port/engine-skinning/skin_pose_cache_v32.hpp": "9ecca984ff6c29b5af4ca195b246d3601827c557a3cff90b07f5bf3b867a4d62",
+    "port/engine-skinning/skinning.cpp": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+    "port/engine-skinning/skinning.hpp": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+    "port/engine-skinning/tests/skin_pose_cache_v32.cpp": "a1f18158df0522926c3b99fbcd2c301879e6643cbeccb5c2803c23ab99034007",
+    "port/engine-skinning/visual_skin_owner_v6.cpp": "10a0e2d2d0ec37e6a6dd9f8509473927ce8800866a339bbdaf8ff30e3fd92f82",
+    "port/engine-skinning/visual_skin_owner_v6.hpp": "11248f9de080eb8aea95057f5dffcc58434f8d6e3d5182396a3b7c1a7d77b37d",
+    "port/level-world/objects.cpp": "c213da4f0714270b5cf9393e118e3ae0fdeff788b4caf56de0c4cb79b5315de3",
+    "port/level-world/objects.hpp": "2dbe47fa0c5556dd0317c9038b4cecf1c7c7a85eabf215f199d56438b79adf8f",
+    "port/level-world/player_equipment_render_owner_v1.cpp": "1f7357d2b9d51ebbf14a491d87b2207e03f1eca5c1b7108b34f9eec68d81cf53",
+    "port/level-world/player_equipment_render_owner_v1.hpp": "379b7c1e3b17825adf998a452d357950187aebc38f7c08b4073c6055c2bde5eb"
+  }
+}

@@ -65,4 +65,13 @@ bool HudFreetypeFont::raster(FreetypeGlyph& out,std::uint32_t code,std::int32_t 
         static_cast<std::uint32_t>(bitmap.num_grays),bitmap.pixel_mode!=FT_PIXEL_MODE_GRAY};
     out=std::move(next);return true;
 }
+bool HudFreetypeFont::face_metrics(float& units,float& height,std::string& error) const {
+    if(!impl_||!impl_->face){error="Original text face owner unavailable";return false;}
+    // Original font::get_units_per_em/get_height read these exact FT_Face
+    // fields after resolving the live face entity, not the last pixel size.
+    units=static_cast<float>(impl_->face->units_per_EM);
+    height=static_cast<float>(impl_->face->ascender-impl_->face->descender);
+    if(units<=0){error="Original text face has no EM units";return false;}
+    error.clear();return true;
+}
 }

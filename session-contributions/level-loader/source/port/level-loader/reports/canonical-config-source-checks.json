@@ -1,0 +1,62 @@
+{
+  "validation": "PASS",
+  "scope": "Actual original-SWAMP LevelConfig source constructor/defaults/overrides/early InitPost and publication into SAME Level fields; Debug/network/parser/current-slot/Array-name providers explicit fixtures",
+  "cases": [
+    {
+      "build": "host",
+      "probe_sha256": "243d45f73c514c2f6476450268e28625d869c10d42a95c7611d695fd08665e71",
+      "result": {
+        "validation": "PASS",
+        "config_source_checks": 8,
+        "actual_level_config_constructor": true,
+        "actual_config_publication": true,
+        "sound_names_provider_fixture": true,
+        "debug_network_parser_fixtures": true,
+        "first_missing_type_after_config": "Module",
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "f1589d6913571e41d09d9c2c36f46d26f2b8f09bcb21ecad43fab508f75192a2",
+      "result": {
+        "validation": "PASS",
+        "config_source_checks": 8,
+        "actual_level_config_constructor": true,
+        "actual_config_publication": true,
+        "sound_names_provider_fixture": true,
+        "debug_network_parser_fixtures": true,
+        "first_missing_type_after_config": "Module",
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "de02ade5cd10a7dc63b430ab2b309ccb5e21e046251fd27dee07a455fa380b52",
+      "result": {
+        "validation": "PASS",
+        "config_source_checks": 8,
+        "actual_level_config_constructor": true,
+        "actual_config_publication": true,
+        "sound_names_provider_fixture": true,
+        "debug_network_parser_fixtures": true,
+        "first_missing_type_after_config": "Module",
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": "3429c2c29408c2af923493964a0726bfd562742f1fdbf7379d7f32582f2125a3",
+  "source_sha256": "2f171c95e6f87616e643a35c878cfc85f0552be92e24678fb122d9dec048949d",
+  "module_graph_archive_sha256": "64cdf8c34aab885b3bc9b9e9a1f619056d1ad5d70e4057ac2545414f763c5ac2",
+  "verified_graph_entries": 135,
+  "coherent_manifest_sha256": "2bae5bb904d90747c572753e934f99071646734e71993e0dbd443904d95e6a05",
+  "coherent_files": 339,
+  "coherent_level_header_sha256": "60c515881bb4b581b43067f72888cf7bc4e5c93534076f2b68492bb2723c4ee8",
+  "same_private_level_header_sha256": "60c515881bb4b581b43067f72888cf7bc4e5c93534076f2b68492bb2723c4ee8",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "music_reference": "SwampHubAmbientMusic",
+  "safezone_reference": "SwampMerchantCampMusic",
+  "both_absent_from_supplied_183_name_fixture": true,
+  "full_module_graph_verified": false,
+  "full_loader_verified": false
+}

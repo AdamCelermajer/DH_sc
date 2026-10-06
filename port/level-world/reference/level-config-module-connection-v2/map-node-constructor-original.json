@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "scope": "Original CSceneNode5839d8 and mesh585118 constructor transform fields.\nThe unrelated empty std::string producer is a typed constructor\nservice boundary. Original ISNode constructor and matrix update run ARM.\n",
+  "group": {
+    "flags": "0x721",
+    "world_words": [
+      1065353216,
+      0,
+      0,
+      0,
+      0,
+      1065353216,
+      0,
+      0,
+      0,
+      0,
+      1065353216,
+      0,
+      0,
+      0,
+      0,
+      1065353216
+    ],
+    "box": [
+      -1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "mesh_transform": {
+    "flags": "0x721",
+    "world": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      123.0,
+      -456.0,
+      22.0,
+      1.0
+    ],
+    "visible": [
+      1,
+      1
+    ]
+  }
+}

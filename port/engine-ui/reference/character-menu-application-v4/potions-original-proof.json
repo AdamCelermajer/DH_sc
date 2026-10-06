@@ -1,0 +1,627 @@
+{
+  "validation": "PASS",
+  "cases": 29,
+  "rows": [
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -32768,
+      "capacity": -128,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -32768.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -128.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -32768,
+      "capacity": -1,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -32768.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -1.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -32768,
+      "capacity": 0,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -32768.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          0.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -32768,
+      "capacity": 5,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -32768.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          5.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -32768,
+      "capacity": 127,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -32768.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          127.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -1,
+      "capacity": -128,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -1.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -128.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -1,
+      "capacity": -1,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -1.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -1.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -1,
+      "capacity": 0,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -1.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          0.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -1,
+      "capacity": 5,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -1.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          5.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": -1,
+      "capacity": 127,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          -1.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          127.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 0,
+      "capacity": -128,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          0.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -128.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 0,
+      "capacity": -1,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          0.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -1.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 0,
+      "capacity": 0,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          0.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          0.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 0,
+      "capacity": 5,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          0.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          5.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 0,
+      "capacity": 127,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          0.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          127.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 5,
+      "capacity": -128,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          5.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -128.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 5,
+      "capacity": -1,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          5.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -1.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 5,
+      "capacity": 0,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          5.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          0.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 5,
+      "capacity": 5,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          5.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          5.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 5,
+      "capacity": 127,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          5.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          127.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 32767,
+      "capacity": -128,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          32767.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -128.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 32767,
+      "capacity": -1,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          32767.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -1.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 32767,
+      "capacity": 0,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          32767.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          0.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 32767,
+      "capacity": 5,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          32767.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          5.0
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetNumPotions",
+      "count": 32767,
+      "capacity": 127,
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          32767.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          127.0
+        ]
+      ]
+    },
+    {
+      "operation": "capacity_reentry",
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ],
+        [
+          "member",
+          "NumPotions",
+          32767.0
+        ],
+        [
+          "member",
+          "MaxNumPotions",
+          -7.0
+        ]
+      ]
+    },
+    {
+      "operation": "numbers_null_character",
+      "trace": [
+        [
+          "local",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeGetStringNumPotions",
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GAMEPLAYMENUS_POTIONS"
+        ],
+        [
+          "getString",
+          17
+        ],
+        [
+          "parse",
+          "actual declared ^d format",
+          5
+        ],
+        [
+          "member",
+          "StrNumPotions",
+          "actual declared formatted result"
+        ]
+      ]
+    },
+    {
+      "operation": "text_null_character",
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "whole original potion wrapper ARM bodies, real GetNumPotions3fc690 signed-short getter and capacity signed-byte reads; explicit actual-AS/CString/player/constant/getString/parse provider fixtures. Not whole localization cache or live menu proof."
+}

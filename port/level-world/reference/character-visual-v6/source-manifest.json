@@ -1,0 +1,3402 @@
+{
+  "scope": "Source freeze and exact fixture assets. Native tests declare PF/Debug/FX/event external fixtures; not full live loader acceptance.",
+  "sources": [
+    {
+      "path": "port/level-world/character_npc_animation_set_v6.hpp",
+      "bytes": 1064,
+      "sha256": "92cb277f4da806175f1b122630f80a9a80340944d2f4e60a4fe396e73b7adbcd"
+    },
+    {
+      "path": "port/level-world/character_npc_animation_set_v6.cpp",
+      "bytes": 3035,
+      "sha256": "d1b79b2aee0b522e809f22570102dc7741f5941fa10ec0c24b0890facad546d9"
+    },
+    {
+      "path": "port/level-world/character_visual_asset_owner_v6.hpp",
+      "bytes": 838,
+      "sha256": "20582060b51d01068fea4094af8e684d2b41e15415ca1186ae9cb2515b894a7c"
+    },
+    {
+      "path": "port/level-world/character_visual_asset_owner_v6.cpp",
+      "bytes": 1874,
+      "sha256": "692f8fa3ac1393d7d4ae5a6fbd3c9f114a01edc84c708ca71c9b86a40e5be8e3"
+    },
+    {
+      "path": "port/level-world/character_same_scene_animator_v6.hpp",
+      "bytes": 3366,
+      "sha256": "c80592a31f2101fe15c60c4fe33ae218ba1561ceb5be793aef1020ead83098f5"
+    },
+    {
+      "path": "port/level-world/character_same_scene_animator_v6.cpp",
+      "bytes": 5808,
+      "sha256": "1d3cd06967e9dd1bc1c0124f45e98b585201b408a1766771a3223a4f19530321"
+    },
+    {
+      "path": "port/level-world/character_live_body_projection_v6.hpp",
+      "bytes": 585,
+      "sha256": "6a34e82062b1c966999e8d0a1d6b313102d80e425a1def03d03b8cc3a677c734"
+    },
+    {
+      "path": "port/level-world/character_live_body_projection_v6.cpp",
+      "bytes": 2913,
+      "sha256": "68b917244556ee48a4398a7dc8a5c6eb7fa1b2cdabb0ae1118ed2ab9a3e9e2d0"
+    },
+    {
+      "path": "port/level-world/retained_character_family_visual_v6.hpp",
+      "bytes": 2504,
+      "sha256": "15bc477b8298abbd57e8b1be9c499ffbec1499a97596f24693de84bc9b5140b2"
+    },
+    {
+      "path": "port/level-world/retained_character_family_visual_v6.cpp",
+      "bytes": 3422,
+      "sha256": "05941fdd19f66833a078598b5648ea51a88a27c567a95096f813e734b28c8cc1"
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.hpp",
+      "bytes": 8622,
+      "sha256": "b31e86346cf06a4a12ab3710c65d82cc087f549018845af0111f0c74113f38ca"
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.cpp",
+      "bytes": 14155,
+      "sha256": "39623cb5169a6ecdbbe3a2bbe99163b4fe781293fd0b7fc9b41e88b48f03c7b4"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.hpp",
+      "bytes": 6049,
+      "sha256": "6db14e73f14a51df43505bcf5ac693a741fea63dfa1e0829dc6a41c2e184ddb4"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.cpp",
+      "bytes": 19894,
+      "sha256": "2e01538b2ce5cd5c70112d20149b0b71cc76884af1c2ce9378fb7239ff05de81"
+    },
+    {
+      "path": "port/level-world/character_world_npc_physical_v1.hpp",
+      "bytes": 4601,
+      "sha256": "007e5c17a01c9e61286ed2f92d03f8161753ff62b6153212a82b2e57301b8ff0"
+    },
+    {
+      "path": "port/level-world/character_world_npc_physical_v1.cpp",
+      "bytes": 8671,
+      "sha256": "0b4730b4f84d3978dd5d6192a5ebbfdb1c5e60ca552f753f9d390310514ecfc3"
+    },
+    {
+      "path": "port/level-world/retained_character_visual_connection_v5.hpp",
+      "bytes": 1948,
+      "sha256": "4a090d88fdfdda07979d2651af8e161a26064c32abc29cfe84e4bc00de1629bb"
+    },
+    {
+      "path": "port/level-world/retained_character_visual_connection_v5.cpp",
+      "bytes": 5114,
+      "sha256": "37cbc955747cd772bbb9dc1e5aefd8f06059a8ec369f92758d1a0dc7a50b5366"
+    },
+    {
+      "path": "port/level-world/gameobject_visual_field_borrow_v5.hpp",
+      "bytes": 933,
+      "sha256": "18c28b17363aed319eb2943a4a5d95a98cf688ae55d9358a54a3c71bdc40726c"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_binding_v1.hpp",
+      "bytes": 1018,
+      "sha256": "9ed12bda8b9b9c2d43f3a24d2a90ba93c30d7de5a09da60f60366a3988a7b116"
+    },
+    {
+      "path": "port/level-world/tests/character_same_scene_animator_v6.cpp",
+      "bytes": 9986,
+      "sha256": "e8beae922c3992ffb2e0a98bf1b03ab6a7d008562ef2a0f97e2091c7d41519f0"
+    },
+    {
+      "path": "port/level-world/tests/character_npc_animation_set_v6.cpp",
+      "bytes": 3108,
+      "sha256": "22c200c03ea5e387848d9fe26d69b04c52e86fec516dcfe04c893ead5aece40e"
+    }
+  ],
+  "fixture_assets": [
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_attack_01.bdae",
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_attack_02.bdae",
+      "bytes": 39256,
+      "sha256": "1fe03240c1ef77650e169e7c5945c077fed8dc629e82f37b94e58cee70ea5814"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_despawn_01.bdae",
+      "bytes": 6328,
+      "sha256": "6830bcc022e9fdcd0ead89b8f507a734e6549649aa54c8430c544a839f8b2317"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_dying_01.bdae",
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_great_pushback.bdae",
+      "bytes": 7244,
+      "sha256": "88fcbb858599e81324fa78cac15838318f1522275e79796dc13ea9de524b2852"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_great_pushback_despawn.bdae",
+      "bytes": 6512,
+      "sha256": "aa2c00ffca8771c982a4ed8d1414af59fab439eff826935ef0129aebe102e921"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_great_pushback_dying.bdae",
+      "bytes": 12544,
+      "sha256": "17570b08a65fe00f2421df031736552bd593483924e65cf47483f60eb29745e4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_great_pushback_standup.bdae",
+      "bytes": 16068,
+      "sha256": "e54d34401611a744e215871c4decbda3c9493c8d6813a6f3661de44b30a7e0ee"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_hurt_01.bdae",
+      "bytes": 9044,
+      "sha256": "e386f71e51283330b0ee6aeeed17fbd1b7635c5d44760e3bfd37e0537d7c66ad"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_idle_01.bdae",
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_post_attack_01.bdae",
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_post_attack_02.bdae",
+      "bytes": 35152,
+      "sha256": "6fcf64db446433860d8ce13a88e45527c395a0a919d4ed02da5a833b70300971"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_post_stunned.bdae",
+      "bytes": 8624,
+      "sha256": "0036227b37d662cb0a4ed4f9b3482716e6a483934fdf563100f3357b391864fa"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_pre_attack_01.bdae",
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_pre_attack_02.bdae",
+      "bytes": 36700,
+      "sha256": "12836c5390311484d825ac0595da99b154eed77d824ec5f20bb47aedb8345254"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_pre_stunned.bdae",
+      "bytes": 6448,
+      "sha256": "7721ecd1124b7ff4cba3aaf51d4326b16566ed9e67039da538376103b29a04cc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_pushback.bdae",
+      "bytes": 10448,
+      "sha256": "f69ba9e9b210be19bf798745605df25506e2c7c7c3dab15f78d17d65666afbea"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_spawn.bdae",
+      "bytes": 12276,
+      "sha256": "b3a7aad646be75a1ba90d5ff4c8bd88bd9071bd392739c76676a94d8651fb763"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_stunned.bdae",
+      "bytes": 8772,
+      "sha256": "caaf0e999ac67160cebafd6aa82b9aae4002dd42413e32bae428838f563f0694"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_template_anim.bdae",
+      "bytes": 28556,
+      "sha256": "a5db032f75f68a2be336eb2eb770734191f762bb07d1f4587af47d14f5eb568b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/animations/ghost_walk_01.bdae",
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/ghost/ghost.bdae",
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cin_king_point.bdae",
+      "bytes": 59280,
+      "sha256": "a888bd2289b85e479d88edf334baf782a80ab53013853a7a9bc20c6e76db40c0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cin_king_point_idle.bdae",
+      "bytes": 52420,
+      "sha256": "09d87731c8da600d5fd1d36609c2b6e6755ba9c1151718a9ed395c487c9bb26c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cin_king_sitting_idle.bdae",
+      "bytes": 57912,
+      "sha256": "89c9f8ba51b8166feb098b787a7af3ef30ce92946d0c1bbaff0674ed0484973b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cin_king_situp.bdae",
+      "bytes": 50296,
+      "sha256": "288b2c11afcddebf3e260cbd0b7fb9d2d3f58e02152155459f56ab5b5c035814"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cin_king_situp_idle.bdae",
+      "bytes": 56980,
+      "sha256": "2c41c4d72e63cad18fcb75a9b682e952056c259f36fe21d956e82b946d2e45d7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cin_king_stand.bdae",
+      "bytes": 51852,
+      "sha256": "5579c51c131a74b2f2e0522efdd6c53dda772b4a95a0f72c299f76f5e3400f07"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cin_king_stand_idle.bdae",
+      "bytes": 51804,
+      "sha256": "dfcd378e9f959c04703e4af6d30b5591f8dd2580095f6204602dc4732a822d25"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene01_priest.bdae",
+      "bytes": 16856,
+      "sha256": "ce707cfb8e273d0762afb9a02fde165f5508bad37417949cacc9549224e56f54"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene02_priest.bdae",
+      "bytes": 26604,
+      "sha256": "9443ca606386b7951f32ccfc94de1ab68d71d2dd267cc6c45d218fdf1ebee2fd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene03c_priest.bdae",
+      "bytes": 8400,
+      "sha256": "9b3f7ba5c94bd56fea7e5a535ff9ba90ff2e9eafc71577aa0eb284aa0abbfed3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene03c_priest_idle.bdae",
+      "bytes": 10404,
+      "sha256": "66f2f2b2b9987c7cd19692eeacb77ac4774fe614888738b24dbffa84125bdad9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene04_edward.bdae",
+      "bytes": 7988,
+      "sha256": "30279dde79560b0a61f65e51118e7d0727af18c6b38356cc6f80a91d4cb08eff"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene05_king.bdae",
+      "bytes": 7744,
+      "sha256": "f0b445dd6a72d73cceec7669d60abbaeafb679ed303478af52a65835917035ea"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene06_edward.bdae",
+      "bytes": 9448,
+      "sha256": "e01aff9c8ffd2422113efe1fe1cee267ea1b4c938de54496dac945f4b1bff7ee"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene06_edward_idle.bdae",
+      "bytes": 11932,
+      "sha256": "190c852787c5b1ca502a41d3ccfa179ff846375ff023dc5a76b4d3ceb79d6d82"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene06_king.bdae",
+      "bytes": 9056,
+      "sha256": "ede5851809fce48ff6fddbdeec163cb649481c43bc352ac437cfa937a525eae4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene06_king_idle.bdae",
+      "bytes": 11872,
+      "sha256": "b0cc6387aa0dea2dad219d3dc51846206b69ec459225543537430cbcb459e348"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene08_edward.bdae",
+      "bytes": 42788,
+      "sha256": "2007884faf461098873718e549e1116bab7e404210c5ce9e5cde75c1cdbadacf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene08_king.bdae",
+      "bytes": 44660,
+      "sha256": "88475941e0d5452860096217a5f707e35db1989b9fc17a9705077269fff3fffb"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene08_priest.bdae",
+      "bytes": 51024,
+      "sha256": "f9e547999db446843071bce165a9faa329aec57d7868c1b21d4344c13da78c34"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_darkqueen_scene08_priest_talk.bdae",
+      "bytes": 26604,
+      "sha256": "a306dd566202fa28f6294efb86ca187ad5ecc8a8f09e4985c20f9167793411d0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene01_03_cultist_l.bdae",
+      "bytes": 53612,
+      "sha256": "d83e5899c6141762562b53e0f09638114fad241a3257602e8e9f250b11421256"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene01_03_cultist_m.bdae",
+      "bytes": 43752,
+      "sha256": "b1c5b57bb73870acf71023dace5781faf3f01946b897bd44a393f326372033d3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene01_03_cultist_r.bdae",
+      "bytes": 40740,
+      "sha256": "ebf5a199e909063a7cf7531597c5b78d8fb5dc3df5950fdad1b9826c11c4db60"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene04_cultist_l.bdae",
+      "bytes": 21204,
+      "sha256": "12945e6f860f997a33a8ec07d51e89f453cdd3a8f8a42b1776e3ab233009d9e7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene04_cultist_m.bdae",
+      "bytes": 20140,
+      "sha256": "89a7c3ee8423346e282eb1cecea56fa773dc8c29661a83d0e2f11b1a54fb85ce"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene04_cultist_r.bdae",
+      "bytes": 23640,
+      "sha256": "a2816105ee7fc44499def070d5757c6de2f6cde8a88d1270e5642a177e5ba8c8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene04_idle_cultist_l.bdae",
+      "bytes": 37304,
+      "sha256": "1c6683db6171c126b9c74a9e4827c3504ab345dec1c6893f7ec75808377ce518"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene04_idle_cultist_m.bdae",
+      "bytes": 38868,
+      "sha256": "63033fc6ce171ec9cf4450daff235af21583dc07dbe24a25c5e5f2ade4e57393"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene04_idle_cultist_r.bdae",
+      "bytes": 35384,
+      "sha256": "7f4793b6e87284fad5df7d412fc3d23de7261c5ab53b32580eeb59216465b93d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_l.bdae",
+      "bytes": 23500,
+      "sha256": "98e6f6d8521fc8f496cfb3cac828df12c7f29819464aee051266406e0626e6d8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_l_idle.bdae",
+      "bytes": 23552,
+      "sha256": "d996570d670eacbcf79b775575078590c8485cc52751ca4ad1c89f42588c01d9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_m.bdae",
+      "bytes": 24476,
+      "sha256": "350af7893a84de2ec11ac3f6efc285ea91e2658a7de1b2e3fe7aa813ff209e7c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_m_idle.bdae",
+      "bytes": 21420,
+      "sha256": "c70328d1e1e652ef6063e1854e6ba6757dfb3735e585dea70a9001b573731aa9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r.bdae",
+      "bytes": 12404,
+      "sha256": "d8866990151d9c5785efa6bf3deb53244e967fb654d42026b06d4aa355eddc80"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r_idle.bdae",
+      "bytes": 9452,
+      "sha256": "cbb4c38f61d3061e9626c3ec1ef6cb398e9b4a041a52cd1229180f4aa83f9fa9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_l.bdae",
+      "bytes": 21488,
+      "sha256": "1ad0760047a5c7385b6b694ee0b99001b55a23d649b54f03aabf56428c09e248"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_l_idle.bdae",
+      "bytes": 21596,
+      "sha256": "e408edcc382606f1904ebc748a3b1cb325737f0e4a1d9d9080528bbbf27dc156"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_m.bdae",
+      "bytes": 23660,
+      "sha256": "39c6738b621f7cf56a349b98efe7a065df61a1fb2e3c0f0af9755b6aee4e90c9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_m_idle.bdae",
+      "bytes": 23836,
+      "sha256": "9c68e377df836646865f4bb963ba7c0605cf848f5842cf74c1ae6951d35f09f6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_r.bdae",
+      "bytes": 22828,
+      "sha256": "326808a7aca987d841e6e381b8f92a4fa4e80a675b4c2b63fc83927693f8c268"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_r_idle.bdae",
+      "bytes": 42224,
+      "sha256": "97c8586eb897a5aecdbad1faab3f28709579662fcbad366119f3d27a05af7224"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene08a_cultist_l.bdae",
+      "bytes": 23076,
+      "sha256": "b2e3954be0fa51d7487a59c159f137d42ddb164b810c4f16769cc4849a2c3556"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene08a_cultist_m.bdae",
+      "bytes": 26056,
+      "sha256": "8f890826c0ceb9843546d950a02c414ea8aed68150b0807aeac32f38e888eb94"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene08a_cultist_r.bdae",
+      "bytes": 24672,
+      "sha256": "71b0a69ee420ab0598a1e577274244ebd3b67da2566e555432e0573f09e8cfe9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene08b_cultist_l.bdae",
+      "bytes": 23896,
+      "sha256": "91e7de6b9a61ac5f75b032f5bad49707097d0c316430dad0eb43bf2f5ab55977"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene08b_cultist_m.bdae",
+      "bytes": 26332,
+      "sha256": "0ec10cc9d6c600cbed8deb7311099b4acd0fa1d64ffd59f0bef8aedc280f0406"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene08b_cultist_r.bdae",
+      "bytes": 24860,
+      "sha256": "da1f4528069a1568230bd6d9c074224b03dbb7ecb2bfb36094b642690e8dd778"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene03_idle.bdae",
+      "bytes": 53864,
+      "sha256": "5f003621db1aaaf1ded4b8cd78a15ae08a6bf57d9a9a58da083d2b13f8d66602"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene04_idle.bdae",
+      "bytes": 61768,
+      "sha256": "aefe76885a4dc78c80abe8802121ab3e58dc96270d2af05d1a4ab423d4fd017c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene05_idle.bdae",
+      "bytes": 16184,
+      "sha256": "c1f75b73156ee07a035009d4436576806d0f0581d437ea2b380f228e96fc4d1f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene06_idle.bdae",
+      "bytes": 22424,
+      "sha256": "4664df79d72725777e481badc379ce604c08d3e8dcc7ffd35708eaf912248a23"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene08.bdae",
+      "bytes": 44284,
+      "sha256": "9aba3de9a39443cc82e614cbb669b8dc4e81da1c4b1514399515f59b9d575937"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene08_talk.bdae",
+      "bytes": 19040,
+      "sha256": "be87961b9bce75711762f9cd16c2849537985be89e82d9b6e00797ea86dec8d9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene11.bdae",
+      "bytes": 18000,
+      "sha256": "7e6a637043b343dfb65129b4a71af2b99890aa3a2bf4a63c42ce74b68c5ea7e8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene11_idle.bdae",
+      "bytes": 16184,
+      "sha256": "dd310de9cc9f91cc0c4701e2455f14fe620015fb252d2ea2c7b7725916b677c3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene12.bdae",
+      "bytes": 16184,
+      "sha256": "bac47b72359011dcdad83891c17b9ac5803e9c0002f45828c9d2cf59705b1f82"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene13_idle.bdae",
+      "bytes": 19132,
+      "sha256": "61c2b03ce4ebbedfebf076cafa02abb37de0c9a1665b8f6b2bba10ad038e14fe"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_edward_scene13_talk.bdae",
+      "bytes": 17116,
+      "sha256": "6a8946bece1742c34003d2ec127c9bdba20ae11525a01435991a6d4160d9e8bf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_guard1_scene13_run.bdae",
+      "bytes": 11372,
+      "sha256": "656ef3e00955e1e4fb3f5c6e2fba083412eb77ff9580bde0edee81d4c118ca46"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_guard2_scene13_run.bdae",
+      "bytes": 11800,
+      "sha256": "ad5647f71fa46cb74e6dc5e0bbf880a039b2d3b01f63da72c80f49ed11743a67"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_guard3_scene13_run.bdae",
+      "bytes": 11788,
+      "sha256": "2c5164fab64afa77c0066f9dc06a3b1b00f4f54045cf15b6ada5302beee185f9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_guard4_scene13_run.bdae",
+      "bytes": 12404,
+      "sha256": "28d16434187b47b3f1e98bdbb8a4bd19d497480d80d7ca593940bbc2859a7d5e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_guard_scene02.bdae",
+      "bytes": 10412,
+      "sha256": "656955fe26433e3c8514b620e032bee2bf2612102c13825ccd3040a209078fbf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_guard_scene03_idle.bdae",
+      "bytes": 5672,
+      "sha256": "8ef88f0c0c686197516912080cf5c8869f7e0cb84484a3cf8333cd6b05737820"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_king_scene03.bdae",
+      "bytes": 21920,
+      "sha256": "436b697a3e6948d9dd2b3dee6ea55108aeaaabed6fd81691578d53042c5f510f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_king_scene05_idle.bdae",
+      "bytes": 12716,
+      "sha256": "8e954a71e8255a5bf89db56fc65dea5c6917070015a9c650361fdcf6453929d3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_king_scene11.bdae",
+      "bytes": 17248,
+      "sha256": "c5d7ab84fe5c38f8555d572ea71ac59d8cdb6834187931aa2cc3bcb56109dd38"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_king_scene11_idle.bdae",
+      "bytes": 12712,
+      "sha256": "0c3b99fe100232e9452208494a9f2ccfe6c283323d578fa1c3151ca136693adf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_king_scene12.bdae",
+      "bytes": 28792,
+      "sha256": "4ca1318e220064f68a5d8a2e80fa8778171bbabaff70129921fe620e259bab7b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_king_sitting_idle.bdae",
+      "bytes": 15360,
+      "sha256": "f82afc89ca0e318da0c5131805e167edefd6bdca8561616983cf4831a04e5063"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_priest_scene02.bdae",
+      "bytes": 17120,
+      "sha256": "9de98d5ce22a94954e3eb4520ac97fecf8b72a44246a96dc1941b53d3f105e2f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_priest_scene03.bdae",
+      "bytes": 31300,
+      "sha256": "ba817d5f7ec0749c837a2f3cabc9bcc22982515184978470f913c71e31327fb3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_priest_scene05_idle.bdae",
+      "bytes": 15800,
+      "sha256": "ec770bd7216c7da4bb453aacd167b02c6e041a0f6df65e183ebf7bff9ac285a1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_priest_scene07_idle.bdae",
+      "bytes": 12232,
+      "sha256": "b7570cb21b318df870e06e801282b1df2817482a5b772f897524b2594527a146"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_priest_scene07_talk.bdae",
+      "bytes": 18828,
+      "sha256": "a901534315f8f1a690dee88991e4006bcf7ef4cddaabb111b871fce42254d2dc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae",
+      "bytes": 12288,
+      "sha256": "a0b63f08aa4c694a678d3794845c3180e572de4f2964980cea92c55d847abb15"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_madruk_end_scene07_king.bdae",
+      "bytes": 21096,
+      "sha256": "ad6712789b01e3677a584de8cba664eb8b9dc11d9398694a432d401c24afea2c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_madruk_intro_rene_scene07.bdae",
+      "bytes": 10412,
+      "sha256": "46f24bb69e8f0081c2fdebdf2134383731a56587e4d6baac45195ee0b5ec2e2d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_madruk_intro_rene_scene07_talk.bdae",
+      "bytes": 11252,
+      "sha256": "32b4422ff16557427c4ab589fb66b642afde2992624e26c5a347dd257c3d677e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_priest_swamp_intro_part2_00_idle.bdae",
+      "bytes": 16492,
+      "sha256": "58be585aa7eab03b434c3ff8d029a5719523e7f433f3be114a40a0b287599f29"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_priest_swamp_intro_part2_01.bdae",
+      "bytes": 27248,
+      "sha256": "a88f469df419a463ff5b9c9d63210ee43a96b12349e0f6730ca9f1b9f7e45736"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_priest_swamp_intro_part2_02_idle.bdae",
+      "bytes": 28056,
+      "sha256": "64e2eef9c825aec180d49aa2249b196a94f5cfe16859f5f84992b76208d5f4e4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_priest_swamp_intro_part2_03.bdae",
+      "bytes": 25384,
+      "sha256": "543f51239023748679fbdb334d193081042a9a9b00d3f5741ea52115da0a897d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene05.bdae",
+      "bytes": 39880,
+      "sha256": "912986b33e45f324a6a3949ade5c479dd6a3ee3b4023f78949847cbb75386315"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene06.bdae",
+      "bytes": 18820,
+      "sha256": "49858a18e501ce1a5bdee73ba04196fb18b1454c8ee49a9a32368674cb274043"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene06_idle.bdae",
+      "bytes": 27136,
+      "sha256": "ac772637ece1a2a933333ff1a66575d6e16c0b277db56a6f8a0635d67a6d4bda"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene07.bdae",
+      "bytes": 19572,
+      "sha256": "07162bcdc8f9a4c59c0139b4c86a4dd2b1da33f60cb2a2913a31d908aed7ef4b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene07_idle.bdae",
+      "bytes": 28008,
+      "sha256": "fb768db228c235b400f86b9985f71d47c45acc9b5a5c576a7a216daaf92377d5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene08.bdae",
+      "bytes": 19944,
+      "sha256": "05aeff06f3b8f7ac4a4e38874dad1dc9b3012f05b6f5ddaab4dbfe2425abbbc5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene08_idle.bdae",
+      "bytes": 20212,
+      "sha256": "073f48ec6ffc9e9f3dada2eb45bd3f8a280163106b08f1294b34cdb6351952c5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene09.bdae",
+      "bytes": 18372,
+      "sha256": "cce10f2a12b0f0ab9136d582b4d023599320bed81a0de42caaeeea048110f10b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene10.bdae",
+      "bytes": 29400,
+      "sha256": "39e2a94f190b3a6dce0175415775852e7812bb79840e5fe9c9dffdfdeceb36e5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene10_idle.bdae",
+      "bytes": 31040,
+      "sha256": "ee8fe893b0aad84aa3927dfb6dc2bccb1845f8c3798c67a1b2988867eb37c365"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene14.bdae",
+      "bytes": 18172,
+      "sha256": "1e968f90d8622f2c61a2802d3f4c86d91cea3b9df1feeb34175fdaf9e566cd43"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene15.bdae",
+      "bytes": 24280,
+      "sha256": "c2d4e5af4052ca7e2c85c797b2fe3bea7791906fcaebfceed555c45e8531021f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene15_idle.bdae",
+      "bytes": 18408,
+      "sha256": "9075d1a001b287ed4339222f478c5beb3149115dae26afb6dc74a384ea5c4858"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene16.bdae",
+      "bytes": 23632,
+      "sha256": "5a82878437bcfb309b36090665977eb51fff32edbc6c5c085d9aefdabad181be"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene16_idle.bdae",
+      "bytes": 20484,
+      "sha256": "ed76471928164753aff82b72590d064b4f1b2a6d16c88130276c76b3febdd108"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene17.bdae",
+      "bytes": 29708,
+      "sha256": "94a3bdfa2175f65574525d0a68fa11f5036f5c8229d05e13a743c626f917fc03"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene18.bdae",
+      "bytes": 25412,
+      "sha256": "eb96872bb6f52cad1738efbf0eed076e2279cf4d81056dc54ddcfa7e67e62e3d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae",
+      "bytes": 105420,
+      "sha256": "afba99b32326be03bb9949afb076d0366c7cea599de4cc978ff70b92605093db"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene02.bdae",
+      "bytes": 18448,
+      "sha256": "90146edf1c7f4cbb57bfdabda291a584e94127cbd3ae81a3424c848b0389e7f8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene03.bdae",
+      "bytes": 20540,
+      "sha256": "503d58bd18e0f3d9d96849a7ca9b2cba5857c3eba79bfd5164790ae6076bbb4c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_intro_priest_scene01.bdae",
+      "bytes": 37376,
+      "sha256": "f96084e65b0bb82c6b2086b1ea8f656d23f2cadfab706768dd4d0b09401f566a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_intro_priest_scene02.bdae",
+      "bytes": 30336,
+      "sha256": "cd33f5f332071fd39254a84e092fbedbc56fc02ca7c709093cc058361ebe7bfc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_intro_priest_scene03.bdae",
+      "bytes": 15364,
+      "sha256": "7d6e06bc22ac9b04f6d2da64ed1246233c6239a796f57dd24d9aae1103e82d77"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_intro_priest_scene04.bdae",
+      "bytes": 13452,
+      "sha256": "a3dc04e91a6add938cf1c7bcd3e5ab39e3a63773acc45b577caaa1f55d1de55f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_intro_priest_scene06.bdae",
+      "bytes": 16580,
+      "sha256": "c2c7d1b277ca9c202ee93e3da9b81123cf8b15fe7f1c139f243401cff71b3f9b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_intro_priest_scene07.bdae",
+      "bytes": 23964,
+      "sha256": "82e2cc71c1c7f3db8a9ce4b19225638efff43561affcba51600cb9adb5d91889"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene02.bdae",
+      "bytes": 16684,
+      "sha256": "3243cfed26285d95b86d703be2947f1a796d7138c6ddd769cad5ff40890dd923"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene02_idle.bdae",
+      "bytes": 9956,
+      "sha256": "2c30a57f448d57203cacf05bc31c4b9169756c5f17f097ccf212493dd63121a3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene03.bdae",
+      "bytes": 20948,
+      "sha256": "280f8a1de52469b638b1c4b7858de8584db5b91eab1ed70b731040f300efc851"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene03_idle.bdae",
+      "bytes": 18992,
+      "sha256": "6f4c1ba1286fcca907e656f54c5b9a87bb175c5fc7fab9723cdd7b2b2cfb771f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene04.bdae",
+      "bytes": 12672,
+      "sha256": "73ee7c8be98c4cc3999590621a4b6d97971081807dafe5c00804a60d90aa1c5f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene04_idle.bdae",
+      "bytes": 13256,
+      "sha256": "d75f8885c5be71d6e47665c4b85bee6f30479b45a8f0e6af5db2dbc0b8b11ebd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene04_talk.bdae",
+      "bytes": 11692,
+      "sha256": "553dacf20912369c912e0f3427d5f6817af3b4bf0021ff86f043232c3fafcec0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene05.bdae",
+      "bytes": 19792,
+      "sha256": "f1352b5f02b6f1fcc4e30f370d908c9dd622cf09802811f5ad9494777ea3f698"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene05_idle.bdae",
+      "bytes": 12376,
+      "sha256": "7f7fb5096d2ef924801a7cf259761ed01054b0630ed6e4d89556596073805fb0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene05_talk.bdae",
+      "bytes": 13236,
+      "sha256": "69651beda8b2db93ed6592812535d42f3cac96180141df7cb912561a7bd43150"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene06.bdae",
+      "bytes": 20204,
+      "sha256": "df86752963159a9cdcd6e32fef5b2b136edb05431ccf1655141264ebb219f863"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene06_talk.bdae",
+      "bytes": 10532,
+      "sha256": "481034f46a52fd0bde8f495ba1cb7ad1589afea2f1b6fbcce81c91820bd88a68"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07.bdae",
+      "bytes": 20980,
+      "sha256": "74642218949cf1a1ffa7c8791aa8f9b53da8c8e124f9cb181d62a3daa1442bf2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07_idle.bdae",
+      "bytes": 12596,
+      "sha256": "341b43a183ce058b27c6da6d8e151089abe740214cfd60cc8f736ccf02ddf678"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene01.bdae",
+      "bytes": 22364,
+      "sha256": "d8197a737d59e8e3c8bfb2e5bbb14e7ef91f393d8dcd1111dd07757ca38e0a14"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene02.bdae",
+      "bytes": 13164,
+      "sha256": "fb1d1db817e89fbbdfbd65f4c80029006f741f9eb163c9b3185be5901ed321e9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene03.bdae",
+      "bytes": 16200,
+      "sha256": "901ec845b9bfbff145f6e0418ff11b0b7f871de67fcb621a04903ca8b9ddf854"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene03_idle.bdae",
+      "bytes": 13068,
+      "sha256": "5818275938934cd8e9c96258349ad57bb47394563d9c2128a9ceac383a7174f0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene03_talk.bdae",
+      "bytes": 16200,
+      "sha256": "0244b4dc35a87d573a532f8a831abd765f08c98477abab144aaeb36980a9bcf7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene04.bdae",
+      "bytes": 6336,
+      "sha256": "c5de5270d8214ed9c94a23a1c0445e080ec408b6bb2fad296dcf4acd7f2d0358"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene05.bdae",
+      "bytes": 10180,
+      "sha256": "773e25a7e18d0f05dfa519ece948a7543e9a48b081cc390f51b3e4ca7fea68e8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_witch_intro_priest_scene06.bdae",
+      "bytes": 26516,
+      "sha256": "af077650a8a6d475a0a1644fe4d61a90c3f1d83cbb2c63b84ea1be2153f17496"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/edward_1hand_combo_01.bdae",
+      "bytes": 8024,
+      "sha256": "1b728d7ee9f60cc866cf12594e1869ecd7428e90d1561a158b9879a8836ca332"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/edward_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/head_cultist_anim_template.bdae",
+      "bytes": 37020,
+      "sha256": "959454df17b026168c70fc25805bd0f248bbfc662a9971fb589c81417502678c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/jeremo_guard_talk_idle.bdae",
+      "bytes": 27524,
+      "sha256": "bed074fa2cabafd96674a32a1b0febb6348726f39146db744ddd9b1201fdcfd9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/king_anim_template.bdae",
+      "bytes": 72252,
+      "sha256": "ddf8912cda33ae4726bbfdf311d52651076e0d882ddd44753de47fc726d4f763"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_armscrossed_dialog.bdae",
+      "bytes": 25572,
+      "sha256": "f05e6634d137284e1e3771da819bdacffcb49b458234ff9eac2368a776da94b5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_armscrossed_greet.bdae",
+      "bytes": 17068,
+      "sha256": "95ba34d0fb9c97b07156029423dd1ad263cb6811d8ea03e1665d948bc855090b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_armscrossed_idle.bdae",
+      "bytes": 15676,
+      "sha256": "7c69812a4e597796ddf513afe56604b03b34dad7a6c87c97b63861799abe2d20"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_assassin_kneel.bdae",
+      "bytes": 11808,
+      "sha256": "2cd4b8a6e9f1b58535b8f4dc15a3039383628a14bf41595ac640f5bc86ae5adc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_assassin_kneel_idle.bdae",
+      "bytes": 26712,
+      "sha256": "caddd71df71e48b6b0cd738ed926f3309b0d363413cfd617bd231c934a0143c6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_assassin_kneel_talk.bdae",
+      "bytes": 28288,
+      "sha256": "7d50dd67b31a89b999f9709da5500071e375003de7d3790a6bc087a6bc5f8e0a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_assassin_throw_knife.bdae",
+      "bytes": 10420,
+      "sha256": "ddb8bb3381c28b237a74c98238a79ff00571c0f157e20e8c1204d8251c886df8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_blacksmith_idle_to_smith.bdae",
+      "bytes": 8648,
+      "sha256": "58bd7ee86fac30324d1c4846afb6011daf59a1257319a1651c510a70d630a2ae"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_blacksmith_smith.bdae",
+      "bytes": 24468,
+      "sha256": "fda4d965b3d2ae83e6014ad4e08b9db1c9418cbde827ebce93d1f837b8a3068b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_blacksmith_smith_to_idle.bdae",
+      "bytes": 8784,
+      "sha256": "d4c31f38ca3f6593f55a959ddb3598c71f1027f280966364e4af65ed1595341b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_dialog.bdae",
+      "bytes": 26292,
+      "sha256": "c4c8502d4c954f5844a1c2a00431d34b36016dc1633a38a8ba44a68e04d41828"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_dialog_excited.bdae",
+      "bytes": 22632,
+      "sha256": "4d54c3b9faca3f55d033356e376aa8dadaba6e0fc930b2dfe17c998579ba8123"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_dialog_no.bdae",
+      "bytes": 10648,
+      "sha256": "3634575d4ee3d73060a4b30c54cb76be185f113d2801d018dbee3c647d0dd888"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_dialog_point.bdae",
+      "bytes": 11676,
+      "sha256": "bbf304ac7a0e7c63c501c1d206e0e06fddca1eb75dde90d2ba2d95eb34a0b90a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_dialog_scared.bdae",
+      "bytes": 30164,
+      "sha256": "647e237b064fcba12f3329a03c87ed6ebd5005bb7b335da2461a87a7adf1f794"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_dialog_yes.bdae",
+      "bytes": 12372,
+      "sha256": "fa71d30c5dd5d994966a3e1752a280105479cc4bae5dabaf48f42ed8aea618b2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_idle_standing.bdae",
+      "bytes": 14336,
+      "sha256": "c0eaa466d30cc1b5418bdb300dff5af4ca7257bf550ba2ce091a3353bfff56f3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_lookingaround.bdae",
+      "bytes": 19384,
+      "sha256": "c8ea81a975aa9fa01103e68882c930c0affe6a09ee6aefac1c0b2881b4c25e67"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_pretty.bdae",
+      "bytes": 24444,
+      "sha256": "2efd46328351e0e766765b3131100e163fb473bf2f10f7a72834cb422e744bef"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_thinking.bdae",
+      "bytes": 39680,
+      "sha256": "6f2bb546c402b3d444ff6834b31fe23ccc675dc9624e6b5169cba5154dc66b25"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_f_worried.bdae",
+      "bytes": 39528,
+      "sha256": "8c08258f03785938de55c7c037d1c5801d5fb9a679b66a29dfe020619ffa244d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_farmer_idle.bdae",
+      "bytes": 15348,
+      "sha256": "c9969ceb6266dde6ffc97e1ecd2738c64bce7f683d6fdfd70e02a8768e06c062"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_farmer_idle_to_standing.bdae",
+      "bytes": 9608,
+      "sha256": "98c7d7dd1bc037aee46325a96ddc42877d1bf6b22e040834d75a5db1e0fc71bf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_farmer_standing_to_idle.bdae",
+      "bytes": 10524,
+      "sha256": "eafa3c9dd0cd64f51efd95726e044c477ab5e176e651dbfe9b4cd87ec6b4a5e9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_bored.bdae",
+      "bytes": 41176,
+      "sha256": "3defd2437ef5a93dc433461ec09d8fed4a629e54cdb449f3362dacdce19e2efb"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_dead.bdae",
+      "bytes": 11812,
+      "sha256": "0f9ae313a2812d74b9748c12b85794ca6b308afa91ece16ab5b336784cdf2720"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_dialog.bdae",
+      "bytes": 27668,
+      "sha256": "1a1535f7830e268f762f18dd61a623d2ab6852b8190664c35befd84d36e62860"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_dialog_excited.bdae",
+      "bytes": 23140,
+      "sha256": "d46d850d1d9d4488a4abbd345f4fb1a73025a5aec57709ad2c9d0ca01a166043"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_dialog_no.bdae",
+      "bytes": 11640,
+      "sha256": "cb820b68fbdc924c4dafcad2f4584b3dbf06e39f6f5d3e6bea57233d5d6a0543"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_dialog_point.bdae",
+      "bytes": 12868,
+      "sha256": "7afb85c801169165c1d4ec94d4163f47ad8d92fa0941440d0b5aa892f7b145ed"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_dialog_scared.bdae",
+      "bytes": 29700,
+      "sha256": "34bf68b78906b0a27bd5424780c90bcdf5da3764efc6f12398f4e1bd24101dbd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_dialog_yes.bdae",
+      "bytes": 10372,
+      "sha256": "d6cea40fdb7cb779db0faa2ccf65eafd6eb49f17a12ae60b7efbd6cb94983fca"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_idle_standing.bdae",
+      "bytes": 16372,
+      "sha256": "8b496e423812d92d6036be7a0fae08cbd9ae5f1af637593636547a7b6a9cdfb2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_lookingaround.bdae",
+      "bytes": 21784,
+      "sha256": "160694aedb70b122917e2bc3f9fed0fae67cefb221ccee26688fa4171027c834"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_lookingfar.bdae",
+      "bytes": 25456,
+      "sha256": "65ec5f4db97e32095a897bcb9b8383307bf063b4a450ae879cfead6e19e73bd8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_m_waiting.bdae",
+      "bytes": 30668,
+      "sha256": "3deebb7b28d826d10f110929d9dfd2ac7633428a17789dd19a65faceb3b4b563"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_priest_die_to_madruk1.bdae",
+      "bytes": 12580,
+      "sha256": "ff6dc9802f309318394766c40bc1728cc67b963b4dd3b259abda93fa66de40ae"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_priest_die_to_madruk1_despawn.bdae",
+      "bytes": 5780,
+      "sha256": "ee386e0d59c958c437857b988c3a872130563f88b130c063ad350a37dcb0f56b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_priest_die_to_madruk1_despawn_idle.bdae",
+      "bytes": 2500,
+      "sha256": "a6d8c55630c43a34324cc0cc83a172b3cec5da99f649fb795ff3a37c2afdca4b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_priest_idle_to_read.bdae",
+      "bytes": 8044,
+      "sha256": "cc7645a5056dd54cf15eaee1065b85d23c13ac2299d33be1647e020af1eed589"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_priest_read.bdae",
+      "bytes": 12436,
+      "sha256": "21ee03cb19f3e2ea5dceae61f71a084d96dca45ba3f14d2ccebdfc69cde43ce1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_priest_read_to_idle.bdae",
+      "bytes": 7520,
+      "sha256": "a7784476a9dac6920c1fdefafc4911f226a08a9a9551b9466f95e4589159f917"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_scared.bdae",
+      "bytes": 8912,
+      "sha256": "3cfe7b3b0db80a836e3e651bf3c5fcdeedd5ec25e87d897c028dd8ec90249f61"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_scared_to_standing.bdae",
+      "bytes": 19312,
+      "sha256": "c00fe1faf71106f7045f179a737d237d7ca3b2f7ea1f1e84d5900edbb6d7a567"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_searcher_searching.bdae",
+      "bytes": 20396,
+      "sha256": "cab0036acecc47e7f0a55a94fc076bceb3edf145e638f69eed13686f70827190"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_searcher_searching_to_standing.bdae",
+      "bytes": 17132,
+      "sha256": "e73ab4d13465baee889fde5edb3ecc9405366b2c244c165ffb479e175a2cca33"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_searcher_standing_to_searching.bdae",
+      "bytes": 19804,
+      "sha256": "0fe6b3cbb788ddb3660150162731299e564987ed4f5bb6a72f389ed0766a6c30"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_sitting_dialog.bdae",
+      "bytes": 24272,
+      "sha256": "4f1114fc5a63412f291aa49e531c4b24827ea2024391efa04d7c918e5d95c7ec"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_sitting_idle.bdae",
+      "bytes": 16172,
+      "sha256": "83c0a45598f39ecdc2999c6cece571c9ff3ece8ce4d90d8d4790bfc9d3031599"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_sitting_restless.bdae",
+      "bytes": 31940,
+      "sha256": "7c3c58bfe385197f82adb0acdb7ef07d546a314a4df4f41245e7133e745cb801"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/npc_sitting_sleepy.bdae",
+      "bytes": 44772,
+      "sha256": "948c7374bd793c377f8e25ecb7e1b0e74546d785b8cc0fff21273967ef13446b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/prisoner_idle_01.bdae",
+      "bytes": 17100,
+      "sha256": "9d8765263fefe58f6cfa264c98aa050739df2a95acdaa1dacb8846dfd4b1593e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/prisoner_idle_02.bdae",
+      "bytes": 18500,
+      "sha256": "15d8c26f5a826d01f7b5925189167290e998b39c8a8d9c479a6cf9496c90c5de"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/prisoner_idle_03.bdae",
+      "bytes": 25448,
+      "sha256": "e4ba7c824ea589c90f7640beffed30f7e2f868eaab993729899c6048fc88b3d0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/prisoner_idle_04.bdae",
+      "bytes": 17360,
+      "sha256": "c24f497bf30c773c1a7a606de03d8718a12e653c37d12c8cbf44b5cb1a15fffe"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/prisoner_idle_05.bdae",
+      "bytes": 17144,
+      "sha256": "25fb48db21f3186a03b8465b4147df1cd8498c7b305e90b1413725496b8444e5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/rene_cast_loop.bdae",
+      "bytes": 9896,
+      "sha256": "4644e0cdbe9a5495155e21fe3375f5ae08d5f8fa55593ccfad6f6ae5aa49129c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/assassin.bdae",
+      "bytes": 128560,
+      "sha256": "e59f4d134d3dc8a89a8feb04b4e5bbc02bae0b26e41a539117b05ac2ebcf5899"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/bandit1.bdae",
+      "bytes": 65548,
+      "sha256": "194251c9a416fee0e5c5eba1b9ea603c8376a11cb94b33d70aa9f84ada5f3cb8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/bandit1_ranged.bdae",
+      "bytes": 63308,
+      "sha256": "01d736ef4086e88f5dad0b7adad499835f269945f2a9c9c2d5838f85cea2ca6a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/bandit2.bdae",
+      "bytes": 59908,
+      "sha256": "566182b71ddf5dd063ba4eaa84bd9d126e4da361463f93fce0d533f19bbce714"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/bandit2_ranged.bdae",
+      "bytes": 59828,
+      "sha256": "f905a952d94f4922f61338f0542d569b18226e4744a4874468ec2c23342dbe01"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/bandit3.bdae",
+      "bytes": 51168,
+      "sha256": "81ac53c4788115ae3dfd39348b9c55afeed0e83e02c565a64b10e169c0de2afe"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/castle_maid.bdae",
+      "bytes": 54264,
+      "sha256": "67870d6d4807788c5c8ea83c3f291e6c4e06f0e47e608246797c307438ea97da"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/castle_worker.bdae",
+      "bytes": 56596,
+      "sha256": "b80f93d3e67ddb4a4653bd237c066177025f64f936f5f114ee63e799b1d5f4f9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/cultist.bdae",
+      "bytes": 62100,
+      "sha256": "2344dd14fc7c8ab8802bb49cf72aabf9a2e277fa38ff490ea3287d5c59275909"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/cultist_caster.bdae",
+      "bytes": 66080,
+      "sha256": "6205385eadaeaf70b6b262de82e0d528096fe3e4605332af1d1d73ff3f3cf85f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/cultist_magic.bdae",
+      "bytes": 61676,
+      "sha256": "e4fa091dab37f0cd380dd30ed13926e09c0ba6cd764837a16b7ea2c3990a48fd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/cultist_melee.bdae",
+      "bytes": 59456,
+      "sha256": "26596c4245877b90f287ca71957229c4212829f732551d888d2dde5a60033119"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/cultist_ranged.bdae",
+      "bytes": 62976,
+      "sha256": "1334d06c9e8694284e6c647ade79ddc8fa0a49beecca89400fd6bf8314587a3c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/cultist_strong.bdae",
+      "bytes": 59872,
+      "sha256": "05d769b5db2404c3c017a167465dd3cee6e46e4bfa972de51a327acfb31ea621"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/cultist_thug.bdae",
+      "bytes": 48576,
+      "sha256": "7dded10ac07c4264219c028232434ed19293db26e2d8fbc4e584e6e6747cb1a5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/edward.bdae",
+      "bytes": 83320,
+      "sha256": "ce9dcb303a5ac2befadc89545e1d3cbf924ee125c276fc52f6344204e69bb545"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/edward_with_weapon.bdae",
+      "bytes": 118864,
+      "sha256": "8dda01234f264e28d88cf7f8af426c7be48bb331f979bf38cf3ce4743e5ee413"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/energyspawner.bdae",
+      "bytes": 5240,
+      "sha256": "afd564041b179963a79683f97422dac3e12cc55b81bcb024633f7e1c6361520f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/f_merchant.bdae",
+      "bytes": 54788,
+      "sha256": "6f6ad0c29b7a07c05e5bbe0a1afa01dd9f4caf95c5d7142b38aa475d32c4c912"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/f_sandwalker.bdae",
+      "bytes": 56512,
+      "sha256": "f8f6f77325b837d08191d6d9d34b2db4b6a14618e04ef1b32cfb2788272cd81d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/friendly_cultist.bdae",
+      "bytes": 53884,
+      "sha256": "dc86d40fc96afa78868740c3c2a1ea766e3c29bd4f6cbad67e22b19ebdb824fd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/friendly_cultist2.bdae",
+      "bytes": 55060,
+      "sha256": "0a1c59d22bb43ff66a52802a1bfe21a36e0f4e87f514be270acdb88d2563f92b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/generic_npc.bdae",
+      "bytes": 60140,
+      "sha256": "f05daf1b4a9203d51cb6e21fd0968d36a998a6d4f556d25f5e3f039b7f661018"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/head_cultist.bdae",
+      "bytes": 64100,
+      "sha256": "6115a5aed3e29922224f17e947ceb76033edf0c29cbaa3d35a669d181fb55c22"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/jeremo_guard.bdae",
+      "bytes": 92936,
+      "sha256": "14b7bf2cc8693602607d713e005e6beebb0a9c8b47c9c40ef0e80e99edfb02c1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/king.bdae",
+      "bytes": 90092,
+      "sha256": "ab88071ce3acf45a85a2aec003819e7c0b30b70b8ebb2612d34c05265aae34f1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/merchant.bdae",
+      "bytes": 52796,
+      "sha256": "0843983c7889217d2b178b68fbe457d1edcdd592300fd8527d7d5d9f7d3800ea"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/monk.bdae",
+      "bytes": 89512,
+      "sha256": "3a3e11f4ee86ac7ca9d4100ccc2acd6ca076bf0144fb2f425bf720d1980837a3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/nun.bdae",
+      "bytes": 56824,
+      "sha256": "47490e8ac2a6c182213851f3aadfc55b6a3f5ffc9af7ab8fde51d7cc45807255"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/old_peasant.bdae",
+      "bytes": 55044,
+      "sha256": "edb53773cffb78660387b13c7e67df8f775998d4c64c33202890739b37a857a0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/priest_good.bdae",
+      "bytes": 42136,
+      "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/prisoner.bdae",
+      "bytes": 76684,
+      "sha256": "e77dd02716e81dbe9694d757d90ae2376e160f21294e48fbc1602a2a0ed742e5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/sandwalker.bdae",
+      "bytes": 54732,
+      "sha256": "40e540813611178a8d47fdbc1ca61e2e7a9c8faa3066d0a6a276aaeb208db6a3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/templar.bdae",
+      "bytes": 89600,
+      "sha256": "b07419fb601f295c95590b1b0c208fb9a0d724aded48a9e314a62f98819c413f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/templar_bow.bdae",
+      "bytes": 98976,
+      "sha256": "39215ed237da1a6b8d7c10a60ca5a31096b2b3523c932cb9eb22bf5093775d6b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/templar_sword.bdae",
+      "bytes": 98096,
+      "sha256": "a34a16244507daec7d1da252bf9b9506aa9dd5ce17a170dbfc9e1cc6bd608345"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/thamos_merchant.bdae",
+      "bytes": 63132,
+      "sha256": "7b6a4a481c67e8cec5fc9a707d335256350e5d813b2a4a093039eebefd0c1d45"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/traveling_monk.bdae",
+      "bytes": 58536,
+      "sha256": "815f5e76ddea8f0d381acb345031289e63720325db87caf307b33168a9848a00"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/traveling_nun.bdae",
+      "bytes": 62516,
+      "sha256": "1308f497d7f66ef141e280125ea4fec78d4894a9d8a003f9a85afe9a2e09f7fa"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/young_peasant.bdae",
+      "bytes": 61156,
+      "sha256": "f142101ae22d6fe9a1e52e611c9552edaff1f8838dc2217c964e72b02a1966ed"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene01_prince.bdae",
+      "bytes": 24108,
+      "sha256": "1831369b8ef92f67324e7399c7ac064cb97ebcb6c6e996ba6dc01d0474fafd78"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene03a_prince.bdae",
+      "bytes": 18676,
+      "sha256": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene03b_prince.bdae",
+      "bytes": 19068,
+      "sha256": "446ebde2f708ec58801037462995179c0816b2bdb59c9087603653dbee2c5cb9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene03c_prince.bdae",
+      "bytes": 10232,
+      "sha256": "47750f30f3795aded95eb35e6ef2fee61855be9268c541f7096bbcf6df54676e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene03c_prince_idle.bdae",
+      "bytes": 10648,
+      "sha256": "aa3a12629bf73cdec7f909113f3a4d7087e6f12af8eba62e140ae83b5e928371"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene06_prince.bdae",
+      "bytes": 9460,
+      "sha256": "d32aa7abe483cf0d66dbcda7d9cafca71a35da5765d31c5d6a1675b4858b76dc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene06_prince_idle.bdae",
+      "bytes": 11616,
+      "sha256": "9c52209c8284422969a6a3d48c1c7633deeb30003dfcc262abd6b2d1050c5264"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene07_prince_idle.bdae",
+      "bytes": 10276,
+      "sha256": "17bf33306e68809d7b467cfdeeeebac0d6eecf4319c01e1460f299b43bc59dc3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_darkqueen_scene07_prince_talk.bdae",
+      "bytes": 20248,
+      "sha256": "73d1ca5d86c9d2f09251b3318b3c901218f750f936134a96c9a5cfef67bc08e3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene01_03_prince.bdae",
+      "bytes": 51528,
+      "sha256": "8274270f65c668e3f684b54fa0b26f5f8e2b851c197f16fd57b4e2215fce196b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene05_prince.bdae",
+      "bytes": 12440,
+      "sha256": "12ed9520e8b6b4f53e758f67943a275da3c287cf342e588c18a236ddbf6e954d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene05_prince_idle.bdae",
+      "bytes": 14300,
+      "sha256": "8a9e7ffa581089f6b06ea537c53eb7850919a08e531c7b71fc01372314d2c9ed"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene06_prince.bdae",
+      "bytes": 16028,
+      "sha256": "fa63b9a841e14ba288d0e6df4ec1a1c4d1e4df3861f0c26d11d56659b0c8fbc6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene08a_prince.bdae",
+      "bytes": 16144,
+      "sha256": "1bac059419a484ead437dfd5e87c2fec9c6337139b620675ac17ca3b6491bd0f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene08b_prince.bdae",
+      "bytes": 15176,
+      "sha256": "111c15d7a7610b53ca199fb2b25ba4d23e2e02fccbff9dcc1713947b4dedf75a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene09_prince.bdae",
+      "bytes": 6648,
+      "sha256": "d69169858b86ed773cda6847217325665d60002c86005edd13ab2b0823e17764"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene09_prince_idle.bdae",
+      "bytes": 55044,
+      "sha256": "efb04c40c0c818568623453548f0ed46c197973d6c77b108f9972a7944503ab7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_intro_scene10_prince.bdae",
+      "bytes": 12848,
+      "sha256": "8f7021f28143233e2f5b00b07794828f96e7d842ab836b80455d493cca47401d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene01_prince.bdae",
+      "bytes": 17996,
+      "sha256": "9508ea111ca7596bc8deda7533c6b70fd30ba237347dceb1aa9bde0deabd0030"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene02_prince.bdae",
+      "bytes": 10364,
+      "sha256": "9879231ae0badf6d3cdf44be1c34f03c0e4810c555bf0acd149d49b963bfa801"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene03_prince.bdae",
+      "bytes": 12832,
+      "sha256": "76ef3f44d6496969199ea73d2b912c1d372a40be80b6dd1374d91dccebd4a270"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene04_prince_talk.bdae",
+      "bytes": 48336,
+      "sha256": "366d06a987c5b56a7bb60e009c4e1b3d5571864086b25d47df76c1a3c4064a4f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene06_prince_talk.bdae",
+      "bytes": 10960,
+      "sha256": "21f8b89f4087f85c14650366b3651449d0efca726045be55abf7c52a1834e21b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene07_prince.bdae",
+      "bytes": 7548,
+      "sha256": "2ea0d7771dfcd9273f9fdd6016078f71ddfcd82db0c4d647806acb2507144a6c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene08_prince_idle.bdae",
+      "bytes": 12420,
+      "sha256": "02b90e9b20d10bc0454ae3cbb73c9aed5a457ef82d0b5aa4072ed876a500b568"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene08_prince_talk.bdae",
+      "bytes": 10832,
+      "sha256": "caa591fed9050a986610af26ff26ddb4a2f531efccf48c5a17526534d4576d3c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene09_prince.bdae",
+      "bytes": 14416,
+      "sha256": "7703d8ab56cf3c795b89e37038e33c14e376ceaf94381275c17890d24ed567bd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene10_prince.bdae",
+      "bytes": 17824,
+      "sha256": "9dba879bb1ef38d55aec3a13718df3fb787c209aac7f742bd8a04a1168de253c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene11_prince_idle.bdae",
+      "bytes": 10224,
+      "sha256": "8bbe5dc0aa66a1bf9094fc7a5d06f8d1a049c8021b97302133fc39cd76c476f7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene11_prince_talk.bdae",
+      "bytes": 12304,
+      "sha256": "7e3a63d39de505086afca7983f1851dd29c56fde5e3756b01267190cb9e60f78"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_earthtemple_outro_scene12_prince.bdae",
+      "bytes": 16492,
+      "sha256": "d5945f983d5cff974a3ce79bc870a2d58fad51e3f70697f15e548bc52ef29541"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene02.bdae",
+      "bytes": 11816,
+      "sha256": "9c436fec9596894a93087b105694b086ea17e31ea57286551c31777d27d4a214"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene03.bdae",
+      "bytes": 27136,
+      "sha256": "a43dd142c22e8ffbb49988d2380333ada39eace80e222779c41131d230bd52d1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene05.bdae",
+      "bytes": 20212,
+      "sha256": "0328bce90f49d76ad827f6833878f58ee776a310ce7e74f8f8cabfe68bec2dd0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene05_idle.bdae",
+      "bytes": 16204,
+      "sha256": "86ead63a120285c2acc633ed7e1803e46e0a2b0273dc8f6889b841878f501d15"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene07_idle.bdae",
+      "bytes": 17272,
+      "sha256": "cc543ad0a19e71c923c876256edd2a3ccdeaa4e2beea93d73381921dd9c36d04"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene08_idle.bdae",
+      "bytes": 17528,
+      "sha256": "6099fec881345a7be9aae805c1b3f4a54f9582162cca0888d6913f173d3b6a49"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene12.bdae",
+      "bytes": 24888,
+      "sha256": "6570a1cef0928cae9d26c80355a16d2f64cf9e01fb01b2b7515aa68444a847d2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_king_intro_prince_scene12_idle.bdae",
+      "bytes": 15968,
+      "sha256": "f6de1010e70ccd4977057dd01582348dcd326684048b47660ec5140b32220f30"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene01_prince.bdae",
+      "bytes": 11108,
+      "sha256": "7c0ac84506ace071481d12c85db9191aa866db4b5079d964fda3d2cc5c668581"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene02_prince.bdae",
+      "bytes": 8736,
+      "sha256": "3f4d5f858c31e4089484d8e67e07517bb728b6bf6214e91524721b8dfe4592b2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene03_prince.bdae",
+      "bytes": 17252,
+      "sha256": "d8ca7f4154264c4f1e195cd1b42c12f7448d6ba02fe7f00e47fe31ce2dc7876f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene04_prince.bdae",
+      "bytes": 7584,
+      "sha256": "1e282be86a9aab408ddd3c5089c498fb3631b34c8d1ccac944a06a9f48b6ef5f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene04_prince_idle.bdae",
+      "bytes": 17380,
+      "sha256": "9884e4a8882876e1781a38ff292095fec7f1c9795d175b51aa200653501520db"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene04_prince_talk.bdae",
+      "bytes": 25204,
+      "sha256": "41c44fea73ad2355125c1e5178fe487fde9943edfcc6898f55abfd772930dacf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene05_prince.bdae",
+      "bytes": 28224,
+      "sha256": "a57673d9f01ea11a87417fe5d10f8142179ce75f4d146b2549446b0b445d9c5d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_end_scene06_prince.bdae",
+      "bytes": 6112,
+      "sha256": "d2b6afbe3b96285aa27f0a601fa5313b7b69fdbf76386b8bf549b74cc524ffc7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_intro_prince_scene02.bdae",
+      "bytes": 5804,
+      "sha256": "d5c10ad79674f05dfa71f15da263c90b303b800b1da9771e0a6ca40c4812d248"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_intro_prince_scene03.bdae",
+      "bytes": 20808,
+      "sha256": "df8c01cb0c8293737a7c98a998c49682329c57cb2b7966f4c4f7806376fb0215"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_intro_prince_scene04.bdae",
+      "bytes": 10324,
+      "sha256": "3a93735a7346305da8f9f2f9c9e86c845b085d6416b5632eb0630675ef8d1b15"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_intro_prince_scene04_idle.bdae",
+      "bytes": 9976,
+      "sha256": "7431a5c77d83429462e347721674d6035e9659a4d0a2d1725ba14c060481b0d3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_intro_prince_scene05.bdae",
+      "bytes": 9976,
+      "sha256": "594a2cba529fd838b2dcf74d6b34edc5f88c47209267c4cc4cd9ecf735a5f598"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_madruk_intro_prince_scene06.bdae",
+      "bytes": 20044,
+      "sha256": "9c32805a92c50f960c84a76d85f459f74008d724fef176fba1a374ed48efeede"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_exit_coffin.bdae",
+      "bytes": 17160,
+      "sha256": "c959ca5c2727758da339b8c7b6e78445be2254bb471a83a38411e7bd32aa042e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_look_around.bdae",
+      "bytes": 19268,
+      "sha256": "433c5b2dfb588c083725094896791d23aec8d342be48cf1e173409c1ba450897"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_lying_dead.bdae",
+      "bytes": 6516,
+      "sha256": "9c98024df7a440a3347b4b13f563fb8f20e5bd447ea6fb846a6a2b60ba18af84"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_standup.bdae",
+      "bytes": 17600,
+      "sha256": "9ac60a3937dd88eb6fe09882943b9b73aada8b507dc3dd8246a8f762422fc6c3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_01_idle.bdae",
+      "bytes": 13804,
+      "sha256": "0562162a1e7f6553eb6bec8511e3479fdc97d82291808be7b44265796bdee3c0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_02.bdae",
+      "bytes": 17424,
+      "sha256": "e24ccae6ac139de7242cf90c5e4e8d692b82177bc9e687b1686485da17ba2f99"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_03_idle.bdae",
+      "bytes": 11888,
+      "sha256": "e7a1e8a678f6f850358d23005d21e7cb3e13d00668639a7e3bf51e9c2b3cb3e1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_04.bdae",
+      "bytes": 8128,
+      "sha256": "390670bc8b337673495c38c9aef893b309353388c4557e40e947a45b9d33e7ad"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_05_idle.bdae",
+      "bytes": 12108,
+      "sha256": "cce9b5450ae7e871714b00fbfc6d7d95601ac12ed8339d7b75422bf6bba3a94b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_06.bdae",
+      "bytes": 11420,
+      "sha256": "af3e1ce4162b8feccee272b016c57be6a0dce856b770d95f69b1859a691502b6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_07_idle.bdae",
+      "bytes": 9864,
+      "sha256": "88a2aaa7f5b9b7678bf1e6dbc605ddeb2937b01c2e074149e2d76a5eb6924df0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_08.bdae",
+      "bytes": 7032,
+      "sha256": "68c6f66604d2083b3c7d6313fc7e22c3742e04b32352011bbc5444d254f02c84"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_09_idle.bdae",
+      "bytes": 10520,
+      "sha256": "46c7ad4121942d13d5e4ae57486aa80ffc4971254cde20ceac9a08d96a9e7bb9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_10.bdae",
+      "bytes": 9604,
+      "sha256": "67fee382bde4012f19bee073a56617f8f5e818efbe6e922fabfd3cc534f32ad0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part1_11_idle.bdae",
+      "bytes": 11452,
+      "sha256": "938d761ce00e3f9826cc0209b9cfa71e5e2875aced5ef967208dda563a5bf869"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part2_01.bdae",
+      "bytes": 17820,
+      "sha256": "c9511513c96d617d0bd2fb31bb6d8a61c69cac1b4be2956386154eee34ea5824"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part2_02_idle.bdae",
+      "bytes": 17244,
+      "sha256": "67c860ef2c9b4e47dd8ecb398095ec09c1fc41f85aea968f819883402f33b221"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_swamp_intro_part2_03.bdae",
+      "bytes": 26156,
+      "sha256": "b1a9cf245c5e93d68b05bb2e4ece0a0cdc06db0c864d932d0e1df1ab84d5cecc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_talk_to_fairy.bdae",
+      "bytes": 11156,
+      "sha256": "399ac7cfc7ec2678e091bd43aa68e21f84fdbff04a20afbfaaba0cf7642f9782"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_prince_wakeup.bdae",
+      "bytes": 11908,
+      "sha256": "e18967a0fd67c1f2d258cf476066961da5dc274eb3a111d00c160fc1abe9e2af"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene01.bdae",
+      "bytes": 17408,
+      "sha256": "61209d4795451904612770008a2bba64a37123c56ac7fda3f931d6592f9261a8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene02.bdae",
+      "bytes": 16780,
+      "sha256": "e0718d8185d4095736c6369e590806b0524ce7424e84b2f392489e11e3094f56"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene03.bdae",
+      "bytes": 23008,
+      "sha256": "681579728028e5eecc3016a4496a7e85e65d6a4514f551b8326287d7742eb914"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene04.bdae",
+      "bytes": 14872,
+      "sha256": "9bac17a8503b867cd7444b32e0f2f88581065bc40a68bfbe02aac8f98f310540"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene07.bdae",
+      "bytes": 5672,
+      "sha256": "70f340e9cbf8cea84b77df247d1601ff3340312a82c5bac7b65a77b55c893e7c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene07_idle.bdae",
+      "bytes": 5672,
+      "sha256": "d3df1c04084e1cd0fc11e1bd8bdf6f59f2b23fd9dc2e5bf631fb11febe8059e5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene08.bdae",
+      "bytes": 5672,
+      "sha256": "70f340e9cbf8cea84b77df247d1601ff3340312a82c5bac7b65a77b55c893e7c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene08_idle.bdae",
+      "bytes": 5672,
+      "sha256": "83cd6902339dc55d612658992314ddc1596a33e17180aa932b117d9fa3c44492"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene09.bdae",
+      "bytes": 46656,
+      "sha256": "9416ca0bdb9f60139ac8caea945aa5968d1017686272542272b3f48b3a6c5ca8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene10.bdae",
+      "bytes": 11700,
+      "sha256": "a347f79cc3ccb93d3d9b3603104ac19ceb0c2795b8a751b789b0e86aa7c909a9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene10_idle.bdae",
+      "bytes": 18656,
+      "sha256": "f6c2273ad20b25e83995e9c8485f3a9920d6cdb1d635aa188f758380c1ec7ee2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene11.bdae",
+      "bytes": 11956,
+      "sha256": "472f0694e32e721e8189284bd9698558d8e07cda7076b7de212eebaee9d82052"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene11_idle_faerytalk.bdae",
+      "bytes": 11876,
+      "sha256": "eab4737ab758ac4f15f9ab79dfa20a31ca014cdc459eafd73c1d6789e6e23903"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene11_idle_princetalk.bdae",
+      "bytes": 11924,
+      "sha256": "7d256ee4365e6e026761b67e0d5f49ba7cd3df3ec884a9dfdd540223459b9c94"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene12.bdae",
+      "bytes": 12164,
+      "sha256": "6922f11665b11c2166fed2cd1087c5d2851753818982f2d04a898c91934f8c1f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene12_idle.bdae",
+      "bytes": 12148,
+      "sha256": "fa320c1618ce0646781608bd65eb609f537b11b1ab698cd4d832d56b3f1a8ea3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene13.bdae",
+      "bytes": 7644,
+      "sha256": "0db8ae411715062961e0af10dbc1b88be08b7197b46dfa95f3565888f01a1c74"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene14.bdae",
+      "bytes": 14392,
+      "sha256": "7eab42c4b1d6d0e5598e888efdfb31fe318ae8bf241a38b5b62e3199324d04ac"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene15.bdae",
+      "bytes": 24524,
+      "sha256": "948b1d8b287621d89cbf15440dd5ce81cf5209a0c06473a6ae8ef822b4558513"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene15_idle.bdae",
+      "bytes": 27268,
+      "sha256": "c817518cb46bf307173bc69372ed6e45ae41fc94e40c3f9b3c1c9ff1ce4efc55"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene16.bdae",
+      "bytes": 23008,
+      "sha256": "5581a293fa5ee8acc355c304c9f92dbe92223956062ed305a7220fc415f224ed"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene16_idle.bdae",
+      "bytes": 14632,
+      "sha256": "0cbd6e69400cca4a143e93bb095fccc6fbae2dad29600cca2afee2a38ada694a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene17.bdae",
+      "bytes": 26980,
+      "sha256": "cb4d4779b02e07ae8fe9aeffe573631f3e8c2c75b0abc3ae34dfd8b0c06db97f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene17_idle_priesttalk.bdae",
+      "bytes": 22888,
+      "sha256": "806d722093beb62333e9cc3671984ff461295567f69d68a67fc5b8b7a5640e76"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene17_idle_princetalk.bdae",
+      "bytes": 26980,
+      "sha256": "6268c85f2f2539780cdb361df59c9f1b9d98ede16149b83dc2fa6087af23eba2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swamp_intro_prince_scene18.bdae",
+      "bytes": 23416,
+      "sha256": "06f0b29f2f77ca4e3888f9e5101cc3607935b34ffe9f3fb929235ffeaacf6bc0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene01.bdae",
+      "bytes": 34472,
+      "sha256": "8b4c7f550dbc10cac44407c2c3e6a60ec14bd23d191ccdde51955bea8ea98507"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02.bdae",
+      "bytes": 25848,
+      "sha256": "26b88449178ddb6e64fb58e9f52249c31abd1b52c3324ef344f72d00d7dc5c68"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02_idle.bdae",
+      "bytes": 65088,
+      "sha256": "cbb0b96d264e72a77a92054446ea0e5ad8838c6ce2bbe8e4f87df8cd75a4cd4d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene03.bdae",
+      "bytes": 11820,
+      "sha256": "6b4f681a6ae63a47f325bc75fbf0f6365ee906c9d5761a1470ab4663dba4c947"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene04.bdae",
+      "bytes": 15064,
+      "sha256": "23653e83c61e5f8cf19cd0a3e68f77d03674356382d272b95b573d84cca8bccc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene06.bdae",
+      "bytes": 15592,
+      "sha256": "23001548a0f658782d1e7e47eef59f88b5ed04b80db3b02066a6cb41e6d2cba8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene07.bdae",
+      "bytes": 19408,
+      "sha256": "3fea8f6ccddd418360a2059d09762385fa8bf58e50c586b0c231e94886408923"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_intro_prince_scene08.bdae",
+      "bytes": 12684,
+      "sha256": "4de9e6f2abaae7dab7ee47dd4ca4bcb18e2ac22000241675677ee09978e71eb1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02.bdae",
+      "bytes": 19256,
+      "sha256": "e6cce00acbdc22062b7fe54930ba42db5530b1b8a7aed472fdb27ac40c7abe0b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_idle.bdae",
+      "bytes": 19132,
+      "sha256": "36aeba1f27d0e800838d42633883b11422d20d4c4d52fd7c7a7102f4568a6db2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_talk.bdae",
+      "bytes": 22080,
+      "sha256": "c76cf19593a49e41ed329e4916d00147af370ca57d49065b86cd9b6a66533931"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+      "bytes": 19728,
+      "sha256": "547521f3dd8d66aa1a24920cf56de9e7cf511dcdaeb1df157760f449f9cf20fd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03_talk.bdae",
+      "bytes": 18976,
+      "sha256": "b8dcf8ca24b2b539aba7b454720b1347738d7a4688d666603f7feda7a130075a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene04.bdae",
+      "bytes": 8144,
+      "sha256": "675168a6f35b6222f8c4b657ce2e52a997762aa468b600a3a0012ab8546bdb6b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05.bdae",
+      "bytes": 25672,
+      "sha256": "dc9d1570f15a6c84ac4107c481a02dcb280c6986b9c5f092a5e78f7288f57a34"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_idle.bdae",
+      "bytes": 11644,
+      "sha256": "996730c39ad564c056300c27bbed3e10ad627e3b6453c02ca5150e68a4c78bee"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae",
+      "bytes": 20108,
+      "sha256": "a12e57e47792af6cd41b21f08944bd935280bc60a5809966833e9826424d282c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene06.bdae",
+      "bytes": 17152,
+      "sha256": "67a4da8d69784695ba8000db226d54f51f91d521996d8570a4d755d935c32bd6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene07.bdae",
+      "bytes": 18724,
+      "sha256": "9c18f23b0f826aba8b17dc9916f9fa5ed72257b0ecf17026ca33be807e7d38e7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene07_talk.bdae",
+      "bytes": 11672,
+      "sha256": "2780e1e5b5d363c13951a883bb93e29f6c50ab8c3eb1f0e7cc28ed77f26567b7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_witch_intro_prince_scene01.bdae",
+      "bytes": 24224,
+      "sha256": "ff1bfd39e170a2c53cc72cfc73f75e5199d5531f795ad3bdb4f651c7d361ded1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_witch_intro_prince_scene02.bdae",
+      "bytes": 11204,
+      "sha256": "4454006924ca67ef70df0e4d20498473e2e24df8d8f413bb72a195f2b6175e54"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_witch_intro_prince_scene03.bdae",
+      "bytes": 9948,
+      "sha256": "9ad853b0cd52fb6b76ad7fdb4cb411ff0528d3140d02431d02e6bb56cf9719b8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae",
+      "bytes": 68628,
+      "sha256": "66d01f32e9c388e03a4b8a3fb9c03147971806f955004ee28d064858dadae2c1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_witch_intro_prince_scene04_talk.bdae",
+      "bytes": 70040,
+      "sha256": "7390a6c9392c97779730185bedda1d0a0757bac4ba5505ce89fec65894d4ff63"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_witch_intro_prince_scene05.bdae",
+      "bytes": 11004,
+      "sha256": "0561adafdcf61e08b6460411a2c4deb43ef3b13df07bfb8c3ea2057f5425f040"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/cs_witch_intro_prince_scene06.bdae",
+      "bytes": 25508,
+      "sha256": "f6ef62215d7e2a77374e41845ca0d302ae4724ffdb9cc8c249e7c289dffc4070"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_03.bdae",
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae",
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_pre_combo_03.bdae",
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_01.bdae",
+      "bytes": 8144,
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+      "bytes": 8816,
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+      "bytes": 8808,
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+      "bytes": 10744,
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_02.bdae",
+      "bytes": 7740,
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+      "bytes": 8960,
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+      "bytes": 10248,
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+      "bytes": 10576,
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_03.bdae",
+      "bytes": 8144,
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_03_moving.bdae",
+      "bytes": 8960,
+      "sha256": "7b998d0a49ad004e69f38af6f1b0dfc795d21a34c9a2d5aa40f6cb6e771ade47"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle.bdae",
+      "bytes": 8872,
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle_moving.bdae",
+      "bytes": 10980,
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+      "bytes": 7640,
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+      "bytes": 7940,
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+      "bytes": 7992,
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+      "bytes": 7724,
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_pre_combo_03.bdae",
+      "bytes": 8160,
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_2hand_pre_combo_03_moving.bdae",
+      "bytes": 7724,
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_block.bdae",
+      "bytes": 10280,
+      "sha256": "f87f34e28201d67f33f0245caeeaf33fd024b3b826343a613c2b924df7efd51c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_despawn_01.bdae",
+      "bytes": 6312,
+      "sha256": "b6aa0d869acf57409e6a8bbdc755e5c24b0e16fa59adda85d87b2761d0411455"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_despawn_02.bdae",
+      "bytes": 6488,
+      "sha256": "b007327b53ccfcd9666d00941bc360d1ab9bf7ee9f55c582c0afd8d53e6eeeb8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dialog.bdae",
+      "bytes": 27972,
+      "sha256": "276249c74adfae2cf0c69feb18348751ae8dc6b76c4bccfd559996d201a0fb3a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dialog_combat.bdae",
+      "bytes": 23040,
+      "sha256": "6edaba897c1aa63d8f794d0eaac3a0694e66c095365caa5c3b3b402bc0e92ff9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dodge.bdae",
+      "bytes": 11664,
+      "sha256": "b196c02e2270db944ae6f41d90965d741927fbf5fa37b19878fbf49f2e544af0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dramatic.bdae",
+      "bytes": 15560,
+      "sha256": "c636f1c7910fbf0ac97bcb7fb80c8e58e302a148f4fe26c5f7ff8977ef1f3126"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dramatic_to_idle.bdae",
+      "bytes": 11680,
+      "sha256": "92687a3d6bdac94da2ad2d7b0dfd8c3099e6369d525248351b30d6c5621c2efc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_01.bdae",
+      "bytes": 7292,
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+      "bytes": 8064,
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+      "bytes": 9196,
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_02.bdae",
+      "bytes": 7588,
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+      "bytes": 8376,
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+      "bytes": 10556,
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_03.bdae",
+      "bytes": 8136,
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_03_moving.bdae",
+      "bytes": 8112,
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_03_to_idle.bdae",
+      "bytes": 9224,
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_04.bdae",
+      "bytes": 7324,
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_04_moving.bdae",
+      "bytes": 8396,
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_combo_04_to_idle.bdae",
+      "bytes": 9180,
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+      "bytes": 9692,
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+      "bytes": 9556,
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_post_combo_03_moving.bdae",
+      "bytes": 9868,
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_post_combo_04_moving.bdae",
+      "bytes": 9488,
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+      "bytes": 7680,
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+      "bytes": 6200,
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+      "bytes": 7096,
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+      "bytes": 6840,
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_03.bdae",
+      "bytes": 7456,
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_03_moving.bdae",
+      "bytes": 8228,
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_04.bdae",
+      "bytes": 7380,
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dual_pre_combo_04_moving.bdae",
+      "bytes": 8092,
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_dying_02.bdae",
+      "bytes": 9700,
+      "sha256": "c263a23fd902d90f321fb7170f56a8ca9b925143ce0dd16e66cba77741c8e093"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_feared.bdae",
+      "bytes": 10232,
+      "sha256": "ad14966e8ed054fb44e356b53592740c14b920992cfdc9a9462e9ce78be07262"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_great_pushback.bdae",
+      "bytes": 13724,
+      "sha256": "bdff3bc5dd3f3a95227a29bb042b6c837b56c45f53ff715d0aacb9c3fe8b36b0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_great_pushback_despawn.bdae",
+      "bytes": 6940,
+      "sha256": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_great_pushback_dying.bdae",
+      "bytes": 10480,
+      "sha256": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_great_pushback_standup.bdae",
+      "bytes": 15660,
+      "sha256": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_hurt_01.bdae",
+      "bytes": 9492,
+      "sha256": "912d6df63b3088f8670d184b3acd5df133edd0791a24568379d206dfdabe7522"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_hurt_02.bdae",
+      "bytes": 10428,
+      "sha256": "ddff33044857266b997546d418c4d2e4599831e57c19e67fd5b6e6397673e768"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_hurt_03.bdae",
+      "bytes": 9732,
+      "sha256": "e0770baf2c5dd3a841c5b3d47660c1c956d56cdab57122f5a7955e9e0fc58682"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_hurt_wind_bomb.bdae",
+      "bytes": 19480,
+      "sha256": "5ebebf603653dcacbe7ff711fc51607cbc06b65a7a288c5b4a8e758c295cc184"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_hurt_wind_cone.bdae",
+      "bytes": 10556,
+      "sha256": "2501e654f8328a939aa79bada0e44041148f8551fb23706a497feb0bf5191974"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "bytes": 57112,
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "bytes": 65132,
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "bytes": 55036,
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "bytes": 65128,
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_ranged.bdae",
+      "bytes": 9964,
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_idle_to_dramatic.bdae",
+      "bytes": 14904,
+      "sha256": "f4106a15c6a9e6b8986da770ba6a333fc3402860e6abfa01e2c08d965bb862ab"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_interaction.bdae",
+      "bytes": 11408,
+      "sha256": "988b7ad3e614e2ecc4fc29bdd6fef71d752476d94b432b8ce46b37759e9eba62"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_interaction_shrine.bdae",
+      "bytes": 6072,
+      "sha256": "cec7e98e19b3e0621e3851932c7f0a54c9e668bd42ee47feb4b14651fcb7842a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_charge.bdae",
+      "bytes": 10580,
+      "sha256": "bd8b47647e6d44dbce73f2ce2b0b5b96785f1d92946e1f25e6cd9b286bbba815"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_pre_charge.bdae",
+      "bytes": 7212,
+      "sha256": "0f986e69338c96e53a729dfc57b4001f303beaa58f3c3529d872f348842c4005"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_pre_shockwave.bdae",
+      "bytes": 8456,
+      "sha256": "3f0c1a43079af27b84809567f27566a3d65fd05b12e4b9913b21954d39718223"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_pre_slam.bdae",
+      "bytes": 8052,
+      "sha256": "a9fdcdcf02a7920691b44348d20c89b99e26c95716b33e4560c1b2b554490516"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_pre_warcry.bdae",
+      "bytes": 9028,
+      "sha256": "be503258f99dbc0f6ae609acac16b77173467f9cbbd524590d4ecef1ac143aad"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_pre_whirlwind.bdae",
+      "bytes": 8320,
+      "sha256": "59323da57ca3c479cf6de288d13c365ffcb09c59303a683a0d40adaf4a8148a9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_shockwave.bdae",
+      "bytes": 11256,
+      "sha256": "2a5853c3b7da4c3e95b41f14097fa4ff813b99b08d8e87a5bc2e6034a4e5b44d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_slam.bdae",
+      "bytes": 10392,
+      "sha256": "d5dd0e98875eb0e36e7b7ba522488739d0facaa319727db11a6753381d0e0861"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_warcry.bdae",
+      "bytes": 11488,
+      "sha256": "d4a0982c529dd407518aad94a8c90e38b7848a802673e0044cb9ab232311ff65"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_knight_whirlwind.bdae",
+      "bytes": 12076,
+      "sha256": "94b80227aeea2c8974adc4fb6fbbe16c2e8f32dde604b35928e9bb025ee939ce"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_elemental_bolt.bdae",
+      "bytes": 10712,
+      "sha256": "0ac3c877db78fdfafa5f9a140bc8edec0e30d34669cdefde77c43380242cc8b2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_invoke.bdae",
+      "bytes": 10272,
+      "sha256": "f53a9d1b0ea680323471e6f817d66d77accf3a1f3764a6bb4f11a194e8b5686b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_pre_elemental_bolt.bdae",
+      "bytes": 7992,
+      "sha256": "0f5c27f1d9db3b42c5a42e69225faf89294282004757d809b58f699c98e17527"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_pre_invoke.bdae",
+      "bytes": 7452,
+      "sha256": "2c90d0d1b218cc42b16492880f50382a7572b5469829a8556a971efa1764d4b0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_pre_release.bdae",
+      "bytes": 7788,
+      "sha256": "8a296d7bc740388104536c7ade39dcd53251d511e2881f812bb6b509bbc773c4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_pre_summon.bdae",
+      "bytes": 8420,
+      "sha256": "f0053e99c407047fa0c063a5d0d1d2901dc4e161c6cb93df23fb9a62b4b91c70"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_release.bdae",
+      "bytes": 11716,
+      "sha256": "ec56659a712aaa1ff20c830ee402efcd256c7df96baf4056553ddd3bb0398248"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_mage_summon.bdae",
+      "bytes": 10980,
+      "sha256": "9c9bcd56a7d56ce0d7337048546addba63a6ea98ed01f7d8c8ce101f02cb4bc4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_menu_idle_knight.bdae",
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_menu_idle_knight_02.bdae",
+      "bytes": 36772,
+      "sha256": "f7c2c9da65f17b6bb737062bbdd13d3a2390332e6aa7504daf61af755df66aba"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_menu_idle_mage.bdae",
+      "bytes": 12884,
+      "sha256": "63f1673b3c8074079b8033514087f4f0a614f3d32c983fd2193bc48a14462058"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_menu_idle_mage_02.bdae",
+      "bytes": 34936,
+      "sha256": "a9062d260e7b889fc3cf464c0d1edbed0f9b88323f5f0704a98d3d97e6df87c6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_menu_idle_rogue.bdae",
+      "bytes": 14580,
+      "sha256": "17dee5ad32e29307c25a83b4db898d14091de5e198ed5e50a5928c61444bbfa0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_menu_idle_rogue_02.bdae",
+      "bytes": 29472,
+      "sha256": "69a972b82dec287e392938a2aae3e810b135cec9a278f172b3a3ba7f592bbefe"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_post_ranged_attack_02.bdae",
+      "bytes": 8100,
+      "sha256": "94b8595a5a68f52a1cb63b0dc1beb14767d9118f93592d312f14f3333e8706a4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_post_ranged_attack_03.bdae",
+      "bytes": 8120,
+      "sha256": "3c0b28a6fa65820543a602f0b4a23171e564940a3f0adcb7cc3bd85e3478d311"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_post_stunned.bdae",
+      "bytes": 9244,
+      "sha256": "0d0930697d6de8e84aca96450d02dd1576c96fef1d17bf530f100fd4d7727403"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_pre_ranged_attack_02.bdae",
+      "bytes": 8452,
+      "sha256": "8af323ae3b76637419539898d3ef53dc7df9c9f47a154e71f55ae31274bcbbb6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_pre_ranged_attack_03.bdae",
+      "bytes": 8440,
+      "sha256": "836a8963aab7471bea08a03657d8e82bd2e27d895da6f1da008b1c1f5d7037d0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_pre_stunned.bdae",
+      "bytes": 7084,
+      "sha256": "35eb3d125813c63a3a0aea5a3ce3810339e44dc7c8a13bf40ebb1a4061358532"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_pre_unarmed_01.bdae",
+      "bytes": 6832,
+      "sha256": "77087a723598a2923ba5a2ff57ffa0ae6a69308e8ea0aaa4cde9372d15ad394d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_pushback.bdae",
+      "bytes": 10784,
+      "sha256": "98b725ebc5c5d5de24a10b01cc9936a08d5505adb62919db522a14c6ecd3481e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_ranged_attack.bdae",
+      "bytes": 11752,
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_ranged_attack_02.bdae",
+      "bytes": 12088,
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_ranged_attack_03.bdae",
+      "bytes": 12400,
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_ranged_post_attack.bdae",
+      "bytes": 8376,
+      "sha256": "c254cd0b61f46688d2cdc5eb1b5632e5253e70751ce437cb4120ab0ce048fed9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_ranged_pre_attack.bdae",
+      "bytes": 7376,
+      "sha256": "1c4d3028dd3eab69eac4fe2b02f44bcb3444e491737dc86ca5e0903e9c70274e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_bladefury.bdae",
+      "bytes": 10240,
+      "sha256": "fc4d588bae57b489bc9a79740ee1a2a81dec59d0257b6c3d3b4d32525e7d5f4f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_bombthrow.bdae",
+      "bytes": 8516,
+      "sha256": "1f7303026ac1dcaf15e79c938b84e30df94a93ed5e5e19e8e31913df0699d11d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_jumpattack.bdae",
+      "bytes": 10228,
+      "sha256": "899877befe5a1f5c56ac0badaadc0bd0be58a744e503e8bbcc6bf9b09206f032"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_pre_bladefury.bdae",
+      "bytes": 8248,
+      "sha256": "8e6af6d077617c73615227ba67cedd84f270bbb43568a73ff20fff9839ff4f9f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_pre_bombthrow.bdae",
+      "bytes": 8364,
+      "sha256": "50b4d22531ad6a2ac53134af7ea6733eb0167eeb118f3d14769db4522752bc7f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_pre_jumpattack.bdae",
+      "bytes": 10708,
+      "sha256": "f30b0910479d86d093d50fa3f4535ec9933858924d87150de3e8337c89f2609d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_pre_twinstrike.bdae",
+      "bytes": 7736,
+      "sha256": "ed243c53f71b0fb0747b9c6774506cb249a2c68eed33769fd49ce7f8e6314198"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_pre_viciousstrike.bdae",
+      "bytes": 8612,
+      "sha256": "c6e5eb01a1c166a258075715cbced934cc6b81c04fdc213bfaf84df7a3569003"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_sneak_activate.bdae",
+      "bytes": 9560,
+      "sha256": "bfa55e60c9fdee28926b2696325d814f33a045cc996d0389e16f0ebf4248ea20"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_sneak_idle.bdae",
+      "bytes": 16788,
+      "sha256": "ba16c7ae983f3afe7c0f7e95836e5412bc7ac3399ee502de9acf5a780f003f9e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_sneak_pre_activate.bdae",
+      "bytes": 6748,
+      "sha256": "a4e9cafff3363c8dd8d2e86c27115eb1bae164618f1482ecd850eded090126de"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_sneak_walk.bdae",
+      "bytes": 11392,
+      "sha256": "64ec13a0132bf52db4c430c64f2b138ca7cc5bd76140ee3ede21b1923a8bc9c1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_twinstrike.bdae",
+      "bytes": 12700,
+      "sha256": "8c417a9a878400f91fe6480ffb58be0276d02ee897c3b6903b48bbc8a2c4d78e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_rogue_viciousstrike.bdae",
+      "bytes": 12052,
+      "sha256": "40c07a2d3292365139bb1a4234308f8a033be8694c02474fb5056e6ab9f64486"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_channeling.bdae",
+      "bytes": 8048,
+      "sha256": "1350178e7a87b8868fb6e4d34acfce79e27a77674058aa09ddd8625bb6f596ec"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_hotty.bdae",
+      "bytes": 9444,
+      "sha256": "e80741db58a592071f0fe0f4683a2fb4cec3d5e6c0872a32251ef7266d742fda"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_post_channeling.bdae",
+      "bytes": 8148,
+      "sha256": "8c78409b578b202b0043430643b5b10151cd2c32749d4d80ad4487a6e412f71c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_pre_channeling.bdae",
+      "bytes": 8528,
+      "sha256": "e2896749f5446139db984668bb1212783dffc7cce4deab0119e34c4f38509c0d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_pre_hotty.bdae",
+      "bytes": 8204,
+      "sha256": "20f24c13da52eeccd65e5c1d9e1622eae02eb17c8add83893c7470dd2e5ce59d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_pre_rocky.bdae",
+      "bytes": 9256,
+      "sha256": "df611a7a2610a9bc952ff5bcd2d09c78858a1f03aa9d3e4d0b5f8ec25b54cc7a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_pre_self.bdae",
+      "bytes": 6780,
+      "sha256": "b091e431cd3f5970a3e8f96a51dc36f10f7debfae08c3e1b5dc0b947500d9ff1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_pre_wetty.bdae",
+      "bytes": 8352,
+      "sha256": "0ab0b2420d0a61797e41f7176b9690d5f56d85d0daac3005e871e7f11b2889fc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_pre_windy.bdae",
+      "bytes": 8648,
+      "sha256": "b291fd40c0eb231aa130312d59fb5a54d9113b8f4931bda477bb3f768caba43a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_rocky.bdae",
+      "bytes": 9452,
+      "sha256": "6a98c5f8a6aacb745ae58f01e13e375bf8489e9c66864870f5d77d91d6b4183a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_self.bdae",
+      "bytes": 11228,
+      "sha256": "351965ecfb30d7a1cd31b643c1ef95c6f38f44bb864ec93060885662c4b5eccf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_wetty.bdae",
+      "bytes": 9488,
+      "sha256": "e00550d886041df8af1add54e49a5a9c4047bce9b730ddf219f03d1ad4660cf0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_spell_windy.bdae",
+      "bytes": 10656,
+      "sha256": "ad9c13246bb75cb3f7bbc6c8cb2aa5100fdd8c23f25185b45f35acb10d0df36f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_standup.bdae",
+      "bytes": 12624,
+      "sha256": "14f67e0012fcbac97db179cf9304f55d22d537fed2a78c3070c5be758725042d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_stunned.bdae",
+      "bytes": 11636,
+      "sha256": "10a81195712d8a46498104c8e1647296ee7fdf0d4eb488425d1bd987cf3b0214"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_template_anim.bdae",
+      "bytes": 19908,
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_unarmed_01.bdae",
+      "bytes": 7308,
+      "sha256": "8c4ab3bbf9e743ac0fbd3881817edbdd1ecb026d260b62e5dc2c9e71dab30c0a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_unarmed_01_to_idle.bdae",
+      "bytes": 7780,
+      "sha256": "22db5186fb0b371670a4336496f6a2509111d768349749243d0920cb6e2a552a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_1hand_start.bdae",
+      "bytes": 8696,
+      "sha256": "a6023b36d9ec9f7cdfbadcf7e56e9aec4f15e4711facfb0709d8a01274b627d5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_1hand_stop.bdae",
+      "bytes": 10404,
+      "sha256": "3df51181282df54ea32a4900117291bc4ff700965bd78ce7a3908c9a3af69909"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_2hand.bdae",
+      "bytes": 10016,
+      "sha256": "b330021f112da90b286f69ee9afce343bf652aef9ab6de95bc24a143a2cd40e8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_2hand_start.bdae",
+      "bytes": 8880,
+      "sha256": "e297cdd619d1d272de1abaf14d056deedeedaa92a56524aed9ba853d49229510"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_2hand_stop.bdae",
+      "bytes": 10440,
+      "sha256": "31d0d191ea9756b58dab035a2fb43a68af743511327e0f36331259fe937a23a4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_dual.bdae",
+      "bytes": 8560,
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_dual_start.bdae",
+      "bytes": 9060,
+      "sha256": "8e44d188f84461bc8ff10e2039b2767664e03e4464e20a2bb84acb0d653bd22b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_dual_stop.bdae",
+      "bytes": 10492,
+      "sha256": "def2ebc209f5eb30972fcd3d9b63df98f46e0487a1c1ca5dd405fb95d0d375b9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_ranged.bdae",
+      "bytes": 9604,
+      "sha256": "ca237ed15b4523449f7351a0dd7cb98baa3544debdddba0818bd210d4c93a8eb"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_ranged_start.bdae",
+      "bytes": 8844,
+      "sha256": "fc97d5abbbc60aaa12dd126f8aee1fda29b7e81f944746da74dbe4583ca8cbde"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_ranged_stop.bdae",
+      "bytes": 10312,
+      "sha256": "e7741917dde1f652821117115503c4ae1d7103dec0d84426ac59465fb0a8cece"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_chain_bolt.bdae",
+      "bytes": 11420,
+      "sha256": "7fbe9cdc1b0c4a58dd83d31eccaec6c421ecd69becc7bac253a2b6293b6b42c8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_cold_ray.bdae",
+      "bytes": 10452,
+      "sha256": "4dec51ccd295acc468232d7a12f10c47ca06f87877370a2e3ba90770aa32b213"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_cyclone.bdae",
+      "bytes": 12760,
+      "sha256": "10d9e2b21b6b23bd377f10bb5fc4ff43b2eb55b2d55eb9ed6da780c384671bf3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "bytes": 67584,
+      "sha256": "7adb070eb0d134d40878202b9fb757def8085f1c9c64560cd6b26c9c8bfd8a6c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "bytes": 68384,
+      "sha256": "3757fd6ef731bba1e4897f0500e1daf8aaf93e981d021aec4d031d45a398916c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "bytes": 68356,
+      "sha256": "085e2adfc2ad395556c626ceeb287240c1f51a6906baa1576ca2c5d436e4c702"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_time_control.bdae",
+      "bytes": 11668,
+      "sha256": "87097e19eaf0cc06d99e51ba6a59978f15a37c459d1e67a95541b598a8d7ea25"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "bytes": 27180,
+      "sha256": "e53b62dcebe92ef7b21d0e3907c408c7f9b7a1c1f77b85dc6f79ef522b4a440c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+      "bytes": 12412,
+      "sha256": "b8c73473a28bbd54c91ddf8ef035f9d930a81107f1f00b999beb9abd3d4355a5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+      "bytes": 13388,
+      "sha256": "c712b410d4bb23cec14be6411d134e1194f55f01e99cbfb47c0e358b34bce3cb"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_necromancer_rise.bdae",
+      "bytes": 12636,
+      "sha256": "f40a183427e7eb80086936f51db26903976c3cdb4a7a80035a3fb4fdb9aaebb7"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_stone_escape.bdae",
+      "bytes": 12412,
+      "sha256": "7cb07bc34f43f43b84907b2cf4c3419ead3b0c3791ac618176ab73a388dbd4b6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "bytes": 65060,
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_archer_exploding_arrows.bdae",
+      "bytes": 11676,
+      "sha256": "6fd55b3183439b5757c71a31ad9e914488b8cdbcff71164d3b7733c756d0b3c9"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_archer_multi_hit.bdae",
+      "bytes": 16012,
+      "sha256": "b07ef7852be5e0f1c646a46a4ad6ec035aa3c398458b025e615698beace4e51c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_archer_pinning_shot.bdae",
+      "bytes": 11772,
+      "sha256": "6fc83f4880bd6e9edebb8db0548f182229bb278b51c33e126993749d6cb04da6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_archer_poison_arrows.bdae",
+      "bytes": 11676,
+      "sha256": "5514d61f2043b8ca8283f6add5eba9535724f41830073a6f443f74b1d1046cea"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_archer_volley.bdae",
+      "bytes": 11676,
+      "sha256": "0c7d3962528fca7b45cf77114db25c539003276ebfcc900ef4b90047f0505f11"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_assassin_assassination.bdae",
+      "bytes": 19572,
+      "sha256": "6617af214235c7cbdb8b620428b1eed65c59bb4465efdd4fd773ab37ef0327ee"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_assassin_blindness.bdae",
+      "bytes": 11088,
+      "sha256": "db3573082e49a8a6378d7aab04cd1d6bd05b4fb0a57283bdc27995a5cbd1ece5"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_assassin_hook.bdae",
+      "bytes": 8200,
+      "sha256": "6b4bf3b02070c0caa6388f4770dfbd3071f51cfc8735c045a513a8e25833042d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_assassin_hook_post.bdae",
+      "bytes": 6448,
+      "sha256": "b7bb85dbdcb1d637344edc08ef6b85b2bbf5b560560cec41cd2649c367e08509"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_assassin_hook_pre.bdae",
+      "bytes": 9552,
+      "sha256": "ce433039c002d7921ab85d75ad9ff72e93e680f01267ef82e0bc57154cb649f1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+      "bytes": 12412,
+      "sha256": "dae15f584e540545377ff1c7c80316e2d0cc0c74138d50cf4073556427ece209"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_jump_kick.bdae",
+      "bytes": 12576,
+      "sha256": "7db240e6e3d9660964c86b6218b0c6d5436afa35e8e1a653aa1487d6222dbdf8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_quickness.bdae",
+      "bytes": 11764,
+      "sha256": "261f8c8215f8e19407517f4cdbf9e4929a5f84ba69a55d2cb5ea18601c0d4d00"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_roundhouse.bdae",
+      "bytes": 20660,
+      "sha256": "2d49b491e980e2d4f11828edf88c8e803931389a5289b9903a07f9a259a52950"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "bytes": 15752,
+      "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "bytes": 15528,
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_berseker_bersek.bdae",
+      "bytes": 17600,
+      "sha256": "d4c228e7690a92208a3a47d95cd037258f9a2b8da03753f8699be66259ecf9bd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+      "bytes": 12328,
+      "sha256": "6068e0601bc72d28213e665d80cf7f10768bf054335834ae2a65b943e7ee88e0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+      "bytes": 12476,
+      "sha256": "82963dd20ca37ad1f3b52ec3ae0fff7a95cc8315f69f7483d687f42ba011b146"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_charge.bdae",
+      "bytes": 11516,
+      "sha256": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_crushing_blow.bdae",
+      "bytes": 14676,
+      "sha256": "5aa608edd801347e338505fb915f6e44033bf51ff98310170accd4dcb232dbfa"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_devastate.bdae",
+      "bytes": 12472,
+      "sha256": "0e288f3f054158269c683c698008fc42fbfa98fb2f3acbd9135a42b5b5cdb4a6"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_ground_slam.bdae",
+      "bytes": 14676,
+      "sha256": "89e8b2569aa036905760382b18b85ea9185dca0b125f6b5a49ccf265a7c59937"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+      "bytes": 11256,
+      "sha256": "e2fa133f4fa2afda9d85224f02bf55fad34a4cb44fdcbf699b30fe0dec8f4bdd"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+      "bytes": 14692,
+      "sha256": "8232e55d6c8c25cf1e7282991f47657e30010715d88e31842d9ee01a920e5421"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+      "bytes": 20784,
+      "sha256": "ce17bf9aa698623b5ae010623c4f34a51bb21cb228285c93a3ca414c79086b9c"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+      "bytes": 14692,
+      "sha256": "f4e4719d25bfad92d1aa433ad84f1a0e82f315401df4a4c4f1cd9fcb73aa7c50"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/spell_dh2_prince_drained_life.bdae",
+      "bytes": 64328,
+      "sha256": "27d6db8d0bd67e32a4552cf7ca6d66bb94fbeb8d3fd6b0843c5d7cf607ed78ec"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/spell_dh2_prince_drained_life_complete.bdae",
+      "bytes": 78308,
+      "sha256": "61656a479d50661b4fc51bd204f88b3f77740f7ec420ee1538d87670524b38d1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/spell_dh2_prince_drained_life_post.bdae",
+      "bytes": 62776,
+      "sha256": "c8d0e946f563b291c97f255ed454fe3356d1e7d8b54ba6f7ec2bf50a306bb5a3"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/spell_dh2_prince_drained_life_pre.bdae",
+      "bytes": 64232,
+      "sha256": "dccbac1f590983804cae0008288182ff060351d61d2d82c958dfd88714e41c83"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_attack_01.bdae",
+      "bytes": 11604,
+      "sha256": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_attack_01_to_idle.bdae",
+      "bytes": 16960,
+      "sha256": "8df25c9d89c7e3c343329fa6694661fa1968645f6176919312b5b64824a7ac17"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_attack_02.bdae",
+      "bytes": 9824,
+      "sha256": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_attack_02_to_idle.bdae",
+      "bytes": 17120,
+      "sha256": "53bf12257a1df6411cd6e95c492cf6c0fbb50f557a17407f0a28176e3148b082"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_despawn.bdae",
+      "bytes": 7000,
+      "sha256": "c8478c828e32e4fdcde42b80427f3e01e0af349330ffd7ea93cd481dd4869517"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_despawn_02.bdae",
+      "bytes": 7000,
+      "sha256": "8adb040c1ffa72e8ed8b97d1f3e8ee910d5a8d95638c9613ab9c59ee099144da"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_despawn_03.bdae",
+      "bytes": 7000,
+      "sha256": "11ab4427caff5cb8cc30178889ebfb5b2b4e19360240d47d8ef6d5ca20f97b48"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_dying.bdae",
+      "bytes": 12700,
+      "sha256": "4a66caf03f98ee89c008fda99372f8c8bdbd76f932f38ec79032031d0bc8af90"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_dying_02.bdae",
+      "bytes": 13112,
+      "sha256": "e3c815b175a991b29783c92bb3d9f912cb35546be8675e6c9c4ea8e1d5bf1003"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_dying_03.bdae",
+      "bytes": 11912,
+      "sha256": "9fe8b96b84179437bb337d7be9a0b2a0366b9942297f6dce8b3fa25676c90262"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_great_pushback.bdae",
+      "bytes": 11200,
+      "sha256": "dda8648fc252890049d125ea23dc9414007c30d764d9d80cc5594c63f686fb50"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_great_pushback_despawn.bdae",
+      "bytes": 7772,
+      "sha256": "8fa2ed3271efc839e44a86f45d300b3ac52e9bcc98d07f3666e894a90d85ef94"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_great_pushback_dying.bdae",
+      "bytes": 9608,
+      "sha256": "9acdbfa646b401cd2352ae16c361d41650392dbdd98cd82b9269edd43c20b276"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_great_pushback_standup.bdae",
+      "bytes": 33352,
+      "sha256": "e55e72efff4d91c49b44676b41735aa70231d02c08db714dbf9c6271104ba86e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_hurt.bdae",
+      "bytes": 14860,
+      "sha256": "7d63f3534a1851076f1d68cd5946f4fa506828059d93373e057760cf5b9eca31"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_hurt_02.bdae",
+      "bytes": 12592,
+      "sha256": "9006264dc9103d8091e3e801bfb85a68c4aa024124be6399b572853f3b7694a8"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_idle_01.bdae",
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_idle_02.bdae",
+      "bytes": 28632,
+      "sha256": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_post_stunned.bdae",
+      "bytes": 9128,
+      "sha256": "7ea3c95b82ce6e158054b487d328eafe1352011c3203fc718000a29c5926a89b"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_pre_attack_01.bdae",
+      "bytes": 11004,
+      "sha256": "3c9c0f3f72c8ade5bca121ba172036f33b32bdc181a57ccc41cbff7012ca1d1e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_pre_attack_02.bdae",
+      "bytes": 11572,
+      "sha256": "97220c3139e1eee33616b4aee973d0272c156970a1c235ef41c608fe29608f0f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_pre_stunned.bdae",
+      "bytes": 7112,
+      "sha256": "316991b8623b91be29ca38f537dfc3166ba387463f709763dd2b391dbe075230"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_pushback.bdae",
+      "bytes": 13368,
+      "sha256": "94238835da54adf58280140cd0af26c6538b2e704d6e05db9f551420f6ddc9fc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_spawn.bdae",
+      "bytes": 28844,
+      "sha256": "2647e5a4cc4e76371f927982ad0548b2719d0cc6e893bbab615d0a0d0a918e2d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_stunned.bdae",
+      "bytes": 10624,
+      "sha256": "640b150a52ac6056bcc638a2ef52feadc69fc331ebf2d473a442ad7ed495fb3f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_template_anim.bdae",
+      "bytes": 35488,
+      "sha256": "98025d7f847ed2b22ff25e3cd4f5e1ad3969575590bb6d3e1553811a079b704e"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_walk.bdae",
+      "bytes": 18816,
+      "sha256": "0fcb603c72a725dbae62d4bc061ebf98ba9b0a504e40645f9ba09fe4fcc589b0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/animations/skeleton_walk_02.bdae",
+      "bytes": 19068,
+      "sha256": "74e66d724712a5d4f491f4d29e358bf1d437ba4074d815860a939b90e7defcb0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/skeleton/skeleton.bdae",
+      "bytes": 70736,
+      "sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_attack_01.bdae",
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_attack_01_to_idle.bdae",
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_attack_02.bdae",
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_attack_02_to_idle.bdae",
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_despawn.bdae",
+      "bytes": 3548,
+      "sha256": "9d8dd415498c0b6ffe8e362122f7dc687a735d2d880d113e34605886ca799332"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_dying.bdae",
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_great_pushback.bdae",
+      "bytes": 4464,
+      "sha256": "c62c8e5164379540eb4fda5d724a479ef3d63ca2325e21f84150287f55940531"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_great_pushback_despawn.bdae",
+      "bytes": 3548,
+      "sha256": "779c271164ca8e7dfa3e85b91c53a143495d5000b623072ae6b09083075abf83"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_great_pushback_dying.bdae",
+      "bytes": 6452,
+      "sha256": "3089562312cd6dc30d77439e50c9c76ef4655afa1c946a9686359d78ad1438b0"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_great_pushback_standup.bdae",
+      "bytes": 5612,
+      "sha256": "36a1753e0910550e448ed6ac4e6d3bf35c343a00416e4efc7723494f5e956a39"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_hurt_01.bdae",
+      "bytes": 4672,
+      "sha256": "dd718d562f62f29f039fbf7e7acc25f7d50731349b6dfb68c2a96bd6f562edf4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_hurt_02.bdae",
+      "bytes": 4684,
+      "sha256": "f2f36690daae699592ac60bd17f1c4cb3d580c2e25c2f4222bc5721c06e012a4"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_idle.bdae",
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_idle_02.bdae",
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_post_stunned.bdae",
+      "bytes": 4508,
+      "sha256": "b2c11ef4837d73c8afac0fcd87233644fe8528706dd8c67349453dc61e0eae95"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_pre_attack_01.bdae",
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_pre_attack_02.bdae",
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_pre_stunned.bdae",
+      "bytes": 3188,
+      "sha256": "3ae67a15b8e627da8f6a6febfa1808bd87cd57cf4ed453d861b39f5163644c01"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_pushback.bdae",
+      "bytes": 4828,
+      "sha256": "5c9b2c19949084ca98d5e0207a6cc0430bec6d8918b208e3feeff6de2d0a7b3d"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_spawn.bdae",
+      "bytes": 5772,
+      "sha256": "d91ad8ab0cff4c055be090436427ecb65169b473247c3bed48ae945c53d3e1aa"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_stunned.bdae",
+      "bytes": 5496,
+      "sha256": "743d723a57b39bcfda3fe76fa43d96562c6576aa274f192c8759286ce66bdbd1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_template_anim.bdae",
+      "bytes": 5744,
+      "sha256": "c39e568ebb138f16cbbae64abf9cb1b5f0a71f9f2deaefc38b24ce4734f9b503"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/animations/slime_walk.bdae",
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/slime_black.bdae",
+      "bytes": 25708,
+      "sha256": "6148097dc7822377ec69beacd98da83d364962f360aa9e76c67d4bca667847cb"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/slime_black_fire.bdae",
+      "bytes": 25544,
+      "sha256": "7c5ee54e9997b44974dacd60aded7db0b970ff9c0063be51d89ebdd70f6cd785"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/slime_green_v2.bdae",
+      "bytes": 27812,
+      "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/slime_low_poly.bdae",
+      "bytes": 20364,
+      "sha256": "0e15da4b403791c0bba1fa494d7f248690bba9b1dbe2e6a03e8d7aa1f432fc14"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/slime_red.bdae",
+      "bytes": 33072,
+      "sha256": "56417ccfcac1c8af4c9257c99f065c3b8b0863b297403ee0f55043ae2f10c508"
+    },
+    {
+      "path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/slime/slime_white.bdae",
+      "bytes": 25540,
+      "sha256": "dbff1e275c6cb2a6d11b12724e0744497d7e12a51bf5442ca7cd58016a3f0cf9"
+    }
+  ]
+}

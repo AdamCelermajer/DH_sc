@@ -1,0 +1,42 @@
+[
+  {
+    "name": "$a",
+    "address": "0x388218",
+    "size": 0
+  },
+  {
+    "name": "$a",
+    "address": "0x4591f0",
+    "size": 0
+  },
+  {
+    "name": "$a",
+    "address": "0x4605c0",
+    "size": 0
+  },
+  {
+    "name": "$a",
+    "address": "0x523c14",
+    "size": 0
+  },
+  {
+    "name": "_ZNK13ScriptManager13GetIDFromNameEPKcb",
+    "address": "0x4591f0",
+    "size": 108
+  },
+  {
+    "name": "_ZN6PFRoom17ExtendBoundingBoxERK4aabbIfE",
+    "address": "0x388218",
+    "size": 400
+  },
+  {
+    "name": "_ZN7PFWorld8LoadRoomEPN6glitch5scene10ISceneNodeEjPKc",
+    "address": "0x523c14",
+    "size": 1432
+  },
+  {
+    "name": "_ZN13ScriptManager11StartScriptEiib",
+    "address": "0x4605c0",
+    "size": 564
+  }
+]

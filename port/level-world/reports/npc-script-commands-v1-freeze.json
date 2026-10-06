@@ -1,0 +1,68 @@
+{
+  "system": "NPC source command transport V1",
+  "verification": {
+    "full_renderer_syntax": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "dedicated_strict_syntax": "aarch64-linux-android24",
+    "runtime": "pending coordinated APK rebuild and actual-cache fixture"
+  },
+  "files": [
+    {
+      "path": "port/level-world/npc_script_commands_v1.hpp",
+      "bytes": 2930,
+      "sha256": "e13f5f345bf0b5efb32dbdbb818e2e63478e1ef4e0f172e1635ee2f9c774ffde"
+    },
+    {
+      "path": "port/level-world/npc_script_commands_v1.cpp",
+      "bytes": 7201,
+      "sha256": "f318cdae56e66f17add8df6c4bae5852749bce187af9852e8b31496147479a68"
+    },
+    {
+      "path": "port/level-world/character_script_session.hpp",
+      "bytes": 5774,
+      "sha256": "f6369fd03c589a1e3de34edf8ddc0800b1bef4f15165d428abe9b3c5883b3cab"
+    },
+    {
+      "path": "port/level-world/character_script_session.cpp",
+      "bytes": 27777,
+      "sha256": "463d2f1e3f0e9105fde626ed10d1e6469620a4e2a5926ab4f838d996c2df6e1b"
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.hpp",
+      "bytes": 6926,
+      "sha256": "6c2369eabd5ebeb72a6dfe308951da7804188d110c77f9803da7b0a93c18edaf"
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.cpp",
+      "bytes": 10541,
+      "sha256": "91940cd36927a8174eb82fd2be9f3648a90971a9305f8a1b0ca042ac2f6b73e0"
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "bytes": 2937,
+      "sha256": "939d187f857ac4eae7eafa3b517b9beb0b312d4d75541e769dd1566cc6a4b619"
+    },
+    {
+      "path": "port/level-world/navigation_path.cpp",
+      "bytes": 7408,
+      "sha256": "4200d57fe3224e9bf423cdca11b34d22a080c868f57b1c7d68416a735b10ca36"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_commands_v1.inc",
+      "bytes": 6182,
+      "sha256": "aa4280bfaf378ff8c7c5bb2414b0f53b4cb20f6808816031c0e00660c85e62a7"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_commands_v1_handoff.md",
+      "bytes": 5470,
+      "sha256": "f1051464f2d8f240254463392982fe86fc461161cc88067e146211a6f4a5e0f5"
+    },
+    {
+      "path": "port/level-world/tests/npc_script_commands_v1.cpp",
+      "bytes": 5730,
+      "sha256": "a464b7936ac933d1192fbb406f0088318c31fb779bb1782293f3150a48f78205"
+    }
+  ]
+}

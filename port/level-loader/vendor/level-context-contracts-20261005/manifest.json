@@ -1,0 +1,18 @@
+{
+  "character_kill.hpp": {
+    "sha256": "ceee60938d3862a39134672a85f5a9fb3a01c3ec9c2a664bb028d162cbf66b06",
+    "bytes": 3838
+  },
+  "level_config_publication_v2.hpp": {
+    "sha256": "16ed42de545755c17932346e961a3e262cca4c8019d1e00da36c505cb2914983",
+    "bytes": 767
+  },
+  "canonical_level_module_bindings_v2.hpp": {
+    "sha256": "9c26e65ae375a7c4f081cae58666bb5af20886850571c56d37c445c2c0dcda93",
+    "bytes": 3095
+  },
+  "canonical_level_config_module_v1.hpp": {
+    "sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb",
+    "bytes": 5765
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T11:42:42.719177+00:00",
+  "base_header_sha256": "e3559999aff2a78e4dbb6e149ca06bf8d42162f00f0dc152e34a32f9adc9ac95",
+  "actual_proposed_header_sha256": "d673aca40592f36af03ebf6c216bf79130223325ae3a377c39dd99289bad46eb",
+  "previous_expected_normalized_lf_sha256": "f1cee411211946aedce636cc00c5e69a3ad35ceb98d8929d8e00f2e00fb19244",
+  "semantic_difference_only134138": true,
+  "base_crlf_count": 0,
+  "proposed_crlf_count": 92,
+  "reason": "Initial metadata hashed normalized LF text before Windows write_text serialized CRLF. Corrected to read_bytes SHA; semantic diff remains exclusively134/138.",
+  "original_frozen_zip_unchanged": true
+}

@@ -45,24 +45,48 @@ bool sample(Resource& r,std::int32_t ms,std::string& error){
  return sample(r,r.animation,ms,error);
 }
 bool sample(Resource& r,const animation::Player& clip,std::int32_t ms,std::string& error){
- if(!clip.sample(r.scene,ms,error))return false;
+ if(!clip.sample_reuse(r.scene,ms,r.sample_workspace_v32,error))return false;
  for(auto& p:r.primitives)if(!p.skin.nodes.empty()){
-  std::vector<skinning::Matrix> palette;std::vector<world::Point> output;
-  if(!skinning::palette(p.skin,r.scene,palette,error)||!skinning::positions(p.skin,palette,p.rest_positions,output,error))return false;
-  for(unsigned i=0;i<output.size();++i){
+  p.pose_cache_v32.bind(p.skin,p.rest_positions);
+  if(!p.pose_cache_v32.sample(r.scene,error))return false;
+  const auto& positions=p.pose_cache_v32.positions();
+  for(unsigned i=0;i<positions.size();++i){auto output=positions[i];
    // Native rendering policy for rigid vertices in partly skinned decors.
    // The recovered software kernel returns zero for an empty influence;
    // original hardware shader parity has not yet been established.
-   if(p.skin.influences[i].weights[0]==0){const auto& m=r.scene.graph[p.node].world;for(unsigned row=0;row<3;++row){output[i][row]=m[12+row];for(unsigned col=0;col<3;++col)output[i][row]+=m[col*4+row]*p.rest_positions[i][col];}}
-   for(float f:output[i])if(!std::isfinite(f)){error="Rigid object position overflow";return false;}
-   std::copy(output[i].begin(),output[i].end(),p.vertices[i].p);
+   if(p.skin.influences[i].weights[0]==0){const auto& m=r.scene.graph[p.node].world;for(unsigned row=0;row<3;++row){output[row]=m[12+row];for(unsigned col=0;col<3;++col)output[row]+=m[col*4+row]*p.rest_positions[i][col];}}
+   for(float f:output)if(!std::isfinite(f)){error="Rigid object position overflow";return false;}
+   std::copy(output.begin(),output.end(),p.vertices[i].p);
   }
  }return true;
 }
-bool load_resource(const std::uint8_t* input,std::size_t size,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
+static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const std::vector<std::string>* modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
  out={};error.clear();try{
   resources::BresView view{};if(dh2_bres_open(&view,input,size)!=resources::BresError::ok)throw std::runtime_error("Object BRES rejected");
   Resource candidate;if(!scene::load(view,candidate.scene,error))throw std::runtime_error(error);
+  if(modules){
+   if(modules->empty()||modules->size()>32)throw std::runtime_error("Modular controller selection empty or oversized");
+   const auto root=std::find_if(candidate.scene.graph.begin(),candidate.scene.graph.end(),[](const scene::Node& n){return n.id=="prince_modular-node";});
+   if(root==candidate.scene.graph.end())throw std::runtime_error("Original prince modular root absent");
+   std::set<std::string> selected;candidate.scene.instances.clear();
+   for(const auto& id:*modules){
+    if(!selected.insert(id).second)throw std::runtime_error("Duplicate modular controller");
+    unsigned found=0;
+    for(unsigned i=0;i<dh2_bres_library_count(&view,resources::Library::controller);++i){
+     skinning::Skin skin;if(!skinning::load(view,i,candidate.scene,skin,error))throw std::runtime_error(error);
+     if(skin.id!=id)continue;++found;
+     assets::Mesh mesh{};if(dh2_mesh_open(&mesh,&view,skin.geometry)!=assets::Error::ok)throw std::runtime_error("Modular geometry rejected");
+     scene::Instance instance{root->id,unsigned(root-candidate.scene.graph.begin()),skin.geometry,root->world,{}};instance.controller=i;
+     for(unsigned j=0;j<mesh.primitives;++j){assets::Primitive p{};if(dh2_mesh_primitive(&mesh,j,&p)!=assets::Error::ok)throw std::runtime_error("Modular primitive rejected");
+      const auto material=std::find_if(candidate.scene.materials.begin(),candidate.scene.materials.end(),[&](const scene::Material& m){return m.id==p.material;});
+      if(material==candidate.scene.materials.end())throw std::runtime_error("Modular material unresolved");
+      instance.materials.push_back(unsigned(material-candidate.scene.materials.begin()));
+     }
+     candidate.scene.instances.push_back(std::move(instance));
+    }
+    if(found!=1)throw std::runtime_error("Original modular controller absent or ambiguous: "+id);
+   }
+  }
   auto& instances=candidate.scene.instances;const auto before=instances.size();
   instances.erase(std::remove_if(instances.begin(),instances.end(),[](const scene::Instance& i){return i.node.find("_colbox_")!=std::string::npos||i.node.find("_mesh_shadow_")!=std::string::npos;}),instances.end());candidate.removed_helpers=before-instances.size();
   unsigned total=0;
@@ -92,5 +116,11 @@ bool load_resource(const std::uint8_t* input,std::size_t size,const std::uint8_t
   if(!candidate.animation.load(clip?clip:input,clip?clip_size:size,candidate.scene,error,animation::MissingTargets::ignore)||!sample(candidate,candidate.animation.start,error))throw std::runtime_error(error);
   out=std::move(candidate);return true;
  }catch(const std::exception& e){error=e.what();return false;}
+}
+bool load_resource(const std::uint8_t* input,std::size_t size,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
+ return load_resource_impl(input,size,nullptr,clip,clip_size,out,error);
+}
+bool load_modular_resource(const std::uint8_t* input,std::size_t size,const std::vector<std::string>& modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
+ return load_resource_impl(input,size,&modules,clip,clip_size,out,error);
 }
 }

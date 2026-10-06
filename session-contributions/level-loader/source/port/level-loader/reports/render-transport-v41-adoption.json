@@ -1,0 +1,32 @@
+{
+  "validation": "source_adopted_coherent_syntax_pass",
+  "scope": "Private V5 actual Visual-C1 helper suppression plus V37 real render-field read and V38 original material-slot resolution",
+  "exact_v40_prepatch_hashes_verified": true,
+  "paired_proposal_header_cpp_adopted": true,
+  "main_owned_services_preserved": true,
+  "before_sha256": {
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_gameobject_visual_v1.hpp": "c4b48e35914c911873dfdfb0aab91306de36abfece8953c971b45a3116e43583",
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_gameobject_visual_v1.cpp": "a9ae0d500930bfc565740e3fdd021a1215d232fbef5c19f40fc8c60f9e2f40d5",
+    "generic_actor_visual_input_v37.hpp": "a3ad4fd752f2c541269730ca087f5deb58b5186716d94c6415a258e88b7697f5",
+    "generic_actor_visual_input_v37.cpp": "80b670d694f35d64a8d2e3a82e4102ea2bc9fd549e8ee81db56d34f23c992bb7",
+    "generic_actor_draw_submission_v38.hpp": "b8bf0654134d661dfeed14d13733edfbb9cc632d9e37bcdc6045cbe00188c063",
+    "generic_actor_draw_submission_v38.cpp": "02a2a4d1373c5371467c047ea4b9327cc7871e7577c4ff9e8b8072c45b1ae01e"
+  },
+  "after_sha256": {
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_gameobject_visual_v1.hpp": "bbd53355bacb860dff618351551003f5d1c52a778778b7017a733479691b0879",
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_gameobject_visual_v1.cpp": "8b322900edcf8e46231ac5da1bb05cc161c05f70975493963dd5b093d3112ce5",
+    "generic_actor_visual_input_v37.hpp": "3cce8a27a6ebb1dbedb242071a8f706738b59f47b1d31f216464d1a8f3da6f77",
+    "generic_actor_visual_input_v37.cpp": "02a31b0d7af9433baf8db98a51e9f114189df9645910b844e8fc97501050e01e",
+    "generic_actor_draw_submission_v38.hpp": "95db82806391f29d229346cc953065467151a99440fc60e1a5aac5b918def9a9",
+    "generic_actor_draw_submission_v38.cpp": "90dfb6d0f8cbc6e97c28caed1d5173ad4474519013b5975471311f68f56038fc"
+  },
+  "common_cmake_edited": false,
+  "integration_manifest_edited": false,
+  "shared_sources_edited": false,
+  "frozen_packets_edited": false,
+  "old_v4_archive_probe_run": false,
+  "real_v5_chest_proof_verified": false,
+  "actual_adopted_visual_and_transport_v5_syntax_pass": true,
+  "syntax_flags_source": "receiver-transport-v5-host/dh2_loader_integrated_loading_v37_probe",
+  "all_syntax_include_paths_use_v5": true
+}

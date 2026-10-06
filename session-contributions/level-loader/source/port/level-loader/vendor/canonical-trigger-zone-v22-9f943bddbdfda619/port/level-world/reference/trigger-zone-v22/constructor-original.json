@@ -1,0 +1,189 @@
+{
+  "status": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "constructors": [
+    {
+      "entry": "0x39b890",
+      "calls": [
+        {
+          "GameObjectC1": [
+            33558528,
+            20,
+            0,
+            1
+          ]
+        },
+        {
+          "NetStructTrigger_offset": "0x3c8"
+        },
+        {
+          "NetStructTrigger_offset": "0x570"
+        },
+        {
+          "CString": {
+            "offset": "0x724",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x740",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x75c",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x778",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x794",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x7bc",
+            "text": ""
+          }
+        }
+      ],
+      "words": {
+        "0x374": 0,
+        "0x378": 0,
+        "0x37c": 0,
+        "0x384": 0,
+        "0x38c": 0,
+        "0x398": 0,
+        "0x3a0": 0,
+        "0x3a4": 0,
+        "0x3a8": 1,
+        "0x3ac": 0,
+        "0x3b4": 0,
+        "0x3b8": 0,
+        "0x3c0": 0,
+        "0x718": 2779096485,
+        "0x71c": 2779096485,
+        "0x720": 2779096485,
+        "0x73c": 4294967295,
+        "0x758": 4294967295,
+        "0x774": 4294967295,
+        "0x790": 4294967295,
+        "0x7ac": 4294967295,
+        "0x7b0": 0,
+        "0x7b8": 0
+      },
+      "bytes": {
+        "0x380": 0,
+        "0x381": 1,
+        "0x84": 1,
+        "0x28": 1,
+        "0xf8": 4,
+        "0x3b0": 0,
+        "0x3bc": 0,
+        "0x7b4": 0,
+        "0x7b5": 0
+      }
+    },
+    {
+      "entry": "0x39b990",
+      "calls": [
+        {
+          "GameObjectC1": [
+            33558528,
+            20,
+            0,
+            1
+          ]
+        },
+        {
+          "NetStructTrigger_offset": "0x3c8"
+        },
+        {
+          "NetStructTrigger_offset": "0x570"
+        },
+        {
+          "CString": {
+            "offset": "0x724",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x740",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x75c",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x778",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x794",
+            "text": ""
+          }
+        },
+        {
+          "CString": {
+            "offset": "0x7bc",
+            "text": ""
+          }
+        }
+      ],
+      "words": {
+        "0x374": 0,
+        "0x378": 0,
+        "0x37c": 0,
+        "0x384": 0,
+        "0x38c": 0,
+        "0x398": 0,
+        "0x3a0": 0,
+        "0x3a4": 0,
+        "0x3a8": 1,
+        "0x3ac": 0,
+        "0x3b4": 0,
+        "0x3b8": 0,
+        "0x3c0": 0,
+        "0x718": 2779096485,
+        "0x71c": 2779096485,
+        "0x720": 2779096485,
+        "0x73c": 4294967295,
+        "0x758": 4294967295,
+        "0x774": 4294967295,
+        "0x790": 4294967295,
+        "0x7ac": 4294967295,
+        "0x7b0": 0,
+        "0x7b8": 0
+      },
+      "bytes": {
+        "0x380": 0,
+        "0x381": 1,
+        "0x84": 1,
+        "0x28": 1,
+        "0xf8": 4,
+        "0x3b0": 0,
+        "0x3bc": 0,
+        "0x7b4": 0,
+        "0x7b5": 0
+      }
+    }
+  ],
+  "scope": "Whole TriggerZone\u2192Trigger\u2192ZoneEx\u2192Zone stores execute. Previously proven GameObject C1, CString construction and separate whole NetStructTrigger C1 are explicit service interceptions. Poison proves all dimensions ctor0 and scope/type/cine unproduced."
+}

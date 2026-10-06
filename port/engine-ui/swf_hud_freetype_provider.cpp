@@ -2,6 +2,7 @@
 #include "hud_freetype_font.hpp"
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_render.h"
+#include "gameswf/gameswf_log.h"
 #include <cmath>
 #include <map>
 #include <tuple>
@@ -13,7 +14,7 @@ namespace dh2::ui {
 namespace {
 struct NativeProvider final:gameswf::glyph_provider {
     struct CachedGlyph { gameswf::gc_ptr<gameswf::bitmap_info> bitmap;FreetypeGlyph raster; };
-    struct Face { HudFreetypeFont font;std::map<std::uint32_t,CachedGlyph> glyphs; };
+    struct Face { HudFreetypeFont font;std::map<std::uint32_t,CachedGlyph> glyphs;bool metrics_reported=false; };
     SwfFontServices services;float scale;std::string error;HudBitmapProbe probe;
     std::map<std::tuple<std::string,bool,bool>,std::unique_ptr<Face>> faces;
     NativeProvider(const SwfFontServices& s,float z,HudBitmapProbe p):services(s),scale(z),probe(p){}
@@ -61,6 +62,27 @@ struct NativeProvider final:gameswf::glyph_provider {
 };
 }
 struct SwfHudFreetypeProvider::Impl { gameswf::gc_ptr<NativeProvider> provider; };
+bool swf_hud_face_metrics(gameswf::glyph_provider* provider,const std::string& name,bool bold,bool italic,float& units,float& height,float& scale,std::string& error){
+    auto* native=dynamic_cast<NativeProvider*>(provider);
+    if(!native){error="Required original text glyph provider unavailable";return false;}
+    const auto key=std::make_tuple(name,bold,italic);
+    auto found=native->faces.find(key);
+    if(found==native->faces.end()){
+        std::vector<std::uint8_t> bytes;
+        if(!native->services.read||!native->services.read(native->services.context,name.c_str(),bold,italic,bytes,error))return false;
+        auto face=std::make_unique<NativeProvider::Face>();
+        if(!face->font.load(bytes.data(),bytes.size(),error))return false;
+        found=native->faces.emplace(key,std::move(face)).first;
+    }
+    if(!found->second){error="Original text face resolution previously failed";return false;}
+    scale=native->scale;
+    if(!found->second->font.face_metrics(units,height,error))return false;
+    if(!found->second->metrics_reported){
+        gameswf::log_msg("Original FT face metrics | name %s | bold %d | italic %d | units %.0f | height %.0f | scale %.6f\n",name.c_str(),bold,italic,units,height,scale);
+        found->second->metrics_reported=true;
+    }
+    return true;
+}
 SwfHudFreetypeProvider::SwfHudFreetypeProvider(const SwfFontServices& services,float scale,HudBitmapProbe probe):impl_(std::make_unique<Impl>()) {
     impl_->provider=new NativeProvider(services,scale,probe);
 }

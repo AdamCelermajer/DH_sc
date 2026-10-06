@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "cases": 160,
+  "mismatches": 0,
+  "scope": "Whole original CameraBase.GetCenterOffset vs ARM64 source arithmetic, including exact virtual read order and early horizontal threshold; actual Point3D global initializer executed. Virtual actual matrix/position/repeated FOV boundaries declared fixtures; no live camera acceptance.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "8fdb004a239135057f7206017360852cf25398b06c2eca812e07a9ec95417b87"
+}

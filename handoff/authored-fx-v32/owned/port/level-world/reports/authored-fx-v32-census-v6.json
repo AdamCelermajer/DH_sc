@@ -1,0 +1,33 @@
+{
+  "exit_code": 0,
+  "stdout": "resource asset_00.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_01.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_02.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_03.bdae | REQUIRED | meshes 0 | clouds 0 | Required blood resource initialization\nresource asset_04.bdae | REQUIRED | meshes 4 | clouds 2 | Blood source cloud update -1\nresource asset_05.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_06.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_07.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_08.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_09.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_10.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_11.bdae | PASS | meshes 0 | clouds 2 | \nresource asset_12.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_13.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_14.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_15.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_16.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_17.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_18.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_19.bdae | PASS | meshes 0 | clouds 0 | \nresource asset_20.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_21.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_22.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_23.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_24.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_25.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_26.bdae | PASS | meshes 3 | clouds 1 | \nresource asset_27.bdae | PASS | meshes 3 | clouds 2 | \nresource asset_28.bdae | PASS | meshes 3 | clouds 2 | \nresource asset_29.bdae | PASS | meshes 1 | clouds 1 | \nresource asset_30.bdae | PASS | meshes 1 | clouds 1 | \nresource asset_31.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_32.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_33.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_34.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_35.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_36.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_37.bdae | PASS | meshes 4 | clouds 1 | \nresource asset_38.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_39.bdae | PASS | meshes 7 | clouds 1 | \nresource asset_40.bdae | PASS | meshes 3 | clouds 1 | \nresource asset_41.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_42.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_43.bdae | PASS | meshes 5 | clouds 1 | \nresource asset_44.bdae | PASS | meshes 3 | clouds 1 | \n{\"resources\":45,\"accepted_cpu_domains\":38,\"source_frames\":738,\"gpu_submission\":false,\"live_acceptance\":false}\n",
+  "stderr": "",
+  "sources": {
+    "port/level-world/tests/character_authored_resource_domains_v6.cpp": "017d56b5c66a12d7f0296f7564651f2b643ff8b6763498b0ce6a92f7839bce31",
+    "port/level-world/character_authored_resource_v6.cpp": "488c560b87fcfe15bb32c08b9e799f4e3a462a73a0ad749223879a6247273caf",
+    "port/level-world/authored_fx_mesh_graph_v6.cpp": "a7fcc7ddd4e7ab6b11f19380f2e9fea5d73c875aa55fa71b117764a6b77b2c00",
+    "port/level-world/authored_fx_transform_v5.cpp": "7051df9421c9d931c32a63d5def9d94fdd4543d38ce08cf5e172a447e387d933",
+    "port/level-world/character_authored_fx_forces_v4.cpp": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e",
+    "port/level-world/source_fx_node_matrix_v4.cpp": "e5649ef21d3d25c1f8e55054d87973cc5fac1ad11248be30268f6d9406804501",
+    "port/level-world/fx_texture_animation_v1.cpp": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc",
+    "port/level-world/character_fx_kernels_v1.cpp": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d",
+    "port/engine-animation/particle_scalar_animation_v6.cpp": "720148094772015729da8542c30af8ef5bd9821692ddc1347358d7b90161d4c2",
+    "port/engine-animation/particle_cloud_runtime_v1.cpp": "76a3accf7a3998d9bcfe0b6317549a2390e0a4fc3cd40331aea38a12293b854e",
+    "port/engine-animation/particle_cloud_runtime_v3.cpp": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba",
+    "port/engine-animation/particle_deflector_v1.cpp": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff",
+    "port/engine-animation/particle_force_scene_v2.cpp": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58",
+    "port/engine-animation/particle_bound_forces_v4.cpp": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68",
+    "port/engine-animation/particle_resource_init_v2.cpp": "2006759c93a39d11d55d159cdcebf415c536d47c249af4521a565e44b9a1d1f1",
+    "port/engine-animation/particle_cloud_models_v1.cpp": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747",
+    "port/engine-animation/particle_billboard_v1.cpp": "665a84f44d7a8692d585210151107d63aba702c354553ba510f43e8d6f3f8054",
+    "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
+    "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/particle_random_v1.cpp": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0",
+    "port/engine-animation/particle_emission.cpp": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035",
+    "port/engine-animation/particle_box_v2.cpp": "3e31bb713f0d1f26ba5fe4004f31a7a99d9c8a10e342c6e409ca143c1f36ee6a",
+    "port/engine-animation/material_color.cpp": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51",
+    "port/engine-animation/material_color_v3.cpp": "41deb9b53027cb815919fc0bace3a338b4d8b2afb6a7c29f2ccda5577ac5f2eb",
+    "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc"
+  }
+}

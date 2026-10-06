@@ -1,0 +1,82 @@
+{
+  "validation": "PASS",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-ffp-contract=off",
+        "-fno-fast-math",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/player_progression_v1.cpp",
+        "port/level-world/player_xp_text_v1.cpp",
+        "port/level-world/tests/player_progression_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-lz",
+        "-o",
+        ".local-inputs/player_progression_v1_host_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_progression_v1_host_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":22443,\"original_math_cases\":3200,\"actual_class_stat_points_before\":512,\"actual_class_skill_points_before\":512,\"actual_class_stat_points_after\":1536,\"actual_class_skill_points_after\":1024,\"production_save_and_presentation\":false}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-ffp-contract=off",
+        "-fno-fast-math",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/player_progression_v1.cpp",
+        "port/level-world/player_xp_text_v1.cpp",
+        "port/level-world/tests/player_progression_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-lz",
+        "-o",
+        ".local-inputs/player_progression_v1_host_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_progression_v1_host_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":22443,\"original_math_cases\":3200,\"actual_class_stat_points_before\":512,\"actual_class_skill_points_before\":512,\"actual_class_stat_points_after\":1536,\"actual_class_skill_points_after\":1024,\"production_save_and_presentation\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/player_progression_v1.cpp": "f375ce69e3ddedc57e6fc6cf5a366b843642e7dccf8d0e71769a5f97e45e8471",
+    "port/level-world/player_xp_text_v1.cpp": "d52675513f0e1a7f2b1c052890bf4a1d5573528cd824218d9cc5b56d4030e670",
+    "port/level-world/tests/player_progression_v1_host.cpp": "7814d78dd4a17793fb2e44ab57ae816252cdcd974919f5a5846e119db1ff39e9"
+  },
+  "production_connected": false,
+  "scope": "Original math replay; actual source cache/class progression with observer save/presentation; mandatory failure prefixes and death receipt"
+}

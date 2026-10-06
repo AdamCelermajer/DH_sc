@@ -1,0 +1,17 @@
+[
+  {
+    "address": 3446456,
+    "size": 1116,
+    "symbol": "ObjectManager::Flush()"
+  },
+  {
+    "address": 3449320,
+    "size": 540,
+    "symbol": "ObjectManager::ObjectManager()"
+  },
+  {
+    "address": 3449860,
+    "size": 540,
+    "symbol": "ObjectManager::ObjectManager()"
+  }
+]

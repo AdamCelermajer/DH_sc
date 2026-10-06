@@ -1,0 +1,57 @@
+[
+  {
+    "name": "_ZNK6glitch2ps8PDSphere8generateERNS0_8PSRandomE",
+    "address": "0x69c6ec",
+    "size": 372
+  },
+  {
+    "name": "_ZN6glitch2ps8PSRandom6NRandfEf",
+    "address": "0x69c4ac",
+    "size": 208
+  },
+  {
+    "name": "_ZN6glitch2ps8PSRandom4RandEv",
+    "address": "0x62fe78",
+    "size": 108
+  },
+  {
+    "name": "_ZN6glitch2ps8PSRandom7RandVecEv",
+    "address": "0x637ac4",
+    "size": 116
+  },
+  {
+    "name": "_ZNK6glitch2ps6PDCone8generateERNS0_8PSRandomE",
+    "address": "0x69e008",
+    "size": 436
+  },
+  {
+    "name": "_ZNK6glitch2ps5PDBox8generateERNS0_8PSRandomE",
+    "address": "0x69b534",
+    "size": 300
+  },
+  {
+    "name": "_ZNK6glitch2ps7PDPoint8generateERNS0_8PSRandomE",
+    "address": "0x69ade8",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch2ps8PSRandom8NRandVecEf",
+    "address": "0x69c57c",
+    "size": 268
+  },
+  {
+    "name": "_ZNK6glitch2ps6PDBlob8generateERNS0_8PSRandomE",
+    "address": "0x69c688",
+    "size": 100
+  },
+  {
+    "name": "_ZNK6glitch2ps10PDCylinder8generateERNS0_8PSRandomE",
+    "address": "0x69e1bc",
+    "size": 404
+  },
+  {
+    "name": "_ZNK6glitch2ps6PDLine8generateERNS0_8PSRandomE",
+    "address": "0x69ae54",
+    "size": 112
+  }
+]

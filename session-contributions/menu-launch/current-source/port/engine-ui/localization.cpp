@@ -57,7 +57,24 @@ bool Localization::parsed_string(const std::string& symbol,const std::vector<Loc
   }
  }
  std::string next;bool changed=false;
- if(!localization_parse_ex_v1(localized,args,style,add_space(pack_),svc,next,changed,e))return false;
+ struct Application {Localization* owner;const LocalizationServices* services;} application{this,&svc};
+ LocalizationParseExServicesV1 parse_services;
+ parse_services.context=&application;
+ parse_services.version=[](void* context,std::string& text,std::string& error){
+  auto& state=*static_cast<Application*>(context);const auto& service=*state.services;
+  if(!service.application_version)return fail(error,"Parsed application version service unavailable");
+  return service.application_version(service.context,text,error);
+ };
+ parse_services.title=[](void* context,std::string& text,std::string& error){
+  auto& state=*static_cast<Application*>(context);const auto& service=*state.services;
+  if(!service.application_language)return fail(error,"Parsed application language service unavailable");
+  std::int32_t language{};std::uint32_t title{};
+  if(!service.application_language(service.context,language,error))return false;
+  if(language==4)return fail(error,"Parsed Japanese title branch unconnected");
+  if(!constant(service,"StrID","MENU_GAME_TITLE",title,error))return false;
+  return state.owner->id(title,service,text,error);
+ };
+ if(!localization_parse_ex_v1(localized,args,style,add_space(pack_),parse_services,next,changed,e))return false;
  output=std::move(next);return true;
 }
 bool localization_colors(const std::string& input,bool spacing,const LocalizationServices& s,std::string& out,bool& changed,std::string& e){

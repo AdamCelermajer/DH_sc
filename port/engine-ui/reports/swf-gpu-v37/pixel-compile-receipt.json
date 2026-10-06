@@ -1,0 +1,136 @@
+{
+  "status": "COMPILE_PASS_RUNTIME_PENDING",
+  "scope": "Actual EGL/GLES pixel fixture compiled only for both ABI; no device operations permitted",
+  "sources": [
+    {
+      "path": "port/engine-ui/tests/swf_gpu_submission_v37.cpp",
+      "sha256": "c32c6aac090ab8f9d8a666b0f3b2091829400169c98bde12e3466c4ff3294197"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "sha256": "10c7fcd0997f5294db92177153930c2a95173947649a2c71248ca5edbf016457"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/authored_shader_program.cpp",
+      "sha256": "2f4ed55901764313704d93b11d3730698adf26a16f5cd60214dd695d2630e92e"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.cpp",
+      "sha256": "23dbc3a073659037c1a0e25486c46db3b683d31bc4bd42e13cec2203a78a97cc"
+    },
+    {
+      "path": "port/engine-ui/swf_grid_snap_v1.cpp",
+      "sha256": "cd53012b3c1d88c7951f708ecf19802b3ddb2058b63c411a31e57376a1adfb00"
+    },
+    {
+      "path": "port/scene-materials/swf_texture.cpp",
+      "sha256": "5e5fb0a1c31c7a79d212db678a4df71be84f40bdb1e3ecde192a009599801b85"
+    },
+    {
+      "path": "port/scene-materials/shader_sources.cpp",
+      "sha256": "f05874e30bba3a3b1c8cec643e5fda6bcba4f31e9b935eae8e94c9872b41cde1"
+    },
+    {
+      "path": "port/asset-payloads/sha256.cpp",
+      "sha256": "6c1a4f0161c2316e817e2c277480ebf159b700b036f074d39ccaec0cb2c70867"
+    }
+  ],
+  "results": [
+    {
+      "abi": "arm64-v8a",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-none-linux-android24",
+        "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+        "-Ddh2_native_EXPORTS",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio",
+        "-isystem",
+        "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-DANDROID",
+        "-D_FORTIFY_SOURCE=2",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O2",
+        "-static-libstdc++",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\tests\\swf_gpu_submission_v37.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\swf_gpu.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\authored_shader_program.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_vertex_cache_v36.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_grid_snap_v1.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\swf_texture.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\shader_sources.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\sha256.cpp",
+        "-lEGL",
+        "-lGLESv2",
+        "-llog",
+        "-landroid",
+        "-o",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\reports\\swf-gpu-v37\\swf-gpu-v37-arm64-v8a.bin"
+      ],
+      "binary_sha256": "23b2d5e03d7be04c5acc8ae84ce67d5050ba40ea591bd6db7682a0f878f07eda"
+    },
+    {
+      "abi": "x86_64",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-none-linux-android24",
+        "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+        "-Ddh2_native_EXPORTS",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio",
+        "-isystem",
+        "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-DANDROID",
+        "-D_FORTIFY_SOURCE=2",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O2",
+        "-static-libstdc++",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\tests\\swf_gpu_submission_v37.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\swf_gpu.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\authored_shader_program.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_vertex_cache_v36.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_grid_snap_v1.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\swf_texture.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\shader_sources.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\sha256.cpp",
+        "-lEGL",
+        "-lGLESv2",
+        "-llog",
+        "-landroid",
+        "-o",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\reports\\swf-gpu-v37\\swf-gpu-v37-x86_64.bin"
+      ],
+      "binary_sha256": "6d3b54a69fd3d514d490ce16703d9e6c6fd850b59fd3aff772135eafc8df2626"
+    }
+  ]
+}

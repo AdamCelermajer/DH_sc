@@ -1,0 +1,8 @@
+{
+  "apk_sha256": "29d2d5b504589cbe37a7d79650b7963474573b89b05903b4ce3c7bbe32e1f098",
+  "serial": "emulator-5554",
+  "pid": "16514",
+  "action": "tap",
+  "accepted_full_flow": false,
+  "screenshot": "164-hud-edge-attack-regression.png"
+}

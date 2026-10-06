@@ -1,0 +1,16 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_cases": 3200,
+  "scope": "Original ARM ModifiedXP/GetLevelScaledXP instructions; imported IEEE math\nand source Debug endpoints are oracle service boundaries, not XP stubs.",
+  "gold_sha256": "58fbb8ec379c18973cab82fe3836a5fffc9838bc1e7651d7edc1908b7ee51146",
+  "imports": {
+    "__aeabi_f2iz": 3148,
+    "__aeabi_i2f": 1548,
+    "__aeabi_fadd": 1548,
+    "__aeabi_fcmplt": 1600,
+    "__aeabi_fcmpgt": 1600,
+    "__aeabi_fdiv": 1600,
+    "__aeabi_fmul": 1600
+  }
+}

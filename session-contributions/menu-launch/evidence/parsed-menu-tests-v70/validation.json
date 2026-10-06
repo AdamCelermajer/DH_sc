@@ -1,0 +1,43 @@
+{
+  "status": "PASS controlled fresh-profile fields and Act label; gameplay handoff incomplete",
+  "apk_sha256": "5d0093f69949ff3bbcb431c963c9ca78c3fdc142019b9f7d8a5b32160421ec5a",
+  "profile_scope": "Temporary source-captured fresh profiles; no gameplay initialization/start proof",
+  "files": [
+    {
+      "name": "dh2_000.savegame",
+      "class": "KnightPlayerBase",
+      "sha256": "73ae5f57232f8d6fd58cfdda0b9d5ab594c6fc8cf0838166f8f0101b0af3025f"
+    },
+    {
+      "name": "dh2_002.savegame.bak",
+      "class": "RoguePlayerBase",
+      "sha256": "9cc4ad7b5372c79ade2b565dbc722517f708e0a979db7d53ce0ba42c400cc569"
+    },
+    {
+      "name": "dh2_003.savegame",
+      "class": "MagePlayerBase",
+      "sha256": "e47c5a5e2cd25b25bf0e01ca262e8916c664a6feb20d41dad81c0dc9cfcb47c9"
+    }
+  ],
+  "surfaces": [
+    {
+      "override": "1080x1920",
+      "same_pid": "19696"
+    },
+    {
+      "override": "1080x2400",
+      "same_pid": "19696"
+    },
+    {
+      "override": "1968x2184",
+      "same_pid": "19696"
+    }
+  ],
+  "backup_profile_selected": true,
+  "third_profile_selected": true,
+  "known_missing": [
+    "Canonical Game/Online provider, QEST, assignment/start/create/delete unconnected; controlled offline fixture only"
+  ],
+  "restored_campaign_files": true,
+  "visual_review": "Occupied profiles at all three sizes, Rogue backup, Mage, first free slot and restored empty main reviewed; Act 1 rendered"
+}

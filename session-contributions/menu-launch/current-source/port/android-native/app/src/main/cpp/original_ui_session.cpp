@@ -1,3 +1,6 @@
+#include "swf_menu_device_v1.hpp"
+#include "loading_menu_v1.hpp"
+#include "swf_loading_menu_v1.hpp"
 #include "original_ui_session.hpp"
 #include "original_ui_assets.hpp"
 #include "swf_gpu.hpp"
@@ -22,8 +25,12 @@
 #include "swf_menu_save_slots.hpp"
 #include "menu_save_slot_projection_v1.hpp"
 #include "campaign_profile_files_v1.hpp"
+#include "fresh_player_profile_v1.hpp"
+#include <fcntl.h>
+#include <unistd.h>
+#include <ctime>
 #include "localization_parse_ex_v1.hpp"
-#include "gameswf/gameswf_as_classes/as_array.h"
+#include "swf_menu_parsed_string_v1.hpp"
 #include "model_renderer.hpp"
 #include <android/log.h>
 #include <array>
@@ -66,6 +73,14 @@ struct OriginalUiSession::Impl {
     dh2::data::LevelTables menu_levels;
     // Front-only selected difficulty; gameplay ownership is a separate handoff.
     std::int32_t menu_selected_difficulty=0;
+    OriginalUiCampaignQuestServicesV1 campaign_quests;
+    ui::MenuAvatarPreviewStateV1 menu_avatar;
+    ui::LoadingHintTableV1 loading_hints;
+    ui::LoadingMenuStateServicesV1 loading_state_services;
+    ui::LoadingMenuMultiplayerServicesV1 loading_multiplayer_services;
+    ui::LoadingMenuHudServicesV1 loading_hud_services;
+    ui::LoadingHintRandomV1 loading_hint_random; // isolated front RNG; canonical Game RNG binding pending
+    ui::MenuAvatarPreviewServicesV1 menu_avatar_services;
     // The production front owner loads a static menu scene, never gameplay
     // Characters/items. Its actor registries start empty and are discarded
     // when a gameplay attachment changes ownership; gameplay localization
@@ -82,7 +97,7 @@ struct OriginalUiSession::Impl {
     // shared-renderer settings and transition animations remain pending.
     std::vector<std::string> menu_stack;
     std::string active_menu_path()const{return "_root."+(menu_stack.empty()?std::string("menu_MainMenu"):menu_stack.back());}
-    static bool shared_state(const std::string& name){return name=="menu_HelpButtons"||name=="menu_Help"||name=="menu_About"||name=="menu_Options";}
+    static bool shared_state(const std::string& name){return name=="menu_HelpButtons"||name=="menu_Help"||name=="menu_About"||name=="menu_Options"||name=="menu_Loading";}
     ui::SwfMovie* menu_movie(const std::string& name)const{return shared_state(name)?shared_menu_movie.get():movie.get();}
     ui::SwfMovie* active_menu_movie()const{return menu_stack.empty()?movie.get():menu_movie(menu_stack.back());}
     ui::SwfMovie* input_dispatch_movie{};
@@ -100,6 +115,10 @@ struct OriginalUiSession::Impl {
     bool loading_bitmap_reported=false;
     std::deque<std::string> menu_sounds;
     std::deque<std::string> menu_audio;
+    std::deque<std::string> menu_browser;
+    std::deque<int> menu_catalog;
+    bool exit_confirmation_open=false;
+    bool exit_requested=false;
     int last_width=0,last_height=0;
     // Reverse destruction keeps every provider and owned texture alive until
     // the last movie and its reachable ActionScript graph have been released.
@@ -135,9 +154,26 @@ struct OriginalUiSession::Impl {
         if(!self.input_dispatch_movie){error="Native menu event outside retained input delivery";return false;}
         return self.input_dispatch_movie->input_raw_position(x,y,error);
     }
+    static bool menu_browser_request(void* context,const char* url,std::string& error){
+        if(!url){error="Missing nativeOpenBrowser URL";return false;}
+        auto& self=*static_cast<Impl*>(context);
+        // Original nativeOpenBrowser hands the URL to Android's ACTION_VIEW.
+        // Keep platform Activity creation outside retained SWF dispatch.
+        self.menu_browser.emplace_back(url);
+        __android_log_print(ANDROID_LOG_INFO,tag,"Original menu browser queued | %s",url);
+        return true;
+    }
+    static bool menu_platform_language(void* context,int& language,std::string&){
+        auto& self=*static_cast<Impl*>(context);language=self.settings?self.settings->language():0;return true;
+    }
+    static bool menu_online_request(void* context,bool live,int language,std::string& error){
+        if(live){error="Required Gameloft Live account Activity owner unavailable";return false;}
+        auto& self=*static_cast<Impl*>(context);self.menu_catalog.push_back(language<0?0:language);
+        __android_log_print(ANDROID_LOG_INFO,tag,"Original More Games queued | language %d",language);return true;
+    }
     static bool input_native_event(void* context,ui::SwfEvent48& event,std::string& error){
         auto& self=*static_cast<Impl*>(context);
-        ui::MenuNativeEventServicesV1 services;services.context=context;services.raw_position=raw_event_position;
+        ui::MenuNativeEventServicesV1 services;services.context=context;services.raw_position=raw_event_position;services.browser=menu_browser_request;services.language=menu_platform_language;services.online=menu_online_request;
         if(!self.menu_stack.empty()&&self.menu_stack.back()=="menu_SelectClass"&&event.kind==2){
             const int before=self.class_index;
             // MenuCharacterSelect::OnEvent 0x4282c8..0x42839c: compare
@@ -319,7 +355,12 @@ struct OriginalUiSession::Impl {
     }
     static bool enter_options(void* context,std::string&){static_cast<Impl*>(context)->menu_audio.emplace_back("resume");return true;}
     static bool refresh_front_hud(void* context,std::string& error){
-        auto& self=*static_cast<Impl*>(context);if(self.live_player){error="Settings HUD refresh requires attached player owner";return false;}return true;
+        auto& self=*static_cast<Impl*>(context);
+        if(self.loading_hud_services.set_info_hud_field_4)return ui::loading_menu_refresh_hud_v1(self.loading_hud_services,error);
+        if(self.live_player||(!self.menu_stack.empty()&&self.menu_stack.back()=="menu_Loading")){
+            error="HUD refresh requires retained InfoHUDManager/HUDControls owners";return false;
+        }
+        return true; // Isolated front options have no canonical HUD owner yet.
     }
     static bool input_behavior(void* context,std::int32_t slot,bool rollover,std::string& error){
         auto& self=*static_cast<Impl*>(context);auto* target=slot==0?self.shared_menu_movie.get():slot==1?self.movie.get():nullptr;
@@ -386,6 +427,10 @@ struct OriginalUiSession::Impl {
             if(!self.raw_asset("front-compat/dqmenus_droid.swf",out,error))return false;
             __android_log_print(ANDROID_LOG_INFO,tag,"Keyboard atlas compatibility movie connected | seven repaired shapes");
         }
+        if(path=="data/menus/loadanims_droid.swf") {
+            if(!self.raw_asset("front-compat/loadanims_droid.swf",out,error))return false;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Loading ring atlas compatibility movie connected | original timeline retained");
+        }
         return true;
     }
     static bool texture(void* context,const char* name,int,int,ui::SwfTexture& out,std::string& error) {
@@ -441,9 +486,95 @@ struct OriginalUiSession::Impl {
         auto& self=*static_cast<Impl*>(context);if(error)++self.core_errors;
         __android_log_print(error?ANDROID_LOG_WARN:ANDROID_LOG_INFO,tag,"Original SWF core diagnostic: %s",text?text:"");
     }
+    ui::MenuDeviceFactsV1 menu_device;
+    bool menu_persona_mode=false;
+    // This front has no canonical campaign-to-gameplay loader. Capture the
+    // authored launch attempt without assigning a Player or saving a campaign.
+    bool start_feedback_pending=false;
+    std::int32_t start_requested_difficulty=0;
+    static bool show_start_pending(void* context,ui::SwfAsGraph& graph,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        ui::SwfAsValue root,popup,field,result,value;bool accepted=false,callable=false,found=false;
+        if(!graph.root_value(root,error))return false;
+        for(const char* key:{"SlotID","ThePlayerSlot"}){
+            if(!graph.get_member(root,key,value,found,error))return false;
+            double number=0;if(found&&!graph.to_number(value,number,error))return false;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Pending front launch | key %s | value %.0f | difficulty %d | canonical gameplay loader unavailable",key,number,self.start_requested_difficulty);
+        }
+        if(!graph.find_target(root,"menu_StartGame.Confirmation2",popup,error)||!popup.identity()||
+           !graph.find_target(root,"menu_StartGame.Confirmation2.ConfirmationBox.text",field,error)||!field.identity()){
+            error="Authored Start Game confirmation absent";return false;
+        }
+        if(!graph.set_member(field,"text",ui::SwfAsValue::text("Gameplay loading is still being connected."),accepted,error))return false;
+        if(!graph.find_target(root,"menu_StartGame.Confirmation2.ConfirmationBox.btn_Ok.text",field,error)||!field.identity()){
+            error="Authored Start Game confirmation button absent";return false;
+        }
+        ui::LocalizationResult localized;
+        if(!self.localization.native_string("GLOBAL_OK",self.text_services(),localized,error)||
+           !graph.set_member(field,"text",ui::SwfAsValue::text(localized.text.c_str()),accepted,error)||
+           !graph.invoke(popup,popup,"gotoAndPlay",{ui::SwfAsValue::text("Show")},result,callable,error))return false;
+        if(!callable){error="Authored Start Game confirmation timeline absent";return false;}
+        return true;
+    }
+    static bool persona_destroy(void* context,std::string& error){auto& self=*static_cast<Impl*>(context);return model_renderer::select_menu_persona(-1,self.manager,error);}
+    static bool persona_camera(void*,std::string& error){error.clear();return true;}
+    static bool persona_setup(void* context,std::int32_t slot,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        if(slot<0)return model_renderer::select_menu_persona(-1,self.manager,error);
+        bool occupied=false;
+        if(!menu_slot_exists(context,std::uint32_t(slot),occupied,error))return false;
+        if(!occupied)return model_renderer::select_menu_persona(-1,self.manager,error);
+        if(!self.menu_persona_mode){error="Occupied avatar requires canonical owner or explicit menu persona mode";return false;}
+        dh2::data::CampaignProfileFileV1 file;
+        if(!dh2::data::read_campaign_profile_v1(self.directory,slot,file,error))return false;
+        dh2::data::MenuProfileMetadataV1 metadata;
+        if(!dh2::data::load_menu_profile_metadata_v1({file.bytes.data(),file.bytes.size()},self.menu_characters,slot,self.menu_selected_difficulty,{&self,menu_store_difficulty,nullptr},metadata,error))return false;
+        const char* names[]={"KnightPlayerBase","RoguePlayerBase","MagePlayerBase"};
+        for(int i=0;i<3;++i){const auto found=std::find(self.menu_characters.names.begin(),self.menu_characters.names.end(),names[i]);if(found!=self.menu_characters.names.end()&&std::int32_t(found-self.menu_characters.names.begin())==metadata.character_row)return model_renderer::select_menu_persona(i,self.manager,error);}
+        error="Menu persona requires a supported base class";return false;
+    }
+    void enable_menu_persona(){
+        menu_persona_mode=true;
+        campaign_quests={nullptr,[](void*,bool& value,std::string& error){value=false;error.clear();return true;}};
+        menu_avatar_services={this,persona_destroy,persona_setup,persona_camera};
+    }
+    bool create_menu_persona(const char* player_name,const char* character,std::uint32_t& slot,std::string& error){
+        slot=4;
+        for(std::uint32_t i=0;i<4;++i){bool used=false;if(!menu_slot_exists(this,i,used,error))return false;if(!used){slot=i;break;}}
+        if(slot==4){error="No free campaign slot for menu persona";return false;}
+        dh2::data::FreshPlayerProfileV1 profile;
+        const auto timer=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+        if(!dh2::data::fresh_player_profile_v1(menu_characters,character,player_name,std::uint32_t(timer),std::uint32_t(std::time(nullptr)),profile,error))return false;
+        char name[32];std::snprintf(name,sizeof(name),"/dh2_%03u.savegame",slot);
+        const auto path=directory+name;
+        const int fd=::open(path.c_str(),O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW,0600);
+        if(fd<0){error="Cannot exclusively create persona save";return false;}
+        std::size_t offset=0;bool ok=true;
+        while(offset<profile.bytes.size()){const auto n=::write(fd,profile.bytes.data()+offset,profile.bytes.size()-offset);if(n<=0){ok=false;break;}offset+=std::size_t(n);}
+        if(::fsync(fd))ok=false;::close(fd);
+        if(!ok){::unlink(path.c_str());error="Persona save delivery failed";return false;}
+        const auto marker=directory+"/menu-persona-preview.enabled";
+        const int marker_fd=::open(marker.c_str(),O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW,0600);if(marker_fd>=0)::close(marker_fd);
+        enable_menu_persona();
+        __android_log_print(ANDROID_LOG_INFO,tag,"Menu-only persona created | name %s | class %s | slot %u | bytes %zu | gameplay initialization pending",player_name,character,slot,profile.bytes.size());
+        return ui::change_menu_avatar_preview_v1(menu_avatar,std::int32_t(slot),true,menu_avatar_services,error);
+    }
     static bool menu_slot_exists(void* context,std::uint32_t slot,bool& occupied,std::string& error){
         auto& self=*static_cast<Impl*>(context);
         return dh2::data::campaign_profile_exists_v1(self.directory,slot,occupied,error);
+    }
+    static bool menu_flush_front_jobs(void* context,std::string& error){
+        const auto& self=*static_cast<Impl*>(context);
+        // This retained front owns only synchronous campaign file operations.
+        // Once gameplay is attached its canonical job owner must replace this.
+        if(self.front_screen!="main"||self.live_player){error="Campaign erase requires canonical gameplay save-job flush";return false;}
+        error.clear();return true;
+    }
+    static bool menu_erase_slot_files(void* context,std::uint32_t slot,std::string& error){
+        auto& self=*static_cast<Impl*>(context);std::uint32_t deleted{};
+        const bool ok=dh2::data::erase_campaign_slot_files_v1(self.directory,slot,deleted,error);
+        __android_log_print(ok?ANDROID_LOG_INFO:ANDROID_LOG_WARN,tag,"Original campaign erase | slot %u | deleted %u | success %d",slot,deleted,ok);
+        return ok;
     }
     static bool menu_store_difficulty(void* context,std::int32_t value,std::string& error){
         static_cast<Impl*>(context)->menu_selected_difficulty=value;error.clear();return true;
@@ -469,33 +600,89 @@ struct OriginalUiSession::Impl {
         if(!dh2::data::load_menu_profile_metadata_v1({file.bytes.data(),file.bytes.size()},self.menu_characters,
             static_cast<std::int32_t>(slot),self.menu_selected_difficulty,load_services,metadata,error))return false;
         ui::MenuSaveSlotPresentationServicesV1 display_services{&self,menu_slot_constant,menu_slot_string,menu_slot_date};
-        // This retained main front is offline. Online gameplay must supply its
-        // actual regular/volatile choice through the agreed typed handoff.
+        bool volatile_acts=false;
+        if(!self.campaign_quests.use_volatile_quest_acts){error="Canonical Game/Online quest-selection service unavailable";return false;}
+        if(!self.campaign_quests.use_volatile_quest_acts(self.campaign_quests.context,volatile_acts,error))return false;
         const auto language=self.settings?self.settings->language():0;
-        if(!ui::project_menu_save_slot_v1(metadata,self.menu_characters,self.menu_levels,difficulty,false,
+        if(!ui::project_menu_save_slot_v1(metadata,self.menu_characters,self.menu_levels,difficulty,volatile_acts,
             static_cast<std::uint32_t>(language),display_services,details,error))return false;
         __android_log_print(ANDROID_LOG_INFO,tag,"Original occupied save-slot presentation | slot %u | backup %d | class %s | level %d | location %s",slot,file.origin==dh2::data::CampaignProfileOriginV1::backup,details.player_class.c_str(),details.player_level,details.player_location.c_str());
         return true;
     }
+    static bool menu_parsed_string(void* context,const std::string& symbol,const std::vector<ui::LocalizationArgumentV1>& args,std::string& text,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        if(!self.localization.parsed_string(symbol,args,self.text_services(),text,error))return false;
+        __android_log_print(ANDROID_LOG_INFO,tag,"Original parsed menu string | symbol %s | args %zu | text %s",symbol.c_str(),args.size(),text.c_str());return true;
+    }
     static bool native_action(void* context,const char* name,const gameswf::fn_call& fn,std::string& error) {
         auto& self=*static_cast<Impl*>(context);
-        if(!std::strcmp(name,"NativeGetParsedString")){
-            if(fn.nargs!=2||(!fn.arg(0).is_string()&&!fn.arg(0).is_object())||!fn.arg(1).is_object())return true;
-            if(!fn.result){error="Parsed string result unavailable";return false;}
-            auto* array=gameswf::cast_to<gameswf::as_array>(fn.arg(1).to_object());
-            if(!array){error="Parsed string requires actual AS Array";return false;}
-            std::vector<ui::LocalizationArgumentV1> args;
-            for(int i=0;i<array->size();++i){
-                const auto& value=array->m_array[i];ui::LocalizationArgumentV1 arg;
-                if(value.is_string()||value.is_object()){arg.has_text=true;arg.text=value.to_xstring();}
-                else if(value.is_number()){const double number=value.to_number();if(!std::isnan(number))arg.number=static_cast<float>(number);}
-                args.push_back(std::move(arg));
-            }
-            std::string text;
-            if(!self.localization.parsed_string(fn.arg(0).to_xstring(),args,self.text_services(),text,error))return false;
-            fn.result->set_string(text.c_str());
-            __android_log_print(ANDROID_LOG_INFO,tag,"Original parsed menu string | symbol %s | args %zu | text %s",fn.arg(0).to_xstring(),args.size(),text.c_str());return true;
+        if(!std::strcmp(name,"NativePauseMusic")||!std::strcmp(name,"NativeStopMusic")){
+            // Original wrappers ignore args, preserve AS result, and no-op
+            // without a manager. The retained front has a real audio owner.
+            self.menu_audio.emplace_back(!std::strcmp(name,"NativePauseMusic")?"music-pause":"music-stop,500");
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original menu music control | action %s",name);return true;
         }
+        if(!std::strcmp(name,"NativePlayMusic")){
+            // 43ad84: one string, real Sounds lookup, then
+            // PlayMusic(id,true,false,2000). Invalid/absent names are no-ops.
+            std::string requested;if(!ui::swf_menu_sound_argument(fn,requested))return true;
+            for(std::size_t id=0;id<std::size(original_sounds);++id){
+                if(requested!=original_sounds[id].name)continue;
+                if(requested!="TitleMusic"){error="Required non-title music owner unavailable: "+requested;return false;}
+                self.menu_audio.emplace_back("music-title,2000");
+                __android_log_print(ANDROID_LOG_INFO,tag,"Original menu music requested | name %s | id %zu | loop 1 | force 0 | fade ms 2000",requested.c_str(),id);return true;
+            }
+            return true;
+        }
+        if(!std::strcmp(name,"NativeIsMultiplayerEnabled"))return ui::swf_menu_multiplayer_enabled_v1(fn,self.menu_device,error);
+        if(!std::strcmp(name,"NativeIsMultiplayerLoadCompleted"))return ui::swf_loading_multiplayer_completed_v1(fn,self.loading_multiplayer_services,error);
+        if(!std::strcmp(name,"NativeIsMultiplayerHost"))return ui::swf_loading_multiplayer_host_v1(fn,self.loading_multiplayer_services,error);
+        if(!std::strcmp(name,"NativeMustWaitForHost"))return ui::swf_loading_wait_for_host_v1(fn,self.loading_multiplayer_services,error);
+        if(!std::strcmp(name,"NativeGetLoadingProgress"))return ui::swf_loading_progress_v1(fn,self.loading_state_services,error);
+        if(!std::strcmp(name,"NativeEndLoading")){
+            bool advanced=false;if(!ui::swf_loading_end_v1(fn,self.loading_state_services,advanced,error))return false;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original loading completion callback | actual Level advanced %d",advanced);return true;
+        }
+        if(!std::strcmp(name,"NativeGetLoadingTipStrID")){
+            std::uint32_t id{};if(!ui::swf_loading_hint_v1(fn,self.loading_hints,self.loading_hint_random,id,error))return false;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original loading tip selected | string id %u | seed %u | calls %u",id,self.loading_hint_random.seed,self.loading_hint_random.debug_calls);return true;
+        }
+        if(!std::strcmp(name,"NativeGetStringFromID")){
+            return ui::swf_loading_string_id_v1(fn,&self,menu_slot_string,error);
+        }
+        // Original 439c64 NativeLaunchIGP is an intentional empty callback.
+        // MenuMainMenu::OnEvent performs the platform action on release.
+        if(!std::strcmp(name,"NativeLaunchIGP"))return true;
+        if(!std::strcmp(name,"NativeLaunchTwitter")){
+            // Original 43a6a4 only queries SavegameManager::getLanguage.
+            // MenuBase::OnEvent owns the actual browser action on release.
+            const auto language=self.settings?self.settings->language():0;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original Twitter AS callback | language %d | browser owned by native event",language);
+            return true;
+        }
+        if(!std::strcmp(name,"NativeHUDInteract")){
+            // Original 43afb8: "quit" sets the dialog flag, "no" clears
+            // it, all other strings enter appDestroy -> Application::Quit.
+            // Retain the movie during authored dispatch; consume only after
+            // the frame returns, when Android can close its Activity safely.
+            std::string action;if(!ui::swf_menu_sound_argument(fn,action))return true;
+            if(action=="quit")self.exit_confirmation_open=true;
+            else if(action=="no")self.exit_confirmation_open=false;
+            else self.exit_requested=true;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original front exit action | %s | confirmation %d | requested %d",action.c_str(),self.exit_confirmation_open,self.exit_requested);
+            return true;
+        }
+        if(!std::strcmp(name,"NativeStartGame")){
+            // Explicit pending-owner feedback, not a port of Application::LoadLevel.
+            // The authored single-player button supplies one numeric difficulty.
+            if(!ui::swf_front_pending_start_v1(fn,self.start_requested_difficulty,error))return false;
+            self.start_feedback_pending=true;return true;
+        }
+        if(!std::strcmp(name,"NativeCreateSaveSlot"))return ui::swf_front_create_save_slot_v1(fn,&self,
+            [](void* context,const char* player_name,const char* character,std::uint32_t& slot,std::string& error){return static_cast<Impl*>(context)->create_menu_persona(player_name,character,slot,error);},error);
+        if(!std::strcmp(name,"NativeEraseSaveSlot"))return ui::swf_front_erase_save_slot_v1(fn,{&self,menu_flush_front_jobs,menu_erase_slot_files},error);
+        if(!std::strcmp(name,"NativeSetSaveSlotIDToMainMenu"))return ui::swf_menu_avatar_preview_v1(fn,self.menu_avatar,self.menu_avatar_services,error);
+        if(!std::strcmp(name,"NativeGetParsedString"))return ui::swf_menu_parsed_string_v1(fn,&self,menu_parsed_string,error);
         if(!std::strcmp(name,"NativeGetSaveSlotDetails")){
             ui::SwfFrontSaveSlotServicesV1 services{&self,menu_slot_exists,menu_slot_details};
             return ui::swf_front_save_slot_details(fn,services,error);
@@ -513,6 +700,10 @@ struct OriginalUiSession::Impl {
             return ui::swf_menu_credit_movement(fn,std::uint32_t(self.last_menu_dt),false,error);
         }
         if(!std::strcmp(name,"NativeBackToHud")){
+            if(self.loading_hud_services.current_level)return ui::swf_loading_back_to_hud_v1(fn,self.loading_hud_services,error);
+            if(self.loading_state_services.current_level||(!self.menu_stack.empty()&&self.menu_stack.back()=="menu_Loading")){
+                error="Loading continuation requires retained Level/HUD owners";return false;
+            }
             // 0x4449ac..0x4449b4 exits when Application.GetCurrentLevel is
             // null. The front-only session has no attached gameplay level.
             if(self.front_screen=="main"&&!self.live_player)return true;
@@ -617,7 +808,7 @@ struct OriginalUiSession::Impl {
         if(!name||self.menu_stack.empty()){error="Native menu stack unavailable";return false;}
         // GetMenuByName returns null for unregistered states. Explicitly log
         // the partial registration rather than presenting those paths as done.
-        if(std::strcmp(name,"menu_info")&&std::strcmp(name,"menu_MainMenu")&&std::strcmp(name,"menu_EnterName")&&std::strcmp(name,"menu_SelectClass")&&!shared_state(name)){
+        if(std::strcmp(name,"menu_info")&&std::strcmp(name,"menu_MainMenu")&&std::strcmp(name,"menu_EnterName")&&std::strcmp(name,"menu_SelectClass")&&std::strcmp(name,"menu_StartGame")&&!shared_state(name)){
             __android_log_print(ANDROID_LOG_WARN,tag,"Menu navigation not connected | requested %s",name);return true;
         }
         if(std::find(self.menu_stack.begin(),self.menu_stack.end(),name)!=self.menu_stack.end())return true;
@@ -656,7 +847,7 @@ struct OriginalUiSession::Impl {
         if(!graph.root_value(root,error)||!graph.find_target(root,"menu_MainMenu",menu,error))return false;
         if(!graph.invoke(menu,menu,"onShow",{},result,callable,error))return false;
         if(!callable){error="Authored main menu onShow missing";return false;}
-        return true;
+        return graph.invoke(menu,menu,"onPush",{},result,callable,error);
     }
     static bool probe_main_background(void*,ui::SwfAsGraph& graph,std::string& error){
         ui::SwfAsValue root;if(!graph.root_value(root,error))return false;
@@ -703,6 +894,9 @@ struct OriginalUiSession::Impl {
         if(!localization.load({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
         if(front_screen=="main"){
             const char* suffixes[]={"_pyarray.bin","_pyarraynames.bin","_pystructnames.bin"};
+            for(unsigned i=0;i<3;++i)if(!raw_asset((std::string("data/help_pages")+suffixes[i]).c_str(),metadata[i],error))return false;
+            if(!loading_hints.load({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original loading hints connected | rows %zu",loading_hints.rows().size());
             for(unsigned i=0;i<3;++i)if(!raw_asset((std::string("data/character_properties")+suffixes[i]).c_str(),metadata[i],error))return false;
             if(!dh2::data::load_characters({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},menu_characters,error))return false;
             for(unsigned i=0;i<3;++i)if(!raw_asset((std::string("data/levels")+suffixes[i]).c_str(),metadata[i],error))return false;
@@ -713,13 +907,33 @@ struct OriginalUiSession::Impl {
             if(!option_table.load_design_cache({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
             settings=std::make_unique<ui::OwnedHudSettingsV1>(option_table.borrow());settings_files=std::make_unique<ui::SettingsNativeFilesV1>(directory);
             if(!load_settings(this,error))return false;
+            menu_avatar_services={this,persona_destroy,persona_setup,persona_camera};
+            if(::access((directory+"/menu-persona-preview.enabled").c_str(),F_OK)==0)enable_menu_persona();
         }
         fonts=std::make_unique<ui::SwfHudFreetypeProvider>(ui::SwfFontServices{this,font_read,font_diagnostic},1.f,bitmap_probe);
         movie=std::make_unique<ui::SwfMovie>();ui::SwfServices services;
         frame_owner=std::make_shared<FrameOwner>();
         services.native_owner=frame_owner;services.graph_start=graph_start;
         services.native_actions={"NativePlaySoundFX","NativePushMenu","NativePopMenu","NativePopAllAbove","NativeGetCreditMovement","NativeBackToHud","NativeGetParsedString"};services.native_action=native_action;
-        if(front_screen=="main")services.native_actions.emplace_back("NativeGetSaveSlotDetails");
+        if(front_screen=="main"){
+            services.native_actions.emplace_back("NativeGetSaveSlotDetails");
+            services.native_actions.emplace_back("NativeEraseSaveSlot");
+            services.native_actions.emplace_back("NativeSetSaveSlotIDToMainMenu");
+            services.native_actions.emplace_back("NativeCreateSaveSlot");
+            services.native_actions.emplace_back("NativeStartGame");
+            services.native_actions.emplace_back("NativeHUDInteract");
+            services.native_actions.emplace_back("NativeLaunchTwitter");
+            services.native_actions.emplace_back("NativeLaunchIGP");
+            services.native_actions.emplace_back("NativeGetLoadingProgress");
+            services.native_actions.emplace_back("NativeIsMultiplayerLoadCompleted");
+            services.native_actions.emplace_back("NativeIsMultiplayerHost");
+            services.native_actions.emplace_back("NativeMustWaitForHost");
+            services.native_actions.emplace_back("NativeEndLoading");
+            services.native_actions.emplace_back("NativeGetLoadingTipStrID");
+            services.native_actions.emplace_back("NativeGetStringFromID");
+            services.native_actions.emplace_back("NativeIsMultiplayerEnabled");
+            for(const char* action:{"NativePlayMusic","NativePauseMusic","NativeStopMusic"})services.native_actions.emplace_back(action);
+        }
         if(front_screen=="main")for(const auto* action:{"NativeGetOptionParameters","NativeSetOptions","NativeLoadSettings","NativeSaveSettings","NativeEnterOptionMenu","NativeRefreshHudManager","NativeChangeRolloverInputBehavior","NativeIsJapaneseVersion","NativeIsKorean"})services.native_actions.emplace_back(action);
         services.context=this;services.read=movie_read;services.texture=texture;services.image=image;
         services.draw=draw;services.stencil=stencil;services.native_call=native;services.diagnostic=diagnostic;
@@ -802,8 +1016,9 @@ struct OriginalUiSession::Impl {
         last_width=last_height=0;loading_bitmap_reported=false;reported_frames={{-1,-1,-1,-1,-1}};
         leases.clear();exports.clear();font_failure.clear();provider_failure.clear();
         menu_sounds.clear();
-        menu_audio.clear();settings.reset();settings_files.reset();language_selection=-1;
-        menu_stack.clear();
+        menu_audio.clear();menu_browser.clear();menu_catalog.clear();settings.reset();settings_files.reset();language_selection=-1;
+        menu_stack.clear();start_feedback_pending=false;
+        exit_confirmation_open=exit_requested=false;
         input_dispatch_movie=nullptr;last_menu_dt=0;
         menu_clock.reset();
         glyph_uploads=bitmap_uploads=string_calls=core_errors=packed_glyphs=strips=lines=masks=0;
@@ -823,7 +1038,13 @@ bool OriginalUiSession::touch(float x,float y,int action,std::string& error){
     struct Dispatch {Impl& self;ui::SwfMovie* previous;~Dispatch(){self.input_dispatch_movie=previous;}} dispatch{*impl_,impl_->input_dispatch_movie};
     impl_->input_dispatch_movie=selected;
     if(action==3)return selected->input_cancel(x,y,error);
-    return selected->input_cursor({x,y,0.f,(action==0||action==2)?1:0},error);
+    if(!selected->input_cursor({x,y,0.f,(action==0||action==2)?1:0},error))return false;
+    // Run after the authored release returns; avoid nested movie evaluation.
+    if(impl_->start_feedback_pending){
+        impl_->start_feedback_pending=false;
+        if(!selected->menu_action_script(impl_.get(),Impl::show_start_pending,error))return false;
+    }
+    return true;
 }
 std::string OriginalUiSession::consume_menu_sound(){
     auto& queue=impl_->menu_sounds;
@@ -833,6 +1054,24 @@ std::string OriginalUiSession::consume_menu_sound(){
 std::string OriginalUiSession::consume_menu_audio(){
     auto& queue=impl_->menu_audio;if(queue.empty())return {};auto value=std::move(queue.front());queue.pop_front();return value;
 }
+std::string OriginalUiSession::consume_menu_browser(){
+    auto& queue=impl_->menu_browser;if(queue.empty())return {};
+    auto value=std::move(queue.front());queue.pop_front();return value;
+}
+int OriginalUiSession::consume_menu_catalog(){
+    auto& queue=impl_->menu_catalog;if(queue.empty())return -1;
+    const auto language=queue.front();queue.pop_front();return language;
+}
+bool OriginalUiSession::consume_menu_exit(std::string& error){
+    if(!impl_->exit_requested){error.clear();return false;}
+    // Called on the GL owner after all ActionScript and frame work finished.
+    if(!model_renderer::select_menu_persona(-1,impl_->manager,error))return false;
+    impl_->menu_avatar={};impl_->menu_persona_mode=false;
+    if(!impl_->reset_failed(error))return false;
+    impl_->front_screen.clear();impl_->live_player=false;
+    __android_log_print(ANDROID_LOG_INFO,tag,"Original front exit consumed | movie and preview released");
+    return true;
+}
 bool OriginalUiSession::debug_menu_sound(const std::string& probe,std::string& error){
     if(!impl_->loaded||impl_->front_screen!="main"){error="Menu sound probe requires the retained main movie";return false;}
     struct Probe {const std::string& name;Impl* self;} context{probe,impl_.get()};
@@ -840,6 +1079,58 @@ bool OriginalUiSession::debug_menu_sound(const std::string& probe,std::string& e
         const auto& name=static_cast<Probe*>(raw)->name;
         ui::SwfAsValue root,receiver,result;bool callable=false;
         if(!graph.root_value(root,error))return false;
+        if(name=="loading-panel-inspect"){
+            auto& self=*static_cast<Probe*>(raw)->self;
+            // Initial authored layout only. No Level fixture, progress tick,
+            // multiplayer readiness, or completion is supplied by this probe.
+            if(!Impl::push_menu(&self,"menu_Loading",error))return false;
+            if(!self.shared_menu_movie->menu_action_script(nullptr,[](void*,ui::SwfAsGraph& graph,std::string& error){
+                ui::SwfAsValue root,bar,result;bool callable=false;
+                if(!graph.root_value(root,error)||!graph.find_target(root,"menu_Loading.loading_anim",bar,error))return false;
+                if(!bar.identity()){error="Original loading artwork timeline absent";return false;}
+                // Hold its authored first frame for layout inspection. A real
+                // loader selects this timeline through BarState/onProgress.
+                if(!graph.invoke(bar,bar,"gotoAndStop",{ui::SwfAsValue::number(1)},result,callable,error))return false;
+                if(!callable){error="Loading artwork timeline control absent";return false;}
+                return true;
+            },error))return false;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original loading panel initial layout inspected | canonical progress not invoked");
+            self.report_frame=true;return true;
+        }
+        if(name=="loading-tip-inspect"){
+            if(!graph.invoke(root,root,"NativeGetLoadingTipStrID",{},result,callable,error)||!callable){if(error.empty())error="Loading tip callback absent";return false;}
+            ui::SwfAsValue text_result;
+            if(!graph.invoke(root,root,"NativeGetStringFromID",{result},text_result,callable,error)||!callable){if(error.empty())error="String ID callback absent";return false;}
+            std::string text;if(!graph.to_text(text_result,text,error))return false;
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original loading tip localized | %s",text.c_str());return true;
+        }
+        if(name=="music-inspect"){
+            static_cast<Probe*>(raw)->self->menu_audio.emplace_back("music-inspect");return true;
+        }
+        if(name=="music-pause"||name=="music-stop"||name=="music-title"||name=="music-invalid"){
+            const char* method=name=="music-pause"?"NativePauseMusic":name=="music-stop"?"NativeStopMusic":"NativePlayMusic";
+            std::vector<ui::SwfAsValue> args;
+            if(name=="music-title")args.push_back(ui::SwfAsValue::text("TitleMusic"));
+            if(name=="music-invalid")args.push_back(ui::SwfAsValue::text("MissingOriginalMusic"));
+            if(!graph.invoke(root,root,method,args,result,callable,error)||!callable){if(error.empty())error="Required music callback absent";return false;}
+            return true;
+        }
+        if(name=="create-menu-persona"){
+            auto& self=*static_cast<Probe*>(raw)->self;
+            std::uint32_t slot{};
+            if(!self.create_menu_persona("Adam","KnightPlayerBase",slot,error))return false;
+            if(!graph.find_target(root,"menu_MainMenu",receiver,error))return false;
+            if(!graph.invoke(receiver,receiver,"OnShow",{},result,callable,error))return false;
+            if(!callable){error="Authored main OnShow unavailable";return false;}return true;
+        }
+        if(name=="save-fixture-offline-mode"){
+            auto& self=*static_cast<Probe*>(raw)->self;
+            self.campaign_quests={nullptr,[](void*,bool& value,std::string& error){value=false;error.clear();return true;}};
+            __android_log_print(ANDROID_LOG_INFO,tag,"Explicit offline campaign fixture service bound | test only; canonical online owner remains unavailable");
+            if(!graph.find_target(root,"menu_MainMenu",receiver,error))return false;
+            if(!graph.invoke(receiver,receiver,"OnShow",{},result,callable,error))return false;
+            if(!callable){error="Authored main OnShow unavailable";return false;}return true;
+        }
         if(name=="inspect-front"){
             auto& self=*static_cast<Probe*>(raw)->self;
             GLint framebuffer=0,viewport[4]{},program=0;
@@ -904,10 +1195,48 @@ bool OriginalUiSession::debug_menu_sound(const std::string& probe,std::string& e
         __android_log_print(ANDROID_LOG_INFO,tag,"Original menu sound probe dispatched | probe %s",name.c_str());return true;
     },error);
 }
+void OriginalUiSession::bind_menu_device(const std::string& manufacturer,const std::string& model,std::uint32_t driver_type){
+    // Original DungeonHunter2.Get_PhoneManufacturer/Get_PhoneModel use
+    // case-sensitive String.equals on Android Build.MANUFACTURER/MODEL.
+    // appInit maps manufacturer0=HTC,2=SHARP and model99=SHW-M130L.
+    impl_->menu_device={std::uint8_t(manufacturer=="SHARP"),std::uint8_t(manufacturer=="HTC"),std::uint8_t(model=="SHW-M130L"),0,driver_type};
+    __android_log_print(ANDROID_LOG_INFO,tag,"Original menu device facts | manufacturer %s | model %s | driver type %u | sharp %u | htc %u | no IGP %u",manufacturer.c_str(),model.c_str(),driver_type,impl_->menu_device.sharp,impl_->menu_device.htc,impl_->menu_device.no_igp);
+}
 bool OriginalUiSession::initialize(AAssetManager* manager,std::string& error) {
     try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager);impl_->report_frame=true;error.clear();return true;}
     catch(const std::exception& e){error=e.what();impl_->selected=false;return false;}
 }
+bool OriginalUiSession::show_game_loading(std::string& error){
+    if(!impl_->loaded||impl_->front_screen!="main"){
+        error="Original gameplay loading requires the retained front movies";return false;
+    }
+    if(!impl_->loading_state_services.current_level){
+        error="Original gameplay loading requires its retained Application/Level provider";return false;
+    }
+    if(!Impl::push_menu(impl_.get(),"menu_Loading",error))return false;
+    // GSLevel::Ctor 0x38624c..0x386280 pushes the authored menu, then
+    // invokes onProgress. Level::_LoadProcess 0x3f6ef8..0x3f6f38 repeats
+    // that invocation after updating the actual Level progress word.
+    return refresh_game_loading(error);
+}
+bool OriginalUiSession::refresh_game_loading(std::string& error){
+    if(!impl_->loaded||impl_->menu_stack.empty()||impl_->menu_stack.back()!="menu_Loading"){
+        error="Original gameplay loading panel is not active";return false;
+    }
+    return impl_->shared_menu_movie->menu_action_script(nullptr,[](void*,ui::SwfAsGraph& graph,std::string& error){
+        ui::SwfAsValue root,menu,result;bool callable=false;
+        if(!graph.root_value(root,error)||!graph.find_target(root,"menu_Loading",menu,error))return false;
+        if(!menu.identity()){error="Original shared loading clip absent";return false;}
+        if(!graph.invoke(menu,menu,"onProgress",{},result,callable,error))return false;
+        if(!callable){error="Original shared loading onProgress absent";return false;}
+        return true;
+    },error);
+}
+void OriginalUiSession::bind_loading_hud_services(const ui::LoadingMenuHudServicesV1& services){impl_->loading_hud_services=services;}
+void OriginalUiSession::bind_loading_multiplayer_services(const ui::LoadingMenuMultiplayerServicesV1& services){impl_->loading_multiplayer_services=services;}
+void OriginalUiSession::bind_loading_state_services(const ui::LoadingMenuStateServicesV1& services){impl_->loading_state_services=services;}
+void OriginalUiSession::bind_campaign_quest_services(const OriginalUiCampaignQuestServicesV1& services){impl_->campaign_quests=services;}
+void OriginalUiSession::bind_menu_avatar_services(const ui::MenuAvatarPreviewServicesV1& services){impl_->menu_avatar_services=services;}
 bool OriginalUiSession::load_front_screen(const std::string& directory,const std::string& screen,std::string& error) {
     if(screen!="main"&&screen!="loading"){error="Unknown authored front screen";return false;}
     if(directory.empty()||directory.front()!='/'){error="Required private UI files directory unavailable";return false;}
@@ -1011,9 +1340,19 @@ bool OriginalUiSession::render(int width,int height,std::string& error) {
             std::min(width,height*3/2),std::min(height,width*2/3),error))return false;
     }
     auto* display_movie=impl_->front_screen=="main"?impl_->active_menu_movie():impl_->movie.get();
+    // Keep the uniformly scaled loading overlay within the aspect-fitted
+    // startup artwork. Fitting it to the whole square/wide surface placed
+    // its top-right indicator partly in the letterbox instead of the splash.
+    int overlay_width=width,overlay_height=height;
+    if(impl_->front_screen=="loading"){
+        overlay_width=std::min(width,height*1280/752);
+        overlay_height=std::min(height,width*752/1280);
+    }
+    const int stage_width=std::min(overlay_width,overlay_height*3/2);
+    const int stage_height=std::min(overlay_height,overlay_width*2/3);
     if(!(front?display_movie->display_clip(path,
-        (width-std::min(width,height*3/2))/2,(height-std::min(height,width*2/3))/2,
-        std::min(width,height*3/2),std::min(height,width*2/3),error):impl_->movie->display_source_clip(path,error))){
+        (width-stage_width)/2,(height-stage_height)/2,
+        stage_width,stage_height,error):impl_->movie->display_source_clip(path,error))){
         const auto failure=error;std::string cleanup;impl_->reset_failed(cleanup);
         error=failure+(cleanup.empty()?"":"; cleanup: "+cleanup);return false;
     }

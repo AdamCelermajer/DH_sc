@@ -1,0 +1,30 @@
+{
+  "validation": "PASS",
+  "results": [
+    {
+      "optimization": "-O1",
+      "result": {
+        "validation": "PASS",
+        "checks": 4010,
+        "original_cases": 1000,
+        "scope": "original full event5 numeric/position branch and source ordered services; direction producer is explicit host observer, outer event/level/player/attack gates external"
+      }
+    },
+    {
+      "optimization": "-O2",
+      "result": {
+        "validation": "PASS",
+        "checks": 4010,
+        "original_cases": 1000,
+        "scope": "original full event5 numeric/position branch and source ordered services; direction producer is explicit host observer, outer event/level/player/attack gates external"
+      }
+    }
+  ],
+  "source_sha256": {
+    "port/engine-ui/authored_joystick_v1.hpp": "071bb81bcded47bbfe89a61c028381f6c511f60b29ded372969e50647e07f33f",
+    "port/engine-ui/authored_joystick_v1.cpp": "153b2cda99e3b9990a8c9abe428f706e681b5a8e95c2ac20b528bbabfbaeab6c",
+    "port/engine-ui/tests/authored_joystick_v1.cpp": "6387be43244bc53c4bcdb2c42630d688d6b35f2cae62d2f6c5894d473974308e",
+    "port/engine-ui/reference/authored-joystick-v1/fixtures.bin": "b0d1e58dbc7daf57e310d33d0b004b20580de9922c772cbc87635a5684cf51b6"
+  },
+  "scope": "Host replay of 1000 executed original whole event5 math/position/CTRLfalse cases; explicit direction/controller observers and prefix/reset checks, full HUD event selection/outerlevel/attacktransport not yet composed"
+}

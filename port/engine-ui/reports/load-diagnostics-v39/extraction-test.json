@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "exact_original_body_restored_after_removing_only_guards": true,
+  "pair_sweeps": 5,
+  "floor_sweeps": 2,
+  "guard_count": 7,
+  "preserved_search_expansion_limit": 10000,
+  "source_sha256": "4248581ec4b3b6620cf0737b6492e57151ef970225c6416d2cf4c8ef82b402f7",
+  "checks": 5,
+  "shared_source_mutations": false
+}

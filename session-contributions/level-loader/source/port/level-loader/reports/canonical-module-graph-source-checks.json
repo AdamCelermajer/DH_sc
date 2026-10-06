@@ -1,0 +1,64 @@
+{
+  "validation": "PASS",
+  "scope": "Complete original SWAMP root XML -> actual config/nine-Module static graph, generated RoomZones, same-world floor/collision/post-load/InitFinal; actual first MGP constructor failure; outer providers fixtures",
+  "cases": [
+    {
+      "build": "host",
+      "probe_sha256": "ce89d54cf8b8665fc55b3e2b729c6849eeb531803f16461419c92ffdaa8a60a0",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "c5bc1dde5e93d7eeb2714bd8e0345ba8a0bbcdc2f8326f04b8b2f3a838c64d4a",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "6bb72259ff9fc535bd4c2a4db6df9ad902f2aa61b64d2c9f44d1968e8d9800b1",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": "34cab56894cb1a977fb6ae0bce499f4019b5569ce4248c350b6fbec82f423808",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "probe_source_sha256": "953aa4debb92f53e027d201088298cf5947087d2007d6951d318e21d67e0c623",
+  "coherent_manifest_sha256": "e7100fefbd1ed4152eb5b5d8feb2fb27b99d16fa3a89c49815a3df719eb53fcf",
+  "coherent_files": 340,
+  "incoming_graph_entries_verified": 135,
+  "copied_module_declarations": false,
+  "whole_candidate_destruction_verified": false,
+  "tiny_anim_controller_constructor_verified": false,
+  "full_loader_verified": false
+}

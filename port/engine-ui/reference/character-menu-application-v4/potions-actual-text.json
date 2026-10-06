@@ -1,0 +1,48 @@
+{
+  "source": "actual packaged gameplaymenus text/symbol cache files",
+  "symbol": "GAMEPLAYMENUS_POTIONS",
+  "sheet_index": 394,
+  "symbol_file_sha256": "7a933388893c6963b537791fbaf240660b5e39ef1c54741f98dd21ba5b89e136",
+  "rows": [
+    {
+      "language": "english",
+      "text": "Potions: ^d",
+      "sha256": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000"
+    },
+    {
+      "language": "french",
+      "text": "Зілля: ^d",
+      "sha256": "5af2b9b5fa389185e7d09be41880209b6e1afdff0d1083e5b67d509720f6af9b"
+    },
+    {
+      "language": "german",
+      "text": "Зелья: ^d",
+      "sha256": "8871686e0caeaaa3e63705a7fc2627615ac6d19682bb9239328d25180ebdcf38"
+    },
+    {
+      "language": "italian",
+      "text": "Pozioni: ^d",
+      "sha256": "b1338157d9f20325e4436943d38688c509be70ce4730cbe3bcde75660e659530"
+    },
+    {
+      "language": "japanese",
+      "text": "ポーション:^d",
+      "sha256": "76323a876c51c43ac11847c858304788bedf624f53b511ddfb47eab0fc0f8704"
+    },
+    {
+      "language": "korean",
+      "text": "물약: ^d",
+      "sha256": "02d2fcb5bd53d490c422465c046624631f00547d3694e01706a2e5caecdd6349"
+    },
+    {
+      "language": "sc",
+      "text": "药剂：^d",
+      "sha256": "1a39172f1bae20ae26d27b81ae11d0e143192a4d01f2bb11f3d840b7636e98cc"
+    },
+    {
+      "language": "spanish",
+      "text": "Pociones: ^d",
+      "sha256": "c4d3b0e9a831289e2c78ea1ff3fd103463f5e3cc3010f7eb869b0527356e53d1"
+    }
+  ]
+}

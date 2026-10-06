@@ -22,6 +22,10 @@ def main():
     p.add_argument('--studio', type=Path, required=True)
     p.add_argument('--ninja', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--single-project', action='store_true',
+                   help='Capture only the packaged checkout; do not duplicate the same APK as a Studio artifact')
+    p.add_argument('--store-apks', action='store_true',
+                   help='Store already compressed APK bytes directly to avoid recompressing them')
     p.add_argument('--ui-assets-stage', type=Path, nargs=3, metavar=('MENU', 'TEXT', 'TEXTURE'),
                    help='Capture the three original UI staging receipts and UI build definitions')
     p.add_argument('--ui-font-freeze', type=Path,
@@ -30,7 +34,9 @@ def main():
                    help='Versioned world/status connection and exact renderer getter migration receipt')
     a = p.parse_args()
     assert not a.output.exists(), 'Refusing to replace an existing build capture'
-    projects = {'packaged': REPO/'port/android-native', 'studio': a.studio}
+    projects = {'packaged': REPO/'port/android-native'}
+    if not a.single_project:
+        projects['studio'] = a.studio
     sources, commands, entries, artifacts = {}, {}, {}, {}
     ui_receipts = []
     font_freeze = None
@@ -101,8 +107,9 @@ def main():
                 sources[key] = sha(payload)
                 entries['source/'+key] = payload
     assert set(commands['packaged']['arm64-v8a']['repository_inputs']) == set(commands['packaged']['x86_64']['repository_inputs'])
-    for abi in ('arm64-v8a', 'x86_64'):
-        assert commands['packaged'][abi]['repository_inputs'] == commands['studio'][abi]['repository_inputs'], 'Repo/Studio compiler inputs differ'
+    if 'studio' in commands:
+        for abi in ('arm64-v8a', 'x86_64'):
+            assert commands['packaged'][abi]['repository_inputs'] == commands['studio'][abi]['repository_inputs'], 'Repo/Studio compiler inputs differ'
     for folder in ('engine-resources', 'asset-payloads', 'engine-math', 'engine-animation', 'engine-skinning', 'engine-textures', 'game-data', 'level-world', 'physics-backend', 'scene-materials', 'script-runtime'):
         path = REPO/'port'/folder/'CMakeLists.txt'
         if path.is_file():
@@ -183,7 +190,7 @@ def main():
     a.output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(a.output, 'w', zipfile.ZIP_DEFLATED) as z:
         for name, raw in sorted(entries.items()):
-            z.writestr(name, raw)
+            z.writestr(name, raw, compress_type=zipfile.ZIP_STORED if a.store_apks and name.endswith('.apk') else zipfile.ZIP_DEFLATED)
     with zipfile.ZipFile(a.output) as z:
         assert z.testzip() is None
     print(json.dumps({'capture': str(a.output.resolve()), 'sha256': sha(a.output.read_bytes()),

@@ -1,0 +1,28 @@
+{
+  "scope": "Independent FULL candidate actual actor implementation; V5 non-actor dependencies only. Not coherent factory rebuild.",
+  "cases": {
+    "character-actor-fields-v38": {
+      "pass": true,
+      "output": "PASS actual_actor_cache_master=1 facade_identity_distinct=1 foreign_lease_rejected=1 fresh_adoption_guard=1 record_alias_lifetime=1 missing_properties_preserve_out=1\n",
+      "binary_sha256": "61b48994f43db84caa41bca1d85c3ac9c71c5e64a72e2e8a654b68d19cbf8f30",
+      "link_map_sha256": "f5f9176af77d7c13d1c1fee53a77fc8c6c07b8745682cdd1989aad0611797a37",
+      "old_actor_object_not_linked": true,
+      "old_factory_object_not_linked": true
+    },
+    "character-template-frame-v39": {
+      "pass": true,
+      "output": "PASS actual_actor_cache_binding=1 record_alias_lifetime=1 shared_application_two_actors=1 no_rng_on_cached_missing_direct_player=1 adoption_foreign_rng_rejected=1\n",
+      "binary_sha256": "8328669a9844f4a83ee6293371805cf2eb1042dbada8a04ce3b789e642ee2c25",
+      "link_map_sha256": "23d07357fc825324b16921b6b61bb2d02ebb757c55cab93febd4c33c1a650787",
+      "old_actor_object_not_linked": true,
+      "old_factory_object_not_linked": true
+    }
+  },
+  "files": {
+    "reference\\character-loader-fields-v38\\actor-candidate-v38\\retained_character_actor_v1.hpp": "0d0df6e3371723570cdcac7decd713bfa9cfe86dc911e3ca0af5df27ffba8cd9",
+    "reference\\character-loader-fields-v38\\actor-candidate-v38\\retained_character_actor_v1.cpp": "3a5a19027f6c1e24cd60f2c1df4a8548f036783be59fdc53231c554b10a5ca33",
+    "reference\\character-loader-fields-v38\\character_actor_fields_v38_test.cpp": "a5a5b3b60efc48fbf76d61aee8d41dc5ebe966de9c73cfe16df77b380fd207d7",
+    "reference\\character-template-binding-v39\\character_template_frame_v39.hpp": "218c434c0f9c1521d7f8b36b0cf6618a095a68195e2eafe503178006345e0964",
+    "reference\\character-template-binding-v39\\character_template_frame_v39_test.cpp": "c011ec06717f8223242976e238ba00f2f4ff99bc045effa2ce81af79e1dcbce8"
+  }
+}

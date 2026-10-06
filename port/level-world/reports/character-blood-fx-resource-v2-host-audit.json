@@ -4,20 +4,20 @@
     {
       "optimization": "O1",
       "exit_code": 0,
-      "stdout": "{\"validation\":\"PASS\",\"checks\":5701,\"positive_frames\":78,\"vertices\":1720,\"gpu_submission\":false}\n",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":6406,\"positive_frames\":78,\"vertices\":1720,\"gpu_submission\":false}\n",
       "stderr": ""
     },
     {
       "optimization": "O2",
       "exit_code": 0,
-      "stdout": "{\"validation\":\"PASS\",\"checks\":5701,\"positive_frames\":78,\"vertices\":1720,\"gpu_submission\":false}\n",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":6406,\"positive_frames\":78,\"vertices\":1720,\"gpu_submission\":false}\n",
       "stderr": ""
     }
   ],
   "sources": {
-    "port/level-world/tests/character_blood_fx_resource_v2.cpp": "8dcbc0e78bd1fb85af77625585c79b30d59c8f0a3b2bd6b754793017306a3ca5",
-    "port/level-world/character_blood_fx_resource_v2.cpp": "cc46193c27e0d6aa5849ceb43c09201cde6fca27bbccd3a81d1076962f1f6c93",
-    "port/level-world/character_mesh_fx_owner_v2.cpp": "906dec075c5ac80bb31f0934945a7853d5d386bea5cbb80d2027db678759d25b",
+    "port/level-world/tests/character_blood_fx_resource_v2.cpp": "3037e76b2fd2c782bc73fd80eedac8bbe82911438586e36a3a4ef0a4b69d553f",
+    "port/level-world/character_blood_fx_resource_v2.cpp": "a6425616d2a797ff07825217230d93f44143445f6d06294a601e39ccd91d5a03",
+    "port/level-world/character_mesh_fx_owner_v2.cpp": "1ab8afbe8f944cc6410dd7f7a41badd81190fc84fcdb6e7c927226eae7306814",
     "port/engine-animation/particle_resource_init_v1.cpp": "0cd5ab346d9c490997d3a5794304831a931798bfd3b710d6cb042965be811977",
     "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
     "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",

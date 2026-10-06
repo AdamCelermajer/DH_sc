@@ -1,0 +1,78 @@
+{
+  "status": "FAIL",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize=vptr",
+        "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+        "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+        "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+        "-DTU_CONFIG_LINK_TO_THREAD=0",
+        "-isystem",
+        "port/engine-ui/vendor/gameswf1714",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/engine-ui/tests/menu_status_movie_v26.cpp",
+        "port/engine-ui/menu_status_messages_v26.cpp",
+        "port/engine-ui/menu_status_movie_v26.cpp",
+        "port/engine-ui/swf_movie.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/menu_status_movie_v26_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        ".local-inputs/menu_status_movie_v26_host",
+        ".local-inputs/ui-layout-discovery",
+        "port/android-native/app/src/main/assets/original-cache/data",
+        "port/android-native/app/src/main/assets/original-cache/data",
+        "port/android-native/app/src/main/assets/data/fonts_pycst.bin"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "=================================================================\n==463==ERROR: AddressSanitizer: odr-violation (0x64a805fface0):\n  [1] size=8 'active' port/engine-ui/swf_movie.cpp:160:16 in /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/menu_status_movie_v26_host\n  [2] size=8 'active' /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/source-facade-v1/swf_movie.cpp:129:16 in /home/adampalace/dh2-world-build/engine-ui/libdh2_engine_ui.so\nThese globals were registered at these points:\n  [1]:\n    #0 0x7fd6f485699f in __asan_register_globals ../../../../src/libsanitizer/asan/asan_globals.cpp:410\n    #1 0x64a805e05fc2 in _sub_I_00099_1 (/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/menu_status_movie_v26_host+0x242fc2) (BuildId: 9118724ac9faf6b2d80136c1c277eb0166f98924)\n    #2 0x64a805d547a4 in _start (/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/menu_status_movie_v26_host+0x1917a4) (BuildId: 9118724ac9faf6b2d80136c1c277eb0166f98924)\n\n  [2]:\n    #0 0x7fd6f485699f in __asan_register_globals ../../../../src/libsanitizer/asan/asan_globals.cpp:410\n    #1 0x7fd6ecd3f6b5 in _sub_I_00099_1 (/home/adampalace/dh2-world-build/engine-ui/libdh2_engine_ui.so+0x1f3f6b5) (BuildId: 6c6cce08efc5d1bcbf293e7678e371234745e88f)\n    #2 0x7fd6f50d07ce  (/lib64/ld-linux-x86-64.so.2+0x67ce) (BuildId: 6b2f4bfcb50bb93f530e1992b8a9d112650bdae7)\n    #3 0x7fd6f50d08e3  (/lib64/ld-linux-x86-64.so.2+0x68e3) (BuildId: 6b2f4bfcb50bb93f530e1992b8a9d112650bdae7)\n    #4 0x7fd6f50ed39f  (/lib64/ld-linux-x86-64.so.2+0x2339f) (BuildId: 6b2f4bfcb50bb93f530e1992b8a9d112650bdae7)\n\n==463==HINT: if you don't care about these errors you may set ASAN_OPTIONS=detect_odr_violation=0\nSUMMARY: AddressSanitizer: odr-violation: global 'active' at port/engine-ui/swf_movie.cpp:160:16 in /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/menu_status_movie_v26_host\n==463==ABORTING\n"
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/engine-ui/tests/menu_status_movie_v26.cpp",
+      "sha256": "d73957b6845d93963a5656eda228fb581b8f94c9d8346c5750d398a6a809495f"
+    },
+    {
+      "path": "port/engine-ui/menu_status_messages_v26.cpp",
+      "sha256": "2a5dc9facd58530a9c85f56898754397a6fb32e28e9cec3c036352484d7bd716"
+    },
+    {
+      "path": "port/engine-ui/menu_status_movie_v26.cpp",
+      "sha256": "0a187e440eecd03ac53d62ef6290778cb115aadf44a9a716468f5f31e221b98c"
+    },
+    {
+      "path": "port/engine-ui/swf_movie.cpp",
+      "sha256": "bf8cc088c087fc5737cf27412c6a7b6a07716fe6b717273341be7a686f63fa46"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "files": {
+    "reference\\level-init-v36\\gslevel-update-v40.asm": "3f49a27313b922d0aca38630816b8f682a20f9167dd70f202cca38eef991d3d8",
+    "reference\\level-init-v36\\item-c1-v40.asm": "401260011573d23f4c254654b5393d3f7d339454168ad2456e4670223673f9b4",
+    "reference\\level-init-v36\\item-init-once-v40.asm": "cdac91cf2a9cf600921ba4045990dcbe890f7c72dca86b8d153f34cb37ffce2a",
+    "reference\\level-init-v36\\item-precache-v40.asm": "cb4da30596842ed9120aaf2669d71dbec3b4a57629fc1cd7a60b849bc25e56f2",
+    "reference\\level-init-v36\\item-spawn-v40.asm": "4c636f01efdd6afbbbb86f9755b66422de707d62a79067b740546508fd020849",
+    "reference\\level-init-v36\\level-load-v40.asm": "242147983422c69a09392e1a589ce4d2424a9b54d15e2fca31bfb74739ca3565",
+    "reference\\level-init-v36\\level-update-loading-v40.asm": "37f9651aadb296a486ac1025b6614c5f010701814675836884a4947d87488919",
+    "reference\\level-init-v36\\object-next-zone-entered-v40.asm": "47f701035fd78ee5b244531e9d1f3c8acb90c95c8b5986f5c0f085a51992c75b",
+    "reference\\level-init-v36\\object-update-v40.asm": "00eb3a100e50516ccfbf486b10af9f8df2e93759f823e7e02963169c01d24c63"
+  },
+  "handoff_sha256": "bb3cded8e7967bc93a52bc21f0faa37c4cbe51a3764610b6980a0167f246b514",
+  "evidence_kind": "exact original disassembly and read-only current native owner source; not new original execution test",
+  "whole_level_init_verified": false,
+  "gameplay_ready": false,
+  "item_init_final_caller_recovered": false
+}

@@ -1,0 +1,246 @@
+{
+  "scope": "Actual SWAMP source census, not runtime traversal beyond first failure",
+  "connected_archive_sha256": "29bdb6fb795260087928f5523bb7c6c15ffec39918e4e2a87cefb2d08b0c924a",
+  "inventory_sha256": "b2679ff9b5e49c73df83caa2a5b9cffb7b89a377fe30bf3c75faddd53148d615",
+  "module_count": 9,
+  "declaration_count": 205,
+  "available_dispatcher_types": [
+    "AnimatedDecor",
+    "Character",
+    "OpenableContainer"
+  ],
+  "available_dispatcher_occurrences": 92,
+  "additional_required_class_types": [
+    {
+      "type": "CheckpointZone",
+      "occurrences": 4,
+      "original_factory_address": "0x340f2c",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+        "element": 13,
+        "module": 2,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_CheckpointZone_01",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "Decor",
+      "occurrences": 10,
+      "original_factory_address": "0x3410fc",
+      "origins": [
+        "visual"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+        "element": 6,
+        "module": 1,
+        "origin": "visual"
+      },
+      "first_source_name": "_prop_corpse_01_001",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "DestructibleContainer",
+      "occurrences": 9,
+      "original_factory_address": "0x340d5c",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "element": 10,
+        "module": 0,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_DestructibleContainer",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "Door",
+      "occurrences": 4,
+      "original_factory_address": "0x340824",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "element": 5,
+        "module": 4,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_SwampDoor",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "Dummy",
+      "occurrences": 41,
+      "original_factory_address": "0x3410a4",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "element": 4,
+        "module": 0,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_Waypoint_4",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "LevelConfig",
+      "occurrences": 1,
+      "original_factory_address": "0x340ca8",
+      "origins": [
+        "level"
+      ],
+      "first_source": {
+        "uri": "data/scene/001_swamp.mlx",
+        "element": 1,
+        "module": null,
+        "origin": "level"
+      },
+      "first_source_name": "level_config",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "Level reset context"
+    },
+    {
+      "type": "Module",
+      "occurrences": 9,
+      "original_factory_address": "0x340f98",
+      "origins": [
+        "level"
+      ],
+      "first_source": {
+        "uri": "data/scene/001_swamp.mlx",
+        "element": 2,
+        "module": null,
+        "origin": "level"
+      },
+      "first_source_name": "obj_4of4_brdwalk_sw_00_0",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "Level reset context"
+    },
+    {
+      "type": "QuestMoveInZone",
+      "occurrences": 1,
+      "original_factory_address": "0x340f50",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "element": 15,
+        "module": 4,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_WitchQuestStart",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "SoundEmitter",
+      "occurrences": 1,
+      "original_factory_address": "0x340ccc",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "element": 7,
+        "module": 6,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_SoundEmitter",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "SpawnPoint",
+      "occurrences": 11,
+      "original_factory_address": "0x340e10",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "element": 11,
+        "module": 0,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_EntryPoint",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "TriggerObject",
+      "occurrences": 1,
+      "original_factory_address": "0x340f0c",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "element": 7,
+        "module": 4,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_TriggerObject",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "TriggerZone",
+      "occurrences": 18,
+      "original_factory_address": "0x340ec4",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "element": 15,
+        "module": 0,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_TriggerZone_KillTroll",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    },
+    {
+      "type": "TriggerZoneExitLevel",
+      "occurrences": 3,
+      "original_factory_address": "0x340ea0",
+      "origins": [
+        "gameplay"
+      ],
+      "first_source": {
+        "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "element": 14,
+        "module": 4,
+        "origin": "gameplay"
+      },
+      "first_source_name": "_prim_ExitLevelZone_toSwamp02",
+      "reached_failure_stage": "registered constructor before Add/property/template/default/offset",
+      "required_context": "actual initialized Module runtime ID and post-property offset"
+    }
+  ],
+  "first_source_constructor": "LevelConfig",
+  "module_order_boundary": "LevelConfig early InitPost precedes Module construction; Module source properties/ChooseXmls/runtimeID precede gameplay then visual files; reset offset0/ID-1 after each module.",
+  "later_owner_boundaries": [
+    "ordered signed-key InitPost and TestEnableCondition(false)",
+    "per-class InitFinal, actual SceneManager and PF",
+    "condition eligibility distinct from execution status",
+    "canonical failed-candidate cleanup before XML release",
+    "canonical restore and commit, preserving old active level"
+  ],
+  "full_loader_verified": false
+}

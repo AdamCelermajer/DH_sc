@@ -1,0 +1,197 @@
+[
+  {
+    "address": "0x5b5e00",
+    "size": 52,
+    "symbol": "_ZN6glitch5video16COpenGLES2DriverC2EPNS_7IDeviceE"
+  },
+  {
+    "address": "0x5b5c40",
+    "size": 312,
+    "symbol": "_ZN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEC2EPNS_7IDeviceE"
+  },
+  {
+    "address": "0x602938",
+    "size": 336,
+    "symbol": "_ZN6glitch5video6CImageC2ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvjjbb"
+  },
+  {
+    "address": "0x5aa5f8",
+    "size": 680,
+    "symbol": "_ZN6glitch5video12IVideoDriver13createTextureEPKcRKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x6e0a3c",
+    "size": 296,
+    "symbol": "_ZN6glitch5video18ICodeShaderManager20initAdditionalConfigEPKc"
+  },
+  {
+    "address": "0x5eaed8",
+    "size": 1116,
+    "symbol": "_ZN6glitch5video15CTextureManagerC2EPNS0_12IVideoDriverE"
+  },
+  {
+    "address": "0x5a90b0",
+    "size": 68,
+    "symbol": "_ZN6glitch5video12IVideoDriver9setOptionEjb"
+  },
+  {
+    "address": "0x5aab60",
+    "size": 860,
+    "symbol": "_ZN6glitch5video12IVideoDriver4initEtth"
+  },
+  {
+    "address": "0x601c24",
+    "size": 276,
+    "symbol": "_ZN6glitch5video6CImageC2ERKN5boost13intrusive_ptrIS1_EERKNS_4core10position2dIiEERKNS7_11dimension2dIiEE"
+  },
+  {
+    "address": "0x602110",
+    "size": 116,
+    "symbol": "_ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEE"
+  },
+  {
+    "address": "0x602028",
+    "size": 116,
+    "symbol": "_ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEb"
+  },
+  {
+    "address": "0x5aaf1c",
+    "size": 988,
+    "symbol": "_ZN6glitch5video12IVideoDriverC2EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE"
+  },
+  {
+    "address": "0x5c5d88",
+    "size": 540,
+    "symbol": "_ZNK6glitch5video9CMaterial24updateParametersHashCodeEh"
+  },
+  {
+    "address": "0x5fdae8",
+    "size": 264,
+    "symbol": "_ZNK6glitch5video8ITexture12setDataDirtyEb"
+  },
+  {
+    "address": "0x60209c",
+    "size": 116,
+    "symbol": "_ZN6glitch5video6CImageC2ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEb"
+  },
+  {
+    "address": "0x5afff0",
+    "size": 1116,
+    "symbol": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture10updateDataEb"
+  },
+  {
+    "address": "0x5fe404",
+    "size": 732,
+    "symbol": "_ZN6glitch5video8ITextureC1EPKcPNS0_12IVideoDriverERKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x6e0cf0",
+    "size": 76,
+    "symbol": "_ZN6glitch5video18ICodeShaderManagerC2Ev"
+  },
+  {
+    "address": "0x60e1d4",
+    "size": 184,
+    "symbol": "_ZN6glitch7collada6CImageC1ERKNS0_16CColladaDatabaseERNS0_6SImageE"
+  },
+  {
+    "address": "0x602184",
+    "size": 116,
+    "symbol": "_ZN6glitch5video6CImageC2ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEE"
+  },
+  {
+    "address": "0x5fde9c",
+    "size": 140,
+    "symbol": "_ZN6glitch5video8ITexture4bindEb"
+  },
+  {
+    "address": "0x6de5f8",
+    "size": 592,
+    "symbol": "_ZN6glitch5video19CCommonGLDriverBaseC2EPNS_7IDeviceEPNS0_14IShaderManagerE"
+  },
+  {
+    "address": "0x5fdf74",
+    "size": 352,
+    "symbol": "_ZN6glitch5video8ITexture7setDataEPvbb"
+  },
+  {
+    "address": "0x5ae5f0",
+    "size": 2476,
+    "symbol": "_ZN6glitch5video12IVideoDriver31initImplementationDependentDataEv"
+  },
+  {
+    "address": "0x5afd40",
+    "size": 688,
+    "symbol": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture16updateParametersEv"
+  },
+  {
+    "address": "0x6021f8",
+    "size": 572,
+    "symbol": "_ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvPS8_bb"
+  },
+  {
+    "address": "0x5eaa7c",
+    "size": 1116,
+    "symbol": "_ZN6glitch5video15CTextureManagerC1EPNS0_12IVideoDriverE"
+  },
+  {
+    "address": "0x601eb0",
+    "size": 376,
+    "symbol": "_ZN6glitch5video6CImageC2ENS0_14E_PIXEL_FORMATERKN5boost13intrusive_ptrIS1_EE"
+  },
+  {
+    "address": "0x5b5d78",
+    "size": 52,
+    "symbol": "_ZN6glitch5video16COpenGLES2DriverC1EPNS_7IDeviceE"
+  },
+  {
+    "address": "0x602670",
+    "size": 188,
+    "symbol": "_ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvbb"
+  },
+  {
+    "address": "0x602434",
+    "size": 572,
+    "symbol": "_ZN6glitch5video6CImageC2ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvPS8_bb"
+  },
+  {
+    "address": "0x5b044c",
+    "size": 76,
+    "symbol": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture6updateEb"
+  },
+  {
+    "address": "0x6e0ca4",
+    "size": 76,
+    "symbol": "_ZN6glitch5video18ICodeShaderManagerC1Ev"
+  },
+  {
+    "address": "0x60272c",
+    "size": 188,
+    "symbol": "_ZN6glitch5video6CImageC2ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvbb"
+  },
+  {
+    "address": "0x5b3afc",
+    "size": 4772,
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE17genericDriverInitERKNS_4core11dimension2dIiEEb"
+  },
+  {
+    "address": "0x5ec460",
+    "size": 1604,
+    "symbol": "_ZN6glitch5video15CTextureManager22createTextureFromImageEPKcRKN5boost13intrusive_ptrINS0_6CImageEEENS0_16E_TEXTURE_LAYOUTE"
+  },
+  {
+    "address": "0x601b10",
+    "size": 276,
+    "symbol": "_ZN6glitch5video6CImageC1ERKN5boost13intrusive_ptrIS1_EERKNS_4core10position2dIiEERKNS7_11dimension2dIiEE"
+  },
+  {
+    "address": "0x601d38",
+    "size": 376,
+    "symbol": "_ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKN5boost13intrusive_ptrIS1_EE"
+  },
+  {
+    "address": "0x6027e8",
+    "size": 336,
+    "symbol": "_ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvjjbb"
+  }
+]

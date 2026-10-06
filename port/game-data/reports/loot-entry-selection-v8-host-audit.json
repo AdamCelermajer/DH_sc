@@ -1,0 +1,79 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/tests/loot_entry_selection_v8.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-o",
+        ".local-inputs/loot_entry_selection_v8_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/loot_entry_selection_v8_O1",
+        "port/game-data/reference/loot-entry-selection-v8/fixtures.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_cases\":1000,\"checks\":29213,\"exact_Query_RNG_transcripts\":true,\"full_AddLoot\":false}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/tests/loot_entry_selection_v8.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-o",
+        ".local-inputs/loot_entry_selection_v8_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/loot_entry_selection_v8_O2",
+        "port/game-data/reference/loot-entry-selection-v8/fixtures.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_cases\":1000,\"checks\":29213,\"exact_Query_RNG_transcripts\":true,\"full_AddLoot\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/game-data/loot_entry_selection_v8.hpp": "9730e40ee3077ae10b6168d733ffcb9631d99544ebc166313e23255d16befe87",
+    "port/game-data/loot_entry_selection_v8.cpp": "76854eb50805a5dd7e9100a8a2632021b57b829bebbc42e2b6ad6d951b679bbc",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/tests/loot_entry_selection_v8.cpp": "fdbdfd9e3f64e902e2e110a65632010d0d20453539444bcbfa00894955641522"
+  },
+  "fixture_sha256": "8df2835dc57387d6fce9a22545a8bec009656983e9f4339f65ac2ffcca6a77f2",
+  "full_AddLoot": false
+}

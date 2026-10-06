@@ -1,0 +1,59 @@
+{
+  "scope": "missing immutable header dependency closure only; existing shared owners unchanged; no CMake or implementation import",
+  "packages": [
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\map-recovery-handoff-5888339e4164baaa.zip",
+      "sha256": "d83a37a11b3833f03d45cb89a63f18f2765f92b5cb973e4516facc6728075a87"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\level-preparation-handoff-8e58f2de9e440b61.zip",
+      "sha256": "29088dba2f0bf6377f7e1be93cd5e32c4454b05487afa5cd623f338c35240a99"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\canonical-connected-source-handoff-fbed9d0d5b3d99e3.zip",
+      "sha256": "6605e1d9cb0432463ea46c57f624a790bd6830c3f7f69c3b5614342855d7aa0a"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\source-pipeline-handoff-bd48491b34de1b76.zip",
+      "sha256": "684f2a0ace2ced5aa7400bffc5ae181f01f930a7e2990b01ba3faff30367c346"
+    }
+  ],
+  "copied": [
+    {
+      "path": "port/level-loader/level_preparation_v1.hpp",
+      "sha256": "ee184f8b0624bd729cea77d09e14371d596c8ceeaefbc8d228f86efd8cd3a377"
+    }
+  ],
+  "existing": [
+    "port/asset-payloads/payloads.hpp",
+    "port/asset-payloads/zip_asset_pack_v1.hpp",
+    "port/engine-resources/resources.hpp",
+    "port/level-loader/fixed_declarations_v1.hpp",
+    "port/level-loader/fixed_map_v1.hpp",
+    "port/level-loader/fixed_sources_v1.hpp",
+    "port/level-loader/level_preparation_v1.hpp",
+    "port/level-loader/procedural_blocks_v1.hpp",
+    "port/level-loader/procedural_connections_v1.hpp",
+    "port/level-loader/procedural_instances_v1.hpp",
+    "port/level-loader/procedural_layout_v1.hpp",
+    "port/level-loader/procedural_lists_v1.hpp",
+    "port/level-loader/procedural_map_sources_v1.hpp",
+    "port/level-loader/procedural_modules_v1.hpp",
+    "port/level-loader/procedural_random_v1.hpp",
+    "port/level-loader/procedural_rules_v1.hpp",
+    "port/level-loader/procedural_sources_v1.hpp",
+    "port/level-loader/visual_transform_v1.hpp",
+    "port/level-loader/xml_document_v1.hpp",
+    "port/level-world/collision.hpp",
+    "port/level-world/floor_source.hpp",
+    "port/level-world/floors.hpp",
+    "port/level-world/navigation.hpp",
+    "port/level-world/navigation_motion.hpp",
+    "port/level-world/navigation_path.hpp",
+    "port/level-world/navigation_search.hpp",
+    "port/level-world/navigation_world.hpp",
+    "port/level-world/octree.hpp",
+    "port/level-world/selector.hpp",
+    "port/scene-materials/scene.hpp"
+  ]
+}

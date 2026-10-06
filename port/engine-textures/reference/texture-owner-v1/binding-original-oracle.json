@@ -1,0 +1,669 @@
+{
+  "cases": [
+    {
+      "kind": 0,
+      "unit": 4,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 0,
+      "events": []
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 0,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x30e7c0",
+          3553,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 3,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e7c0",
+          3553,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 2,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 1,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 0,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 17825792,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 0,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 1,
+      "online": false,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5fde9c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "unit": 4,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 0,
+      "events": []
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 0,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x30e7c0",
+          32879,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 3,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e7c0",
+          32879,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 2,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 1,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 0,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 17825792,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 1,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 1,
+      "online": false,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5fde9c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "unit": 4,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 0,
+      "events": []
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 0,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x30e7c0",
+          34067,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 3,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e7c0",
+          34067,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 2,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 1,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 0,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 17825792,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 2,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 1,
+      "online": false,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5fde9c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "unit": 4,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 0,
+      "events": []
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 0,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x30e7c0",
+          34037,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 3,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e7c0",
+          34037,
+          99
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 2,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 17825792,
+      "new": 17825792,
+      "dirty": 1,
+      "online": true,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 0,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5b044c",
+          17825792,
+          0
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 17825792,
+      "new": 0,
+      "dirty": 0,
+      "online": true,
+      "active_before": 0,
+      "active_after": 0,
+      "counter_after": 0,
+      "result": 1,
+      "events": []
+    },
+    {
+      "kind": 3,
+      "unit": 3,
+      "old": 0,
+      "new": 17825792,
+      "dirty": 1,
+      "online": false,
+      "active_before": 0,
+      "active_after": 3,
+      "counter_after": 1,
+      "result": 1,
+      "events": [
+        [
+          "0x30e1e4",
+          33987,
+          3
+        ],
+        [
+          "0x5fde9c",
+          17825792,
+          0
+        ]
+      ]
+    }
+  ],
+  "scope": "36 original ARM whole setTexture5b26f0 control cases; GL/bind/update receiver continuations explicit fixtures, online-clean port domain only production-supported"
+}

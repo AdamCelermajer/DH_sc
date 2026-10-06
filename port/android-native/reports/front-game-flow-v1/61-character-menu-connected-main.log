@@ -1,0 +1,234 @@
+--------- beginning of main
+I/libprocessgroup( 5707): Created cgroup /sys/fs/cgroup/apps/uid_10235/pid_5707
+I/Zygote  ( 5707): Process 5707 created for com.example.dh2
+I/com.example.dh2( 5707): Late-enabling -Xcheck:jni
+I/com.example.dh2( 5707): Using generational CollectorTypeCMC GC.
+W/com.example.dh2( 5707): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2( 5707): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader( 5707): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter( 5707): Compat change id reported: 333566037; UID 10235; state: ENABLED
+D/nativeloader( 5707): Configuring clns-9 for other apk /data/app/~~XF2keosxqfP8_uC56SPZOg==/com.example.dh2-iRPZw0QBxvvGlN0pDtvjrw==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~XF2keosxqfP8_uC56SPZOg==/com.example.dh2-iRPZw0QBxvvGlN0pDtvjrw==/lib/x86_64:/data/app/~~XF2keosxqfP8_uC56SPZOg==/com.example.dh2-iRPZw0QBxvvGlN0pDtvjrw==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+V/GraphicsEnvironment( 5707): Currently set values for:
+V/GraphicsEnvironment( 5707):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment( 5707):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment( 5707): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment( 5707): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment( 5707): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter( 5707): Compat change id reported: 407952621; UID 10235; state: ENABLED
+D/CompatChangeReporter( 5707): Compat change id reported: 419020719; UID 10235; state: ENABLED
+D/CompatChangeReporter( 5707): Compat change id reported: 458413887; UID 10235; state: ENABLED
+--------- beginning of system
+I/DisplayManager( 5707): Choreographer implicitly registered for the refresh rate.
+D/DesktopExperienceFlags( 5707): Toggle override initialized to: false
+I/GFXSTREAM( 5707): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM( 5707): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    ( 5707): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    ( 5707): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/nativeloader( 5707): Load /data/app/~~XF2keosxqfP8_uC56SPZOg==/com.example.dh2-iRPZw0QBxvvGlN0pDtvjrw==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~XF2keosxqfP8_uC56SPZOg==/com.example.dh2-iRPZw0QBxvvGlN0pDtvjrw==/base.apk!classes3.dex): ok
+D/CompatChangeReporter( 5707): Compat change id reported: 418924588; UID 10235; state: ENABLED
+W/HWUI    ( 5707): Unknown dataspace 0
+D/InsetsController( 5707): Setting requestedVisibleTypes to 496 (was 503)
+W/libc    ( 5707): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/WindowOnBackDispatcher( 5707): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@3e3811d
+D/VRI[MainActivity]( 5707): WindowInsets changed: 2400x1080 statusBars:[0,63,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,63,0,84] 
+I/HWUI    ( 5707): Using FreeType backend (prop=Auto)
+I/Surface ( 5707): Creating surface for consumer unnamed-5707-0 with slotExpansion=1 for 64 slots
+I/Surface ( 5707): Creating surface for consumer VRI[MainActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+D/VRI[MainActivity]( 5707): WindowInsets changed: statusBars:null navigationBars:null 
+I/Surface ( 5707): Creating surface for consumer unnamed-5707-1 with slotExpansion=1 for 64 slots
+I/Surface ( 5707): Creating surface for consumer 6317d63 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#1(BLAST Consumer)1 with slotExpansion=1 for 64 slots
+W/libc    ( 5707): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/DH2Native( 5707): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1
+I/DH2Native( 5707): Renderer: Android Emulator OpenGL ES Translator (Google SwiftShader)
+I/DH2Native( 5707): GLES: OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+I/DH2Native( 5707): Original menu device facts | manufacturer Google | model sdk_gphone64_x86_64 | driver type 8 | sharp 0 | htc 0 | no IGP 0
+I/DH2Native( 5707): Character overlay simulation pause | open 0 | same live World
+I/DH2Native( 5707): Enemy AI configured | automatic melee 1
+I/DH2Native( 5707): Original main menu | character selection | Play launches the Knight Crypt demo
+I/DH2Native( 5707): Surface resized to 2400 x 1080
+I/DH2Native( 5707): Original loading hints connected | rows 16
+I/DH2Native( 5707): Front settings loaded | found 0 | options 16 | language 0 | music 100 | fx 100
+I/DH2Native( 5707): Original shared renderer frame/history bound before root construction
+I/DH2Native( 5707): Original UI export delivered | name menus/iPhone_Table_DH2.tga | uri data/3d/textures/iphone_table_dh2.tga | texture 256 256
+D/InsetsController( 5707): hide(ime())
+I/ImeTracker( 5707): com.example.dh2:ab39a0b4: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+I/DH2Native( 5707): Original UI export delivered | name menus/MenusGraphics_droid.tga | uri data/3d/textures/menusgraphics_droid.tga | texture 1024 1024
+W/InteractionJankMonitor( 5707): Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=com.example.dh2
+I/DH2Native( 5707): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+I/DH2Native( 5707): Original SWF core diagnostic: IS true
+I/DH2Native( 5707): Front settings loaded | found 0 | options 16 | language 0 | music 100 | fx 100
+I/DH2Native( 5707): Original shared menu renderer loaded | independent player | states 9 | Options id 121 | frames 23 | inactive | native stack pending
+I/DH2Native( 5707): Original source frame/history bound before shared/root construction
+I/DH2Native( 5707): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+I/DH2Native( 5707): Original SWF core diagnostic: IS true
+I/DH2Native( 5707): Front settings loaded | found 0 | options 16 | language 0 | music 100 | fx 100
+I/DH2Native( 5707): Keyboard atlas compatibility movie connected | seven repaired shapes
+E/SurfaceSyncGroup( 5707): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[MainActivity]#1) as ready
+I/DH2Native( 5707): Original UI export delivered | name menus/splash_final_droid.tga | uri data/3d/textures/splash_final_droid.tga | texture 2048 1024
+E/SurfaceSyncGroup( 5707): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[MainActivity]#2) as ready
+E/SurfaceSyncGroup( 5707): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#0) as ready
+I/DH2Native( 5707): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 5707): Original menu renderer player identities | main 76dc35062620 | shared 76dc350312a0 | distinct 1
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Idle
+I/DH2Native( 5707): Original SWF core diagnostic: Idle
+I/DH2Native( 5707): Original SWF core diagnostic: IS true
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_TOUCH_TO_CONTINUE | found 1 | text Touch  the  screen  to  continue
+I/DH2Native( 5707): Original UI string delivered | symbol GLOBAL_ASK_FOR_EXIT | found 1 | text Are you sure you want to exit?
+I/DH2Native( 5707): Original UI string delivered | symbol GAMEPLAYMENUS_ERASE | found 1 | text Are you sure you want to erase this game?
+W/DH2Native( 5707): Original SWF core diagnostic: error: can't find this[0x0x76da952c9f10, _name='menu_MainMenu'].onHide
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_Debug | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_bg | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_EnterName | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_MultiplayerConnectivity | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_Multiplayer_Game_Type | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_Multiplayer_AfterChoice | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_MultiLogin | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_Multiplayer | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_Multiplayer2 | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_FriendInvitation | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_GameCenter | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_VerificationLoading | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_MultiplayerJoin | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_MultiplayerLobby | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_StringLoading | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_SelectClass | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_info | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_StartGame | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_splash | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_language | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_bidonMain | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_DummyState | visible 0
+I/DH2Native( 5707): Original menu state visibility initialized | name menu_MainMenu | visible 0
+I/DH2Native( 5707): Original front screen loaded | screen main | uri data/menus/dqmenus_droid.swf | clip _root.menu_MainMenu | id 510 | frames 31
+I/DH2Native( 5707): Original UI string delivered | symbol GLOBAL_OK | found 1 | text OK
+I/DH2Native( 5707): Original SWF core diagnostic: IN SHOW
+I/DH2Native( 5707): Original SWF core diagnostic: IN GET SLOT
+I/DH2Native( 5707): Original occupied save-slot presentation | slot 0 | backup 0 | class Warrior | level 1 | location The Boglands 
+I/DH2Native( 5707): Original SWF core diagnostic: PlayerLastSave = 10/05     20:43
+I/DH2Native( 5707): Original SWF core diagnostic: SlotID = 0
+I/DH2Native( 5707): Original SWF core diagnostic: PlayerLocation = The Boglands 
+I/DH2Native( 5707): Original SWF core diagnostic: PlayerClass = Warrior
+I/DH2Native( 5707): Original SWF core diagnostic: PlayerCurrentAct = 1
+I/DH2Native( 5707): Original SWF core diagnostic: StringClassLVL = Warrior Lvl: 1
+I/DH2Native( 5707): Original SWF core diagnostic: DifficultyUnlocked = 0
+I/DH2Native( 5707): Original SWF core diagnostic: Difficulty = 0
+I/DH2Native( 5707): Original SWF core diagnostic: InUse = true
+I/DH2Native( 5707): Original SWF core diagnostic: PlayerName = a
+I/DH2Native( 5707): Original SWF core diagnostic: PlayerLVL = 1
+I/DH2Native( 5707): Original parsed menu string | symbol MENU_ACT | args 2 | text Act 1
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_LAST_SAVE | found 1 | text Last Save
+I/DH2Native( 5707): Original UI string delivered | symbol GLOBAL_LEVEL | found 1 | text LEVEL
+I/DH2Native( 5707): Original SWF core diagnostic: NAME: a
+I/DH2Native( 5707): Original SWF core diagnostic: CLASS: Warrior Lvl: 1
+I/DH2Native( 5707): Original SWF core diagnostic: LOCATION: The Boglands 
+I/DH2Native( 5707): Original SWF core diagnostic: DIFF: 0
+I/DH2Native( 5707): Original UI string delivered | symbol GAMEPLAYMENUS_DIFFICULTY_NORMAL | found 1 | text Normal
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_DIFFICULTY | found 1 | text Difficulty
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_INFO | found 1 | text Info
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_MORE_GAMES | found 1 | text <b><font color="#9CFF9A">MORE GAMES!</font></b>
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_START | found 1 | text Start game
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_OPTIONS | found 1 | text Options
+I/DH2Native( 5707): Original UI string delivered | symbol GAMEPLAYMENUS_ERASE | found 1 | text Are you sure you want to erase this game?
+I/DH2Native( 5707): Original UI string delivered | symbol GAMEPLAYMENUS_ACCEPT | found 1 | text Yes
+I/DH2Native( 5707): Original UI string delivered | symbol GAMEPLAYMENUS_REFUSE | found 1 | text No
+I/DH2Native( 5707): Original UI string delivered | symbol GLOBAL_ASK_FOR_EXIT | found 1 | text Are you sure you want to exit?
+I/DH2Native( 5707): Original UI string delivered | symbol GAMEPLAYMENUS_ACCEPT | found 1 | text Yes
+I/DH2Native( 5707): Original UI string delivered | symbol GAMEPLAYMENUS_REFUSE | found 1 | text No
+W/DH2Native( 5707): Original SWF core diagnostic: error in call_function: 'NativeHasPushNotification' is not a function
+I/DH2Native( 5707): Original UI string delivered | symbol MENU_START | found 1 | text Start game
+I/DH2Native( 5707): Original menu music requested | name TitleMusic | id 162 | loop 1 | force 0 | fade ms 2000
+I/DH2Native( 5707): Original SWF core diagnostic: IN PUSH MM
+W/DH2Native( 5707): Original SWF core diagnostic: error in call_function: 'NativeOnlineSanityCheck' is not a function
+I/DH2Native( 5707): Original source input connected | direct main event stage | MenuManager/HUDControls forwarding pending
+I/com.example.dh2( 5707): Compiler allocated 5239KB to compile void android.view.ViewRootImpl.performTraversals(long)
+I/DH2Native( 5707): 3D upload OK | 4 draws | 2146 triangles | 5 textures
+I/DH2Native( 5707): 0 animation tracks | 0 skipped | Preview lighting. Drag to orbit. | nodes 6 | skipped nongeometry instances 1 | skin draws 0 | segments 0
+I/DH2Native( 5707): Original class preview definition | KnightPlayerBase | row 263 | loot 165 | anim table 48 | starting entries 5 | idle data/3D/characters/prince/animations/prince_menu_idle_knight.bdae | inventory and rendering pending
+I/DH2Native( 5707): Original class preview definition | RoguePlayerBase | row 325 | loot 213 | anim table 50 | starting entries 6 | idle data/3D/characters/prince/animations/prince_menu_idle_rogue.bdae | inventory and rendering pending
+I/DH2Native( 5707): Original class preview definition | MagePlayerBase | row 290 | loot 174 | anim table 49 | starting entries 5 | idle data/3D/characters/prince/animations/prince_menu_idle_mage.bdae | inventory and rendering pending
+I/DH2Native( 5707): Original preview weapon attached | class KnightPlayerBase | item Longsword01 | module MC_RWeapon_Longsword_01 | anchor anchor_weapon_right_offset-node | triangles 66
+I/DH2Native( 5707): Original class body preview connected | KnightPlayerBase | anchor dummy_Warrior-node | modules 4 | draws 4 | idle tracks 29 | unbound 0 | clip data/3D/characters/prince/animations/prince_menu_idle_knight.bdae | inventory and lighting pending
+I/DH2Native( 5707): Original menu material alpha connected | material Material__11805 | technique L1_Vc_Al_----_----_----_---- | alpha source blue replacement | lighting pending
+I/DH2Native( 5707): Original menu swamp connected | original camera values | existing material renderer | avatar pending
+I/DH2Native( 5707): Original background property | path menu_bg | member _visible | found 1 | value 1.000
+I/DH2Native( 5707): Original background property | path menu_bg | member _alpha | found 1 | value 100.000
+I/DH2Native( 5707): Original background property | path menu_bg | member _currentframe | found 1 | value 1.000
+I/DH2Native( 5707): Original background property | path menu_bg.BrownBG | member _visible | found 1 | value 0.000
+I/DH2Native( 5707): Original background property | path menu_bg.BrownBG | member _alpha | found 1 | value 100.000
+I/DH2Native( 5707): Original background property | path menu_bg.BrownBG | member _currentframe | found 1 | value 1.000
+I/DH2Native( 5707): Original background property | path menu_bg.RenderedBG | member _visible | found 1 | value 1.000
+I/DH2Native( 5707): Original background property | path menu_bg.RenderedBG | member _alpha | found 1 | value 100.000
+I/DH2Native( 5707): Original background property | path menu_bg.RenderedBG | member _currentframe | found 1 | value 1.000
+W/DH2Native( 5707): Original SWF core diagnostic: can't find target TitleGraphic
+I/DH2Native( 5707): Original background clip absent | path menu_bg.TitleGraphic
+I/DH2Native( 5707): Original front/HUD screen submitted | screen main
+I/DH2Native( 5707): Original health panel submitted | viewport 2400 1080 | strips 160 | lines 0 | masks 0 | font uploads 329 | bitmaps 10 | strings 19 | core diagnostics 11 | authored initial state | game updates/input unconnected
+I/DH2Front( 5707): Menu audio volume applied | music=100 | fx=100
+I/DH2Front( 5707): Menu audio volume applied | music=100 | fx=100
+I/DH2Front( 5707): Menu audio volume applied | music=100 | fx=100
+D/AudioSystem( 5707): onNewServiceWithAdapter: media.audio_flinger service obtained 0x76da650bc7e0
+D/AudioSystem( 5707): getService: IAudioFlingerService retrieved: 0x76daa50472a0  IAudioFlinger cached: 0x76da650bc7e0
+I/DH2Front( 5707): Title music intro started | duration_ms=5832 | loop_ms=113214
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+D/AudioSystem( 5707): onNewService: media.audio_policy service obtained 0x76daa5116af0
+D/AudioSystem( 5707): getService: IAudioPolicyService retrieved: 0x76daa5116af0  cached: 0x76daa5116af0
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 5707): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined

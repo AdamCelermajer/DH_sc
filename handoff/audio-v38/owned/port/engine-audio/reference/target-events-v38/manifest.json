@@ -1,0 +1,102 @@
+{
+  "version": 38,
+  "scope": "Full generic target-event successor with false/1 source ABI; no shared edits or application/runtime claim.",
+  "new_entry": "dh2_audio_target_event_v38",
+  "semantic_change": "OnTargetInSight query.flag=0;query.integer=1; full remaining coordinator copied",
+  "verified_exact_copy_with_only_include_entry_and_two_ABI_field_changes": true,
+  "owned": [
+    {
+      "path": "port/engine-audio/audio_target_events_v38.cpp",
+      "bytes": 3397,
+      "sha256": "0d45d663aadfd9f5fe6d34ce04cbfbf3a5088faa1703da132b70fa503ef098ba"
+    },
+    {
+      "path": "port/engine-audio/audio_target_events_v38.hpp",
+      "bytes": 734,
+      "sha256": "f763e54dadfcd70c5601bf6e5dc0b71da6fb5d5908a8cb199d8e44db5fe256ce"
+    },
+    {
+      "path": "port/engine-audio/reference/target-events-v38/handoff.md",
+      "bytes": 4676,
+      "sha256": "02bba63a13e70b12cb4b1242c7c3dabf37ac01ec4f27d127e84b649b073904f8"
+    },
+    {
+      "path": "port/engine-audio/reference/target-events-v38/host-receipt.json",
+      "bytes": 1072,
+      "sha256": "964743fc0f904f66b8dae3441f6eb1ad6f3b1e327b77a613d9d67f1fa90af726"
+    },
+    {
+      "path": "port/engine-audio/reference/target-events-v38/target-events-differential.json",
+      "bytes": 2012,
+      "sha256": "d9c7b1f862e12d9f02913b1e133fe6059b25470d4370abe95160761595205830"
+    },
+    {
+      "path": "port/engine-audio/reference/target-events-v38/target-events-genuine.bin",
+      "bytes": 899532,
+      "sha256": "e2bd2fae3259adaf556fceb18f4997573343a5579835b895d88e67c4fd912202"
+    },
+    {
+      "path": "port/engine-audio/reference/target-events-v38/target-events-host.cpp",
+      "bytes": 6740,
+      "sha256": "5f0f9f16a5a79ea79c9b547ac52af3b637421cd90fab054401090ef605c86a71"
+    },
+    {
+      "path": "port/engine-audio/reference/target-events-v38/target-events-positive.bin",
+      "bytes": 141788,
+      "sha256": "547596742a06b422d07cf6f6675ca2368722306eb825bc5c9c41538db42e7512"
+    },
+    {
+      "path": "port/engine-audio/reference/target-events-v38/target-events-v38-differential.py",
+      "bytes": 12322,
+      "sha256": "47a9f7277a8a3986700d328001f360a49c1d0495e7666efca39b2a1e0fbb1e5f"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "port/level-world/character_target_events.hpp",
+      "bytes": 2221,
+      "sha256": "36ecab0282c65c34b782a09aececdf0249f0374afbdda34c5125a651a1df30cc"
+    },
+    {
+      "path": "port/level-world/character_target_events.cpp",
+      "bytes": 3337,
+      "sha256": "ce3d46cae0cd40e5de2cbd1312a4cb9d3ecadbefedff30fd3fabeeb7ebec07a5"
+    },
+    {
+      "path": "port/level-world/character_target_bindings.hpp",
+      "bytes": 3650,
+      "sha256": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75"
+    },
+    {
+      "path": "port/level-world/reference/character-target-events/original-functions.json",
+      "bytes": 2490,
+      "sha256": "01996c952b683936ec49cc11c1e5ddfafcec8c0578037d16ff6f9c20ef906e5b"
+    },
+    {
+      "path": "port/level-world/reference/character-target-events/ai-row-loader/original-functions.json",
+      "bytes": 341,
+      "sha256": "cc4d4c20c63f16634dfc745d208d36d45a8985551d98b117cceb5476449fa9de"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/ai_pyarray.bin",
+      "bytes": 5071,
+      "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+    },
+    {
+      "path": "port/level-world/tests/character_target_events_differential.py",
+      "bytes": 10066,
+      "sha256": "05aba3b2c387621b4771fb18a9bee76801a29f380445d14d0f07701ab5617fad"
+    },
+    {
+      "path": "port/game-data/tests/items_differential.py",
+      "bytes": 8882,
+      "sha256": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000"
+    },
+    {
+      "path": "port/level-world/tests/navigation_differential.py",
+      "bytes": 18774,
+      "sha256": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148"
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

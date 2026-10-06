@@ -45,7 +45,18 @@ int main(int argc,char** argv){try{
  t.third_null=false;t.target=false;t.debug=false;t.fail_op=int(HudManagerOperation::hp_fraction);
  t.expect(!hud.update(borrow,error)&&hud.visible()&&hud.name()=="Cultist","Reached required failure did not preserve source presentation prefix");error.clear();t.fail_op=-1;update();
  t.dead=true;t.local.target=nullptr;update();t.expect(!hud.visible()&&!hud.target()&&hud.hp_frame()==0,"Actual target loss failed to clear clip");
- t.expect(!hud.update({},error),"Absent retained world was accepted");error.clear();
+  t.expect(!hud.update({},error),"Absent retained world was accepted");error.clear();
+  // The fixed-button gameplay layout selects HUD2 and hides HUD0. Rebind the
+  // enemy owner to that same graph, then switch back without retaining a
+  // cached target from the preceding layout.
+  t.dead=false;t.local.target=&t.first;t.target=false;t.hp=.5f;
+  require(movie.set_visible("_root.menu_HUD_0",false,error)&&movie.set_visible("_root.menu_HUD_2",true,error),error);
+  t.target_reads=0;require(hud.update(borrow,error,2),error);
+  t.expect(hud.visible()&&hud.target()==2&&hud.hp_frame()==49,"Selected HUD2 enemy was not rebound and populated");
+  SwfClipInfo selected;require(movie.clip("_root.menu_HUD_2.HUDelements.HealthBars.enemy",selected,error),error);
+  t.expect(selected.visible,"Actual selected HUD2 enemy clip remains hidden");
+  t.target_reads=0;require(hud.update(borrow,error,0),error);
+  t.expect(hud.target()==2&&hud.hp_frame()==49,"HUD style change retained stale enemy presentation");
  movie=SwfMovie();t.expect(!hud.update(borrow,error),"Expired movie owner silently accepted");
  std::cout<<"{\"validation\":\"PASS\",\"checks\":"<<t.checks<<",\"actual_droid_display_list\":true,\"source_enemy_body_reused\":true,\"gameplay_and_localization_are_fixtures\":true,\"live_GPU\":false}\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

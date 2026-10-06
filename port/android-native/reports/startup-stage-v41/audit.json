@@ -1,0 +1,687 @@
+{
+  "scope": "Read-only physical HWUI/source startup audit; brief logcat has no perline timestamps orTIDs, loader stage attribution remains unmeasured; native CPU timing is not displayedFPS",
+  "log_sha256": "12e4aa98f57428965b0661a242ca3046af02eb658183bc1ae71ce3bb62ab50e8",
+  "hwui_frames": [
+    {
+      "line": 585,
+      "reported_duration_ms": 933,
+      "intended_to_completed_ms": 933.471131,
+      "vsync_lateness_ms": 33.29228,
+      "traversals_to_draw_ms": 891.304576,
+      "draw_to_syncqueued_ms": 0.338944,
+      "issue_to_completed_ms": 3.864704,
+      "fields": {
+        "duration": 933,
+        "Flags": 160,
+        "FrameTimelineVsyncId": 85387427,
+        "IntendedVsync": 176662157107045,
+        "Vsync": 176662190399325,
+        "InputEventId": 0,
+        "HandleInputStart": 176662194711168,
+        "AnimationStart": 176662194712192,
+        "PerformTraversalsStart": 176662194958336,
+        "DrawStart": 176663086262912,
+        "FrameDeadline": 176662226964468,
+        "FrameStartTime": 176662194662912,
+        "FrameInterval": 8323070,
+        "WorkloadTarget": 11600000,
+        "FlingPosition": 0,
+        "FlingFrameInterval": 0,
+        "InputEventTime": 0,
+        "FirstTimeForInputEventAction": 0,
+        "WindowMode": 1,
+        "SyncQueued": 176663086601856,
+        "SyncStart": 176663086652160,
+        "IssueDrawCommandsStart": 176663086713472,
+        "SwapBuffers": 176663089448960,
+        "FrameCompleted": 176663090578176,
+        "DequeueBufferDuration": 1592448,
+        "QueueBufferDuration": 401664,
+        "GpuCompleted": 176663090578176,
+        "SwapBuffersCompleted": 176663089916032,
+        "DisplayPresentTime": 0,
+        "CommandSubmissionCompleted": 176663089448960
+      }
+    },
+    {
+      "line": 672,
+      "reported_duration_ms": 944,
+      "intended_to_completed_ms": 944.687771,
+      "vsync_lateness_ms": 923.868873,
+      "traversals_to_draw_ms": 12.433024,
+      "draw_to_syncqueued_ms": 0.322176,
+      "issue_to_completed_ms": 3.05216,
+      "fields": {
+        "duration": 944,
+        "Flags": 161,
+        "FrameTimelineVsyncId": 85387628,
+        "IntendedVsync": 176662198723557,
+        "Vsync": 176663122592430,
+        "InputEventId": 0,
+        "HandleInputStart": 176663127396224,
+        "AnimationStart": 176663127398016,
+        "PerformTraversalsStart": 176663127444736,
+        "DrawStart": 176663139877760,
+        "FrameDeadline": 176662210323557,
+        "FrameStartTime": 176663127210112,
+        "FrameInterval": 8323143,
+        "WorkloadTarget": 11600000,
+        "FlingPosition": 0,
+        "FlingFrameInterval": 0,
+        "InputEventTime": 0,
+        "InputEventAction": 0,
+        "FirstTimeForInputEventAction": 0,
+        "InputEventSignal": 0,
+        "WindowMode": 0,
+        "SyncQueued": 176663140199936,
+        "SyncStart": 176663140222080,
+        "IssueDrawCommandsStart": 176663140359168,
+        "SwapBuffers": 176663142027264,
+        "FrameCompleted": 176663143411328,
+        "DequeueBufferDuration": 788480,
+        "QueueBufferDuration": 144256,
+        "GpuCompleted": 176663143411328,
+        "SwapBuffersCompleted": 176663142224896,
+        "DisplayPresentTime": 0,
+        "CommandSubmissionCompleted": 176663142027264
+      }
+    }
+  ],
+  "log_anchors": [
+    {
+      "line": 155,
+      "text": "I/DH2Native(18767): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1"
+    },
+    {
+      "line": 453,
+      "text": "I/DH2Native(18767): Monster scripts ready | initialized 11 | retained 0 | live original Init | full AI frame pending"
+    },
+    {
+      "line": 465,
+      "text": "I/DH2Native(18767): Actual demo Level C1 retained | row 23 difficulty 2 | gate150 0 phase130 0 | GS/Level.Init campaign contract pending"
+    },
+    {
+      "line": 518,
+      "text": "I/DH2Native(18767): World ready | rooms 8 | visual draws 101 | navigation triangles 314 | idle tracks 23 | walk tracks 27 | position -2227.7700 1220.9301 842.3644"
+    },
+    {
+      "line": 578,
+      "text": "I/DH2Native(18767): Connected player HUD submitted | viewport 2620 1228 | character 0x6e2b5bdc20 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0xb40000710af967d0 | original timeline and viewport"
+    },
+    {
+      "line": 588,
+      "text": "W/GLSurfaceView(18767): Warning, !readyToDraw() but waiting for draw finished! Early reporting draw finished."
+    },
+    {
+      "line": 620,
+      "text": "I/Choreographer(18767): Skipped 111 frames!  The application may be doing too much work on its main thread."
+    },
+    {
+      "line": 675,
+      "text": "I/DH2Native(18767): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1"
+    },
+    {
+      "line": 970,
+      "text": "I/DH2Native(18767): Monster scripts ready | initialized 0 | retained 11 | live original Init | full AI frame pending"
+    },
+    {
+      "line": 1005,
+      "text": "I/DH2Native(18767): World ready | rooms 8 | visual draws 101 | navigation triangles 314 | idle tracks 23 | walk tracks 27 | position -2227.7700 1220.9301 842.3644"
+    },
+    {
+      "line": 1021,
+      "text": "I/DH2Native(18767): Connected player HUD submitted | viewport 2620 1280 | character 0x6e2b5bdc20 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0xb40000710af967d0 | original timeline and viewport"
+    },
+    {
+      "line": 1036,
+      "text": "I/DH2Perf (18767): CPU120 median 7.825 p95 10.086 p99 10.986 draws 49.0 culled 372.0 upload_KiB 30.3"
+    },
+    {
+      "line": 1037,
+      "text": "I/DH2Perf (18767): phase frame mean_ms 7.604"
+    },
+    {
+      "line": 1062,
+      "text": "I/DH2Perf (18767): CPU120 median 7.500 p95 10.594 p99 11.223 draws 49.0 culled 372.0 upload_KiB 30.3"
+    },
+    {
+      "line": 1063,
+      "text": "I/DH2Perf (18767): phase frame mean_ms 7.466"
+    },
+    {
+      "line": 1087,
+      "text": "I/DH2Perf (18767): CPU120 median 7.522 p95 11.359 p99 11.976 draws 49.0 culled 372.0 upload_KiB 30.3"
+    },
+    {
+      "line": 1088,
+      "text": "I/DH2Perf (18767): phase frame mean_ms 7.451"
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "sha256": "01e085bac279e2fc2ff3bd67d67476429a17ae4146692a915069f20686334cd5",
+      "anchors": [
+        {
+          "line": 20,
+          "text": "import java.io.ByteArrayOutputStream;"
+        },
+        {
+          "line": 51,
+          "text": "@Override public void onCreate(Bundle state) {"
+        },
+        {
+          "line": 52,
+          "text": "setTheme(android.R.style.Theme_Material_NoActionBar);super.onCreate(state);"
+        },
+        {
+          "line": 106,
+          "text": "surface.queueEvent(()->{String error=NativeBridge.originalMenuTouch(px,py,action);if(error!=null){Log.e(\"DH2Native\",error);show(error);}});"
+        },
+        {
+          "line": 114,
+          "text": "surface.queueEvent(()->NativeBridge.orbit(dx,dy,1));return true;"
+        },
+        {
+          "line": 121,
+          "text": "@Override public void onSurfaceCreated(GL10 gl,EGLConfig config){"
+        },
+        {
+          "line": 127,
+          "text": "@Override public void onSurfaceChanged(GL10 gl,int w,int h){"
+        },
+        {
+          "line": 133,
+          "text": "if(assets.length>0)loadSelected();else show(\"No bundled asset fixtures\");"
+        },
+        {
+          "line": 139,
+          "text": "while((audio=NativeBridge.consumeOriginalMenuAudio())!=null){final String control=audio;runOnUiThread(()->frontAudio.control(control));}"
+        },
+        {
+          "line": 140,
+          "text": "while((audio=NativeBridge.consumeOriginalMenuSound())!=null){final String sound=audio;runOnUiThread(()->frontAudio.effect(sound));}"
+        },
+        {
+          "line": 146,
+          "text": "runOnUiThread(()->{frontAudio.stop();authoredControls.setVisibility(View.VISIBLE);movement.setVisibility(View.GONE);attack.setVisibility(View.GONE);show(baseReport);});"
+        },
+        {
+          "line": 154,
+          "text": "runOnUiThread(()->{"
+        },
+        {
+          "line": 165,
+          "text": "runOnUiThread(()->gameplayHud.update(snapshot));"
+        },
+        {
+          "line": 182,
+          "text": "attack.setOnClickListener(v->surface.queueEvent(()->{String report=NativeBridge.playerAttack(-1);Log.i(\"DH2Native\",\"Player input | \"+report);show(baseReport+\"\\n\"+report);}));"
+        },
+        {
+          "line": 183,
+          "text": "gameplayHud=new GameplayHud(this,(operation,index)->surface.queueEvent(()->{"
+        },
+        {
+          "line": 188,
+          "text": "runOnUiThread(()->{gameplayHud.update(snapshot);gameplayHud.result(report);});"
+        },
+        {
+          "line": 216,
+          "text": "@Override public void onItemSelected(AdapterView<?> p,View v,int position,long id){selected=position;if(ready)surface.queueEvent(MainActivity.this::loadSelected);}"
+        },
+        {
+          "line": 229,
+          "text": "surface.queueEvent(()->{String report=NativeBridge.playerEquipmentAction(operation,index,slot);Log.i(\"DH2Native\",\"Equipment command applied | \"+report);show(baseReport+\"\\n\"+report);surface.requestRender();});"
+        },
+        {
+          "line": 234,
+          "text": "surface.queueEvent(()->{NativeBridge.animationTime(time);Log.i(\"DH2Native\",\"Animation time command applied | time \"+time);surface.requestRender();});"
+        },
+        {
+          "line": 238,
+          "text": "surface.queueEvent(()->{String report=NativeBridge.playerAttack(target);Log.i(\"DH2Native\",\"Player command applied | \"+report);show(baseReport+\"\\n\"+report);});"
+        },
+        {
+          "line": 255,
+          "text": "bitmaps[i]=android.graphics.Bitmap.createBitmap(pixels,2,pixels[0],pixels[0],pixels[1],android.graphics.Bitmap.Config.ARGB_8888);"
+        },
+        {
+          "line": 257,
+          "text": "runOnUiThread(()->gameplayHud.icons(names,bitmaps));"
+        },
+        {
+          "line": 261,
+          "text": "surface.queueEvent(()->{"
+        },
+        {
+          "line": 273,
+          "text": "surface.queueEvent(()->NativeBridge.characterPanelOpen(true));"
+        },
+        {
+          "line": 276,
+          "text": "@Override public void refresh(CharacterPanel panel){surface.queueEvent(()->publishCharacterPanel(panel,NativeBridge.playerCharacterSnapshot(),null));}"
+        },
+        {
+          "line": 277,
+          "text": "@Override public void action(CharacterPanel panel,int operation,int index,int slot){surface.queueEvent(()->{String report=NativeBridge.playerCharacterAction(operation,index,slot);String snapshot=NativeBridge.playerCharacterSnapshot();Log.i(\"DH2Native\",\"Character action | \"+operation+\" | \"+index+\" | \"+slot+\" | \"+report);publishCharacterPanel(panel,snapshot,report);});}"
+        },
+        {
+          "line": 282,
+          "text": "surface.queueEvent(()->{String snapshot=NativeBridge.playerCharacterSnapshot();Log.i(\"DH2Native\",\"Character snapshot | \"+snapshot);publishCharacterPanel(panel,snapshot,null);});"
+        },
+        {
+          "line": 300,
+          "text": "bitmap=android.graphics.Bitmap.createBitmap(pixels,2,pixels[0],pixels[0],pixels[1],android.graphics.Bitmap.Config.ARGB_8888);"
+        },
+        {
+          "line": 311,
+          "text": "bitmap=android.graphics.Bitmap.createBitmap(pixels,2,pixels[0],pixels[0],pixels[1],android.graphics.Bitmap.Config.ARGB_8888);"
+        },
+        {
+          "line": 318,
+          "text": "bitmap=android.graphics.Bitmap.createBitmap(pixels,2,pixels[0],pixels[0],pixels[1],android.graphics.Bitmap.Config.ARGB_8888);"
+        },
+        {
+          "line": 324,
+          "text": "runOnUiThread(()->{if(characterPanel==panel)panel.publish(snapshot,images,report);});"
+        },
+        {
+          "line": 328,
+          "text": "surface.queueEvent(()->NativeBridge.characterPanelOpen(false));"
+        },
+        {
+          "line": 334,
+          "text": "surface.queueEvent(()->{if(!NativeBridge.authoredCharacterMenuBack())runOnUiThread(()->MainActivity.super.onBackPressed());});"
+        },
+        {
+          "line": 336,
+          "text": "private void show(String text){runOnUiThread(()->{"
+        },
+        {
+          "line": 348,
+          "text": "surface.queueEvent(()->{"
+        },
+        {
+          "line": 360,
+          "text": "private void loadSelected(){"
+        },
+        {
+          "line": 363,
+          "text": "runOnUiThread(()->{closeCharacterPanel();movement.setVisibility(View.GONE);attack.setVisibility(View.GONE);gameplayHud.update(null);gameplayHud.setVisibility(View.GONE);authoredControls.setVisibility(name.startsWith(\"worlds/\")?View.VISIBLE:View.GONE);});"
+        },
+        {
+          "line": 369,
+          "text": "runOnUiThread(()->frontAudio.stop());"
+        },
+        {
+          "line": 375,
+          "text": "try(InputStream input=getAssets().open(name);ByteArrayOutputStream out=new ByteArrayOutputStream()){"
+        },
+        {
+          "line": 381,
+          "text": "try(InputStream metadata=getAssets().open(provenance);ByteArrayOutputStream metadataBytes=new ByteArrayOutputStream()){"
+        },
+        {
+          "line": 387,
+          "text": "String report=name.startsWith(\"worlds/\")?NativeBridge.loadWorld(out.toByteArray(),getAssets(),getFilesDir().getAbsolutePath(),selectedMlx):name.startsWith(\"models/\")?NativeBridge.loadModel(out.toByteArray(),getAssets()):NativeBridge.loadTexture(out.toByteArray());"
+        },
+        {
+          "line": 425,
+          "text": "float x=axisX,y=-axisY;surface.queueEvent(()->NativeBridge.moveAxis(x,y));invalidate();return true;"
+        },
+        {
+          "line": 428,
+          "text": "void stop(){axisX=axisY=0;invalidate();surface.queueEvent(()->NativeBridge.moveAxis(0,0));}"
+        },
+        {
+          "line": 430,
+          "text": "@Override protected void onPause(){super.onPause();queueHudPointer(3,-1,0,0);if(\"ui/original-main-menu\".equals(loadedAsset))surface.queueEvent(()->NativeBridge.originalMenuTouch(0,0,3));ready=false;frontAudio.pause();movement.stop();gameplayHud.cancelPress();surface.onPause();}"
+        },
+        {
+          "line": 431,
+          "text": "@Override protected void onResume(){super.onResume();frontAudio.resume();surface.onResume();surface.queueEvent(()->{if(loadedAsset!=null)ready=true;});}"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "68423a8a7b7b0de2abda7a76e6bf245e0709e0406380f54ac213daf520b62794",
+      "anchors": [
+        {
+          "line": 98,
+          "text": "extern \"C\" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initialize(JNIEnv* env,jclass bridge,jobject assets){"
+        },
+        {
+          "line": 117,
+          "text": "dh2::android_ui::validate_pixels(ui_program,premultiplied);"
+        },
+        {
+          "line": 120,
+          "text": "if(!original_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);"
+        },
+        {
+          "line": 121,
+          "text": "if(!front_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);"
+        },
+        {
+          "line": 144,
+          "text": "env->GetByteArrayRegion(input,0,length,reinterpret_cast<jbyte*>(encoded.data()));if(env->ExceptionCheck())return nullptr;"
+        },
+        {
+          "line": 183,
+          "text": "if(front_ui.consume_launch_request(request)){"
+        },
+        {
+          "line": 198,
+          "text": "front_launch_report=model_renderer::load_world(bytes.data(),bytes.size(),gameplay_assets,front_directory,\"data/scene/x07_crypt_backup.mlx\");"
+        },
+        {
+          "line": 226,
+          "text": "std::string error;if(!original_ui.prepare_player_frame(surface_width,surface_height,error))throw std::runtime_error(\"Combat HUD preparation: \"+error);"
+        },
+        {
+          "line": 276,
+          "text": "std::vector<std::uint8_t> bytes(n);env->GetByteArrayRegion(input,0,n,reinterpret_cast<jbyte*>(bytes.data()));if(env->ExceptionCheck())return nullptr;"
+        },
+        {
+          "line": 325,
+          "text": "extern \"C\" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadWorld(JNIEnv* env,jclass,jbyteArray input,jobject assets,jstring files_directory,jstring selected_mlx){"
+        },
+        {
+          "line": 328,
+          "text": "std::vector<std::uint8_t> bytes(n);env->GetByteArrayRegion(input,0,n,reinterpret_cast<jbyte*>(bytes.data()));if(env->ExceptionCheck())return nullptr;"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "sha256": "2d53c72516dff12c42d1411016dde30efc018b8e8dce7dc34ef66ba19ba33aa5",
+      "anchors": [
+        {
+          "line": 325,
+          "text": "status=dh2_texture_decode(&view,rgba.data(),rgba.size());"
+        },
+        {
+          "line": 327,
+          "text": "if(!self.gpu.image(view.width,view.height,4,rgba.data(),std::size_t(view.width)*4,out,error))return false;"
+        },
+        {
+          "line": 333,
+          "text": "if(!self.gpu.image(w,h,channels,bytes,static_cast<std::size_t>(pitch),out,error))return false;"
+        },
+        {
+          "line": 367,
+          "text": "bool load(std::string& error) {"
+        },
+        {
+          "line": 376,
+          "text": "if(dh2_script_constants_load(constants.get(),bytes.data(),static_cast<std::uint32_t>(bytes.size()),&record)!=0){error=\"Required UI constants load failed\";return false;}"
+        },
+        {
+          "line": 381,
+          "text": "if(!localization.load({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;"
+        },
+        {
+          "line": 396,
+          "text": "if(!movie->load({\"data/menus/dqshared_droid.swf\"},\"data/menus/dqhud_droid.swf\",fonts->services(),error))return false;"
+        },
+        {
+          "line": 410,
+          "text": "__android_log_print(ANDROID_LOG_INFO,tag,\"Source combat flash connected | styles %zu | same retained HUD/font/viewport | Level load-process producer pending\",combat_flash->queue().styles().size());"
+        },
+        {
+          "line": 521,
+          "text": "bool OriginalUiSession::prepare_player_frame(int width,int height,std::string& error){"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/front_ui_session_v87.cpp",
+      "sha256": "9cc0ca9c9b7dc3232ce7274aef5fc80028e7be46bd1ef7fa947785eff9cbeb00",
+      "anchors": [
+        {
+          "line": 898,
+          "text": "bool load(std::string& error) {"
+        },
+        {
+          "line": 955,
+          "text": "const auto bitmap_backends=initialize_gfnt_backend_v1();"
+        },
+        {
+          "line": 956,
+          "text": "const auto make_font_platform=[&](const ui::SwfServices& source){"
+        },
+        {
+          "line": 977,
+          "text": "shared_fonts=make_font_platform(shared_wrapped);"
+        },
+        {
+          "line": 978,
+          "text": "if(!shared_menu_movie->load({},\"data/menus/dqshared_droid.swf\",shared_fonts->services(),error))return false;"
+        },
+        {
+          "line": 1003,
+          "text": "fonts=make_font_platform(wrapped);"
+        },
+        {
+          "line": 1004,
+          "text": "if(!movie->load({\"data/menus/dqshared_droid.swf\"},movie_uri,fonts->services(),error))return false;"
+        },
+        {
+          "line": 1018,
+          "text": "for(const auto& name:state_names)__android_log_print(ANDROID_LOG_INFO,tag,\"Original menu state visibility initialized | name %s | visible 0\",name.c_str());"
+        },
+        {
+          "line": 1261,
+          "text": "bool FrontUiSessionV87::initialize(AAssetManager* manager,std::string& error) {"
+        },
+        {
+          "line": 1262,
+          "text": "try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager,resources::ResourceScopeV37::swf_front);impl_->report_frame=true;error.clear();return true;}"
+        },
+        {
+          "line": 1295,
+          "text": "bool FrontUiSessionV87::load_front_screen(const std::string& directory,const std::string& screen,std::string& error) {"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchors": [
+        {
+          "line": 848,
+          "text": "void load_actor_initialization(AAssetManager* assets,WorldScriptContext& context,"
+        },
+        {
+          "line": 861,
+          "text": "if(!dh2::character::load_actor_initialization(sidecar.data(),sidecar.size(),descriptor_digest,keys,context.initialization,error))"
+        },
+        {
+          "line": 955,
+          "text": "w=view.width;h=view.height;rgba.resize(std::size_t(w)*h*4);"
+        },
+        {
+          "line": 956,
+          "text": "if(dh2_texture_decode(&view,rgba.data(),rgba.size())!=dh2::textures::Error::ok)throw std::runtime_error(\"Texture decode rejected: \"+name);"
+        },
+        {
+          "line": 963,
+          "text": "glPixelStorei(GL_UNPACK_ALIGNMENT,1);glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,w,h,0,GL_RGBA,GL_UNSIGNED_BYTE,rgba.data());check(\"Model texture upload\");"
+        },
+        {
+          "line": 2462,
+          "text": "std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetManager* assets,const std::string& files_directory,const std::string& selected_mlx_uri){"
+        },
+        {
+          "line": 2465,
+          "text": "std::vector<ObjectGroup> candidate_groups;"
+        },
+        {
+          "line": 2516,
+          "text": "load_actor_initialization(assets,*script_context,objects,object_records);"
+        },
+        {
+          "line": 2545,
+          "text": "auto found=std::find_if(candidate_groups.begin(),candidate_groups.end(),[&](const ObjectGroup& group){return group.instances.front().model==object.model&&group.animation_table==animation_table;});"
+        },
+        {
+          "line": 2578,
+          "text": "if(found!=candidate_groups.end()){start_actor(*found);continue;}"
+        },
+        {
+          "line": 2579,
+          "text": "candidate_groups.emplace_back();auto& group=candidate_groups.back();group.animation_table=animation_table;start_actor(group);"
+        },
+        {
+          "line": 2629,
+          "text": "object_groups=std::move(candidate_groups);world_objects=std::move(object_records);unsigned monsters=0,decors=0,object_triangles=0,object_draws=0;"
+        },
+        {
+          "line": 2733,
+          "text": "construct_native_level_c1_v25(assets,selected_mlx_uri,script_context);"
+        },
+        {
+          "line": 2764,
+          "text": "__android_log_print(ANDROID_LOG_INFO,\"DH2Native\",\"World ready | rooms %u | visual draws %zu | navigation triangles %zu | idle tracks %u | walk tracks %u | position %.4f %.4f %.4f\",level.rooms,draws.size(),level.floor.size(),player.track_count(),walk_player.track_count(),actor_position[0],actor_position[1],actor_position[2]);return std::string(report)+(combat_resumed?\"\\nNative combat resumed\":\"\");"
+        },
+        {
+          "line": 2765,
+          "text": "}catch(const std::exception& e){native_actor_ready=false;actor_world.clear();prince_body={};enabled=false;world_mode=false;release_objects(candidate_groups);release(environment,textures);__android_log_print(ANDROID_LOG_ERROR,\"DH2Native\",\"World load failed: %s\",e.what());return std::string(\"World load failed: \")+e.what();}"
+        }
+      ]
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "sha256": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+      "anchors": [
+        {
+          "line": 26,
+          "text": "void construct_native_level_c1_v25(AAssetManager* assets,const std::string& selected_mlx_uri,const std::shared_ptr<WorldScriptContext>& world,bool native_gs_launch_v27=false){"
+        },
+        {
+          "line": 64,
+          "text": "// still-unported Level.Init cannot finish. The campaign contract must call"
+        },
+        {
+          "line": 71,
+          "text": "__android_log_print(ANDROID_LOG_INFO,\"DH2Native\",\"Actual demo Level C1 retained | row %d difficulty %d | gate150 %u phase130 %u | GS/Level.Init campaign contract pending\",fields.row3c,fields.difficulty40,world->native_level_c1_v25->candidate()->kill_level()->loot_gate150,fields.field130);"
+        },
+        {
+          "line": 80,
+          "text": "if(!world->native_gslevel_v27->prepare_loading(online_state,error))throw std::runtime_error(error);"
+        },
+        {
+          "line": 89,
+          "text": "gs.unload_level=[](const auto&,auto& e){e=\"Required whole original Level.Unload\";return false;};"
+        },
+        {
+          "line": 90,
+          "text": "gs.destroy_level=[](const auto&,auto& e){e=\"Required whole original Level destruction\";return false;};"
+        },
+        {
+          "line": 105,
+          "text": "__android_log_print(ANDROID_LOG_INFO,\"DH2Native\",\"Actual GS C1 retained | Level %016llx | row %d difficulty %d | Lua44 %016llx Save_ec %016llx events %016llx | gate150 %u phase130 %llu | Application counter %u | same GS current-Level published; Level.Init pending\","
+        }
+      ]
+    }
+  ],
+  "framework_corroboration": {
+    "path": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\sources\\android-37.0\\android\\opengl\\GLSurfaceView.java",
+    "sha256": "49581ab937901f9b476ac6ec9c414f63bcb98fa25ac6904eb38dcc5b0fa37b43",
+    "exact_phone_framework": false,
+    "note": "SDK37 source corroborates resize/render-complete wait mechanism; phoneAndroid16/vendor framework may differ",
+    "ranges": [
+      {
+        "start": 541,
+        "lines": [
+          "    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {",
+          "        mGLThread.onWindowResize(w, h);",
+          "    }",
+          "",
+          "    /**"
+        ]
+      },
+      {
+        "start": 1545,
+        "lines": [
+          "                        }",
+          "                        createEglContext = false;",
+          "                    }",
+          "",
+          "                    if (sizeChanged) {",
+          "                        if (LOG_RENDERER) {",
+          "                            Log.w(\"GLThread\", \"onSurfaceChanged(\" + w + \", \" + h + \")\");",
+          "                        }",
+          "                        GLSurfaceView view = mGLSurfaceViewWeakRef.get();",
+          "                        if (view != null) {",
+          "                            try {",
+          "                                Trace.traceBegin(Trace.TRACE_TAG_VIEW, \"onSurfaceChanged\");",
+          "                                view.mRenderer.onSurfaceChanged(gl, w, h);",
+          "                            } finally {",
+          "                                Trace.traceEnd(Trace.TRACE_TAG_VIEW);",
+          "                            }",
+          "                        }",
+          "                        sizeChanged = false;",
+          "                    }",
+          "",
+          "                    if (LOG_RENDERER_DRAW_FRAME) {",
+          "                        Log.w(\"GLThread\", \"onDrawFrame tid=\" + getId());",
+          "                    }",
+          "                    {",
+          "                        GLSurfaceView view = mGLSurfaceViewWeakRef.get();",
+          "                        if (view != null) {",
+          "                            try {",
+          "                                Trace.traceBegin(Trace.TRACE_TAG_VIEW, \"onDrawFrame\");",
+          "                                view.mRenderer.onDrawFrame(gl);",
+          "                                if (finishDrawingRunnable != null) {",
+          "                                    finishDrawingRunnable.run();",
+          "                                    finishDrawingRunnable = null;",
+          "                                }",
+          "                            } finally {",
+          "                                Trace.traceEnd(Trace.TRACE_TAG_VIEW);",
+          "                            }"
+        ]
+      },
+      {
+        "start": 1763,
+        "lines": [
+          "        public void onWindowResize(int w, int h) {",
+          "            synchronized (sGLThreadManager) {",
+          "                mWidth = w;",
+          "                mHeight = h;",
+          "                mSizeChanged = true;",
+          "                mRequestRender = true;",
+          "                mRenderComplete = false;",
+          "",
+          "                // If we are already on the GL thread, this means a client callback",
+          "                // has caused reentrancy, for example via updating the SurfaceView parameters.",
+          "                // We need to process the size change eventually though and update our EGLSurface.",
+          "                // So we set the parameters and return so they can be processed on our",
+          "                // next iteration.",
+          "                if (Thread.currentThread() == this) {",
+          "                    return;",
+          "                }",
+          "",
+          "                sGLThreadManager.notifyAll();",
+          "",
+          "                // Wait for thread to react to resize and render a frame",
+          "                while (! mExited && !mPaused && !mRenderComplete",
+          "                        && ableToDraw()) {",
+          "                    if (LOG_SURFACE) {",
+          "                        Log.i(\"Main thread\", \"onWindowResize waiting for render complete from tid=\" + getId());",
+          "                    }",
+          "                    try {",
+          "                        sGLThreadManager.wait();",
+          "                    } catch (InterruptedException ex) {",
+          "                        Thread.currentThread().interrupt();",
+          "                    }",
+          "                }",
+          "            }",
+          "        }"
+        ]
+      }
+    ]
+  }
+}

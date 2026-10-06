@@ -1,0 +1,710 @@
+{
+  "scope": "RoomZone-only modern byte87 repair; native linked-source nine Module graph, explicit external fixtures; not full live SWAMP",
+  "files": [
+    {
+      "path": ".local-inputs/run_room_zone_acceptance_v4.py",
+      "sha256": "67c368887b6f00941507ec43018a4ef1c896df755119cc8a8cd635478cc0855f",
+      "bytes": 825
+    },
+    {
+      "path": "port/asset-payloads/payloads.cpp",
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+      "bytes": 18957
+    },
+    {
+      "path": "port/asset-payloads/payloads.hpp",
+      "sha256": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+      "bytes": 4261
+    },
+    {
+      "path": "port/engine-animation/animation.hpp",
+      "sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3",
+      "bytes": 5396
+    },
+    {
+      "path": "port/engine-animation/events.hpp",
+      "sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+      "bytes": 1844
+    },
+    {
+      "path": "port/engine-math/math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+      "bytes": 13157
+    },
+    {
+      "path": "port/engine-math/math.hpp",
+      "sha256": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+      "bytes": 3376
+    },
+    {
+      "path": "port/engine-resources/resources.cpp",
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+      "bytes": 11880
+    },
+    {
+      "path": "port/engine-resources/resources.hpp",
+      "sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+      "bytes": 6630
+    },
+    {
+      "path": "port/engine-skinning/skinning.hpp",
+      "sha256": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+      "bytes": 1257
+    },
+    {
+      "path": "port/game-data/animation_tables.hpp",
+      "sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+      "bytes": 2164
+    },
+    {
+      "path": "port/game-data/data.hpp",
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+      "bytes": 901
+    },
+    {
+      "path": "port/level-loader/canonical_receiver_transport_v1.cpp",
+      "sha256": "d4fd2afdba198e32fe5d4d9bbfcf1fe08d3b12c8cdac94aed295e6bb756b430c",
+      "bytes": 6777
+    },
+    {
+      "path": "port/level-loader/canonical_receiver_transport_v1.hpp",
+      "sha256": "fcbedff902549152a7f277f5fd404e0c2a58eea37b95b7fddc0be1da0a50aa6e",
+      "bytes": 3241
+    },
+    {
+      "path": "port/level-world/actor_rotation.hpp",
+      "sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212",
+      "bytes": 835
+    },
+    {
+      "path": "port/level-world/actor_runtime.hpp",
+      "sha256": "4cd7e66812fd48321180fd2593859c1339f4048964b4059dc5549b4e59f4ebe7",
+      "bytes": 3475
+    },
+    {
+      "path": "port/level-world/base_named_animation_controller_v1.hpp",
+      "sha256": "016336a3f31af22cb1304c95b6ab2d9ccf574e4b6dffde6e36bb101a330e0f1f",
+      "bytes": 1346
+    },
+    {
+      "path": "port/level-world/canonical_class_receiver_bindings_v1.hpp",
+      "sha256": "bb8b1fb01df649723f670aaca953e6ddfa459eb8e1f5a267d1eda8a27953f233",
+      "bytes": 3252
+    },
+    {
+      "path": "port/level-world/canonical_gameobject_base_owner_v1.cpp",
+      "sha256": "0be9e9142db4ebd2705c67c98c424fc610d1a32659029db060fb363bcbdea481",
+      "bytes": 7175
+    },
+    {
+      "path": "port/level-world/canonical_gameobject_base_owner_v1.hpp",
+      "sha256": "02cf1d5da5b10016f2649c5f32ff2484b187911e590937f39828fa36e07c8343",
+      "bytes": 3353
+    },
+    {
+      "path": "port/level-world/canonical_level_config_module_declarations_v1.inc",
+      "sha256": "b9e57f13e0eda8695274db43b3be31959a9d8f0525e742e58b4b0e0f254010ce",
+      "bytes": 3423
+    },
+    {
+      "path": "port/level-world/canonical_level_config_module_v1.cpp",
+      "sha256": "87f7aefe8ec3256ff92e1b0444c23ca7c6948335dac18d91acd84417058ed8ec",
+      "bytes": 10387
+    },
+    {
+      "path": "port/level-world/canonical_level_config_module_v1.hpp",
+      "sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb",
+      "bytes": 5765
+    },
+    {
+      "path": "port/level-world/canonical_level_module_bindings_v2.cpp",
+      "sha256": "cd6062a19bbe1a56310af2595b8ac1dfdfdfeee5489df42b332711636b36c585",
+      "bytes": 6884
+    },
+    {
+      "path": "port/level-world/canonical_level_module_bindings_v2.hpp",
+      "sha256": "b061879ca5d610bbbec1732df0d4c9fda9e68e059a13da90a2f2d10134994df5",
+      "bytes": 3389
+    },
+    {
+      "path": "port/level-world/canonical_module_graph_v3.cpp",
+      "sha256": "0b936d79f6fa79e2c933538cd77146e36782cfc720218741e6574d303a5f13b3",
+      "bytes": 7697
+    },
+    {
+      "path": "port/level-world/canonical_module_graph_v3.hpp",
+      "sha256": "8d4f68edc94259ae66467c68ab7568361f45c97e5f570f42b1ad48fbebe664dc",
+      "bytes": 2298
+    },
+    {
+      "path": "port/level-world/canonical_object_factory_v1.cpp",
+      "sha256": "84eb8a2eb9aa8909f8d3f9918ec0fde83d92e434d69a4ce64978a8259bb08463",
+      "bytes": 4510
+    },
+    {
+      "path": "port/level-world/canonical_object_factory_v1.hpp",
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439",
+      "bytes": 2610
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.cpp",
+      "sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549",
+      "bytes": 7110
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.hpp",
+      "sha256": "d66a38c1b01b2d37d9481dec0935e2e0a11d65532696b320e9fe84ce37ff75a8",
+      "bytes": 4219
+    },
+    {
+      "path": "port/level-world/canonical_point3d_globals_v1.hpp",
+      "sha256": "b8d0af9c06ad4fed356146d2d094656170e58caa804116b29ea22fcf7b4ba789",
+      "bytes": 756
+    },
+    {
+      "path": "port/level-world/canonical_property_declarations_v1.inc",
+      "sha256": "5525db00248e259892e569d240352ef154cbc9cc807f65022d6759d9211224a3",
+      "bytes": 5991
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.cpp",
+      "sha256": "da849d2cb3dc7a2ac67707136e2751b662636ed2a8929612792f91cc85e96c20",
+      "bytes": 8856
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.hpp",
+      "sha256": "bfacc2040fc34fabd86eb93863eb5cf6182f78c39d4518f17b8bc00757ea6ad8",
+      "bytes": 3311
+    },
+    {
+      "path": "port/level-world/canonical_room_zone_factory_v3.cpp",
+      "sha256": "37ff002d1bc5fc4f6d3083cdb5a9bb0fdfb9472e0f5531a9819dbf91a876f18b",
+      "bytes": 1828
+    },
+    {
+      "path": "port/level-world/canonical_room_zone_factory_v3.hpp",
+      "sha256": "92c4d63974447d6d12ce61ab80f9a8b76ca28edf07ee1bd045c71e3459c1eadb",
+      "bytes": 1201
+    },
+    {
+      "path": "port/level-world/canonical_room_zone_v3.cpp",
+      "sha256": "95adca9fed8078497a22c7f4f710b62a79bad1e4e8bf55cfb88fdee43aa4778b",
+      "bytes": 2532
+    },
+    {
+      "path": "port/level-world/canonical_room_zone_v3.hpp",
+      "sha256": "44fb3653c6bbba1900b0ff5829e18c860d01f3329e80842091eb43de32fcfe2e",
+      "bytes": 2035
+    },
+    {
+      "path": "port/level-world/canonical_spawn_owner_v1.cpp",
+      "sha256": "032cd11dc4f7e372096c88d0fd09a1f71a26834d9e65124b2366af28a2c9e391",
+      "bytes": 4320
+    },
+    {
+      "path": "port/level-world/canonical_spawn_owner_v1.hpp",
+      "sha256": "fd9b35014eb9107294b8d88add29ae124c0012e1366329aad302bb7a18dd45df",
+      "bytes": 2484
+    },
+    {
+      "path": "port/level-world/character_body_config.hpp",
+      "sha256": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d",
+      "bytes": 2109
+    },
+    {
+      "path": "port/level-world/character_combat_queries.hpp",
+      "sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+      "bytes": 2170
+    },
+    {
+      "path": "port/level-world/character_target_providers.hpp",
+      "sha256": "2b6042a6a05c8b5be3f80738e7e308316832048271b875c018c2d9dbcdba7aa1",
+      "bytes": 2375
+    },
+    {
+      "path": "port/level-world/character_world_npc_object_v1.hpp",
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b",
+      "bytes": 3056
+    },
+    {
+      "path": "port/level-world/collision.cpp",
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378",
+      "bytes": 4727
+    },
+    {
+      "path": "port/level-world/collision.hpp",
+      "sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b",
+      "bytes": 1482
+    },
+    {
+      "path": "port/level-world/condition_data_init_v3.cpp",
+      "sha256": "c6dd07c84e01052583a4ad8fcd4f27a6ddd8b7204548d31b0d01fdca0e028a29",
+      "bytes": 2214
+    },
+    {
+      "path": "port/level-world/condition_data_init_v3.hpp",
+      "sha256": "02bded5b07434640a585a1fe39b158ee0a941b6e5b002bd62a06e9d5043bfdbe",
+      "bytes": 1389
+    },
+    {
+      "path": "port/level-world/decor_body_config.cpp",
+      "sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa",
+      "bytes": 3581
+    },
+    {
+      "path": "port/level-world/decor_body_config.hpp",
+      "sha256": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd",
+      "bytes": 1681
+    },
+    {
+      "path": "port/level-world/decor_scene.cpp",
+      "sha256": "cc8ffcfd1105191c051eb2c32e1adacc0a9598daf0a0a1a3831df34d00dd2f69",
+      "bytes": 4166
+    },
+    {
+      "path": "port/level-world/decor_scene.hpp",
+      "sha256": "1c88689fc04a83b61022a80521f810ee61a850120f8c30972e16be49dfc4bcb7",
+      "bytes": 1769
+    },
+    {
+      "path": "port/level-world/floor_source.cpp",
+      "sha256": "d5b1975107ad31a889cf0d37c25bd13bebf01969bf41b412a74bae64d1d4b706",
+      "bytes": 4332
+    },
+    {
+      "path": "port/level-world/floor_source.hpp",
+      "sha256": "8491cb902451cd4b82a25509819661a060db7f4e44e4a8c87f02f9cf8e46bfe8",
+      "bytes": 2035
+    },
+    {
+      "path": "port/level-world/floors.cpp",
+      "sha256": "02c8357c2300d7f19bdc08a7bb156c350fff9c32e14e026f0ef94b68aa03d1a4",
+      "bytes": 14619
+    },
+    {
+      "path": "port/level-world/floors.hpp",
+      "sha256": "8d770c1b41e29c9261c6074dc942b9db2d4b343d87743a66c7475bb9cb3267f0",
+      "bytes": 3439
+    },
+    {
+      "path": "port/level-world/game_object_initialization_owner_v1.cpp",
+      "sha256": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865",
+      "bytes": 6382
+    },
+    {
+      "path": "port/level-world/game_object_initialization_owner_v1.hpp",
+      "sha256": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809",
+      "bytes": 2242
+    },
+    {
+      "path": "port/level-world/game_object_relative_box_v3.cpp",
+      "sha256": "55c6fccf4b005f81022721fd3a710e1744849cda0c9ff0176dc9f6f77fcaeb58",
+      "bytes": 975
+    },
+    {
+      "path": "port/level-world/game_object_relative_box_v3.hpp",
+      "sha256": "751b05c547ae305d349976464d4660879af65bf392ef235a1231f2c097caa09a",
+      "bytes": 416
+    },
+    {
+      "path": "port/level-world/game_object_set_position_v2.cpp",
+      "sha256": "4054b95cab71f550215eecd4f579f54f29943d83fc58c8a5b694b59723d1dde2",
+      "bytes": 1596
+    },
+    {
+      "path": "port/level-world/game_object_set_position_v2.hpp",
+      "sha256": "4d9075703fa64f9a29afc6ff85ed07764e3ef32753634a31446f59cc141bd600",
+      "bytes": 812
+    },
+    {
+      "path": "port/level-world/game_object_visual_asset_owner_v1.cpp",
+      "sha256": "c824c60767dc82bf8c230c6dc64eea63faf69913898893084e8b065f7dab5cb3",
+      "bytes": 2611
+    },
+    {
+      "path": "port/level-world/game_object_visual_asset_owner_v1.hpp",
+      "sha256": "ffd3d1dc3e9d84d34c48a9c10e5071876b9e24fc869b37ed9ff9b43a1c626304",
+      "bytes": 1379
+    },
+    {
+      "path": "port/level-world/gameobject_scene_binding_v1.hpp",
+      "sha256": "51fdb93b6c60cf60088d9236e4e142904de510fa3a4a2af2d2a0091ee6f0d945",
+      "bytes": 883
+    },
+    {
+      "path": "port/level-world/gameobject_scene_root_registry_v1.cpp",
+      "sha256": "de48dd5e63ee3d238c7c2efee597d6b197fc41a6dffe603c9c250f20fb65c544",
+      "bytes": 2094
+    },
+    {
+      "path": "port/level-world/gameobject_scene_root_registry_v1.hpp",
+      "sha256": "16bb5d415a064b6726ceccc4ece7652a5fb542beba8555516f2f0d11114fe7d0",
+      "bytes": 1973
+    },
+    {
+      "path": "port/level-world/light_set_name_owner_v3.cpp",
+      "sha256": "b23974c16157058ec0130e7cd43f478c2ffee3660d771f7c98b5e4776e13b877",
+      "bytes": 450
+    },
+    {
+      "path": "port/level-world/light_set_name_owner_v3.hpp",
+      "sha256": "e7afc43e2b671f75832f0061821c6a045e5a76dd68aed2e840e9dad432775b4a",
+      "bytes": 703
+    },
+    {
+      "path": "port/level-world/module_floor_append_v2.cpp",
+      "sha256": "98785b8aa345fa95307f2a55094166da89b2ca449d43234d79f050558b5f29d2",
+      "bytes": 5614
+    },
+    {
+      "path": "port/level-world/module_floor_append_v2.hpp",
+      "sha256": "6cb815ae5128b5f6d2d70eb831fe9baeda975748c915bddaa59376f7798dd0d0",
+      "bytes": 1324
+    },
+    {
+      "path": "port/level-world/module_floor_clone_v3.cpp",
+      "sha256": "64887cd5bbdbaead86112bb78046eb5d366a7cfc280e789b818dac378b4bde28",
+      "bytes": 2903
+    },
+    {
+      "path": "port/level-world/module_floor_clone_v3.hpp",
+      "sha256": "dd1be8e79bd94acbe0e2978615030203aa6fcc5f41da0223e1de643904465601",
+      "bytes": 1503
+    },
+    {
+      "path": "port/level-world/module_floor_graph_v3.cpp",
+      "sha256": "64ad81b4752ed54023e4b6e5530f74ee3cdfadc571d070f92b4bf72b2457a125",
+      "bytes": 2585
+    },
+    {
+      "path": "port/level-world/module_floor_graph_v3.hpp",
+      "sha256": "93766ad4cae8cad5dbc96ac21d2b3d2121768675cec2e671f97664088ce15e90",
+      "bytes": 368
+    },
+    {
+      "path": "port/level-world/module_pf_actor_connection_v3.cpp",
+      "sha256": "6af006d4c467cf75b861e9d92878f16929daa55aae4bc53f1bd969bc4e221788",
+      "bytes": 1920
+    },
+    {
+      "path": "port/level-world/module_pf_actor_connection_v3.hpp",
+      "sha256": "a62095279d5d2f08431ee10f60fc64efa7f5f7cf145fc5386a22e9e40ccb91bb",
+      "bytes": 801
+    },
+    {
+      "path": "port/level-world/module_pf_room_v3.cpp",
+      "sha256": "97144453929f53fddf829b6dc67a178a0c67e1d4f4db61b9b193cd9249f38c6b",
+      "bytes": 5540
+    },
+    {
+      "path": "port/level-world/module_pf_room_v3.hpp",
+      "sha256": "df7fe479ad8a7660a1fb1d8f6451f071c55d30d3eba0ac1851dd4d8ef60c20cf",
+      "bytes": 2179
+    },
+    {
+      "path": "port/level-world/module_room_zone_spawn_v3.cpp",
+      "sha256": "3be289c9858c588ffa5d330b864291cf987c07ab0def8cf7a7e4f8af6aaec4fc",
+      "bytes": 3102
+    },
+    {
+      "path": "port/level-world/module_room_zone_spawn_v3.hpp",
+      "sha256": "71bb3ec5c256f4b281d2757c520b51ec6289730f7a1d3368ff450ffdcc61d43a",
+      "bytes": 1528
+    },
+    {
+      "path": "port/level-world/module_selected_scene_v2.cpp",
+      "sha256": "cb03c8c01cb87c2a2eb2f0a2342e3e6393208ae2ab08ed7968bcb15c3d727dc1",
+      "bytes": 9964
+    },
+    {
+      "path": "port/level-world/module_selected_scene_v2.hpp",
+      "sha256": "678ad3e49823d1cdefa9b5980be14f34d2b66ddc964bfd1b3467d24d01c252f5",
+      "bytes": 552
+    },
+    {
+      "path": "port/level-world/module_static_scene_bounds_v3.cpp",
+      "sha256": "3ea9e9011cf0e0ccdf133a67a259efcccc2f28b3863df2c32caa4a2bf3998962",
+      "bytes": 2914
+    },
+    {
+      "path": "port/level-world/module_static_scene_bounds_v3.hpp",
+      "sha256": "178638070f8dbd861fd363c39bede161786ad792682500047f8dfc6aa6248e18",
+      "bytes": 759
+    },
+    {
+      "path": "port/level-world/module_static_scene_v2.cpp",
+      "sha256": "8e8e101bd457ad5ec701c6382b55f0c963e78503a7f89b73c1054b9eec9cf531",
+      "bytes": 8794
+    },
+    {
+      "path": "port/level-world/module_static_scene_v2.hpp",
+      "sha256": "182fb0deb7791dfba775eafa8317b19fd51cc8318c48cca31f8f771f87eebd25",
+      "bytes": 5201
+    },
+    {
+      "path": "port/level-world/module_visual_mesh_box_v2.cpp",
+      "sha256": "8020a16cb0a4b1eda63c09037e2eb2ac4b8574c360a2f405811cc39d5b101478",
+      "bytes": 1431
+    },
+    {
+      "path": "port/level-world/module_visual_mesh_box_v2.hpp",
+      "sha256": "14fdd3cda41edaeb10a55352806403b77fc5d95a3f284283a3e8394e96183d92",
+      "bytes": 736
+    },
+    {
+      "path": "port/level-world/module_xml_selection_v1.hpp",
+      "sha256": "3791d0c31854c331a2ea792b602eacb5f8e000ce1d19f43256ab5a9af2d22d66",
+      "bytes": 1121
+    },
+    {
+      "path": "port/level-world/move_state.hpp",
+      "sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0",
+      "bytes": 1119
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140",
+      "bytes": 2789
+    },
+    {
+      "path": "port/level-world/navigation.cpp",
+      "sha256": "cc20d5df2f8b6b1501754b33ea16e5aacd3c35d916880ca868343994c12fdc91",
+      "bytes": 11628
+    },
+    {
+      "path": "port/level-world/navigation.hpp",
+      "sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71",
+      "bytes": 2744
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.hpp",
+      "sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36",
+      "bytes": 2469
+    },
+    {
+      "path": "port/level-world/navigation_controller.hpp",
+      "sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6",
+      "bytes": 2098
+    },
+    {
+      "path": "port/level-world/navigation_heading.hpp",
+      "sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e",
+      "bytes": 1415
+    },
+    {
+      "path": "port/level-world/navigation_motion.cpp",
+      "sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f",
+      "bytes": 7783
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac",
+      "bytes": 2487
+    },
+    {
+      "path": "port/level-world/navigation_objects.cpp",
+      "sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9",
+      "bytes": 6365
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011",
+      "bytes": 2981
+    },
+    {
+      "path": "port/level-world/navigation_path.cpp",
+      "sha256": "4200d57fe3224e9bf423cdca11b34d22a080c868f57b1c7d68416a735b10ca36",
+      "bytes": 7408
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "sha256": "939d187f857ac4eae7eafa3b517b9beb0b312d4d75541e769dd1566cc6a4b619",
+      "bytes": 2937
+    },
+    {
+      "path": "port/level-world/navigation_producers.cpp",
+      "sha256": "6983efb07745d539cb82eb09adc2b841cf14349037e06a9f2f69d33baddb49ac",
+      "bytes": 1877
+    },
+    {
+      "path": "port/level-world/navigation_producers.hpp",
+      "sha256": "a53b42be122b26269044a86e646b7e842ce1782a9bb96cba6778ae30d5f826e3",
+      "bytes": 1661
+    },
+    {
+      "path": "port/level-world/navigation_search.cpp",
+      "sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0",
+      "bytes": 5254
+    },
+    {
+      "path": "port/level-world/navigation_search.hpp",
+      "sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0",
+      "bytes": 1714
+    },
+    {
+      "path": "port/level-world/navigation_world.cpp",
+      "sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d",
+      "bytes": 8129
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e",
+      "bytes": 2514
+    },
+    {
+      "path": "port/level-world/object_enable_condition_v2.cpp",
+      "sha256": "56fa9e790b7270593b1fc084893b5949d28496f356bb482f0c3b7869193de021",
+      "bytes": 2068
+    },
+    {
+      "path": "port/level-world/object_enable_condition_v2.hpp",
+      "sha256": "9cf3fb9c69d24db8643ee742551af7c9aa259be5686823e16e24dc1856ef2e85",
+      "bytes": 1273
+    },
+    {
+      "path": "port/level-world/octree.cpp",
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a",
+      "bytes": 5033
+    },
+    {
+      "path": "port/level-world/octree.hpp",
+      "sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83",
+      "bytes": 1397
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85",
+      "bytes": 2081
+    },
+    {
+      "path": "port/level-world/reference/canonical-object-factory-v1/original-source.asm",
+      "sha256": "cbe05a3acc759ed1175aadc6ab79d5e652348c1e364915b29bdb6d37accea41e",
+      "bytes": 442172
+    },
+    {
+      "path": "port/level-world/reference/module-zone-v3/zone-bounds-original.json",
+      "sha256": "d3a857a834611a25349438594c7c0fd04f51d7a0143a8fa4b862a2753b66dc2a",
+      "bytes": 50522
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/room-zone-byte87-safety-v4/compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/room-zone-byte87-safety-v4/receipt.json",
+      "sha256": "968f5d2a67c4f94d9dff12611790a668d41954559b86a472056ac2d5e109174a",
+      "bytes": 7277
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/room-zone-byte87-safety-v4/room-zone-byte87-safety-v4.bin",
+      "sha256": "18ef8b18288abe999a82298d06d08cebb9822657b579f2f3208f603ee9aac9ab",
+      "bytes": 427872
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/room-zone-nine-module-v4/compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/room-zone-nine-module-v4/receipt.json",
+      "sha256": "e0bffbe112e68010e15456372e3128d729b022252c4c582f76a4b5ec98a850b5",
+      "bytes": 17288
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/room-zone-nine-module-v4/room-zone-nine-module-v4.bin",
+      "sha256": "5caf67abbb80425eefaad49fd2c0d698654f25020010f4759df257cdafcfef6e",
+      "bytes": 4139408
+    },
+    {
+      "path": "port/level-world/reports/room-zone-byte87-safety-v4.md",
+      "sha256": "b48bd0ce7e4815ea9f9c40c1623f8ed988b888c00a43057a82645459e11e6584",
+      "bytes": 2042
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.hpp",
+      "sha256": "6867a8f25781fd278a2aee596abfe992a44349398fc86d4af98541d4c1c9e5df",
+      "bytes": 5360
+    },
+    {
+      "path": "port/level-world/retained_module_visual_v3.cpp",
+      "sha256": "40f5b3e0f1790f076d68286b597e1dc8d8da4628340af4e5a881eead434c35c6",
+      "bytes": 9461
+    },
+    {
+      "path": "port/level-world/retained_module_visual_v3.hpp",
+      "sha256": "db704557a7c73cbccdf39e64c1b790fce6759af92ae01c6d5669595f654977a3",
+      "bytes": 3534
+    },
+    {
+      "path": "port/level-world/scene_manager_map_owner_v2.cpp",
+      "sha256": "5a139980a8f6025df7d0d20bdebbb5b07194f42f0e8d0a1ed2e7f931ca719aa4",
+      "bytes": 4293
+    },
+    {
+      "path": "port/level-world/scene_manager_map_owner_v2.hpp",
+      "sha256": "4f47fc9630624a0fa53ec560b144acf7464e9a202fa92cf4c7c6847817be7cf8",
+      "bytes": 2245
+    },
+    {
+      "path": "port/level-world/selector.cpp",
+      "sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5",
+      "bytes": 6749
+    },
+    {
+      "path": "port/level-world/selector.hpp",
+      "sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790",
+      "bytes": 1686
+    },
+    {
+      "path": "port/level-world/subobjects_update.hpp",
+      "sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03",
+      "bytes": 2358
+    },
+    {
+      "path": "port/level-world/tests/canonical_module_graph_v3.cpp",
+      "sha256": "372a87cbc8707edaeff7d69afd1462996ae62c9bc6e2f7903fdfae98fb3b31b5",
+      "bytes": 22710
+    },
+    {
+      "path": "port/level-world/tests/room_zone_byte87_safety_v4.cpp",
+      "sha256": "6d5942fbd421427324da5ef4096d15ea897175a8f3be839e45d2b9f8ac1d9697",
+      "bytes": 770
+    },
+    {
+      "path": "port/level-world/user_properties_v2.cpp",
+      "sha256": "9a5e7ef71b5e16aa9510cdd5f32eae1aede513ef67c721793800873187b66aa4",
+      "bytes": 1434
+    },
+    {
+      "path": "port/level-world/user_properties_v2.hpp",
+      "sha256": "b447cf691a7ffab3c277c4b623723966246c4b511228395fdb484e28d1018fea",
+      "bytes": 393
+    },
+    {
+      "path": "port/level-world/visual_anim_controller_owner_v4.hpp",
+      "sha256": "a3aa8cbfc8c53c7d42b32b7528645849dc35f6688ba92182267c7df77bd43925",
+      "bytes": 1771
+    },
+    {
+      "path": "port/level-world/visual_motion.hpp",
+      "sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f",
+      "bytes": 3202
+    },
+    {
+      "path": "port/level-world/visual_timeline.hpp",
+      "sha256": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611",
+      "bytes": 3387
+    },
+    {
+      "path": "port/scene-materials/scene.cpp",
+      "sha256": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556",
+      "bytes": 11754
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "sha256": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3",
+      "bytes": 1626
+    }
+  ]
+}

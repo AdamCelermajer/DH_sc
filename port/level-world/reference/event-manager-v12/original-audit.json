@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "cases": 1610,
+  "positive_queue_lifetime_cases": 3,
+  "allocations": 571,
+  "frees": 574,
+  "source_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "ea1625d6ff17c127795e3332f2fc2917399679afa90792eed6cbde0714f317b8",
+  "scope": "Whole original C1, Attach/Detach/map tree/native lists, DelayedDetach/Drop, Raise/RaiseAsync receiver snapshots, Flush, empty/positive Update, D1. Node allocator, abstract GetType/handler/delete virtual receivers and positive pending-list storage insertion are explicit fixtures. Legacy dangling/duplicate delayed-node combinations excluded."
+}

@@ -1,0 +1,177 @@
+[
+  {
+    "name": "_ZN6glitch2ps11PForceProxyINS0_9SParticleENS0_10PDeflectorEE5applyEPS2_S5_PNS0_16IParticleContextIS2_EE",
+    "address": "0x634518",
+    "size": 8
+  },
+  {
+    "name": "_ZTv0_n20_N6glitch7collada15particle_system24CDeflectorForceSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS3_26SAttributeReadWriteOptionsE",
+    "address": "0x630574",
+    "size": 16
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada15particle_system24CDeflectorForceSceneNodeD0Ev",
+    "address": "0x632b60",
+    "size": 16
+  },
+  {
+    "name": "_ZTTN6glitch7collada15particle_system24CDeflectorForceSceneNodeE",
+    "address": "0x97a840",
+    "size": 44
+  },
+  {
+    "name": "_ZTVN6glitch2ps11PForceProxyINS0_9SParticleENS0_10PDeflectorEEE",
+    "address": "0x97af38",
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch2ps11PForceProxyINS0_12GNPSParticleENS0_10PDeflectorEED1Ev",
+    "address": "0x62ff58",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch2ps15IParticleSystemINS0_9SParticleEE9bindForceINS0_10PDeflectorEEEiRNT_15parameters_typeE",
+    "address": "0x634a98",
+    "size": 136
+  },
+  {
+    "name": "_ZN6glitch2ps15IParticleSystemINS0_12GNPSParticleEE9bindForceINS0_10PDeflectorEEEiRNT_15parameters_typeE",
+    "address": "0x634a00",
+    "size": 136
+  },
+  {
+    "name": "_ZN6glitch2ps11PForceProxyINS0_12GNPSParticleENS0_10PDeflectorEED0Ev",
+    "address": "0x6306ac",
+    "size": 20
+  },
+  {
+    "name": "_ZTv0_n16_NK6glitch7collada15particle_system24CDeflectorForceSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS3_26SAttributeReadWriteOptionsE",
+    "address": "0x630308",
+    "size": 16
+  },
+  {
+    "name": "_ZTCN6glitch7collada15particle_system24CDeflectorForceSceneNodeE0_NS_5scene10ISceneNodeE",
+    "address": "0x97aae0",
+    "size": 300
+  },
+  {
+    "name": "_ZTVN6glitch7collada15particle_system24CDeflectorForceSceneNodeE",
+    "address": "0x97a870",
+    "size": 308
+  },
+  {
+    "name": "_ZN6glitch7collada15particle_system24CDeflectorForceSceneNode4bindEPNS0_24CParticleSystemSceneNodeE",
+    "address": "0x634b20",
+    "size": 16
+  },
+  {
+    "name": "_ZZN6glitch2ps10PDeflector22GetFrictionCoefficientEffffE12angleCoefBig",
+    "address": "0x8e4e4c",
+    "size": 4
+  },
+  {
+    "name": "_ZZN6glitch2ps10PDeflector22GetFrictionCoefficientEffffE14angleCoefSmall",
+    "address": "0x8e4e50",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch2ps10PDeflector5applyINS0_9SParticleEEEvNS0_16IParticleContextIT_E11ParticleIttES7_PS6_",
+    "address": "0x6338e0",
+    "size": 3128
+  },
+  {
+    "name": "_ZN6glitch7collada15particle_system24CDeflectorForceSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS3_26SAttributeReadWriteOptionsE",
+    "address": "0x630480",
+    "size": 244
+  },
+  {
+    "name": "_ZN6glitch2ps11PForceProxyINS0_9SParticleENS0_10PDeflectorEED0Ev",
+    "address": "0x6306d4",
+    "size": 20
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch7collada15particle_system24CDeflectorForceSceneNodeD0Ev",
+    "address": "0x632b50",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch7collada15CColladaFactory34createParticleSystemDeflectorForceERKNS0_16CColladaDatabaseEPNS0_6SForceE",
+    "address": "0x631138",
+    "size": 48
+  },
+  {
+    "name": "_ZTCN6glitch7collada15particle_system24CDeflectorForceSceneNodeE0_NS1_15CForceSceneNodeE",
+    "address": "0x97a9a8",
+    "size": 308
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada15particle_system24CDeflectorForceSceneNodeD1Ev",
+    "address": "0x6308c4",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch2ps10PDeflector22GetFrictionCoefficientEffff",
+    "address": "0x630abc",
+    "size": 320
+  },
+  {
+    "name": "_ZTVN6glitch2ps11PForceProxyINS0_12GNPSParticleENS0_10PDeflectorEEE",
+    "address": "0x97af08",
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch2ps11PForceProxyINS0_9SParticleENS0_10PDeflectorEED1Ev",
+    "address": "0x62ff5c",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada15particle_system24CDeflectorForceSceneNodeD0Ev",
+    "address": "0x632afc",
+    "size": 84
+  },
+  {
+    "name": "_ZN6glitch7collada15particle_system24CDeflectorForceSceneNodeC1ERKNS0_16CColladaDatabaseERKNS0_6SForceE",
+    "address": "0x631050",
+    "size": 232
+  },
+  {
+    "name": "_ZN6glitch7collada15particle_system24CDeflectorForceSceneNodeD1Ev",
+    "address": "0x630868",
+    "size": 76
+  },
+  {
+    "name": "_ZN6glitch2ps11PForceProxyINS0_12GNPSParticleENS0_10PDeflectorEE5applyEPS2_S5_PNS0_16IParticleContextIS2_EE",
+    "address": "0x637a60",
+    "size": 8
+  },
+  {
+    "name": "_ZTCN6glitch7collada15particle_system24CDeflectorForceSceneNodeE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x97ac10",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch7collada15particle_system24CDeflectorForceSceneNode4bindEPNS0_33CGlitchNewParticleSystemSceneNodeE",
+    "address": "0x634a88",
+    "size": 16
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch7collada15particle_system24CDeflectorForceSceneNodeD1Ev",
+    "address": "0x6308b4",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch2ps10PDeflector5applyINS0_12GNPSParticleEEEvNS0_16IParticleContextIT_E11ParticleIttES7_PS6_",
+    "address": "0x636e28",
+    "size": 3128
+  },
+  {
+    "name": "_ZN6glitch2ps10PDeflectorC2ERNS1_10ParametersE",
+    "address": "0x6349a0",
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch7collada15particle_system24CDeflectorForceSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS3_26SAttributeReadWriteOptionsE",
+    "address": "0x6301f8",
+    "size": 272
+  }
+]

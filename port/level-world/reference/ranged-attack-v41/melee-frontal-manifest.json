@@ -1,0 +1,30 @@
+[
+  {
+    "path": "port/level-world/character_world_player_attack_owner_v1.cpp",
+    "sha256": "bfddf531d805dfde116b1f444daba25a919a0ac2f3da41d17a3913134ecaf0de"
+  },
+  {
+    "path": "port/level-world/target_frontal_sort_v41.hpp",
+    "sha256": "1d62c93ee74387cb1db9de46ce0465d9cca751881eb3177c71b9372babf740d3"
+  },
+  {
+    "path": "port/level-world/target_frontal_sort_v41.cpp",
+    "sha256": "96dca71a4eb9c846675c194e62fd62644a55619cedd85c01aa151f6862c718e3"
+  },
+  {
+    "path": "port/level-world/tests/target_frontal_sort_v41.cpp",
+    "sha256": "cbce948c955ba59394b6c1df7524f1733a6ba0bee1aacd5648cd7060ba70e17f"
+  },
+  {
+    "path": "port/level-world/reports/frontal-sort-v41-host.json",
+    "sha256": "83381bd245f3395a194407f82f6f522a89adf8ce4e418ffce78cd46c7bbba1e1"
+  },
+  {
+    "path": "port/level-world/reports/frontal-sort-v41-strict.json",
+    "sha256": "40105d81359767267651cc76941a051444bd7a4199db2df240e391774a8a5478"
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/melee-frontal-fix.md",
+    "sha256": "0445d0381582991341eaf22cfe39388aa0d064dae7564bc121521e3d32b6b00f"
+  }
+]

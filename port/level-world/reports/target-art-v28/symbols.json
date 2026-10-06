@@ -1,0 +1,4702 @@
+[
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2",
+    "address": "0x3aa77c",
+    "size": 312
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_.clone.7",
+    "address": "0x3aa8b4",
+    "size": 384
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKijENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_.clone.9",
+    "address": "0x3ab3bc",
+    "size": 312
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKijENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_.clone.4",
+    "address": "0x3ab4f4",
+    "size": 384
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList11SetSortTypeEi.clone.1",
+    "address": "0x3d015c",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIfSt4lessIfESt4pairIKfP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2",
+    "address": "0x3d6f0c",
+    "size": 332
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKijENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE.clone.18",
+    "address": "0x3f18d8",
+    "size": 56
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Cameras_CameraTarget.cpp",
+    "address": "0x411d78",
+    "size": 220
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFbPKcS6_PvEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE7_M_findIS6_EEPNS_18_Rb_tree_node_baseERKT_.clone.21",
+    "address": "0x424d60",
+    "size": 400
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Menus_MenuCharacterSelect.cpp",
+    "address": "0x428e08",
+    "size": 304
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP8MenuBaseSt4lessIS2_ESt4pairIKS2_bENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.6",
+    "address": "0x431498",
+    "size": 312
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd5BlockEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SH_SH_.clone.12",
+    "address": "0x486020",
+    "size": 308
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd8ListRuleEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SH_SH_.clone.13",
+    "address": "0x486318",
+    "size": 308
+  },
+  {
+    "name": "_ZNSaIN14ObjectSearcher10TargetInfoEE8allocateEjPKv.clone.7",
+    "address": "0x4a1e0c",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt4priv11_Deque_baseIN14ObjectSearcher10TargetInfoESaIS2_EE17_M_initialize_mapEj.clone.4",
+    "address": "0x4a2240",
+    "size": 116
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_S9_ENS_10_Select1stISE_EENS_11_MapTraitsTISE_EENS5_ISE_LS7_0EEEE7_M_findIS9_EEPNS_18_Rb_tree_node_baseERKT_.clone.13",
+    "address": "0x56db48",
+    "size": 248
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_scene_COctTreeTriangleSelector.cpp",
+    "address": "0x585e60",
+    "size": 32
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_scene_CTriangleSelector.cpp",
+    "address": "0x590f50",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5video10BufferInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_.clone.8",
+    "address": "0x5b5910",
+    "size": 340
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionINS1_5video19SShaderParameterDefEtLb0ENS5_6detail30globalmaterialparametermanager10SPropetiesENS8_12SValueTraitsEE5SNameESt4lessISC_ESt4pairIKSC_NSB_8SIdValueEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENS2_10SAllocatorISI_LNS1_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSI_ST_ST_.clone.9",
+    "address": "0x5bae64",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch5video12_GLOBAL__N_115SPassIdentifierESt4lessIKS4_ESt4pairIS6_tENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EENS1_4core23SProcessBufferAllocatorIS9_EEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5d8014",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch5video12_GLOBAL__N_115SPassIdentifierESt4lessIKS4_ESt4pairIS6_tENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EENS1_4core23SProcessBufferAllocatorIS9_EEE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SJ_SJ_",
+    "address": "0x5d8c50",
+    "size": 324
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch5video12_GLOBAL__N_115SPassIdentifierESt4lessIKS4_ESt4pairIS6_tENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EENS1_4core23SProcessBufferAllocatorIS9_EEE13insert_uniqueERKS9_",
+    "address": "0x5d8d94",
+    "size": 400
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_NS1_5video24CMaterialRendererManager14SCreationState13SParameterDefEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS2_23SProcessBufferAllocatorISC_EEE9_M_insertEPNS_18_Rb_tree_node_baseERKSC_SL_SL_.clone.7",
+    "address": "0x5d9638",
+    "size": 252
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPN6glitch5video11IBatchBakerEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EENS5_4core10SAllocatorIS9_LNS5_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE.clone.10",
+    "address": "0x5d9734",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch5video28IMaterialTechniqueMapsReader12SMapGroupKeyESt4lessIS4_ESt4pairIKS4_NS1_4core19SSharedProcessArrayIhEEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS9_23SProcessBufferAllocatorISC_EEE9_M_insertEPNS_18_Rb_tree_node_baseERKSC_SL_SL_.clone.9",
+    "address": "0x5db568",
+    "size": 416
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video17CMaterialRendererEEEtLb0ENS7_6detail23materialrenderermanager11SPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSM_SX_SX_.clone.11",
+    "address": "0x5dc0a0",
+    "size": 492
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_jENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EENS2_10SAllocatorIS8_LNS1_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SJ_SJ_.clone.8",
+    "address": "0x5dee20",
+    "size": 416
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKcN6glitch4core11SStringLessESt4pairIKS2_NS3_5video23E_SHADER_PARAMETER_TYPEEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS4_10SAllocatorISA_LNS3_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SL_SL_.clone.6",
+    "address": "0x5e1a0c",
+    "size": 344
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video7IShaderEEEtLb0ENS7_6detail13shadermanager17SShaderPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSM_SX_SX_.clone.6",
+    "address": "0x5e6cdc",
+    "size": 444
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video8ITextureEEEtLb0ENS7_6detail14texturemanager18STexturePropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSM_SX_SX_.clone.6",
+    "address": "0x5e8acc",
+    "size": 232
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch7collada13CMorphingMesh7STargetENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE22_M_insert_overflow_auxEPS3_RKS3_RKSt12__false_typejb.clone.5",
+    "address": "0x649f1c",
+    "size": 236
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeItSt4lessItESt4pairIKtN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS5_4core10SAllocatorISA_LNS5_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SM_SM_.clone.3",
+    "address": "0x66bf9c",
+    "size": 348
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SI_SI_.clone.2",
+    "address": "0x66d940",
+    "size": 384
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SI_SI_.clone.2",
+    "address": "0x66e914",
+    "size": 384
+  },
+  {
+    "name": "select_scan_parameters",
+    "address": "0x6763a8",
+    "size": 292
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_gui_CGUIColorSelectDialog.cpp",
+    "address": "0x6a8734",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch3gui21CGUIColorSelectDialog12SBatteryItemENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE22_M_insert_overflow_auxEPS3_RKS3_RKSt12__false_typejb.clone.2",
+    "address": "0x6a8c10",
+    "size": 228
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_scene_CSceneNodeAnimatorFlyCircle.cpp",
+    "address": "0x6cb7d8",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKcN6glitch4core11SStringLessESt4pairIKS2_NS3_5video18E_VERTEX_ATTRIBUTEEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS4_10SAllocatorISA_LNS3_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SL_SL_.clone.0",
+    "address": "0x6db3c0",
+    "size": 344
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_video_IRenderTarget.cpp",
+    "address": "0x6dc650",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video11IShaderCodeEEEtLb0ENS3_15sidedcollection16SEmptyPropertiesENSA_12SValueTraitsEE5SNameESt4lessISE_ESt4pairIKSE_NSD_8SIdValueEENS_10_Select1stISK_EENS_11_MapTraitsTISK_EENS2_10SAllocatorISK_LNS1_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSK_SV_SV_.clone.1",
+    "address": "0x6e0f0c",
+    "size": 368
+  },
+  {
+    "name": "find_variant_selector_charmap",
+    "address": "0x707f64",
+    "size": 144
+  },
+  {
+    "name": "PCF_Size_Select",
+    "address": "0x70fc90",
+    "size": 68
+  },
+  {
+    "name": "tt_size_select",
+    "address": "0x72a0a8",
+    "size": 88
+  },
+  {
+    "name": "T42_Size_Select",
+    "address": "0x739f5c",
+    "size": 84
+  },
+  {
+    "name": "FNT_Size_Select",
+    "address": "0x73bf54",
+    "size": 76
+  },
+  {
+    "name": "BDF_Size_Select",
+    "address": "0x7426a8",
+    "size": 68
+  },
+  {
+    "name": "cff_fd_select_get",
+    "address": "0x746748",
+    "size": 204
+  },
+  {
+    "name": "cff_size_select",
+    "address": "0x746f64",
+    "size": 256
+  },
+  {
+    "name": "_ZL10DistancePCP6b2Vec2S0_PK14b2PolygonShapeRK7b2XFormPK13b2CircleShapeS6_",
+    "address": "0x7f91d4",
+    "size": 1652
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjjENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_.clone.9",
+    "address": "0x802628",
+    "size": 312
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjjENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_.clone.13",
+    "address": "0x802760",
+    "size": 384
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findIA11_cEEPNS_18_Rb_tree_node_baseERKT_.clone.6",
+    "address": "0x82ef9c",
+    "size": 476
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findIA5_cEEPNS_18_Rb_tree_node_baseERKT_.clone.7",
+    "address": "0x82f178",
+    "size": 492
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_.clone.3",
+    "address": "0x82f364",
+    "size": 348
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_.clone.1",
+    "address": "0x82f4c0",
+    "size": 536
+  },
+  {
+    "name": "luaB_select",
+    "address": "0x84e518",
+    "size": 168
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3f1b40",
+    "size": 64
+  },
+  {
+    "name": "_ZN10AISDefault21OnTargetInRangedRangeEv",
+    "address": "0x3dc560",
+    "size": 312
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISt4pairISsiESt4lessIS2_ES1_IKS2_N6CharAI9GroupInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3d2f3c",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10StringCompESt4pairIKS7_NS3_13SZipFileEntryEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS4_ISC_LS5_0EEEE13insert_uniqueENS_17_Rb_tree_iteratorISC_SG_EERKSC_",
+    "address": "0x8955a4",
+    "size": 1284
+  },
+  {
+    "name": "_ZN15b2CircleContact12GetManifoldsEv",
+    "address": "0x7f3a94",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircle4initEv",
+    "address": "0x6cb864",
+    "size": 568
+  },
+  {
+    "name": "_ZN7Structs20StatAutoAssignTargetD2Ev",
+    "address": "0x4c696c",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada18ISceneNodeAnimator19setCompatibleTargetERKNS0_8SChannelEPv",
+    "address": "0x669574",
+    "size": 444
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialog14buildColorRingERKNS_4core11dimension2dIiEEiNS_5video6SColorE",
+    "address": "0x6a8754",
+    "size": 1212
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKN6glitch5scene10ISceneNodeESt4lessIS5_ESt4pairIKS5_P10GameObjectENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE13insert_uniqueENS_17_Rb_tree_iteratorISC_SG_EERKSC_",
+    "address": "0x3f5a58",
+    "size": 884
+  },
+  {
+    "name": "_ZN14CAndroidSocket6SelectEN15GLXPlayerSocket17XSocketSelectFlagE",
+    "address": "0x8411e8",
+    "size": 204
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x345c94",
+    "size": 56
+  },
+  {
+    "name": "_ZN10GameObject17_TargetListResortERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38fbf8",
+    "size": 124
+  },
+  {
+    "name": "_ZN12CameraTarget6UpdateEv",
+    "address": "0x411a7c",
+    "size": 188
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x529f14",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x510c58",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy13tMatchingPeerENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x80251c",
+    "size": 68
+  },
+  {
+    "name": "_ZNSt4priv20_Deque_iterator_baseIN14ObjectSearcher10TargetInfoEE10_M_advanceEi",
+    "address": "0x38d684",
+    "size": 172
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10stringcompESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE13insert_uniqueENS_17_Rb_tree_iteratorISB_SF_EERKSB_",
+    "address": "0x88ccb4",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd5BlockEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueERKS9_",
+    "address": "0x486154",
+    "size": 420
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList6SearchEffRNS_11IObjectListE",
+    "address": "0x4a3428",
+    "size": 100
+  },
+  {
+    "name": "_ZN6CharAI12OnTargetDiedEv",
+    "address": "0x3d1f60",
+    "size": 180
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x46dc1c",
+    "size": 536
+  },
+  {
+    "name": "_ZN6glitch3gui18CGUIFileOpenDialog17sendSelectedEventEv",
+    "address": "0x53bfb4",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch5scene24COctTreeTriangleSelector12SOctTreeNodeD1Ev",
+    "address": "0x5865d0",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSt6vectorIjSaIjEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5a3df4",
+    "size": 128
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video17CMaterialRendererEEEtLb0ENS7_6detail23materialrenderermanager11SPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE5eraseENS_17_Rb_tree_iteratorISM_SQ_EE",
+    "address": "0x5d9f18",
+    "size": 92
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjP12PFGInnerEdgeENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x51e25c",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x46cbd8",
+    "size": 64
+  },
+  {
+    "name": "_ZNK6glitch5scene21CParticleSizeAffector13getTargetSizeEv",
+    "address": "0x6fd20c",
+    "size": 8
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+    "address": "0x7ebf8c",
+    "size": 48
+  },
+  {
+    "name": "_ZN6CharAI18OnTargetOutOfSightEv",
+    "address": "0x3d2410",
+    "size": 232
+  },
+  {
+    "name": "_ZN7Structs16GameOptionSelectD0Ev",
+    "address": "0x4ce3c8",
+    "size": 28
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsS5_ISsP8PropertyS2_SaIS3_IS4_S7_EEES2_SaIS3_IS4_SA_EEEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x511638",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x4c4218",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch7collada18CSceneNodeAnimator14getTargetsSizeEv",
+    "address": "0x65d4c8",
+    "size": 96
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SH_SH_",
+    "address": "0x32e4dc",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x314da0",
+    "size": 104
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI22Script_SetCameraTargetEP13ScriptCmdImplv",
+    "address": "0x458b00",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIwSt4lessIwESt4pairIKwiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EEN6glitch4core10SAllocatorIS5_LNSA_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x53e954",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN5boost13intrusive_ptrIKN6glitch5video7IBufferEEESt4lessIS7_ESt4pairIKS7_NS3_4core11SBufferDataEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE13insert_uniqueERKSE_",
+    "address": "0x6a243c",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPcN3vox12c8stringcompESt4pairIKS1_iENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EENS2_10SAllocatorIS4_IPKciELNS2_10VoxMemHintE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x88a11c",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjjENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x8174a0",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3180c4",
+    "size": 180
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE14_M_lower_boundIA256_cEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4c4690",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP7PFFloorSt4lessIS2_ESt4pairIKS2_St5dequeIP8PFObjectSaIS9_EEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE13insert_uniqueERKSC_",
+    "address": "0x527064",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPN6glitch5scene10ISceneNodeEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x50a7e8",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE13insert_uniqueERKSB_",
+    "address": "0x813b1c",
+    "size": 392
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect6UpdateEv",
+    "address": "0x428498",
+    "size": 1756
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x379fa8",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase14copyAttachmentERNS2_11SAttachmentERKS3_",
+    "address": "0x6dca20",
+    "size": 160
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsP8PropertyS2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE7_M_copyEPNS_18_Rb_tree_node_baseESJ_",
+    "address": "0x5112e8",
+    "size": 168
+  },
+  {
+    "name": "_ZN6glitch5video13IRenderTarget11setViewportERKNS_4core4rectIiEE",
+    "address": "0x6dc5a8",
+    "size": 168
+  },
+  {
+    "name": "_ZNK6glitch5scene24COctTreeTriangleSelector26getTrianglesFromOctTreeBoxEPNS1_12SOctTreeNodeE",
+    "address": "0x5870fc",
+    "size": 204
+  },
+  {
+    "name": "_ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender14getTargetCountEv",
+    "address": "0x660e84",
+    "size": 36
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_copyEPNS_18_Rb_tree_node_baseESD_",
+    "address": "0x334644",
+    "size": 168
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriver15popRenderTargetEv",
+    "address": "0x5a953c",
+    "size": 188
+  },
+  {
+    "name": "_ZN6glitch3gui21IGUIColorSelectDialogD0Ev",
+    "address": "0x6a9ef0",
+    "size": 92
+  },
+  {
+    "name": "_ZN6CharAI15OnTargetInSightEv",
+    "address": "0x3d22e4",
+    "size": 300
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKN6glitch5scene10ISceneNodeESt4lessIS5_ESt4pairIKS5_P10GameObjectENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE13insert_uniqueERKSC_",
+    "address": "0x3f58d0",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeItSt4lessItESt4pairIKttENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x5a69c0",
+    "size": 292
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9setTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_23E_TEXTURE_CUBE_MAP_FACEEjj",
+    "address": "0x6dd600",
+    "size": 4
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE",
+    "address": "0x4a2f34",
+    "size": 1172
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x50b034",
+    "size": 308
+  },
+  {
+    "name": "_ZNK22Script_SetCameraTarget10IsBlockingEv",
+    "address": "0x4592cc",
+    "size": 96
+  },
+  {
+    "name": "_ZN11CameraLevel30CalculateDefaultTargetDistanceEv",
+    "address": "0x40fd18",
+    "size": 356
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSs9VectorSetIP7SWFAnimEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4979c4",
+    "size": 500
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE14_M_create_nodeERKS5_",
+    "address": "0x3345ec",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet13getTargetSizeEi",
+    "address": "0x65f188",
+    "size": 36
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIPcN3vox12c8stringcompESt4pairIKS1_iENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EENS2_10SAllocatorIS4_IPKciELNS2_10VoxMemHintE0EEEE7_M_findIS1_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x88a4e8",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFbPKcS6_PvEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SI_SI_",
+    "address": "0x426024",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x338438",
+    "size": 116
+  },
+  {
+    "name": "_ZN15b2CircleContact8EvaluateEP17b2ContactListener",
+    "address": "0x7f3b9c",
+    "size": 2184
+  },
+  {
+    "name": "_ZN19MenuCharacterSelectD1Ev",
+    "address": "0x428d44",
+    "size": 84
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x414484",
+    "size": 500
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy13tMatchingPeerENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE14_M_create_nodeERKS6_",
+    "address": "0x8028e0",
+    "size": 60
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10stringcompESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE7_M_findIS7_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x88cb40",
+    "size": 212
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN5boost13intrusive_ptrIKN6glitch5video7IBufferEEESt4lessIS7_ESt4pairIKS7_NS3_4core11SBufferDataEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSE_SM_SM_",
+    "address": "0x6a228c",
+    "size": 432
+  },
+  {
+    "name": "_ZN6CharAI13_UpdateTargetEv",
+    "address": "0x3cb908",
+    "size": 556
+  },
+  {
+    "name": "_ZN15AISPlayerIPhone20OnTargetInMeleeRangeEv",
+    "address": "0x3de1a8",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x3d73cc",
+    "size": 292
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5video10BufferInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x5b5a64",
+    "size": 384
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjjENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x8171f4",
+    "size": 292
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector11TestWithBoxERSt6vectorINS_4core10triangle3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE",
+    "address": "0x586ec8",
+    "size": 564
+  },
+  {
+    "name": "_ZNK7gameswf14as_environment11find_targetEPKc",
+    "address": "0x7cd110",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SI_SI_",
+    "address": "0x3386c4",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsS5_ISsP8PropertyS2_SaIS3_IS4_S7_EEES2_SaIS3_IS4_SA_EEEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x510d78",
+    "size": 64
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList18FlushBackupResultsEv",
+    "address": "0x4a1a38",
+    "size": 128
+  },
+  {
+    "name": "_ZN7Structs20StatAutoAssignTargetD0Ev",
+    "address": "0x4ce4a8",
+    "size": 28
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x511728",
+    "size": 240
+  },
+  {
+    "name": "_ZN11AISExternal18OnTargetOutOfSightEv",
+    "address": "0x3dce14",
+    "size": 16
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIA5_cEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x314380",
+    "size": 368
+  },
+  {
+    "name": "_ZN6glitch5video13IRenderTargetC1EPNS0_12IVideoDriverERKNS_4core11dimension2dIiEE",
+    "address": "0x6dc548",
+    "size": 96
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTargetD1Ev",
+    "address": "0x4d373c",
+    "size": 72
+  },
+  {
+    "name": "_ZN9Character16UpdateSpotTargetEv",
+    "address": "0x3a469c",
+    "size": 332
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContact8EvaluateEP17b2ContactListener",
+    "address": "0x7ebfbc",
+    "size": 2772
+  },
+  {
+    "name": "_ZNK13b2CircleShape11ComputeMassEP10b2MassData",
+    "address": "0x7e95ac",
+    "size": 188
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SH_SH_",
+    "address": "0x4bcbbc",
+    "size": 240
+  },
+  {
+    "name": "_ZN12CameraTarget16HandleTransitionEv",
+    "address": "0x411830",
+    "size": 404
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSB_SJ_SJ_",
+    "address": "0x813a44",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt6vectorIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x811ff4",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x342910",
+    "size": 292
+  },
+  {
+    "name": "_ZN15b2CircleContactC2EP7b2ShapeS1_",
+    "address": "0x7f3af8",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPN6glitch7collada10SAnimationESt4lessIS4_ESt4pairIKS4_St6vectorINS2_14CRootSceneNode22CMaterialParameterInfoENS1_4core10SAllocatorISB_LNS1_6memory13E_MEMORY_HINTE0EEEEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENSD_ISI_LSF_0EEEE13insert_uniqueENS_17_Rb_tree_iteratorISI_SM_EERKSI_",
+    "address": "0x65bbe8",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine9StateInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x3c6bb0",
+    "size": 92
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKS6_",
+    "address": "0x365340",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN9NetStruct14tPacketHistoryEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x814400",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3291a8",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsS5_ISsP8PropertyS2_SaIS3_IS4_S7_EEES2_SaIS3_IS4_SA_EEEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE14_M_create_nodeERKSE_",
+    "address": "0x511408",
+    "size": 80
+  },
+  {
+    "name": "_ZN12CameraTargetD0Ev",
+    "address": "0x411bf0",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy13tMatchingPeerENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+    "address": "0x80291c",
+    "size": 236
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x344358",
+    "size": 392
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE18createRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEj",
+    "address": "0x5b388c",
+    "size": 400
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiSt3setItS1_ItESaItEES2_SaIS3_IS4_S9_EEEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueERKSD_",
+    "address": "0x80c478",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch7collada13CMorphingMesh7STargetENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE8_M_clearEv",
+    "address": "0x649cd0",
+    "size": 68
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video11IShaderCodeEEEtLb0ENS3_15sidedcollection16SEmptyPropertiesENSA_12SValueTraitsEE5SNameESt4lessISE_ESt4pairIKSE_NSD_8SIdValueEENS_10_Select1stISK_EENS_11_MapTraitsTISK_EENS2_10SAllocatorISK_LNS1_6memory13E_MEMORY_HINTE0EEEE7_M_findISE_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x6e1234",
+    "size": 104
+  },
+  {
+    "name": "_ZN9Character12_ClearTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b5690",
+    "size": 36
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueERKS9_",
+    "address": "0x32e5cc",
+    "size": 536
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList18_IsGameObjectValidEP10GameObject",
+    "address": "0x4a1950",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE5eraseENS_17_Rb_tree_iteratorIS5_S9_EE",
+    "address": "0x37be48",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_copyEPNS_18_Rb_tree_node_baseESF_",
+    "address": "0x511088",
+    "size": 168
+  },
+  {
+    "name": "_ZN10GameObject15FlushTargetListEv",
+    "address": "0x38ba6c",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSs9VectorSetIP7SWFAnimEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_create_nodeERKS9_",
+    "address": "0x497bb8",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5scene24COctTreeTriangleSelectorD0Ev",
+    "address": "0x586690",
+    "size": 28
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector16getTriangleCountEv",
+    "address": "0x590f20",
+    "size": 48
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x37a560",
+    "size": 88
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKSsS0_IPvjEESsSt4hashISsENSt4priv15_HashMapTraitsTIS4_EENS7_10_Select1stIS4_EESt8equal_toISsESaIS4_EE22insert_unique_noresizeERKS4_",
+    "address": "0x8b3e69",
+    "size": 208
+  },
+  {
+    "name": "_ZN6glitch3gui9CGUITable9selectNewEib",
+    "address": "0x555bb0",
+    "size": 276
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch7collada13CMorphingMesh7STargetENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE7reserveEj",
+    "address": "0x649e0c",
+    "size": 168
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5scene12SBatchConfigEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x58a188",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x43667c",
+    "size": 316
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect4InitEv",
+    "address": "0x428cc0",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x3187b0",
+    "size": 1284
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialogD2Ev",
+    "address": "0x6a9d90",
+    "size": 352
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt6vectorIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x81217c",
+    "size": 884
+  },
+  {
+    "name": "_ZN12CameraTarget12HandleOffsetER7Point3DIfE",
+    "address": "0x4117bc",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKN6glitch5scene10ISceneNodeESt4lessIS5_ESt4pairIKS5_P10GameObjectENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSC_SK_SK_",
+    "address": "0x3f57ac",
+    "size": 292
+  },
+  {
+    "name": "_ZN11AISExternal15OnTargetInSightEv",
+    "address": "0x3dce04",
+    "size": 16
+  },
+  {
+    "name": "_ZN6CharAI21OnTargetInRangedRangeEv",
+    "address": "0x3d1d4c",
+    "size": 180
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE14_M_create_nodeERKS6_",
+    "address": "0x33f654",
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector12getTrianglesEPNS_4core10triangle3dIfEEiRiRKNS2_8aabbox3dIfEEPKNS2_8CMatrix4IfEE",
+    "address": "0x591ca8",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_13StringCompareESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE14_M_create_nodeERKSB_",
+    "address": "0x8713b0",
+    "size": 76
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x50b66c",
+    "size": 212
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x336d84",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager9SceneNodeEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x50a86c",
+    "size": 128
+  },
+  {
+    "name": "_ZN9Character19_TargetInMeleeRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b7020",
+    "size": 36
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getColorFormatEv",
+    "address": "0x6dcd4c",
+    "size": 8
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionINS1_5video19SShaderParameterDefEtLb0ENS5_6detail30globalmaterialparametermanager10SPropetiesENS8_12SValueTraitsEE5SNameESt4lessISC_ESt4pairIKSC_NSB_8SIdValueEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENS2_10SAllocatorISI_LNS1_6memory13E_MEMORY_HINTE0EEEE7_M_findISC_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x5bb218",
+    "size": 104
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_jENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EENS2_10SAllocatorIS8_LNS1_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKS8_",
+    "address": "0x5defc0",
+    "size": 448
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD2Ev",
+    "address": "0x5b262c",
+    "size": 88
+  },
+  {
+    "name": "_ZSt15__push_heap_auxINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEENS2_12TargetSorterEiS3_EvT_S8_T0_PT1_PT2_",
+    "address": "0x4a1f30",
+    "size": 156
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIwSt4lessIwESt4pairIKwiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EEN6glitch4core10SAllocatorIS5_LNSA_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x53e5e0",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISt4pairISsiESt4lessIS2_ES1_IKS2_N6CharAI9GroupInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x3d3450",
+    "size": 896
+  },
+  {
+    "name": "_ZN12CameraTargetD1Ev",
+    "address": "0x411bbc",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch3gui11CGUIListBox11setSelectedEi",
+    "address": "0x542518",
+    "size": 80
+  },
+  {
+    "name": "_ZN6glitch7collada35CAnimationSetTransformationTemplate24addTransformationTargetsEPNS0_10CSceneNodeE",
+    "address": "0x6e24e8",
+    "size": 356
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch3gui21CGUIColorSelectDialogD0Ev",
+    "address": "0x6aaa34",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x4af7f4",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueERKSD_",
+    "address": "0x52c524",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine9StateInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x3c6ce4",
+    "size": 392
+  },
+  {
+    "name": "_ZN6glitch3gui14CGUITabControl9selectTabENS_4core10position2dIiEE",
+    "address": "0x552378",
+    "size": 404
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialogD1Ev",
+    "address": "0x6a9c04",
+    "size": 368
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x51efb8",
+    "size": 2192
+  },
+  {
+    "name": "_ZN6glitch5scene24CParticleFadeOutAffector14setTargetColorERKNS_5video6SColorE",
+    "address": "0x6fa484",
+    "size": 20
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueERKSA_",
+    "address": "0x66dac0",
+    "size": 384
+  },
+  {
+    "name": "_Z16b2CollideCirclesP10b2ManifoldPK13b2CircleShapeRK7b2XFormS3_S6_",
+    "address": "0x7f4c4c",
+    "size": 1004
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5scene12SBatchConfigEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE14_M_create_nodeERKS8_",
+    "address": "0x58a100",
+    "size": 136
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager17getCollisionPointERKNS_4core6line3dIfEEPNS0_17ITriangleSelectorERNS2_8vector3dIfEERNS2_10triangle3dIfEE",
+    "address": "0x6c62e8",
+    "size": 2332
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect10IsAnimOverEv",
+    "address": "0x427fd8",
+    "size": 36
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN17SpawnGroupManager9GroupInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x3e9000",
+    "size": 124
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x3444e0",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE13insert_uniqueERKSH_",
+    "address": "0x659874",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy15CRoomAttributesENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+    "address": "0x81fb80",
+    "size": 236
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi12AnimationSetENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+    "address": "0x475b5c",
+    "size": 392
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x327b0c",
+    "size": 212
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video7IShaderEEEtLb0ENS7_6detail13shadermanager17SShaderPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSM_",
+    "address": "0x5e6e98",
+    "size": 440
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsP8PropertyS2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE13insert_uniqueENS_17_Rb_tree_iteratorISB_SF_EERKSB_",
+    "address": "0x512e14",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSt6vectorIjSaIjEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x5a5174",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd8ListRuleEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x484d68",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x66edd8",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueENS_17_Rb_tree_iteratorIS9_SD_EERKS9_",
+    "address": "0x4bd688",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x46db2c",
+    "size": 240
+  },
+  {
+    "name": "_ZNK13b2CircleShape9TestPointERK7b2XFormRK6b2Vec2",
+    "address": "0x7e9218",
+    "size": 264
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN5boost13intrusive_ptrIKN6glitch5video7IBufferEEESt4lessIS7_ESt4pairIKS7_NS3_4core11SBufferDataEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE13insert_uniqueENS_17_Rb_tree_iteratorISE_SI_EERKSE_",
+    "address": "0x6a25c4",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIxN3vox18HandleIdCompStructESt4pairIKxPNS1_9HandlableEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EENS1_10SAllocatorIS3_IxS6_ELNS1_10VoxMemHintE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SI_SI_",
+    "address": "0x864220",
+    "size": 324
+  },
+  {
+    "name": "_ZNSaIPN14ObjectSearcher10TargetInfoEE8allocateEjPKv",
+    "address": "0x4a21e0",
+    "size": 96
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x314290",
+    "size": 240
+  },
+  {
+    "name": "_ZN7gameswf12as_selectionC1EPNS_6playerE",
+    "address": "0x7a4aa0",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine9StateInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x3c6e6c",
+    "size": 884
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD0Ev",
+    "address": "0x6dd144",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x37d61c",
+    "size": 884
+  },
+  {
+    "name": "_ZNK10GameObject17GetTargetPositionEv",
+    "address": "0x3935dc",
+    "size": 36
+  },
+  {
+    "name": "_ZNKSt9hashtableISt4pairIKSsS0_IPvjEESsSt4hashISsENSt4priv15_HashMapTraitsTIS4_EENS7_10_Select1stIS4_EESt8equal_toISsESaIS4_EE14_M_bkt_num_keyIPKcEEjRKT_j",
+    "address": "0x8b3ac5",
+    "size": 136
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x46ce64",
+    "size": 368
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_13StringCompareESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE13insert_uniqueERKSB_",
+    "address": "0x872e58",
+    "size": 536
+  },
+  {
+    "name": "_ZN13b2CircleShapeC2EPK10b2ShapeDef",
+    "address": "0x7e9a08",
+    "size": 88
+  },
+  {
+    "name": "_ZN10AISDefault15OnTargetRevivedEv",
+    "address": "0x3dbeb0",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x37abf8",
+    "size": 1284
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase12removeTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEEj",
+    "address": "0x6dcc68",
+    "size": 228
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_NS1_5video24CMaterialRendererManager14SCreationState13SParameterDefEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS2_23SProcessBufferAllocatorISC_EEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5dac00",
+    "size": 124
+  },
+  {
+    "name": "_ZN22Script_SetCameraTarget7ExecuteEbi",
+    "address": "0x460004",
+    "size": 268
+  },
+  {
+    "name": "_ZN6CharAI15OnTargetRevivedEv",
+    "address": "0x3d1eb4",
+    "size": 172
+  },
+  {
+    "name": "_ZN6glitch3gui9CGUITable19setSelectableColumnEb",
+    "address": "0x555338",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt3setIsS2_SaIsEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x345f04",
+    "size": 128
+  },
+  {
+    "name": "_ZNK6glitch3gui11CGUIListBox11getSelectedEv",
+    "address": "0x541dc4",
+    "size": 8
+  },
+  {
+    "name": "_Z25b2CollidePolygonAndCircleP10b2ManifoldPK14b2PolygonShapeRK7b2XFormPK13b2CircleShapeS6_",
+    "address": "0x7f4424",
+    "size": 2088
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContact12GetManifoldsEv",
+    "address": "0x7ebeb4",
+    "size": 8
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video7IShaderEEEtLb0ENS7_6detail13shadermanager17SShaderPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE7_M_findISG_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x5d8508",
+    "size": 112
+  },
+  {
+    "name": "_ZNK6glitch5scene10ISceneNode19getTriangleSelectorEv",
+    "address": "0x597254",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE14_M_create_nodeERKS5_",
+    "address": "0x37cd24",
+    "size": 88
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch3gui21CGUIColorSelectDialogD1Ev",
+    "address": "0x6aaa54",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x414b40",
+    "size": 1284
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialogC1EPKwPNS0_15IGUIEnvironmentEPNS0_11IGUIElementEi",
+    "address": "0x6a8fbc",
+    "size": 2344
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN14ObjectSearcher16BackupObjectListEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x38e734",
+    "size": 308
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsS5_ISsP8PropertyS2_SaIS3_IS4_S7_EEES2_SaIS3_IS4_SA_EEEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE13insert_uniqueERKSE_",
+    "address": "0x511818",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueENS_17_Rb_tree_iteratorIS9_SD_EERKS9_",
+    "address": "0x32e7e4",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjP12PFGInnerEdgeENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x51e138",
+    "size": 292
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x33f914",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv6__findIPN5boost13intrusive_ptrIN6glitch5scene21IShadowReceiverTargetEEES6_EET_S8_S8_RKT0_RKSt26random_access_iterator_tag",
+    "address": "0x589560",
+    "size": 304
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_create_nodeERKS9_",
+    "address": "0x4bcb64",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9addTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_13IRenderBufferEEE",
+    "address": "0x6dd6d4",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIwSt4lessIwESt4pairIKwiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EEN6glitch4core10SAllocatorIS5_LNSA_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SI_SI_",
+    "address": "0x53e328",
+    "size": 304
+  },
+  {
+    "name": "_ZN11AISExternal21OnTargetInRangedRangeEv",
+    "address": "0x3dcdcc",
+    "size": 28
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEffRNS_11IObjectListE",
+    "address": "0x4a33c8",
+    "size": 96
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP8MenuBaseSt4lessIS2_ESt4pairIKS2_bENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x42da60",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SJ_SJ_",
+    "address": "0x36517c",
+    "size": 452
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector12getTrianglesEPNS_4core10triangle3dIfEEiRiRKNS2_6line3dIfEEPKNS2_8CMatrix4IfEE",
+    "address": "0x591cf0",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch7collada13CMorphingMesh7STargetENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEED1Ev",
+    "address": "0x649d58",
+    "size": 76
+  },
+  {
+    "name": "_ZSt11__make_heapINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEENS2_12TargetSorterES3_iEvT_S8_T0_PT1_PT2_",
+    "address": "0x4a2654",
+    "size": 220
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPN3sfc4math5graph11GraphSparseI12PFGOuterEdgeE7_InNodeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x522f38",
+    "size": 56
+  },
+  {
+    "name": "_ZN9Character10_SetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b8f38",
+    "size": 100
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x5111a8",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EEC1ERKSB_",
+    "address": "0x4c43dc",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjP12PFGInnerEdgeENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x51e3e4",
+    "size": 884
+  },
+  {
+    "name": "_ZSt14__pop_heap_auxINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEES3_NS2_12TargetSorterEEvT_S8_PT0_T1_",
+    "address": "0x38fa54",
+    "size": 196
+  },
+  {
+    "name": "_ZNK7gameswf12as_selection2isEi",
+    "address": "0x7a4a88",
+    "size": 24
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSs9VectorSetIP7SWFAnimEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x497890",
+    "size": 308
+  },
+  {
+    "name": "_ZNSt6vectorIN5boost13intrusive_ptrIN6glitch5scene21IShadowReceiverTargetEEENS2_4core10SAllocatorIS5_LNS2_6memory13E_MEMORY_HINTE0EEEE19_M_clear_after_moveEv",
+    "address": "0x589ab0",
+    "size": 68
+  },
+  {
+    "name": "_ZN7Console11_selectItemEi",
+    "address": "0x334d1c",
+    "size": 3576
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsP8PropertyS2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE14_M_create_nodeERKSB_",
+    "address": "0x511298",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP7PFFloorSt4lessIS2_ESt4pairIKS2_St5dequeIP8PFObjectSaIS9_EEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x523690",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionINS1_5video19SShaderParameterDefEtLb0ENS5_6detail30globalmaterialparametermanager10SPropetiesENS8_12SValueTraitsEE5SNameESt4lessISC_ESt4pairIKSC_NSB_8SIdValueEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENS2_10SAllocatorISI_LNS1_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5bb2d4",
+    "size": 80
+  },
+  {
+    "name": "_ZN6glitch5scene21CParticleSizeAffector13setTargetSizeEf",
+    "address": "0x6fd1ec",
+    "size": 8
+  },
+  {
+    "name": "_ZN9Character16_SetIsTargetableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b7a64",
+    "size": 104
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiSt3setItS1_ItESaItEES2_SaIS3_IS4_S9_EEEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x80ae10",
+    "size": 128
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CharProperties8BuffDeclEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x3e1ac8",
+    "size": 216
+  },
+  {
+    "name": "_ZNK6glitch3gui12CGUIComboBox11getSelectedEv",
+    "address": "0x6aab14",
+    "size": 8
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList6SearchEff",
+    "address": "0x3d0020",
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget17compileAttachmentEiRKNS0_19CCommonGLDriverBase17CRenderTargetBase11SAttachmentE",
+    "address": "0x5b2ba8",
+    "size": 228
+  },
+  {
+    "name": "_ZN6glitch5scene17ITriangleSelectorD1Ev",
+    "address": "0x585634",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKSsS0_IPvjEESsSt4hashISsENSt4priv15_HashMapTraitsTIS4_EENS7_10_Select1stIS4_EESt8equal_toISsESaIS4_EE9_M_rehashEj",
+    "address": "0x8b3699",
+    "size": 412
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSs9VectorSetIP7SWFAnimEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x49743c",
+    "size": 184
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CPacketManager17tPacketMemberInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x8155b8",
+    "size": 328
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+    "address": "0x382638",
+    "size": 392
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList16GetResultsBackupEPKc",
+    "address": "0x38f72c",
+    "size": 160
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE5eraseENS_17_Rb_tree_iteratorIS9_SD_EE",
+    "address": "0x80b5d4",
+    "size": 108
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x51cfb8",
+    "size": 508
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x658270",
+    "size": 84
+  },
+  {
+    "name": "_ZN6glitch5scene24COctTreeTriangleSelectorD2Ev",
+    "address": "0x5866ac",
+    "size": 112
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIwSt4lessIwESt4pairIKwiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EEN6glitch4core10SAllocatorIS5_LNSA_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKS5_",
+    "address": "0x53e458",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKisENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x34371c",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video11IShaderCodeEEEtLb0ENS3_15sidedcollection16SEmptyPropertiesENSA_12SValueTraitsEE5SNameESt4lessISE_ESt4pairIKSE_NSD_8SIdValueEENS_10_Select1stISK_EENS_11_MapTraitsTISK_EENS2_10SAllocatorISK_LNS1_6memory13E_MEMORY_HINTE0EEEE5eraseENS_17_Rb_tree_iteratorISK_SO_EE",
+    "address": "0x6e1b88",
+    "size": 84
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager9SceneNodeEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x50acec",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiSt3setItS1_ItESaItEES2_SaIS3_IS4_S9_EEEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSD_SL_SL_",
+    "address": "0x80c3a0",
+    "size": 216
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTargetD2Ev",
+    "address": "0x4d37a0",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+    "address": "0x33f78c",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueENS_17_Rb_tree_iteratorISD_SH_EERKSD_",
+    "address": "0x52c6ac",
+    "size": 884
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget4bindEv",
+    "address": "0x5b2c8c",
+    "size": 800
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIS6_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4bd4d0",
+    "size": 368
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKcN6glitch4core11SStringLessESt4pairIKS2_NS3_5video18E_VERTEX_ATTRIBUTEEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS4_10SAllocatorISA_LNS3_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x6db358",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt4listIP10ObjectBaseSaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueENS_17_Rb_tree_iteratorISA_SE_EERKSA_",
+    "address": "0x343e10",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy15CRoomAttributesENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x81cdc4",
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5scene24COctTreeTriangleSelectorC1EPKNS0_5IMeshEPKNS0_10ISceneNodeEib",
+    "address": "0x588654",
+    "size": 408
+  },
+  {
+    "name": "FT_Face_GetVariantSelectors",
+    "address": "0x70806c",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene35CSceneNodeAnimatorCollisionResponseC2EPNS0_13CSceneManagerEPNS0_17ITriangleSelectorEPNS0_10ISceneNodeERKNS_4core8vector3dIfEESC_SC_f",
+    "address": "0x6cb220",
+    "size": 356
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE7_M_findIS9_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x659a8c",
+    "size": 212
+  },
+  {
+    "name": "_ZN10GameObject21_TargetListSearchRectERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x392b80",
+    "size": 1936
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjjENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE5eraseENS_17_Rb_tree_iteratorIS5_S9_EE",
+    "address": "0x8168c0",
+    "size": 60
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12CharAIScript6_StateEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x3d9358",
+    "size": 444
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircle21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+    "address": "0x6cba9c",
+    "size": 436
+  },
+  {
+    "name": "_ZN10AISDefault12OnTargetDiedEv",
+    "address": "0x3dbeac",
+    "size": 4
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch3gui21CGUIColorSelectDialogD1Ev",
+    "address": "0x6aaa44",
+    "size": 16
+  },
+  {
+    "name": "_ZN7Structs20StatAutoAssignTarget8finalizeEv",
+    "address": "0x4c6974",
+    "size": 4
+  },
+  {
+    "name": "_ZNK6CharAI23AI_GetTargetAsCharacterEv",
+    "address": "0x3d541c",
+    "size": 52
+  },
+  {
+    "name": "_ZN10GameObject17_TargetListBackupERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390bd4",
+    "size": 124
+  },
+  {
+    "name": "_ZNKSt9hashtableISt4pairIKSsS0_IPvjEESsSt4hashISsENSt4priv15_HashMapTraitsTIS4_EENS7_10_Select1stIS4_EESt8equal_toISsESaIS4_EE7_M_findIPKcEENS7_15_Slist_iteratorIS4_St16_Nonconst_traitsIS4_EEERKT_",
+    "address": "0x8b3b4d",
+    "size": 220
+  },
+  {
+    "name": "_ZN12CameraTargetC2Ev",
+    "address": "0x411cdc",
+    "size": 156
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKisENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x343594",
+    "size": 392
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene27CSceneNodeAnimatorFlyCircleD1Ev",
+    "address": "0x6cb854",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE13insert_uniqueENS_17_Rb_tree_iteratorISB_SF_EERKSB_",
+    "address": "0x813ca4",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKisENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x345f84",
+    "size": 56
+  },
+  {
+    "name": "_ZNK6CharAI18AI_IsTargetSeekingEv",
+    "address": "0x3d49d0",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISt4pairISsiESt4lessIS2_ES1_IKS2_N6CharAI9GroupInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x3d31a0",
+    "size": 284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SH_SH_",
+    "address": "0x4c44b0",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x37d494",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE5eraseENS_17_Rb_tree_iteratorIS6_SA_EE",
+    "address": "0x371428",
+    "size": 72
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect10UpdateAnimEv",
+    "address": "0x427ffc",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase11SAttachmentD1Ev",
+    "address": "0x5b25e4",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_create_nodeERKS9_",
+    "address": "0x32e470",
+    "size": 108
+  },
+  {
+    "name": "_ZN9AISPlayer12OnTargetDiedEv",
+    "address": "0x3dd84c",
+    "size": 56
+  },
+  {
+    "name": "_ZN10AISMonster15OnTargetRevivedEv",
+    "address": "0x3dd490",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager25collideEllipsoidWithWorldEPNS0_17ITriangleSelectorERKNS_4core8vector3dIfEES8_S8_fS8_RNS4_10triangle3dIfEERb",
+    "address": "0x6c72f4",
+    "size": 1068
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector5SetupEPKNS_4core8CMatrix4IfEE",
+    "address": "0x586a34",
+    "size": 152
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPN6glitch7collada10SAnimationESt4lessIS4_ESt4pairIKS4_St6vectorINS2_14CRootSceneNode22CMaterialParameterInfoENS1_4core10SAllocatorISB_LNS1_6memory13E_MEMORY_HINTE0EEEEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENSD_ISI_LSF_0EEEE13insert_uniqueERKSI_",
+    "address": "0x65ba60",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd5BlockEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x4850b8",
+    "size": 56
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x32b244",
+    "size": 368
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircleD1Ev",
+    "address": "0x6cb800",
+    "size": 84
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList10SearchRectEffRNS_11IObjectListE",
+    "address": "0x4a2ed0",
+    "size": 100
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIxN3vox18HandleIdCompStructESt4pairIKxPNS1_9HandlableEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EENS1_10SAllocatorIS3_IxS6_ELNS1_10VoxMemHintE0EEEE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x864524",
+    "size": 976
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_13StringCompareESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE13insert_uniqueENS_17_Rb_tree_iteratorISB_SF_EERKSB_",
+    "address": "0x87322c",
+    "size": 1284
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE7_M_findI7Point3DIfEEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x51bf28",
+    "size": 404
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPN6glitch7collada10SAnimationESt4lessIS4_ESt4pairIKS4_St6vectorINS2_14CRootSceneNode22CMaterialParameterInfoENS1_4core10SAllocatorISB_LNS1_6memory13E_MEMORY_HINTE0EEEEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENSD_ISI_LSF_0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSI_SQ_SQ_",
+    "address": "0x65b918",
+    "size": 328
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN14CPacketManager11tSendPacketEENS_10_Select1stIS7_EENS_16_MultimapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x816784",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12CharAIScript6_StateEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x3d9790",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPN6glitch5video11IBatchBakerEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EENS5_4core10SAllocatorIS9_LNS5_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x60abc4",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPvENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SJ_SJ_",
+    "address": "0x63a7bc",
+    "size": 304
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x659768",
+    "size": 268
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene27CSceneNodeAnimatorFlyCircleD0Ev",
+    "address": "0x6cc060",
+    "size": 16
+  },
+  {
+    "name": "_ZN19MenuCharacterSelectD0Ev",
+    "address": "0x428d98",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP7PFFloorSt4lessIS2_ESt4pairIKS2_St5dequeIP8PFObjectSaIS9_EEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSC_SK_SK_",
+    "address": "0x526f8c",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSD_SL_SL_",
+    "address": "0x52c3d0",
+    "size": 340
+  },
+  {
+    "name": "_ZNSt6vectorIN5boost13intrusive_ptrIN6glitch5video13IRenderTargetEEENS2_4core10SAllocatorIS5_LNS2_6memory13E_MEMORY_HINTE0EEEE19_M_clear_after_moveEv",
+    "address": "0x5aa338",
+    "size": 68
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsS5_ISsP8PropertyS2_SaIS3_IS4_S7_EEES2_SaIS3_IS4_SA_EEEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSE_SM_SM_",
+    "address": "0x511458",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjjENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x802300",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircleC2EjRKNS_4core8vector3dIfEEffS6_",
+    "address": "0x6cbee0",
+    "size": 284
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x659d9c",
+    "size": 416
+  },
+  {
+    "name": "_ZN14ObjectSearcher12TargetSorter12_sortFrontalERKNS_10TargetInfoES3_",
+    "address": "0x38d5b4",
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch7collada25CSceneNodeAnimatorBlender14getTargetCountEv",
+    "address": "0x65e2cc",
+    "size": 32
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene27CSceneNodeAnimatorFlyCircleD1Ev",
+    "address": "0x6cb7f8",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE5eraseENS_17_Rb_tree_iteratorIS6_SA_EE",
+    "address": "0x347f58",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x37cfdc",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video11IShaderCodeEEEtLb0ENS3_15sidedcollection16SEmptyPropertiesENSA_12SValueTraitsEE5SNameESt4lessISE_ESt4pairIKSE_NSD_8SIdValueEENS_10_Select1stISK_EENS_11_MapTraitsTISK_EENS2_10SAllocatorISK_LNS1_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSK_",
+    "address": "0x6e107c",
+    "size": 440
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch3gui21IGUIColorSelectDialogD0Ev",
+    "address": "0x6a9f4c",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSt6vectorIjSaIjEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x5a524c",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN17SpawnGroupManager9GroupInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3e8eb0",
+    "size": 116
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect4ShowEv",
+    "address": "0x428f38",
+    "size": 2912
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x50a968",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EE9_M_reduceEv",
+    "address": "0x8bd591",
+    "size": 232
+  },
+  {
+    "name": "_ZN6glitch5scene24COctTreeTriangleSelectorC2EPKNS0_5IMeshEPKNS0_10ISceneNodeEib",
+    "address": "0x5887ec",
+    "size": 408
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect7OnEventERN8RenderFX5EventE",
+    "address": "0x4281b8",
+    "size": 520
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager26getCollisionResultPositionEPNS0_17ITriangleSelectorERKNS_4core8vector3dIfEES8_S8_RNS4_10triangle3dIfEERbfS8_",
+    "address": "0x6c7720",
+    "size": 196
+  },
+  {
+    "name": "_ZN10GameObject17_GetTargetListTopERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38eb68",
+    "size": 124
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10stringcompESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSB_SJ_SJ_",
+    "address": "0x88b7c8",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeItSt4lessItESt4pairIKttENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x5a6ae4",
+    "size": 392
+  },
+  {
+    "name": "_ZN7Structs16GameOptionSelect4readEP11IStreamBase",
+    "address": "0x4f23e0",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x50b168",
+    "size": 536
+  },
+  {
+    "name": "_ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender13getTargetSizeEi",
+    "address": "0x660ea8",
+    "size": 36
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialog4drawEv",
+    "address": "0x6a9f6c",
+    "size": 460
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIA128_cEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x46d784",
+    "size": 368
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy13tMatchingPeerENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x802bc8",
+    "size": 976
+  },
+  {
+    "name": "_ZN12CameraTarget17GetTargetPositionEv",
+    "address": "0x411a74",
+    "size": 8
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContactC1EP7b2ShapeS1_",
+    "address": "0x7ebed0",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_create_nodeERKS9_",
+    "address": "0x80bc14",
+    "size": 76
+  },
+  {
+    "name": "_ZN6glitch3gui12CGUIComboBox11setSelectedEi",
+    "address": "0x6aab1c",
+    "size": 152
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN9NetStruct14tPacketHistoryEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x370f98",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP7PFFloorSt4lessIS2_ESt4pairIKS2_St5dequeIP8PFObjectSaIS9_EEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE14_M_create_nodeERKSC_",
+    "address": "0x526f40",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x51c5fc",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch3gui9CGUITable19getSelectableColumnEv",
+    "address": "0x555340",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Structs24StatAutoAssignTargetListD0Ev",
+    "address": "0x4db02c",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x345b4c",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPcN3vox12c8stringcompESt4pairIKS1_iENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EENS2_10SAllocatorIS4_IPKciELNS2_10VoxMemHintE0EEEE13insert_uniqueERKS6_",
+    "address": "0x88a7d4",
+    "size": 428
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSs9VectorSetIP7SWFAnimEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SH_SH_",
+    "address": "0x497c14",
+    "size": 240
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorC1EPKNS0_10ISceneNodeEb",
+    "address": "0x591a60",
+    "size": 196
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTargetD0Ev",
+    "address": "0x4d3784",
+    "size": 28
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x37a470",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch5video28IMaterialTechniqueMapsReader12SMapGroupKeyESt4lessIS4_ESt4pairIKS4_NS1_4core19SSharedProcessArrayIhEEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS9_23SProcessBufferAllocatorISC_EEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5d7f20",
+    "size": 112
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy15CRoomAttributesENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+    "address": "0x81fc6c",
+    "size": 448
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x3d7678",
+    "size": 884
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialog15sendCancelEventEv",
+    "address": "0x6a86f4",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE5eraseENS_17_Rb_tree_iteratorIS5_S9_EE",
+    "address": "0x8023fc",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPN3sfc4math5graph11GraphSparseI12PFGInnerEdgeE7_InNodeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSD_SL_SL_",
+    "address": "0x51d684",
+    "size": 292
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd8ListRuleEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIA512_cEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x48446c",
+    "size": 116
+  },
+  {
+    "name": "_ZN10AISMonster12OnTargetDiedEv",
+    "address": "0x3dd550",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKcN6glitch4core11SStringLessESt4pairIKS2_NS3_5video23E_SHADER_PARAMETER_TYPEEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS4_10SAllocatorISA_LNS3_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSA_",
+    "address": "0x5e1b64",
+    "size": 440
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeItSt4lessItESt4pairIKtN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS5_4core10SAllocatorISA_LNS5_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x66b998",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorC2ERKNS_4core8aabbox3dIfEEPKNS0_10ISceneNodeEb",
+    "address": "0x591b24",
+    "size": 192
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs15SetCameraTargetEEPNS0_9ScriptCmdEv",
+    "address": "0x4574dc",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_NS1_5video24CMaterialRendererManager14SCreationState13SParameterDefEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS2_23SProcessBufferAllocatorISC_EEE13insert_uniqueERKSC_",
+    "address": "0x5da8bc",
+    "size": 448
+  },
+  {
+    "name": "_ZN12CameraTarget13HandleDampingER7Point3DIfE",
+    "address": "0x41165c",
+    "size": 352
+  },
+  {
+    "name": "_ZN6glitch5video21IMultipleRenderTargetD1Ev",
+    "address": "0x5af1d8",
+    "size": 4
+  },
+  {
+    "name": "FT_Select_Size",
+    "address": "0x704f04",
+    "size": 104
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x52a06c",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsS5_ISsP8PropertyS2_SaIS3_IS4_S7_EEES2_SaIS3_IS4_SA_EEEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE13insert_uniqueENS_17_Rb_tree_iteratorISE_SI_EERKSE_",
+    "address": "0x511fd0",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt6vectorIN5boost13intrusive_ptrIN6glitch5scene21IShadowReceiverTargetEEENS2_4core10SAllocatorIS5_LNS2_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPS5_SC_RKSt12__false_type",
+    "address": "0x589818",
+    "size": 112
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver26createMultipleRenderTargetEv",
+    "address": "0x5b90e4",
+    "size": 12
+  },
+  {
+    "name": "_ZNSt6vectorIN5boost13intrusive_ptrIN6glitch5scene21IShadowReceiverTargetEEENS2_4core10SAllocatorIS5_LNS2_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPS5_RKSt12__false_type",
+    "address": "0x5896f4",
+    "size": 96
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EEC1ERKSD_",
+    "address": "0x511130",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10stringcompESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE13insert_uniqueERKSB_",
+    "address": "0x88c928",
+    "size": 536
+  },
+  {
+    "name": "_ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator",
+    "address": "0x7f3b40",
+    "size": 44
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x364e88",
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch5scene24COctTreeTriangleSelectorD1Ev",
+    "address": "0x586620",
+    "size": 112
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN17SpawnGroupManager9GroupInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x3e9c10",
+    "size": 884
+  },
+  {
+    "name": "_ZN6glitch5scene35CSceneNodeAnimatorCollisionResponseC1EPNS0_13CSceneManagerEPNS0_17ITriangleSelectorEPNS0_10ISceneNodeERKNS_4core8vector3dIfEESC_SC_f",
+    "address": "0x6cb000",
+    "size": 388
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueERKSA_",
+    "address": "0x33879c",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_S9_ENS_10_Select1stISE_EENS_11_MapTraitsTISE_EENS5_ISE_LS7_0EEEE13insert_uniqueERKSE_",
+    "address": "0x56d930",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x37bd7c",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt6vectorIN12PyDataArrays6_FuncsESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x4af834",
+    "size": 72
+  },
+  {
+    "name": "_ZN9Character10_HasTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b6f50",
+    "size": 20
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_copyEPNS_18_Rb_tree_node_baseESD_",
+    "address": "0x4c4334",
+    "size": 168
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+    "address": "0x33f6b4",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video8ITextureEEEtLb0ENS7_6detail14texturemanager18STexturePropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE14_M_create_nodeERKSM_",
+    "address": "0x5e868c",
+    "size": 104
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSH_SP_SP_",
+    "address": "0x657ae0",
+    "size": 240
+  },
+  {
+    "name": "_ZN10GameObject14_PopTargetListERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38fbb8",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch7collada25CSceneNodeAnimatorBlender9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE",
+    "address": "0x65e244",
+    "size": 104
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager9SceneNodeEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x50a8ec",
+    "size": 124
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISt4pairISsiESt4lessIS2_ES1_IKS2_N6CharAI9GroupInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x3d32bc",
+    "size": 404
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3cd54c",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EEC1ERKSF_",
+    "address": "0x80c2dc",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd8ListRuleEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE5eraseENS_17_Rb_tree_iteratorIS9_SD_EE",
+    "address": "0x4850f0",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE5eraseENS_17_Rb_tree_iteratorIS6_SA_EE",
+    "address": "0x3824a0",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EEC1ERKSB_",
+    "address": "0x4658c4",
+    "size": 120
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase17setTargetInternalENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_13IRenderBufferEEEj",
+    "address": "0x6dd628",
+    "size": 168
+  },
+  {
+    "name": "_ZN15AISPlayerIPhone18OnTargetOutOfRangeEv",
+    "address": "0x3de1b4",
+    "size": 4
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetListD1Ev",
+    "address": "0x38d18c",
+    "size": 148
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPcN3vox12c8stringcompESt4pairIKS1_iENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EENS2_10SAllocatorIS4_IPKciELNS2_10VoxMemHintE0EEEE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x88a980",
+    "size": 936
+  },
+  {
+    "name": "_ZNSt4priv11_Deque_baseIN14ObjectSearcher10TargetInfoESaIS2_EED2Ev",
+    "address": "0x38c87c",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN17SpawnGroupManager9GroupInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x3e99b0",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFbPKcS6_PvEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueERKSA_",
+    "address": "0x426114",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+    "address": "0x377f70",
+    "size": 216
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC1EPS1_",
+    "address": "0x6ddb2c",
+    "size": 192
+  },
+  {
+    "name": "_ZN7gameswf12as_selectionD1Ev",
+    "address": "0x7a4b08",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch7collada18ISceneNodeAnimator9setTargetEPKcPv",
+    "address": "0x667dc4",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5video13IRenderTargetD0Ev",
+    "address": "0x6dc670",
+    "size": 20
+  },
+  {
+    "name": "_ZN11AISExternal18OnTargetOutOfRangeEv",
+    "address": "0x3dcde8",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE5eraseENS_17_Rb_tree_iteratorIS5_S9_EE",
+    "address": "0x33695c",
+    "size": 76
+  },
+  {
+    "name": "_ZN10AISDefault20OnTargetInMeleeRangeEv",
+    "address": "0x3dc284",
+    "size": 124
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt6vectorIN12PyDataArrays6_FuncsESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4bd2bc",
+    "size": 444
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch7collada6detail29CColladaSoftwareSkinTechnique21SSoftwareColorGenDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS5_4core10SAllocatorISA_LNS5_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x66f6f0",
+    "size": 52
+  },
+  {
+    "name": "_ZN6CharAI17AI_SyncLastTargetEv",
+    "address": "0x3d49c4",
+    "size": 12
+  },
+  {
+    "name": "_ZN9Character13_LookAtTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b5684",
+    "size": 12
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x46de34",
+    "size": 1284
+  },
+  {
+    "name": "_ZNK6glitch5scene24COctTreeTriangleSelector12getTrianglesEPNS_4core10triangle3dIfEEiRiRKNS2_8aabbox3dIfEEPKNS2_8CMatrix4IfEE",
+    "address": "0x587694",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x8022c8",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialogD0Ev",
+    "address": "0x6a9d74",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE14_M_create_nodeERKSB_",
+    "address": "0x3772dc",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12CharAIScript6_StateEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x3d9ad8",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x3151ec",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EE5clearEv",
+    "address": "0x8bd29d",
+    "size": 42
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFbPKcS6_PvEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE14_M_create_nodeERKSA_",
+    "address": "0x425fcc",
+    "size": 88
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x512670",
+    "size": 1284
+  },
+  {
+    "name": "_ZN6glitch5scene17ITriangleSelectorD0Ev",
+    "address": "0x586480",
+    "size": 20
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video8ITextureEEEtLb0ENS7_6detail14texturemanager18STexturePropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSM_",
+    "address": "0x5e8c1c",
+    "size": 440
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE14_M_create_nodeERKS6_",
+    "address": "0x364df4",
+    "size": 148
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x66decc",
+    "size": 56
+  },
+  {
+    "name": "_ZN10AISMonster18OnTargetOutOfSightEv",
+    "address": "0x3dd500",
+    "size": 80
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_lower_boundIA256_cEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4c45a0",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3cd34c",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x31846c",
+    "size": 300
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x37cd7c",
+    "size": 216
+  },
+  {
+    "name": "_ZN7gameswf8as_value19set_property_targetEPNS_9as_objectE",
+    "address": "0x796bfc",
+    "size": 44
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CPacketManager17tPacketMemberInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x81626c",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video11IShaderCodeEEEtLb0ENS3_15sidedcollection16SEmptyPropertiesENSA_12SValueTraitsEE5SNameESt4lessISE_ESt4pairIKSE_NSD_8SIdValueEENS_10_Select1stISK_EENS_11_MapTraitsTISK_EENS2_10SAllocatorISK_LNS1_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x6e16c8",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN9NetStruct14tPacketHistoryEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_copyEPNS_18_Rb_tree_node_baseESF_",
+    "address": "0x37717c",
+    "size": 232
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x51103c",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5scene12SBatchConfigEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x58a3e8",
+    "size": 884
+  },
+  {
+    "name": "_ZN21render_handler_glitch25create_bitmap_info_targetEii",
+    "address": "0x7d53cc",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CharProperties8BuffDeclEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x3e1d28",
+    "size": 884
+  },
+  {
+    "name": "_ZN7Structs24StatAutoAssignTargetList8finalizeEv",
+    "address": "0x4daf4c",
+    "size": 100
+  },
+  {
+    "name": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE4pushERKS1_",
+    "address": "0x4a2440",
+    "size": 164
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CharProperties8BuffDeclEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x3e0fd0",
+    "size": 76
+  },
+  {
+    "name": "_ZN6glitch7collada25CSceneNodeAnimatorBlender13getTargetSizeEi",
+    "address": "0x65e2ec",
+    "size": 32
+  },
+  {
+    "name": "_ZN12SceneManager14DBG_DrawCircleERK7Point2DIfEffRKN6glitch5video6SColorE",
+    "address": "0x352154",
+    "size": 356
+  },
+  {
+    "name": "_ZN11b2CircleDefD0Ev",
+    "address": "0x46ea08",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircleC1EjRKNS_4core8vector3dIfEEffS6_",
+    "address": "0x6cbd78",
+    "size": 288
+  },
+  {
+    "name": "_ZNK6CharAI21AI_IsTargetACharacterEv",
+    "address": "0x3d5484",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueERKS9_",
+    "address": "0x4c4780",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt6vectorIN12PyDataArrays6_FuncsESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueERKSA_",
+    "address": "0x4bce8c",
+    "size": 536
+  },
+  {
+    "name": "_ZN6glitch3gui11CGUIListBox9selectNewEib",
+    "address": "0x542400",
+    "size": 280
+  },
+  {
+    "name": "_ZNSt6vectorIN5boost13intrusive_ptrIN6glitch5video13IRenderTargetEEENS2_4core10SAllocatorIS5_LNS2_6memory13E_MEMORY_HINTE0EEEED1Ev",
+    "address": "0x5aa37c",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12CharAIScript6_StateEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x3d97d0",
+    "size": 240
+  },
+  {
+    "name": "_ZN6glitch3gui9CGUITable18selectColumnHeaderEii",
+    "address": "0x555ac8",
+    "size": 232
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContactC2EP7b2ShapeS1_",
+    "address": "0x7ebf18",
+    "size": 72
+  },
+  {
+    "name": "_ZN12b2MouseJoint9SetTargetERK6b2Vec2",
+    "address": "0x7eb480",
+    "size": 48
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt4listIP10ObjectBaseSaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SI_SI_",
+    "address": "0x343bb4",
+    "size": 216
+  },
+  {
+    "name": "_ZN14CharProperties28LoadPropertiesForClassSelectEi",
+    "address": "0x3e0854",
+    "size": 40
+  },
+  {
+    "name": "_ZN7gameswf12as_selectionD0Ev",
+    "address": "0x7a4d20",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjP12PFGOuterEdgeENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x522f00",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x3781d0",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt6vectorIN12PyDataArrays6_FuncsESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE14_M_create_nodeERKSA_",
+    "address": "0x4bca18",
+    "size": 92
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12CharAIScript6_StateEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3d91e8",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_create_nodeERKS9_",
+    "address": "0x4c4454",
+    "size": 92
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIfSt4lessIfESt4pairIKfP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x3d7058",
+    "size": 432
+  },
+  {
+    "name": "_ZN6glitch7collada25CSceneNodeAnimatorBlender14getTargetsSizeEv",
+    "address": "0x65e30c",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy13tMatchingPeerENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE5eraseENS_17_Rb_tree_iteratorIS6_SA_EE",
+    "address": "0x807290",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager9SceneNodeEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x50c1e4",
+    "size": 1284
+  },
+  {
+    "name": "_ZNK6glitch5scene24COctTreeTriangleSelector27getTrianglesFromOctTreeLineEPNS1_12SOctTreeNodeE",
+    "address": "0x5872a4",
+    "size": 244
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueERKS9_",
+    "address": "0x4bd0a4",
+    "size": 536
+  },
+  {
+    "name": "FT_Select_Metrics",
+    "address": "0x704e60",
+    "size": 164
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE26createMultipleRenderTargetEv",
+    "address": "0x5b1190",
+    "size": 92
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video17CMaterialRendererEEEtLb0ENS7_6detail23materialrenderermanager11SPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSM_",
+    "address": "0x5dc28c",
+    "size": 440
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EEC1ERKSH_",
+    "address": "0x3773d0",
+    "size": 120
+  },
+  {
+    "name": "_ZN14ObjectSearcher12TargetSorter11_sortNoSortERKNS_10TargetInfoES3_",
+    "address": "0x38d568",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x37a6a8",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EE22insert_unique_noresizeERKS3_",
+    "address": "0x8bd09d",
+    "size": 152
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy15CRoomAttributesENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE14_M_create_nodeERKS6_",
+    "address": "0x81fb44",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN5boost13intrusive_ptrIKN6glitch5video7IBufferEEESt4lessIS7_ESt4pairIKS7_NS3_4core11SBufferDataEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x6a17d4",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC2EPS1_",
+    "address": "0x6ddbec",
+    "size": 192
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect11GetInstanceEv",
+    "address": "0x429b10",
+    "size": 136
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager9SceneNodeEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x50b380",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN14ObjectSearcher16BackupObjectListEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x38ed48",
+    "size": 536
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x37a300",
+    "size": 368
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EED1Ev",
+    "address": "0x8bd2c9",
+    "size": 52
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIA5_cEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x3144f0",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi12AnimationSetENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x475624",
+    "size": 64
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch3gui21CGUIColorSelectDialogD0Ev",
+    "address": "0x6aaa24",
+    "size": 16
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene27CSceneNodeAnimatorFlyCircleD0Ev",
+    "address": "0x6cbffc",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Structs24StatAutoAssignTargetListD2Ev",
+    "address": "0x4db048",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode9setTargetERKNS_4core8vector3dIfEE",
+    "address": "0x581fe4",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CPacketManager17tPacketMemberInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x8167c4",
+    "size": 60
+  },
+  {
+    "name": "_ZN19MenuCharacterSelectC2Ev",
+    "address": "0x429b98",
+    "size": 120
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch3gui21IGUIColorSelectDialogD1Ev",
+    "address": "0x6a9be4",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x336a7c",
+    "size": 240
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_lower_boundIS6_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4bcd9c",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi12AnimationSetENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x475ce4",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE7_M_copyEPNS_18_Rb_tree_node_baseESJ_",
+    "address": "0x47587c",
+    "size": 220
+  },
+  {
+    "name": "_ZN11AISExternal20OnTargetInMeleeRangeEv",
+    "address": "0x3dcd94",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKisENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x343470",
+    "size": 292
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE14_M_create_nodeERKSH_",
+    "address": "0x657a94",
+    "size": 76
+  },
+  {
+    "name": "_ZN12CameraTarget14HandleGhostCamER7Point3DIfE",
+    "address": "0x4115d8",
+    "size": 68
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContactD0Ev",
+    "address": "0x7ebebc",
+    "size": 20
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video8ITextureEEEtLb0ENS7_6detail14texturemanager18STexturePropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE7_M_findISG_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x5e8bb4",
+    "size": 104
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9addTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_23E_TEXTURE_CUBE_MAP_FACEEj",
+    "address": "0x6dd604",
+    "size": 36
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_NS1_5video24CMaterialRendererManager14SCreationState13SParameterDefEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS2_23SProcessBufferAllocatorISC_EEE7_M_findIS3_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x5dab0c",
+    "size": 144
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN9NetStruct14tPacketHistoryEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x813310",
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorC1ERKNS_4core8aabbox3dIfEEPKNS0_10ISceneNodeEb",
+    "address": "0x5919a0",
+    "size": 192
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueERKS9_",
+    "address": "0x80bd38",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionINS1_5video19SShaderParameterDefEtLb0ENS5_6detail30globalmaterialparametermanager10SPropetiesENS8_12SValueTraitsEE5SNameESt4lessISC_ESt4pairIKSC_NSB_8SIdValueEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENS2_10SAllocatorISI_LNS1_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSI_",
+    "address": "0x5bb060",
+    "size": 440
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4146ac",
+    "size": 308
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorD0Ev",
+    "address": "0x5913fc",
+    "size": 72
+  },
+  {
+    "name": "_ZNK13b2CircleShape11TestSegmentERK7b2XFormPfP6b2Vec2RK9b2Segmentf",
+    "address": "0x7e969c",
+    "size": 672
+  },
+  {
+    "name": "_ZN6glitch7collada18CSceneNodeAnimator13getTargetSizeEi",
+    "address": "0x65d4a8",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN17SpawnGroupManager9GroupInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x3e991c",
+    "size": 148
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x3d5d9c",
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircle11createCloneEv",
+    "address": "0x6cbe98",
+    "size": 72
+  },
+  {
+    "name": "_ZN12CameraTargetD2Ev",
+    "address": "0x411c0c",
+    "size": 52
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch3gui21IGUIColorSelectDialogD1Ev",
+    "address": "0x6a9bf4",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt4listIP10ObjectBaseSaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3458d4",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine9StateInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x3c6c0c",
+    "size": 216
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget6unbindEv",
+    "address": "0x5b2ac0",
+    "size": 232
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector5SetupERKNS_4core6line3dIfEE",
+    "address": "0x588984",
+    "size": 1032
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSt6vectorIjSaIjEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x5a53d4",
+    "size": 884
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialog17sendSelectedEventEv",
+    "address": "0x6a86b4",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x37bcc0",
+    "size": 56
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_jENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EENS2_10SAllocatorIS8_LNS1_6memory13E_MEMORY_HINTE0EEEE7_M_findIS3_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x5daa7c",
+    "size": 144
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5video10BufferInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE5eraseENS_17_Rb_tree_iteratorIS8_SC_EE",
+    "address": "0x5b1f20",
+    "size": 60
+  },
+  {
+    "name": "_ZSt10__pop_heapINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEES3_NS2_12TargetSorterEiEvT_S8_S8_T0_T1_PT2_",
+    "address": "0x38f7cc",
+    "size": 648
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x330bb0",
+    "size": 64
+  },
+  {
+    "name": "_ZN10AISDefault20OnTargetInCloseRangeEv",
+    "address": "0x3dc300",
+    "size": 608
+  },
+  {
+    "name": "_ZN7gameswf12as_selectionC2EPNS_6playerE",
+    "address": "0x7a4ad4",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt4listIP10ObjectBaseSaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE14_M_create_nodeERKSA_",
+    "address": "0x343b2c",
+    "size": 136
+  },
+  {
+    "name": "_ZN13b2CircleShape17UpdateSweepRadiusERK6b2Vec2",
+    "address": "0x7e993c",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x3654c8",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFbPKcS6_PvEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueENS_17_Rb_tree_iteratorISA_SE_EERKSA_",
+    "address": "0x42632c",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine5EventEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x3c74b0",
+    "size": 364
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN9NetStruct14tPacketHistoryEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x814278",
+    "size": 392
+  },
+  {
+    "name": "_ZN13b2CircleShapeC1EPK10b2ShapeDef",
+    "address": "0x7e99b0",
+    "size": 88
+  },
+  {
+    "name": "_ZN7Structs16GameOptionSelect8finalizeEv",
+    "address": "0x4c6aa0",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager9SceneNodeEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x50ac6c",
+    "size": 128
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x51eca8",
+    "size": 784
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi12AnimationSetENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+    "address": "0x475a84",
+    "size": 216
+  },
+  {
+    "name": "_ZN12CameraTarget13EnableDampingEb",
+    "address": "0x41161c",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x37a5b8",
+    "size": 240
+  },
+  {
+    "name": "_ZSt13__adjust_heapINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEEiS3_NS2_12TargetSorterEEvT_T0_S9_T1_T2_",
+    "address": "0x4a24e4",
+    "size": 368
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4c4998",
+    "size": 368
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN14ObjectSearcher16BackupObjectListEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x38d144",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE14_M_create_nodeERKS8_",
+    "address": "0x3441f8",
+    "size": 136
+  },
+  {
+    "name": "_ZNSt6vectorIN5boost13intrusive_ptrIN6glitch5scene21IShadowReceiverTargetEEENS2_4core10SAllocatorIS5_LNS2_6memory13E_MEMORY_HINTE0EEEED1Ev",
+    "address": "0x589af4",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EE5eraseERS1_",
+    "address": "0x8bd679",
+    "size": 320
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x370fd0",
+    "size": 128
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueENS_17_Rb_tree_iteratorISD_SH_EERKSD_",
+    "address": "0x529a30",
+    "size": 884
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList10SearchRectERK7Point3DIfEfS4_fRNS_11IObjectListE",
+    "address": "0x4a2858",
+    "size": 1560
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjP12PFGInnerEdgeENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x51c4e8",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKSsS0_IPvjEESsSt4hashISsENSt4priv15_HashMapTraitsTIS4_EENS7_10_Select1stIS4_EESt8equal_toISsESaIS4_EE9_M_reduceEv",
+    "address": "0x8b3835",
+    "size": 232
+  },
+  {
+    "name": "_ZN12CameraTargetC1Ev",
+    "address": "0x411c40",
+    "size": 156
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x50b740",
+    "size": 1284
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetsSizeEv",
+    "address": "0x65f1ac",
+    "size": 92
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsP8PropertyS2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EEC1ERKSH_",
+    "address": "0x511390",
+    "size": 120
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriver16pushRenderTargetERKN5boost13intrusive_ptrINS0_13IRenderTargetEEE",
+    "address": "0x5ab6d4",
+    "size": 308
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiSt3setItS1_ItESaItEES2_SaIS3_IS4_S9_EEEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueENS_17_Rb_tree_iteratorISD_SH_EERKSD_",
+    "address": "0x80c600",
+    "size": 884
+  },
+  {
+    "name": "_ZN15AISPlayerIPhone20OnTargetInCloseRangeEv",
+    "address": "0x3de1ac",
+    "size": 4
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_S9_ENS_10_Select1stISE_EENS_11_MapTraitsTISE_EENS5_ISE_LS7_0EEEE14_M_lower_boundIPcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x56d3d4",
+    "size": 268
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContactD1Ev",
+    "address": "0x7ebeb0",
+    "size": 4
+  },
+  {
+    "name": "_ZN9Character14_GetSpotTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b6c88",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x414928",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeItSt4lessItESt4pairIKtN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS5_4core10SAllocatorISA_LNS5_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSA_",
+    "address": "0x66c0f8",
+    "size": 384
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE5eraseENS_17_Rb_tree_iteratorIS8_SC_EE",
+    "address": "0x436e04",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy15CRoomAttributesENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x81fe2c",
+    "size": 976
+  },
+  {
+    "name": "_ZN7Structs16GameOptionSelectD1Ev",
+    "address": "0x4c6a6c",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircleD0Ev",
+    "address": "0x6cc004",
+    "size": 92
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x314120",
+    "size": 368
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x4367b8",
+    "size": 392
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase17setTargetInternalENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_23E_TEXTURE_CUBE_MAP_FACEEjj",
+    "address": "0x6dd534",
+    "size": 204
+  },
+  {
+    "name": "_ZN7Structs24StatAutoAssignTargetListD1Ev",
+    "address": "0x4dafb0",
+    "size": 124
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x318598",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x347ed4",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE13insert_uniqueENS_17_Rb_tree_iteratorISH_SL_EERKSH_",
+    "address": "0x659f3c",
+    "size": 1284
+  },
+  {
+    "name": "_ZNK7gameswf14as_environment10get_targetEv",
+    "address": "0x7ccec4",
+    "size": 8
+  },
+  {
+    "name": "_ZNKSt4priv20_Deque_iterator_baseIN14ObjectSearcher10TargetInfoEE11_M_subtractERKS3_",
+    "address": "0x38d610",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSs9VectorSetIP7SWFAnimEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueERKS9_",
+    "address": "0x497d04",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt6vectorIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE14_M_create_nodeERKS8_",
+    "address": "0x811ed0",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN9NetStruct14tPacketHistoryEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x81413c",
+    "size": 316
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_jENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EENS2_10SAllocatorIS8_LNS1_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5dac7c",
+    "size": 88
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10stringcompESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE14_M_create_nodeERKSB_",
+    "address": "0x88af4c",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_S9_ENS_10_Select1stISE_EENS_11_MapTraitsTISE_EENS5_ISE_LS7_0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x56d060",
+    "size": 116
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE",
+    "address": "0x65f208",
+    "size": 104
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9setTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvj",
+    "address": "0x6dd1c8",
+    "size": 876
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPvENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x63aa74",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS9_SH_SH_",
+    "address": "0x80bc60",
+    "size": 216
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorC2EPKNS0_10ISceneNodeEb",
+    "address": "0x591be4",
+    "size": 196
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch7collada13CMorphingMesh7STargetENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE20_M_allocate_and_copyIPS3_EESB_RjT_SD_",
+    "address": "0x649da4",
+    "size": 104
+  },
+  {
+    "name": "_ZN7Structs20StatAutoAssignTarget4readEP11IStreamBase",
+    "address": "0x4ef520",
+    "size": 300
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt6vectorIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x811508",
+    "size": 128
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12CharAIScript6_StateEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x3d98c0",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPvENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKS6_",
+    "address": "0x63a8ec",
+    "size": 392
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList12SetRefObjectEP10GameObject",
+    "address": "0x4a191c",
+    "size": 52
+  },
+  {
+    "name": "_ZNK6glitch5scene27CSceneNodeAnimatorFlyCircle7getTypeEv",
+    "address": "0x6cb730",
+    "size": 8
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN6glitch8debugger10CTweakable8SMappingEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x32b828",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine5EventEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3c2948",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse8setWorldEPNS0_17ITriangleSelectorE",
+    "address": "0x6caf0c",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi12AnimationSetENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE14_M_create_nodeERKS6_",
+    "address": "0x4759d0",
+    "size": 180
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10stringcompESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x88bf88",
+    "size": 84
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialog7onEventERKNS_6SEventE",
+    "address": "0x6a98e4",
+    "size": 684
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE5eraseENS_17_Rb_tree_iteratorIS6_SA_EE",
+    "address": "0x365004",
+    "size": 72
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x318298",
+    "size": 308
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x80abcc",
+    "size": 104
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video7IShaderEEEtLb0ENS7_6detail13shadermanager17SShaderPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE5eraseENS_17_Rb_tree_iteratorISM_SQ_EE",
+    "address": "0x5e5c28",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch3gui15CGUIEnvironment20addColorSelectDialogEPKwbPNS0_11IGUIElementEi",
+    "address": "0x536a28",
+    "size": 148
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine9StateInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3c2980",
+    "size": 128
+  },
+  {
+    "name": "_ZN3vox12SegmentGroup13GetSelectModeEv",
+    "address": "0x881a7c",
+    "size": 8
+  },
+  {
+    "name": "_ZN7gameswf21as_selection_setfocusERKNS_7fn_callE",
+    "address": "0x7a4b3c",
+    "size": 196
+  },
+  {
+    "name": "_ZN9AISPlayer20OnTargetInMeleeRangeEv",
+    "address": "0x3dd7f0",
+    "size": 92
+  },
+  {
+    "name": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+    "address": "0x3d6890",
+    "size": 556
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_13StringCompareESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSB_SJ_SJ_",
+    "address": "0x871628",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CharProperties8BuffDeclEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3e0ab8",
+    "size": 64
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect21RenderClassSelectPaneERN7gameswf12render_stateEPv",
+    "address": "0x428b74",
+    "size": 332
+  },
+  {
+    "name": "_ZN6glitch5scene16ICameraSceneNode13getTargetNodeEv",
+    "address": "0x35beb8",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch5video28IMaterialTechniqueMapsReader12SMapGroupKeyESt4lessIS4_ESt4pairIKS4_NS1_4core19SSharedProcessArrayIhEEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS9_23SProcessBufferAllocatorISC_EEE13insert_uniqueERKSC_",
+    "address": "0x5db708",
+    "size": 472
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN14ObjectSearcher16BackupObjectListEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x38ec1c",
+    "size": 300
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN9NetStruct14tPacketHistoryEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EEC1ERKSD_",
+    "address": "0x377264",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CharProperties8BuffDeclEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x3e1a7c",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x50aaec",
+    "size": 144
+  },
+  {
+    "name": "_ZN7gameswf14as_environment10set_targetERNS_8as_valueEPNS_9characterE",
+    "address": "0x7cd934",
+    "size": 288
+  },
+  {
+    "name": "_ZN10GameObject20UpdateTargetPositionEv",
+    "address": "0x393d74",
+    "size": 64
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTarget4readEP11IStreamBase",
+    "address": "0x5026c8",
+    "size": 296
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueERKSD_",
+    "address": "0x5298a8",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_S9_ENS_10_Select1stISE_EENS_11_MapTraitsTISE_EENS5_ISE_LS7_0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSE_SM_SM_",
+    "address": "0x56cd28",
+    "size": 312
+  },
+  {
+    "name": "_ZNSt4priv6__copyIPN5boost13intrusive_ptrIN6glitch5scene21IShadowReceiverTargetEEES7_iEET0_T_S9_S8_RKSt26random_access_iterator_tagPT1_",
+    "address": "0x589690",
+    "size": 100
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTargetD1Ev",
+    "address": "0x5b2684",
+    "size": 80
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager23addShadowReceiverTargetEN5boost13intrusive_ptrINS0_21IShadowReceiverTargetEEE",
+    "address": "0x58a7f0",
+    "size": 304
+  },
+  {
+    "name": "_ZN6CharAI20OnTargetInCloseRangeEv",
+    "address": "0x3d1ca0",
+    "size": 172
+  },
+  {
+    "name": "_ZN6CharAI20OnTargetInMeleeRangeEv",
+    "address": "0x3d1bf4",
+    "size": 172
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect7SetAnimEPKc",
+    "address": "0x428078",
+    "size": 320
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP8MenuBaseSt4lessIS2_ESt4pairIKS2_bENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x4315d0",
+    "size": 384
+  },
+  {
+    "name": "_ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender14getTargetsSizeEv",
+    "address": "0x660ecc",
+    "size": 36
+  },
+  {
+    "name": "_ZN7gameswf14selection_initEPNS_6playerE",
+    "address": "0x7a4c00",
+    "size": 288
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_13StringCompareESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x871d6c",
+    "size": 84
+  },
+  {
+    "name": "_ZNK7gameswf14as_environment11find_targetERKNS_8as_valueE",
+    "address": "0x7cd120",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x436d5c",
+    "size": 56
+  },
+  {
+    "name": "_ZN22b2PolyAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator",
+    "address": "0x7ebf60",
+    "size": 44
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch7collada13CMorphingMesh7STargetENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE19_M_clear_after_moveEv",
+    "address": "0x649d14",
+    "size": 68
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_copyEPNS_18_Rb_tree_node_baseESD_",
+    "address": "0x4657ec",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKSsS0_IPvjEESsSt4hashISsENSt4priv15_HashMapTraitsTIS4_EENS7_10_Select1stIS4_EESt8equal_toISsESaIS4_EE5eraseENS7_12_Ht_iteratorINS7_15_Slist_iteratorIS4_St16_Nonconst_traitsIS4_EEENS7_28_ConstNonLocalHashMapTraitsTIS4_EEEE",
+    "address": "0x8b39d9",
+    "size": 236
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKSsS0_IPvjEESsSt4hashISsENSt4priv15_HashMapTraitsTIS4_EENS7_10_Select1stIS4_EESt8equal_toISsESaIS4_EE18_M_insert_noresizeEjRKS4_",
+    "address": "0x8b3de5",
+    "size": 130
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+    "address": "0x378048",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKcN6glitch4core11SStringLessESt4pairIKS2_NS3_5video23E_SHADER_PARAMETER_TYPEEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS4_10SAllocatorISA_LNS3_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5e18e4",
+    "size": 52
+  },
+  {
+    "name": "_ZN15b2CircleContactD1Ev",
+    "address": "0x7f3a90",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EEC1ERKSB_",
+    "address": "0x3346ec",
+    "size": 120
+  },
+  {
+    "name": "_ZN12CameraTarget15SetDampingRatioEf",
+    "address": "0x411654",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x51ead4",
+    "size": 468
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector12getTrianglesEPNS_4core10triangle3dIfEEiRiPKNS2_8CMatrix4IfEE",
+    "address": "0x591464",
+    "size": 1340
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt3setIsS2_SaIsEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x344c9c",
+    "size": 216
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12CharAIScript6_StateEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x3d9514",
+    "size": 308
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsP8PropertyS2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x510ce0",
+    "size": 64
+  },
+  {
+    "name": "_ZNK6glitch5scene16ICameraSceneNode13getTargetNodeEv",
+    "address": "0x35beb0",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE14_M_create_nodeERKS5_",
+    "address": "0x4147e0",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video13IRenderTargetD1Ev",
+    "address": "0x6dc4e4",
+    "size": 4
+  },
+  {
+    "name": "FT_Select_Charmap",
+    "address": "0x708290",
+    "size": 136
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetCountEv",
+    "address": "0x65f17c",
+    "size": 12
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPN3sfc4math5graph11GraphSparseI12PFGInnerEdgeE7_InNodeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x523254",
+    "size": 56
+  },
+  {
+    "name": "_ZNK6glitch3gui9CGUITable11getSelectedEv",
+    "address": "0x555328",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD1Ev",
+    "address": "0x6dd0b4",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch3gui9CGUITable12selectColumnEib",
+    "address": "0x555cc4",
+    "size": 276
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9setTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_13IRenderBufferEEEj",
+    "address": "0x6dd6d0",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CPacketManager17tPacketMemberInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x815700",
+    "size": 392
+  },
+  {
+    "name": "_ZN13b2CircleShapeD0Ev",
+    "address": "0x7e9a60",
+    "size": 60
+  },
+  {
+    "name": "_ZN15b2CircleContactD0Ev",
+    "address": "0x7f3a9c",
+    "size": 20
+  },
+  {
+    "name": "_ZN7Structs20StatAutoAssignTargetD1Ev",
+    "address": "0x4c6970",
+    "size": 4
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector5SetupERKNS_4core8aabbox3dIfEE",
+    "address": "0x587604",
+    "size": 144
+  },
+  {
+    "name": "_ZN15LCAndroidSocket6SelectEN15LCXPlayerSocket17XSocketSelectFlagE",
+    "address": "0x89ef3c",
+    "size": 200
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager26removeShadowReceiverTargetEN5boost13intrusive_ptrINS_5video8ITextureEEE",
+    "address": "0x589754",
+    "size": 128
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEEC1ERKSH_",
+    "address": "0x475958",
+    "size": 120
+  },
+  {
+    "name": "_ZNK6glitch7collada18SAnimationAccessor9getTargetEv",
+    "address": "0x669e00",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x50a9dc",
+    "size": 112
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x314e08",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video8ITextureEEEtLb0ENS7_6detail14texturemanager18STexturePropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5e9250",
+    "size": 112
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+    "address": "0x46dacc",
+    "size": 96
+  },
+  {
+    "name": "_ZN11b2CircleDefD1Ev",
+    "address": "0x46e6b4",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EEN6glitch4core10SAllocatorIS5_LNSA_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x6a0514",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE3popEv",
+    "address": "0x38fb18",
+    "size": 160
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine5EventEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x3c761c",
+    "size": 392
+  },
+  {
+    "name": "_ZN6glitch5video13IRenderTargetC2EPNS0_12IVideoDriverERKNS_4core11dimension2dIiEE",
+    "address": "0x6dc4e8",
+    "size": 96
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video8ITextureEEEtLb0ENS7_6detail14texturemanager18STexturePropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE5eraseENS_17_Rb_tree_iteratorISM_SQ_EE",
+    "address": "0x5e9308",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_S9_ENS_10_Select1stISE_EENS_11_MapTraitsTISE_EENS5_ISE_LS7_0EEEE13insert_uniqueENS_17_Rb_tree_iteratorISE_SI_EERKSE_",
+    "address": "0x56e1d8",
+    "size": 1284
+  },
+  {
+    "name": "_ZN7gameswf14as_environment10set_targetEPNS_9characterE",
+    "address": "0x7ccecc",
+    "size": 8
+  },
+  {
+    "name": "_ZN12CameraTarget9SetTargetEP10GameObjecti",
+    "address": "0x4119c4",
+    "size": 176
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionINS1_5video19SShaderParameterDefEtLb0ENS5_6detail30globalmaterialparametermanager10SPropetiesENS8_12SValueTraitsEE5SNameESt4lessISC_ESt4pairIKSC_NSB_8SIdValueEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENS2_10SAllocatorISI_LNS1_6memory13E_MEMORY_HINTE0EEEE5eraseENS_17_Rb_tree_iteratorISI_SM_EE",
+    "address": "0x5bb324",
+    "size": 84
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPN3sfc4math5graph11GraphSparseI12PFGInnerEdgeE7_InNodeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueERKSD_",
+    "address": "0x51d7a8",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x383084",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeItSt4lessItESt4pairIKttENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5a39e8",
+    "size": 56
+  },
+  {
+    "name": "_ZNK13b2CircleShape16ComputeSweptAABBEP6b2AABBRK7b2XFormS4_",
+    "address": "0x7e93fc",
+    "size": 432
+  },
+  {
+    "name": "_ZN10AISMonster15OnTargetInSightEv",
+    "address": "0x3dd494",
+    "size": 4
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x3369a8",
+    "size": 212
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video17CMaterialRendererEEEtLb0ENS7_6detail23materialrenderermanager11SPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE7_M_findISG_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x5d985c",
+    "size": 104
+  },
+  {
+    "name": "_ZN7gameswf9as_object11find_targetERKNS_8as_valueE",
+    "address": "0x76b45c",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsP8PropertyS2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSB_SJ_SJ_",
+    "address": "0x511548",
+    "size": 240
+  },
+  {
+    "name": "_ZN15b2CircleContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+    "address": "0x7f3b6c",
+    "size": 48
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+    "address": "0x3824fc",
+    "size": 316
+  },
+  {
+    "name": "_ZNK6glitch5scene27CSceneNodeAnimatorFlyCircle19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+    "address": "0x6cb738",
+    "size": 160
+  },
+  {
+    "name": "_ZN6glitch5scene24COctTreeTriangleSelector16constructOctTreeEPNS1_12SOctTreeNodeE",
+    "address": "0x587e60",
+    "size": 2036
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIySt4lessIyESt4pairIKy13tMatchingPeerENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+    "address": "0x802a08",
+    "size": 448
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFbPKcS6_PvEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x4227b0",
+    "size": 64
+  },
+  {
+    "name": "_ZNK6glitch3gui9CGUITable17getSelectedColumnEv",
+    "address": "0x555330",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSt6vectorIjSaIjEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE14_M_create_nodeERKS8_",
+    "address": "0x5a5128",
+    "size": 76
+  },
+  {
+    "name": "_ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE",
+    "address": "0x660df8",
+    "size": 104
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt3setIsS2_SaIsEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE14_M_create_nodeERKS8_",
+    "address": "0x344c50",
+    "size": 76
+  },
+  {
+    "name": "_ZN10GameObject21_SetTargetListSortingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390548",
+    "size": 220
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_13StringCompareESt4pairIKS7_iENS_10_Select1stISB_EENS_11_MapTraitsTISB_EENS4_ISB_LS5_0EEEE7_M_findIS7_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x873070",
+    "size": 212
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core13SSharedStringESt4lessIS3_ESt4pairIKS3_NS1_5video24CMaterialRendererManager14SCreationState13SParameterDefEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS2_23SProcessBufferAllocatorISC_EEE14_M_create_nodeERKSC_",
+    "address": "0x5d8980",
+    "size": 172
+  },
+  {
+    "name": "_ZN10GameObject26_SetTargetListObjectFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390624",
+    "size": 108
+  },
+  {
+    "name": "_ZN19MenuCharacterSelectD2Ev",
+    "address": "0x428db4",
+    "size": 84
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueENS_17_Rb_tree_iteratorISA_SE_EERKSA_",
+    "address": "0x338924",
+    "size": 884
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getTargetCountENS0_13IRenderTarget17E_ATTACHMENT_TYPEE",
+    "address": "0x6dcbfc",
+    "size": 108
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPN3sfc4math5graph11GraphSparseI12PFGInnerEdgeE7_InNodeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueENS_17_Rb_tree_iteratorISD_SH_EERKSD_",
+    "address": "0x51d930",
+    "size": 884
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetListC2EP10GameObjectiii",
+    "address": "0x4a348c",
+    "size": 296
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSs9VectorSetIP7SWFAnimEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueENS_17_Rb_tree_iteratorIS9_SD_EERKS9_",
+    "address": "0x497f1c",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x511a30",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine5EventEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EEC1ERKSD_",
+    "address": "0x3c6b38",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5scene12SBatchConfigEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x58a260",
+    "size": 392
+  },
+  {
+    "name": "_ZN6CharAI21AI_PauseTargetSeekingEj",
+    "address": "0x3d53ec",
+    "size": 48
+  },
+  {
+    "name": "_ZN9Character10_GetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b6c7c",
+    "size": 12
+  },
+  {
+    "name": "_ZN7Structs19GetMemberIDByStringINS_24StatAutoAssignTargetListEEEiPKc",
+    "address": "0x4af0e0",
+    "size": 48
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE7_M_findIS1_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x51bc78",
+    "size": 408
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+    "address": "0x50ab7c",
+    "size": 240
+  },
+  {
+    "name": "_ZNK7gameswf8as_value19get_property_targetEv",
+    "address": "0x796acc",
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch5video21IMultipleRenderTargetD0Ev",
+    "address": "0x5b0498",
+    "size": 20
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIfSt4lessIfESt4pairIKfP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3d5d64",
+    "size": 56
+  },
+  {
+    "name": "_ZN9Character20_EnableSpotTargetingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b7144",
+    "size": 608
+  },
+  {
+    "name": "_ZN19MenuCharacterSelectC1Ev",
+    "address": "0x429a98",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EEaSERKSH_",
+    "address": "0x378660",
+    "size": 168
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x336b6c",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueENS_17_Rb_tree_iteratorIS9_SD_EERKS9_",
+    "address": "0x80bec0",
+    "size": 884
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorFlyCircle11animateNodeEPNS0_10ISceneNodeEj",
+    "address": "0x6cbc50",
+    "size": 296
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorD1Ev",
+    "address": "0x590f70",
+    "size": 64
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKN6glitch5scene10ISceneNodeESt4lessIS5_ESt4pairIKS5_P10GameObjectENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3f1830",
+    "size": 56
+  },
+  {
+    "name": "_ZN10AISDefault15OnTargetInSightEv",
+    "address": "0x3dbeb8",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada18ISceneNodeAnimator19hasCompatibleTargetERKNS0_8SChannelE",
+    "address": "0x6699c4",
+    "size": 384
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorC2ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEPKNS0_10ISceneNodeEb",
+    "address": "0x596598",
+    "size": 1744
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii",
+    "address": "0x4a2730",
+    "size": 296
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector12TestWithLineERSt6vectorINS_4core10triangle3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE",
+    "address": "0x5871c8",
+    "size": 220
+  },
+  {
+    "name": "_ZN15AISPlayerIPhone21OnTargetInRangedRangeEv",
+    "address": "0x3de1b0",
+    "size": 4
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x314ef8",
+    "size": 536
+  },
+  {
+    "name": "_ZN10GameObject18_GetTargetListSizeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38e930",
+    "size": 64
+  },
+  {
+    "name": "_ZN21render_handler_glitch10set_targetEPN7gameswf11bitmap_infoE",
+    "address": "0x7d3e0c",
+    "size": 92
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPN6glitch7collada10SAnimationESt4lessIS4_ESt4pairIKS4_St6vectorINS2_14CRootSceneNode22CMaterialParameterInfoENS1_4core10SAllocatorISB_LNS1_6memory13E_MEMORY_HINTE0EEEEENS_10_Select1stISI_EENS_11_MapTraitsTISI_EENSD_ISI_LSF_0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x65c038",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5scene12SBatchConfigEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x58f98c",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt6vectorIN12PyDataArrays6_FuncsESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SI_SI_",
+    "address": "0x4bca74",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10StringCompESt4pairIKS7_NS3_13SZipFileEntryEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS4_ISC_LS5_0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKSC_SK_SK_",
+    "address": "0x894bfc",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x37d370",
+    "size": 292
+  },
+  {
+    "name": "_ZN6glitch5scene17CTriangleSelectorC1ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEPKNS0_10ISceneNodeEb",
+    "address": "0x595ec8",
+    "size": 1744
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE14_M_create_nodeERKS6_",
+    "address": "0x377f34",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt6vectorIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x811f1c",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x37ce54",
+    "size": 392
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTarget8finalizeEv",
+    "address": "0x4d370c",
+    "size": 48
+  },
+  {
+    "name": "_ZN19MenuCharacterSelect4HideEv",
+    "address": "0x4283c0",
+    "size": 216
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video17CMaterialRendererEEEtLb0ENS7_6detail23materialrenderermanager11SPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5d9a58",
+    "size": 88
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt6vectorIN12PyDataArrays6_FuncsESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueENS_17_Rb_tree_iteratorISA_SE_EERKSA_",
+    "address": "0x4bdd70",
+    "size": 1284
+  },
+  {
+    "name": "_ZN6CharAI23AI_GetTargetAsCharacterEv",
+    "address": "0x3d5450",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode19setTriangleSelectorEPNS0_17ITriangleSelectorE",
+    "address": "0x59725c",
+    "size": 52
+  },
+  {
+    "name": "_ZNK6glitch3gui15CGUIContextMenu15getSelectedItemEv",
+    "address": "0x6ad4d4",
+    "size": 8
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList6ResortEi",
+    "address": "0x4a35b4",
+    "size": 220
+  },
+  {
+    "name": "_ZN15b2CircleContactC1EP7b2ShapeS1_",
+    "address": "0x7f3ab0",
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch3gui12CGUIComboBox25sendSelectionChangedEventEv",
+    "address": "0x6aabb4",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueENS_17_Rb_tree_iteratorIS9_SD_EERKS9_",
+    "address": "0x4c4d70",
+    "size": 1284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsP8PropertyS2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE13insert_uniqueERKSB_",
+    "address": "0x511c48",
+    "size": 536
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPcN3vox12c8stringcompESt4pairIKS1_iENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EENS2_10SAllocatorIS4_IPKciELNS2_10VoxMemHintE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SJ_SJ_",
+    "address": "0x88a69c",
+    "size": 312
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x342bbc",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt3setIsS2_SaIsEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x344ef8",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt4listIP10ObjectBaseSaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueERKSA_",
+    "address": "0x343c8c",
+    "size": 388
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt6vectorIN12PyDataArrays6_FuncsESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4bccac",
+    "size": 240
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode9getTargetEv",
+    "address": "0x582000",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine5EventEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x3c77a4",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP7PFFloorSt4lessIS2_ESt4pairIKS2_St5dequeIP8PFObjectSaIS9_EEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EESaISC_EE13insert_uniqueENS_17_Rb_tree_iteratorISC_SG_EERKSC_",
+    "address": "0x5271ec",
+    "size": 884
+  },
+  {
+    "name": "_ZN6glitch3gui21IGUIColorSelectDialogC2EPNS0_15IGUIEnvironmentEPNS0_11IGUIElementEiNS_4core4rectIiEE",
+    "address": "0x6a8cf4",
+    "size": 712
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch5video10BufferInfoEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5b35a0",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIxN3vox18HandleIdCompStructESt4pairIKxPNS1_9HandlableEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EENS1_10SAllocatorIS3_IxS6_ELNS1_10VoxMemHintE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x8639d8",
+    "size": 52
+  },
+  {
+    "name": "_ZN12CameraTarget9SetTargetEPKci",
+    "address": "0x411b38",
+    "size": 132
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE14_M_create_nodeERKSA_",
+    "address": "0x33862c",
+    "size": 152
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EE7_M_copyEPNS_18_Rb_tree_node_baseESJ_",
+    "address": "0x377328",
+    "size": 168
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CPacketManager17tPacketMemberInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x815888",
+    "size": 884
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjjENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x817318",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x3d74f0",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN14CharProperties8BuffDeclEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x3e1ba0",
+    "size": 392
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd5BlockEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIA512_cEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4844e0",
+    "size": 116
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3setItS1_ItESaItEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_copyEPNS_18_Rb_tree_node_baseESH_",
+    "address": "0x80c234",
+    "size": 168
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd5BlockEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE5eraseENS_17_Rb_tree_iteratorIS9_SD_EE",
+    "address": "0x48512c",
+    "size": 60
+  },
+  {
+    "name": "_ZN10GameObject18_IsTargetListEmptyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38e970",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKliENS_10_Select1stIS5_EENS_16_MultimapTraitsTIS5_EESaIS5_EE5eraseENS_17_Rb_tree_iteratorIS5_S9_EE",
+    "address": "0x825588",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x371470",
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver18createRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEj",
+    "address": "0x5b90d8",
+    "size": 12
+  },
+  {
+    "name": "_ZNK6glitch5scene17CTriangleSelector9AddResultERKNS_4core10triangle3dIfEE",
+    "address": "0x586acc",
+    "size": 1020
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN14CPacketManager11tSendPacketEENS_10_Select1stIS7_EENS_16_MultimapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+    "address": "0x816800",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10StringCompESt4pairIKS7_NS3_13SZipFileEntryEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS4_ISC_LS5_0EEEE13insert_uniqueERKSC_",
+    "address": "0x895160",
+    "size": 536
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList10SearchRectERK7Point3DIfEffRNS_11IObjectListE",
+    "address": "0x4a2e70",
+    "size": 96
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10StringCompESt4pairIKS7_NS3_13SZipFileEntryEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS4_ISC_LS5_0EEEE14_M_create_nodeERKSC_",
+    "address": "0x8949ec",
+    "size": 80
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN8Savegame11SectionInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x313dbc",
+    "size": 64
+  },
+  {
+    "name": "_ZN7Structs16GameOptionSelectD2Ev",
+    "address": "0x4c6a38",
+    "size": 52
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFbPKcS6_PvEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE14_M_lower_boundIS6_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x424a04",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIsSt4lessIsESt4pairIKsSt3setIsS2_SaIsEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+    "address": "0x344d74",
+    "size": 388
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeItSt4lessItESt4pairIKttENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueENS_17_Rb_tree_iteratorIS5_S9_EERKS5_",
+    "address": "0x5a6c6c",
+    "size": 884
+  },
+  {
+    "name": "_ZN10AISDefault18OnTargetOutOfSightEv",
+    "address": "0x3dbeb4",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch3gui21CGUIColorSelectDialogC2EPKwPNS0_15IGUIEnvironmentEPNS0_11IGUIElementEi",
+    "address": "0x6aa138",
+    "size": 2284
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN17SpawnGroupManager9GroupInfoEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+    "address": "0x3e9a88",
+    "size": 392
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd5BlockEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIS2_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x48c418",
+    "size": 116
+  },
+  {
+    "name": "_ZN6CharAI18OnTargetOutOfRangeEv",
+    "address": "0x3d1e00",
+    "size": 180
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EE18_M_insert_noresizeEjRKS3_",
+    "address": "0x8bcff1",
+    "size": 170
+  },
+  {
+    "name": "_ZN7gameswf9as_object11find_targetEPKc",
+    "address": "0x76b284",
+    "size": 472
+  },
+  {
+    "name": "_ZN10GameObject17_TargetListSearchERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38fcf0",
+    "size": 1820
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP8PropertyENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x511e60",
+    "size": 368
+  },
+  {
+    "name": "_ZN6CharAI21_ClearNonStickyTargetEv",
+    "address": "0x3d8d70",
+    "size": 44
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS5_SD_SD_",
+    "address": "0x414838",
+    "size": 240
+  },
+  {
+    "name": "_ZN7Structs24StatAutoAssignTargetList4readEP11IStreamBase",
+    "address": "0x4dce90",
+    "size": 348
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIxN3vox18HandleIdCompStructESt4pairIKxPNS1_9HandlableEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EENS1_10SAllocatorIS3_IxS6_ELNS1_10VoxMemHintE0EEEE13insert_uniqueERKS7_",
+    "address": "0x864364",
+    "size": 448
+  },
+  {
+    "name": "_ZNSt5dequeIN14ObjectSearcher10TargetInfoESaIS1_EE18_M_push_back_aux_vERKS1_",
+    "address": "0x4a22b4",
+    "size": 396
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique13SHardwareDataEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueERKSA_",
+    "address": "0x66ea94",
+    "size": 384
+  },
+  {
+    "name": "_ZNK6glitch5scene24CParticleFadeOutAffector14getTargetColorEv",
+    "address": "0x6fa4a0",
+    "size": 8
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS3_6memory13E_MEMORY_HINTE0EEEESt4lessIS9_ESt4pairIKS9_PNS3_7collada8CResFileEENS_10_Select1stISH_EENS_11_MapTraitsTISH_EENS5_ISH_LS7_0EEEE5eraseENS_17_Rb_tree_iteratorISH_SL_EE",
+    "address": "0x6584a8",
+    "size": 84
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager26removeShadowReceiverTargetEN5boost13intrusive_ptrINS0_21IShadowReceiverTargetEEE",
+    "address": "0x5897d4",
+    "size": 68
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch3gui21IGUIColorSelectDialogD0Ev",
+    "address": "0x6a9f5c",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+    "address": "0x3827c0",
+    "size": 884
+  },
+  {
+    "name": "_ZNK6glitch5scene24COctTreeTriangleSelector12getTrianglesEPNS_4core10triangle3dIfEEiRiRKNS2_6line3dIfEEPKNS2_8CMatrix4IfEE",
+    "address": "0x588d8c",
+    "size": 80
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN15SavegameManager11_GameOptionEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x46d694",
+    "size": 240
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+    "address": "0x436940",
+    "size": 884
+  },
+  {
+    "name": "_ZN11AISExternal12OnTargetDiedEv",
+    "address": "0x3dce24",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3a7930",
+    "size": 56
+  },
+  {
+    "name": "_ZN13b2CircleShapeD1Ev",
+    "address": "0x7e9668",
+    "size": 52
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiSt3setItS1_ItESaItEES2_SaIS3_IS4_S9_EEEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE14_M_create_nodeERKSD_",
+    "address": "0x80c354",
+    "size": 76
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE13insert_uniqueERKS5_",
+    "address": "0x342a34",
+    "size": 392
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiN16CharStateMachine5EventEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_copyEPNS_18_Rb_tree_node_baseESF_",
+    "address": "0x3c6a40",
+    "size": 248
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10StringCompESt4pairIKS7_NS3_13SZipFileEntryEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS4_ISC_LS5_0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x894d4c",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver15setRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEi",
+    "address": "0x5b9080",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch3gui21IGUIColorSelectDialogD1Ev",
+    "address": "0x6a9b90",
+    "size": 84
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKcN6glitch4core11SStringLessESt4pairIKS2_NS3_5video18E_VERTEX_ATTRIBUTEEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EENS4_10SAllocatorISA_LNS3_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKSA_",
+    "address": "0x6db518",
+    "size": 440
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd8ListRuleEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE13insert_uniqueERKS9_",
+    "address": "0x48644c",
+    "size": 420
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIiSaIiEEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+    "address": "0x344280",
+    "size": 216
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList13BackupResultsEPKc",
+    "address": "0x4a36b0",
+    "size": 288
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSD_SL_SL_",
+    "address": "0x529754",
+    "size": 340
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video7IShaderEEEtLb0ENS7_6detail13shadermanager17SShaderPropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x5e5c68",
+    "size": 60
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISbIcSt11char_traitsIcEN3vox10SAllocatorIcLNS3_10VoxMemHintE0EEEENS3_10StringCompESt4pairIKS7_NS3_13SZipFileEntryEENS_10_Select1stISC_EENS_11_MapTraitsTISC_EENS4_ISC_LS5_0EEEE7_M_findIS7_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x895378",
+    "size": 212
+  },
+  {
+    "name": "_ZNK6glitch7collada16CCameraSceneNode13getTargetNodeEv",
+    "address": "0x6e5160",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada35CAnimationSetTransformationTemplate24addTransformationTargetsERNS0_5SNodeE",
+    "address": "0x6e26d4",
+    "size": 348
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIN5boost13intrusive_ptrIKN6glitch5video7IBufferEEESt4lessIS7_ESt4pairIKS7_NS3_4core11SBufferDataEENS_10_Select1stISE_EENS_11_MapTraitsTISE_EESaISE_EE7_M_findINS2_IS5_EEEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x6a172c",
+    "size": 168
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager9SceneNodeEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x50b598",
+    "size": 212
+  },
+  {
+    "name": "_Z21NativeSelectClassSpecRKN7gameswf7fn_callE",
+    "address": "0x43d178",
+    "size": 168
+  },
+  {
+    "name": "_ZN10GameObject29_SetTargetListCharacterFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390690",
+    "size": 108
+  },
+  {
+    "name": "_ZN14ObjectSearcher12TargetSorter12_sortClosestERKNS_10TargetInfoES3_",
+    "address": "0x38d570",
+    "size": 68
+  },
+  {
+    "name": "_ZNKSt4priv8_Rb_treeIPKc4lstrSt4pairIKS2_PN3rnd8ListRuleEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIS2_EEPNS_18_Rb_tree_node_baseERKT_",
+    "address": "0x4843c4",
+    "size": 116
+  },
+  {
+    "name": "_ZN6glitch7collada18CSceneNodeAnimator14getTargetCountEv",
+    "address": "0x65d494",
+    "size": 20
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPvENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x63a1c4",
+    "size": 52
+  },
+  {
+    "name": "_ZN14ObjectSearcher10TargetList17_IsCharacterValidEP9Character",
+    "address": "0x4a1ab8",
+    "size": 528
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE5eraseENS_17_Rb_tree_iteratorIS5_S9_EE",
+    "address": "0x467c18",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKliENS_10_Select1stIS5_EENS_16_MultimapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x816118",
+    "size": 56
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKijENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": "0x3a79e4",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTargetD0Ev",
+    "address": "0x5b26d4",
+    "size": 28
+  },
+  {
+    "name": "_ZN10AISDefault18OnTargetOutOfRangeEv",
+    "address": "0x3dc698",
+    "size": 256
+  },
+  {
+    "name": "_ZN11AISExternal20OnTargetInCloseRangeEv",
+    "address": "0x3dcdb0",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN14ObjectSearcher16BackupObjectListEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+    "address": "0x38f038",
+    "size": 1284
+  },
+  {
+    "name": "_ZSt11__push_heapINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEEiS3_NS2_12TargetSorterEEvT_T0_S9_T1_T2_",
+    "address": "0x4a1e2c",
+    "size": 260
+  },
+  {
+    "name": "_ZN6glitch7collada18CSceneNodeAnimator9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE",
+    "address": "0x65d408",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EE10_M_enlargeEj",
+    "address": "0x8bd809",
+    "size": 120
+  },
+  {
+    "name": "_ZNSt9hashtableISt4pairIKiSt6localeEiSt4hashIiENSt4priv15_HashMapTraitsTIS3_EENS6_10_Select1stIS3_EESt8equal_toIiESaIS3_EE9_M_rehashEj",
+    "address": "0x8bd47d",
+    "size": 276
+  },
+  {
+    "name": "_ZN9Character20_SetProjectileTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3ba298",
+    "size": 240
+  },
+  {
+    "name": "_ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK7b2XForm",
+    "address": "0x7e9320",
+    "size": 220
+  }
+]

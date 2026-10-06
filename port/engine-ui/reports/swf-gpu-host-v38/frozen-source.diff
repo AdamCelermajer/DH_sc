@@ -1,0 +1,237 @@
+--- frozen-v36/swf_gpu.cpp
++++ frozen-v37/swf_gpu.cpp
+@@ -11,30 +11,44 @@
+ 
+ namespace dh2::android_ui {
+ namespace {
+-void check_gl(const char* action){
+-    const auto code=glGetError();
+-    if(code!=GL_NO_ERROR)throw std::runtime_error(std::string(action)+" GL error "+std::to_string(code));
+-}
+ void finite(float x){if(!std::isfinite(x))throw std::runtime_error("Nonfinite SWF render value");}
++}
++void SwfGpu::barrier_v37(const char* action){
++    // Primitive submission is asynchronous. Check at ownership transitions,
++    // retaining the complete source command range since the previous barrier.
++    ++error_queries_v37_;const auto code=glGetError();
++    if(code!=GL_NO_ERROR)throw std::runtime_error(std::string(action)+" GL error "+std::to_string(code)+
++        " commands ["+std::to_string(std::min(checked_serial_v37_+1,command_serial_v37_))+","+
++        std::to_string(command_serial_v37_)+"]");
++    checked_serial_v37_=command_serial_v37_;
+ }
+ void SwfGpu::initialize(AAssetManager* assets){
+     // Retained CPU texture identities survive GL recreation; old names must not
+     // be deleted in a new context whose names may have already been recycled.
+     normal_={};premultiplied_={};buffer_=0;frame_=false;mask_level_=0;submitting_mask_=false;begin_pending_=false;
+     materialized_v36_=false;
++    max_texture_size_v37_=stencil_bits_v37_=0;line_width_range_v37_[0]=line_width_range_v37_[1]=0;
++    checked_serial_v37_=command_serial_v37_;
+     vertex_cache_v36_.abandon_context();
+     target_=query_target_=target_color_=query_color_=stencil_buffer_=0;target_width_=target_height_=0;
+     for(auto& pair:textures_)pair.second.name=0;
++    barrier_v37("SWF context entry");
++    glGetIntegerv(GL_MAX_TEXTURE_SIZE,&max_texture_size_v37_);glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE,line_width_range_v37_);
++    capability_queries_v37_+=2;barrier_v37("SWF context capabilities");
++    if(max_texture_size_v37_<=0||!std::isfinite(line_width_range_v37_[0])||!std::isfinite(line_width_range_v37_[1])||
++       line_width_range_v37_[0]<=0||line_width_range_v37_[1]<line_width_range_v37_[0])
++        throw std::runtime_error("Invalid SWF context capabilities");
+     normal_=create(assets,false);premultiplied_=create(assets,true);
+     glGenBuffers(1,&buffer_);if(!buffer_)throw std::runtime_error("SWF vertex buffer unavailable");
++    barrier_v37("SWF stream buffer allocation");
+     if(!white_){ui::SwfTexture out;std::string error;const std::uint8_t white[4]{255,255,255,255};
+         if(!image(1,1,4,white,4,out,error))throw std::runtime_error(error);white_=out.identity;}
+     for(auto& pair:textures_)if(!pair.second.name)upload(pair.second);
+-    check_gl("SWF context initialization");
++    barrier_v37("SWF context initialization");
+ }
+ void SwfGpu::upload(Texture& texture){
+-    GLint limit=0;glGetIntegerv(GL_MAX_TEXTURE_SIZE,&limit);
+-    if(texture.width>limit||texture.height>limit)throw std::runtime_error("SWF bitmap exceeds GPU dimensions");
++    barrier_v37("SWF bitmap resource entry");
++    if(texture.width>max_texture_size_v37_||texture.height>max_texture_size_v37_)throw std::runtime_error("SWF bitmap exceeds GPU dimensions");
+     const GLenum format=texture.channels==1?GL_ALPHA:texture.channels==3?GL_RGB:GL_RGBA;
+     GLuint candidate=0;glGenTextures(1,&candidate);glBindTexture(GL_TEXTURE_2D,candidate);
+     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+@@ -43,14 +57,14 @@
+     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+     glTexImage2D(GL_TEXTURE_2D,0,format,texture.width,texture.height,0,format,GL_UNSIGNED_BYTE,texture.pixels.data());
+-    try{check_gl("SWF bitmap upload");}catch(...){if(candidate)glDeleteTextures(1,&candidate);throw;}
++    try{barrier_v37("SWF bitmap upload");}catch(...){if(candidate)glDeleteTextures(1,&candidate);throw;}
+     texture.name=candidate;
+     texture.wrap=GL_CLAMP_TO_EDGE;
+ }
+ void SwfGpu::target(int width,int height){
+     if(target_width_==width&&target_height_==height)return;
+-    GLint limit=0;glGetIntegerv(GL_MAX_TEXTURE_SIZE,&limit);
+-    if(width<=0||height<=0||width>limit||height>limit)throw std::runtime_error("Invalid SWF framebuffer size");
++    barrier_v37("SWF framebuffer resource entry");
++    if(width<=0||height<=0||width>max_texture_size_v37_||height>max_texture_size_v37_)throw std::runtime_error("Invalid SWF framebuffer size");
+     if(target_)glDeleteFramebuffers(1,&target_);
+     if(query_target_)glDeleteFramebuffers(1,&query_target_);
+     if(target_color_)glDeleteTextures(1,&target_color_);
+@@ -76,11 +90,16 @@
+             throw std::runtime_error("SWF shared-stencil framebuffer incomplete");
+     };
+     make(target_color_,target_);make(query_color_,query_target_);
+-    target_width_=width;target_height_=height;check_gl("SWF framebuffer allocation");
++    // Query the owned DEPTH24_STENCIL8 format after allocation, once per
++    // context. Resizing recreates the same validated format, not a new capability.
++    if(!stencil_bits_v37_){glGetIntegerv(GL_STENCIL_BITS,&stencil_bits_v37_);++capability_queries_v37_;}
++    if(stencil_bits_v37_<8)throw std::runtime_error("SWF masks require an eight-bit stencil framebuffer");
++    barrier_v37("SWF framebuffer allocation");target_width_=width;target_height_=height;
+ }
+ bool SwfGpu::image(std::int32_t width,std::int32_t height,unsigned channels,const std::uint8_t* pixels,
+                    std::size_t pitch,ui::SwfTexture& out,std::string& error){
+     try{
++        ++command_serial_v37_;
+         if(!pixels||width<=0||height<=0||width>16384||height>16384||(channels!=1&&channels!=3&&channels!=4))
+             throw std::runtime_error("Invalid SWF bitmap request");
+         const auto row=std::size_t(width)*channels;
+@@ -95,7 +114,7 @@
+         textures_.emplace(id,std::move(candidate));out={id,width,height};error.clear();return true;
+     }catch(const std::exception& e){error=e.what();return false;}
+ }
+-void SwfGpu::primitive(const ui::SwfDraw& command,const ui::SwfFill& style,GLenum mode){
++void SwfGpu::primitive(const ui::SwfDraw& command,const ui::SwfFill& style,GLenum mode,float line_width){
+     if(style.kind==ui::SwfFill::disabled&&!submitting_mask_)return;
+     if(!normal_.name||!buffer_)throw std::runtime_error("SWF GPU context unavailable");
+     std::optional<dh2::perf::Scope> geometry_scope;geometry_scope.emplace(dh2::perf::Phase::ui_geometry);
+@@ -173,8 +192,18 @@
+     // with the authored coverage alpha. It is an adapter representation, not a
+     // claim that original font image format12 was texture format2.
+     const std::array<float,4> diffuse=texture.channels==1?std::array<float,4>{1,1,1,0}:std::array<float,4>{0,0,0,0};
++    std::uint32_t wrap=GL_CLAMP_TO_EDGE;
++    if(!scene::swf_texture_gl_wrap(style.kind==ui::SwfFill::bitmap&&!quad?(style.wrap==0?0:2):1,wrap))
++        throw std::runtime_error("Invalid SWF texture wrap producer");
++    // A fully validated normal pass with exact final byte alpha zero changes
++    // neither RGB nor coverage alpha. Stencil writers and non-normal passes
++    // must still execute; their output is not determined by alpha alone.
++    if(!submitting_mask_&&!mask_level_&&program==&normal_&&source==GL_SRC_ALPHA&&destination==GL_ONE_MINUS_SRC_ALPHA&&bytes[3]==0){
++        ++transparent_noops_v37_;return;
++    }
+     geometry_scope.reset();dh2::perf::Scope submit_scope(dh2::perf::Phase::ui_submit);
+     materialize_v36();
++    if(mode==GL_LINE_STRIP)glLineWidth(std::clamp(line_width,line_width_range_v37_[0],line_width_range_v37_[1]));
+     glEnable(GL_BLEND);glBlendEquation(GL_FUNC_ADD);
+     // The private color target accumulates premultiplied color for compositing;
+     // preserve the recovered source RGB factors while retaining coverage alpha.
+@@ -182,22 +211,21 @@
+     glUseProgram(program->name);glUniformMatrix4fv(program->matrix,1,GL_FALSE,matrix.data());
+     glUniform4fv(program->diffuse,1,diffuse.data());glUniform1i(program->sampler,0);
+     glActiveTexture(GL_TEXTURE0);glBindTexture(GL_TEXTURE_2D,texture.name);
+-    std::uint32_t wrap=GL_CLAMP_TO_EDGE;
+-    if(!scene::swf_texture_gl_wrap(style.kind==ui::SwfFill::bitmap&&!quad?(style.wrap==0?0:2):1,wrap))
+-        throw std::runtime_error("Invalid SWF texture wrap producer");
+     if(texture.wrap!=wrap){glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,wrap);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,wrap);texture.wrap=wrap;}
+     glDisableVertexAttribArray(program->color);glVertexAttrib4fv(program->color,color.data());
+     std::uintptr_t cached_buffer{};bool retained{};std::string cache_error;
+-    const auto upload=[](const float* data,std::size_t count,std::uintptr_t& out,std::string&){
++    const auto upload=[this](const float* data,std::size_t count,std::uintptr_t& out,std::string&){
++        barrier_v37("SWF retained vertex resource entry");
+         GLuint name{};glGenBuffers(1,&name);if(!name)throw std::runtime_error("SWF retained vertex buffer unavailable");
+         glBindBuffer(GL_ARRAY_BUFFER,name);glBufferData(GL_ARRAY_BUFFER,GLsizeiptr(count*sizeof(float)),data,GL_STATIC_DRAW);
+-        try{check_gl("SWF retained vertex upload");}catch(...){glDeleteBuffers(1,&name);throw;}
++        try{barrier_v37("SWF retained vertex upload");}catch(...){glDeleteBuffers(1,&name);throw;}
+         out=name;dh2::perf::state.uploads+=count*sizeof(float);return true;
+     };
+     const auto release=[](std::uintptr_t value){const GLuint name=GLuint(value);glDeleteBuffers(1,&name);};
+     if(!vertex_cache_v36_.acquire(vertices,mode,upload,release,cached_buffer,retained,cache_error))throw std::runtime_error(cache_error);
+     glBindBuffer(GL_ARRAY_BUFFER,retained?GLuint(cached_buffer):buffer_);
+-    if(!retained){glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>(vertices.size()*sizeof(float)),vertices.data(),GL_STREAM_DRAW);
++    if(!retained){barrier_v37("SWF stream vertex resource entry");glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>(vertices.size()*sizeof(float)),vertices.data(),GL_STREAM_DRAW);
++        barrier_v37("SWF stream vertex upload");
+         ++stream_uploads_v36_;stream_bytes_v36_+=vertices.size()*sizeof(float);dh2::perf::state.uploads+=vertices.size()*sizeof(float);}
+     glEnableVertexAttribArray(program->position);glEnableVertexAttribArray(program->uv);
+     glVertexAttribPointer(program->position,2,GL_FLOAT,GL_FALSE,4*sizeof(float),nullptr);
+@@ -221,8 +249,7 @@
+     if(materialized_v36_)return;
+     if(!frame_)throw std::runtime_error("SWF target requested outside logical display");
+     glGetIntegerv(GL_FRAMEBUFFER_BINDING,&destination_);begin_pending_=true;target(viewport_[2],viewport_[3]);
+-    glBindFramebuffer(GL_FRAMEBUFFER,target_);GLint bits=0;glGetIntegerv(GL_STENCIL_BITS,&bits);
+-    if(bits<8)throw std::runtime_error("SWF masks require an eight-bit stencil framebuffer");
++    glBindFramebuffer(GL_FRAMEBUFFER,target_);
+     glViewport(0,0,viewport_[2],viewport_[3]);glDisable(GL_DEPTH_TEST);glDisable(GL_CULL_FACE);
+     glDisable(GL_SCISSOR_TEST);glDisable(GL_STENCIL_TEST);glDepthMask(GL_FALSE);
+     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);glStencilMask(0xff);
+@@ -231,6 +258,7 @@
+ }
+ bool SwfGpu::reset_images(std::string& error){
+     abort();
++    try{barrier_v37("SWF image reset entry");}catch(const std::exception& e){error=e.what();return false;}
+     vertex_cache_v36_.clear([](std::uintptr_t value){const GLuint name=GLuint(value);glDeleteBuffers(1,&name);});
+     for(auto& pair:textures_)if(pair.second.name)glDeleteTextures(1,&pair.second.name);
+     textures_.clear();white_=0;next_identity_=1;
+@@ -241,7 +269,11 @@
+ bool SwfGpu::draw(const ui::SwfDraw& command,std::string& error){
+     try{
+         using Draw=ui::SwfDraw;
++        ++command_serial_v37_;
+         if(command.kind!=Draw::begin&&!frame_)throw std::runtime_error("SWF command outside display lifetime");
++        const bool boundary=command.kind==Draw::begin||command.kind==Draw::end||command.kind==Draw::mask_begin||
++            command.kind==Draw::mask_end||command.kind==Draw::mask_disable;
++        if(boundary){dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);barrier_v37("SWF display/mask entry");}
+         switch(command.kind){
+         case Draw::begin:{
+             dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);
+@@ -272,9 +304,8 @@
+             {const float x=std::hypot(command.matrix.value[0],command.matrix.value[3]);
+              const float y=std::hypot(command.matrix.value[1],command.matrix.value[4]);
+              const float scale=(viewport_[2]/(bounds_[1]-bounds_[0])+viewport_[3]/(bounds_[3]-bounds_[2]))*.5f;
+-             GLfloat range[2];glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE,range);
+-             glLineWidth(std::clamp(command.line_width*(x+y)*.5f*scale,range[0],range[1]));}
+-            primitive(command,command.line,GL_LINE_STRIP);break;
++             const float width=command.line_width*(x+y)*.5f*scale;finite(width);
++             primitive(command,command.line,GL_LINE_STRIP,width);}break;
+         case Draw::mask_begin:
+             if(mask_level_>=255)throw std::runtime_error("Invalid SWF mask begin");
+             materialize_v36();
+@@ -295,7 +326,7 @@
+             break;
+         case Draw::antialias:break; // frame multisampling belongs to the EGL config
+         }
+-        {dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);check_gl("SWF drawing command");}error.clear();return true;
++        if(boundary){dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);barrier_v37("SWF display/mask exit");}error.clear();return true;
+     }catch(const std::exception& e){
+         abort();
+         error=e.what();return false;
+@@ -303,8 +334,10 @@
+ }
+ bool SwfGpu::scene_pane(const float r[4],void* context,
+  bool (*render)(void*,int,int,std::string&),std::string& error){
++ try{
++ ++command_serial_v37_;
+  if(!frame_||submitting_mask_||!render){error="Native scene pane outside color display";return false;}
+- try{materialize_v36();}catch(const std::exception& e){abort();error=e.what();return false;}
++ barrier_v37("SWF scene pane entry");materialize_v36();
+  for(unsigned i=0;i<4;++i)if(!std::isfinite(r[i])){error="Invalid scene pane bounds";return false;}
+  const float sx=float(viewport_[2])/(bounds_[1]-bounds_[0]),sy=float(viewport_[3])/(bounds_[3]-bounds_[2]);
+  const int x=int((r[0]-bounds_[0])*sx),right=int((r[1]-bounds_[0])*sx);
+@@ -321,11 +354,15 @@
+  glDisable(GL_DEPTH_TEST);glDisable(GL_CULL_FACE);glDepthMask(GL_FALSE);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);glActiveTexture(GL_TEXTURE0);
+  if(mask_level_)glEnable(GL_STENCIL_TEST);else glDisable(GL_STENCIL_TEST);
++ barrier_v37("SWF scene pane exit");
+  return ok;
++ }catch(const std::exception& e){abort();error=e.what();return false;}
+ }
+ bool SwfGpu::stencil(const float bounds[4],std::uint8_t pattern,bool& out,std::string& error){
+     try{
++        ++command_serial_v37_;
+         if(!frame_)throw std::runtime_error("SWF stencil query outside display lifetime");
++        barrier_v37("SWF shared-stencil query entry");
+         materialize_v36();
+         if(!query_target_)throw std::runtime_error("SWF stencil query target unavailable");
+         for(unsigned i=0;i<4;++i)finite(bounds[i]);
+@@ -355,9 +392,9 @@
+             else glDisable(GL_STENCIL_TEST);
+             glColorMask(!submitting_mask_,!submitting_mask_,!submitting_mask_,!submitting_mask_);
+         }
+-        check_gl("SWF shared-stencil query");out=result;error.clear();return true;
++        barrier_v37("SWF shared-stencil query exit");out=result;error.clear();return true;
+     }catch(const std::exception& e){
+-        if(frame_)glBindFramebuffer(GL_FRAMEBUFFER,target_);
++        abort();
+         error=e.what();return false;
+     }
+ }

@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "e92c2102893845f082e9bb4ccdf4bb6f780520471c8c085f836e43839339f46c",
+  "sources": [
+    {
+      "path": "port\\game-data\\tests\\loot_remove_all_v2.cpp",
+      "sha256": "95aea040978b3f712f06f68532089605eec3e39d5529f698d6ccb948c2e46d2b"
+    },
+    {
+      "path": "port\\game-data\\loot_temporary_inventory_v8.cpp",
+      "sha256": "5ab6874f76d9f044773489fed0722f3d5b8397690a64985da8ecf967605cb412"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "c1ba3ccb21daf91acb96f9901ac73ffee2011b922ec7093a7194b129fb98f7e2"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "f7b792df6a638fbec5ed616cd5b0dc07137ca3d621e043a6d87ac93f0fd10905"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "9acd3b0f6b05dd5990ad7b233e0221d7cd4eeb82a2a80a0cd68dc897cbc3c5cc"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "ac734595b23a5ac64e9a0b6f0061efebffea0c53f9281304fdc914b160a2af90"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "36d2beb1cd50402c1d7a725131966cb410a51a9c6658fa04ac2d1195c6331512"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "35c493d196b0cb7e80ae19f45156f5cf0550a2901e9d61c3074ca2a54d9a9c28"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "093d03e1d710eca51563db2be64b1ac5086d614acb3ee601d67459892722b6e5",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\tests\\loot_remove_all_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_temporary_inventory_v8.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-remove-all-v2\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-remove-all-v2\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-remove-all-v2\\loot-remove-all-v2.bin"
+  ],
+  "stdout": "Actual NULL-character RemoveAll(true) owner PASS ordered deletion/failure prefix/no-retry; Debug/destructor endpoint fixtures explicit checks=23\n",
+  "stderr": "",
+  "exit_code": 0
+}

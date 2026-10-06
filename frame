@@ -1,0 +1,659 @@
+119:#include "../asset-payloads/sha256.hpp"
+179: dh2::data::PropertySheet base_class{};int class_id=-1;
+188: int combat_target=-1;bool pending_death=false;
+193:struct ObjectGroup{dh2::objects::Resource resource;std::vector<Draw> draws;std::vector<ObjectActor> instances;std::map<int,dh2::animation::Player> clips;int animation_table=-1;};
+206: int animation_table=-1,target=-1;unsigned attempts=0,received=0;
+235: dh2::character::HostLevel8 host_level{-1,0};
+253:  design(std::move(owner)),tables(design->borrow()),settings_owner(std::move(authored)),
+254:  settings(settings_owner->borrow()),skills_owner(std::move(skill_owner)),
+255:  skills(std::make_unique<dh2::character::sneaking::SneakingTables>(skills_owner->borrow())),
+259:  effects=dh2::fx::PreloadBacking::create(effects_owner->borrow(),error);
+261:  effect_queue_storage.resize(effects->table().effect_count);
+267:  if(!levels||levels->level_names.size()!=levels->levels.size())throw std::runtime_error("Level owner unavailable");
+268:  ranges.resize(levels->levels.size());
+270:   std::memcpy(ranges[i].maximum,levels->levels[i].scalar.words+12,12);
+271:   std::memcpy(ranges[i].minimum,levels->levels[i].scalar.words+15,12);
+273:  const auto found=std::find(levels->level_names.begin(),levels->level_names.end(),"GOTHICUS_CRYPT_01");
+274:  if(found==levels->level_names.end())throw std::runtime_error("Original Crypt level row missing");
+275:  host_level.row_index=found-levels->level_names.begin();
+276:  objects=std::make_unique<dh2::character::CharacterScriptObjects>(design->borrow(),debug.get(),&debug_files);
+290:  if(!file){const int reason=errno;__android_log_print(ANDROID_LOG_INFO,"DH2Native","Debug switches file | opened 0 | errno %d | app-private directory",reason);return reason==ENOENT?0:1;}
+296:  switch(request->service){
+297:   case dh2::character::host_get_player:response->data=&context.host_player;return 0;
+298:   case dh2::character::host_get_current_level:response->data=&context.host_level;return 0;
+299:   case dh2::character::host_get_range_rows:response->data=context.ranges.data();response->count=context.ranges.size();return 0;
+333: // The current development world is a local single-player session. Original
+338:   bool found=false;if(!uri||!static_cast<EquipmentPlatform*>(p)->cache.read(uri,found,out,error))return dh2::skinning::VisualAssetResultV6::failed;
+343:   if(!uri||!static_cast<EquipmentPlatform*>(p)->cache.read(std::string("data/")+uri,found,*data,error))return false;
+350: static bool debug_text(void* p,const char* key,std::string& error){auto& w=*static_cast<EquipmentPlatform*>(p)->world;std::uint32_t value{};
+354:   const auto* design=static_cast<EquipmentPlatform*>(p)->world->tables.design();std::int32_t result{};
+355:   if(!design||!design->lookup||design->lookup(design->context,0,group,name,&result)){error="Equipped text constant lookup failed";return false;}
+361:   const auto player=c.world->player_object;
+366:    if(operation==Q::player_count){if(!player){error="Equipped global player-count owner unavailable";return false;}scalar=1;return true;}
+367:   if(!player||player->identity!=subject){error="Equipped world query requires the selected live player";return false;}
+369:     case Q::current_player:identity=player->identity;return true;
+370:     case Q::current_difficulty:scalar=c.world->host_level.difficulty;return true;
+384:int inspected_object=-1;
+386:bool enabled=false;float center[3]{},radius=1,yaw=-1.57f,pitch=.35f,zoom=1;
+397:// The touch-to-destination and follow-camera producers remain development
+449:   auto& a=*static_cast<WorldActor*>(p);if(!out||!a.object)return -1;
+450:   a.character.identity=a.object->identity;a.character.resolved=a.object->properties->resolved.data();
+451:   a.character.name=a.object->name.c_str();a.character.dead1449=std::uint8_t(a.object->life->dead);
+453:    if(a.object->identity==0x100000001ull)actual_rotation=&prince_runtime.rotation;
+454:    else if(a.npc)actual_rotation=&a.npc->runtime.rotation;
+455:    if(dh2::character::skills::character_world_target_pose_v2(a.search,a.object->identity,a.object->position.data(),actual_rotation))return -1;
+456:    if(dh2::character::skills::character_world_target_cached_fields_v2(a.search,a.object->properties->resolved.data(),a.object->properties->resolved.size()))return -1;
+457:   *out={};out->identity=a.object->identity;out->search=&a.search;out->character=&a.character;
+458:    out->life=a.object->life.get();out->position=a.object->position.data();
+459:    out->scene=&current_scene;
+460:   out->target_node=&a.target_node;
+461:      if(a.object->identity==0x100000001ull){out->heading_angle=&prince_runtime.rotation.heading_angle;out->controller_heading_angle=&prince_runtime.controller.heading.angle;if(native_actor_ready)out->aabb6=prince_runtime.subobjects.absolute_bounds;}
+462:      else if(a.npc&&a.npc->animation){out->scene=&a.npc->animation->scene();out->heading_angle=out->controller_heading_angle=&a.npc->runtime.rotation.heading_angle;if(a.npc->source_bounds_ready)out->aabb6=a.npc->runtime.subobjects.absolute_bounds;}
+463:   // Nonnull target-node/enable/cache producers remain required. Source
+464:   // constructor-null node genuinely selects the existing +160 position.
+471:  std::uintptr_t hud_reported_target{};int hud_reported_hp=-1;bool hud_reported_dead{};
+498:  auto& t=*static_cast<PlayerSkillsRuntime*>(p);const auto* bytes=t.world->script_files.find(name);
+499:  *found=bytes!=nullptr;*out=bytes?dh2::data::Bytes{bytes->data(),bytes->size()}:dh2::data::Bytes{};return 0;
+502:  auto& t=*static_cast<PlayerSkillsRuntime*>(p);if(!t.world||!out)return -1;
+503:  *out=t.world->host_level.difficulty;return 0;
+507:  if(request.service!=dh2::character::script_refresh_vitals||request.subject!=session.timers().owner)return -1;
+508:  const dh2::character::ScriptInitVitals32 input{session.timers().owner,&session.property_view(),t.world->effect_services};
+509:  dh2::character::ScriptInitVitals24 result{};return dh2_character_script_init_vitals(&result,&input)==1?0:-1;
+563:   if(!request||!m.machine||state!=&m.machine->state())throw std::runtime_error("NPC state body must borrow its actual machine");
+565:   if(death_status<0)throw std::runtime_error("Required original NPC death body service "+std::to_string(request->service));
+567:  if(request->service==dh2::character::idle_common_update){if(idle_update(pointer))throw std::runtime_error("Required source NPC IdleCommonUpdate");return;}
+568: if(request->service!=dh2::character::set_animation)throw std::runtime_error("Required NPC body service "+std::to_string(request->service));
+569: if(select_animation(pointer,state,request->argument[0]))throw std::runtime_error("Original NPC animation selection failed");
+573:  if(!request||!m.machine||machine!=&m.machine->owner().machine())return -1;
+574:  if(m.injury){const auto handled=m.injury->body(machine,*request);if(handled)return handled==1?0:-1;}
+575: if(request->operation==dh2::character::state_owner_character_event&&m.state_changed){
+576:  auto* controller=m.controller->command_state(controller_global_blocked);
+577:  if(!controller)return -1;m.ai_owner.locked=controller->locked;m.ai_owner.forced=controller->forced;m.ai_events.global_blocked=controller->global_blocked;
+578:  const int status=m.state_changed->notify(*request);
+579:  if(status)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","NPC state notification failed | %s | %s",m.object->name.c_str(),m.state_changed->error().c_str());
+582: return -1;
+620:  return dh2_nav_can_collide(&static_cast<BodyOwner*>(a)->contact,&static_cast<BodyOwner*>(b)->contact)==1;
+627:  const auto* n=static_cast<BodyOwner*>(a)->native;
+628:  if(n&&n->body){const auto v=n->body->GetLinearVelocity();xy[0]=v.x*100.f;xy[1]=v.y*100.f;}
+678:  while(done<bytes.size()){const auto got=AAsset_read(a,bytes.data()+done,bytes.size()-done);if(got<=0){AAsset_close(a);throw std::runtime_error("Short asset read");}done+=got;}
+696: if(!result->initialize(inputs,error))throw std::runtime_error("Persistent design load failed: "+error);
+704: if(!owner->load({records.data(),records.size()},{names.data(),names.size()},
+711: if(!owner->load({records.data(),records.size()},{names.data(),names.size()},{schema.data(),schema.size()},error))
+731: if(!owner->load({raw[0].data(),raw[0].size()},{raw[1].data(),raw[1].size()},
+738: auto sidecar=read(assets,"crypt01-actor-initialization.bin","worlds");
+758: auto found=context.monster_resources.find(actor.character);if(found!=context.monster_resources.end())return found->second;
+759: const std::map<std::string,std::string> tags{{"Crypt_Skeleton","skeleton"},{"CryptSlime","slime"},{"CryptSlime_RE","slime-red"},{"Crypt_Ghost","ghost"}};
+761: auto bank=read(assets,"monster-"+tag->second+"-animation-bank.bin","data"),model=read(assets,actor.model,"actors");
+770: if(!dh2::character::CharacterAnimationResources::load({bank.data(),bank.size()},factory,reader,owner,error)||owner->metadata().character!=actor.character)
+777: if(!player_skills_runtime||player_skills_runtime->world!=m.context)return -1;
+780: if(!result)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Required NPC target position | %s | %s",m.object->name.c_str(),error.c_str());
+781: return result?0:-1;
+784: auto* command=m.controller->command_state(controller_global_blocked);
+786: m.ai_owner.forced=command->forced;m.ai_owner.locked=command->locked;m.ai_events.global_blocked=command->global_blocked;
+790:  error="Required same NPC heading RaiseAIEvent "+std::to_string(event)+": "+m.machine->error();return false;
+795: for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.script&&actor.script->script_commands){
+796:  auto& commands=*actor.script->script_commands;
+805:  if(!m.script_commands->rebind_floor(level.native_floor.get()))throw std::runtime_error(m.script_commands->owner().error());
+808:  if(m.machine->owner().machine().physical)throw std::runtime_error("Required actual NPC CharacterPhysical producer");
+811:  if(!m.script_commands->initialize_pf(fields))throw std::runtime_error(m.script_commands->owner().error());
+815:// Development-only read probe through the actual Lua object method bridge.
+821: if(dh2_script_vm_load_source_file(vm,probe,sizeof(probe)-1))
+827: const auto cleaned=dh2_script_vm_load_source_file(vm,cleanup,sizeof(cleanup)-1);
+832:  auto found=cache.find(name);if(found!=cache.end())return found->second;
+838:      if(!original->read("data/3d/textures/"+name,found,raw,error)||!found)
+859:       part.positions.size()!=part.geometry->positions.size()||part.positions.empty())
+873:        if(geometry.primitives.size()!=part.materials->size()||geometry.positions.size()>65536)
+877:             total>1000000-geometry.positions.size())
+880:          const auto material=part.materials->at(j);
+881:          if(material>=part.material_table->size()||part.material_table->at(material).id!=primitive.material_symbol)
+883:          auto attribute=[&](unsigned slot)->const dh2::skinning::VisualAttributeV6*{
+893:          if(uv&&uv->components<2)throw std::runtime_error("Equipped UV stream has fewer than two components");
+897:            if(uv)std::copy_n(uv->values.data()+k*uv->components,2,vertex.uv);
+899:            if(color_stream)for(unsigned c=0;c<color_stream->components;++c)
+900:              vertex.color[c]=color_stream->values[k*color_stream->components+c]/(color_stream->type==1?255.f:1.f);
+906:          next.emplace_back();auto& draw=next.back();draw.material=part.material_table->at(material);
+937:    if(player_equipment->properties()!=prince_combat.property_owner||!equipment_platform||
+938:       equipment_platform->world!=live_script_world)
+940:    equipment_platform->manager=assets;equipment_platform->cache.manager(assets);
+941:    if(!player_equipment->rebind_visual(resource.borrow(),current_scene,error))
+948:    input.design=live_script_world->design->borrow();input.properties=prince_combat.property_owner;
+950:    input.character=live_script_world->player_object->identity;
+955:    input.debug=live_script_world->debug.get();input.debug_files=live_script_world->debug_files;
+960:    if(!player_equipment->initialize(error))throw std::runtime_error("Original player equipment initialization failed: "+error);
+963:  if(!player_equipment->draw_parts(parts,error))throw std::runtime_error("Equipped player draw graph failed: "+error);
+964:  sync_equipment_draws(std::move(parts),assets,equipment_platform->cache);
+965:  const auto* inventory=player_equipment->inventory();
+967:    static_cast<unsigned long long>(inventory->character()),inventory->items().size(),inventory->num_potions(),inventory->current_equipment(),unsigned(restore),
+968:    static_cast<unsigned long long>(reinterpret_cast<std::uintptr_t>(inventory->properties().get())),equipment_random.calls);
+969:  for(std::size_t i=0;i<inventory->items().size();++i){const auto& item=*inventory->items()[i]->item;
+971:      i,item.id,item.signed_quantity(),item.name.c_str(),int(inventory->items()[i]->slots[0]),int(inventory->items()[i]->slots[1]));
+974:std::array<float,3> cross(const std::array<float,3>& a,const std::array<float,3>& b){return {a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]};}
+981:  std::array<float,3> f{center[0]-eye[0],center[1]-eye[1],center[2]-eye[2]};normalize(f);
+983:  Matrix view{s[0],u[0],-f[0],0,s[1],u[1],-f[1],0,s[2],u[2],-f[2],0,-dot(s,eye),-dot(u,eye),dot(f,eye),1};
+985:  const float near=world_mode?50.f:std::max(.01f,distance-radius*1.5f),far=world_mode?12000.f:distance+radius*3;
+986:  Matrix projection{1/(tan*aspect),0,0,0,0,1/tan,0,0,0,0,-(far+near)/(far-near),-1,0,0,-2*far*near/(far-near),0};
+992:void reset_context(){class_preview_actors.clear();menu_background=class_scene=false;clear_combat_fx_gpu(true);if(player_equipment)player_equipment->detach_visual();equipment_draws.clear();equipment_images.clear();equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};resume_world=resume_world||world_mode;if(world_mode){saved_actors.clear();for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.kind==1)saved_actors.push_back(actor);}world_mode=false;move_x=move_y=0;draws.clear();images.clear();object_groups.clear();world_objects.clear();prince_locomotion=dh2::actor::BlendedPlayback{};prince_visual={};prince_attack_clips.clear();prince_animation_bank={};scene_clock=0;inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;}
+993:void deactivate(){release_class_previews();menu_background=class_scene=false;clear_combat_fx_gpu(false);clear_npc_death_owners_v2();player_skills_runtime.reset();if(player_equipment)player_equipment->detach_visual();player_equipment.reset();equipment_platform.reset();release(equipment_draws,equipment_images);equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};enabled=false;world_mode=false;resume_world=false;move_x=move_y=0;}
+997:void orbit(float dx,float dy,float factor){yaw+=dx;pitch=std::clamp(pitch+dy,-1.4f,1.4f);zoom=std::clamp(zoom*factor,.35f,4.f);}
+1001:  // pose. Arbitrary millisecond sampling remains a separate model-preview tool.
+1007:   const auto body=prince_body.body?prince_body.body->GetPosition():b2Vec2(actor_position[0]*.01f,actor_position[1]*.01f);
+1011:  if(milliseconds<0){epoch=std::chrono::steady_clock::now()-std::chrono::milliseconds(sampled_ms-player.start);frozen=false;}
+1016:  if(player_equipment)player_equipment->detach_visual();
+1024:    auto prince=std::find_if(scene.graph.begin(),scene.graph.end(),[](const dh2::scene::Node& n){return n.id=="prince_modular-node";});
+1028:      const auto node=unsigned(prince-scene.graph.begin());scene.instances.clear();
+1031:        if(skin.id.find("_default_warrior-mesh-skin")==std::string::npos)continue;
+1033:        dh2::scene::Instance instance{prince->id,node,skin.geometry,prince->world,{}};instance.controller=i;
+1036:          if(material==scene.materials.end())throw std::runtime_error("Unresolved equipment material");instance.materials.push_back(material-scene.materials.begin());}
+1045:    float low[3]{INFINITY,INFINITY,INFINITY},high[3]{-INFINITY,-INFINITY,-INFINITY};unsigned total=0,triangles=0;
+1052:        if(total>1000000-mesh.vertices)throw std::runtime_error("Vertex budget exceeded");total+=mesh.vertices;triangles+=p.index_count/3;
+1083:    const float extent[3]{high[0]-low[0],high[1]-low[1],high[2]-low[2]};
+1086:    release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
+1090:    yaw=-1.57f;pitch=.35f;zoom=1;enabled=true;
+1099:  move_x=std::clamp(x,-1.f,1.f);move_y=std::clamp(y,-1.f,1.f);float length=std::hypot(move_x,move_y);
+1101:  if(length>.08f)inspected_object=-1;
+1108:  inspected_object=-1;
+1121:   if(!actor.script||!actor.script->injury)return "Original NPC injury owner unavailable";
+1122:   const auto result=actor.script->injury->injure(0x100000001ull);
+1123:   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Developer source NPC injury | %s | status %d | state %d | HP %d | gate %.9g",actor.name.c_str(),result,actor.script->machine->state().current,actor.properties().resolved[36],double(actor.script->injury_gate));
+1128:  std::string error;if(!actor.scheduler.start(actor_animation_tables,sequence-actor_animation_tables.sequences.data(),actor_random,error))return error;
+1136: if(!world_mode||index<0||unsigned(index)>=world_objects.size()||target<-2||(target>=0&&unsigned(target)>=world_objects.size())||index==target)return "Combat target indices are invalid";
+1138: if(target==-2&&prince_combat.life().dead)return "Combat target is dead";
+1145:  return target==-1?"Combat target cleared":"Combat target selected";
+1157: const dh2::data::AiRangeRequest request{{actor.position[0],actor.position[1],actor.position[2]},{actor_position[0],actor_position[1],actor_position[2]},npc->melee_radius,prince->melee_radius,npc->view_radius};dh2_ai_range(&result,&request);return result;
+1161: const auto* props=dh2::data::ai_props(actor_ai_tables,actor.properties().resolved[1]);if(!props||props->type!=4||props->script!="monster")return;
+1163: if(actor.combat_target==-1&&!prince_combat.life().dead&&dh2::data::ai_enemy(actor_ai_tables,actor.properties().resolved[0],prince_combat.properties().resolved[0],false,true)){
+1164:  // Current scene has one hostile candidate. The original collision-query
+1166:  float distance;std::memcpy(&distance,&range.distance_bits,4);const float view=actor.aggro.outgoing_table.count?props->view_radius:props->view_radius_no_aggro;
+1167:  if(view*view>distance){actor.combat_target=-2;actor.target_alive=1;actor.target_sight=range.sight;actor.target_seeking=true;
+1170: if(actor.combat_target!=-2)return;
+1174: auto select=[&](const char* name){auto* sequence=dh2::data::animation_state(actor_animation_tables,table,name);std::string error;if(!sequence||!actor.scheduler.start(actor_animation_tables,sequence-actor_animation_tables.sequences.data(),actor_random,error)){enabled=false;__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Enemy controller animation failed");return;}actor.state=name;actor.cursor=0;actor.completions=0;actor.event_cursor={};actor.animation_events=0;};
+1175: if(!result.target_present){actor.combat_target=-1;if(actor.ai_attack){select("Idle");actor.ai_attack=false;}
+1176:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Enemy target cleared | %s | event %u | Prince dead %u | controller stopped | pursuit backend pending",actor.name.c_str(),result.events[result.event_count-1],prince_combat.life().dead);return;}
+1177: if(result.event_count&&result.events[result.event_count-1]==17&&(actor.state!="Attack"||!actor.scheduler.active())){
+1180: // Full pursuit, seeking, attack-delay/FSM and already-attacking target
+1184: if(!player_equipment||!player_equipment->ready())throw std::runtime_error("Player combat equipment owner unavailable");
+1186: if(!player_equipment->combat_view(view,error))throw std::runtime_error("Player combat equipment rejected: "+error);
+1195:  dh2::data::CombatantView av{attacker.properties().resolved.data(),-1,-1,0,0,0,5,attacker.combat_state().combo_hits},dv{prince_combat.properties().resolved.data(),-1,-1,0,0,0,prince_state.current,prince_combat.life().combo_hits};
+1210: if(attacker.combat_target==-2){apply_actor_to_player(attacker,action);return;}
+1214: if(!defender||defender->kind!=1||defender->combat_state().dead)return;
+1215: dh2::data::CombatantView av{attacker.properties().resolved.data(),-1,-1,0,0,0,5,attacker.combat_state().combo_hits},dv{defender->properties().resolved.data(),-1,-1,0,0,0,defender->state=="Attack"?5:-1,defender->combat_state().combo_hits};
+1217: auto ap=dh2::data::property_view(actor_property_rules,attacker.properties()),dp=dh2::data::property_view(actor_property_rules,defender->properties());
+1218: const dh2::data::MonsterApplicationRequest request{&result,&ap,&dp,&attacker.combat_state(),&defender->combat_state()};
+1219: const unsigned aggro_facts=(defender->combat_state().dead?dh2::data::aggro_owner_dead:0u)|(attacker.combat_state().dead?dh2::data::aggro_target_dead:0u);
+1221:  if(applied.hit_called)add_combat_threat(defender->aggro,attacker.aggro,defender->identity,attacker.identity,applied.threat,aggro_facts);
+1222:  apply_combat_text_v1(result,attacker.identity,defender->identity);
+1224: __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native combat hit | %s | target %s | hit %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u | threat %.9g",attacker.name.c_str(),defender->name.c_str(),combat_hits,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,defender->combat_state().dead,attacker.combat_state().combo_hits,combat_random.seed,combat_random.calls,applied.status_requests,double(applied.threat));
+1225: if(applied.status_requests)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Combat status services pending | %s | requests %u",defender->name.c_str(),applied.status_requests);
+1226: if(applied.health.kill_requested){defender->pending_death=true;__android_log_print(ANDROID_LOG_INFO,"DH2Native","Combat death event queued | %s | event 2 | HP %d | dead %u | lifecycle %d",defender->name.c_str(),defender->properties().resolved[36],defender->combat_state().dead,defender->combat_state().lifecycle);}
+1237:  if(!world_mode||!native_actor_ready||!player_equipment||!player_equipment->ready()||prince_combat.life().dead)
+1241:    if(operation==0&&index>=0)accepted=player_equipment->auto_equip(static_cast<std::uint32_t>(index),result,error);
+1242:    else if(operation==1&&index>=0&&slot>=0)accepted=player_equipment->equip(static_cast<std::uint32_t>(slot),static_cast<std::uint32_t>(index),error);
+1243:    else if(operation==2&&slot>=0)accepted=player_equipment->unequip(static_cast<std::uint32_t>(slot),error);
+1244:    else if(operation==3)accepted=player_equipment->swap(error);
+1248:    if(!player_equipment->draw_parts(parts,error))return "Equipment action failed after source mutation: "+error;
+1249:    sync_equipment_draws(std::move(parts),equipment_platform->manager,equipment_platform->cache);
+1251:      operation,index,slot,result,player_equipment->inventory()->current_equipment(),equipment_parts.size(),
+1266: if(!world_mode||!native_actor_ready||!live_script_world||!player_skills_runtime||!player_skills_runtime->player)return out;
+1267: auto& t=*player_skills_runtime;out.design=live_script_world->design->borrow();out.gear=player_equipment.get();
+1268: out.skills=t.player.get();out.save=t.save.get();out.properties=&t.player->session().property_view();
+1272:  out.difficulty=live_script_world->host_level.difficulty;out.active=true;
+1273:  out.settings=live_script_world->saved_options.get();
+1275: out.world_owner=live_script_world;out.skill_tables=live_script_world->skills_owner->borrow();
+1277: out.debug=live_script_world->debug.get();out.debug_files=&live_script_world->debug_files;
+1280: const auto* characters=out.design.characters();if(characters){const auto at=std::find(characters->names.begin(),characters->names.end(),"KnightPlayerBase");if(at!=characters->names.end())out.actor_index=at-characters->names.begin();}
+1283:  if(!gear||gear!=player_equipment.get()||!gear->ready()||gear->properties()!=prince_combat.property_owner){error="Potion capacity store requires same live Gear/property owner";return false;}
+1284:  gear->project_potion_capacity(static_cast<std::int8_t>(static_cast<std::uint8_t>(value)));return true;
+1289: auto live=player_gameplay_binding();if(!live.active||live.life->dead)return "Player action unavailable";
+1291:  if(index<0||index>2)return "Invalid skill slot";const int row=live.save->skill_in_slot(index);
+1292:  if(row<0||live.save->skill_level(row)<=0)return "No learned skill assigned";
+1293:   std::uint32_t accepted=0;const int status=live.skills->skill_ai(dh2::character::skills::skill_ai_use_v3,row,&accepted);
+1295:    row,status,accepted,player_skills_runtime->native->targets().count,live.state->current,prince_locomotion.current_clip(),live.properties->resolved[41]);
+1296:  if(status)return "Skill action requires source provider: "+player_skills_runtime->error+"; "+live.skills->error();
+1304:  if(!player_skills_runtime->cast)return "Original cast owner unavailable";
+1306:  const auto id=live.save->current_faery(unsigned(live.difficulty));
+1307:  if(id<0||id>=5||!live.save->faeries_initialized()[unsigned(live.difficulty)]||!live.save->faeries()[unsigned(live.difficulty)][unsigned(id)].state)return "Faery is locked";
+1308:  bool allowed=false;auto& cast=*player_skills_runtime->cast;
+1312:  return live.state->current==7?"Faery casting":"Faery cast rejected";
+1315:  if(!player_skills_runtime->cast)return "Original cast owner unavailable";
+1316:  auto& cast=*player_skills_runtime->cast;
+1327: for(auto& entry:runtime.world_actors){auto& a=entry.second;if(!a.object||!a.object->properties||!a.object->life){error="Enemy HUD actor authority unavailable";return {};}
+1328:  a.hud.resolved=a.object->properties->resolved.data();a.hud.resolved_count=224;
+1329:  a.hud.identity=a.object->identity;a.hud.name_symbol=std::uint32_t(a.hud.resolved[18]);
+1330:  a.hud.debug_name=a.object->name.c_str();
+1331:  std::copy(a.object->position.begin(),a.object->position.end(),a.hud.position);
+1334: out.player=&player->second.hud;out.world=reinterpret_cast<std::uintptr_t>(runtime.targets.get());
+1335: out.services={&runtime,[](void* p,HudManagerState*,const HudManagerRequest* q,HudManagerResponse* r)->int{
+1338:  for(auto& entry:t.world_actors)if(reinterpret_cast<std::uintptr_t>(&entry.second.hud)==q->subject){actor=&entry.second;break;}
+1339:  if(q->operation==HudManagerOperation::debug_load)return dh2_character_debug_load(t.world->debug.get(),&t.world->debug_files)==1;
+1340:  if(q->operation==HudManagerOperation::debug_switch){std::uint32_t value;if(!q->text||dh2_character_debug_get(&value,t.world->debug.get(),q->text,&t.world->debug_files)!=1)return 0;
+1341:   if(value){t.error="Enemy HUD debug requires actual network ID producer";return 0;}r->value=0;return 1;}
+1342:  if(!actor||!actor->object)return 0;
+1343:  const auto* props=actor->hud.resolved;const auto* ai=dh2::data::ai_props(*t.world->tables.ai(),props[1]);
+1344:  switch(q->operation){
+1345:   case HudManagerOperation::is_dead:r->value=actor->object->life->dead;return 1;
+1346:   case HudManagerOperation::is_character:r->value=1;return 1;
+1347:   case HudManagerOperation::is_monster:if(!ai)return 0;r->value=ai->type==4;return 1;
+1348:   case HudManagerOperation::is_boss:if(!ai)return 0;r->value=(ai->flags&4)!=0;return 1; //3a3164 ubfx #2,#1
+1349:   case HudManagerOperation::level:{auto view=dh2::data::property_view(*t.world->tables.rules(),*actor->object->properties);std::int32_t level;if(dh2_property_resolve(&view,19,&level))return 0;r->value=level>>8;return 1;}
+1350:   case HudManagerOperation::hp_fraction:r->fraction=float(props[36])/float(props[38]);return 1;
+1352:    const auto identity=actor->object->target.target;if(!identity){r->identity=0;return 1;}
+1354:     if(t.targets->handle_borrow(identity,&shared,&registry))return 0;
+1355:     const auto queries=t.targets->targets().query_services();
+1357:    auto found=t.world_actors.find(actual);r->identity=found==t.world_actors.end()?0:reinterpret_cast<std::uintptr_t>(&found->second.hud);return 1;
+1364:  if(found==t.world_actors.end()||!found->second.object){error="Enemy anchor requires same registered target";return false;}
+1365:  const auto& object=*found->second.object;const auto& props=object.properties->resolved;
+1366:  result={};result.identity=id;result.raw_hp=props[36];result.raw_max_hp=props[38];result.dead=object.life->dead!=0;
+1372:  const auto* npc=found->second.npc;
+1373:   if(!npc||!npc->rendered_bounds_ready||!npc->rendered_screen_bounds_ready||submitted_width<=0||submitted_height<=0){error="Enemy anchor requires actual submitted mesh/camera";return false;}
+1374:  const auto& bounds=npc->rendered_bounds;
+1381:   const auto& screen=npc->rendered_screen_bounds;
+1397: const float px=(clip[0]/clip[3]+1)*.5f*submitted_width,py=(1-clip[1]/clip[3])*.5f*submitted_height;
+1398: if(!std::isfinite(px)||!std::isfinite(py)||px<-2147483648.f||px>=2147483648.f||py<-2147483648.f||py>=2147483648.f){error="Combat text projection outside int32 range";return false;}
+1413: if(!world_mode||!native_actor_ready||!player_skills_runtime||!player_skills_runtime->world_touch){error="Same live world touch owner unavailable";return false;}
+1415: t.targets->begin_frame(native_actor_frames);if(t.targets->refresh()){error=t.targets->error();return false;}
+1416: bool hit=false;const bool ok=t.world_touch->dispatch(x,y,released,hit,error);
+1417: __android_log_print(ok?ANDROID_LOG_INFO:ANDROID_LOG_ERROR,"DH2Native","World touch | DACT development input adapter | phase %s | pixels %.4f %.4f | floor %u | same target %016llx | %s",released?"release":"press",double(x),double(y),unsigned(hit),static_cast<unsigned long long>(t.world->player_object->target.target),error.c_str());
+1421: if(!player_skills_runtime||!player_skills_runtime->world_touch)return;
+1422: auto& pending=player_skills_runtime->world_touch->pending;
+1423: pending.pending14c8=0;pending.skill14ca=-1;
+1429: const dh2::data::CombatEventContext context{prince_state.current,int(frames.front().step),int(frames.back().step),0,-1};
+1434: if(!player_skills_runtime||!player_skills_runtime->attack_geometry)return;
+1436: const auto target_id=runtime.world->player_object->target.target;
+1442: if(!runtime.attack_geometry->read(runtime.fsm.character,target_id,
+1446:  dh2::data::CombatantView av{prince_combat.properties().resolved.data(),-1,-1,0,0,0,prince_state.current,prince_combat.life().combo_hits},dv{target->properties().resolved.data(),-1,-1,0,0,0,target->state=="Attack"?5:-1,target->combat_state().combo_hits};
+1448: auto ap=dh2::data::property_view(actor_property_rules,prince_combat.properties()),dp=dh2::data::property_view(actor_property_rules,target->properties());
+1450: const dh2::data::MonsterApplicationRequest request{&result,&ap,&dp,&prince_combat.life(),&target->combat_state()};
+1451: const unsigned aggro_facts=(target->combat_state().dead?dh2::data::aggro_owner_dead:0u)|(prince_combat.life().dead?dh2::data::aggro_target_dead:0u);
+1453:  if(applied.hit_called)add_combat_threat(target->aggro,prince_combat.aggro,target->identity,0x100000001ull,applied.threat,aggro_facts);
+1456: __android_log_print(ANDROID_LOG_INFO,"DH2Native","Prince combat hit | target %s | attempt %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u",target->name.c_str(),prince_combat.attempts,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,target->combat_state().dead,prince_combat.life().combo_hits,combat_random.seed,combat_random.calls,applied.status_requests);
+1457: if(applied.health.kill_requested)target->pending_death=true;
+1458: if(applied.status_requests)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Combat status services pending | %s | requests %u",target->name.c_str(),applied.status_requests);
+1479: if(player_equipment&&player_equipment->ready()){
+1480:   std::string error;if(!player_equipment->stance_facts(true,5,equipment,error))throw std::runtime_error(error);
+1483: if(player_skills_runtime&&player_skills_runtime->world&&player_skills_runtime->world->player_object)
+1484:  facts.target=player_skills_runtime->world->player_object->target.target;
+1490: auto sequence=[](const char* name){const auto* value=dh2::data::animation_state(actor_animation_tables,prince_combat.animation_table,name);return value?int(value-actor_animation_tables.sequences.data()):-1;};
+1492: if(const auto* ai=dh2::data::ai_props(actor_ai_tables,prince_combat.properties().resolved[1]))facts.attack_delay=std::uint32_t(ai->attack_delay);
+1506: if(request->service==control_target_position){
+1507:  for(const auto& group:object_groups)for(const auto& target:group.instances)if(target.identity==request->subject){
+1508:   // NPC visual target-node/cache ownership remains unfinished. This current
+1510:   std::copy(target.position.begin(),target.position.end(),response->position);return 1;
+1512:  return -1;
+1514: if(request->service==control_look_at_point&&request->subject==0x100000001ull){
+1516:  if(dh2_character_look_at_point(&look,request->position))return -1;
+1518:   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Player attack facing | direction %.9g %.9g | angle %.9g | native updates %u",request->position[0]-look.position[0],request->position[1]-look.position[1],look.heading_angle,native_heading_updates);
+1523: return -1;
+1527: switch(request->service){
+1529:  if(player_skills_runtime&&player_skills_runtime->heading_owner){
+1531:   if(!t.heading_owner->object_stop(error))throw std::runtime_error(error);
+1534:   // the same constructor-owned GameObject fields, in original Stop order.
+1539:   if(prince_body.body&&(state->flags&2)&&dh2_native_body_stop(&prince_body,prince_runtime.subobjects.position))throw std::runtime_error("Initial Character Stop body failed");
+1541:  state->heading_active=prince_runtime.controller.heading.active;refresh_prince_facts();break;
+1546:  state->current_animation=request->argument[0];
+1547:  if(!prince_locomotion.start(actor_animation_tables,state->current_animation,actor_random,prince_attack_clips,prince_visual,current_scene,1,error))throw std::runtime_error(error);
+1548:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character animation selected | state %d | flags %x | sequence %d | clip %d | %s",state->current,state->flags,state->current_animation,prince_locomotion.current_clip(),prince_scene_phase?"scene callback":"actor state service");
+1551:  if(!prince_locomotion.set_speed(request->scalar,error))throw std::runtime_error(error);
+1552:  if(state->current==4)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Locomotion clip: %s | original selected clip %d | timeline speed %.9g | authored restart",state->move_type==2?"Run":"Walk",prince_locomotion.current_clip(),prince_locomotion.current_timeline().scale);
+1556:  if(!player_skills_runtime||!player_skills_runtime->player)throw std::runtime_error("Same player timer store unavailable");
+1557:   const auto id=player_skills_runtime->player->session().start_timer(std::uint32_t(request->argument[0]),request->argument[1],request->argument[2],std::uintptr_t(request->identity));
+1559:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character timer started | state %d | slot %d | duration %u | repeat %d | event 0x%x | gate %x",state->current,id,std::uint32_t(request->argument[0]),request->argument[1],request->argument[2],state->attack_gate);break;
+1562:  const auto before_root=prince_locomotion.scheduler.frames().empty()?-1:prince_locomotion.scheduler.frames().front().sequence;
+1564:  if(!prince_locomotion.swap(actor_animation_tables,request->argument[0],request->argument[1],actor_random,prince_attack_clips,prince_visual,current_scene,state->cached_speed,error))throw std::runtime_error(error);
+1565:  if(!prince_locomotion.scheduler.frames().empty())state->current_animation=prince_locomotion.scheduler.frames().front().sequence;
+1566:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character animation swap | state %d | root %d %d | clip %d %d | ms %d %d | desired %d | old %d",state->current,before_root,state->current_animation,before_clip,prince_locomotion.current_clip(),before_ms,prince_locomotion.current_timeline().current_ms,request->argument[0],request->argument[1]);break;
+1570:  if(request->argument[0]==1){
+1571:   const ControllerCommandState32 controller{reinterpret_cast<std::uintptr_t>(&prince_state),0x100000001ull,controller_global_blocked,state->controller_locked,prince_controller_forced,0};
+1572:   if(dh2_character_controller_character(&controller,controller_look_object,request->identity,&services)!=1)throw std::runtime_error("Character controller LookAt failed");
+1573:  }else if(dh2_character_control(0x100000001ull,controller_look_object,request->identity,&services)!=1)throw std::runtime_error("Character LookAt failed");
+1577:  float direction[3];std::memcpy(direction,request->argument,12);
+1578:  if(dh2_nav_set_heading(&prince_runtime.controller.heading,direction,unsigned(request->scalar)))throw std::runtime_error("Character heading failed");
+1579:  prince_runtime.rotation.heading_angle=prince_runtime.controller.heading.angle;state->heading_active=prince_runtime.controller.heading.active;refresh_prince_facts();break;
+1583:  auto* shape=prince_body.body->GetShapeList();if(!shape)throw std::runtime_error("Character shape missing");
+1585:  if(request->service==set_death_filter){filter.groupIndex=std::int16_t(request->argument[0]);filter.categoryBits=std::uint16_t(request->argument[1]);filter.maskBits=std::uint16_t(request->argument[2]);}
+1586:  shape->SetFilterData(filter);
+1588:  actor_world.backend()->Refilter(shape);
+1589:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character filter applied | state %d | group %d | category %u | mask %u | primary only",state->current,filter.groupIndex,filter.categoryBits,filter.maskBits);break;
+1593:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character physical object removed | state %d | source event 22",state->current);break;
+1595:  const unsigned event=unsigned(request->argument[0]);
+1596:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character state event | state %d | event %x | prior %d | flags %x",state->current,event,request->argument[1],state->flags);
+1597:  if(event==0x1d)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Player source state | previous %d | current %d | event 0x%x | flags %x | root %d | clip %d | position %.4f %.4f %.4f | Step %u",request->argument[1],state->current,prince_event_cause,state->flags,state->current_animation,prince_locomotion.current_clip(),prince_runtime.subobjects.position[0],prince_runtime.subobjects.position[1],prince_runtime.subobjects.position[2],native_physics_steps);
+1598:  if(event==0x3f&&prince_event(event,request->identity)<0)throw std::runtime_error("Character state event failed");
+1599:  if((event==0x2a||event==0x2b||event==0x2c)&&prince_event(event,request->identity)<0)throw std::runtime_error("Character state gate event failed");
+1603:  const auto bit=std::uint64_t(1)<<request->service;
+1604:  if(!(pending_character_services&bit)){pending_character_services|=bit;__android_log_print(ANDROID_LOG_INFO,"DH2Native","Character external service pending | service %u | state %d",request->service,state->current);}
+1608: prince_flags=state->flags;prince_move_type=state->move_type;walking=state->current==4;
+1616:  if(player_skills_runtime)player_skills_runtime->animation_lag=event.handoff.lag_ms;
+1618: if(prince_state.current==5&&player_skills_runtime&&player_skills_runtime->attack_owner&&
+1621:   if(player_skills_runtime->attack_animation_step(event.handoff.event_id==0x26))
+1622:    throw std::runtime_error("Original attack animator step: "+player_skills_runtime->error);
+1626: if(prince_state.current==7&&player_skills_runtime&&player_skills_runtime->cast&&
+1630:   if(player_skills_runtime->cast->animation_step(live,event.handoff.event_id==0x26,
+1632:    throw std::runtime_error("Original cast animator step: "+player_skills_runtime->cast->error());
+1636: // The full native six-event CharAI/AIS service binding remains unfinished.
+1639:   if(prince_state.current==7&&player_skills_runtime&&player_skills_runtime->cast){
+1640:    if(player_skills_runtime->cast->animation_event(player_gameplay_binding(),event.handoff.payload))throw std::runtime_error("Original cast animation event: "+player_skills_runtime->cast->error());return;
+1645:    throw std::runtime_error("Required source SkillState animation event: "+t.error+"; "+t.player->error());
+1668:  // The current collision-bounds prototype still uses four default-warrior
+1670:  // owner; equipment-dependent collision bounds remain a separate connection.
+1674: const auto node=std::find_if(factory.graph.begin(),factory.graph.end(),[](const auto& n){return n.id=="prince_modular-node";});
+1679:  if(skin.id.find("_default_warrior-mesh-skin")==std::string::npos)continue;
+1680:  dh2::scene::Instance instance{node->id,unsigned(node-factory.graph.begin()),skin.geometry,node->world,{}};instance.controller=i;
+1711: prince_initial_filter=prince_body.body->GetShapeList()->GetFilterData();
+1712: live_obstacle_entries.assign(256,{});live_obstacle_floors.assign(level.native_floor->records.size()+1,0);
+1714: live_path_segments.resize(level.native_floor->graph.node_count+1);live_workspace_segments.resize(live_path_segments.size());
+1720: const dh2::navigation::ObjectInitRequest init{&level.native_floor->collision_world,&prince_runtime.object,0x100000001ull,{actor_position[0],actor_position[1],actor_position[2]},config.radius*100.f,0,0};
+1723: const dh2::navigation::ProducerRequest producer{&level.native_floor->collision_world,&live_registry,&prince_runtime.object,0x100000001ull,&fields};
+1736:  if(resource==prince_attack_clips.end()||!registration.append(id,dh2::data::animation_resource_identity(prince_animation_bank,id),&resource->second,error))throw std::runtime_error("Prince registration failed: "+error);
+1749:  prince_state_owner.machine().current_index=-1;prince_state_owner.native_fsm().current_present=0;
+1752: if(prince_state.current==-1||prince_state.current==3||prince_state.current==4){
+1786:   auto owner=std::make_unique<BodyOwner>();decor_bodies.push_back({});auto& body=decor_bodies.back();owner->native=&body;
+1791:   owner->set_filter(definition.physical);body={actor_world.create_character(definition.physical,&owner->services),definition.physical.radius,definition.physical.pinned};
+1805:  if(!player_skills_runtime||!player_skills_runtime->player||!player_skills_runtime->player->ready()){
+1816:   if(!player_skills_runtime||player_skills_runtime->world!=p.world_owner||!player_skills_runtime->character_panel_runtime){e="Character panel runtime replaced";return false;}
+1817:   return player_skills_runtime->character_panel_runtime->bind(p,graph,e);
+1820:   if(!player_skills_runtime||!player_skills_runtime->player_manager||player_skills_runtime->world!=p.world_owner){e="Required same PlayerManager query owner";return false;}
+1822:    if(!player_skills_runtime||!player_skills_runtime->player_manager){e="PlayerManager expired";return false;}
+1824:    if(!player_skills_runtime->player_manager->manager().get_player(index,remote,info,e))return false;
+1825:    identity=info?info->character660:0;return true;
+1834:int npc_death_body_v2(MonsterScriptHandle& npc,dh2::character::State* state,const dh2::character::Request& request){return npc.death?npc.death->body(state,request):0;}
+1835:int npc_on_died_v2(MonsterScriptHandle& npc,std::uintptr_t attacker){return npc.death?npc.death->on_died(attacker,nullptr):-1;}
+1836:void clear_npc_death_owners_v2(){for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.script)actor.script->death.reset();}
+1846: if(!q||!out||q->character!=t.fsm.character)return -1;
+1847: if(q->operation==skill_ai_set_state_v3){
+1849:  t.skill_state.target=t.world->player_object->target.target;
+1851:  const int code=dh2_character_skill_state_v4(&t.skill_state,skill_state_select_v4,q->index,q->value,0,0,&services);
+1852:   if(code){t.error="Required source SkillState selection provider: "+t.error+"; "+t.player->session().error()+"; "+t.native->error();return -1;}return 0;
+1854:  if(q->operation==skill_ai_trophy_manager_v3||q->operation==skill_ai_trophy_catalog_v3||q->operation==skill_ai_unlock_v3){
+1855:   if(!t.trophy_bindings)return -1;
+1856:   const int status=t.trophy_bindings->skill_ai(q,out);
+1857:   if(status)t.error=t.trophies->error();return status;
+1860: t.error="Required skill AI provider "+std::to_string(q->operation);return -1;
+1864: using namespace dh2::character::skills;auto& t=*static_cast<PlayerSkillsRuntime*>(p);if(!request||!out)return -1;
+1865: switch(request->service){
+1866: // This local development Application does not enable the source no-mana
+1868: case mana_application_v5:out->word=t.application_mana_bypass;return 0;
+1869: case mana_player_v5:out->identity=t.world->player_object->identity;return 0;
+1870: case mana_debug_contains_v5:if(!request->name)return -1;out->word=t.application_debug_flags.find(request->name)!=t.application_debug_flags.end();return 0;
+1871: case mana_debug_load_v5:return dh2_character_debug_load(t.world->debug.get(),&t.world->debug_files)==1?0:-1;
+1872: case mana_debug_construct_v5:if(!request->name)return -1;out->identity=++t.debug_serial;t.debug_tokens[out->identity]=request->name;return 0;
+1873: case mana_debug_get_v5:{const auto at=t.debug_tokens.find(request->subject);if(at==t.debug_tokens.end())return -1;return dh2_character_debug_get(&out->word,t.world->debug.get(),at->second.c_str(),&t.world->debug_files)==1?0:-1;}
+1874: case mana_debug_destroy_v5:return t.debug_tokens.erase(request->subject)==1?0:-1;
+1875: default:return -1;
+1879: auto& a=*static_cast<WorldActor*>(p);if(!out)return -1;
+1880: if(a.machine==&prince_state){*out={reinterpret_cast<std::uintptr_t>(&prince_runtime.controller),a.object->identity,controller_global_blocked,prince_state.controller_locked,prince_controller_forced,0};return 0;}
+1881: if(!a.npc||!a.npc->controller)return -1;const auto* source=a.npc->controller->command_state(controller_global_blocked);if(!source)return -1;*out=*source;return 0;
+1885: if(!out||!a.runtime||!a.object||!a.machine)return -1;
+1891:  if(!t.player)return -1;properties=&t.player->session().property_view();aggro=&prince_combat.aggro;fields=&t.combat_fields;
+1892:  inventory=player_equipment->inventory();buffs=t.player->native_buffs();a.combat_controller=reinterpret_cast<std::uintptr_t>(&prince_runtime.controller);
+1894:  if(!a.npc||!a.npc->session||!a.npc->controller)return -1;
+1895:   properties=&a.npc->session->property_view();fields=&a.npc->machine->combat_fields();a.combat_controller=a.npc->controller->identity();
+1896:   const auto owned=t.attack_npc_inventories.find(a.object->identity);
+1897:   if(owned==t.attack_npc_inventories.end()||!owned->second)return -1;
+1898:    inventory=&owned->second->inventory();
+1899:    if(a.npc->death)buffs=a.npc->death->buffs();
+1900:  for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.identity==a.object->identity)aggro=&actor.aggro;
+1902: if(!properties||!aggro||!fields)return -1;
+1906: fields->combo=std::uint16_t(a.object->life->combo_hits);fields->push_death=std::uint8_t(a.object->life->push_death);
+1907: a.combat_facts={properties->resolved,-1,-1,0,0,0,a.machine->current,fields->combo};
+1909:   const auto& set=inventory->equipment()[inventory->current_equipment()];
+1912:    const auto item=dh2::data::item(inventory->table(),set[hand+1]->item->id);
+1913:    if(!item){t.error="Same actor combat weapon metadata absent";return -1;}records[hand]=&item->record;
+1916:   if(dh2_equipment_queries_v1(&queries,records[0],records[1],properties->resolved[203]))return -1;
+1922: *out={a.object->identity,properties,a.object->life.get(),&a.combat_facts,a.machine,fields,inventory,buffs,nullptr,nullptr,&a.combat_controller,&aggro->outgoing_table,&aggro->incoming_table};return 0;
+1927: auto& t=*static_cast<PlayerSkillsRuntime*>(p);if(fields!=&t.skill_state||!q||!out)return -1;
+1928: t.error="SkillState operation "+std::to_string(q->operation)+" value "+std::to_string(q->value)+" index "+std::to_string(q->index);
+1931: switch(q->operation){
+1932: case skill_state_debug_load_v4:return dh2_character_debug_load(t.world->debug.get(),&t.world->debug_files)==1?0:-1;
+1933: case skill_state_debug_construct_v4:{const auto* text=reinterpret_cast<const char*>(q->payload);if(!text)return -1;out->identity=++t.debug_serial;t.debug_tokens[out->identity]=text;return 0;}
+1934: case skill_state_debug_get_v4:{const auto text=t.debug_tokens.find(q->subject);if(text==t.debug_tokens.end())return -1;return dh2_character_debug_get(&out->word,t.world->debug.get(),text->second.c_str(),&t.world->debug_files)==1?0:-1;}
+1935: case skill_state_debug_destroy_v4:return t.debug_tokens.erase(q->subject)==1?0:-1;
+1938:  const Request request{raise_event,{int(q->value),0,0},0,0,0};character_service(nullptr,&prince_state,&request);
+1939:  if(q->value==0x1e||q->value==0x1f){std::uint32_t result=0;return t.player->skill_ai(q->value==0x1e?skill_ai_focus_v3:skill_ai_blur_v3,0,&result);}
+1940:  return -1;
+1942: case skill_state_animation_v4:{int sequence;std::memcpy(&sequence,&q->value,4);
+1943:  if(sequence==-1){sequence=prince_state.animation_override;prince_state.animation_override=-1;}
+1945: case skill_state_speed_v4:{float speed;std::memcpy(&speed,&q->value,4);return body(set_speed,0,speed);}
+1946: case skill_state_cancel_sneaking_v4:return t.player->native_cancel_sneaking(t.source_byte415);
+1949: case skill_state_timer_v4:return t.player->session().start_timer(q->value,0,int(q->index))<0?-1:0;
+1950: case skill_state_monster_v4:{std::uint32_t player=0;if(t.player->session().source_is_player(player))return -1;out->word=!player;return 0;}
+1951: case skill_state_row_v4:{if(q->index>=t.save->skills().size())return -1;const auto id=t.save->skill_id(q->index);const auto table=t.world->skills_owner->borrow();if(id<0||std::size_t(id)>=table.skills().size())return -1;out->identity=reinterpret_cast<std::uintptr_t>(&table.skills()[id].scalar);return 0;}
+1952: case skill_state_constant_v4:{std::int32_t value;if(t.player->session().constant("AnimStancedAnim","SL__LIST_IPHONE",value))return -1;std::memcpy(&out->word,&value,4);return 0;}
+1953: case skill_state_stance_v4:out->word=prince_facts().stance;return 0;
+1954: case skill_state_state_event_v4:return prince_event(q->value,q->payload)<0?-1:0;
+1955: case skill_state_transition_v4:return prince_state_owner.transition(q->index,q->value,q->payload,prince_owner_services)<0?-1:0;
+1956: case skill_state_step_index_v4:{const auto& frames=prince_locomotion.scheduler.frames();if(frames.empty())return -1;out->word=frames.front().step;return 0;}
+1957: case skill_state_step_count_v4:{const auto& frames=prince_locomotion.scheduler.frames();if(frames.empty())return -1;const auto root=frames.front().sequence;if(root<0||std::size_t(root)>=actor_animation_tables.sequences.size())return -1;out->word=actor_animation_tables.sequences[root].steps.size();return 0;}
+1958: case skill_state_current_v4:out->word=prince_state.current;return 0;
+1961:   if(q->value==0&&t.animation_events){
+1962:    if(t.animation_events->relay(reinterpret_cast<const char*>(q->payload))){
+1963:     __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original player animation event delivered | name %s | lag %d | Lua status %u | same Script/World/Scene/PFFloor",reinterpret_cast<const char*>(q->payload),t.animation_lag,t.animation_events->source_lua_error());
+1966:    t.error=t.animation_events->error();return -1;
+1968:   t.error="Required source animation prefix "+std::to_string(q->value)+" event "+(q->payload?reinterpret_cast<const char*>(q->payload):"<null>");return -1;
+1970: default:t.error="Required source SkillState provider "+std::to_string(q->operation);return -1;
+1976: if(machine!=&prince_state_owner.machine()||!request||!out)return -1;
+1978: if(request->operation==state_owner_predicate){
+1980:  return dh2_character_state_owner_predicate(out,request->source_function,request->state,&predicates)==1?0:-1;
+1982: if(request->operation==state_owner_blur||request->operation==state_owner_focus||request->operation==state_owner_event){
+1983:  if(request->state==7){
+1984:   if(!player_skills_runtime||!player_skills_runtime->cast)return -1;
+1985:   return player_skills_runtime->cast->state_body(player_gameplay_binding(),request->operation==state_owner_blur?dh2::android_ui::CastBodyV2::blur:request->operation==state_owner_focus?dh2::android_ui::CastBodyV2::focus:dh2::android_ui::CastBodyV2::event);
+1987:  if(request->state==6){
+1988:   if(!player_skills_runtime||!player_skills_runtime->player->ready())return -1;
+1990:   return dh2_character_skill_state_v4(&t.skill_state,request->operation==state_owner_blur?skill_state_blur_v4:request->operation==state_owner_focus?skill_state_focus_v4:skill_state_event_v4,request->event,0,request->payload,0,&services);
+1992:  return (request->operation==state_owner_blur?dh2_character_state_blur_body(&prince_state,&facts,&prince_services):request->operation==state_owner_focus?dh2_character_state_focus_body(&prince_state,&facts,request->other,request->payload,&prince_services):dh2_character_state_event_body(&prince_state,&facts,request->event,&prince_services))==1?0:-1;
+1994: if(request->operation==state_owner_character_event){const Request event{raise_event,{int(request->event),request->state,0},0,0,request->payload};character_service(nullptr,&prince_state,&event);return 0;}
+1995: if(request->operation==state_owner_pin)return dh2_native_body_pin(&prince_body);
+1998: if(request->operation==state_owner_profile_begin||request->operation==state_owner_profile_end){
+1999:  __android_log_print(ANDROID_LOG_VERBOSE,"DH2Native","Native transition profile | phase %u | state %d | event %x",request->operation,prince_state.current,prince_event_cause);return 0;
+2001: return -1;
+2007: t.world_touch->pending.pending14c8=0;t.world_touch->pending.skill14ca=-1;
+2008: auto& b=t.world_touch->same;b.world=t.targets.get();b.floors=level.native_floor.get();
+2009: b.machine=&prince_state;b.target=&t.world->player_object->target;b.target_services=t.world->player_object->binding.services;
+2011: b.blocked=&controller_global_blocked;b.forced=&prince_controller_forced;b.settings=t.world->saved_options.get();
+2012: const auto row=t.world->settings.row_index("Default");if(row<0)throw std::runtime_error("Actual Default DesignSettings row missing");
+2013: b.design=&t.world->settings.rows().at(row);
+2016:  std::uint32_t word{};if(dh2_character_debug_load(t.world->debug.get(),&t.world->debug_files)!=1||dh2_character_debug_get(&word,t.world->debug.get(),key,&t.world->debug_files)!=1){error="Required same source Ctrl_Click Debug owner/files";return false;}value=word!=0;return true;
+2021:  if(player_skills_runtime->world!=live_script_world||
+2022:    player_skills_runtime->player->session().properties()!=prince_combat.property_owner||
+2023:    player_skills_runtime->player->session().combat_state()!=prince_combat.life_owner){
+2029:    player_skills_runtime->animation_floor={level.native_floor.get(),&prince_runtime.object.motion.floor};
+2032:    player_skills_runtime->collision_primary=prince_body.body?prince_body.body->GetShapeList():nullptr;
+2033:    player_skills_runtime->collision_secondary=nullptr;
+2034:    player_skills_runtime->collision_filter_disabled=0;
+2039:      actor.script->death=std::make_shared<RendererNpcDeathV2>(*actor.script,*player_skills_runtime,actor.script->source_ai_group34);
+2041:   player_skills_runtime->player->session().set_position(actor_position);return;
+2044: auto runtime=std::make_unique<PlayerSkillsRuntime>();runtime->world=live_script_world;
+2045: auto& t=*runtime;const auto id=live_script_world->player_object->identity;
+2046: t.save=std::make_shared<dh2::data::PlayerSavegameV1>();t.save->set_character(id);
+2047: const auto tables=t.world->skills_owner->borrow();const int list=prince_combat.properties().resolved[28];
+2048: if(list<0||std::size_t(list)>=tables.lists().size()||!t.save->initialize_skills(tables.lists()[list],t.error)){
+2049:  throw std::runtime_error("Player SkillV6 actual saved-list initialization failed: "+t.error);
+2051:  t.save->initialize_faeries();
+2052:  if(!t.world->saved_options){
+2056:    if(!equipment_platform->cache.read(uris[i],found,options[i],t.error)||!found)throw std::runtime_error("Original GameOptionTable missing: "+t.error);
+2058:   if(!t.world->game_options.load_design_cache({options[0].data(),options[0].size()},{options[1].data(),options[1].size()},{options[2].data(),options[2].size()},t.error))throw std::runtime_error("Original GameOptionTable rejected: "+t.error);
+2061:   t.world->saved_options=std::make_unique<dh2::ui::OwnedHudSettingsV1>(t.world->game_options.borrow());
+2069:   if(!equipment_platform->cache.read(trophy_files[i],found,trophy_bytes[i],t.error)||!found)
+2075:  t.trophies=dh2::trophies::TrophyManagerOwnerV1::create(trophy_catalog,t.world->debug.get(),&t.world->debug_files,{},t.error);
+2078:  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original trophy manager retained | catalog %zu | same player SkillAI owner | unlock notification/save services required",t.trophies->data().size());
+2079: t.targets=std::make_unique<dh2::character::skills::CharacterWorldRuntimeV1>(*t.world->tables.ai());
+2081:  auto& a=t.world_actors[object->identity];a.runtime=&t;a.object=object;a.machine=machine;a.npc=npc;
+2082:  a.search.identity=object->identity;a.search.visible=1;
+2083:  a.character={object->identity,object->properties->resolved.data(),object->name.c_str(),machine?machine->flags:0,std::uint8_t(object->life->dead),0,1,0};
+2087:  registration.identity=object->identity;registration.handle_key=int(object->identity-0x100000000ull);
+2089:  if(npc)a.shared_handle=&npc->shared_handle();
+2091:  registration.shared_handle=a.shared_handle;registration.current_target=&object->target.target;
+2093:  if(t.targets->add(registration))throw std::runtime_error("Actual skill World registration failed: "+t.targets->error());
+2095:  register_actor(t.world->player_object,&prince_state);
+2098:    if(!actor.script->machine)throw std::runtime_error("Actual NPC state owner missing before World registration");
+2099:    register_actor(actor.script->object,&actor.script->machine->state(),actor.script.get());
+2103:  dh2::character::CharacterWorldNpcInitializationV1 npc_initialization(*t.targets,t.world->initialization);
+2106:   if(actor.script->machine->state().current!=-1)continue;
+2107:   const dh2::character::WorldNpcInitializationBorrowV1 borrowed{actor.identity,actor.room,actor.name.c_str(),actor.script->machine.get(),actor.script->session.get()};
+2110:   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original NPC level state | %s | current %d | flags %x | clip %d | same World/ScriptSession/FSM/HP",actor.name.c_str(),actor.script->machine->state().current,actor.script->machine->state().flags,actor.script->animation->playback().current_clip());
+2113: if(t.targets->refresh())throw std::runtime_error("Actual skill World projection refresh failed");
+2118: t.events={live_script_world->player_object->target.identity,&t.event_owner,t.ai_virtuals.data(),0,t.ais_virtuals.data(),0,0,0,0,0,0};
+2120: in.identity=id;in.name=live_script_world->player_object->name;in.source_is_character=1;
+2123: in.common=t.world->script_files.common();in.cached_file_context=&t;in.cached_file=PlayerSkillsRuntime::cached;
+2124: in.host=&t.world->host;in.level=&t.world->level_services;in.target=&t.world->player_object->binding;
+2125: in.objects=&t.world->objects->services();
+2127: t.native=std::make_unique<dh2::character::skills::CharacterSkillNativeReadOnlyBindingsV6>(*player_equipment->inventory(),t.fsm,mana,t.targets->native_world(id,in.objects));
+2129: const auto aggro_config=read(equipment_platform->manager,"crypt01-level-config-music-v1.bin","worlds");
+2135:   using namespace dh2::character::skills;auto& t=*static_cast<PlayerSkillsRuntime*>(p);if(!q||!out)return -1;
+2136:   if(q->service==skill_apply_hit_fx_v6){if(!result){t.error="HitFX requires actual CombatResult";return -1;}const auto handled=t.combat_fx_application(*q,*result);return handled==1?0:-1;}
+2137:   if(q->service==skill_apply_sound_v6){if(!result)return -1;const auto handled=combat_sound_application_v2(t,*q,*result);return handled==1?0:-1;}
+2138:    if(t.player_manager){const auto handled=t.player_manager->application(*q,out);
+2139:    if(handled){if(handled<0)t.error=t.player_manager->error();return handled==1?0:-1;}}
+2140:   const auto actor=t.world_actors.find(q->subject);
+2141:   if(actor!=t.world_actors.end()&&actor->second.npc&&actor->second.npc->injury){
+2142:    const auto handled=actor->second.npc->injury->application(*q,out);if(handled)return handled==1?0:-1;
+2144:  if(q->service==skill_apply_online_v6||q->service==skill_apply_party_count_v6){std::uintptr_t identity=0;std::int32_t scalar=0;std::string error;
+2145:   const auto operation=q->service==skill_apply_online_v6?dh2::player::EquipmentWorldQueryV1::online:dh2::player::EquipmentWorldQueryV1::player_count;
+2146:   if(!EquipmentPlatform::query(equipment_platform.get(),operation,q->subject,identity,scalar,error)){t.error=error;return -1;}
+2147:   out->word=std::uint32_t(scalar);return 0;
+2149:   if(q->service==skill_apply_saved_option_v6){
+2150:   if(!q->name||!t.world->saved_options)return -1;const auto& options=*t.world->saved_options;
+2151:   const auto* descriptor=options.descriptor(q->name);
+2152:   out->word=options.has_option(q->name)&&descriptor&&descriptor->type==0&&options.option(q->name)==descriptor->maximum;
+2155:   if(q->service==skill_apply_scrolling_text_v6){
+2156:    if(!result)return -1;
+2157:    try{apply_combat_text_v1(*result,q->attacker,q->target);return 0;}
+2158:    catch(const std::exception& e){t.error=e.what();return -1;}
+2160:   if(q->service==skill_apply_ai_combat_v6){
+2161:    if(!result||actor==t.world_actors.end()){t.error="AI combat result requires actual registered actor/result";return -1;}
+2163:    if(actor->second.npc){
+2164:     auto* session=actor->second.npc->session.get();
+2165:     if(!session){t.error="AI combat result requires retained NPC ScriptSession";return -1;}
+2166:     borrowed.owner=&session->owner();
+2167:     if(!session->owner().source_combat_results_callback(borrowed.source_character_callback)){
+2168:      dh2::character::ScriptSessionView selected{};if(session->owner().active(selected)){t.error="Selected NPC AIS combat callback producer unavailable";return -1;}
+2171:     if(!t.player){t.error="AI combat result requires retained player ScriptSession";return -1;}
+2172:     auto& session=t.player->session();borrowed.owner_v2=&session.owner();
+2176:    std::string diagnostic;const auto status=dh2::character::character_combat_results_ai_v1(borrowed,q->attacker,q->target,std::uint8_t(result->outcomes),diagnostic);
+2177:    if(status<0){t.error=diagnostic;return -1;}
+2178:    if(status)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Original AIS combat result Lua diagnostic | actor %016llx | %s",static_cast<unsigned long long>(q->subject),diagnostic.c_str());
+2181:   t.error="Required original skill application service "+std::to_string(q->service);return -1;
+2183: t.execution=std::make_unique<dh2::character::skills::CharacterWorldSkillExecutionV6>(*t.targets,*t.world->tables.ai(),*t.native,*player_equipment->inventory(),t.fsm,t.world->skills_owner->borrow(),t.combat_context,combat_random,*t.world->debug,t.world->debug_files,t.trophy_bindings.get(),combat_services);
+2189: t.player=dh2::character::skills::CharacterPlayerSkillsV6::create(t.world->design->borrow(),in,tables,t.world->script_files.faeries(),t.world->effect_services,t.fsm,init,t.error);
+2190: if(!t.player||t.execution->attach(t.player->session()))throw std::runtime_error("Original SkillV6 execution attach failed: "+(t.player?t.execution->error():t.error));
+2191: for(auto& entry:t.world_actors)if(t.execution->add({entry.first,&entry.second,PlayerSkillsRuntime::WorldActor::combat}))throw std::runtime_error("Original SkillV6 actor registration failed: "+t.execution->error());
+2192:  if(t.player->initialize(1)!=1||t.native->install_object_binding())throw std::runtime_error("Original equipped SkillV6 initialization failed: "+t.player->error()+"; "+t.native->error());
+2193:  t.events.active=t.player->session().owner().lifecycle().active;
+2200:   id,&t.player->session().owner(),&t.events.active,&t.animation_lag,&t.player->session().property_view(),
+2202:  t.animation_events=std::make_unique<dh2::character::CharacterAnimationEventOwnerV1>(t.events,animation_actor,t.world->effects_owner->borrow(),nullptr);
+2203: if(t.player->session().properties()!=player_equipment->properties()||t.player->session().combat_state()!=prince_combat.life_owner||t.player->native_savegame()!=t.save.get())
+2206:  static_cast<unsigned long long>(id),t.player->state().skills.count,t.player->state().spells.count,t.save->skills().size(),t.player->buff_count());
+2213:   player_skills_runtime->collision_primary=prince_body.body?prince_body.body->GetShapeList():nullptr;
+2220:  unsigned(initialized),gameplay.save->skill_level(0),gameplay.save->skill_in_slot(0),
+2221:  gameplay.properties->resolved[157],initial_error.c_str());
+2243: if(!source_hud_heading&&player_skills_runtime&&player_skills_runtime->heading_owner){
+2249: if(prince_state.current==7&&player_skills_runtime&&player_skills_runtime->cast){
+2251:   if(player_skills_runtime->cast->state_body(player_gameplay_binding(),dh2::android_ui::CastBodyV2::update))throw std::runtime_error("Original cast state update failed");
+2266: const dh2::actor::RuntimeRequest request{&prince_runtime,prince_body.body?&prince_body:nullptr,&prince_visual,&current_scene,&level.native_floor->collision_world,&level.native_floor->graph,&live_registry,&live_motion_policy,&live_workspace,nullptr,prince_combat.properties().resolved.data(),&policy,&services,nullptr,0x100000001ull,prince_flags,dt_ms};
+2269: const float dx=prince_runtime.subobjects.position[0]-actor_position[0],dy=prince_runtime.subobjects.position[1]-actor_position[1];
+2272: if(!live_script_world||!live_script_world->player_object||
+2273:    live_script_world->player_object->properties!=prince_combat.property_owner||
+2274:    live_script_world->player_object->life!=prince_combat.life_owner)
+2276: live_script_world->player_object->position=actor_position;
+2278:  player_skills_runtime->player->session().set_position(actor_position);
+2279:  player_skills_runtime->targets->begin_frame(native_actor_frames);
+2280:   if(player_skills_runtime->targets->refresh())throw std::runtime_error("Skill World current-frame refresh failed");
+2284: const auto physical_position=prince_body.body?prince_body.body->GetPosition():b2Vec2(actor_position[0]*.01f,actor_position[1]*.01f);
+2301:    if(!script_context->script_files){
+2306:      if(!script_context->script_assets.load(services,script_context->skills_owner->borrow(),error))
+2308:      script_context->script_files=script_context->script_assets.borrow();
+2311:      script_context->script_files.files().size(),script_context->script_files.bytes(),
+2312:      script_context->script_files.faeries().faeries().size(),unsigned(restore));
+2313:    const auto& effects=script_context->effects->source();
+2316:     static_cast<unsigned long long>(reinterpret_cast<std::uintptr_t>(script_context->effects.get())),
+2317:     static_cast<unsigned long long>(reinterpret_cast<std::uintptr_t>(script_context->effect_modules.get())),unsigned(restore));
+2318:    const auto& character_table=*script_context->tables.characters();
+2319:    const auto& class_table=*script_context->tables.classes();
+2320:    const auto& property_rules=*script_context->tables.rules();
+2321:    const auto& ai_tables=*script_context->tables.ai();
+2333:    dh2::data::PropertyState probe_defender;dh2::data::reset_properties(property_rules,probe_defender,&character_table.rows.at(defender_row-character_table.names.begin()));
+2349:    PlayerCombat fresh_player;dh2::data::reset_properties(property_rules,fresh_player.properties(),&character_table.rows.at(knight-character_table.names.begin()));dh2::data::SpawnVitals player_vitals;
+2353:    const auto bank_bytes=read(assets,"prince-animation-bank.bin","data");
+2370:      int animation_table=-1;if(object.kind==1){const auto* id=dh2::data::property(character_table,object.character,"AnimTable");if(!id)throw std::runtime_error("Monster animation table property missing");animation_table=*id;}
+2375:        actor.identity=0x100000002ull+(&object-object_records.data());actor.aggro.initialize(object_records.size()+1);
+2378:        actor.class_id=*class_id;actor.base_class=character_table.rows.at(character-character_table.names.begin());
+2381:        dh2::data::reset_properties(property_rules,actor.properties(),&character_table.rows.at(character-character_table.names.begin()));
+2385:        dh2::data::CombatantView probe_attacker{resolved.data(),-1,-1,0,0,0,5,0},probe_target{probe_defender.resolved.data(),-1,-1,0,0,0,5,0};
+2386:        dh2::data::CombatRandom probe_random{0xD22026u+unsigned(character-character_table.names.begin())*4,0};
+2399:        const int sequence=state-animation_tables.sequences.data();if(!actor.scheduler.start(animation_tables,sequence,animation_random,error))throw std::runtime_error(error);
+2401:        const auto separator=path->find_last_of("/\\");const auto filename=path->substr(separator==std::string::npos?0:separator+1);
+2408:        const auto* path=dh2::data::animation_clip(group.instances.front().scheduler.clip(),clip_table);const auto separator=path->find_last_of("/\\");clip=read(assets,path->substr(separator==std::string::npos?0:separator+1),"actors");
+2416:        for(const auto* state_name:{"Idle","Walk","Attack","Died"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);if(!state)throw std::runtime_error("Actor clip bank state missing");collect(state-animation_tables.sequences.data(),0);}
+2417:        for(int id:ids){dh2::data::AnimationStep ref;ref.anim=id;const auto* path=dh2::data::animation_clip(ref,clip_table);if(!path)throw std::runtime_error("Actor clip bank path missing");const auto separator=path->find_last_of("/\\");auto raw_clip=read(assets,path->substr(separator==std::string::npos?0:separator+1),"actors");auto& playback=group.clips[id];
+2459:        if(!group.clips.count(saved->scheduler.clip().anim))throw std::runtime_error("Restored actor clip is not bundled");
+2460:        actor=*saved;combat_resumed|=actor.combat_target!=-1||actor.combat_state().dead;
+2469:    auto player_object=script_context->objects->find(0x100000001ull);
+2470:    if(!player_object)player_object=script_context->objects->add(0x100000001ull,
+2473:    if(player_object->properties!=prince_combat.property_owner||
+2474:       player_object->life!=prince_combat.life_owner||player_object->name!="PlayerCharacterPrince")
+2476:    script_context->player_object=player_object;
+2477:    player_object->position=restore?previous:candidate.spawn;
+2479:    if(dh2_character_host_context_sync_level(&script_context->host_player,&host_properties))throw std::runtime_error("Host cached level sync failed");
+2480:    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Persistent game design ready | host cached level %d | level row %d | difficulty %d | authored levels %zu | development Crypt selection",script_context->host_player.cached_level,script_context->host_level.row_index,script_context->host_level.difficulty,script_context->ranges.size());
+2482:      script_context->settings.rows().size(),script_context->settings.row_index("Default"),script_context->settings.fields().size(),
+2483:      *script_context->enemy_spotted_aggro,script_context->settings.records_consumed(),script_context->settings.names_consumed(),unsigned(restore),
+2484:      static_cast<unsigned long long>(reinterpret_cast<std::uintptr_t>(script_context->enemy_spotted_aggro)));
+2485:    const auto common_script=script_context->script_files.common();
+2486:    const auto* monster_script=script_context->script_files.find("data/scripts/ai/monster.luac");
+2491:      auto object=script_context->objects->find(actor.identity);
+2492:      if(!object)object=script_context->objects->add(actor.identity,actor.name,actor.property_owner,actor.combat_owner,actor.position);
+2493:      if(object->properties!=actor.property_owner||object->life!=actor.combat_owner||object->name!=actor.name)throw std::runtime_error("Scene script identity backing differs");
+2494:      object->position=actor.position;
+2500:        if(actor.script->context!=script_context||actor.script->session->properties()!=actor.property_owner||actor.script->session->combat_state()!=actor.combat_owner||actor.script->object!=script_context->objects->find(actor.identity))throw std::runtime_error("Restored script backing differs");
+2512:      auto& session=*actor.script->session;session.set_position(actor.position);
+2515:      const auto* authored=dh2::character::actor_initialization(script_context->initialization,actor.room,actor.name);
+2516:      if(!authored||!actor.script->animation||authored->character!=actor.character)throw std::runtime_error("Monster retained native backing missing");
+2517:      const auto& native_bank=actor.script->animation->resources().metadata();
+2520:       static_cast<unsigned long long>(reinterpret_cast<std::uintptr_t>(actor.script->animation.get())),unsigned(retained),authored->resolved.preset_state,unsigned(authored->authored[dh2::character::actor_ai_state].present));
+2525:      if(dh2_script_vm_call(view.vm,"HasTarget",nullptr,0,&has_target,1,&returned)||returned!=1||has_target.type!=DH2_SCRIPT_BOOLEAN||bool(has_target.boolean)!=bool(actor.script->object->target.target))throw std::runtime_error("Live monster target backing differs");
+2526:      __android_log_print(ANDROID_LOG_INFO,"DH2Native","Scene script object | %s | identity %016llx | CharAI %016llx | retained %u | target %016llx | source GetID and HasTarget verified",actor.name.c_str(),static_cast<unsigned long long>(actor.identity),static_cast<unsigned long long>(actor.script->object->target.identity),unsigned(retained),static_cast<unsigned long long>(actor.script->object->target.target));
+2545:    // interpret a new-world tap through the previous GL context's matrix.
+2547:    radius=350;yaw=-1.57f;pitch=.75f;zoom=1;object_epoch=epoch=last_frame=std::chrono::steady_clock::now();sampled_ms=0;frozen=false;
+2552:    player_object->position=actor_position;
+2554:      static_cast<unsigned long long>(player_object->identity),static_cast<unsigned long long>(player_object->target.identity),unsigned(restore),
+2562:      if(!actor.script->session->owner().active(view))throw std::runtime_error("Position probe session unavailable");
+2563:      const auto& point=actor.script->object->position;
+2565:      verify_script_object_position(view.vm,player_object->identity,player_object->position);
+2568:        static_cast<unsigned long long>(player_object->identity),double(player_object->position[0]),double(player_object->position[1]),double(player_object->position[2]),unsigned(restore));
+2572:    if(level.native_floor)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Native floors ready | records %zu | graph nodes %u | graph edges %u | selector collision controls height",level.native_floor->records.size(),level.native_floor->graph.node_count,level.native_floor->graph.edge_count);
+2573:    if(level.native_floor&&level.native_floor->sewn)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Native floor links ready | neighbour relations %u | validation references %u | graph-node search ready",level.native_floor->sewing.link_count,level.native_floor->graph.validation_count);
+2574:    if(level.native_floor&&level.native_floor->sewn){
+2579:      const auto goal=[](void* target,unsigned id)->unsigned{return id==*static_cast<unsigned*>(target);};const auto valid=[](void*,unsigned)->unsigned{return 1;};
+2590:        float source[3],target[3];centroid(floors.records[a]->triangles.front(),source);centroid(floors.records[b]->triangles.back(),target);
+2603:        float target[3];centroid(floors.records[a]->triangles.front(),actor.position);centroid(floors.records[b]->triangles.back(),target);
+2614:        float source[3],target[3],point[3],direction[3];centroid(floors.records[a]->triangles.front(),source);centroid(floors.records[b]->triangles.back(),target);
+2615:        for(unsigned k=0;k<3;++k){point[k]=target[k];direction[k]=target[k]-source[k];}point[2]+=36;
+2626:        centroid(floors.records[a]->triangles.front(),source);centroid(floors.records[b]->triangles.back(),target);std::copy(target,target+3,point);point[2]+=36;
+2640:        float source[3];centroid(floors.records[floor]->triangles.front(),source);
+2642:        dh2::navigation::ObstacleRegistry registry{entries,8,8,buckets,2,2};const float offsets[8][2]{{0,0},{30,10},{35,-15},{120,0},{20,5},{25,10},{20,-10},{30,0}};
+2647:          a.physical={1,0,0,1,{std::int16_t(i==0||i==4?-3:0),1,65535,1},{0,0,0,0}};entries[i]={f,0,keys[i]};
+2659:        float source[3];centroid(floors.records[floor]->triangles.front(),source);
+2664:        const dh2::navigation::ProducerFields fields{dh2::navigation::ProducerClass::character,1,.36f,0,{-36,-24},{36,24}};
+2683:    const unsigned dt_ms=now_ms-previous_ms;last_frame=now;
+2684:    // The original Application skips updates after a real-time gap >2000ms.
+2693:    if(!frozen){const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-epoch).count();sampled_ms=playback.start+elapsed%(playback.end-playback.start);}
+2699:   if(world_mode&&player_skills_runtime&&current_application_tick&&player_skills_runtime->combat_fx_frame(std::int32_t(scene_clock),current_application_dt))throw std::runtime_error("Source CombatFX frame failed: "+player_skills_runtime->error);
+2700:  if(world_mode&&player_equipment&&player_equipment->ready()){
+2702:    if(!player_equipment->draw_parts(parts,error))throw std::runtime_error("Live equipment pose failed: "+error);
+2703:    sync_equipment_draws(std::move(parts),equipment_platform->manager,equipment_platform->cache);
+2715:      b.material.gles2_technique=="L1_Vc_Al_----_----_----_----";
+2724:    if(world_mode&&player_equipment&&player_equipment->ready()&&!b.environment)continue;
+2740:     if(instance.script){instance.script->rendered_bounds_ready=false;instance.script->rendered_screen_bounds_ready=false;}
+2750:      if(clip.track_count()){const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-object_epoch).count();ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+elapsed%(clip.end-clip.start);}
+2754:      if(actor.script){actor.script->object->position=actor.position;actor.script->session->set_position(actor.position);}
+2758:        if(!sequence||!actor.scheduler.start(actor_animation_tables,sequence-actor_animation_tables.sequences.data(),actor_random,error)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Combat death animation failed");enabled=false;return;}
+2762:      if(actor.script&&!actor.combat_state().dead&&(actor.state=="Idle"||actor.script->machine->state().current==11)){
+2763:       const auto& scene=actor.script->animation->scene();
+2764:       actor.script->rendered_bounds_ready=false;actor.script->rendered_screen_bounds_ready=false;
+2785:        const auto& clip=group.clips.at(actor.scheduler.clip().anim);const double duration=clip.end-clip.start,speed=actor.scheduler.clip().speed,needed=(duration-actor.cursor)/speed;
+2791:            __android_log_print(ANDROID_LOG_INFO,"DH2Native","Actor animation event | %s | state %s | clip %d | name %s | lag ms %d | time ms %d | count %u",actor.name.c_str(),actor.state.c_str(),context.clip,event->name,event->lag_ms,context.ms,actor.animation_events);
+2797:            const dh2::data::CombatEventContext combat{actor.state=="Attack"?5:-1,int(frames.front().step),int(frames.back().step),projectile!=-1,projectile};
+2799:            if(dh2_combat_event_route(&action,&combat,event->name)!=0){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Actor combat route failed");return;}
+2801:              __android_log_print(ANDROID_LOG_INFO,"DH2Native","Actor combat action | %s | state %s | clip %d | name %s | kind %d | sequence %d | attack step %d | offhand %d | capability %u | projectile %d | %s",actor.name.c_str(),actor.state.c_str(),context.clip,event->name,int(action.kind),action.sequence_step,action.attack_step,action.offhand,combat.can_range,combat.projectile,actor.combat_target==-1?"execution pending":"native target request");
+2808:        remaining-=std::max(0.,needed);if(++events>64||!actor.scheduler.complete(actor_animation_tables,actor_random,error)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Actor completion failed: %s",error.c_str());enabled=false;return;}
+2813:      const auto& clip=group.clips.at(actor.scheduler.clip().anim);const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));

@@ -1,0 +1,84 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "hit_floor": "0x0",
+      "result": 0,
+      "point": [
+        99.0,
+        99.0,
+        99.0
+      ],
+      "calls": [
+        [
+          "camera",
+          10,
+          -20
+        ],
+        [
+          "floor",
+          "0x1103000"
+        ],
+        [
+          "floor",
+          "0x1104000"
+        ]
+      ]
+    },
+    {
+      "hit_floor": "0x1103000",
+      "result": 1,
+      "point": [
+        7.0,
+        8.0,
+        9.0
+      ],
+      "calls": [
+        [
+          "camera",
+          10,
+          -20
+        ],
+        [
+          "floor",
+          "0x1103000"
+        ]
+      ]
+    },
+    {
+      "hit_floor": "0x1104000",
+      "result": 1,
+      "point": [
+        7.0,
+        8.0,
+        9.0
+      ],
+      "calls": [
+        [
+          "camera",
+          10,
+          -20
+        ],
+        [
+          "floor",
+          "0x1103000"
+        ],
+        [
+          "floor",
+          "0x1104000"
+        ]
+      ]
+    }
+  ],
+  "actual_executed": [
+    "TranslateScreenToWorld525884",
+    "PFWorldGetCollisionAt525800",
+    "PFRoomGetCollisionAt5212e0"
+  ],
+  "fixture_services": [
+    "camera virtual ScreenRay",
+    "PFFloor triangleSelector raycast51b874",
+    "__aeabi_f2iz finite in-range primitives"
+  ],
+  "whole_camera_floor_renderer_verified": false
+}

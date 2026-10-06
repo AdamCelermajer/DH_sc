@@ -1,0 +1,29 @@
+{
+  "validation": "PASS",
+  "results": [
+    {
+      "optimization": "-O1",
+      "result": {
+        "validation": "PASS",
+        "checks": 404,
+        "vertices": 1235,
+        "scope": "actual Android SWF layouts, portrait/cooldown frames, viewport geometry and whole authored display; texture/localization providers are host fixtures, production actions external"
+      }
+    },
+    {
+      "optimization": "-O2",
+      "result": {
+        "validation": "PASS",
+        "checks": 404,
+        "vertices": 1235,
+        "scope": "actual Android SWF layouts, portrait/cooldown frames, viewport geometry and whole authored display; texture/localization providers are host fixtures, production actions external"
+      }
+    }
+  ],
+  "sha256": {
+    "port/engine-ui/authored_gameplay_hud_v1.hpp": "9526deb691a7b50a48845fe55e0c843cb717cd555a1225190a24795ec0ab0204",
+    "port/engine-ui/authored_gameplay_hud_v1.cpp": "41847bfe4ae9799da4a88f5f4ca505db9322b46469976c0f839c019da4c54568",
+    "port/engine-ui/tests/authored_gameplay_hud_v1.cpp": "145cebc4949ca282e6424db64d31640b1acc804e9111ab32f4185fd73d996159",
+    "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  }
+}

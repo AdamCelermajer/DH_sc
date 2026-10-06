@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\canonical-level-module-fields-handoff-b8a188ec6939c773.zip",
+  "sha256": "f52a2dccd9055ea097c3c29f652c7666b43a50d95bd18d59e726e55e4537284d",
+  "entries": 29,
+  "checkpoint_sha256": "b8a188ec6939c773e2644f2013c42aae2f764d13a94752b34231f5d5da5ac575",
+  "full_loader_verified": false
+}

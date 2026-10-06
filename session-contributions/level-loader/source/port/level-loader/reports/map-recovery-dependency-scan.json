@@ -1,0 +1,314 @@
+{
+  "scope": "Static rule list MGP/MVP reference check, not all seeds or runtime gameplay",
+  "rules": [
+    {
+      "definition": "data/scene/002_swamp_witchcave.rule.xml",
+      "module_dependencies": 26,
+      "missing": [],
+      "original_failure_backup": "data/scene/x02_swamp_witchcave_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/004_root_den.rule.xml",
+      "module_dependencies": 23,
+      "missing": [],
+      "original_failure_backup": "data/scene/x04_root_den_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/006_basement.rule.xml",
+      "module_dependencies": 28,
+      "missing": [],
+      "original_failure_backup": "data/scene/x06_basement_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/007_crypt_01.rule.xml",
+      "module_dependencies": 44,
+      "missing": [],
+      "original_failure_backup": "data/scene/x07_crypt_01_backup.mlx",
+      "backup_present": false
+    },
+    {
+      "definition": "data/scene/008_gothicus_castle_01.rule.xml",
+      "module_dependencies": 20,
+      "missing": [],
+      "original_failure_backup": "data/scene/x08_gothicus_castle_01_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/009_abbey.rule.xml",
+      "module_dependencies": 32,
+      "missing": [],
+      "original_failure_backup": "data/scene/x09_abbey_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/010_el_lightning.rule.xml",
+      "module_dependencies": 20,
+      "missing": [],
+      "original_failure_backup": "data/scene/x10_el_lightning_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/011_earth_temple_01.rule.xml",
+      "module_dependencies": 32,
+      "missing": [],
+      "original_failure_backup": "data/scene/x11_earth_temple_01_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/012_earth_temple_02.rule.xml",
+      "module_dependencies": 40,
+      "missing": [],
+      "original_failure_backup": "data/scene/x12_earth_temple_02_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/013_earth_temple_03.rule.xml",
+      "module_dependencies": 38,
+      "missing": [],
+      "original_failure_backup": "data/scene/x13_earth_temple_03_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/014_el_earth.rule.xml",
+      "module_dependencies": 20,
+      "missing": [],
+      "original_failure_backup": "data/scene/x14_el_earth_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/016_red_desert_cave_01.rule.xml",
+      "module_dependencies": 26,
+      "missing": [],
+      "original_failure_backup": "data/scene/x16_red_desert_cave_01_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/017_red_desert_cave_02.rule.xml",
+      "module_dependencies": 24,
+      "missing": [],
+      "original_failure_backup": "data/scene/x17_red_desert_cave_02_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/018_red_desert_cave_03.rule.xml",
+      "module_dependencies": 28,
+      "missing": [],
+      "original_failure_backup": "data/scene/x18_red_desert_cave_03_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/019_light_house_01.rule.xml",
+      "module_dependencies": 18,
+      "missing": [],
+      "original_failure_backup": "data/scene/x19_light_house_01_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/019_light_house_02.rule.xml",
+      "module_dependencies": 16,
+      "missing": [],
+      "original_failure_backup": "data/scene/x19_light_house_02_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/019_light_house_03.rule.xml",
+      "module_dependencies": 38,
+      "missing": [],
+      "original_failure_backup": "data/scene/x19_light_house_03_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/020_crypt_02.rule.xml",
+      "module_dependencies": 32,
+      "missing": [],
+      "original_failure_backup": "data/scene/x20_crypt_02_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/021_gothicus_castle_02.rule.xml",
+      "module_dependencies": 15,
+      "missing": [
+        {
+          "element": "corner_ws",
+          "attribute": "gameplay",
+          "authored": "data/iphone/3d/modules/castle/mgp/gc02_corner_ws_01.mgp",
+          "found": false,
+          "candidates": [
+            "data/3d/modules/castle/mgp/gc02_corner_ws_01.mgp",
+            "data/data/3d/modules/castle/mgp/gc02_corner_ws_01.mgp",
+            "data/scene/data/3d/modules/castle/mgp/gc02_corner_ws_01.mgp",
+            "data/3d/modules/data/3d/modules/castle/mgp/gc02_corner_ws_01.mgp"
+          ]
+        }
+      ],
+      "original_failure_backup": "data/scene/x21_gothicus_castle_02_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/022_swamp2.rule.xml",
+      "module_dependencies": 22,
+      "missing": [],
+      "original_failure_backup": "data/scene/x22_swamp2_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/022_swamp2_trollcave.rule.xml",
+      "module_dependencies": 30,
+      "missing": [],
+      "original_failure_backup": "data/scene/x22_swamp2_trollcave_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/023_watertemple.rule.xml",
+      "module_dependencies": 68,
+      "missing": [],
+      "original_failure_backup": "data/scene/x23_watertemple_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/024_el_water.rule.xml",
+      "module_dependencies": 20,
+      "missing": [],
+      "original_failure_backup": "data/scene/x24_el_water_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/026_icy_cavern_01.rule.xml",
+      "module_dependencies": 26,
+      "missing": [],
+      "original_failure_backup": "data/scene/x26_icy_cavern_01_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/027_icy_cavern_02.rule.xml",
+      "module_dependencies": 24,
+      "missing": [],
+      "original_failure_backup": "data/scene/x27_icy_cavern_02_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/028_icy_cavern_03.rule.xml",
+      "module_dependencies": 18,
+      "missing": [],
+      "original_failure_backup": "data/scene/x28_icy_cavern_03_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/029_wind_temple.rule.xml",
+      "module_dependencies": 36,
+      "missing": [],
+      "original_failure_backup": "data/scene/x29_wind_temple_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/030_el_air.rule.xml",
+      "module_dependencies": 20,
+      "missing": [],
+      "original_failure_backup": "data/scene/x30_el_air_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/032_el_fire.rule.xml",
+      "module_dependencies": 20,
+      "missing": [],
+      "original_failure_backup": "data/scene/x32_el_fire_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/033_voidmaze_01.rule.xml",
+      "module_dependencies": 38,
+      "missing": [
+        {
+          "element": "corner_voidmaze_ne_00",
+          "attribute": "gameplay",
+          "authored": "data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+          "found": false,
+          "candidates": [
+            "data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/scene/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/3d/modules/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp"
+          ]
+        }
+      ],
+      "original_failure_backup": "data/scene/x33_voidmaze_01_backup.mlx",
+      "backup_present": false
+    },
+    {
+      "definition": "data/scene/034_voidmaze_02.rule.xml",
+      "module_dependencies": 36,
+      "missing": [
+        {
+          "element": "x_voidmaze_nswe_00",
+          "attribute": "visual",
+          "authored": "data/iphone/3d/modules/void_maze/mvp/vm01_x_voidmaze_nswe_00",
+          "found": false,
+          "candidates": [
+            "data/3d/modules/void_maze/mvp/vm01_x_voidmaze_nswe_00",
+            "data/data/3d/modules/void_maze/mvp/vm01_x_voidmaze_nswe_00",
+            "data/scene/data/3d/modules/void_maze/mvp/vm01_x_voidmaze_nswe_00",
+            "data/3d/modules/data/3d/modules/void_maze/mvp/vm01_x_voidmaze_nswe_00"
+          ]
+        },
+        {
+          "element": "corner_voidmaze_ne_00",
+          "attribute": "gameplay",
+          "authored": "data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+          "found": false,
+          "candidates": [
+            "data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/scene/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/3d/modules/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp"
+          ]
+        }
+      ],
+      "original_failure_backup": "data/scene/x34_voidmaze_02_backup.mlx",
+      "backup_present": false
+    },
+    {
+      "definition": "data/scene/035_voidmaze_03.rule.xml",
+      "module_dependencies": 32,
+      "missing": [
+        {
+          "element": "corner_voidmaze_ne_00",
+          "attribute": "gameplay",
+          "authored": "data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+          "found": false,
+          "candidates": [
+            "data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/scene/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+            "data/3d/modules/data/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp"
+          ]
+        }
+      ],
+      "original_failure_backup": "data/scene/x35_voidmaze_03_backup.mlx",
+      "backup_present": false
+    },
+    {
+      "definition": "data/scene/050_earth_temple_demo.rule.xml",
+      "module_dependencies": 10,
+      "missing": [],
+      "original_failure_backup": "data/scene/x50_earth_temple_demo_backup.mlx",
+      "backup_present": true
+    },
+    {
+      "definition": "data/scene/102_debug_questtest.rule.xml",
+      "module_dependencies": 7,
+      "missing": [],
+      "original_failure_backup": "data/scene/x02_debug_questtest_backup.mlx",
+      "backup_present": false
+    },
+    {
+      "definition": "data/scene/125_randomforalexb.rule.xml",
+      "module_dependencies": 10,
+      "missing": [],
+      "original_failure_backup": "data/scene/x25_randomforalexb_backup.mlx",
+      "backup_present": false
+    }
+  ]
+}

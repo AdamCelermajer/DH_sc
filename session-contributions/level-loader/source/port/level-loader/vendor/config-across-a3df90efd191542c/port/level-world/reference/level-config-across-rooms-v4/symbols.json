@@ -1,0 +1,67 @@
+[
+  {
+    "address": "0x310454",
+    "symbol": "_Z11CustomAllocj",
+    "size": 164
+  },
+  {
+    "address": "0x310570",
+    "symbol": "_Znwj15MemoryHintState",
+    "size": 4
+  },
+  {
+    "address": "0x310648",
+    "symbol": "_Z8VoxAllocjN3vox10VoxMemHintE",
+    "size": 24
+  },
+  {
+    "address": "0x33f15c",
+    "symbol": "_ZN10ObjectBaseC1ENS_6GO_IDSE",
+    "size": 436
+  },
+  {
+    "address": "0x33f310",
+    "symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+    "size": 436
+  },
+  {
+    "address": "0x340ca8",
+    "symbol": "_Z14GetNewInstanceI11LevelConfigEP10ObjectBasev",
+    "size": 36
+  },
+  {
+    "address": "0x34aca0",
+    "symbol": "_ZN13ObjectManager15GetObjectByNameEPKcibS1_",
+    "size": 964
+  },
+  {
+    "address": "0x34b270",
+    "symbol": "_ZN13ObjectManager3AddEP10ObjectBasePKcS3_ib",
+    "size": 688
+  },
+  {
+    "address": "0x3f28ec",
+    "symbol": "_ZN11LevelConfig8InitPostEv",
+    "size": 504
+  },
+  {
+    "address": "0x3f4910",
+    "symbol": "_ZN11LevelConfigC2EN10ObjectBase6GO_IDSE",
+    "size": 644
+  },
+  {
+    "address": "0x3f4b94",
+    "symbol": "_ZThn4_N11LevelConfig17DeclarePropertiesEv",
+    "size": 8
+  },
+  {
+    "address": "0x3f4b9c",
+    "symbol": "_ZN11LevelConfig17DeclarePropertiesEv",
+    "size": 1548
+  },
+  {
+    "address": "0x3f51a8",
+    "symbol": "_ZN11LevelConfigC1EN10ObjectBase6GO_IDSE",
+    "size": 644
+  }
+]

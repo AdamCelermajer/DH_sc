@@ -1,0 +1,3345 @@
+{
+  "validation": "PASS",
+  "scope": "Original PlaySoundPackSound properties and relative transform on existing loaded source; explicit driver observers and non-special mask fixture. No source UID binding or audible output claim.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "records": [
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -8.0,
+          -17.0,
+          26.0
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -8.0,
+          -17.0,
+          26.0
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -8.0,
+          -17.0,
+          26.0
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -8.0,
+          -17.0,
+          26.0
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -159.321533203125,
+          -145.8762969970703,
+          -58.05327606201172
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          30.782136917114258,
+          5.894618511199951,
+          -10.807783126831055
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -42.58566665649414,
+          4.872655868530273,
+          -35.3627815246582
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -13.144231796264648,
+          33.7720947265625,
+          -184.5004425048828
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -157.80697631835938,
+          -0.24615933001041412,
+          70.45650482177734
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -168.02943420410156,
+          -10.31951904296875,
+          -4.856781005859375
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          35.44457244873047,
+          -125.74212646484375,
+          39.421939849853516
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -143.1819610595703,
+          50.53754425048828,
+          173.5488739013672
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          60.83725357055664,
+          -173.86280822753906,
+          139.27845764160156
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -128.013916015625,
+          116.9150390625,
+          135.42054748535156
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -157.61050415039062,
+          150.18853759765625,
+          -23.689735412597656
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          135.77923583984375,
+          149.62794494628906,
+          114.63322448730469
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -143.2943878173828,
+          -63.602195739746094,
+          -44.92163848876953
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -87.25595092773438,
+          -42.10087966918945,
+          35.312278747558594
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          21.811067581176758,
+          -100.87887573242188,
+          29.540056228637695
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          134.6457061767578,
+          -97.00994110107422,
+          -111.42479705810547
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          88.65644073486328,
+          36.3027229309082,
+          155.34127807617188
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -57.85624313354492,
+          -29.276565551757812,
+          180.86923217773438
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          148.70138549804688,
+          -174.5328826904297,
+          97.3132095336914
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -1.6558852195739746,
+          -80.30863189697266,
+          133.9015350341797
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -65.72784423828125,
+          53.11827850341797,
+          149.15257263183594
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          95.50586700439453,
+          -120.39221954345703,
+          0.4655050039291382
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          169.6151580810547,
+          -50.47396469116211,
+          -170.47364807128906
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -234.51785278320312,
+          60.873504638671875,
+          -103.03913879394531
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          155.0189971923828,
+          -90.08491516113281,
+          -84.08856964111328
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          187.5026397705078,
+          122.07622528076172,
+          180.14781188964844
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          29.474227905273438,
+          -310.3789978027344,
+          2.0793685913085938
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          6.075178623199463,
+          182.3563995361328,
+          74.33419036865234
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          9.369239807128906,
+          56.878177642822266,
+          -66.63972473144531
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -8.082679748535156,
+          64.33540344238281,
+          48.32003402709961
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -186.58706665039062,
+          -71.49991607666016,
+          -193.68533325195312
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          180.1151123046875,
+          -183.201904296875,
+          -17.594623565673828
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -177.92135620117188,
+          -92.48908996582031,
+          156.4888916015625
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -43.698890686035156,
+          102.06555938720703,
+          150.6197052001953
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          9.475526809692383,
+          186.57510375976562,
+          83.64845275878906
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -144.4161834716797,
+          20.371719360351562,
+          -138.9327392578125
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -188.93658447265625,
+          199.0827178955078,
+          -132.44039916992188
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          160.22845458984375,
+          -186.6420440673828,
+          -42.39340591430664
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -212.14605712890625,
+          34.65277862548828,
+          -139.20188903808594
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -7.370258808135986,
+          -51.388038635253906,
+          189.15988159179688
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          37.956172943115234,
+          146.36886596679688,
+          -140.7659454345703
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -67.55693054199219,
+          -16.012557983398438,
+          -215.93536376953125
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          196.06549072265625,
+          -83.6757583618164,
+          47.17472839355469
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          108.06544494628906,
+          -120.1677474975586,
+          35.784263610839844
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -28.694786071777344,
+          56.144287109375,
+          -161.616455078125
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -72.22640991210938,
+          171.06741333007812,
+          90.54965209960938
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          141.97120666503906,
+          -90.50807189941406,
+          -196.85311889648438
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          21.238605499267578,
+          -55.318328857421875,
+          245.7812042236328
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          116.62252807617188,
+          -199.5609893798828,
+          68.84274291992188
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -17.006954193115234,
+          6.367708683013916,
+          8.142842292785645
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -7.890269756317139,
+          23.498516082763672,
+          30.130355834960938
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -24.326818466186523,
+          -20.881141662597656,
+          -121.264892578125
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -37.17686080932617,
+          108.40999603271484,
+          -6.494551181793213
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          103.43624114990234,
+          -51.806400299072266,
+          23.043869018554688
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          101.13494873046875,
+          -10.063631057739258,
+          -111.75127410888672
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -44.999088287353516,
+          154.30506896972656,
+          177.4080810546875
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          96.84063720703125,
+          -215.82545471191406,
+          29.953073501586914
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          24.42757225036621,
+          193.30812072753906,
+          191.97628784179688
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -175.13986206054688,
+          -165.27288818359375,
+          99.72268676757812
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          211.32704162597656,
+          133.46044921875,
+          -65.27052307128906
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -79.96004486083984,
+          -11.722094535827637,
+          3.32650089263916
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -25.06254005432129,
+          -147.7707061767578,
+          -168.19979858398438
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -4.6550750732421875,
+          174.01527404785156,
+          129.74058532714844
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -181.07321166992188,
+          68.20890808105469,
+          -177.43955993652344
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -98.81433868408203,
+          154.66908264160156,
+          -29.317102432250977
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          169.85302734375,
+          59.056365966796875,
+          85.67365264892578
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          37.59724807739258,
+          170.27615356445312,
+          58.22398376464844
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -37.6661491394043,
+          -7.508793354034424,
+          -11.075807571411133
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          10.049211502075195,
+          -58.0023078918457,
+          -19.64925765991211
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -124.07624053955078,
+          164.7291717529297,
+          -37.50120544433594
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -176.63475036621094,
+          106.79898834228516,
+          98.42936706542969
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -51.257476806640625,
+          196.09991455078125,
+          -113.78321838378906
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          69.92518615722656,
+          172.9034423828125,
+          -97.75540924072266
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -178.56683349609375,
+          53.4027099609375,
+          -17.035402297973633
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -26.21773338317871,
+          -168.77197265625,
+          83.7170181274414
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          4.727697372436523,
+          110.92524719238281,
+          137.8931121826172
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -183.4752960205078,
+          179.90301513671875,
+          106.66875457763672
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -98.5943603515625,
+          237.07528686523438,
+          124.92769622802734
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          53.91570281982422,
+          28.983570098876953,
+          -63.97359085083008
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          44.93721008300781,
+          -123.4523696899414,
+          -165.8765411376953
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -83.78147888183594,
+          132.0167694091797,
+          126.9994125366211
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          18.996723175048828,
+          25.429019927978516,
+          79.47754669189453
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          33.305721282958984,
+          -83.01864624023438,
+          -9.909759521484375
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          -3.8261351585388184,
+          -109.69493103027344,
+          20.225753784179688
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -156.79115295410156,
+          -180.9758758544922,
+          -165.3196563720703
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": -1.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          -181.69252014160156,
+          -1.8936476707458496,
+          99.4631118774414
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          116.67204284667969,
+          17.918487548828125,
+          -193.84030151367188
+        ]
+      ]
+    },
+    {
+      "position_type": 0,
+      "reference_override": 3.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 1,
+      "reference_override": -1.0,
+      "maximum_override": -1.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          110.13157653808594,
+          57.50700378417969,
+          4.225702285766602
+        ],
+        [
+          "float",
+          2,
+          1000.0
+        ],
+        [
+          "float",
+          1,
+          2000.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ]
+      ]
+    },
+    {
+      "position_type": 2,
+      "reference_override": 3.0,
+      "maximum_override": 7.0,
+      "calls": [
+        [
+          "priority",
+          2
+        ],
+        [
+          "position",
+          147.96347045898438,
+          -188.19017028808594,
+          -166.29544067382812
+        ],
+        [
+          "float",
+          2,
+          3.0
+        ],
+        [
+          "float",
+          1,
+          7.0
+        ],
+        [
+          "float",
+          3,
+          0.5
+        ],
+        [
+          "integer",
+          0,
+          1
+        ],
+        [
+          "position",
+          231.43800354003906,
+          -40.97492218017578,
+          167.72341918945312
+        ]
+      ]
+    }
+  ],
+  "compiled_arm64_comparisons": 102,
+  "original_listener_rows": [
+    {
+      "name": "AAA_DONT_DELETE_Listener",
+      "source_words": [
+        3,
+        2500,
+        0,
+        3150,
+        1065353216,
+        0
+      ],
+      "all_original_fields_match": true
+    },
+    {
+      "name": "curListener",
+      "source_words": [
+        2,
+        1800,
+        2,
+        1000,
+        1065353216,
+        0
+      ],
+      "all_original_fields_match": true
+    },
+    {
+      "name": "PlayerListener",
+      "source_words": [
+        2,
+        1800,
+        2,
+        1000,
+        1065353216,
+        0
+      ],
+      "all_original_fields_match": true
+    },
+    {
+      "name": "BAPListener",
+      "source_words": [
+        1,
+        3500,
+        2,
+        1500,
+        1065353216,
+        0
+      ],
+      "all_original_fields_match": true
+    },
+    {
+      "name": "CameraListener",
+      "source_words": [
+        0,
+        2500,
+        0,
+        3150,
+        1065353216,
+        0
+      ],
+      "all_original_fields_match": true
+    }
+  ],
+  "constructor_distance_fields": [
+    1000,
+    1000,
+    1.0
+  ],
+  "initialize_distance_model_call": [
+    2,
+    4
+  ],
+  "constructor_prefix_boundary": "324114 before soundpack/engine construction",
+  "initialize_block": "36c3bc..36c3d8"
+}

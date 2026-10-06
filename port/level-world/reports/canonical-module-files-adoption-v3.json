@@ -1,0 +1,23 @@
+{
+  "archive_sha256": "b58e6746bcdd8e9099907a572a8814ac4e747b22358bf7ce96f0cc270ae67761",
+  "all_entries_verified": 12,
+  "adopted": {
+    "port/level-loader/canonical_module_files_v1.hpp": {
+      "bytes": 3356,
+      "sha256": "8e72dc7a77c3b0d8076a58f7d8201634b0907269a3f72754d6496ec8755398a5"
+    },
+    "port/level-loader/canonical_module_files_v1.cpp": {
+      "bytes": 6087,
+      "sha256": "47fc1dc4dc58f462136b82ac69d2e82a7b25b1a18a8d54396d5268d2617627fd"
+    },
+    "port/level-loader/CANONICAL-MODULE-FILES-HANDOFF.md": {
+      "bytes": 5032,
+      "sha256": "e4e160a3506f119b48d212dbf4e4c23b6ed910bdc7b589dce3f4f3feec2ac10f"
+    },
+    "port/level-loader/reports/canonical-module-files-checks.json": {
+      "bytes": 2460,
+      "sha256": "05d5853c579eac3d70ba9e19b3d31e8e3bac5392aaf358bed3ab9587b54eb11d"
+    }
+  },
+  "scope": "new relay owners only; no CMake/vendor/shared overwrite"
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "path": "port/level-world/retained_character_actor_v1.hpp",
+    "sha256": "f91233bf7ff7c422707a0f5c8f12a902cdcefd20199defb4b9ef4813c651ab10"
+  },
+  {
+    "path": "port/level-world/retained_character_actor_v1.cpp",
+    "sha256": "2cfea1603c03be0b5cc43788baafa81e1ef3764e235e9d54d659c2d9ba51d632"
+  },
+  {
+    "path": "port/level-world/character_kill_fields_v21.hpp",
+    "sha256": "382d902f9f7f03b80ff2ac96356e39f4f0aa4c85984db247acb8cf1e8a704636"
+  },
+  {
+    "path": "port/level-world/character_kill_fields_v21.cpp",
+    "sha256": "53b525fc680377ceb535f1c06ac671202bb9eee0190e09e9e5f6473b6154649f"
+  },
+  {
+    "path": "port/level-world/retained_character_kill_borrow_v42.hpp",
+    "sha256": "2ff9ba4302406ba90670364c7f24e97cd7c65044c2d1785476c9c635444a4d3b"
+  },
+  {
+    "path": "port/level-world/retained_character_kill_borrow_v42.cpp",
+    "sha256": "14f7b285f80f53c4093e592932f7c782bcba89df69345bf8465b28f388eac641"
+  },
+  {
+    "path": "port/level-world/tests/character_kill_fields_v42.cpp",
+    "sha256": "08b8e9e0e7f57eb674d3ccc466c7f1a9f29aa466db6e65382a2efa62bb2f4be8"
+  },
+  {
+    "path": "port/level-world/reports/retained-kill-fields-v42-host.json",
+    "sha256": "15dfc5fd91e79bccdaea9f024669fca8e81469942cda1dfb4a1074089386dfbd"
+  },
+  {
+    "path": "port/level-world/reports/retained-kill-v42-strict.json",
+    "sha256": "dc2cecac51e087933c37630e7abdb248324910d6f0921be7262e7a7cd1a989ae"
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/lethal-skill-adoption-audit-v42.md",
+    "sha256": "3268f632cdcd939fd22c5099a0554c6030bda3503760cf9147f617420d6c3222"
+  }
+]

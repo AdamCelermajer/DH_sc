@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "cases": 768,
+  "mismatches": 0,
+  "scope": "Whole original GL projection/depth conversion and orientation helper vs optimized ARM64, declared actual-driver field inputs; softfloat imports modeled. No production driver owner or live camera acceptance.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "d8eb4d10797b598b59d192adbb2c3e7639e0d146ff5aa7b32d62c232187c5825",
+  "imports": {
+    "__aeabi_fcmpeq": 768,
+    "__aeabi_fadd": 1536,
+    "__aeabi_fsub": 768
+  }
+}

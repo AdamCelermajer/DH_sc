@@ -1,0 +1,45 @@
+{
+  "pid": "16168",
+  "steps": [
+    {
+      "cast": 2,
+      "activation_count_before": 2,
+      "activation_count_after": 3,
+      "events": [
+        "I/DH2Native(16168): Prince combat hit | target _prim_tmp_cultist07 | attempt 2 | result 3966 -1 0 0 0 0 0 2271925 0 -1 | HP 13916 9950 | dead 0 | combo 2 | RNG 407936 36 | statuses 0",
+        "I/DH2Native(16168): Enemy HUD presentation | target 0000000100000006 | HP 9950 25600 | dead 0 | visible 1 | anchor pixels 1058.45801 420.937683 | mesh head -1209.64258 -310.273102 499.547729 | Prince -1117.78992 -272.141785 246.692383 | same submitted camera",
+        "I/DH2Native(16168): Connected enemy HUD | world 0x76dad5046c70 | target 0x100000006 | visible 1 | name Skull Slave | level 8 | HP frame 37 | retained original SWF",
+        "I/DH2Native(16168): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 2368 | same retained World/Gear/SkillV6",
+        "I/DH2Native(16168): Authored gameplay control | NativeHUDSkill | Skill activated",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 42265 42265 | MP 2368 6976 | XP 0 25600 | frames 99 32 0 99 99 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "I/DH2Native(16168): Prince damage received | attacker _prim_tmp_cultist07 | attempt 1 | result 4565 -1 0 0 0 0 0 2271925 -1 -1 | HP 42265 37700 | dead 0 | combo 1 | RNG 12280425 45 | statuses 0 | low health armed 1 | cue 0 | checksum 9c9b4b8673dc718c",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 37700 42265 | MP 2368 6976 | XP 0 25600 | frames 88 32 0 88 88 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 38053 42265 | MP 2687 6976 | XP 0 25600 | frames 89 37 0 89 89 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "I/DH2Native(16168): Enemy HUD presentation | target 0000000100000006 | HP 3873 25600 | dead 0 | visible 0 | anchor pixels 1376.99658 -85.4632874 | mesh head -1167.44238 -333.026276 691.993713 | Prince -1287.69019 -414.497131 174.042236 | same submitted camera",
+        "I/DH2Native(16168): Connected enemy HUD | world 0x76dad5046c70 | target 0x100000006 | visible 0 | name Skull Slave | level 8 | HP frame 14 | retained original SWF",
+        "I/DH2Native(16168): Source effect texture conversion | 27 -> 14",
+        "I/DH2Native(16168): Character sequence closed | state 6 | event 0x22 | clip 1234 | Step 27 | post Step animator | position -1301.8734 -426.3477 167.6212",
+        "I/DH2Native(16168): Connected enemy HUD | world 0x76dad5046c70 | target 0x0 | visible 0 | name Skull Slave | level 8 | HP frame 0 | retained original SWF",
+        "I/DH2Native(16168): Prince damage received | attacker _prim_tmp_cultist07 | attempt 2 | result 9862 -1 0 0 0 0 24 2271925 -1 -1 | HP 38053 28191 | dead 0 | combo 2 | RNG 10548042 63 | statuses 8 | low health armed 1 | cue 0 | checksum 9dfed38c3f84164a",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 28191 42265 | MP 2687 6976 | XP 0 25600 | frames 65 37 0 65 65 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 28544 42265 | MP 3006 6976 | XP 0 25600 | frames 66 42 0 66 66 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "I/DH2Native(16168): Prince damage received | attacker _prim_tmp_cultist07 | attempt 3 | result 4393 -1 0 0 0 0 16 2271925 -1 -1 | HP 28544 24151 | dead 0 | combo 3 | RNG 11339093 72 | statuses 8 | low health armed 1 | cue 0 | checksum 5e17b012645ed900",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 24151 42265 | MP 3006 6976 | XP 0 25600 | frames 56 42 0 56 56 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 24504 42265 | MP 3325 6976 | XP 0 25600 | frames 56 46 0 56 56 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "I/DH2Native(16168): Native actor frame | scene 7493 | Step 120 | actor 120 | source phase 5 | clip 1040 | ms 697 | replays 6 | body -13.0187 -4.26348 | contacts 0 0 | state 3 | body present 1 | timeline scale 1"
+      ]
+    },
+    {
+      "cast": 3,
+      "activation_count_before": 3,
+      "activation_count_after": 4,
+      "events": [
+        "I/DH2Native(16168): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 1659 | same retained World/Gear/SkillV6",
+        "I/DH2Native(16168): Authored gameplay control | NativeHUDSkill | Skill activated",
+        "I/DH2Native(16168): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9957c2f50 | HP 16427 42265 | MP 1659 6976 | XP 0 25600 | frames 37 22 0 37 37 | dirty 11 | retained movie 0x76dbe51ebf50 | original timeline and viewport",
+        "E/DH2Native(16168): Native frame failed: Required source SkillState animation event: Required source AI_Event: [string \"loadFile()\"]:178: Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8; Required original Hit source service 8; Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8; [string \"loadFile()\"]:178: Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8"
+      ]
+    }
+  ],
+  "scope": "live targeted skill repetitions; visual frames require inspection"
+}

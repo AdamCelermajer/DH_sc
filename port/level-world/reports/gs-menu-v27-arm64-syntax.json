@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 GS/menu V27",
+  "sources": [
+    {
+      "path": "port/engine-ui/menu_stack_owner_v1.cpp",
+      "sha256": "3ec18e23225f27bdb1eac28b7784aa02d23b7f8af64ca468e3a3a5274bf0f243"
+    },
+    {
+      "path": "port/engine-ui/authored_character_panel_v2.cpp",
+      "sha256": "c435e2aad07f21fad48e2307f0ea4195564ad6f4d0717f6a52ef7a0124882489"
+    },
+    {
+      "path": "port/engine-ui/authored_shared_menu_roster_v27.cpp",
+      "sha256": "fb9f9958f75ac9622201a68d19da2785e829634dc1de94ae26ec70e9aadaa485"
+    },
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.cpp",
+      "sha256": "e8a6f1a786392deef4793f896d1ed8154e69599ea417114ef1e2c661bca80df8"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

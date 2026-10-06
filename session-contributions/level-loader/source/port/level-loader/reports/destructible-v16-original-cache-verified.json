@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_groups": [
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\vendor\\connected-owners-1b96f4edb021619d\\reference\\openable-container-v1\\cache\\game_objects_pyarray.bin",
+      "source_sha256": "8b02cf1bd776621c18d82fd24ef0320d996b28ea77e3a24be3f986e84160e07d",
+      "start": 0,
+      "end_exclusive": 2331,
+      "count": 37,
+      "extracted": "destructible-group0-records.bin",
+      "sha256": "8e0dfef1c37bed0a724ff95cba05a7db6f4b2717e4c537e0a4e6b019dfc3012d"
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\vendor\\connected-owners-1b96f4edb021619d\\reference\\openable-container-v1\\cache\\game_objects_pyarraynames.bin",
+      "source_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 0,
+      "end_exclusive": 1069,
+      "count": 37,
+      "extracted": "destructible-group0-names.bin",
+      "sha256": "35454791fa9bc8b070d975774cfc19200343a4dfebfd058b45829674148e9758"
+    }
+  ],
+  "full_loader_verified": false
+}

@@ -1,0 +1,531 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "counter_store_cases": 19,
+  "counter_store_results": [
+    {
+      "entry": "0x3f321c",
+      "poison": 0,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f35b4",
+      "poison": 0,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f751c",
+      "poison": 0,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f726c",
+      "poison": 0,
+      "field138": 500
+    },
+    {
+      "entry": "0x3f321c",
+      "poison": 2779096485,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f35b4",
+      "poison": 2779096485,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f751c",
+      "poison": 2779096485,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f726c",
+      "poison": 2779096485,
+      "field138": 500
+    },
+    {
+      "entry": "0x3f321c",
+      "poison": 4294967295,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f35b4",
+      "poison": 4294967295,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f751c",
+      "poison": 4294967295,
+      "field134": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f726c",
+      "poison": 4294967295,
+      "field138": 500
+    },
+    {
+      "entry": "0x3f7104",
+      "manager1c": 0,
+      "field138": 0
+    },
+    {
+      "entry": "0x3f7104",
+      "manager1c": 1,
+      "field138": 1
+    },
+    {
+      "entry": "0x3f7104",
+      "manager1c": 195,
+      "field138": 195
+    },
+    {
+      "entry": "0x3f7104",
+      "manager1c": 500,
+      "field138": 500
+    },
+    {
+      "entry": "0x3f7104",
+      "manager1c": 2147483647,
+      "field138": 2147483647
+    },
+    {
+      "entry": "0x3f7104",
+      "manager1c": 2147483648,
+      "field138": 2147483648
+    },
+    {
+      "entry": "0x3f7104",
+      "manager1c": 4294967295,
+      "field138": 4294967295
+    }
+  ],
+  "quicksave_cases": 2560,
+  "quicksave_saves": 4,
+  "quicksave_incomplete_saves": 0,
+  "quicksave_scope": "Actual original Level counter stores and full QuickSave gating.\nCounter slices stop before unrelated effects. C1 zero register is an explicit\nfixture justified by earlier source MOV r6,#0; full C1 remains separately owned.\nQuickSave executes the complete original routine with explicit actual-service\nfixtures for player lookup, IsDead, online/hosting and Save observation. No\npersistent file is written, and LevelSavegame::Save itself is not reconstructed.\n",
+  "quicksave_boundary_cases": [
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 36,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 37,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 0,
+      "saved": true,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "save"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 1,
+      "saved": true,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "save"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "hosting"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "hosting"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 0,
+      "saved": true,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "hosting",
+        "save"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 1,
+      "saved": true,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "hosting",
+        "save"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "hosting"
+      ]
+    },
+    {
+      "state": 38,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player",
+        "dead",
+        "online",
+        "hosting"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 0,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 1,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 2,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 0,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    },
+    {
+      "state": 39,
+      "save_present": 1,
+      "player_present": 1,
+      "dead": 0,
+      "network_fixture": 3,
+      "force": 1,
+      "saved": false,
+      "events": [
+        "local_player"
+      ]
+    }
+  ],
+  "whole_load_init_verified": false,
+  "sg_save_player_cases": 80,
+  "sg_save_player_incomplete_save_calls": 16,
+  "sg_save_player_scope": "Whole original SG_SavePlayer(Character*,bool) control flow with explicit IsPlayer/blocked/level/save-effect observers. No actual persistent save writes."
+}

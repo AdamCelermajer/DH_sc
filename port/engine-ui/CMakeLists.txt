@@ -44,9 +44,36 @@ add_library(dh2_engine_ui SHARED gfnt.cpp swf_movie.cpp freetype_font.cpp
   settings_native_files_v1.cpp settings_language_scene_v1.cpp
   hud_manager.cpp hud_manager_core.cpp text_layout_v1.cpp
   hud_initialization_v1.cpp hud_initialization_core_v1.cpp
+  authored_gameplay_hud_v1.cpp
+  authored_hud_edge_layout_v6.cpp
+  authored_hurt_corners_layout_v7.cpp authored_hurt_pulse_v7.cpp
+  authored_status_timeline_v27.cpp
+  progression_xp_text_v23.cpp
+  menu_status_messages_v26.cpp menu_status_movie_v26.cpp
+  authored_joystick_v1.cpp
+  character_menu_as_bridge_v1.cpp
   hud_manager_core_v2.cpp text_display_v2.cpp text_render_owner_v2.cpp
   hud_freetype_font_v2.cpp hud_text_format_v1.cpp hud_text_v1.cpp)
 target_sources(dh2_engine_ui PRIVATE item_text_varargs_v5.cpp item_text_owner_v5.cpp)
+target_sources(dh2_engine_ui PRIVATE settings_language_scene_v2.cpp
+  item_language_localization_v1.cpp authored_menu_application_fields_v3.cpp
+  authored_menu_touchscreen_v3.cpp authored_menu_deadzones_v3.cpp)
+target_sources(dh2_engine_ui PRIVATE authored_character_panel_platform_v4.cpp
+  authored_menu_character_projection_v4.cpp authored_menu_movie_stack_v4.cpp
+  authored_hud_portrait_v4.cpp character_menu_application_v4.cpp
+  character_menu_application_native_v4.cpp)
+target_sources(dh2_engine_ui PRIVATE character_menu_potions_v4.cpp
+  character_menu_potion_text_v4.cpp)
+target_sources(dh2_engine_ui PRIVATE character_menu_gold_v4.cpp)
+target_sources(dh2_engine_ui PRIVATE
+  authored_character_panel_v2.cpp character_menu_movie_v1.cpp
+  authored_shared_menu_roster_v27.cpp
+  swf_vertex_cache_v36.cpp
+  menu_stack_owner_v1.cpp menu_stack_actions_v1.cpp menu_stack_v1.cpp
+  authored_character_menu_routes_v1.cpp authored_character_menu_session_v1.cpp
+  authored_menu_lifecycle_v1.cpp authored_menu_localization_v1.cpp
+  character_menu_reload_action_v1.cpp character_menu_reload_v1.cpp
+  menu_rollover_input_v1.cpp)
 target_sources(dh2_engine_ui PRIVATE hud_player_infos.cpp)
 target_sources(dh2_engine_ui PRIVATE combat_flash_queue_v1.cpp combat_flash_swf_v1.cpp)
 target_sources(dh2_engine_ui PRIVATE
@@ -176,3 +203,21 @@ else()
   target_compile_options(gameswf_font_overlay_audit PRIVATE -fno-sanitize=vptr)
   target_link_libraries(gameswf_font_overlay_audit PRIVATE dh2_engine_ui dh2_script_runtime dh2_gameswf_headers)
 endif()
+
+target_sources(dh2_engine_ui PRIVATE
+  localization_parse_ex_v1.cpp
+  swf_menu_parsed_string_v1.cpp
+  menu_avatar_preview_v1.cpp
+  swf_menu_avatar_preview_v1.cpp
+  swf_menu_sound.cpp
+  swf_menu_options.cpp
+  swf_menu_navigation.cpp
+  swf_menu_save_slots.cpp
+  save_slot_date_v1.cpp
+  menu_save_slot_projection_v1.cpp
+  menu_manager_push_v1.cpp
+  menu_native_event_v1.cpp
+  swf_menu_device_v1.cpp
+  loading_menu_v1.cpp
+  swf_loading_menu_v1.cpp
+  swf_text_layout_connection.cpp)

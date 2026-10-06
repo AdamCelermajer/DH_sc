@@ -1,0 +1,113 @@
+{
+  "entries": [
+    {
+      "path": "port/level-world/character_close_range_v38.hpp",
+      "size": 1021,
+      "sha256": "63240063f555188d700247795c4f1820b21f04510419d17223a08d1be807e83e"
+    },
+    {
+      "path": "port/level-world/character_close_range_v38.cpp",
+      "size": 2267,
+      "sha256": "cee3e1b5f12cf94f69bcceb7fbef47e284b028dd58856322301a21a9ce56d397"
+    },
+    {
+      "path": "port/level-world/character_world_attack_geometry_v1.hpp",
+      "size": 3054,
+      "sha256": "3eb743854e1102931962d92a6f30c048ca1fcb93e8d692448801313e1a6d2ae0"
+    },
+    {
+      "path": "port/level-world/character_world_attack_geometry_v1.cpp",
+      "size": 10447,
+      "sha256": "de887292e4dae1d22e780c3fae3aea29a4ef2859d05a4d90bf76c7f14eaa47d4"
+    },
+    {
+      "path": "port/level-world/character_world_target_owner_v1.hpp",
+      "size": 4029,
+      "sha256": "80c0766c5d8398e8a437f7a63007e43a7699820fd7ba1578ffb611ced90ef532"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_target_facing_v38.inc",
+      "size": 1223,
+      "sha256": "2b1344fe8f8599a8784c60f43ca57d20a04048904b95cd9910c5356fd2591bb8"
+    },
+    {
+      "path": "port/level-world/tests/character_close_range_v38.cpp",
+      "size": 3651,
+      "sha256": "be6ad0bc5eef55bee661d0499de3029145da0cb5840861c9c290bc8f1c05f015"
+    },
+    {
+      "path": "port/level-world/tests/character_target_facing_v38.cpp",
+      "size": 3525,
+      "sha256": "3a1f35aed4193ec3a32040378be7516751fd58622e24004308cdd4f46a1456a2"
+    },
+    {
+      "path": "port/level-world/tools/run_target_facing_v38_host.py",
+      "size": 2298,
+      "sha256": "9bfe4b0e0694194d42444f5a00893abb3315b56ee7a50b433baf5238bf4c3e7e"
+    },
+    {
+      "path": "port/level-world/tools/capture_close_range_v38.py",
+      "size": 2732,
+      "sha256": "18d86b99747a4dcbb067686c7a74a4aadd8cd7f789fdf670344002d74e933201"
+    },
+    {
+      "path": "port/level-world/reference/target-facing-v38/close-range-original.bin",
+      "size": 5124,
+      "sha256": "49b22bd53b5bf59738f90a7a03b81d1386bba822695bbe561ac9a6b8a96c2f7b"
+    },
+    {
+      "path": "port/level-world/reference/target-facing-v38/original-capture.json",
+      "size": 488,
+      "sha256": "cb48219045f1839aac14d049ffaa8f251b4ec8b4ab646f2bc968ba2c41f1fa95"
+    },
+    {
+      "path": "port/level-world/reference/target-facing-v38/handoff.md",
+      "size": 5773,
+      "sha256": "f9db16041fa2fe8b56340c1acbd0183ed69fdbc1c697c0debbda976e55ee424e"
+    },
+    {
+      "path": "port/level-world/reference/character-target-update/helpers/reference/original-functions.asm",
+      "size": 9240,
+      "sha256": "79487a7b056f31c3cfa236aefbd177471ac934407c69dbea3bdfa76e6ab89a9a"
+    },
+    {
+      "path": "port/level-world/reports/target-close-v38-host.json",
+      "size": 638,
+      "sha256": "db5a0f8d9df681f34478a21a48edd659268ec3d652dbb859d0f3d7233593b18e"
+    },
+    {
+      "path": "port/level-world/reports/target-facing-v38-host.json",
+      "size": 6211,
+      "sha256": "ddeb963d3fe14ca3e9d833afea92d7257c1e2b241b40851c9c3305b59643f729"
+    },
+    {
+      "path": "port/level-world/reports/target-close-v38-strict.json",
+      "size": 489,
+      "sha256": "0bb40bb7b73372c67a72090085401a1c4c5ead7ac2360714fb5cf355eb8d2f49"
+    },
+    {
+      "path": ".local-inputs/compile_target_close_v38.py",
+      "size": 1126,
+      "sha256": "d8d950791ffcf2e3a7b65f729c6c943c93558f13f3f70ccea58f76ea49904cca"
+    },
+    {
+      "path": ".local-inputs/compile_renderer_target_facing_v38.py",
+      "size": 806,
+      "sha256": "a0e9384c79206f4787dccdc48ef91a8dc45409690d3088fa24277b16eb3aa23b"
+    },
+    {
+      "path": ".local-inputs/renderer_target_facing_v38_arm64-v8a.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local-inputs/renderer_target_facing_v38_x86_64.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "archive_sha256": "be5d36927cb3b9f415d4182a34d260af69daf0e8a8973f9bd6d3016db117b146",
+  "production_global_renderer_changed": false,
+  "new_cmake_tu": "port/level-world/character_close_range_v38.cpp",
+  "live_acceptance": false
+}

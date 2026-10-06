@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "cases": 288,
+  "mismatches": 0,
+  "scope": "Whole original HandleDamping41165c; actual two virtual camera-position calls and Application.GetDt modeled as explicit boundary fixtures; original softfloat imports modeled; optimized ARM64 kernel bits compared. Not whole CameraLevel or live camera acceptance.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "c8a33845f850be12222c4063a05f3593870c1dc0888c33592068a25c543d285a",
+  "imports": {
+    "__aeabi_fadd": 1728,
+    "__aeabi_fsub": 864,
+    "__aeabi_fmul": 2016,
+    "__aeabi_ui2f": 288
+  }
+}

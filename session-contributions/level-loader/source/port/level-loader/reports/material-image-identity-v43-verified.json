@@ -1,0 +1,54 @@
+{
+  "validation": "PASS",
+  "native_evidence": "PASS cache_files=6833 actual_assets=3 materials=18 sampler_records=27 source_no_image=9 original_cache_reads=18 foreign_material_rejections=18 original_factory_comparisons=5 missing_legacy_parent_owner_array_rejected=1 actual_byte_owner_release=1",
+  "scope": "actual selected Scene/material/BRES and complete original ZIP positional reader; source identities and actual CPU resource pins, no renderer/pass/texture GPU proof",
+  "compiler_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/scene-materials",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/engine-resources",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/asset-payloads",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/material_image_identity_v43.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/material_image_identity_v43.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/scene-materials/scene.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/engine-resources/resources.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/engine-math/math.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/asset-payloads/zip_asset_pack_v1.cpp",
+    "-lz",
+    "-o",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/material-image-identity-v43/probe"
+  ],
+  "run_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/material-image-identity-v43/probe",
+    "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/material-image-identity-v43/original-factory-paths.bin"
+  ],
+  "source_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\material_image_identity_v43.cpp": "fbfbb5ccf70843c1b5211a7843a3da6038c9371dea09e326bb10c38bde7393cf",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\material_image_identity_v43.cpp": "7d32a49d8b95280197e964ae12b1d1bbdee0363e51d479cb47e5b5e384c0e5df",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\scene-materials\\scene.cpp": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-resources\\resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-math\\math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4"
+  },
+  "headers_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\material_image_identity_v43.hpp": "81f153038d2ab9371d484bd78ef0d1d80293afcc918d6af6f25802f6e7403bee",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\scene-materials\\scene.hpp": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-resources\\resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\zip_asset_pack_v1.hpp": "1f3b1b158d1f5ed92840fb88b8b789e063f1b461b3797eb724f45c177d64f9ad"
+  },
+  "probe_sha256": "76f750ddd11302889b6b4ced098e98a933419bb1d9300fb48724158c51bd5b5f"
+}

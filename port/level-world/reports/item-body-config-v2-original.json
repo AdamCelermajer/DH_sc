@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "comparisons": 514,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "5d3dc93fd603c4933e914088c06e8bf89b48191cfd49a0c25a39b9c283e8ab4b",
+  "scope": "Execute original PhysicalObject C2 selected by POItem against new ARM64 definitions.\nDebug/string and Box2D allocation/mass endpoints are declared observed fixtures;\nall original circle/body/filter/math instructions execute. This is not a full\nItemObject InitAgain or live render proof.\n",
+  "whole_original_physical_C2_init_addshape_executed": true,
+  "full_ItemInitAgain": false,
+  "original_import_calls": {
+    "__aeabi_fsub": 1028,
+    "__aeabi_fmul": 2570,
+    "__aeabi_fcmplt": 514
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "validation": "PASS",
+  "scope": "Complete original SWAMP root XML -> actual config/nine-Module static graph, generated RoomZones, same-world floor/collision/post-load/InitFinal and same-root controller construction/release and cached static Module render submission; actual Container C1 then Add lookup failure on unproduced generated RoomZone byte87 after documented modern Config byte87 correction; no constructor replay; absent Container InitPost RNG continuation; outer providers fixtures",
+  "cases": [
+    {
+      "build": "host",
+      "probe_sha256": "2b5d55c7c9ed64dba1dd70976264570e11c5453d6ae89bb82a5893d16fa02e39",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "render_frame_modules": 9,
+        "render_frame_meshes": 386,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "actual_container_constructed": 1,
+        "actual_container_published": 0,
+        "factory_failure_prefix": "constructed",
+        "config_across_rooms_modern_repair": true,
+        "missing_room_zone_field": "byte87",
+        "first_mgp_missing_type": "OpenableContainer",
+        "module_source_error": "Level::_LoadFromXML service: required actual bool source producer",
+        "container_init_post_missing_service": "OpenableContainer required source service: CheckSpawnProbability",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "2c551c6f70da2639a43f23820e3b99a87407759795752f83068b895c9c8a3c12",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "render_frame_modules": 9,
+        "render_frame_meshes": 386,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "actual_container_constructed": 1,
+        "actual_container_published": 0,
+        "factory_failure_prefix": "constructed",
+        "config_across_rooms_modern_repair": true,
+        "missing_room_zone_field": "byte87",
+        "first_mgp_missing_type": "OpenableContainer",
+        "module_source_error": "Level::_LoadFromXML service: required actual bool source producer",
+        "container_init_post_missing_service": "OpenableContainer required source service: CheckSpawnProbability",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "e6ab3a24646db2e02b84b60c471d064deb715c5f0ccd438826fbbd2bc5414d9c",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "render_frame_modules": 9,
+        "render_frame_meshes": 386,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "actual_container_constructed": 1,
+        "actual_container_published": 0,
+        "factory_failure_prefix": "constructed",
+        "config_across_rooms_modern_repair": true,
+        "missing_room_zone_field": "byte87",
+        "first_mgp_missing_type": "OpenableContainer",
+        "module_source_error": "Level::_LoadFromXML service: required actual bool source producer",
+        "container_init_post_missing_service": "OpenableContainer required source service: CheckSpawnProbability",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": "2aa4000991ffea61f7795fb426c978d7e504f720842bbfe34824af1a94036e7a",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "probe_source_sha256": "539a41f5a6247aad61afad8ea1b5417b9cc902b5978b0151911946047f973b79",
+  "render_source_sha256": {
+    "module_draw_frame_v1.hpp": "eee28010dfba8e0c3fd7685f23680be61ba7722c83bce6b8c577aeaf2bab08ca",
+    "module_draw_frame_v1.cpp": "99f52cdd44ff7c371fc07019dc22628427cac0d161acfedb2d47133eefd7077e"
+  },
+  "coherent_manifest_sha256": "9cc7f8a8e55f2ebb101ebdf8d5079b36328b8a2f20c490a8615a62ccb486c197",
+  "coherent_files": 480,
+  "incoming_openable_entries_verified": 165,
+  "config_successor_entries_verified": 12,
+  "selected_config_cpp_sha256": "87f7aefe8ec3256ff92e1b0444c23ca7c6948335dac18d91acd84417058ed8ec",
+  "config_regressions": [
+    {
+      "build": "host",
+      "probe_sha256": "422e3a675a5ea0d2eb95e8a5e15a9ea1e5226e1717b126078d62d9db993d45d0",
+      "result": "PASS"
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "731ec56c53ca4f1ead62abc59b1bf6f0335868bebdd411b6113a18d49fdbecb2",
+      "result": "PASS"
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "93a79e3110b2e5e1519840048250ce99808512953bd5c274244ef6dce51c7652",
+      "result": "PASS"
+    }
+  ],
+  "compatibility_policy": "native Config byte87=0 is explicit modern legacy-UB repair, not original constructor initialization",
+  "copied_module_declarations": false,
+  "whole_candidate_destruction_verified": false,
+  "tiny_anim_controller_constructor_verified": true,
+  "controller_scope": "actual nine static SWAMP roots, empty original animation libraries",
+  "visible_apk_updated": false,
+  "full_loader_verified": false
+}

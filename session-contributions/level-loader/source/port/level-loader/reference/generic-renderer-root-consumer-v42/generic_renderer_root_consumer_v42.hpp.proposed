@@ -1,0 +1,44 @@
+#pragma once
+#include <array>
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <string>
+namespace dh2::loader {struct ModuleDrawFrameV1;struct ActorDrawPrimitiveReadV38;class GenericRendererInputV36;}
+namespace model_renderer {
+// PROPOSED engine-owned consumer ABI. Declarations only: it must bind actual
+// current GS/GL/camera/material/texture/pass owners before it can render.
+struct GenericNativeRenderFrameBorrowV42 {
+ std::shared_ptr<void> frame_owner;
+ std::uintptr_t actual_level_identity{};
+ std::uint64_t actual_GL_generation{},actual_frame_serial{};
+ const std::array<float,16>* actual_view_projection{};
+};
+struct GenericRootRenderServicesV42 {
+ std::shared_ptr<void> renderer_owner;
+ // Read SAME current GSLevel and actual camera/GL frame. Source construction
+ // completion alone cannot set world_mode, gameplay readiness or loading38.
+ std::function<bool(std::uintptr_t expected_level,GenericNativeRenderFrameBorrowV42&,std::string&)> borrow_frame;
+ // Module frame owns immutable BRES through resource. Consumer uses actual
+ // cached worlds and binding slots; it does not rebuild Crypt geometry.
+ std::function<bool(const GenericNativeRenderFrameBorrowV42&,
+  const dh2::loader::ModuleDrawFrameV1&,std::string&)> consume_module;
+ // Called INSIDE V37/V38 read scope. Upload/copy into the main-owned GPU
+ // cache synchronously; never store raw scene/BRES/skin/material references.
+ // Backend must use raw+cachedWorld once or native skin-world positions+VP,
+ // preserve topology/index width/ranges, and bind genuine program/pass/image
+ // providers. Incompatible capabilities fail instead of truncation/defaults.
+ std::function<bool(const GenericNativeRenderFrameBorrowV42&,
+  const dh2::loader::ActorDrawPrimitiveReadV38&,std::string&)> consume_actor_primitive;
+ // Queue/end submission uses actual engine pass/material sorting/enrollment,
+ // with source resources already uploaded or genuinely independently pinned.
+ std::function<bool(const GenericNativeRenderFrameBorrowV42&,std::string&)> finish_frame;
+};
+// Future root implementation must validate actual current-Level identity and
+// graph lifetime, capture current module frames, enumerate actual canonical
+// handles with main's class/visual lookup, and invoke V38 synchronously. Main
+// retains player/target/AI/skill/audio/FX owners. No second actor/world is built.
+// This proposed signature does not implement that backend or declare readiness.
+bool consume_generic_native_frame_v42(const dh2::loader::GenericRendererInputV36&,
+ const GenericRootRenderServicesV42&,std::string&);
+}

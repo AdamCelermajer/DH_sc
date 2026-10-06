@@ -1,0 +1,297 @@
+[
+  {
+    "source": "0x372298",
+    "string": "PlayerCharacter_%d",
+    "address": "0x8c17d0"
+  },
+  {
+    "source": "0x3722c4",
+    "string": "Character",
+    "address": "0x8c04c0"
+  },
+  {
+    "source": "0x37263c",
+    "string": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\PlayerManager\\PlayerManager.cpp",
+    "address": "0x8c16f8"
+  },
+  {
+    "source": "0x37266c",
+    "string": "PlayerInfo::NETWORK_SKILL_LIST_SIZE >= c->SG_GetSkillSize()",
+    "address": "0x8c17e8"
+  },
+  {
+    "source": "0x372670",
+    "string": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\PlayerManager\\PlayerManager.cpp",
+    "address": "0x8c16f8"
+  },
+  {
+    "source": "0x3af148",
+    "string": "GAMEPLAYMENUS_REWARD_XP",
+    "address": "0x8c39f0"
+  },
+  {
+    "source": "0x3af150",
+    "string": "StrID",
+    "address": "0x8bec30"
+  },
+  {
+    "source": "0x3bebb4",
+    "string": "CharacterDesign",
+    "address": "0x8c1758"
+  },
+  {
+    "source": "0x3bebbc",
+    "string": "MaxLevelBNormal",
+    "address": "0x8c4988"
+  },
+  {
+    "source": "0x3bec50",
+    "string": "isTracingChar_Stats",
+    "address": "0x8c4898"
+  },
+  {
+    "source": "0x3bed24",
+    "string": "MENU_LEVEL_UP",
+    "address": "0x8c49a8"
+  },
+  {
+    "source": "0x3bed28",
+    "string": "StrID",
+    "address": "0x8bec30"
+  },
+  {
+    "source": "0x3bedc0",
+    "string": "PlayerLevelUp",
+    "address": "0x8c1828"
+  },
+  {
+    "source": "0x3befc4",
+    "string": "epic_lvl100",
+    "address": "0x8c4aa8"
+  },
+  {
+    "source": "0x3bf03c",
+    "string": "MaxLevelCHard",
+    "address": "0x8c4998"
+  },
+  {
+    "source": "0x3bf058",
+    "string": "MaxLevelDVeryHard",
+    "address": "0x8c4530"
+  },
+  {
+    "source": "0x3bf074",
+    "string": "epic_lvl90",
+    "address": "0x8c4a98"
+  },
+  {
+    "source": "0x3bf088",
+    "string": "epic_lvl80",
+    "address": "0x8c4a88"
+  },
+  {
+    "source": "0x3bf09c",
+    "string": "epic_lvl70",
+    "address": "0x8c4a78"
+  },
+  {
+    "source": "0x3bf0b0",
+    "string": "epic_lvl60",
+    "address": "0x8c4a68"
+  },
+  {
+    "source": "0x3bf0c4",
+    "string": "epic_lvl50",
+    "address": "0x8c4a58"
+  },
+  {
+    "source": "0x3bf0d8",
+    "string": "epic_lvl40",
+    "address": "0x8c4a48"
+  },
+  {
+    "source": "0x3bf0ec",
+    "string": "epic_lvl30",
+    "address": "0x8c4a38"
+  },
+  {
+    "source": "0x3bf100",
+    "string": "epic_lvl20",
+    "address": "0x8c4a28"
+  },
+  {
+    "source": "0x3bf114",
+    "string": "epic_lvl10",
+    "address": "0x8c4a18"
+  },
+  {
+    "source": "0x3bf198",
+    "string": "cinematic_Tuto_menuSkillSheet",
+    "address": "0x8c49f8"
+  },
+  {
+    "source": "0x3bf200",
+    "string": "_root.menu_CharacterMenu",
+    "address": "0x8c3570"
+  },
+  {
+    "source": "0x3bf204",
+    "string": "IsSpecTime",
+    "address": "0x8c3590"
+  },
+  {
+    "source": "0x3bf348",
+    "string": "cinematic_Tuto_menuCharacterSheet",
+    "address": "0x8c49d0"
+  },
+  {
+    "source": "0x3bf3b0",
+    "string": "cinematic_Tuto_levelUp",
+    "address": "0x8c49b8"
+  },
+  {
+    "source": "0x3bf4c8",
+    "string": "CharacterDesign",
+    "address": "0x8c1758"
+  },
+  {
+    "source": "0x3bf4d0",
+    "string": "MaxLevelBNormal",
+    "address": "0x8c4988"
+  },
+  {
+    "source": "0x3bf5b8",
+    "string": "OneKillLevelUp",
+    "address": "0x8c4ab8"
+  },
+  {
+    "source": "0x3bf63c",
+    "string": "isTracingChar_Stats",
+    "address": "0x8c4898"
+  },
+  {
+    "source": "0x3bf69c",
+    "string": "MaxLevelCHard",
+    "address": "0x8c4998"
+  },
+  {
+    "source": "0x3bf6b8",
+    "string": "MaxLevelDVeryHard",
+    "address": "0x8c4530"
+  },
+  {
+    "source": "0x3bf7cc",
+    "string": "amount >= 0",
+    "address": "0x8c48f8"
+  },
+  {
+    "source": "0x3bf7d0",
+    "string": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Stats.cpp",
+    "address": "0x8c4908"
+  },
+  {
+    "source": "0x3bf8c4",
+    "string": "isTracingXPDistributionCst",
+    "address": "0x8c4ad8"
+  },
+  {
+    "source": "0x3bf8e8",
+    "string": "isTracingXPDistribution",
+    "address": "0x8c4960"
+  },
+  {
+    "source": "0x3bf994",
+    "string": "isTracingXPDistribution",
+    "address": "0x8c4960"
+  },
+  {
+    "source": "0x3bf9a0",
+    "string": "isTracingXPDistribution",
+    "address": "0x8c4960"
+  },
+  {
+    "source": "0x3bf9b8",
+    "string": "player != 0",
+    "address": "0x8c4b30"
+  },
+  {
+    "source": "0x3bfb30",
+    "string": "isTracingXPDistribution",
+    "address": "0x8c4960"
+  },
+  {
+    "source": "0x3bfb54",
+    "string": "isTracingXPDistribution",
+    "address": "0x8c4960"
+  },
+  {
+    "source": "0x3bfb58",
+    "string": "anim_sct_xp",
+    "address": "0x8c4b40"
+  },
+  {
+    "source": "0x3bfb6c",
+    "string": "ScrollingCombatText",
+    "address": "0x8c36f8"
+  },
+  {
+    "source": "0x3bfb78",
+    "string": "XPColor",
+    "address": "0x8c4b50"
+  },
+  {
+    "source": "0x3bfd3c",
+    "string": "isTracingXPDistribution",
+    "address": "0x8c4960"
+  },
+  {
+    "source": "0x3bfd68",
+    "string": "isTracingXPDistribution",
+    "address": "0x8c4960"
+  },
+  {
+    "source": "0x3bfe14",
+    "string": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Stats.cpp",
+    "address": "0x8c4908"
+  },
+  {
+    "source": "0x3bff20",
+    "string": "killed != 0",
+    "address": "0x8c4ac8"
+  },
+  {
+    "source": "0x3bff24",
+    "string": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Stats.cpp",
+    "address": "0x8c4908"
+  },
+  {
+    "source": "0x3bff54",
+    "string": "numLocalCharacterPlayer <= PlayerManager::MAX_PLAYERS",
+    "address": "0x8c4af8"
+  },
+  {
+    "source": "0x3bff58",
+    "string": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Stats.cpp",
+    "address": "0x8c4908"
+  },
+  {
+    "source": "0x40410c",
+    "string": "MP_MinimalRandoms",
+    "address": "0x8c3be8"
+  },
+  {
+    "source": "0x404140",
+    "string": "isTracingItemInventory_Loot",
+    "address": "0x8c7830"
+  },
+  {
+    "source": "0x404364",
+    "string": "_VeryHard",
+    "address": "0x8c7230"
+  },
+  {
+    "source": "0x404378",
+    "string": "_Hard",
+    "address": "0x8c7228"
+  }
+]

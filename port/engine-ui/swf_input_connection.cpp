@@ -109,7 +109,17 @@ bool SwfInputConnection::update(std::int32_t ms,bool flag,std::string&e){auto s=
 bool SwfInputConnection::graphic(gameswf::character*c,std::uint32_t i,std::string&e){auto s=state_;if(!s||i>=4){e="Malformed input graphic binding";return false;}if(c){SwfInputHistoryFlags f{};if(!s->history->read(c,f,e))return false;}auto&field=s->input.slots[i].graphic;if(field!=identity(c)){if(field)s->drop(character(field));field=identity(c);if(c)s->retain(c);}e.clear();return true;}
 bool SwfInputConnection::enable(bool enabled,std::uint32_t i,std::string&e){auto s=state_;if(!s||i>=4){e="Malformed input cursor index";return false;}s->input.slots[i].enabled=enabled;e.clear();return true;}
 bool SwfInputConnection::set_flags(std::uint32_t flags,std::string&e){auto s=state_;if(!s){e="Input graph unbound";return false;}s->input.flags=flags;e.clear();return true;}
+bool SwfInputConnection::set_context(gameswf::character*c,std::string&e){
+ auto s=state_;if(!s||!c||c->get_player()!=s->lease.root->get_root_movie()->get_player()){e="Input context belongs to another player or is absent";return false;}
+ // RenderFX::SetContext 0x7a7ee8 only replaces the character pointer.
+ // Keep the live cursor/focus state and pin the replacement in this adapter.
+ s->context_pin=c;s->input.context=identity(c);e.clear();return true;
+}
 bool SwfInputConnection::scene_binding(gameswf::character*c,std::uintptr_t scene,std::string&e){auto s=state_;if(!s||!c||!c->is(gameswf::sprite_instance::m_class_id)){e="Malformed source sprite scene projection";return false;}SwfInputHistoryFlags observed{};if(!s->history->read(c,observed,e))return false;s->scenes[c]={c,scene};e.clear();return true;}
 bool SwfInputConnection::snapshot(SwfInputState288&out,std::string&e)const{auto s=state_;if(!s){e="Input graph unbound";return false;}out=s->input;e.clear();return true;}
 bool SwfInputConnection::raw_cursor(float xy[2],std::int32_t&i,std::string&e)const{auto s=state_;if(!s||!xy){e="Input graph unbound";return false;}xy[0]=s->raw_xy[0];xy[1]=s->raw_xy[1];i=s->raw_index;e.clear();return true;}
+bool SwfInputConnection::viewport_rectangle(const std::int32_t xywh[4],std::string&e){
+ auto s=state_;if(!s||!xywh){e="Input graph/viewport unbound";return false;}
+ return s->viewport.set_viewport(xywh,e)&&s->viewport.set_bounds(xywh,0,e);
+}
 }

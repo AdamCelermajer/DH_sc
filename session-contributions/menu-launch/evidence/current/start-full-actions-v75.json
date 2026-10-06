@@ -1,0 +1,9106 @@
+{
+  "path": "root/sprite471",
+  "tag": 12,
+  "frame": 0,
+  "offset": 269463,
+  "rows": [
+    {
+      "offset": 269463,
+      "op": "decl_dict",
+      "length": 2237,
+      "constants": [
+        "MenuSingle",
+        "StartMenuButtons",
+        "btn_MENU_SINGLE_PLAYER",
+        "mc_icon",
+        "gotoAndStop",
+        "MenuMulti",
+        "btn_MENU_MULTIPLAYER",
+        "GLogo",
+        "btn_MENU_Leader",
+        "MenuG",
+        "btn_Achievements",
+        "NativeIsMultiplayerEnabled",
+        "IS false",
+        "BadIphone",
+        "this",
+        "IS true",
+        "GoodIphone",
+        "onShow",
+        "setButtonsIcons",
+        "CurrentDiff",
+        "DiffSlot",
+        "PlayerInfos",
+        "DifficultyTitle",
+        "text",
+        "MENU_DIFFICULTY",
+        "NativeGetStringFromSymbol",
+        ":",
+        "menu_bg",
+        "TitleGraphic",
+        "_visible",
+        "RenderedBG",
+        "MenuBack",
+        "btn_back",
+        "btimg",
+        "Idle",
+        "gotoAndPlay",
+        "htmlText",
+        "MENU_LEADERBOARDS",
+        "MENU_SINGLE_PLAYER",
+        "MENU_MULTIPLAYER",
+        "MENU_ACHIEVEMENTS",
+        "MenuAchievements",
+        "MenuLeaderboard",
+        "SlotText",
+        "menu_MainMenu",
+        "mySaveSlot",
+        "PlayerName",
+        "player_class",
+        "PlayerClass",
+        "Hud_Location",
+        "PlayerLocation",
+        "Hud_Act",
+        "ParsedStringAct",
+        "MENU_ACT",
+        "NativeGetParsedString",
+        "Hud_Level",
+        "GLOBAL_LEVEL",
+        " ",
+        "PlayerLVL",
+        "Last_Save_Infos",
+        "PlayerLastSave",
+        "dateTxt",
+        "Last_Save",
+        "MENU_LAST_SAVE",
+        "onPush",
+        "TitleMusic",
+        "NativePlayMusic",
+        "IN PUSH MM",
+        "NativeOnlineSanityCheck",
+        "onRelease",
+        "NativePopMenu",
+        "NativePlaySoundFX",
+        "MenuConfirm",
+        "IN SINGLE PLAYER",
+        "SlotID",
+        "NativeAssignSaveSlotToPlayer",
+        "NativeStartGame",
+        "None",
+        "NativeConectionType",
+        "InUse",
+        "menu_EnterName",
+        "NativePushMenu",
+        "IsMultiplayer",
+        "NativeIsBluetoothWifiEnabled",
+        "IsAppleVersion",
+        "NativeGCAutoMatch",
+        "menu_MultiplayerConnectivity",
+        "NativeDoWeHaveInternet",
+        "ConnectionType",
+        "",
+        "ConnectionTypeTitle",
+        "Online",
+        "Have WIFI",
+        "NativeEnableGameCenter() returns: ",
+        "NativeEnableGameCenter",
+        "NativeEnableGameCenter is true",
+        "menu_Multiplayer_Game_Type",
+        "NativeEnableGameCenter is false",
+        "NativeGLXPlayerLoggedIn",
+        "menu_Multiplayer",
+        "menu_MultiLogin",
+        "NativeWiFiCheck is false",
+        "Confirmation",
+        "ConfirmationBox",
+        "MENU_MULTIPLAYER_NO_CONNECTION",
+        "btn_Ok",
+        "GLOBAL_OK",
+        "Show",
+        "in LEADER",
+        "CharDifficulty",
+        "Difficulty",
+        "NeededInfoForAccount",
+        "Leaderboard",
+        "GameCenterIsEnabled",
+        "menu_Multiplayer_AfterChoice",
+        "GameCenterIs NOT Enabled",
+        "gllive",
+        "NativeGCLeaderboards",
+        "gamecenter",
+        "menu_StartGame",
+        "Confirmation2",
+        "Achievements",
+        "In Achievements",
+        "NativeGCAchievements",
+        "Diff is: ",
+        "GAMEPLAYMENUS_DIFFICULTY_NORMAL",
+        "btnLeftArrowDiff",
+        "UnlockedDiff",
+        "btnRightArrowDiff",
+        "GAMEPLAYMENUS_DIFFICULTY_HARD",
+        "GAMEPLAYMENUS_DIFFICULTY_VERYHARD",
+        "in RightArrow",
+        "_root.CurrentDiff WAS: ",
+        "UpdateInfoAfterDiff",
+        "_root.CurrentDiff BECAME: ",
+        "_parent",
+        "MenuSelect",
+        "Object",
+        "ThePlayerSlot",
+        "NativeGetSaveSlotDetails",
+        "PlayerRender",
+        "btnDelete",
+        "btnRightArrow",
+        "PlayerCurrentAct",
+        "Array",
+        "DifficultyUnlocked",
+        "NAME: ",
+        "CLASS: ",
+        "StringClassLVL",
+        "LOCATION: ",
+        "DIFF: ",
+        "_root",
+        "Hide"
+      ]
+    },
+    {
+      "offset": 271703,
+      "op": "function2",
+      "length": 23,
+      "name": "setButtonsIcons",
+      "args": [],
+      "registers": 2,
+      "flags": 41,
+      "body": [
+        {
+          "offset": 271729,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 0,
+              "text": "MenuSingle"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 271743,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271744,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 2,
+              "text": "btn_MENU_SINGLE_PLAYER"
+            }
+          ]
+        },
+        {
+          "offset": 271749,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271750,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 3,
+              "text": "mc_icon"
+            }
+          ]
+        },
+        {
+          "offset": 271755,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271756,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 4,
+              "text": "gotoAndStop"
+            }
+          ]
+        },
+        {
+          "offset": 271761,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 271762,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 271763,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 5,
+              "text": "MenuMulti"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 271777,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271778,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 6,
+              "text": "btn_MENU_MULTIPLAYER"
+            }
+          ]
+        },
+        {
+          "offset": 271783,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271784,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 3,
+              "text": "mc_icon"
+            }
+          ]
+        },
+        {
+          "offset": 271789,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271790,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 4,
+              "text": "gotoAndStop"
+            }
+          ]
+        },
+        {
+          "offset": 271795,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 271796,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 271797,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 7,
+              "text": "GLogo"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 271811,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271812,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 8,
+              "text": "btn_MENU_Leader"
+            }
+          ]
+        },
+        {
+          "offset": 271817,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271818,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 3,
+              "text": "mc_icon"
+            }
+          ]
+        },
+        {
+          "offset": 271823,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271824,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 4,
+              "text": "gotoAndStop"
+            }
+          ]
+        },
+        {
+          "offset": 271829,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 271830,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 271831,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 9,
+              "text": "MenuG"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 271845,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271846,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 10,
+              "text": "btn_Achievements"
+            }
+          ]
+        },
+        {
+          "offset": 271851,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271852,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 3,
+              "text": "mc_icon"
+            }
+          ]
+        },
+        {
+          "offset": 271857,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 271858,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 4,
+              "text": "gotoAndStop"
+            }
+          ]
+        },
+        {
+          "offset": 271863,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 271864,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 271865,
+      "op": "push_data",
+      "length": 11,
+      "values": [
+        0.0,
+        {
+          "constant": 11,
+          "text": "NativeIsMultiplayerEnabled"
+        }
+      ]
+    },
+    {
+      "offset": 271879,
+      "op": "call_func",
+      "length": 0
+    },
+    {
+      "offset": 271880,
+      "op": "not",
+      "length": 0
+    },
+    {
+      "offset": 271881,
+      "op": "not",
+      "length": 0
+    },
+    {
+      "offset": 271882,
+      "op": "branch_if_true",
+      "length": 2,
+      "target": 271924
+    },
+    {
+      "offset": 271887,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 12,
+          "text": "IS false"
+        }
+      ]
+    },
+    {
+      "offset": 271892,
+      "op": "trace",
+      "length": 0
+    },
+    {
+      "offset": 271893,
+      "op": "push_data",
+      "length": 9,
+      "values": [
+        {
+          "constant": 13,
+          "text": "BadIphone"
+        },
+        1,
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 271905,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 271906,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 1,
+          "text": "StartMenuButtons"
+        }
+      ]
+    },
+    {
+      "offset": 271911,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 271912,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 4,
+          "text": "gotoAndStop"
+        }
+      ]
+    },
+    {
+      "offset": 271917,
+      "op": "call_method",
+      "length": 0
+    },
+    {
+      "offset": 271918,
+      "op": "pop",
+      "length": 0
+    },
+    {
+      "offset": 271919,
+      "op": "goto",
+      "length": 2,
+      "target": 271956
+    },
+    {
+      "offset": 271924,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 15,
+          "text": "IS true"
+        }
+      ]
+    },
+    {
+      "offset": 271929,
+      "op": "trace",
+      "length": 0
+    },
+    {
+      "offset": 271930,
+      "op": "push_data",
+      "length": 9,
+      "values": [
+        {
+          "constant": 16,
+          "text": "GoodIphone"
+        },
+        1,
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 271942,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 271943,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 1,
+          "text": "StartMenuButtons"
+        }
+      ]
+    },
+    {
+      "offset": 271948,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 271949,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 4,
+          "text": "gotoAndStop"
+        }
+      ]
+    },
+    {
+      "offset": 271954,
+      "op": "call_method",
+      "length": 0
+    },
+    {
+      "offset": 271955,
+      "op": "pop",
+      "length": 0
+    },
+    {
+      "offset": 271956,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 271961,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 271962,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 17,
+          "text": "onShow"
+        }
+      ]
+    },
+    {
+      "offset": 271967,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 3,
+      "flags": 105,
+      "body": [
+        {
+          "offset": 271978,
+          "op": "push_data",
+          "length": 13,
+          "values": [
+            0.0,
+            {
+              "register": 1
+            },
+            {
+              "constant": 18,
+              "text": "setButtonsIcons"
+            }
+          ]
+        },
+        {
+          "offset": 271994,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 271995,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 271996,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 272003,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272004,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 20,
+              "text": "DiffSlot"
+            }
+          ]
+        },
+        {
+          "offset": 272016,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 272017,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272018,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272025,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272026,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 22,
+              "text": "DifficultyTitle"
+            }
+          ]
+        },
+        {
+          "offset": 272031,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272032,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272037,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272038,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 24,
+              "text": "MENU_DIFFICULTY"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272052,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272053,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 26,
+              "text": ":"
+            }
+          ]
+        },
+        {
+          "offset": 272058,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 272059,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272060,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 27,
+              "text": "menu_bg"
+            }
+          ]
+        },
+        {
+          "offset": 272067,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272068,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 28,
+              "text": "TitleGraphic"
+            }
+          ]
+        },
+        {
+          "offset": 272073,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272074,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 272081,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272082,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 27,
+              "text": "menu_bg"
+            }
+          ]
+        },
+        {
+          "offset": 272089,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272090,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 30,
+              "text": "RenderedBG"
+            }
+          ]
+        },
+        {
+          "offset": 272095,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272096,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 272103,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272104,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 31,
+              "text": "MenuBack"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 32,
+              "text": "btn_back"
+            }
+          ]
+        },
+        {
+          "offset": 272118,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272119,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 33,
+              "text": "btimg"
+            }
+          ]
+        },
+        {
+          "offset": 272124,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272125,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 4,
+              "text": "gotoAndStop"
+            }
+          ]
+        },
+        {
+          "offset": 272130,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 272131,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272132,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 34,
+              "text": "Idle"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272146,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272147,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 2,
+              "text": "btn_MENU_SINGLE_PLAYER"
+            }
+          ]
+        },
+        {
+          "offset": 272152,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272153,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 35,
+              "text": "gotoAndPlay"
+            }
+          ]
+        },
+        {
+          "offset": 272158,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 272159,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272160,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 34,
+              "text": "Idle"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272174,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272175,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 6,
+              "text": "btn_MENU_MULTIPLAYER"
+            }
+          ]
+        },
+        {
+          "offset": 272180,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272181,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 35,
+              "text": "gotoAndPlay"
+            }
+          ]
+        },
+        {
+          "offset": 272186,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 272187,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272188,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 34,
+              "text": "Idle"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272202,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272203,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 8,
+              "text": "btn_MENU_Leader"
+            }
+          ]
+        },
+        {
+          "offset": 272208,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272209,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 35,
+              "text": "gotoAndPlay"
+            }
+          ]
+        },
+        {
+          "offset": 272214,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 272215,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272216,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272223,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272224,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 8,
+              "text": "btn_MENU_Leader"
+            }
+          ]
+        },
+        {
+          "offset": 272229,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272230,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272235,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272236,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "constant": 37,
+              "text": "MENU_LEADERBOARDS"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272250,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272251,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272252,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272259,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272260,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 2,
+              "text": "btn_MENU_SINGLE_PLAYER"
+            }
+          ]
+        },
+        {
+          "offset": 272265,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272266,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272271,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272272,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "constant": 38,
+              "text": "MENU_SINGLE_PLAYER"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272286,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272287,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272288,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272295,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272296,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 6,
+              "text": "btn_MENU_MULTIPLAYER"
+            }
+          ]
+        },
+        {
+          "offset": 272301,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272302,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272307,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272308,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "constant": 39,
+              "text": "MENU_MULTIPLAYER"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272322,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272323,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272324,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272331,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272332,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 10,
+              "text": "btn_Achievements"
+            }
+          ]
+        },
+        {
+          "offset": 272337,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272338,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272343,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272344,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "constant": 40,
+              "text": "MENU_ACHIEVEMENTS"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272358,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272359,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272360,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 41,
+              "text": "MenuAchievements"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272374,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272375,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 10,
+              "text": "btn_Achievements"
+            }
+          ]
+        },
+        {
+          "offset": 272380,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272381,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 3,
+              "text": "mc_icon"
+            }
+          ]
+        },
+        {
+          "offset": 272386,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272387,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 4,
+              "text": "gotoAndStop"
+            }
+          ]
+        },
+        {
+          "offset": 272392,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 272393,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272394,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 42,
+              "text": "MenuLeaderboard"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 1,
+              "text": "StartMenuButtons"
+            }
+          ]
+        },
+        {
+          "offset": 272408,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272409,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 8,
+              "text": "btn_MENU_Leader"
+            }
+          ]
+        },
+        {
+          "offset": 272414,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272415,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 3,
+              "text": "mc_icon"
+            }
+          ]
+        },
+        {
+          "offset": 272420,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272421,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 4,
+              "text": "gotoAndStop"
+            }
+          ]
+        },
+        {
+          "offset": 272426,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 272427,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272428,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 43,
+              "text": "SlotText"
+            }
+          ]
+        },
+        {
+          "offset": 272435,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272436,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272441,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272442,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 272451,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272452,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 272457,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272458,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 46,
+              "text": "PlayerName"
+            }
+          ]
+        },
+        {
+          "offset": 272463,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272464,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272465,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272472,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272473,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 47,
+              "text": "player_class"
+            }
+          ]
+        },
+        {
+          "offset": 272478,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272479,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272484,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272485,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 272494,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272495,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 272500,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272501,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 48,
+              "text": "PlayerClass"
+            }
+          ]
+        },
+        {
+          "offset": 272506,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272507,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272508,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272515,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272516,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 49,
+              "text": "Hud_Location"
+            }
+          ]
+        },
+        {
+          "offset": 272521,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272522,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272527,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272528,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 272537,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272538,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 272543,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272544,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 50,
+              "text": "PlayerLocation"
+            }
+          ]
+        },
+        {
+          "offset": 272549,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272550,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272551,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272558,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272559,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 51,
+              "text": "Hud_Act"
+            }
+          ]
+        },
+        {
+          "offset": 272564,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272565,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272570,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272571,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 52,
+              "text": "ParsedStringAct"
+            }
+          ]
+        },
+        {
+          "offset": 272580,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272581,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 53,
+              "text": "MENU_ACT"
+            },
+            2,
+            {
+              "constant": 54,
+              "text": "NativeGetParsedString"
+            }
+          ]
+        },
+        {
+          "offset": 272593,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272594,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272595,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272602,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272603,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 55,
+              "text": "Hud_Level"
+            }
+          ]
+        },
+        {
+          "offset": 272608,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272609,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272614,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272615,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 56,
+              "text": "GLOBAL_LEVEL"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272629,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272630,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 57,
+              "text": " "
+            }
+          ]
+        },
+        {
+          "offset": 272635,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 272636,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 272643,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272644,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 272649,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272650,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 58,
+              "text": "PlayerLVL"
+            }
+          ]
+        },
+        {
+          "offset": 272655,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272656,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 272657,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272658,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272665,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272666,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 59,
+              "text": "Last_Save_Infos"
+            }
+          ]
+        },
+        {
+          "offset": 272671,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272672,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272677,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272678,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 272687,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272688,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 272693,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272694,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 60,
+              "text": "PlayerLastSave"
+            }
+          ]
+        },
+        {
+          "offset": 272699,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272700,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272701,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272708,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272709,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 61,
+              "text": "dateTxt"
+            }
+          ]
+        },
+        {
+          "offset": 272714,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272715,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272720,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272721,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 272730,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272731,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 272736,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272737,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 60,
+              "text": "PlayerLastSave"
+            }
+          ]
+        },
+        {
+          "offset": 272742,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272743,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272744,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272751,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272752,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 62,
+              "text": "Last_Save"
+            }
+          ]
+        },
+        {
+          "offset": 272757,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272758,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272763,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272764,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 63,
+              "text": "MENU_LAST_SAVE"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272778,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272779,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 272780,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 272787,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272788,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 22,
+              "text": "DifficultyTitle"
+            }
+          ]
+        },
+        {
+          "offset": 272793,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272794,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 272799,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 272800,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 24,
+              "text": "MENU_DIFFICULTY"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 272814,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272815,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 26,
+              "text": ":"
+            }
+          ]
+        },
+        {
+          "offset": 272820,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 272821,
+          "op": "set_member",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 272822,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 272823,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 272828,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 272829,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 64,
+          "text": "onPush"
+        }
+      ]
+    },
+    {
+      "offset": 272834,
+      "op": "func",
+      "length": 5,
+      "name": "",
+      "args": [],
+      "registers": null,
+      "flags": null,
+      "body": [
+        {
+          "offset": 272842,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 65,
+              "text": "TitleMusic"
+            },
+            1,
+            {
+              "constant": 66,
+              "text": "NativePlayMusic"
+            }
+          ]
+        },
+        {
+          "offset": 272854,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272855,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272856,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 67,
+              "text": "IN PUSH MM"
+            }
+          ]
+        },
+        {
+          "offset": 272861,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 272862,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 68,
+              "text": "NativeOnlineSanityCheck"
+            }
+          ]
+        },
+        {
+          "offset": 272876,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272877,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 272878,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 272879,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 272884,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 272885,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 32,
+          "text": "btn_back"
+        }
+      ]
+    },
+    {
+      "offset": 272890,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 272891,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 272896,
+      "op": "func",
+      "length": 5,
+      "name": "",
+      "args": [],
+      "registers": null,
+      "flags": null,
+      "body": [
+        {
+          "offset": 272904,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 70,
+              "text": "NativePopMenu"
+            }
+          ]
+        },
+        {
+          "offset": 272918,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272919,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272920,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 31,
+              "text": "MenuBack"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 272932,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272933,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 272934,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 272935,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 1,
+          "text": "StartMenuButtons"
+        }
+      ]
+    },
+    {
+      "offset": 272940,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 272941,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 2,
+          "text": "btn_MENU_SINGLE_PLAYER"
+        }
+      ]
+    },
+    {
+      "offset": 272946,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 272947,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 272952,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 2,
+      "flags": 106,
+      "body": [
+        {
+          "offset": 272963,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 72,
+              "text": "MenuConfirm"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 272975,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 272976,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 272977,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 73,
+              "text": "IN SINGLE PLAYER"
+            }
+          ]
+        },
+        {
+          "offset": 272982,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 272983,
+          "op": "push_data",
+          "length": 13,
+          "values": [
+            0.0,
+            {
+              "register": 1
+            },
+            {
+              "constant": 74,
+              "text": "SlotID"
+            }
+          ]
+        },
+        {
+          "offset": 272999,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273000,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            2,
+            {
+              "constant": 75,
+              "text": "NativeAssignSaveSlotToPlayer"
+            }
+          ]
+        },
+        {
+          "offset": 273010,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273011,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273012,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 273019,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273020,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            1,
+            {
+              "constant": 76,
+              "text": "NativeStartGame"
+            }
+          ]
+        },
+        {
+          "offset": 273030,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273031,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 273032,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 273033,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 1,
+          "text": "StartMenuButtons"
+        }
+      ]
+    },
+    {
+      "offset": 273038,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 273039,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 6,
+          "text": "btn_MENU_MULTIPLAYER"
+        }
+      ]
+    },
+    {
+      "offset": 273044,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 273045,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 273050,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 2,
+      "flags": 106,
+      "body": [
+        {
+          "offset": 273061,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 77,
+              "text": "None"
+            },
+            1,
+            {
+              "constant": 78,
+              "text": "NativeConectionType"
+            }
+          ]
+        },
+        {
+          "offset": 273073,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273074,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273075,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 72,
+              "text": "MenuConfirm"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 273087,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273088,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273089,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273096,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273097,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 273102,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273103,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 79,
+              "text": "InUse"
+            }
+          ]
+        },
+        {
+          "offset": 273108,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273109,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            false
+          ]
+        },
+        {
+          "offset": 273114,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 273115,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273116,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273150
+        },
+        {
+          "offset": 273121,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 80,
+              "text": "menu_EnterName"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273133,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273134,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273135,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 82,
+              "text": "IsMultiplayer"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 273144,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273145,
+          "op": "goto",
+          "length": 2,
+          "target": 273803
+        },
+        {
+          "offset": 273150,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 83,
+              "text": "NativeIsBluetoothWifiEnabled"
+            }
+          ]
+        },
+        {
+          "offset": 273164,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273165,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273166,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273285
+        },
+        {
+          "offset": 273171,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 74,
+              "text": "SlotID"
+            },
+            {
+              "register": 1
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273182,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273183,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 273188,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273189,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 74,
+              "text": "SlotID"
+            }
+          ]
+        },
+        {
+          "offset": 273194,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273195,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273196,
+          "op": "push_data",
+          "length": 13,
+          "values": [
+            0.0,
+            {
+              "register": 1
+            },
+            {
+              "constant": 74,
+              "text": "SlotID"
+            }
+          ]
+        },
+        {
+          "offset": 273212,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273213,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            2,
+            {
+              "constant": 75,
+              "text": "NativeAssignSaveSlotToPlayer"
+            }
+          ]
+        },
+        {
+          "offset": 273223,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273224,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273225,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 84,
+              "text": "IsAppleVersion"
+            }
+          ]
+        },
+        {
+          "offset": 273232,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273233,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            true
+          ]
+        },
+        {
+          "offset": 273238,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 273239,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273240,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273266
+        },
+        {
+          "offset": 273245,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 85,
+              "text": "NativeGCAutoMatch"
+            }
+          ]
+        },
+        {
+          "offset": 273259,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273260,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273261,
+          "op": "goto",
+          "length": 2,
+          "target": 273280
+        },
+        {
+          "offset": 273266,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 86,
+              "text": "menu_MultiplayerConnectivity"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273278,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273279,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273280,
+          "op": "goto",
+          "length": 2,
+          "target": 273803
+        },
+        {
+          "offset": 273285,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 87,
+              "text": "NativeDoWeHaveInternet"
+            }
+          ]
+        },
+        {
+          "offset": 273299,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273300,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273301,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273665
+        },
+        {
+          "offset": 273306,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 88,
+              "text": "ConnectionType"
+            },
+            {
+              "constant": 89,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "offset": 273315,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273316,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 90,
+              "text": "ConnectionTypeTitle"
+            },
+            {
+              "constant": 91,
+              "text": "Online"
+            }
+          ]
+        },
+        {
+          "offset": 273325,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273326,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 92,
+              "text": "Have WIFI"
+            }
+          ]
+        },
+        {
+          "offset": 273331,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273332,
+          "op": "push_data",
+          "length": 13,
+          "values": [
+            {
+              "constant": 93,
+              "text": "NativeEnableGameCenter() returns: "
+            },
+            0.0,
+            {
+              "constant": 94,
+              "text": "NativeEnableGameCenter"
+            }
+          ]
+        },
+        {
+          "offset": 273348,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273349,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 273350,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273351,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 84,
+              "text": "IsAppleVersion"
+            }
+          ]
+        },
+        {
+          "offset": 273358,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273359,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            false
+          ]
+        },
+        {
+          "offset": 273364,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 273365,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273366,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273564
+        },
+        {
+          "offset": 273371,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 94,
+              "text": "NativeEnableGameCenter"
+            }
+          ]
+        },
+        {
+          "offset": 273385,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273386,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273387,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273431
+        },
+        {
+          "offset": 273392,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 95,
+              "text": "NativeEnableGameCenter is true"
+            }
+          ]
+        },
+        {
+          "offset": 273397,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273398,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 77,
+              "text": "None"
+            },
+            1,
+            {
+              "constant": 78,
+              "text": "NativeConectionType"
+            }
+          ]
+        },
+        {
+          "offset": 273410,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273411,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273412,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 96,
+              "text": "menu_Multiplayer_Game_Type"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273424,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273425,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273426,
+          "op": "goto",
+          "length": 2,
+          "target": 273559
+        },
+        {
+          "offset": 273431,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 91,
+              "text": "Online"
+            },
+            1,
+            {
+              "constant": 78,
+              "text": "NativeConectionType"
+            }
+          ]
+        },
+        {
+          "offset": 273443,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273444,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273445,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 74,
+              "text": "SlotID"
+            },
+            {
+              "register": 1
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273456,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273457,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 273462,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273463,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 74,
+              "text": "SlotID"
+            }
+          ]
+        },
+        {
+          "offset": 273468,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273469,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273470,
+          "op": "push_data",
+          "length": 13,
+          "values": [
+            0.0,
+            {
+              "register": 1
+            },
+            {
+              "constant": 74,
+              "text": "SlotID"
+            }
+          ]
+        },
+        {
+          "offset": 273486,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273487,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            2,
+            {
+              "constant": 75,
+              "text": "NativeAssignSaveSlotToPlayer"
+            }
+          ]
+        },
+        {
+          "offset": 273497,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273498,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273499,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 97,
+              "text": "NativeEnableGameCenter is false"
+            }
+          ]
+        },
+        {
+          "offset": 273504,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273505,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 98,
+              "text": "NativeGLXPlayerLoggedIn"
+            }
+          ]
+        },
+        {
+          "offset": 273519,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273520,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273521,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273545
+        },
+        {
+          "offset": 273526,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 99,
+              "text": "menu_Multiplayer"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273538,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273539,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273540,
+          "op": "goto",
+          "length": 2,
+          "target": 273559
+        },
+        {
+          "offset": 273545,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 100,
+              "text": "menu_MultiLogin"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273557,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273558,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273559,
+          "op": "goto",
+          "length": 2,
+          "target": 273660
+        },
+        {
+          "offset": 273564,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 74,
+              "text": "SlotID"
+            },
+            {
+              "register": 1
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273575,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273576,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 273581,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273582,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 74,
+              "text": "SlotID"
+            }
+          ]
+        },
+        {
+          "offset": 273587,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273588,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273589,
+          "op": "push_data",
+          "length": 13,
+          "values": [
+            0.0,
+            {
+              "register": 1
+            },
+            {
+              "constant": 74,
+              "text": "SlotID"
+            }
+          ]
+        },
+        {
+          "offset": 273605,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273606,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            2,
+            {
+              "constant": 75,
+              "text": "NativeAssignSaveSlotToPlayer"
+            }
+          ]
+        },
+        {
+          "offset": 273616,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273617,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273618,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 72,
+              "text": "MenuConfirm"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 273630,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273631,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273632,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 77,
+              "text": "None"
+            },
+            1,
+            {
+              "constant": 78,
+              "text": "NativeConectionType"
+            }
+          ]
+        },
+        {
+          "offset": 273644,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273645,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273646,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 99,
+              "text": "menu_Multiplayer"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273658,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273659,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273660,
+          "op": "goto",
+          "length": 2,
+          "target": 273789
+        },
+        {
+          "offset": 273665,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 101,
+              "text": "NativeWiFiCheck is false"
+            }
+          ]
+        },
+        {
+          "offset": 273670,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273671,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 86,
+              "text": "menu_MultiplayerConnectivity"
+            }
+          ]
+        },
+        {
+          "offset": 273678,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273679,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 102,
+              "text": "Confirmation"
+            }
+          ]
+        },
+        {
+          "offset": 273684,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273685,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 103,
+              "text": "ConfirmationBox"
+            }
+          ]
+        },
+        {
+          "offset": 273690,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273691,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 273696,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273697,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 104,
+              "text": "MENU_MULTIPLAYER_NO_CONNECTION"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 273711,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273712,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273713,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 86,
+              "text": "menu_MultiplayerConnectivity"
+            }
+          ]
+        },
+        {
+          "offset": 273720,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273721,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 102,
+              "text": "Confirmation"
+            }
+          ]
+        },
+        {
+          "offset": 273726,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273727,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 103,
+              "text": "ConfirmationBox"
+            }
+          ]
+        },
+        {
+          "offset": 273732,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273733,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 105,
+              "text": "btn_Ok"
+            }
+          ]
+        },
+        {
+          "offset": 273738,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273739,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 273744,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273745,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 106,
+              "text": "GLOBAL_OK"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 273759,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273760,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273761,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 107,
+              "text": "Show"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 86,
+              "text": "menu_MultiplayerConnectivity"
+            }
+          ]
+        },
+        {
+          "offset": 273775,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273776,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 102,
+              "text": "Confirmation"
+            }
+          ]
+        },
+        {
+          "offset": 273781,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273782,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 35,
+              "text": "gotoAndPlay"
+            }
+          ]
+        },
+        {
+          "offset": 273787,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 273788,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273789,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 72,
+              "text": "MenuConfirm"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 273801,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273802,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 273803,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 273804,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 1,
+          "text": "StartMenuButtons"
+        }
+      ]
+    },
+    {
+      "offset": 273809,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 273810,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 8,
+          "text": "btn_MENU_Leader"
+        }
+      ]
+    },
+    {
+      "offset": 273815,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 273816,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 273821,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 2,
+      "flags": 106,
+      "body": [
+        {
+          "offset": 273832,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 108,
+              "text": "in LEADER"
+            }
+          ]
+        },
+        {
+          "offset": 273837,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273838,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 109,
+              "text": "CharDifficulty"
+            },
+            {
+              "register": 1
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273849,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273850,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 273855,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273856,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 110,
+              "text": "Difficulty"
+            }
+          ]
+        },
+        {
+          "offset": 273861,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273862,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 273867,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273868,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 273873,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273874,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273875,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 111,
+              "text": "NeededInfoForAccount"
+            },
+            {
+              "constant": 112,
+              "text": "Leaderboard"
+            }
+          ]
+        },
+        {
+          "offset": 273884,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 273885,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 72,
+              "text": "MenuConfirm"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 273897,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273898,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273899,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 87,
+              "text": "NativeDoWeHaveInternet"
+            }
+          ]
+        },
+        {
+          "offset": 273913,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273914,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273915,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274030
+        },
+        {
+          "offset": 273920,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 84,
+              "text": "IsAppleVersion"
+            }
+          ]
+        },
+        {
+          "offset": 273927,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 273928,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            false
+          ]
+        },
+        {
+          "offset": 273933,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 273934,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273935,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274011
+        },
+        {
+          "offset": 273940,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 94,
+              "text": "NativeEnableGameCenter"
+            }
+          ]
+        },
+        {
+          "offset": 273954,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273955,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 273956,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 273986
+        },
+        {
+          "offset": 273961,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 113,
+              "text": "GameCenterIsEnabled"
+            }
+          ]
+        },
+        {
+          "offset": 273966,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273967,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 114,
+              "text": "menu_Multiplayer_AfterChoice"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 273979,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 273980,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 273981,
+          "op": "goto",
+          "length": 2,
+          "target": 274006
+        },
+        {
+          "offset": 273986,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 115,
+              "text": "GameCenterIs NOT Enabled"
+            }
+          ]
+        },
+        {
+          "offset": 273991,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 273992,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 116,
+              "text": "gllive"
+            },
+            1,
+            {
+              "constant": 117,
+              "text": "NativeGCLeaderboards"
+            }
+          ]
+        },
+        {
+          "offset": 274004,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274005,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274006,
+          "op": "goto",
+          "length": 2,
+          "target": 274025
+        },
+        {
+          "offset": 274011,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 118,
+              "text": "gamecenter"
+            },
+            1,
+            {
+              "constant": 117,
+              "text": "NativeGCLeaderboards"
+            }
+          ]
+        },
+        {
+          "offset": 274023,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274024,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274025,
+          "op": "goto",
+          "length": 2,
+          "target": 274154
+        },
+        {
+          "offset": 274030,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 101,
+              "text": "NativeWiFiCheck is false"
+            }
+          ]
+        },
+        {
+          "offset": 274035,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 274036,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274043,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274044,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 120,
+              "text": "Confirmation2"
+            }
+          ]
+        },
+        {
+          "offset": 274049,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274050,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 103,
+              "text": "ConfirmationBox"
+            }
+          ]
+        },
+        {
+          "offset": 274055,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274056,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274061,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274062,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 104,
+              "text": "MENU_MULTIPLAYER_NO_CONNECTION"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 274076,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274077,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274078,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 107,
+              "text": "Show"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274092,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274093,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 120,
+              "text": "Confirmation2"
+            }
+          ]
+        },
+        {
+          "offset": 274098,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274099,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 35,
+              "text": "gotoAndPlay"
+            }
+          ]
+        },
+        {
+          "offset": 274104,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 274105,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274106,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274113,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274114,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 120,
+              "text": "Confirmation2"
+            }
+          ]
+        },
+        {
+          "offset": 274119,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274120,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 103,
+              "text": "ConfirmationBox"
+            }
+          ]
+        },
+        {
+          "offset": 274125,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274126,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 105,
+              "text": "btn_Ok"
+            }
+          ]
+        },
+        {
+          "offset": 274131,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274132,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274137,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274138,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 106,
+              "text": "GLOBAL_OK"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 274152,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274153,
+          "op": "set_member",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 274154,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 274155,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 1,
+          "text": "StartMenuButtons"
+        }
+      ]
+    },
+    {
+      "offset": 274160,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 274161,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 10,
+          "text": "btn_Achievements"
+        }
+      ]
+    },
+    {
+      "offset": 274166,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 274167,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 274172,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 2,
+      "flags": 106,
+      "body": [
+        {
+          "offset": 274183,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 109,
+              "text": "CharDifficulty"
+            },
+            {
+              "register": 1
+            },
+            {
+              "constant": 44,
+              "text": "menu_MainMenu"
+            }
+          ]
+        },
+        {
+          "offset": 274194,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274195,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 274200,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274201,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 110,
+              "text": "Difficulty"
+            }
+          ]
+        },
+        {
+          "offset": 274206,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274207,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274212,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274213,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274218,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274219,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274220,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 111,
+              "text": "NeededInfoForAccount"
+            },
+            {
+              "constant": 121,
+              "text": "Achievements"
+            }
+          ]
+        },
+        {
+          "offset": 274229,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274230,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 122,
+              "text": "In Achievements"
+            }
+          ]
+        },
+        {
+          "offset": 274235,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 274236,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 72,
+              "text": "MenuConfirm"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 274248,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274249,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274250,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 87,
+              "text": "NativeDoWeHaveInternet"
+            }
+          ]
+        },
+        {
+          "offset": 274264,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274265,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274266,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274381
+        },
+        {
+          "offset": 274271,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 84,
+              "text": "IsAppleVersion"
+            }
+          ]
+        },
+        {
+          "offset": 274278,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274279,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            false
+          ]
+        },
+        {
+          "offset": 274284,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 274285,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274286,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274362
+        },
+        {
+          "offset": 274291,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 94,
+              "text": "NativeEnableGameCenter"
+            }
+          ]
+        },
+        {
+          "offset": 274305,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274306,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274307,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274337
+        },
+        {
+          "offset": 274312,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 113,
+              "text": "GameCenterIsEnabled"
+            }
+          ]
+        },
+        {
+          "offset": 274317,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 274318,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 114,
+              "text": "menu_Multiplayer_AfterChoice"
+            },
+            1,
+            {
+              "constant": 81,
+              "text": "NativePushMenu"
+            }
+          ]
+        },
+        {
+          "offset": 274330,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274331,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274332,
+          "op": "goto",
+          "length": 2,
+          "target": 274357
+        },
+        {
+          "offset": 274337,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 115,
+              "text": "GameCenterIs NOT Enabled"
+            }
+          ]
+        },
+        {
+          "offset": 274342,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 274343,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 116,
+              "text": "gllive"
+            },
+            1,
+            {
+              "constant": 123,
+              "text": "NativeGCAchievements"
+            }
+          ]
+        },
+        {
+          "offset": 274355,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274356,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274357,
+          "op": "goto",
+          "length": 2,
+          "target": 274376
+        },
+        {
+          "offset": 274362,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 118,
+              "text": "gamecenter"
+            },
+            1,
+            {
+              "constant": 123,
+              "text": "NativeGCAchievements"
+            }
+          ]
+        },
+        {
+          "offset": 274374,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274375,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274376,
+          "op": "goto",
+          "length": 2,
+          "target": 274505
+        },
+        {
+          "offset": 274381,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 101,
+              "text": "NativeWiFiCheck is false"
+            }
+          ]
+        },
+        {
+          "offset": 274386,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 274387,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274394,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274395,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 120,
+              "text": "Confirmation2"
+            }
+          ]
+        },
+        {
+          "offset": 274400,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274401,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 103,
+              "text": "ConfirmationBox"
+            }
+          ]
+        },
+        {
+          "offset": 274406,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274407,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274412,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274413,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 104,
+              "text": "MENU_MULTIPLAYER_NO_CONNECTION"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 274427,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274428,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274429,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 107,
+              "text": "Show"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274443,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274444,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 120,
+              "text": "Confirmation2"
+            }
+          ]
+        },
+        {
+          "offset": 274449,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274450,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 35,
+              "text": "gotoAndPlay"
+            }
+          ]
+        },
+        {
+          "offset": 274455,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 274456,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 274457,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274464,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274465,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 120,
+              "text": "Confirmation2"
+            }
+          ]
+        },
+        {
+          "offset": 274470,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274471,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 103,
+              "text": "ConfirmationBox"
+            }
+          ]
+        },
+        {
+          "offset": 274476,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274477,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 105,
+              "text": "btn_Ok"
+            }
+          ]
+        },
+        {
+          "offset": 274482,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274483,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274488,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274489,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 106,
+              "text": "GLOBAL_OK"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 274503,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274504,
+          "op": "set_member",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 274505,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 274506,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 274511,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 274512,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 20,
+          "text": "DiffSlot"
+        }
+      ]
+    },
+    {
+      "offset": 274517,
+      "op": "function2",
+      "length": 14,
+      "name": "",
+      "args": [
+        {
+          "register": 2,
+          "name": "Diff"
+        }
+      ],
+      "registers": 3,
+      "flags": 106,
+      "body": [
+        {
+          "offset": 274534,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 124,
+              "text": "Diff is: "
+            },
+            {
+              "register": 2
+            }
+          ]
+        },
+        {
+          "offset": 274541,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 274542,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 274543,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "register": 2
+            },
+            0.0
+          ]
+        },
+        {
+          "offset": 274557,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 274558,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274559,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274704
+        },
+        {
+          "offset": 274564,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274571,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274572,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 274577,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274578,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 110,
+              "text": "Difficulty"
+            }
+          ]
+        },
+        {
+          "offset": 274583,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274584,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274589,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274590,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 125,
+              "text": "GAMEPLAYMENUS_DIFFICULTY_NORMAL"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 274604,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274605,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274606,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274613,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274614,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 126,
+              "text": "btnLeftArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274619,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274620,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            false
+          ]
+        },
+        {
+          "offset": 274627,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274628,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 127,
+              "text": "UnlockedDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274635,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274636,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            0.0
+          ]
+        },
+        {
+          "offset": 274648,
+          "op": "gt_t",
+          "length": 0
+        },
+        {
+          "offset": 274649,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274650,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274682
+        },
+        {
+          "offset": 274655,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274662,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274663,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 128,
+              "text": "btnRightArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274668,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274669,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 274676,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274677,
+          "op": "goto",
+          "length": 2,
+          "target": 274704
+        },
+        {
+          "offset": 274682,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274689,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274690,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 128,
+              "text": "btnRightArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274695,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274696,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            false
+          ]
+        },
+        {
+          "offset": 274703,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274704,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            {
+              "register": 2
+            },
+            1
+          ]
+        },
+        {
+          "offset": 274714,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 274715,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274716,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274857
+        },
+        {
+          "offset": 274721,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274728,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274729,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 274734,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274735,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 110,
+              "text": "Difficulty"
+            }
+          ]
+        },
+        {
+          "offset": 274740,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274741,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274746,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274747,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 129,
+              "text": "GAMEPLAYMENUS_DIFFICULTY_HARD"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 274761,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274762,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274763,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274770,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274771,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 126,
+              "text": "btnLeftArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274776,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274777,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 274784,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274785,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 127,
+              "text": "UnlockedDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274792,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274793,
+          "op": "push_data",
+          "length": 5,
+          "values": [
+            1
+          ]
+        },
+        {
+          "offset": 274801,
+          "op": "gt_t",
+          "length": 0
+        },
+        {
+          "offset": 274802,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274803,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274835
+        },
+        {
+          "offset": 274808,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274815,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274816,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 128,
+              "text": "btnRightArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274821,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274822,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 274829,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274830,
+          "op": "goto",
+          "length": 2,
+          "target": 274857
+        },
+        {
+          "offset": 274835,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274842,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274843,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 128,
+              "text": "btnRightArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274848,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274849,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            false
+          ]
+        },
+        {
+          "offset": 274856,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274857,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            {
+              "register": 2
+            },
+            2
+          ]
+        },
+        {
+          "offset": 274867,
+          "op": "eq_t",
+          "length": 0
+        },
+        {
+          "offset": 274868,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 274869,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 274960
+        },
+        {
+          "offset": 274874,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274881,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274882,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 274887,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274888,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 110,
+              "text": "Difficulty"
+            }
+          ]
+        },
+        {
+          "offset": 274893,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274894,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 274899,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274900,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 130,
+              "text": "GAMEPLAYMENUS_DIFFICULTY_VERYHARD"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 274914,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 274915,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274916,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274923,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274924,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 128,
+              "text": "btnRightArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274929,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274930,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            false
+          ]
+        },
+        {
+          "offset": 274937,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 274938,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 274945,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274946,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 126,
+              "text": "btnLeftArrowDiff"
+            }
+          ]
+        },
+        {
+          "offset": 274951,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 274952,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 274959,
+          "op": "set_member",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 274960,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 274961,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 274966,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 274967,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 128,
+          "text": "btnRightArrowDiff"
+        }
+      ]
+    },
+    {
+      "offset": 274972,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 274973,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 274978,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 3,
+      "flags": 105,
+      "body": [
+        {
+          "offset": 274989,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 131,
+              "text": "in RightArrow"
+            }
+          ]
+        },
+        {
+          "offset": 274994,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 274995,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 132,
+              "text": "_root.CurrentDiff WAS: "
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275004,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275005,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275006,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 275007,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275018,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275019,
+          "op": "inc",
+          "length": 0
+        },
+        {
+          "offset": 275020,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275021,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 133,
+              "text": "UpdateInfoAfterDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275035,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275036,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 275037,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 134,
+              "text": "_root.CurrentDiff BECAME: "
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275046,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275047,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275048,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 275049,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275056,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275057,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 135,
+              "text": "_parent"
+            }
+          ]
+        },
+        {
+          "offset": 275069,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275070,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 20,
+              "text": "DiffSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275075,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 275076,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 275077,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 136,
+              "text": "MenuSelect"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 275089,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275090,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 275091,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 275092,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 14,
+          "text": "this"
+        }
+      ]
+    },
+    {
+      "offset": 275097,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 275098,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 126,
+          "text": "btnLeftArrowDiff"
+        }
+      ]
+    },
+    {
+      "offset": 275103,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 275104,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 275109,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 3,
+      "flags": 105,
+      "body": [
+        {
+          "offset": 275120,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275131,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275132,
+          "op": "dec",
+          "length": 0
+        },
+        {
+          "offset": 275133,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275134,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            0.0,
+            {
+              "constant": 133,
+              "text": "UpdateInfoAfterDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275148,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275149,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 275150,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275157,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275158,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 135,
+              "text": "_parent"
+            }
+          ]
+        },
+        {
+          "offset": 275170,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275171,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 20,
+              "text": "DiffSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275176,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 275177,
+          "op": "pop",
+          "length": 0
+        },
+        {
+          "offset": 275178,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 136,
+              "text": "MenuSelect"
+            },
+            1,
+            {
+              "constant": 71,
+              "text": "NativePlaySoundFX"
+            }
+          ]
+        },
+        {
+          "offset": 275190,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275191,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 275192,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 275193,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 133,
+          "text": "UpdateInfoAfterDiff"
+        }
+      ]
+    },
+    {
+      "offset": 275198,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 3,
+      "flags": 105,
+      "body": [
+        {
+          "offset": 275209,
+          "op": "push_data",
+          "length": 15,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            },
+            0.0,
+            {
+              "constant": 137,
+              "text": "Object"
+            }
+          ]
+        },
+        {
+          "offset": 275227,
+          "op": "new",
+          "length": 0
+        },
+        {
+          "offset": 275228,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275229,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            }
+          ]
+        },
+        {
+          "offset": 275238,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275239,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275244,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275245,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 138,
+              "text": "ThePlayerSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275252,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275253,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            3,
+            {
+              "constant": 139,
+              "text": "NativeGetSaveSlotDetails"
+            }
+          ]
+        },
+        {
+          "offset": 275263,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275264,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 275265,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275270,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275271,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 79,
+              "text": "InUse"
+            }
+          ]
+        },
+        {
+          "offset": 275276,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275277,
+          "op": "not",
+          "length": 0
+        },
+        {
+          "offset": 275278,
+          "op": "branch_if_true",
+          "length": 2,
+          "target": 275796
+        },
+        {
+          "offset": 275283,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 43,
+              "text": "SlotText"
+            }
+          ]
+        },
+        {
+          "offset": 275290,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275291,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275296,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275297,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275304,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275305,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 46,
+              "text": "PlayerName"
+            }
+          ]
+        },
+        {
+          "offset": 275310,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275311,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275312,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275319,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275320,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 275327,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275328,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 140,
+              "text": "PlayerRender"
+            }
+          ]
+        },
+        {
+          "offset": 275335,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275336,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 275343,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275344,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 141,
+              "text": "btnDelete"
+            }
+          ]
+        },
+        {
+          "offset": 275351,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275352,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 275359,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275360,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275369,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275370,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 110,
+              "text": "Difficulty"
+            }
+          ]
+        },
+        {
+          "offset": 275375,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275376,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275377,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 142,
+              "text": "btnRightArrow"
+            }
+          ]
+        },
+        {
+          "offset": 275384,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275385,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 29,
+              "text": "_visible"
+            },
+            true
+          ]
+        },
+        {
+          "offset": 275392,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275393,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275400,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275401,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 47,
+              "text": "player_class"
+            }
+          ]
+        },
+        {
+          "offset": 275406,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275407,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275412,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275413,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275420,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275421,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 48,
+              "text": "PlayerClass"
+            }
+          ]
+        },
+        {
+          "offset": 275426,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275427,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275428,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275435,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275436,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 49,
+              "text": "Hud_Location"
+            }
+          ]
+        },
+        {
+          "offset": 275441,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275442,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275447,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275448,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275455,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275456,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 50,
+              "text": "PlayerLocation"
+            }
+          ]
+        },
+        {
+          "offset": 275461,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275462,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275463,
+          "op": "push_data",
+          "length": 8,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 52,
+              "text": "ParsedStringAct"
+            },
+            {
+              "constant": 89,
+              "text": ""
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275474,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275475,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 143,
+              "text": "PlayerCurrentAct"
+            }
+          ]
+        },
+        {
+          "offset": 275480,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275481,
+          "op": "push_data",
+          "length": 7,
+          "values": [
+            2,
+            {
+              "constant": 144,
+              "text": "Array"
+            }
+          ]
+        },
+        {
+          "offset": 275491,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275492,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275493,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275500,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275501,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 51,
+              "text": "Hud_Act"
+            }
+          ]
+        },
+        {
+          "offset": 275506,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275507,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275512,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275513,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "register": 2
+            },
+            {
+              "constant": 52,
+              "text": "ParsedStringAct"
+            }
+          ]
+        },
+        {
+          "offset": 275522,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275523,
+          "op": "push_data",
+          "length": 9,
+          "values": [
+            {
+              "constant": 53,
+              "text": "MENU_ACT"
+            },
+            2,
+            {
+              "constant": 54,
+              "text": "NativeGetParsedString"
+            }
+          ]
+        },
+        {
+          "offset": 275535,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275536,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275537,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275544,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275545,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 62,
+              "text": "Last_Save"
+            }
+          ]
+        },
+        {
+          "offset": 275550,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275551,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275556,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275557,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "constant": 63,
+              "text": "MENU_LAST_SAVE"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 275571,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275572,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275573,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275580,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275581,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 59,
+              "text": "Last_Save_Infos"
+            }
+          ]
+        },
+        {
+          "offset": 275586,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275587,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275592,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275593,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 36,
+              "text": "htmlText"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275600,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275601,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 60,
+              "text": "PlayerLastSave"
+            }
+          ]
+        },
+        {
+          "offset": 275606,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275607,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275608,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275615,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275616,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 55,
+              "text": "Hud_Level"
+            }
+          ]
+        },
+        {
+          "offset": 275621,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275622,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275627,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275628,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 56,
+              "text": "GLOBAL_LEVEL"
+            },
+            1,
+            {
+              "constant": 25,
+              "text": "NativeGetStringFromSymbol"
+            }
+          ]
+        },
+        {
+          "offset": 275642,
+          "op": "call_func",
+          "length": 0
+        },
+        {
+          "offset": 275643,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 57,
+              "text": " "
+            }
+          ]
+        },
+        {
+          "offset": 275648,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275649,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275654,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275655,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 58,
+              "text": "PlayerLVL"
+            }
+          ]
+        },
+        {
+          "offset": 275660,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275661,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275662,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275663,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "register": 1
+            },
+            {
+              "constant": 21,
+              "text": "PlayerInfos"
+            }
+          ]
+        },
+        {
+          "offset": 275670,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275671,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 61,
+              "text": "dateTxt"
+            }
+          ]
+        },
+        {
+          "offset": 275676,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275677,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "offset": 275682,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275683,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 23,
+              "text": "text"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275690,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275691,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 60,
+              "text": "PlayerLastSave"
+            }
+          ]
+        },
+        {
+          "offset": 275696,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275697,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275698,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 127,
+              "text": "UnlockedDiff"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275707,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275708,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 145,
+              "text": "DifficultyUnlocked"
+            }
+          ]
+        },
+        {
+          "offset": 275713,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275714,
+          "op": "set_member",
+          "length": 0
+        },
+        {
+          "offset": 275715,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 146,
+              "text": "NAME: "
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275722,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275723,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 46,
+              "text": "PlayerName"
+            }
+          ]
+        },
+        {
+          "offset": 275728,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275729,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275730,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 275731,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 147,
+              "text": "CLASS: "
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275738,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275739,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 148,
+              "text": "StringClassLVL"
+            }
+          ]
+        },
+        {
+          "offset": 275744,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275745,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275746,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 275747,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 149,
+              "text": "LOCATION: "
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275754,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275755,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 50,
+              "text": "PlayerLocation"
+            }
+          ]
+        },
+        {
+          "offset": 275760,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275761,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275762,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 275763,
+          "op": "push_data",
+          "length": 4,
+          "values": [
+            {
+              "constant": 150,
+              "text": "DIFF: "
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275770,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275771,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 145,
+              "text": "DifficultyUnlocked"
+            }
+          ]
+        },
+        {
+          "offset": 275776,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275777,
+          "op": "add_t",
+          "length": 0
+        },
+        {
+          "offset": 275778,
+          "op": "trace",
+          "length": 0
+        },
+        {
+          "offset": 275779,
+          "op": "push_data",
+          "length": 6,
+          "values": [
+            {
+              "register": 2
+            },
+            {
+              "constant": 19,
+              "text": "CurrentDiff"
+            },
+            {
+              "constant": 45,
+              "text": "mySaveSlot"
+            }
+          ]
+        },
+        {
+          "offset": 275788,
+          "op": "get_var",
+          "length": 0
+        },
+        {
+          "offset": 275789,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 110,
+              "text": "Difficulty"
+            }
+          ]
+        },
+        {
+          "offset": 275794,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275795,
+          "op": "set_member",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 275796,
+      "op": "set_var",
+      "length": 0
+    },
+    {
+      "offset": 275797,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 151,
+          "text": "_root"
+        }
+      ]
+    },
+    {
+      "offset": 275802,
+      "op": "get_var",
+      "length": 0
+    },
+    {
+      "offset": 275803,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 119,
+          "text": "menu_StartGame"
+        }
+      ]
+    },
+    {
+      "offset": 275808,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 275809,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 120,
+          "text": "Confirmation2"
+        }
+      ]
+    },
+    {
+      "offset": 275814,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 275815,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 103,
+          "text": "ConfirmationBox"
+        }
+      ]
+    },
+    {
+      "offset": 275820,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 275821,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 105,
+          "text": "btn_Ok"
+        }
+      ]
+    },
+    {
+      "offset": 275826,
+      "op": "get_member",
+      "length": 0
+    },
+    {
+      "offset": 275827,
+      "op": "push_data",
+      "length": 2,
+      "values": [
+        {
+          "constant": 69,
+          "text": "onRelease"
+        }
+      ]
+    },
+    {
+      "offset": 275832,
+      "op": "function2",
+      "length": 8,
+      "name": "",
+      "args": [],
+      "registers": 2,
+      "flags": 106,
+      "body": [
+        {
+          "offset": 275843,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            {
+              "constant": 152,
+              "text": "Hide"
+            },
+            1,
+            {
+              "register": 1
+            },
+            {
+              "constant": 119,
+              "text": "menu_StartGame"
+            }
+          ]
+        },
+        {
+          "offset": 275857,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275858,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 120,
+              "text": "Confirmation2"
+            }
+          ]
+        },
+        {
+          "offset": 275863,
+          "op": "get_member",
+          "length": 0
+        },
+        {
+          "offset": 275864,
+          "op": "push_data",
+          "length": 2,
+          "values": [
+            {
+              "constant": 35,
+              "text": "gotoAndPlay"
+            }
+          ]
+        },
+        {
+          "offset": 275869,
+          "op": "call_method",
+          "length": 0
+        },
+        {
+          "offset": 275870,
+          "op": "pop",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "offset": 275871,
+      "op": "set_member",
+      "length": 0
+    },
+    {
+      "offset": 275872,
+      "op": "<end>",
+      "length": 0
+    }
+  ]
+}

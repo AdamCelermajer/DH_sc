@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "scope": "Restricted tool token refuses false host census",
+  "watchdog_sha256": "fbde732b902df20e1e7c2b04d843035d8aa5f178b3649e71053a50428e4eb711",
+  "diagnostic": "Host process census unavailable from AppContainer; run the guard outside the tool sandbox"
+}

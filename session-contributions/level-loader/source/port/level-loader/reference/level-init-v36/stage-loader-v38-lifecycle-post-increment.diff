@@ -1,0 +1,33 @@
+--- a/port/level-loader/lifecycle_v36.hpp
++++ b/port/level-loader/lifecycle_v36.hpp
+@@ -33,6 +33,9 @@
+  // pending preserves its own cursor. The map/InitPost internal source spins
+  // become ONE call per tick. No partial body may return complete.
+  std::array<std::function<LifecycleStepV36(std::string&)>,38> stage_body;
++ // Source stage7 increments file13c AFTER dispatcher130 increment and
++ // BEFORE progress tail. Required for7; optional reached hooks for others.
++ std::array<std::function<bool(std::string&)>,38> after_source_increment;
+  // Original post-tail onProgress/license/menu effects, owned by main/menu.
+  std::function<bool(std::int32_t,std::int32_t,std::string&)> publish_progress;
+  // Real retained resource counters, not elapsed-time-derived work estimates.
+--- a/port/level-loader/lifecycle_v36.cpp
++++ b/port/level-loader/lifecycle_v36.cpp
+@@ -117,7 +117,17 @@
+   if(*fields_.state130!=std::uint32_t(state)){fail(state,stage.service,"Stage provider mutated field130; require body excluding dispatcher increment");return diagnostics_.status;}
+   if(result==LifecycleStepV36::failed||result==LifecycleStepV36::dependency_missing){fail(state,stage.service,error);return diagnostics_.status;}
+  }
+- if(result==LifecycleStepV36::complete&&state!=36){++*fields_.state130;++diagnostics_.completed_stages;expected_state_=*fields_.state130;}
++ if(result==LifecycleStepV36::complete&&state!=36){
++  ++*fields_.state130;expected_state_=*fields_.state130;
++  const auto& after=services_.after_source_increment[state];
++  if(state==7&&!after){fail(state,"source-file13c-after130",{});return diagnostics_.status;}
++  if(after){std::string error;bool ok{};
++   try {ok=after(error);}catch(const std::exception& e){error=e.what();}catch(...){error="Post-increment provider threw";}
++   if(!ok){fail(state,"source-after130-increment",error);return diagnostics_.status;}
++   if(*fields_.state130!=std::uint32_t(state+1)){fail(state,"source-after130-increment","Provider mutated field130");return diagnostics_.status;}
++  }
++  ++diagnostics_.completed_stages;
++ }
+  if(state==36)diagnostics_.status=LifecycleStatusV36::awaiting_end_loading;
+  else diagnostics_.status=*fields_.state130==38?LifecycleStatusV36::source_finished:LifecycleStatusV36::loading;
+  lifecycle_progress_tail_v36(fields_);publish();return diagnostics_.status;

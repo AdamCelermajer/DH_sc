@@ -1,0 +1,12 @@
+[
+  {
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE10setTextureEjPNS0_8ITextureENS0_14E_TEXTURE_TYPEE",
+    "address": "0x5b26f0",
+    "size": 284
+  },
+  {
+    "symbol": "_ZN6glitch5video19CCommonGLDriverBase18SCommonShadowStateC1Ev",
+    "address": "0x6dcd90",
+    "size": 60
+  }
+]

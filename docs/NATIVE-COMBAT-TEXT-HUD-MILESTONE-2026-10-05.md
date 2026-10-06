@@ -1,0 +1,24 @@
+# Original combat text and enemy HUD checkpoint
+
+The native checkpoint is `port/android-native/build/checkpoints/dh2-native-combat-text-enemy-hud-becfbda3.apk`.
+SHA256: `becfbda33fbbf3ce9b442329175ea92315535f7b8397a44e0fd6ac66029e5e4a`; 555,689,318 bytes.
+It contains the original cache and all required staged assets inside one APK, with ARM64 and emulator x86_64 native libraries, no original ARM32 engine runtime. All 18 packaged ELF64 libraries retain at least 16 KiB load alignment.
+
+The complete feature connects actual CombatResult selection to the original scrolling text queue, twenty authored Flash styles, cloning/reuse, original timing and expiry, same retained localization/font/display owners, and the actual submitted camera. Damage values come from the result, not HP subtraction; this preserves overkill and simultaneous Block/damage strings. Current live Level load phase is its genuine constructor value zero. Full LoadProcess phase transitions remain a separate producer.
+
+The original edit-text implementation and display-list overlay are now selected in the main build, with font platform creation before movie construction and buffered text flushed before the display pass ends. Original bitmap-font cache dimensions zero remain distinct from the FreeType 512 dimensions. The GFNT backend preserves the source null-cache glyph-image miss and actual FreeType format rejection, followed by the same embedded font tables. It does not invent a bitmap atlas. Native grid snapping uses the kernel checked against 24,119 original executions.
+
+Enemy status uses the same live target/property/life owners. The bar's anchor is computed from actual submitted vertices in screen space, avoiding an unoccupied top-centre point in a world bounding box. It hides at zero HP or death independently of the death animation. Existing authored bar fill and labels remain connected.
+
+Verification on installed checkpoint process 12233 used actual movement/Attack touches, with automatic enemy AI explicitly disabled. Eight hits took cultist07 from raw HP25600 to zero and produced dead1/visible0. Recorded video shows damage15, orange Block plus damage8, rising damage8 and finite disappearance. Other interactive melee hits in that process are retained separately from this controlled sequence. Both Android ABIs built; strict renderer checks passed. Current main-linked ASan/UBSan host checks passed for combat Flash (20 styles, nine glyph quads, cloning/expiry/reuse), enemy HUD, full retained manager/display-list, and the original manager's 650 differential cases. Host World/localization/projection fixtures are labelled in their reports and are not device parity claims.
+
+Validation: `port/android-native/reports/native-combat-text-enemy-hud-becfbda3-checkpoint-validation.json`.
+Compiler capture: `.local-inputs/combat-text-v1-build-capture.zip`, SHA256 `ec8b0ab35294e3eb2e6052400a5ebccd040f67ed5c14bff13d32917a0d3c1180`.
+Frozen companion: `port/android-native/build/checkpoints/dh2-native-combat-text-enemy-hud-becfbda3-source.zip`, 2,169 entries, SHA256 `256d8b6f2cdb5e06b6c81fc425a139ce74d5ccf5e2cf14d245e71bf0b2b75ba7`.
+Both build-capture tags refer to this same native project, not separate independently validated Studio builds. The companion uses frozen compiler inputs even if development proceeds afterward.
+
+The same tested process later accepted a learned skill and consumed mana, but its animation event reached a required global party-count query incorrectly guarded as a per-Character query. The failure stopped the development renderer; the exact error is preserved in the checkpoint report and the emulator was relaunched. The subsequent working tree moves player-count delivery before that identity guard, matching the source global query's subject0. Both ABI builds and strict renderer checks pass for that source correction; it is not included in the frozen becfbda3 checkpoint and has not received a new live skill acceptance. Full skill application/FX and audio still require their genuine providers.
+
+This is a feature checkpoint, not completion of the reconstruction. Full original NPC physical/AI/pathing, combat FX/audio, campaign file decoding and canonical quest/world restoration, main-menu integration and physical ARM64 device testing remain.
+
+The user authorized cross-chat replies during this integration. Menu ownership is campaign files/backups and create/load/delete presentation; root owns canonical gameplay initialization/serialization. Start requests retain immutable bytes and explicit completion/failure. The generic loader owns retained source lifecycle; current root generic factory/templates/container/condition/registry/restoration services are explicitly unavailable pending their full native implementations. Neither chat may treat queued requests or loaded declarations as completed gameplay.

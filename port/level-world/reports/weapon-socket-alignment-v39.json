@@ -1,0 +1,78 @@
+{
+  "commands": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-ffp-contract=off",
+        "-fno-fast-math",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/tests/weapon_socket_alignment_v39.cpp",
+        "port/level-world/authored_fx_alignment_v39.cpp",
+        "port/level-world/source_fx_node_matrix_v4.cpp",
+        "port/engine-skinning/visual_skin_owner_v6.cpp",
+        "port/engine-skinning/visual_skin_selection_v6.cpp",
+        "port/engine-skinning/skin_pose_cache_v32.cpp",
+        "port/scene-materials/scene.cpp",
+        "port/engine-animation/animation.cpp",
+        "port/engine-animation/angle_interpreter.cpp",
+        "-L.local-inputs/player-item-effects-v5/host-snapshot",
+        "-ldh2_engine_animation",
+        "-ldh2_engine_skinning",
+        "-ldh2_scene_materials",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_ui",
+        "-o",
+        ".local-inputs/weapon-socket-alignment-v39"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=.local-inputs/player-item-effects-v5/host-snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/weapon-socket-alignment-v39",
+        "port/android-native/app/src/main/assets/models/prince_modular.bdae",
+        ".local-inputs/visual-skin-owner-v6/weapons",
+        "port/android-native/app/src/main/assets/animations/prince_walk_1hand.bdae"
+      ],
+      "exit": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":2828,\"actual_weapon_resources\":2,\"socket_modes\":3,\"slots\":2,\"headings\":8,\"weapon_parts\":96,\"camera_and_root_poses\":\"fixtures\",\"actual_animation_sampled\":true,\"live_visual_acceptance\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/level-world/tests/weapon_socket_alignment_v39.cpp": "36c20c652dadf8e55a6c14fcb7460d9cac2f46dfcc447ce37a8a9922b3280678",
+    "port/level-world/authored_fx_alignment_v39.cpp": "d89ae5a4b1981d4daf4d018b6778c41a2ae9be2d6e69ddf37410c5b422144025",
+    "port/level-world/source_fx_node_matrix_v4.cpp": "e5649ef21d3d25c1f8e55054d87973cc5fac1ad11248be30268f6d9406804501",
+    "port/engine-skinning/visual_skin_owner_v6.cpp": "10a0e2d2d0ec37e6a6dd9f8509473927ce8800866a339bbdaf8ff30e3fd92f82",
+    "port/engine-skinning/visual_skin_selection_v6.cpp": "5fd4136601821c8cdc1ab5bacd1f17f30d0aaedbe708dbd03a82de5ccd9d968d",
+    "port/engine-skinning/skin_pose_cache_v32.cpp": "ba56e46c1f8a9be55ba1201d95a74abf9a5cb43f99d4a92f0fc807d3b54157ed",
+    "port/scene-materials/scene.cpp": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556",
+    "port/engine-animation/animation.cpp": "0e8a748b250650120870b2f1edd0dfeaef0175792ddc4f43dfb9d7c599ef5be4",
+    "port/engine-animation/angle_interpreter.cpp": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f"
+  },
+  "dependency_binaries": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "libdh2_engine_ui.so": "dce79dc1f2afab048e84e13cc40d9c266c32660a4960f65ae630491cd197e913",
+    "libdh2_game_data.so": "7648f5aa137edf0a0c97ca457a75eb5b1d93aa2b3927cf1188f89a11833ff7e3",
+    "libdh2_level_world.so": "865c6d23f6b20b334bdb215953b8c716bd69058f7d1d0b3709b11feff055de3d",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "93621af10461136d20bb8e93193a79b1999b90e33056343d6293f22766de48c2"
+  },
+  "actual_inputs": {
+    "port/android-native/app/src/main/assets/models/prince_modular.bdae": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+    "port/android-native/app/src/main/assets/animations/prince_walk_1hand.bdae": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+  },
+  "live_visual_acceptance": false
+}

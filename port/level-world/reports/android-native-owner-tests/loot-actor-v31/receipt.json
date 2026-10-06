@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "2334e8a84f1d5bd1cc0c9ea108175533711502b5575b468b59537697989a6b46",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\character_loot_actor_binding_v31.cpp",
+      "sha256": "26deef7a251a6308f59e694183557cedbe2cfadbbcb4c494999d7d22a856c32b"
+    },
+    {
+      "path": "port\\level-world\\character_loot_actor_binding_v31.cpp",
+      "sha256": "c2e85b5875d8585168aa5f3c1cb2dcb301fd478a5da40472d1e3f888551bd255"
+    },
+    {
+      "path": "port\\level-world\\character_kill_fields_v21.cpp",
+      "sha256": "53b525fc680377ceb535f1c06ac671202bb9eee0190e09e9e5f6473b6154649f"
+    },
+    {
+      "path": "port\\level-world\\character_kill_live_v21.cpp",
+      "sha256": "ca2c7cea3d9d99ddae33f682c29adf14dd673a8a3e3fc1e43830111a980d4fca"
+    },
+    {
+      "path": "port\\level-world\\combat_ctrl_kill_owner_v1.cpp",
+      "sha256": "c308aee12d0bb243e17d5f55980ade269d69c15c4a0fa7e9a5c12c95a633cc89"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "c5adb9d2114d73cd6128179c9cb3739f68cc34c809b172d0e88a77bcd2a55480"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "1b114ade854a941b3ab17de72b7a0ff4038099bf8980c91416b05fbe1273831f"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "c474e356b709d9197ccc201d3acb41b6b0f968ae8c067676e681ef6abd481ac3"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "cb48ee644f18e009fdef7c8cf0c459a8228d6febf70ffa6da9458ad09810f3b9",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_loot_actor_binding_v31.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_loot_actor_binding_v31.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_kill_fields_v21.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_kill_live_v21.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\combat_ctrl_kill_owner_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-actor-v31\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-actor-v31\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-actor-v31\\loot-actor-v31.bin"
+  ],
+  "stdout": "PASS loot actor V31 14 same registeredWorld/Handle/property/AI/OOI checks; actor rows fixtures, positive Gear/award not claimed\n",
+  "stderr": "",
+  "exit_code": 0
+}

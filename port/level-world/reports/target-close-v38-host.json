@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 160,
+  "sanitized_native_checks": 183,
+  "native_optimization": "O2",
+  "sanitizers": ["address", "undefined"],
+  "whole_service_prefix_checks": 23,
+  "production_renderer_integration": false,
+  "original_endpoint_fixtures": ["Handle.AsCharacter", "interaction8", "Character virtual128 range parameters", "absent Debug file"],
+  "scope": "Original whole AI_IsInCloseRange executes real GetTargetPosition and distance; native kernel replay compares boolean. New coordinator callback order and required-failure prefixes are separately tested. No all-skills or live camera/FX acceptance."
+}

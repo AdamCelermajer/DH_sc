@@ -38,6 +38,9 @@ public:
     gameswf::font* core_font(const std::shared_ptr<text_v1::Font>&,gameswf::player*,std::string&);
     gameswf::bitmap_info* core_bitmap(const text_v1::Glyph&,std::string&);
     static std::shared_ptr<SwfTextFontPlatformV1> for_player(gameswf::player*);
+    // Inspect the actual retained adapter and its source startup provider.
+    // A font wrapper must not cause a second input/history owner to be bound.
+    static bool owns_source_startup(const SwfServices&) noexcept;
     text_v1::Services layout_services(text_v1::Services) const;
     text_display_v2::Services display_services(text_display_v2::Services) const;
     float provider_scale() const;

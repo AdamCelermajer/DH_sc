@@ -1,0 +1,135 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x3109e0",
+      "symbol": "_ZNSs9_M_assignEPKcS0_",
+      "size": 192
+    },
+    {
+      "address": "0x31167c",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj",
+      "size": 108
+    },
+    {
+      "address": "0x3410fc",
+      "symbol": "_Z14GetNewInstanceI5DecorEP10ObjectBasev",
+      "size": 96
+    },
+    {
+      "address": "0x342600",
+      "symbol": "_Z14GetNewInstanceI13AnimatedDecorEP10ObjectBasev",
+      "size": 144
+    },
+    {
+      "address": "0x3883d4",
+      "symbol": "_ZNK5Decor11IsUpdatableEv",
+      "size": 8
+    },
+    {
+      "address": "0x3883dc",
+      "symbol": "_ZNK13AnimatedDecor10IsAnimatedEv",
+      "size": 8
+    },
+    {
+      "address": "0x388420",
+      "symbol": "_ZThn36_N5DecorD1Ev",
+      "size": 8
+    },
+    {
+      "address": "0x388428",
+      "symbol": "_ZN5DecorD1Ev",
+      "size": 64
+    },
+    {
+      "address": "0x3884f8",
+      "symbol": "_ZNK13AnimatedDecor9IsZonableEv",
+      "size": 4
+    },
+    {
+      "address": "0x388730",
+      "symbol": "_ZN5Decor12LoadFloorMapEv",
+      "size": 128
+    },
+    {
+      "address": "0x388a2c",
+      "symbol": "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2",
+      "size": 108
+    },
+    {
+      "address": "0x388a98",
+      "symbol": "_ZN5Decor8InitPostEv",
+      "size": 136
+    },
+    {
+      "address": "0x388c58",
+      "symbol": "_ZN6Random9GetRandomEib.clone.3",
+      "size": 148
+    },
+    {
+      "address": "0x388cec",
+      "symbol": "_ZN13AnimatedDecor19__CallbackRandomAllEPN6glitch5scene19ITimelineControllerEPv",
+      "size": 224
+    },
+    {
+      "address": "0x388ea8",
+      "symbol": "_ZThn36_N5DecorD0Ev",
+      "size": 8
+    },
+    {
+      "address": "0x388eb0",
+      "symbol": "_ZN5DecorD0Ev",
+      "size": 72
+    },
+    {
+      "address": "0x389090",
+      "symbol": "_ZThn36_N13AnimatedDecorD1Ev",
+      "size": 8
+    },
+    {
+      "address": "0x389098",
+      "symbol": "_ZN13AnimatedDecorD1Ev",
+      "size": 108
+    },
+    {
+      "address": "0x389104",
+      "symbol": "_ZThn36_N13AnimatedDecorD0Ev",
+      "size": 8
+    },
+    {
+      "address": "0x38910c",
+      "symbol": "_ZN13AnimatedDecorD0Ev",
+      "size": 28
+    },
+    {
+      "address": "0x389128",
+      "symbol": "_ZN13AnimatedDecor8InitPostEv",
+      "size": 532
+    },
+    {
+      "address": "0x3899c8",
+      "symbol": "_ZThn4_N5Decor17DeclarePropertiesEv",
+      "size": 8
+    },
+    {
+      "address": "0x3899d0",
+      "symbol": "_ZN5Decor17DeclarePropertiesEv",
+      "size": 156
+    },
+    {
+      "address": "0x389dcc",
+      "symbol": "_ZThn4_N13AnimatedDecor17DeclarePropertiesEv",
+      "size": 8
+    },
+    {
+      "address": "0x389dd4",
+      "symbol": "_ZN13AnimatedDecor17DeclarePropertiesEv",
+      "size": 40
+    },
+    {
+      "address": "0x38ab60",
+      "symbol": "_ZNK10GameObject13MeetConditionEv",
+      "size": 8
+    }
+  ]
+}

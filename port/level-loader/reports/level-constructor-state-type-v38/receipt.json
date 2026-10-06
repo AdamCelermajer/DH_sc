@@ -1,0 +1,21 @@
+{
+  "packet": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\reports\\level-constructor-state-type-v38\\handoff.zip",
+  "sha256": "08c71c1a4a2ee214b939ff76989afeba630850e56d224259deb61bc376d33d0a",
+  "manifest": {
+    "scope": "Frozen current root LevelConstructorV3 successor for V27 canonical loading_fields_v26 binding",
+    "field130": "uint32_t source _LoadProcess state; same retained writable field, not pointer storage",
+    "field134_field138": "Still uintptr_t in this snapshot; genuine counter producers and coherent types pending loader source reconstruction. Do not bind uint32_t pointers with casts.",
+    "files": [
+      {
+        "path": "port/level-loader/level_constructor_v3.hpp",
+        "bytes": 4750,
+        "sha256": "e3559999aff2a78e4dbb6e149ca06bf8d42162f00f0dc152e34a32f9adc9ac95"
+      },
+      {
+        "path": "port/level-loader/level_constructor_v3.cpp",
+        "bytes": 5934,
+        "sha256": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6"
+      }
+    ]
+  }
+}

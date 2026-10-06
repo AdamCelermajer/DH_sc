@@ -23,6 +23,9 @@ public:
  bool scene_frame(std::int32_t absolute_ms,std::int32_t actual_app_dt,std::string&);
  bool manager_frame(std::int32_t actual_app_dt,std::string&);
  bool draw_parts(std::vector<skinning::VisualDrawPartV6>&,std::string&)const;
+ // These borrows remain valid until this manager is destroyed. A caller must
+ // compose actual SceneManager priority/distance/order before GL submission.
+ bool particle_draw_sources_v3(std::vector<CharacterParticleDrawSourceV3>&,std::string&)const;
  std::vector<MeshFxViewV1> views()const;
  std::size_t cold_creations()const noexcept;std::size_t warm_reuses()const noexcept;
  // Destruction is quiescent; callbacks may play/drop but may not destroy owner,

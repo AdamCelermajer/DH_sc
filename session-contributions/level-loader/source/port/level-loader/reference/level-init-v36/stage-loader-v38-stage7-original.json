@@ -1,0 +1,1541 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_stage7_cases": 40,
+  "source_ordering_verified": true,
+  "cases": [
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "001_swamp.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "001_swamp.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "001_swamp.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "001_swamp.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "x01_swamp_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "x01_swamp_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x01_swamp_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x01_swamp_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "001_swamp.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "x01_swamp_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "x01_swamp_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x01_swamp_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x01_swamp_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "001_swamp.mlx",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "001_swamp.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "001_swamp.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "x005_crypt.rnd",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "x005_crypt.rnd",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "x005_crypt.rnd",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "x005_crypt.rnd",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "x005_crypt_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "x005_crypt.rnd",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "x005_crypt_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "x005_crypt.rnd",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "x005_crypt.rnd",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "x005_crypt.rnd",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "nodot",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "nodot",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "nodot",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "nodot",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "xodot",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "xodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "xodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "xodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "nodot",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "xodot",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "xodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "xodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "xodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "nodot",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "nodot",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "nodot",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "folder/x05_area.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "folder/x05_area.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "folder/x05_area.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "folder/x05_area.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "xolder/x05_area_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "xolder/x05_area_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "xolder/x05_area_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "xolder/x05_area_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "folder/x05_area.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "xolder/x05_area_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "xolder/x05_area_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "xolder/x05_area_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "xolder/x05_area_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "folder/x05_area.mlx",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "folder/x05_area.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "folder/x05_area.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "abc.part.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 0,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "abc.part.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "abc.part.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 0,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "abc.part.mlx",
+      "events": [
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 0,
+      "final_name": "xbc_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "xbc_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "xbc_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "xbc_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 1,
+      "online": 0,
+      "generated_fixture": 1,
+      "final_name": "abc.part.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 77
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 0,
+      "final_name": "xbc_BACKUP.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "xbc_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "xbc_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "xbc_BACKUP.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    },
+    {
+      "filename": "abc.part.mlx",
+      "procedural": 1,
+      "online": 1,
+      "generated_fixture": 1,
+      "final_name": "abc.part.mlx",
+      "events": [
+        {
+          "kind": "online",
+          "global_dc": 77,
+          "global_e0": 99
+        },
+        {
+          "kind": "stream_construct"
+        },
+        {
+          "kind": "generate",
+          "seed": 99
+        },
+        {
+          "kind": "assign_stream"
+        },
+        {
+          "kind": "stream_destroy"
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 1
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 2
+        },
+        {
+          "kind": "load_file",
+          "name": "abc.part.mlx",
+          "root": "Level",
+          "counter138": 500,
+          "call": 3
+        }
+      ]
+    }
+  ],
+  "scope": "Original _LoadProcess state7 ordering and filename/seed branches.\nExternal DebugSwitches, GetOnline, StreamBuffer lifetime, GenerateRandomLevel,\nAssignSteam and LoadFile are explicit observers/results. Original branches,\nglobal writes, string operations, counters and ordering execute ARM instructions.\nThis does not verify actual generator XML output, asset parsing or class effects.\n",
+  "raw_filename_backup_note": "Original mutates first CString character, then truncates at first dot/appends _BACKUP.mlx only when a dot exists. Native source-only helper modifies resource basename and appends even without a dot: separate adapter, not identical full stage7 domain.",
+  "whole_loader_verified": false
+}

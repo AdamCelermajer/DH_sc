@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T11:27:32.433322+00:00",
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/lifecycle-v36-host/dh2_loader_lifecycle_v36",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/level-init-v36/lifecycle_v36_original_gold.bin"
+  ],
+  "stdout": "PASS original_dispatch_cases=38 original_progress_cases=195 adapter_safety_cases=11 whole_level_init_verified=0",
+  "stderr": "",
+  "returncode": 0,
+  "sanitizers": [
+    "ASAN",
+    "UBSAN"
+  ],
+  "original_dispatch_cases": 38,
+  "original_progress_cases": 195,
+  "adapter_safety_cases": 11,
+  "source_sha256": {
+    "lifecycle_v36.hpp": "47d83b43e0496d4eb594feb6a937629b164bdbfc0cfe0dcfa27dd9800d5a4d12",
+    "lifecycle_v36.cpp": "1205be5dcdfdf9a403c6331a01f415da1f5619ad658498c96bf8e470aa6e3daf",
+    "tests/lifecycle_v36_test.cpp": "94484f42f00588064faa4156e531da5e4f13b4f7a1ec2a1018fa39bc0ecb9451",
+    "tests/cmake-lifecycle-v36/CMakeLists.txt": "288623e04803879c316ff501ef30fe301a8e7bcca623ca0b4e7b6b6a59b56a6f",
+    "reference/level-init-v36/prove_lifecycle_v36.py": "86df3159618b7f595859046150ebda81b830f91425c9b5434e71155fa6d33863",
+    "reference/level-init-v36/lifecycle_v36_original_gold.bin": "f692ce50d586a000a65e8d4f732e40a08c7b4fbbf998e5e3df8042b128cd20f7",
+    "reference/level-init-v36/lifecycle_v36_original.json": "aa544937097ff8e06f0011d59e74cebd603d3d06752a54247a5aec4f64f83b5c",
+    "reference/level-init-v36/level-3f6990.asm": "0fcb2aacf038550e6f2ae8b3d9c1a20c245705e92d789c688f0e5a07ff8159f5",
+    "reference/level-init-v36/level-3f0690.asm": "28326c064a1089cb0dc19f2c920badfc85fcff749827b71ba741f079cb09b6f9"
+  },
+  "production_bound": false,
+  "whole_level_init_verified": false,
+  "gameplay_ready": false,
+  "emulator_launched": false,
+  "ownership": "Only new private lifecycle_v36 source/test/proof/report files. No shared checkout or selected core overlay changes.",
+  "scope": "Original dispatcher branch targets and scalar progress/counter tail run actual ARM instructions and match the compiled native adapter. Stage bodies, progress UI callback, resource counters and cleanup are explicit host fixture observers; actual gameplay-stage effects remain main-session services."
+}

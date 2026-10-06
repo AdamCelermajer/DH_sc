@@ -41,6 +41,7 @@
         "port/level-world/character_world_npc_init_final_v1.cpp",
         "port/level-world/character_world_npc_scene_v1.cpp",
         "port/level-world/character_world_npc_bounds_v1.cpp",
+        "port/level-world/decor_scene.cpp",
         "-L.local-inputs/character-menu-native-v1-host/snapshot",
         "-ldh2_level_world",
         "-ldh2_game_data",
@@ -56,7 +57,7 @@
       ],
       "exit_code": 0,
       "stdout": "",
-      "stderr": "In file included from port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp:2:\nport/level-world/tests/character_script_session.cpp: In function \u00e2\u20ac\u02dcint existing_script_session_fixture_main(int, char**)\u00e2\u20ac\u2122:\nport/level-world/tests/character_script_session.cpp:112:70: warning: control reaches end of non-void function [-Wreturn-type]\n  112 |  }catch(const std::exception& e){std::cerr<<e.what()<<'\\n';return 1;}}\n      |                                                                      ^\n"
+      "stderr": "port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp:17:9: warning: \u00e2\u20ac\u02dccheck\u00e2\u20ac\u2122 redefined\n   17 | #define check(expression) do { if (!(expression)) { std::cerr << \"physical graph check failed at line \" << __LINE__ << \": \" << #expression << '\\n'; std::abort(); } ++checks; } while (0)\n      |         ^~~~~\nIn file included from port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp:2:\nport/level-world/tests/character_script_session.cpp:14:9: note: this is the location of the previous definition\n   14 | #define check(value) require((value),__LINE__)\n      |         ^~~~~\nport/level-world/tests/character_script_session.cpp: In function \u00e2\u20ac\u02dcint existing_script_session_fixture_main(int, char**)\u00e2\u20ac\u2122:\nport/level-world/tests/character_script_session.cpp:112:70: warning: control reaches end of non-void function [-Wreturn-type]\n  112 |  }catch(const std::exception& e){std::cerr<<e.what()<<'\\n';return 1;}}\n      |                                                                      ^\n"
     },
     {
       "args": [
@@ -68,7 +69,7 @@
         "/mnt/c/Users/adamc/Desktop/workspace/DH_sc"
       ],
       "exit_code": 0,
-      "stdout": "{\"validation\":\"PASS\",\"checks\":2674,\"actual_Crypt_actors\":11,\"actual_monster_VMs\":11,\"actual_BRES_models\":3,\"actual_decor_world_objects\":84,\"actual_decor_bodies\":82,\"genuine_native_bodies_created_destroyed\":12,\"missing_PF_tail_preserves_body_prefix\":true,\"source_InitPhysical_complete_actors\":11,\"full_InitFinal_current_Crypt_domain\":true,\"actual_InitFinal_VM_dispatches\":11,\"source_scene_bridge\":true,\"common_Random_borrowed\":true,\"same_FSM_property_life_target_AI_controller\":true,\"same_paused_byte\":true,\"source_collision_clock_fixture\":true,\"production_peer_registry\":true,\"physical_lifecycle_v2\":true,\"byte80_explicit_fixture\":false,\"source_visible_default_producer\":true,\"moving_state_ID_fixture\":true,\"full_NPC_AI\":false}\n",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":2688,\"actual_Crypt_actors\":11,\"actual_monster_VMs\":11,\"actual_BRES_models\":3,\"actual_decor_world_objects\":84,\"actual_decor_bodies\":82,\"genuine_native_bodies_created_destroyed\":12,\"missing_PF_tail_preserves_body_prefix\":true,\"source_InitPhysical_complete_actors\":11,\"full_InitFinal_current_Crypt_domain\":true,\"actual_InitFinal_VM_dispatches\":11,\"source_scene_bridge\":true,\"common_Random_borrowed\":true,\"same_FSM_property_life_target_AI_controller\":true,\"same_paused_byte\":true,\"source_collision_clock_fixture\":true,\"production_peer_registry\":true,\"physical_lifecycle_v2\":true,\"byte80_explicit_fixture\":false,\"source_visible_default_producer\":true,\"moving_state_ID_fixture\":true,\"full_NPC_AI\":false}\n",
       "stderr": ""
     },
     {
@@ -111,6 +112,7 @@
         "port/level-world/character_world_npc_init_final_v1.cpp",
         "port/level-world/character_world_npc_scene_v1.cpp",
         "port/level-world/character_world_npc_bounds_v1.cpp",
+        "port/level-world/decor_scene.cpp",
         "-L.local-inputs/character-menu-native-v1-host/snapshot",
         "-ldh2_level_world",
         "-ldh2_game_data",
@@ -126,7 +128,7 @@
       ],
       "exit_code": 0,
       "stdout": "",
-      "stderr": "In file included from port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp:2:\nport/level-world/tests/character_script_session.cpp: In function \u00e2\u20ac\u02dcint existing_script_session_fixture_main(int, char**)\u00e2\u20ac\u2122:\nport/level-world/tests/character_script_session.cpp:112:70: warning: control reaches end of non-void function [-Wreturn-type]\n  112 |  }catch(const std::exception& e){std::cerr<<e.what()<<'\\n';return 1;}}\n      |                                                                      ^\n"
+      "stderr": "port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp:17:9: warning: \u00e2\u20ac\u02dccheck\u00e2\u20ac\u2122 redefined\n   17 | #define check(expression) do { if (!(expression)) { std::cerr << \"physical graph check failed at line \" << __LINE__ << \": \" << #expression << '\\n'; std::abort(); } ++checks; } while (0)\n      |         ^~~~~\nIn file included from port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp:2:\nport/level-world/tests/character_script_session.cpp:14:9: note: this is the location of the previous definition\n   14 | #define check(value) require((value),__LINE__)\n      |         ^~~~~\nport/level-world/tests/character_script_session.cpp: In function \u00e2\u20ac\u02dcint existing_script_session_fixture_main(int, char**)\u00e2\u20ac\u2122:\nport/level-world/tests/character_script_session.cpp:112:70: warning: control reaches end of non-void function [-Wreturn-type]\n  112 |  }catch(const std::exception& e){std::cerr<<e.what()<<'\\n';return 1;}}\n      |                                                                      ^\n"
     },
     {
       "args": [
@@ -138,7 +140,7 @@
         "/mnt/c/Users/adamc/Desktop/workspace/DH_sc"
       ],
       "exit_code": 0,
-      "stdout": "{\"validation\":\"PASS\",\"checks\":2674,\"actual_Crypt_actors\":11,\"actual_monster_VMs\":11,\"actual_BRES_models\":3,\"actual_decor_world_objects\":84,\"actual_decor_bodies\":82,\"genuine_native_bodies_created_destroyed\":12,\"missing_PF_tail_preserves_body_prefix\":true,\"source_InitPhysical_complete_actors\":11,\"full_InitFinal_current_Crypt_domain\":true,\"actual_InitFinal_VM_dispatches\":11,\"source_scene_bridge\":true,\"common_Random_borrowed\":true,\"same_FSM_property_life_target_AI_controller\":true,\"same_paused_byte\":true,\"source_collision_clock_fixture\":true,\"production_peer_registry\":true,\"physical_lifecycle_v2\":true,\"byte80_explicit_fixture\":false,\"source_visible_default_producer\":true,\"moving_state_ID_fixture\":true,\"full_NPC_AI\":false}\n",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":2688,\"actual_Crypt_actors\":11,\"actual_monster_VMs\":11,\"actual_BRES_models\":3,\"actual_decor_world_objects\":84,\"actual_decor_bodies\":82,\"genuine_native_bodies_created_destroyed\":12,\"missing_PF_tail_preserves_body_prefix\":true,\"source_InitPhysical_complete_actors\":11,\"full_InitFinal_current_Crypt_domain\":true,\"actual_InitFinal_VM_dispatches\":11,\"source_scene_bridge\":true,\"common_Random_borrowed\":true,\"same_FSM_property_life_target_AI_controller\":true,\"same_paused_byte\":true,\"source_collision_clock_fixture\":true,\"production_peer_registry\":true,\"physical_lifecycle_v2\":true,\"byte80_explicit_fixture\":false,\"source_visible_default_producer\":true,\"moving_state_ID_fixture\":true,\"full_NPC_AI\":false}\n",
       "stderr": ""
     }
   ],
@@ -163,14 +165,15 @@
     "port/level-world/character_state_owner_extensions.cpp": "bf0ef776260ea12c7eac7e41dbcc9474ddf0b4c94e4f423e27ad869971588058",
     "port/level-world/character_state_owner_behavior.cpp": "36da18ca632a39ea032e1ff4fd70e152ba37cace03557a1a22045808cfc78ce6",
     "port/level-world/character_state_owner_frame.cpp": "d506ba5eac38e2e9991957e586365eccfbe9eeff439b07ed8f4b015fe9eca851",
-    "port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp": "18a0bd78b3c07674f7c2a6ffcf2a52557cc6b425eb16a3b1dcd581b67138df85",
+    "port/level-world/tests/character_world_physical_lifecycle_v2_host.cpp": "da1f01c9ef76b2b401370daa0ee17b97adb3b9b38f9004e54c90652740018f67",
     "port/level-world/character_world_physical_peers_v1.cpp": "5ba3df840be8f54d51d6372973c08ec9227380b3615b46591ac91de2203d583d",
     "port/level-world/character_world_peer_properties_v1.cpp": "c58fd726350a9afd839aaed6986094dd10c4b6a7a6b12c25331c672b7db63497",
     "port/level-world/character_world_physical_character_v1.cpp": "87235c55739165a8765b84e702fbcf37adc1f4f68b700e3ab83928ac5592971f",
-    "port/level-world/character_world_npc_physical_lifecycle_v2.cpp": "7c0cf0cf98f2fb104cd3c6c478d2e1de466ba23e35bcd9f6dc120a6eb043dd82",
+    "port/level-world/character_world_npc_physical_lifecycle_v2.cpp": "643cb380656793e7a280c52e02540bbbee03e008ecd6cfc4fa9f2b086d27565a",
     "port/level-world/character_world_npc_init_final_v1.cpp": "f4b5f7f8088e4db9842628061df9fed550d8d135a33533537b8e022977352cdf",
     "port/level-world/character_world_npc_scene_v1.cpp": "b101d09f109c18bde8ac721e5a309158304ab18526b0d635dbb7285f252b6104",
     "port/level-world/character_world_npc_bounds_v1.cpp": "373da46dfcd129f6bf48bae6990a7f6db5b7f66cf4a1ed9565e7a9ada4eebd9e",
+    "port/level-world/decor_scene.cpp": "cc8ffcfd1105191c051eb2c32e1adacc0a9598daf0a0a1a3831df34d00dd2f69",
     "port/level-world/character_world_npc_scene_bridge_v1.inc": "2a573ecf207d004359bda0afc1df948e7a5f1879d7cd27557eaebed8aa03698e",
     "port/level-world/tests/character_script_session.cpp": "b7b35c03b057dd09eacf162f8af01795a2ce41db4904c4c500b4e8173940e734"
   },

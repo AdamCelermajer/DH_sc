@@ -1,0 +1,23 @@
+{
+  "archive_sha256": "4e5252a2309b2299543b38b43dadf3842d037f60c9821fd525bdff5e1f80c9e6",
+  "all_entries_verified": 21,
+  "adopted": {
+    "port/level-loader/canonical_receiver_transport_v1.hpp": {
+      "bytes": 3241,
+      "sha256": "fcbedff902549152a7f277f5fd404e0c2a58eea37b95b7fddc0be1da0a50aa6e"
+    },
+    "port/level-loader/canonical_receiver_transport_v1.cpp": {
+      "bytes": 6777,
+      "sha256": "d4fd2afdba198e32fe5d4d9bbfcf1fe08d3b12c8cdac94aed295e6bb756b430c"
+    },
+    "port/level-loader/CANONICAL-RECEIVER-TRANSPORT-HANDOFF.md": {
+      "bytes": 6621,
+      "sha256": "87d0383df32fead09aeedff918a328c57b5a847a0835ab788c87c36fd1cfa3cd"
+    },
+    "port/level-loader/reports/canonical-receiver-transport-checks.json": {
+      "bytes": 2372,
+      "sha256": "ae34d0a3f559665ae2f7431bb5f23afe4062e41fdb4c7830d26713c481057e37"
+    }
+  },
+  "scope": "new generic transport only; no bundled shared owners, vendor or CMake overwrite"
+}

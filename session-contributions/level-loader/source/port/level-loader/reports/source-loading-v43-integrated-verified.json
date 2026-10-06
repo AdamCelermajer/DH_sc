@@ -1,0 +1,69 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T13:32:45+00:00",
+  "scope": "Actual Level C1/source stage7 and stage10 connection with explicit selected-entry fixtures; cancellation regression is a component fixture, genuine abort/unload remains unverified.",
+  "coherent_files_verified": 731,
+  "manifest_sha256": "08e4d0eca4cc50afcf7d8a9753865dd06b8cc6513fdaef1b66aca94f74f4b4d1",
+  "sources": {
+    "level_source_loading_v43.hpp": "893ee13a5564471110f4dfa0071670e52b764b3433b61780ff8c99a5b86955a1",
+    "level_source_loading_v43.cpp": "ec8b76c3dd720d44a8ca65b6441bfcf032acadd9c26f5163c903d82eaaf39af9",
+    "lifecycle_v36.cpp": "b56e4567a9add617b66e51fb14c1a8499cd5a620593c0d646ca14ec1d369523d",
+    "tests/lifecycle_cancel_reentry_v43.cpp": "9621a667e0983f2c572a2b367373915b135e1076e4457e8193c82408f027f191",
+    "tests/source_stage_swamp_v40.cpp": "95c8b1b233b4f283add4088b6d0fe81cb0716912a496eec166c0748d0c2084be",
+    "retained_level_module_graph_v1.hpp": "c0f923fc074315b63b3640704b5b862345af498c7aa12d9d5ee56c33090c59b8",
+    "retained_level_module_graph_v1.cpp": "7ada06c48366d33475131475f3a8b6bd7ac039b441310e8ad2768f0195002d7b",
+    "stage_loader_v39_file_counter.hpp": "44ab9229ad51bf82b025b55a926efd43883e2e2f08a4ab5a14503b941f19d201",
+    "tests/cmake-receiver-transport/CMakeLists.txt": "fda9c2ab7a9cfa7035e4b8cc6aa6840ac593db26c79545d07d2d0fdf1e20a93d"
+  },
+  "binaries": {
+    "dh2_loader_source_stage_swamp_v40": "3149fa158f3fc1d110b5e9384f24af815efcf805b0847c3a0a2067f31757c828",
+    "dh2_loader_cancel_reentry_v43": "99f91bfeb64efdb7aa9d5a603a8d624bc122a7f830b99fcbc0e98c06e6ecb961",
+    "dh2_loader_cancel_reentry_v43_sanitized": "bd0046d6a0ad457554646d773671dd5a4a9fe54de00c85180983c1ccb72363e8"
+  },
+  "source_probe_receipt_sha256": "628d31f5b4ea73c15fef3ccf07bdd4aaf2591f4bf101f6cf23e0ac8163320174",
+  "cancel_executions": [
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_cancel_reentry_v43"
+      ],
+      "stdout": "LIFECYCLE_CANCEL_REENTRY_V43 PASS nested_failure_preserved=1 failed_cleanup_pins_retained=1 successful_cleanup_releases_pins=1 terminal_tick_safe=1 component_fixture_only=1\n",
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_cancel_reentry_v43_sanitized"
+      ],
+      "stdout": "LIFECYCLE_CANCEL_REENTRY_V43 PASS nested_failure_preserved=1 failed_cleanup_pins_retained=1 successful_cleanup_releases_pins=1 terminal_tick_safe=1 component_fixture_only=1\n",
+      "stderr": "",
+      "returncode": 0
+    }
+  ],
+  "source_entry_states_fixture": [
+    7,
+    10
+  ],
+  "root_factories": 10,
+  "module_source_pairs": 9,
+  "authored_factories": 195,
+  "character_factories": 50,
+  "actual_file13c": 1,
+  "initial_map1c": 11,
+  "actual_manager_phase7c_at_stop": 3,
+  "first_missing_service": "OpenableContainer required source service: MeetCondition",
+  "floor11_ran": false,
+  "geometry17_ran": false,
+  "whole_level_init_verified": false,
+  "current_GSLevel_published": false,
+  "actual_abort_teardown_verified": false,
+  "backend_rendering_verified": false,
+  "emulator_launched": false
+}

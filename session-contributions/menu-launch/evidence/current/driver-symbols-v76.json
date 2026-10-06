@@ -1,0 +1,1712 @@
+[
+  {
+    "name": "C2DDriver.cpp",
+    "addr": 0,
+    "size": 0
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_video_C2DDriver.cpp",
+    "addr": 5894388,
+    "size": 32
+  },
+  {
+    "name": "_ZGVZNK6glitch5video12IVideoDriver15getDynamicLightEtE9nullLight",
+    "addr": 10447232,
+    "size": 4
+  },
+  {
+    "name": "_ZZNK6glitch5video12IVideoDriver15getDynamicLightEtE9nullLight",
+    "addr": 10447236,
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada17CCoronasSceneNodeC2EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEEN5boost13intrusive_ptrINS2_9CMaterialEEERKNS5_11dimension2dIfEENS2_6SColorE",
+    "addr": 7238792,
+    "size": 752
+  },
+  {
+    "name": "_ZN6glitch5video16COpenGLES2DriverC2EPNS_7IDeviceE",
+    "addr": 5987840,
+    "size": 52
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver13getDepthRangeERfS2_",
+    "addr": 6000332,
+    "size": 20
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver16getDrawCallCountEv",
+    "addr": 5941992,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver12freeTexturesEv",
+    "addr": 5894912,
+    "size": 140
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManagerC2EPNS0_12IVideoDriverE",
+    "addr": 6131616,
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase11CBufferBaseC1EPS1_NS0_13E_BUFFER_TYPEENS0_14E_BUFFER_USAGEEjPvb",
+    "addr": 7200536,
+    "size": 108
+  },
+  {
+    "name": "_ZN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEC2EPNS_7IDeviceE",
+    "addr": 5987392,
+    "size": 312
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface7GetGainEv",
+    "addr": 8981424,
+    "size": 56
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverEPN7gameswf10image_rgbaE",
+    "addr": 8214496,
+    "size": 308
+  },
+  {
+    "name": "_ZNK6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE21getTransformForShaderENS0_22E_TRANSFORMATION_STATEE",
+    "addr": 5959764,
+    "size": 24
+  },
+  {
+    "name": "_ZN6glitch2io17CTextureAttributeC1EPKcRKN5boost13intrusive_ptrINS_5video8ITextureEEEPNS6_12IVideoDriverEb",
+    "addr": 5664416,
+    "size": 220
+  },
+  {
+    "name": "_ZNK6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE20getMaxUserClipPlanesEv",
+    "addr": 5959740,
+    "size": 8
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEiiPh",
+    "addr": 8213508,
+    "size": 280
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRendererC1EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "addr": 6107428,
+    "size": 1448
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase15getDitherEnableEv",
+    "addr": 7196392,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface8GetPitchEv",
+    "addr": 8981368,
+    "size": 56
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getLineWidthEv",
+    "addr": 7196400,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTextureE",
+    "addr": 9926544,
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase14copyAttachmentERNS2_11SAttachmentERKS3_",
+    "addr": 7195168,
+    "size": 160
+  },
+  {
+    "name": "_ZN3vox13DriverAndroidC1Ev",
+    "addr": 8977024,
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriver15popRenderTargetEv",
+    "addr": 5936444,
+    "size": 188
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9setTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_23E_TEXTURE_CUBE_MAP_FACEEjj",
+    "addr": 7198208,
+    "size": 4
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver17getCullFaceEnableEv",
+    "addr": 6000276,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver8CTextureC1EPKcPS1_RKNS0_12STextureDescE",
+    "addr": 6002008,
+    "size": 52
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver23getSampleCoverageInvertEv",
+    "addr": 6000452,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver10draw2DLineEPNS0_12IVideoDriverERKNS_4core10position2dIiEES8_NS0_6SColorE",
+    "addr": 5894320,
+    "size": 32
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase14getRenderStateERNS0_6detail6driver12SRenderStateE",
+    "addr": 7196844,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase14getColorFormatEv",
+    "addr": 7196108,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver13draw2DPolygonENS_4core10position2dIiEEfNS0_6SColorEi",
+    "addr": 5894420,
+    "size": 336
+  },
+  {
+    "name": "_ZN6glitch5video13IRenderTargetC1EPNS0_12IVideoDriverERKNS_4core11dimension2dIiEE",
+    "addr": 7193928,
+    "size": 96
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverE",
+    "addr": 8211900,
+    "size": 108
+  },
+  {
+    "name": "_ZTVN3vox23DriverCallbackInterfaceE",
+    "addr": 10042400,
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver15draw2DRectangleEPNS0_12IVideoDriverERKNS_4core4rectIiEES8_PKNS0_6SColorEPS7_",
+    "addr": 5894352,
+    "size": 36
+  },
+  {
+    "name": "_ZN6glitch5video11CNullShaderC2EPNS0_11CNullDriverE",
+    "addr": 7210680,
+    "size": 72
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver20getStencilTestEnableEv",
+    "addr": 6000492,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE18createRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEj",
+    "addr": 5978252,
+    "size": 400
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriver16getProcessBufferENS0_21E_PROCESS_BUFFER_TYPEEjjjRKN5boost13intrusive_ptrINS0_14CVertexStreamsEEEPPNS0_14CDriverBindingEb",
+    "addr": 5950516,
+    "size": 924
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver13get2DMaterialERKN5boost13intrusive_ptrINS0_8ITextureEEEb",
+    "addr": 5895396,
+    "size": 188
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase16getBlendEquationEv",
+    "addr": 7196196,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch3gui8CGUISkinC1ENS0_14EGUI_SKIN_TYPEEPNS_5video12IVideoDriverE",
+    "addr": 5558532,
+    "size": 1800
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEiiPKN7gameswf6membufE",
+    "addr": 8211260,
+    "size": 120
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver16getBlendEquationEv",
+    "addr": 6000204,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEERKSt6vectorINS8_4rectIiEENS8_10SAllocatorISF_LNS_6memory13E_MEMORY_HINTE0EEEERKSD_IiNSG_IiLSI_0EEEEiPKSF_NS0_6SColorEb",
+    "addr": 5896852,
+    "size": 196
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getColorFormatEv",
+    "addr": 7195980,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12CFramebufferE",
+    "addr": 9927384,
+    "size": 32
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD2Ev",
+    "addr": 5973548,
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase18SShadowRenderStateC1Ev",
+    "addr": 7195328,
+    "size": 292
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver11getCullFaceEv",
+    "addr": 6000284,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video15CTextureManagerC2EPNS0_12IVideoDriverE",
+    "addr": 6205144,
+    "size": 1116
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase14getStencilFuncEv",
+    "addr": 7196532,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEC1EPNS_7IDeviceE",
+    "addr": 5987892,
+    "size": 312
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase13getClearColorEv",
+    "addr": 7196264,
+    "size": 52
+  },
+  {
+    "name": "_ZN3vox19DriverAndroidSourceC1EPvS1_j",
+    "addr": 8977324,
+    "size": 60
+  },
+  {
+    "name": "_ZN3vox19DriverAndroidSourceC2EPvS1_j",
+    "addr": 8977548,
+    "size": 60
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver14getRenderStateERNS0_6detail6driver12SRenderStateE",
+    "addr": 6000732,
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5video15CGLSLShaderCodeC2EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE",
+    "addr": 7206628,
+    "size": 84
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getLineWidthEv",
+    "addr": 6000360,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver12freeTexturesEPNS0_12IVideoDriverE",
+    "addr": 5895052,
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManagerC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE",
+    "addr": 5822728,
+    "size": 1096
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getDepthMaskEv",
+    "addr": 7196356,
+    "size": 8
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverEiiPh",
+    "addr": 8213860,
+    "size": 280
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManagerC1EPNS0_13CSceneManagerEPNS_5video12IVideoDriverE",
+    "addr": 7093320,
+    "size": 92
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase20getStencilTestEnableEv",
+    "addr": 7196524,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video15CGLSLShaderCodeC1EPKcPS3_NS0_13E_SHADER_TYPEEPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEEb",
+    "addr": 7206712,
+    "size": 320
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEE",
+    "addr": 5897172,
+    "size": 12
+  },
+  {
+    "name": "_ZTVN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE7CBufferE",
+    "addr": 9926792,
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD0Ev",
+    "addr": 7196996,
+    "size": 28
+  },
+  {
+    "name": "_ZTVN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE",
+    "addr": 9925992,
+    "size": 548
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManagerC2EPNS0_13CSceneManagerEPNS_5video12IVideoDriverE",
+    "addr": 7093228,
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase12removeTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEEj",
+    "addr": 7195752,
+    "size": 228
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver8CTextureC2EPKcPS1_RKNS0_12STextureDescE",
+    "addr": 6002140,
+    "size": 52
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getBlendFuncERNS0_14E_BLEND_FACTORES3_",
+    "addr": 6000212,
+    "size": 20
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getFrontFaceEv",
+    "addr": 6000292,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBaseC1EPNS_7IDeviceEPNS0_14IShaderManagerE",
+    "addr": 7201704,
+    "size": 592
+  },
+  {
+    "name": "_ZN6glitch7collada13CMorphingMeshC2ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+    "addr": 6601376,
+    "size": 216
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterfaceC1EPvS1_j",
+    "addr": 8983480,
+    "size": 260
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core4rectIiEESC_PSB_PKNS0_6SColorEb",
+    "addr": 5896340,
+    "size": 220
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver17getStencilOpZFailEv",
+    "addr": 6000532,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox23DriverCallbackInterfaceC1Ev",
+    "addr": 8983216,
+    "size": 132
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9addTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_13IRenderBufferEEE",
+    "addr": 7198420,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video31CGlobalMaterialParameterManagerC1EPNS0_12IVideoDriverE",
+    "addr": 6004304,
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver12set2DTextureEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEEb",
+    "addr": 5895680,
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriverC1EPNS0_12IVideoDriverE",
+    "addr": 6002192,
+    "size": 220
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver20getMaxUserClipPlanesEv",
+    "addr": 6000780,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver15draw2DRectangleENS0_6SColorERKNS_4core4rectIiEEPS6_",
+    "addr": 5896092,
+    "size": 224
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver7CBuffer12getMappedPtrEv",
+    "addr": 6000028,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver18getDrawCall2DCountEv",
+    "addr": 5941984,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video11CGLSLShaderC1EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE",
+    "addr": 7205076,
+    "size": 92
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver14getStencilFuncEv",
+    "addr": 6000500,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface16GetStereoPanningEPiS1_",
+    "addr": 8985472,
+    "size": 848
+  },
+  {
+    "name": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget17compileAttachmentEiRKNS0_19CCommonGLDriverBase17CRenderTargetBase11SAttachmentE",
+    "addr": 5974952,
+    "size": 228
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver13draw2DPolygonEPNS0_12IVideoDriverENS_4core10position2dIiEEfNS0_6SColorEi",
+    "addr": 5894756,
+    "size": 60
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getDepthFuncEv",
+    "addr": 7196348,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video19CCommonGLDriverBase17CRenderBufferBaseE",
+    "addr": 9926744,
+    "size": 24
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase27getPolygonOffsetPointEnableEv",
+    "addr": 7196448,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriver16getProcessBufferENS0_21E_PROCESS_BUFFER_TYPEEjRKN5boost13intrusive_ptrINS_5scene11CMeshBufferEEEb",
+    "addr": 6592672,
+    "size": 100
+  },
+  {
+    "name": "_ZTVN3vox19DriverAndroidSourceE",
+    "addr": 10042096,
+    "size": 108
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase15getClearStencilEv",
+    "addr": 7196588,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget4bindEv",
+    "addr": 5975180,
+    "size": 800
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver12set2DTextureERKN5boost13intrusive_ptrINS0_8ITextureEEEb",
+    "addr": 5895612,
+    "size": 68
+  },
+  {
+    "name": "_ZTVN3vox21DriverSourceInterfaceE",
+    "addr": 10042296,
+    "size": 104
+  },
+  {
+    "name": "_ZN6glitch3gui10CGUITTFontC1EPNS_5video12IVideoDriverE",
+    "addr": 5618612,
+    "size": 132
+  },
+  {
+    "name": "_ZZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget4bindEvE16drawBuffersTable_0",
+    "addr": 9306140,
+    "size": 16
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getFrontFaceEv",
+    "addr": 7196332,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox15DriverInterface13GetOutputModeEv",
+    "addr": 8973664,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver13getDriverTypeEv",
+    "addr": 6000812,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterfaceC2EPvS1_j",
+    "addr": 8983740,
+    "size": 260
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17getStencilFuncRefEPb",
+    "addr": 7196540,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase11getCullFaceEv",
+    "addr": 7196324,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriverC2EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE",
+    "addr": 5943068,
+    "size": 988
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase14getBlendEnableEv",
+    "addr": 7196136,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada19CModularSkinnedMeshC2ERKNS0_16CColladaDatabaseEPNS0_20SInstanceModularSkinEPNS0_14CRootSceneNodeEibPNS_5video12IVideoDriverE",
+    "addr": 6591116,
+    "size": 364
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase11SAttachmentD1Ev",
+    "addr": 5973476,
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch7collada17CCoronasSceneNodeC2ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_8SCoronasEPNS0_14CRootSceneNodeE",
+    "addr": 7240320,
+    "size": 716
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriverD0Ev",
+    "addr": 5894884,
+    "size": 28
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver13getBlendColorEv",
+    "addr": 6000188,
+    "size": 16
+  },
+  {
+    "name": "_ZNK6glitch5video8ITexture13getDriverTypeEv",
+    "addr": 6282224,
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase11CBufferBaseC2EPS1_NS0_13E_BUFFER_TYPEENS0_14E_BUFFER_USAGEEjPvb",
+    "addr": 7200644,
+    "size": 108
+  },
+  {
+    "name": "_ZN6glitch2io11CAttributesC2EPNS_5video12IVideoDriverE",
+    "addr": 5647356,
+    "size": 132
+  },
+  {
+    "name": "_ZTVN6glitch5video19CCommonGLDriverBase11CBufferBaseE",
+    "addr": 10006800,
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch7collada17CCoronasSceneNodeC1EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEEN5boost13intrusive_ptrINS2_9CMaterialEEERKNS5_11dimension2dIfEENS2_6SColorE",
+    "addr": 7237988,
+    "size": 804
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver22getPrimitiveCountDrawnEj",
+    "addr": 5942000,
+    "size": 40
+  },
+  {
+    "name": "_ZTVN6glitch5video9C2DDriverE",
+    "addr": 9924792,
+    "size": 20
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEii",
+    "addr": 8213140,
+    "size": 312
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver15draw2DRectangleERKNS_4core4rectIiEES6_PKNS0_6SColorEPS5_",
+    "addr": 5894276,
+    "size": 44
+  },
+  {
+    "name": "_ZTVN6glitch5video11CNullDriver8CTextureE",
+    "addr": 9928560,
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch7collada12CSkinnedMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+    "addr": 6710512,
+    "size": 1288
+  },
+  {
+    "name": "_ZN12SceneManagerC1EPN6glitch5video12IVideoDriverEN5boost13intrusive_ptrINS0_2io11IFileSystemEEEPNS0_3gui14ICursorControlEPNS9_15IGUIEnvironmentE",
+    "addr": 3484732,
+    "size": 272
+  },
+  {
+    "name": "_ZN6glitch5video11CNullShaderC1EPNS0_11CNullDriverE",
+    "addr": 7210608,
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManagerC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE",
+    "addr": 5823952,
+    "size": 1040
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriverD1Ev",
+    "addr": 5894816,
+    "size": 68
+  },
+  {
+    "name": "_ZN3vox10EmitterObjC2ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE",
+    "addr": 8807884,
+    "size": 588
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver15draw2DRectangleERKNS_4core4rectIiEENS0_6SColorES7_S7_S7_PS5_",
+    "addr": 5895708,
+    "size": 356
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver16getStencilOpFailEv",
+    "addr": 6000524,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox23DriverCallbackInterfaceC2Ev",
+    "addr": 8983348,
+    "size": 132
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver15draw2DRectangleEPNS0_12IVideoDriverENS0_6SColorERKNS_4core4rectIiEEPS8_",
+    "addr": 5896316,
+    "size": 24
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver26createMultipleRenderTargetEv",
+    "addr": 6000868,
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch5video14CDriverBinding16getProcessBufferINS0_12IVideoDriverEEENS0_26E_DRIVER_ALLOCATION_RESULTEPT_jjjRKN5boost13intrusive_ptrINS0_14CVertexStreamsEEEb",
+    "addr": 5947304,
+    "size": 432
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase11CBufferBase12getMappedPtrEv",
+    "addr": 7195620,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver10draw2DLineERKNS_4core10position2dIiEES6_NS0_6SColorE",
+    "addr": 5894236,
+    "size": 40
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEPNS1_8ITextureE",
+    "addr": 8211572,
+    "size": 140
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEE",
+    "addr": 5897080,
+    "size": 92
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase22getSampleCoverageValueEv",
+    "addr": 7196500,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver8CTexture12getMappedPtrEv",
+    "addr": 6000076,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase18getPolygonModeBackEv",
+    "addr": 7196424,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver17getStencilFuncRefEPb",
+    "addr": 6000508,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17getStencilOpZFailEv",
+    "addr": 7196564,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase17setTargetInternalENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_13IRenderBufferEEEj",
+    "addr": 7198248,
+    "size": 168
+  },
+  {
+    "name": "_ZN6glitch5scene10CMeshCacheC2EPNS_5video12IVideoDriverE",
+    "addr": 7070836,
+    "size": 72
+  },
+  {
+    "name": "_ZN3vox23DriverCallbackInterface13GetWorkBufferEi",
+    "addr": 8979688,
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12CTextureBase12getMappedPtrEv",
+    "addr": 7195628,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver23getSampleCoverageEnableEv",
+    "addr": 6000444,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC1EPS1_",
+    "addr": 7199532,
+    "size": 192
+  },
+  {
+    "name": "_ZN6glitch5scene22CShadowVolumeSceneNodeC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrIKNS0_5IMeshEEEiNS0_20E_SHADOW_VOLUME_TYPEEf",
+    "addr": 7338780,
+    "size": 340
+  },
+  {
+    "name": "_ZN6glitch7collada12CSkinnedMeshC2ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+    "addr": 6709224,
+    "size": 1288
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver22getSampleCoverageValueEv",
+    "addr": 6000460,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver18getPolygonModeBackEv",
+    "addr": 6000384,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video8ITextureC1EPKcPNS0_12IVideoDriverERKNS0_12STextureDescE",
+    "addr": 6284292,
+    "size": 732
+  },
+  {
+    "name": "_ZN3vox10EmitterObjC1ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE",
+    "addr": 8807296,
+    "size": 588
+  },
+  {
+    "name": "_ZN6glitch7collada5CMeshC2ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKNS0_9SGeometryERKNS0_13SBufferConfigESD_b",
+    "addr": 6577000,
+    "size": 1504
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverEii",
+    "addr": 8212828,
+    "size": 312
+  },
+  {
+    "name": "_ZN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE10SDrawSetupC2EPS3_PKNS0_14CVertexStreamsERKNS0_16CPrimitiveStreamEPKhj",
+    "addr": 5990284,
+    "size": 36
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12CFramebufferC1EPS7_RKNS_4core11dimension2dIiEE",
+    "addr": 5970904,
+    "size": 80
+  },
+  {
+    "name": "_ZN6glitch5video11CGLSLShaderC2EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE",
+    "addr": 7205168,
+    "size": 92
+  },
+  {
+    "name": "_ZTVN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderBufferE",
+    "addr": 9926720,
+    "size": 24
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getColorMaskERbS2_S2_S2_",
+    "addr": 6000232,
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene11CMeshBufferC1EPNS_5video12IVideoDriverERNS_7collada5SMeshEjRKNS5_13SBufferConfigESA_b",
+    "addr": 7068152,
+    "size": 2680
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase13getClearDepthEv",
+    "addr": 7196364,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video15CGLSLShaderCodeC1EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE",
+    "addr": 7206544,
+    "size": 84
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17getCullFaceEnableEv",
+    "addr": 7196316,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video8ITextureC2EPKcPNS0_12IVideoDriverERKNS0_12STextureDescE",
+    "addr": 6285024,
+    "size": 732
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBaseC2EPNS_7IDeviceEPNS0_14IShaderManagerE",
+    "addr": 7202296,
+    "size": 592
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEERKSt6vectorINSA_4rectIiEENSA_10SAllocatorISH_LNS_6memory13E_MEMORY_HINTE0EEEERKSF_IiNSI_IiLSK_0EEEEiPKSH_NS0_6SColorEb",
+    "addr": 5897048,
+    "size": 32
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface15GetDistanceGainEv",
+    "addr": 8986900,
+    "size": 844
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE26createMultipleRenderTargetEv",
+    "addr": 5968272,
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5video6detail19SNewBufferAllocatorINS0_12IVideoDriverEEC1EPS3_RKN5boost13intrusive_ptrINS0_7IBufferEEE",
+    "addr": 5939736,
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriverC1EPNS0_12IVideoDriverE",
+    "addr": 5894152,
+    "size": 84
+  },
+  {
+    "name": "_ZN6glitch3gui15CGUIEnvironmentC2ERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_5video12IVideoDriverEPNS_11IOSOperatorE",
+    "addr": 5481224,
+    "size": 468
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC2EPS1_",
+    "addr": 7199724,
+    "size": 192
+  },
+  {
+    "name": "_ZN6glitch5scene19CBillboardSceneNodeC2EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEERKNS5_11dimension2dIfEENS2_6SColorESE_",
+    "addr": 5774464,
+    "size": 660
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase14getStencilMaskEPb",
+    "addr": 7196580,
+    "size": 8
+  },
+  {
+    "name": "_ZN16BufferedRendererC1EPN6glitch5video12IVideoDriverE",
+    "addr": 8210280,
+    "size": 672
+  },
+  {
+    "name": "_ZN12SceneManagerC2EPN6glitch5video12IVideoDriverEN5boost13intrusive_ptrINS0_2io11IFileSystemEEEPNS0_3gui14ICursorControlEPNS9_15IGUIEnvironmentE",
+    "addr": 3485004,
+    "size": 200
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase13getBlendColorEv",
+    "addr": 7196144,
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEERKNSA_4rectIiEEPSH_NS0_6SColorEb",
+    "addr": 5896832,
+    "size": 20
+  },
+  {
+    "name": "_ZTVN6glitch5video12IVideoDriver12ICompileDataE",
+    "addr": 9925968,
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNode11getMaterialEPKcPNS_5video12IVideoDriverE",
+    "addr": 6670896,
+    "size": 204
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase23getSampleCoverageEnableEv",
+    "addr": 7196484,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video11CNullDriver7CBufferE",
+    "addr": 9928608,
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch5scene17CAppendMeshBufferC1EjjPNS_5video12IVideoDriverENS2_14E_BUFFER_USAGEEj",
+    "addr": 7048372,
+    "size": 812
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9addTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_23E_TEXTURE_CUBE_MAP_FACEEj",
+    "addr": 7198212,
+    "size": 36
+  },
+  {
+    "name": "_ZTVN6glitch5video16COpenGLES2DriverE",
+    "addr": 9927448,
+    "size": 548
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriverC2EPNS_7IDeviceE",
+    "addr": 6002752,
+    "size": 380
+  },
+  {
+    "name": "_ZN6glitch5video15CGLSLShaderCodeC2EPKcPS3_NS0_13E_SHADER_TYPEEPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEEb",
+    "addr": 7207032,
+    "size": 320
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase26getPolygonOffsetFillEnableEv",
+    "addr": 7196432,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video11CNullDriverE",
+    "addr": 9928000,
+    "size": 560
+  },
+  {
+    "name": "_ZN6glitch5scene17CAppendMeshBufferC2EjjPNS_5video12IVideoDriverENS2_14E_BUFFER_USAGEEj",
+    "addr": 7049184,
+    "size": 812
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getDepthFuncEv",
+    "addr": 6000308,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene11CMeshBufferC2EPNS_5video12IVideoDriverERNS_7collada5SMeshEjRKNS5_13SBufferConfigESA_b",
+    "addr": 7065472,
+    "size": 2680
+  },
+  {
+    "name": "_ZTVN6glitch5video12IVideoDriverE",
+    "addr": 9925424,
+    "size": 544
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget6unbindEv",
+    "addr": 5974720,
+    "size": 232
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase16CFramebufferBaseC2EPS1_RKNS_4core11dimension2dIiEE",
+    "addr": 7199992,
+    "size": 76
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriverC1EPNS_7IDeviceE",
+    "addr": 6003132,
+    "size": 380
+  },
+  {
+    "name": "_ZTVN6glitch5video11CNullDriver12CFramebufferE",
+    "addr": 9928656,
+    "size": 32
+  },
+  {
+    "name": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE24getMaximalPrimitiveCountEv",
+    "addr": 5960188,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getTransformENS0_22E_TRANSFORMATION_STATEE",
+    "addr": 7196116,
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch5video7IShaderC2EtPKcPNS0_12IVideoDriverE",
+    "addr": 6179552,
+    "size": 148
+  },
+  {
+    "name": "_ZN6glitch5video15CTextureManagerC1EPNS0_12IVideoDriverE",
+    "addr": 6204028,
+    "size": 1116
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase23getSampleCoverageInvertEv",
+    "addr": 7196492,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver13getClearColorEv",
+    "addr": 6000260,
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver4initEv",
+    "addr": 5895064,
+    "size": 332
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriver16pushRenderTargetERKN5boost13intrusive_ptrINS0_13IRenderTargetEEE",
+    "addr": 5945044,
+    "size": 308
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase16getStencilOpFailEv",
+    "addr": 7196556,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase17setTargetInternalENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_23E_TEXTURE_CUBE_MAP_FACEEjj",
+    "addr": 7198004,
+    "size": 204
+  },
+  {
+    "name": "_ZNK6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE24getShaderLanguageVersionEv",
+    "addr": 5959820,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch2io15CLightAttributeC1EPKcRKN5boost13intrusive_ptrINS_5video6CLightEEEPNS6_12IVideoDriverEb",
+    "addr": 5663888,
+    "size": 288
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase18SShadowRenderState14getRenderStateINS0_6detail6driver12SRenderStateEEEvRT_",
+    "addr": 7196596,
+    "size": 248
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverEPNS1_8ITextureE",
+    "addr": 8211760,
+    "size": 140
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9setTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvj",
+    "addr": 7197128,
+    "size": 876
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverEPN7gameswf9image_rgbE",
+    "addr": 8212484,
+    "size": 344
+  },
+  {
+    "name": "_ZN6glitch5video11CGLSLShaderC2EtPKcRKN5boost13intrusive_ptrINS0_15CGLSLShaderCodeEEES9_PNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEEb",
+    "addr": 7205572,
+    "size": 212
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEPN7gameswf10image_rgbaE",
+    "addr": 8214140,
+    "size": 308
+  },
+  {
+    "name": "_ZN6glitch5video16COpenGLES2DriverC1EPNS_7IDeviceE",
+    "addr": 5987704,
+    "size": 52
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver6getFPSEv",
+    "addr": 5942040,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase18SCommonShadowStateC2Ev",
+    "addr": 7195988,
+    "size": 60
+  },
+  {
+    "name": "_ZN3vox13DriverAndroid17mGetMinBufferSizeE",
+    "addr": 10698276,
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5video24CMaterialRendererManagerC1EPNS0_12IVideoDriverE",
+    "addr": 6131492,
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch7collada13CMorphingMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+    "addr": 6601160,
+    "size": 216
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface15GetDopplerPitchEv",
+    "addr": 8986320,
+    "size": 580
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver18getDepthTestEnableEv",
+    "addr": 6000300,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase19getPolygonModeFrontEv",
+    "addr": 7196416,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada5CMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKNS0_9SGeometryERKNS0_13SBufferConfigESD_b",
+    "addr": 6575496,
+    "size": 1504
+  },
+  {
+    "name": "_ZNK6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE13getDriverTypeEv",
+    "addr": 5959756,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene19CBillboardSceneNodeC1EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEERKNS5_11dimension2dIfEENS2_6SColorESE_",
+    "addr": 5773564,
+    "size": 704
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver17getStencilOpZPassEv",
+    "addr": 6000540,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getDepthMaskEv",
+    "addr": 6000316,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver14getStencilMaskEPb",
+    "addr": 6000548,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi",
+    "addr": 8977684,
+    "size": 192
+  },
+  {
+    "name": "_ZN3vox10EmitterObjC1ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE",
+    "addr": 8832492,
+    "size": 1052
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC2EPKcPS1_RKNS0_12STextureDescE",
+    "addr": 7200472,
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch5scene22CShadowVolumeSceneNodeC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrIKNS0_5IMeshEEEiNS0_20E_SHADOW_VOLUME_TYPEEf",
+    "addr": 7339120,
+    "size": 280
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEPN7gameswf9image_rgbE",
+    "addr": 8214804,
+    "size": 344
+  },
+  {
+    "name": "_ZTVN6glitch5video19CCommonGLDriverBase16CFramebufferBaseE",
+    "addr": 10006720,
+    "size": 32
+  },
+  {
+    "name": "_ZN6glitch5video11CNullShaderC2EtPKcPNS0_11CNullDriverE",
+    "addr": 7210820,
+    "size": 68
+  },
+  {
+    "name": "_ZTVN3vox13DriverAndroidE",
+    "addr": 10042008,
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRendererC2EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "addr": 6108876,
+    "size": 1448
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTargetD1Ev",
+    "addr": 5973636,
+    "size": 80
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverEiiPKN7gameswf6membufE",
+    "addr": 8211452,
+    "size": 120
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver15getClearStencilEv",
+    "addr": 6000556,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video12CBatchDriverC2EjjPNS0_12IVideoDriverE",
+    "addr": 5910232,
+    "size": 184
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver15getDynamicLightEt",
+    "addr": 5941568,
+    "size": 256
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver26getPolygonOffsetLineEnableEv",
+    "addr": 6000400,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface18GetDirectionalGainEv",
+    "addr": 8987744,
+    "size": 812
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase18getDepthTestEnableEv",
+    "addr": 7196340,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox13DriverAndroidC2Ev",
+    "addr": 8977124,
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE10SDrawSetupC1EPS3_PKNS0_14CVertexStreamsERKNS0_16CPrimitiveStreamEPKhj",
+    "addr": 5990248,
+    "size": 36
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core4rectIiEESE_PSD_PKNS0_6SColorEb",
+    "addr": 5896560,
+    "size": 32
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getTransformENS0_22E_TRANSFORMATION_STATEE",
+    "addr": 6000740,
+    "size": 20
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver16getPolygonOffsetERfS2_",
+    "addr": 6000416,
+    "size": 20
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase30getSampleAlphaToCoverageEnableEv",
+    "addr": 7196476,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver26getPolygonOffsetFillEnableEv",
+    "addr": 6000392,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface14GetBufferCountEv",
+    "addr": 8973680,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene10CMeshCacheC1EPNS_5video12IVideoDriverE",
+    "addr": 7070908,
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD1Ev",
+    "addr": 7196852,
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver11draw2DImageERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEERKNS8_4rectIiEEPSF_NS0_6SColorEb",
+    "addr": 5896592,
+    "size": 240
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNode11getMaterialEPNS0_9SMaterialEPNS_5video12IVideoDriverE",
+    "addr": 6671100,
+    "size": 208
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase9setTargetENS0_13IRenderTarget17E_ATTACHMENT_TYPEERKN5boost13intrusive_ptrINS0_13IRenderBufferEEEj",
+    "addr": 7198416,
+    "size": 4
+  },
+  {
+    "name": "_ZTVN6glitch5video19CCommonGLDriverBase12CTextureBaseE",
+    "addr": 10006752,
+    "size": 44
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getColorMaskERbS2_S2_S2_",
+    "addr": 7196224,
+    "size": 40
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface8GetStateEv",
+    "addr": 8982156,
+    "size": 92
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver30getSampleAlphaToCoverageEnableEv",
+    "addr": 6000436,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase10getScissorEv",
+    "addr": 7196516,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver15draw2DRectangleEPNS0_12IVideoDriverERKNS_4core4rectIiEENS0_6SColorES9_S9_S9_PS7_",
+    "addr": 5896064,
+    "size": 28
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver18getStencilFuncMaskEPb",
+    "addr": 6000516,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface13GetByteOffsetEv",
+    "addr": 8981328,
+    "size": 40
+  },
+  {
+    "name": "_ZN3vox29DriverCallbackSourceInterface11GetWorkDataEPhii",
+    "addr": 8984000,
+    "size": 672
+  },
+  {
+    "name": "_ZTVN6glitch5video19CCommonGLDriverBaseE",
+    "addr": 10006112,
+    "size": 544
+  },
+  {
+    "name": "_ZN6glitch5video13IRenderTargetC2EPNS0_12IVideoDriverERKNS_4core11dimension2dIiEE",
+    "addr": 7193832,
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver12getPointSizeEv",
+    "addr": 6000368,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase18getStencilFuncMaskEPb",
+    "addr": 7196548,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video6detail19getTextureParameterEPKhRKNS0_19SShaderParameterDefEPKNS0_12IVideoDriverE",
+    "addr": 5973336,
+    "size": 140
+  },
+  {
+    "name": "_ZZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTarget4bindEvE16drawBuffersTable",
+    "addr": 9306156,
+    "size": 16
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver19getPolygonModeFrontEv",
+    "addr": 6000376,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getTargetCountENS0_13IRenderTarget17E_ATTACHMENT_TYPEE",
+    "addr": 7195644,
+    "size": 108
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase13getDepthRangeERfS2_",
+    "addr": 7196372,
+    "size": 20
+  },
+  {
+    "name": "_ZTVN6glitch5video12IVideoDriver12IFramebufferE",
+    "addr": 9927416,
+    "size": 32
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase26getPolygonOffsetLineEnableEv",
+    "addr": 7196440,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase16CFramebufferBaseC1EPS1_RKNS_4core11dimension2dIiEE",
+    "addr": 7199916,
+    "size": 76
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase16getScissorEnableEv",
+    "addr": 7196508,
+    "size": 8
+  },
+  {
+    "name": "_ZN3vox10EmitterObjC2ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE",
+    "addr": 8834588,
+    "size": 1052
+  },
+  {
+    "name": "_ZNK6glitch5video16COpenGLES2Driver13getDriverTypeEv",
+    "addr": 5959588,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video12CBatchDriverE",
+    "addr": 9924864,
+    "size": 560
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver14getColorFormatEv",
+    "addr": 6000804,
+    "size": 8
+  },
+  {
+    "name": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverE",
+    "addr": 8212048,
+    "size": 108
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getPointSizeEv",
+    "addr": 7196408,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver27getPolygonOffsetPointEnableEv",
+    "addr": 6000408,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver14getBlendEnableEv",
+    "addr": 6000180,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriverC2EPNS0_12IVideoDriverE",
+    "addr": 6002532,
+    "size": 220
+  },
+  {
+    "name": "_ZN6glitch7collada17CCoronasSceneNodeC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_8SCoronasEPNS0_14CRootSceneNodeE",
+    "addr": 7239544,
+    "size": 776
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver22getTextureBindingCountEv",
+    "addr": 5941976,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEEE",
+    "addr": 9926840,
+    "size": 544
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC1EPKcPS1_RKNS0_12STextureDescE",
+    "addr": 7200408,
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch7collada19CModularSkinnedMeshC1ERKNS0_16CColladaDatabaseEPNS0_20SInstanceModularSkinEPNS0_14CRootSceneNodeEibPNS_5video12IVideoDriverE",
+    "addr": 6590752,
+    "size": 364
+  },
+  {
+    "name": "_ZNK6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE16getShaderManagerEv",
+    "addr": 5959748,
+    "size": 8
+  },
+  {
+    "name": "_ZTVN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseE",
+    "addr": 10006656,
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch3gui15CGUIEnvironmentC1ERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_5video12IVideoDriverEPNS_11IOSOperatorE",
+    "addr": 5480640,
+    "size": 528
+  },
+  {
+    "name": "_ZTVN3vox15DriverInterfaceE",
+    "addr": 10042208,
+    "size": 84
+  },
+  {
+    "name": "_ZN6glitch5video11CGLSLShaderC1EtPKcRKN5boost13intrusive_ptrINS0_15CGLSLShaderCodeEEES9_PNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEEb",
+    "addr": 7205360,
+    "size": 212
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriverC2EPNS0_12IVideoDriverE",
+    "addr": 5894068,
+    "size": 84
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12getBlendFuncERNS0_14E_BLEND_FACTORES3_",
+    "addr": 7196204,
+    "size": 20
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver13getClearDepthEv",
+    "addr": 6000324,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video9C2DDriver13get2DMaterialEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEEb",
+    "addr": 5895584,
+    "size": 28
+  },
+  {
+    "name": "_ZTVN3vox29DriverCallbackSourceInterfaceE",
+    "addr": 10042488,
+    "size": 108
+  },
+  {
+    "name": "_ZN6glitch2io11CAttributesC1EPNS_5video12IVideoDriverE",
+    "addr": 5647224,
+    "size": 132
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver18createRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEj",
+    "addr": 6000856,
+    "size": 12
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver24getMaximalPrimitiveCountEv",
+    "addr": 5935348,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video7IShaderC1EtPKcPNS0_12IVideoDriverE",
+    "addr": 6179404,
+    "size": 148
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase16getPolygonOffsetERfS2_",
+    "addr": 7196456,
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch3gui8CGUISkinC2ENS0_14EGUI_SKIN_TYPEEPNS_5video12IVideoDriverE",
+    "addr": 5560332,
+    "size": 1740
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver10getScissorEv",
+    "addr": 6000476,
+    "size": 16
+  },
+  {
+    "name": "_ZTVN6glitch5video14CDriverBindingE",
+    "addr": 10006088,
+    "size": 20
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver15getDitherEnableEv",
+    "addr": 6000352,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase17getStencilOpZPassEv",
+    "addr": 7196572,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video11CNullDriver15setRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEi",
+    "addr": 6000768,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch3gui15CGUIEnvironment14getVideoDriverEv",
+    "addr": 5461568,
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video11CNullDriver16getScissorEnableEv",
+    "addr": 6000468,
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video12CBatchDriverC1EjjPNS0_12IVideoDriverE",
+    "addr": 5910048,
+    "size": 184
+  },
+  {
+    "name": "_ZN21render_handler_glitchC1EPN6glitch5video12IVideoDriverE",
+    "addr": 8216820,
+    "size": 1380
+  },
+  {
+    "name": "_ZTVN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTargetE",
+    "addr": 9926592,
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5scene16CSkyBoxSceneNodeC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i",
+    "addr": 7138248,
+    "size": 2460
+  },
+  {
+    "name": "_ZN6glitch3gui10CGUITTFontC2EPNS_5video12IVideoDriverE",
+    "addr": 5618480,
+    "size": 132
+  },
+  {
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13CRenderTargetD0Ev",
+    "addr": 5973716,
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene16CSkyBoxSceneNodeC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i",
+    "addr": 7140708,
+    "size": 2508
+  },
+  {
+    "name": "_ZN6glitch5video31CGlobalMaterialParameterManagerC2EPNS0_12IVideoDriverE",
+    "addr": 6004364,
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5video11CNullShaderC1EtPKcPNS0_11CNullDriverE",
+    "addr": 7210752,
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch5video19CCommonGLDriverBase18SCommonShadowStateC1Ev",
+    "addr": 7196048,
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriverC1EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE",
+    "addr": 5944056,
+    "size": 988
+  }
+]

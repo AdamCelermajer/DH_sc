@@ -1,0 +1,638 @@
+{
+  "schema": 1,
+  "updated": "2026-10-06",
+  "rule": "V marks completed verification of this row's explicit scope only. Partial/component results never imply all skills, all sounds, all levels,60FPS, or physical-device acceptance.",
+  "overall": {
+    "targeting": "partial",
+    "audio": "partial",
+    "performance": "partial"
+  },
+  "acceptance": {
+    "targeting": "Shared source rules + moving/dead/swapped targets + multiple skill families/headings/cameras with no crash, correct actor facing and actual reference camera policy.",
+    "audio": "Actual source UID/readiness/listener/focus and audible synchronized sword/skills/chest/monster/item events; no substitute assets or forced World phase.",
+    "performance": "Target60FPS in normal gameplay, phase-specific p95/p99/max and memory telemetry; responsive animated loading with no multi-second UI freeze; guarded sustained and physical ARM64 tests. Report exceptions rather than claiming zero drops."
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "area": "Targeting",
+      "feature": "Original animated enemy ring, placement and hide/retarget lifecycle",
+      "state": "verified",
+      "owner": "combat",
+      "done": "Accepted Crypt checkpoint +1271 actual-asset/native checks; wider runtime below remains open.",
+      "evidence": [
+        "docs/NATIVE-FX-TARGET-CHECKPOINT-2026-10-06.md"
+      ],
+      "remaining": "Do not extend one-enemy acceptance to all interaction families."
+    },
+    {
+      "id": "T02",
+      "area": "Targeting",
+      "feature": "Shared visual-root FX rotation, anchors and pooled scale reset",
+      "state": "verified",
+      "owner": "combat",
+      "done": "192 outer +192 anchored original arithmetic comparisons; targeted skill rendered in accepted checkpoint.",
+      "evidence": [
+        "docs/NATIVE-FX-TARGET-CHECKPOINT-2026-10-06.md"
+      ],
+      "remaining": "All skill/camera coverage separately required."
+    },
+    {
+      "id": "T03",
+      "area": "Targeting",
+      "feature": "Normal attack and skill facing use the same canonical target position",
+      "state": "partial",
+      "owner": "combat + root",
+      "done": "Normal attack and skill facing now share the same canonical target-position/control endpoint; integrated both-ABI APK passes. Source moving/cardinal/removal fixtures pass.",
+      "evidence": [
+        "port/level-world/reference/target-facing-v38/handoff.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Live moving-target attack/cast and visual facing acceptance still required."
+    },
+    {
+      "id": "T04",
+      "area": "Targeting",
+      "feature": "Ranged target close-range/interaction-range source branch",
+      "state": "partial",
+      "owner": "combat + root",
+      "done": "Recovered original close-range helper (160 ARM cases/183 native checks); bound to actual player/target/attack-geometry provider in both-ABI app.",
+      "evidence": [
+        "port/level-world/reference/target-facing-v38/handoff.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Actual ranged weapon/interaction gameplay remains unverified; projectile continuation is a separate missing provider."
+    },
+    {
+      "id": "T05",
+      "area": "Targeting",
+      "feature": "Selection priority, range, line of sight and repeated auto-acquisition",
+      "state": "partial",
+      "owner": "combat",
+      "done": "Corrected actual shared melee search heap reset from sort0 to original frontal sort2. Real search/heap fixtures pass11 target-identity contrasts at O1/O2 with sanitizers and both ABI compilation. Root app link added; new APK/live contrasts pending.",
+      "evidence": [
+        "port/level-world/reference/ranged-attack-v41/handoff.md",
+        "port/level-world/reference/ranged-attack-v41/lethal-skill-adoption-audit-v42.md"
+      ],
+      "remaining": "Build/install actual fix and contrast live front/side/back acquisition; ranged projectile and non-enemy interactions remain open."
+    },
+    {
+      "id": "T06",
+      "area": "Targeting",
+      "feature": "Moving, dead, missing and swapped target lock cleanup",
+      "state": "partial",
+      "owner": "combat",
+      "done": "Missing out-of-sight reciprocal aggro/setter/fresh-controller Stop provider integrated; original64/native133 and lifecycle contrasts pass. Current enemy HUD/marker hide trace recorded.",
+      "evidence": [
+        "port/level-world/reference/target-cleanup-v40/handoff.md",
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json"
+      ],
+      "remaining": "Moving/reentrant/dead/swapped/lifetime live contrast matrix; do not infer all cleanup from one cast."
+    },
+    {
+      "id": "T07",
+      "area": "Targeting",
+      "feature": "Visual skill and sword trail alignment across headings/camera angles",
+      "state": "partial",
+      "owner": "combat + root",
+      "done": "Actual Bash/Charge/GroundSlam heading/slope/camera fixtures19492 checks; actual two swords/socket modes2828 checks; original matrix160 comparisons. No new proven transform defect.",
+      "evidence": [
+        "port/level-world/reference/fx-alignment-v39/handoff.md"
+      ],
+      "remaining": "Live visual cast/trail/reference replay and other skill families remain required; additive guard is not app-connected."
+    },
+    {
+      "id": "T08",
+      "area": "Targeting",
+      "feature": "Target focus during attack/cast; correct controller gating",
+      "state": "partial",
+      "owner": "combat + root",
+      "done": "Normal FSM forwards canonical target endpoint; actual retained actor owner replaces hardcoded look subject. Cmd/Ctrl gating preserved; both ABIs pass.",
+      "evidence": [
+        "port/level-world/reference/target-facing-v38/handoff.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Live focus/lock gating across casts, movement and swaps; camera behavior remains T09."
+    },
+    {
+      "id": "T09",
+      "area": "Targeting",
+      "feature": "Camera framing/follow behavior matches original reference",
+      "state": "partial",
+      "owner": "combat + root",
+      "done": "Shared camera exists; whole player InitCam/anchor behavior and reference replay not accepted.",
+      "evidence": [
+        "docs/SHARED-SYSTEMS-AND-DEMO-BOUNDARIES-2026-10-06.md"
+      ],
+      "remaining": "Separate actor facing from camera focus and recover actual source camera policy."
+    },
+    {
+      "id": "T10",
+      "area": "Targeting",
+      "feature": "All skill families: melee, ranged, area, directional, self/buff",
+      "state": "partial",
+      "owner": "combat",
+      "done": "Table-driven activation exists; required provider domains remain unsupported.",
+      "evidence": [
+        "docs/SHARED-SYSTEMS-AND-DEMO-BOUNDARIES-2026-10-06.md"
+      ],
+      "remaining": "Coverage census + exact missing providers; no all-skill claim from one demo."
+    },
+    {
+      "id": "T11",
+      "area": "Targeting",
+      "feature": "No black screen/crash when skills hit enemies",
+      "state": "in_progress",
+      "owner": "combat + root",
+      "done": "Surviving Bash hit rendered, but user reproduced lethal Bash HP1177->0 then required Hit8 kill-provider failure; exact process log retained. Root integrated fresh-only Kill receiver fields and visible failure forwarding; ordered death closure is unfinished.",
+      "evidence": [
+        "port/android-native/reports/lethal-skill-v41/README.md",
+        "port/level-world/reference/ranged-attack-v41/lethal-skill-adoption-audit-v42.md"
+      ],
+      "remaining": "Bind genuine current GS Level, DropLoot, contributors, XP, quests and victim event2; verify surviving/lethal/repeated skill families and source lifetime cleanup."
+    },
+    {
+      "id": "T12",
+      "area": "Targeting",
+      "feature": "Item/chest/non-enemy interaction targeting and marker dispatch",
+      "state": "pending",
+      "owner": "combat + loader",
+      "done": "Enemy targeting accepted; item/chest virtual dispatch still required.",
+      "evidence": [
+        "docs/NATIVE-FX-TARGET-CHECKPOINT-2026-10-06.md"
+      ],
+      "remaining": "Connect genuine interaction receivers and validate current object registry."
+    },
+    {
+      "id": "A01",
+      "area": "Audio",
+      "feature": "PCM and IMA sample decoding across actual WAV corpus",
+      "state": "verified",
+      "owner": "audio session",
+      "done": "228 PCM +16 IMA corpus/source comparisons and positive host output.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v34-handoff.md"
+      ],
+      "remaining": "Runtime audibility separately required."
+    },
+    {
+      "id": "A02",
+      "area": "Audio",
+      "feature": "Native VXN parsing, playlist startup and normal transitions",
+      "state": "verified",
+      "owner": "audio session",
+      "done": "17 actual VXN files; source segment/Q30/normal-transition checks.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v34-handoff.md"
+      ],
+      "remaining": "Rapid reversal/arbitrary cue domains are separate unfinished work."
+    },
+    {
+      "id": "A03",
+      "area": "Audio",
+      "feature": "Fixed mixer voices/queues, pitch, gains, timing and sample lifetime",
+      "state": "verified",
+      "owner": "audio session",
+      "done": "Source/CPU fixtures and sanitizer replay; bounded realtime callback design.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v34-handoff.md"
+      ],
+      "remaining": "Does not prove an audible app or true gameplay delivery."
+    },
+    {
+      "id": "A04",
+      "area": "Audio",
+      "feature": "Native audio engine, Vox bridge and output linked into both APK ABIs",
+      "state": "verified",
+      "owner": "root",
+      "done": "Native audio engine, Vox bridge and AAudio output class link in both ABIs. Packaged library dependencies/symbols verified; full original cache and exact generated schemas match source proof.",
+      "evidence": [
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Stream opening, focus, positive World readiness and audible event delivery remain A05-A16."
+    },
+    {
+      "id": "A05",
+      "area": "Audio",
+      "feature": "Genuine logical SoundAutoGen UID/event bindings",
+      "state": "partial",
+      "owner": "audio session",
+      "done": "All638 genuine source UID/event rows recovered and source-tested; exact generated members embedded and loaded for active player/NPC named sound events.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v38-handoff.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Bind actual initialized Vox bridge/bank for positive plays; whole runtime delivery remains unverified."
+    },
+    {
+      "id": "A06",
+      "area": "Audio",
+      "feature": "Actual soundpack selection and source audio constants",
+      "state": "partial",
+      "owner": "audio session + loader",
+      "done": "Original constructor selection of sounds.xml and source listener rows/constant authority recovered; no nearby-name fallback.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v38-handoff.md"
+      ],
+      "remaining": "Actual constructor/listener/audio constant initialization in retained gameplay graph remains required."
+    },
+    {
+      "id": "A07",
+      "area": "Audio",
+      "feature": "One app focus owner, pause/resume, loss and output reconnect",
+      "state": "partial",
+      "owner": "root",
+      "done": "FrontAudio owns focus; native lifecycle/output components exist separately.",
+      "evidence": [
+        "port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java"
+      ],
+      "remaining": "Unify ownership/control thread; validate lifecycle without duplicate focus."
+    },
+    {
+      "id": "A08",
+      "area": "Audio",
+      "feature": "Real listener/emitter positions, distance and pitch routing",
+      "state": "partial",
+      "owner": "audio session + root",
+      "done": "Source panning/distance/Doppler leaves proved; runtime authorities pending.",
+      "evidence": [
+        "port/level-world/vox_audio_bridge_v34.hpp"
+      ],
+      "remaining": "Supply genuine same-world listener/emitter fields and event clock."
+    },
+    {
+      "id": "A09",
+      "area": "Audio",
+      "feature": "Sword swing, melee hit/block/miss and attack animation sounds",
+      "state": "partial",
+      "owner": "audio session + root",
+      "done": "Original false/1 Play3D request and main/offhand FX/sound fallback ordering integrated. Source attack sound bindings have present clips.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v38-handoff.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Real readiness, transport and timed audible swing/hit tests; not confirmed audible."
+    },
+    {
+      "id": "A10",
+      "area": "Audio",
+      "feature": "All skill cast/impact/loop/end sounds",
+      "state": "partial",
+      "owner": "audio session + root",
+      "done": "Active CSSkill sfx_ prefix now uses genuine638-name lookup; stage gates and captured manager/position ordering preserved.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v38-handoff.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Positive cast/impact/loop/end transport, exact missing assets and audible family tests."
+    },
+    {
+      "id": "A11",
+      "area": "Audio",
+      "feature": "Monster idle/aggro/attack/hurt/death sounds",
+      "state": "partial",
+      "owner": "audio session + loader",
+      "done": "Active NPC OnAnimEvent sfx_ branch now uses same genuine named-sound leaf. Target-spotted full coordinator corrected to original false/1 ABI.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v38-handoff.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Actual AI/animation event families, missing clips and audible monster tests."
+    },
+    {
+      "id": "A12",
+      "area": "Audio",
+      "feature": "Chest opening and world-object interaction sounds",
+      "state": "pending",
+      "owner": "audio session + loader",
+      "done": "Constructors/objects progressing; full interaction/playback chain incomplete.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v34-handoff.md"
+      ],
+      "remaining": "Open-state event delivery and genuine clip/UID mapping."
+    },
+    {
+      "id": "A13",
+      "area": "Audio",
+      "feature": "Loot drop/pickup, potions and item/equipment sounds",
+      "state": "pending",
+      "owner": "audio session + root",
+      "done": "Some exact cache assets missing; no fabricated fallback allowed.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v34-handoff.md"
+      ],
+      "remaining": "Resolve source/asset mismatch and accepted drop/pickup/potion event chain."
+    },
+    {
+      "id": "A14",
+      "area": "Audio",
+      "feature": "UI/menu sounds in unified native audio flow",
+      "state": "partial",
+      "owner": "root",
+      "done": "Existing FrontAudio menu transport; shared mixer replacement not wired.",
+      "evidence": [
+        "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java"
+      ],
+      "remaining": "Keep current source requests; unify focus/volume/lifetime."
+    },
+    {
+      "id": "A15",
+      "area": "Audio",
+      "feature": "Level ambience/music states, fades and rapid reversals",
+      "state": "partial",
+      "owner": "audio session + loader",
+      "done": "Normal transitions source-tested; rapid dying-segment branch explicit control_required.",
+      "evidence": [
+        "port/engine-audio/reports/audio-v34-handoff.md"
+      ],
+      "remaining": "Complete source music controller and positive level transition events."
+    },
+    {
+      "id": "A16",
+      "area": "Audio",
+      "feature": "Audible device acceptance for all above categories",
+      "state": "pending",
+      "owner": "root + audio session",
+      "done": "No guarded audible gameplay acceptance.",
+      "evidence": [
+        "docs/EMULATOR-MEMORY-PROTECTION-2026-10-06.md"
+      ],
+      "remaining": "Viable guarded device, capture/listen and verify event timing/lifecycle."
+    },
+    {
+      "id": "P01",
+      "area": "Performance",
+      "feature": "Fixed-cost phase timers and draw/upload/cull telemetry",
+      "state": "verified",
+      "owner": "root",
+      "done": "Native aggregate timings and presentation timestamps captured.",
+      "evidence": [
+        "docs/NATIVE-PERFORMANCE-2026-10-06.md"
+      ],
+      "remaining": "Continue using phase-specific metrics; no per-frame log spam."
+    },
+    {
+      "id": "P02",
+      "area": "Performance",
+      "feature": "Optimized native tree with strict floating-point behavior",
+      "state": "verified",
+      "owner": "root",
+      "done": "O2 across dependency tree; debug symbols and strict FP preserved; both ABI builds.",
+      "evidence": [
+        "docs/NATIVE-PERFORMANCE-2026-10-06.md"
+      ],
+      "remaining": "Not a standalone 60FPS claim."
+    },
+    {
+      "id": "P03",
+      "area": "Performance",
+      "feature": "Pose/skinning reuse and synchronous borrowed equipment views",
+      "state": "verified",
+      "owner": "status + root",
+      "done": "28291 sanitizer checks, actual172 modules, restored-resource/lifetime review.",
+      "evidence": [
+        "port/engine-skinning/reports/skin-pose-cache-v32/README.md"
+      ],
+      "remaining": "Monitor live allocation/count budgets with new integration."
+    },
+    {
+      "id": "P04",
+      "area": "Performance",
+      "feature": "Conservative current-geometry culling and dirty GPU uploads",
+      "state": "verified",
+      "owner": "root",
+      "done": "46038 checks + Crypt observation, actor render phase about7.1ms\u21920.4ms.",
+      "evidence": [
+        "docs/NATIVE-PERFORMANCE-2026-10-06.md"
+      ],
+      "remaining": "Swamp, transitions and physical-device coverage remain separate."
+    },
+    {
+      "id": "P05",
+      "area": "Performance",
+      "feature": "FX reusable buffers/topology and single GL-state batch guard",
+      "state": "verified",
+      "owner": "combat + root",
+      "done": "521 sanitizer checks; GLES90 checks/pixel/state identity; allocations8000\u21920.",
+      "evidence": [
+        "port/level-world/reports/fx-submission-performance-v34.md"
+      ],
+      "remaining": "Broad live skill/resource performance acceptance pending."
+    },
+    {
+      "id": "P06",
+      "area": "Performance",
+      "feature": "Bounded HUD geometry cache and lazy empty display submission",
+      "state": "verified",
+      "owner": "UI + root",
+      "done": "V36 strict6, cache1049 and actualGLES276 component checks.",
+      "evidence": [
+        "port/engine-ui/reports/swf-gpu-v36/README.md"
+      ],
+      "remaining": "Current combined app/menu/runtime still needs acceptance."
+    },
+    {
+      "id": "P07",
+      "area": "Performance",
+      "feature": "Transparent normal-pass elimination, error barriers and context capabilities",
+      "state": "partial",
+      "owner": "UI + root",
+      "done": "V37 source integrated into both-ABI APK; strict source/host contract checks passed. Host GLES comparison prepared but physical-memory preflight refused it.",
+      "evidence": [
+        "port/engine-ui/reports/swf-gpu-host-v38/README.md",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Actual-context pixels/menus and measured FPS remain pending safe QA."
+    },
+    {
+      "id": "P08",
+      "area": "Performance",
+      "feature": "Native resource byte/count admission, replacement and context loss",
+      "state": "partial",
+      "owner": "status + root",
+      "done": "Transactional budget covers FX VBO/EBO plus HUD bitmap CPU/GPU, decode/readback CPU and framebuffer/depth-stencil replacement. BothABI build,115 sanitizer fixture checks per optimization and current Crypt visual smoke pass.",
+      "evidence": [
+        "port/engine-resources/reports/swf-resource-v39/README.md",
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json"
+      ],
+      "remaining": "Model/effect texture reads/decode/storage, programs/vertex caches/world buffers/FX CPU caches still pending. No whole-runtime memory bound."
+    },
+    {
+      "id": "P09",
+      "area": "Performance",
+      "feature": "Host emulator hard commit cap and independent watchdog",
+      "state": "verified",
+      "owner": "status + root",
+      "done": "Real64MiB cap/descendants/logs; independent timeout/ownerdeath/exact-job cleanup.",
+      "evidence": [
+        "docs/EMULATOR-MEMORY-PROTECTION-2026-10-06.md"
+      ],
+      "remaining": "Only guarded launches; does not protect manually launched unmanaged devices."
+    },
+    {
+      "id": "P10",
+      "area": "Performance",
+      "feature": "One-emulator lease, overlap refusal and saved-artifact preservation",
+      "state": "verified",
+      "owner": "root",
+      "done": "Live named-job overlap refusal; raw launch/recovery disabled; no save deletion.",
+      "evidence": [
+        "port/android-native/reports/emulator-guard-v36/actual-overlap-proof.json"
+      ],
+      "remaining": "Other sessions use shared guard and owned cleanup only."
+    },
+    {
+      "id": "P11",
+      "area": "Performance",
+      "feature": "Viable bounded QA configuration without startup exhaustion",
+      "state": "verified",
+      "owner": "root",
+      "done": "One visible API37 emulator booted and ran Crypt under explicit user15GiB hard/14GiB soft paging policy. Global commit reserve, identity/job lease and time limit retained.",
+      "evidence": [
+        ".local-inputs/emulator-guards-v36/20261006-152617-6ee92d52.manifest.json",
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json"
+      ],
+      "remaining": "This proves viable bounded QA, not a low-memory emulator or stable60FPS."
+    },
+    {
+      "id": "P12",
+      "area": "Performance",
+      "feature": "Generic staged level activation and loader\u2192renderer contract",
+      "state": "in_progress",
+      "owner": "loader + root",
+      "done": "Loader generic retained input handoffs now cover9 modules/386 meshes/214 registry entries/11spawns; source lifecycle/counters recovered separately.",
+      "evidence": [
+        "docs/SHARED-SYSTEMS-AND-DEMO-BOUNDARIES-2026-10-06.md"
+      ],
+      "remaining": "Import coherent retained lifecycle/Visual/provider graph; full Level.Init/currentGS and actor visuals still incomplete."
+    },
+    {
+      "id": "P13",
+      "area": "Performance",
+      "feature": "Responsive loading screen during IO/decode/upload/shader work",
+      "state": "partial",
+      "owner": "loader + root",
+      "done": "Five all-floor-pair and two per-floor QA sweeps removed from normal builds, kept behind bounded explicit QA. Private-save reads bounded.",
+      "evidence": [
+        "port/engine-ui/reports/load-diagnostics-v39/extraction.json",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ],
+      "remaining": "Full loader IO/decode/upload staging and responsive animated loading still required. No loading FPS/tail measurement."
+    },
+    {
+      "id": "P14",
+      "area": "Performance",
+      "feature": "Stable60FPS and low frame-time tails in exploration/combat",
+      "state": "partial",
+      "owner": "root",
+      "done": "Current stationary emulator417 intervals/11.01s:37.87FPS,p9540.69ms,p9945.68ms,max381.34ms. Native CPU median~2.09ms,HUD~0.83ms; no native errors.",
+      "evidence": [
+        "port/android-native/reports/emulator-v40/stationary-perf.json",
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json"
+      ],
+      "remaining": "Stable60FPS, combat/loading tails and hardware attribution remain required. Emulator/paging result is not physical-phone FPS."
+    },
+    {
+      "id": "P15",
+      "area": "Performance",
+      "feature": "Sustained memory/handle stability across reloads and transitions",
+      "state": "pending",
+      "owner": "root + status + loader",
+      "done": "Windows memory failure documented; protection proved, underlying leak not attributed.",
+      "evidence": [
+        "docs/EMULATOR-MEMORY-PROTECTION-2026-10-06.md"
+      ],
+      "remaining": "Bounded growth telemetry, warm/reload/context loss, no increasing resident resources."
+    },
+    {
+      "id": "P16",
+      "area": "Performance",
+      "feature": "Modern physical ARM64 phone/tablet acceptance and one-APK flow",
+      "state": "partial",
+      "owner": "root",
+      "done": "OneAPK installed in place on Xiaomi17TPro Android16 ARM64; Crypt world/HUD rendered after actual surface callback ordering fix. Newer emulator APK hash verified.",
+      "evidence": [
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json",
+        "port/android-native/reports/physical-v40/crypt-cold.png"
+      ],
+      "remaining": "Full authored menu\u2192campaign/saved state, audio/input/performance and latest resource build on phone remain pending."
+    },
+    {
+      "id": "P17",
+      "area": "Performance",
+      "feature": "Normal-load diagnostic removal and bounded opt-in QA (build/source scope)",
+      "owner": "root + UI",
+      "state": "verified",
+      "done": "Five quadratic and two linear diagnostic sweeps excluded from shipped native ELF; QA branch separately compiles with explicit request0/1. Guard tests pass.",
+      "remaining": "Actual loading responsiveness/time requires P13 runtime tests.",
+      "evidence": [
+        "port/engine-ui/reports/load-diagnostics-v39/host-receipt.json",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ]
+    },
+    {
+      "id": "P18",
+      "area": "Performance",
+      "feature": "FX buffer admission/failure/eviction/context-loss contract (source scope)",
+      "owner": "root + resource",
+      "state": "verified",
+      "done": "Reserve before driver allocation; full replacement byte peak without extra name; OOM cleanup, quota preservation, old-context name protection and idle eviction pass source-bound61 checks per optimization.",
+      "remaining": "Real-driver stress plus remaining CPU/texture/renderer owners stay P08/P15.",
+      "evidence": [
+        "port/engine-resources/reports/resource-budget-v37/host-receipt.json",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ]
+    },
+    {
+      "id": "P19",
+      "area": "Performance",
+      "feature": "Bounded private-level-save transport (source/actual-file scope)",
+      "owner": "root + UI",
+      "state": "verified",
+      "done": "Explicit16MiB engineering policy; rejects oversize/nonregular/growing/shrinking/read-close failures.132 actual-file/source-cache checks; both-ABI APK passes.",
+      "remaining": "Policy adequacy for whole-game saves and live reload acceptance still required.",
+      "evidence": [
+        "port/engine-ui/reports/load-diagnostics-v39/host-receipt.json",
+        "port/android-native/reports/feature-audit-v38/apk-contents.json"
+      ]
+    },
+    {
+      "id": "P20",
+      "area": "Performance",
+      "feature": "ARM64 phone one-APK Crypt rendering smoke (narrow runtime scope)",
+      "owner": "root",
+      "state": "verified",
+      "done": "Earlier V40 build installed preserving data and visibly rendered on Xiaomi17TPro Android16.",
+      "remaining": "Does not cover latest HUD budgets, physical FPS/audio or whole campaign.",
+      "evidence": [
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json",
+        "port/android-native/reports/physical-v40/crypt-cold.png"
+      ]
+    },
+    {
+      "id": "P21",
+      "area": "Performance",
+      "feature": "HUD retained CPU/texture/framebuffer admission (component + Crypt scope)",
+      "owner": "root + resource",
+      "state": "verified",
+      "done": "115 source-bound sanitizer checks per optimization, strict bothABI component+whole APK build, actual Crypt HUD render; candidates preserve old targets on tested quota/OOM/failure.",
+      "remaining": "Actual driver failure injection, all menu/mask states and broad lifetime/load stress remain P07/P08/P15.",
+      "evidence": [
+        "port/engine-resources/reports/swf-resource-v39/README.md",
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json"
+      ]
+    },
+    {
+      "id": "P22",
+      "area": "Performance",
+      "feature": "Real surface dimensions before cold world loading",
+      "owner": "root",
+      "state": "verified",
+      "done": "Initial phone failure traced to loading before resize; initial load now waits for actual dimensions once per created context. Phone and emulator cold Crypt launches render.",
+      "remaining": "Full recreate/resize/pause matrix and responsive loading remain separate acceptance.",
+      "evidence": [
+        "port/android-native/reports/feature-audit-v38/checkpoint-v40.json"
+      ]
+    }
+  ]
+}

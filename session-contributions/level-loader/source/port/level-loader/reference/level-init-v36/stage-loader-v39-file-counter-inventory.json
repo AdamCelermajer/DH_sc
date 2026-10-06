@@ -1,0 +1,60 @@
+{
+  "validation": "PASS",
+  "actual_Level_13c_accesses": [
+    {
+      "instruction": "3f3258: e584613c     \tstr\tr6, [r4, #0x13c]",
+      "owners": [
+        {
+          "entry": 4141352,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f35f0: e584613c     \tstr\tr6, [r4, #0x13c]",
+      "owners": [
+        {
+          "entry": 4142272,
+          "size": 920,
+          "symbol": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+        }
+      ]
+    },
+    {
+      "instruction": "3f72c0: e594313c     \tldr\tr3, [r4, #0x13c]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f72c8: e584313c     \tstr\tr3, [r4, #0x13c]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    },
+    {
+      "instruction": "3f7524: e584713c     \tstr\tr7, [r4, #0x13c]",
+      "owners": [
+        {
+          "entry": 4155792,
+          "size": 6472,
+          "symbol": "Level::_LoadProcess()"
+        }
+      ]
+    }
+  ],
+  "base_header_sha256": "d673aca40592f36af03ebf6c216bf79130223325ae3a377c39dd99289bad46eb",
+  "proposed_header_saved_bytes_sha256": "dfe08c0300629ca7c01289891e02bbd266a29efc966d26a1c715f4782d2781b1",
+  "field140_preserved_pointer": true,
+  "selected_graph_modified": false,
+  "scope": "All direct actual retained-Level13c accesses in original method scan; PC/SP/LevelConfig offsets excluded. Method LoadFile has no direct13c access: actual continuation state is pointer140."
+}

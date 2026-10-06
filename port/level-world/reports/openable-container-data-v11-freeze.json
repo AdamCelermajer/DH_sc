@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\openable-container-data-v11-handoff-7575323594a91cf7.zip",
+  "sha256": "e959782724433c0d2b1cfd4fd582bf9762e79b6581f8c5da5aea3cfdc4745134",
+  "entries": 19,
+  "individual_hashes_verified": true,
+  "extraction": {
+    "scope": "exact byte extraction from original cache matching frozen native fixture; offsets refer to this hashed asset only",
+    "groups": [
+      {
+        "source": "port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/cache/game_objects_pyarray.bin",
+        "source_sha256": "8b02cf1bd776621c18d82fd24ef0320d996b28ea77e3a24be3f986e84160e07d",
+        "source_size": 5326,
+        "group_index": 5,
+        "start_inclusive": 3031,
+        "end_exclusive": 5007,
+        "size": 1976,
+        "count": 68,
+        "extracted": "port/level-world/reference/openable-container-data-v11/openable-containers-group5-records.bin",
+        "sha256": "1f4fcc285468a268351cff228d16e16c28d33ecb7707087ff3e4cecce6e63690",
+        "count_word_included": true
+      },
+      {
+        "source": "port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/cache/game_objects_pyarraynames.bin",
+        "source_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+        "source_size": 3846,
+        "group_index": 5,
+        "start_inclusive": 1749,
+        "end_exclusive": 3614,
+        "size": 1865,
+        "count": 68,
+        "extracted": "port/level-world/reference/openable-container-data-v11/openable-containers-group5-names.bin",
+        "sha256": "8dc7c6dc7ce3e45b48a80ec40f7be1979549dc3785713981654f2e51f6569824",
+        "count_word_included": true
+      }
+    ]
+  }
+}

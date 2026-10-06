@@ -1,0 +1,44 @@
+[
+  {
+    "source_parameter_offset": "0x4",
+    "scene_field": "0x144",
+    "address": "0x8e4ef8",
+    "name": "bounce"
+  },
+  {
+    "source_parameter_offset": "0x8",
+    "scene_field": "0x148",
+    "address": "0x8e4f00",
+    "name": "variation"
+  },
+  {
+    "source_parameter_offset": "0xc",
+    "scene_field": "0x14c",
+    "address": "0x8e4f10",
+    "name": "chaos"
+  },
+  {
+    "source_parameter_offset": "0x10",
+    "scene_field": "0x150",
+    "address": "0x8e4f18",
+    "name": "friction"
+  },
+  {
+    "source_parameter_offset": "0x14",
+    "scene_field": "0x154",
+    "address": "0x8e4f28",
+    "name": "inheritVelocity"
+  },
+  {
+    "source_parameter_offset": "0x18",
+    "scene_field": "0x158",
+    "address": "0x8debb0",
+    "name": "width"
+  },
+  {
+    "source_parameter_offset": "0x1c",
+    "scene_field": "0x15c",
+    "address": "0x8e9ee0",
+    "name": "length"
+  }
+]

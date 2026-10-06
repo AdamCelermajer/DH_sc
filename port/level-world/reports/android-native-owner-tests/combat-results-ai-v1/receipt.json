@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "d9b242f5e301cf435120334fb0bd4990fbb191571c0cbf47232fbfbf5a01acea",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\character_combat_results_ai_v1.cpp",
+      "sha256": "27d086dc69d8d84f2c3576e084039bb03b93dff965bcd5be1ba8eabaea31a12d"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "3c338dc3a01519f4e37bc252cd3124fe14e0f5620ee4692eca090e3e36762b23"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "20aa762d06c895443d6469302f41ede3413c9c814bb835a7e1556285781bb2d6"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "cadc12f96f9592f936ff06ba6ae53144fae1d7cf3a7c086e0a4fbde2e09e68ef"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "afca252b306b25b1cd4b451fb1d8d1d2319ae765f266454e54d5336973fbe633"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "e8a2183da9ee0f22275a7b6b3217c3253a2c4bbd277f3d70dd879ee3e8ea7aea"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "67ca719a4502edc85b2f35c3766823e2ee62b8db832420da6ea9d8bfcad226fc"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "f74c9a744dfec718144a0460e4365f68d4a02fcb8b29be37cfd04be304e213de"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "94df45c02e258f826c0d2c24a82a2d07f5a91972f06682af06c6a2fe1fb60231"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "0c4c5e0614010d4d0f790922d09e01743d53a13cb5bf40866b4b0e2ef9c3d169",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_combat_results_ai_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\combat-results-ai-v1\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\combat-results-ai-v1\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\combat-results-ai-v1\\combat-results-ai-v1.bin"
+  ],
+  "stdout": "PASS actual private ScriptOwner VCB, two source objects, nested scoped combat result, outcomes1/2/3, stale scope and wrong overload rejection\n",
+  "stderr": "",
+  "exit_code": 0
+}

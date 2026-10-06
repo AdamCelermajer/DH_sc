@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "2f09a40cf899a55064bd13ccac29b33566c08ca3b9df902e1c0aea7ebad2db0d",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\objective_gathering_registration_v11.cpp",
+      "sha256": "b7f5a7fccee0e975887b888403ce9ea566b93db95cc57c5f1ac5fd35377145cd"
+    },
+    {
+      "path": "port\\level-world\\objective_gathering_registration_v11.cpp",
+      "sha256": "c9e136d8720ac25ccbe7b026469d59e77b03e93acf6b768c488aaedf96b90fd3"
+    },
+    {
+      "path": "port\\game-data\\inventory_gathering_ids_v11.cpp",
+      "sha256": "01ad6567b4e15ee558a41da909f5f4260944894edb2e771ff7fc80c57e5601e5"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\objective_gathering_registration_v11.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\objective_gathering_registration_v11.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\inventory_gathering_ids_v11.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\objective-gathering-registration-v11\\objective-gathering-registration-v11.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "PASS whole Objective gathering base-before-fresh-field reads, registration/unregistration gates and failure prefix checks=7\n",
+  "stderr": ""
+}

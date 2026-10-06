@@ -1,0 +1,339 @@
+[
+  {
+    "document": 1,
+    "element": 1,
+    "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+    "tag": "GameObject",
+    "source_order": 0,
+    "origin": "gameplay",
+    "module": 0,
+    "module_name": "obj_4of4_brdwalk_sw_00_0",
+    "module_offset": [
+      0,
+      0,
+      0
+    ],
+    "attributes": {
+      "type": "Block",
+      "name": "_prim_OpenableContainer_2",
+      "position": "-2198.67,935.187,250.0",
+      "scale": "1.0,1.0,1.0",
+      "debugcolor": "255.0,0.0,255.0",
+      "rotation": "0.0,0.0,0.537068",
+      "gametype": "OpenableContainer",
+      "condition_desc": "Invalid",
+      "_templateName": "OpenableContainer",
+      "data_desc_pydata": "OpenableContainers",
+      "condition_desc_pydata": "ConditionTable",
+      "editormax": "data/level_editor/primitives_visuals.max",
+      "editorobject": "_prim_OpenableContainer",
+      "data_desc": "Swamp_Normal_Chest"
+    },
+    "authored_position": [
+      -2198.66992,
+      935.187012,
+      250
+    ],
+    "translated_position": [
+      -2198.66992,
+      935.187012,
+      250
+    ],
+    "rotation_degrees": [
+      0,
+      0,
+      0.537068009
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "tree": {
+      "tag": "GameObject",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_2",
+        "position": "-2198.67,935.187,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.537068",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc_pydata": "OpenableContainers",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "children": []
+    }
+  },
+  {
+    "document": 1,
+    "element": 2,
+    "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+    "tag": "GameObject",
+    "source_order": 1,
+    "origin": "gameplay",
+    "module": 0,
+    "module_name": "obj_4of4_brdwalk_sw_00_0",
+    "module_offset": [
+      0,
+      0,
+      0
+    ],
+    "attributes": {
+      "type": "Block",
+      "name": "_prim_OpenableContainer_1",
+      "position": "1826.65,1796.04,12.0",
+      "scale": "1.0,1.0,1.0",
+      "debugcolor": "255.0,0.0,255.0",
+      "rotation": "0.0,0.0,-10.9727",
+      "gametype": "OpenableContainer",
+      "condition_desc": "Invalid",
+      "_templateName": "OpenableContainer",
+      "data_desc_pydata": "OpenableContainers",
+      "condition_desc_pydata": "ConditionTable",
+      "editormax": "data/level_editor/primitives_visuals.max",
+      "editorobject": "_prim_OpenableContainer",
+      "data_desc": "Swamp_Normal_Chest"
+    },
+    "authored_position": [
+      1826.65002,
+      1796.04004,
+      12
+    ],
+    "translated_position": [
+      1826.65002,
+      1796.04004,
+      12
+    ],
+    "rotation_degrees": [
+      0,
+      0,
+      -10.9727001
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "tree": {
+      "tag": "GameObject",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_1",
+        "position": "1826.65,1796.04,12.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,-10.9727",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc_pydata": "OpenableContainers",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "children": []
+    }
+  },
+  {
+    "document": 5,
+    "element": 3,
+    "uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+    "tag": "GameObject",
+    "source_order": 2,
+    "origin": "gameplay",
+    "module": 2,
+    "module_name": "obj_1of4_brdwalk_nse_00_2",
+    "module_offset": [
+      -6000,
+      6000,
+      0
+    ],
+    "attributes": {
+      "type": "Block",
+      "name": "_prim_OpenableContainer_001_001",
+      "position": "-98.5039,-928.66,250.0",
+      "scale": "1.0,1.0,1.0",
+      "debugcolor": "255.0,0.0,255.0",
+      "rotation": "0.0,0.0,-0.822485",
+      "gametype": "OpenableContainer",
+      "condition_desc": "Invalid",
+      "_templateName": "OpenableContainer",
+      "data_desc": "Swamp_Normal_Chest"
+    },
+    "authored_position": [
+      -98.5038986,
+      -928.659973,
+      250
+    ],
+    "translated_position": [
+      -6098.50391,
+      5071.33984,
+      250
+    ],
+    "rotation_degrees": [
+      0,
+      0,
+      -0.82248503
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "tree": {
+      "tag": "GameObject",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_001_001",
+        "position": "-98.5039,-928.66,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,-0.822485",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "children": []
+    }
+  },
+  {
+    "document": 7,
+    "element": 11,
+    "uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+    "tag": "GameObject",
+    "source_order": 10,
+    "origin": "gameplay",
+    "module": 3,
+    "module_name": "corner_ruin_ws_00_3",
+    "module_offset": [
+      -6000,
+      12000,
+      0
+    ],
+    "attributes": {
+      "type": "Block",
+      "name": "_prim_OpenableContainer_03",
+      "position": "-1013.42,982.703,250.0",
+      "scale": "1.0,1.0,1.0",
+      "debugcolor": "255.0,0.0,255.0",
+      "rotation": "0.0,0.0,0.537068",
+      "gametype": "OpenableContainer",
+      "condition_desc": "Invalid",
+      "_templateName": "OpenableContainer",
+      "data_desc_pydata": "OpenableContainers",
+      "condition_desc_pydata": "ConditionTable",
+      "editormax": "data/level_editor/primitives_visuals.max",
+      "editorobject": "_prim_OpenableContainer",
+      "data_desc": "Swamp_Normal_Chest"
+    },
+    "authored_position": [
+      -1013.41998,
+      982.703003,
+      250
+    ],
+    "translated_position": [
+      -7013.41992,
+      12982.7031,
+      250
+    ],
+    "rotation_degrees": [
+      0,
+      0,
+      0.537068009
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "tree": {
+      "tag": "GameObject",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_03",
+        "position": "-1013.42,982.703,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.537068",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc_pydata": "OpenableContainers",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "children": []
+    }
+  },
+  {
+    "document": 9,
+    "element": 4,
+    "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+    "tag": "GameObject",
+    "source_order": 3,
+    "origin": "gameplay",
+    "module": 4,
+    "module_name": "merchantcamp_ruins_swe_00_4",
+    "module_offset": [
+      -12000,
+      12000,
+      0
+    ],
+    "attributes": {
+      "type": "Block",
+      "name": "_prim_OpenableContainer",
+      "position": "-2328.31,891.277,250.0",
+      "scale": "1.0,1.0,1.0",
+      "debugcolor": "255.0,0.0,255.0",
+      "rotation": "0.0,0.0,41.985",
+      "gametype": "OpenableContainer",
+      "_templateName": "OpenableContainer",
+      "data_desc": "SwampCave_Normal_Chest"
+    },
+    "authored_position": [
+      -2328.31006,
+      891.276978,
+      250
+    ],
+    "translated_position": [
+      -14328.3105,
+      12891.2773,
+      250
+    ],
+    "rotation_degrees": [
+      0,
+      0,
+      41.9850006
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "tree": {
+      "tag": "GameObject",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer",
+        "position": "-2328.31,891.277,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,41.985",
+        "gametype": "OpenableContainer",
+        "_templateName": "OpenableContainer",
+        "data_desc": "SwampCave_Normal_Chest"
+      },
+      "children": []
+    }
+  }
+]

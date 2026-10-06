@@ -1,0 +1,42 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_format": 27,
+  "selected_format": 14,
+  "source_conversion": "5f95ac",
+  "source_decoder": "PVRTCDecompress69f768",
+  "fixture": "actual nonzero blood payload 32bytes interpreted as labelled8x8",
+  "payload_offset": 1368,
+  "conversion_return": 1,
+  "bytes": 256,
+  "rgba_sha256": "9a6a19ecce057c7da53182a890b1ed8a7767075f5ce1fc23214957027677bc20",
+  "difference_bytes": 0,
+  "scope": "original ARM format27\u219214 byte-order proof; not whole GPU texture create/upload",
+  "source_mip_offsets": {
+    "14": [
+      0,
+      1048576,
+      1310720,
+      1376256,
+      1392640,
+      1396736,
+      1397760,
+      1398016,
+      1398080,
+      1398096,
+      1398100
+    ],
+    "27": [
+      0,
+      131072,
+      163840,
+      172032,
+      174080,
+      174592,
+      174720,
+      174752,
+      174784,
+      174816,
+      174848
+    ]
+  }
+}

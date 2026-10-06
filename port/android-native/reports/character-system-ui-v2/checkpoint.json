@@ -1,0 +1,109 @@
+{
+  "checkpoint": "port\\android-native\\build\\checkpoints\\dh2-native-original-character-menus-55abdfdd.apk",
+  "sha256": "55abdfddedaf1bea9314af85ba1654e8602f7a6fcc47e662dc699f3716287b4d",
+  "bytes": 607909981,
+  "accepted_scope": "Original-art portrait/stat/skill/inventory menu flow, alignment, equipment, gold and same-world return on emulator5554",
+  "observations": [
+    {
+      "label": "136-final-health-main",
+      "pid": "14070",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\136-final-health-main.png",
+      "log_sha256": "2d4ff18e6289beb123cc104a083dec4296af11bd384086421c5b76ebb852d5e4"
+    },
+    {
+      "label": "139-final-health-world",
+      "pid": "14070",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\139-final-health-world.png",
+      "log_sha256": "47a49b63f00420e85bfac86cb75ac7d63220e70306e7d136a4f7c3b08b000355"
+    },
+    {
+      "label": "140-final-character-stats",
+      "pid": "14070",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\140-final-character-stats.png",
+      "log_sha256": "b9b9766bd6bbabc9d6b5d688ee6439897ef491816c66c74384e4b1ef5eda6457"
+    },
+    {
+      "label": "142-visible-checkpoint-main",
+      "pid": "14432",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\142-visible-checkpoint-main.png",
+      "log_sha256": "c48ea9365830d44e90be2c37a66df333c8c8a6341125f61875c881125914c22d"
+    },
+    {
+      "label": "145-visible-checkpoint-stats",
+      "pid": "14432",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\145-visible-checkpoint-stats.png",
+      "log_sha256": "11887059a0713c6f8e273814e1fe7ac9442640ed5e3b88a005bdb77a83289503"
+    },
+    {
+      "label": "146-visible-checkpoint-inventory",
+      "pid": "14432",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\146-visible-checkpoint-inventory.png",
+      "log_sha256": "6c5b05c558ef692c6857bfd4a81a026476278bbfb39fbaf44f09c425e84cad55"
+    }
+  ],
+  "limits": [
+    "Demo NULL-profile Save is not disk campaign restoration",
+    "Positive earned-point training and stat allocation remain unverified",
+    "Live world drop/loot/XP and complete Swamp chapter remain incomplete",
+    "Physical ARM64 device testing remains pending"
+  ],
+  "skill_effect_acceptance": {
+    "receipt": "port\\android-native\\reports\\generic-skill-live-v9\\live-receipt.json",
+    "sha256": "d4bf046773e90ac34d0bf8c56021fdedecee2525f3da8f11469b527e97dd28e3",
+    "status": "PASS_ACTUAL_AUTHORED_EVENT_SAME_TARGET_HP_RENDER_NO_FRAME_FAILURE",
+    "same_enemy_hp_raw": [
+      25600,
+      22875
+    ],
+    "fixed_point_scale": 256,
+    "scope": "One real targeted Bash cast: authored event, five actual FX draw submissions, real HP delta, normal return and no black frame. Other skills and exact video timing remain unverified."
+  },
+  "ui_mutation_evidence_before_diagnostic_rebuild": [
+    {
+      "label": "126-checkpoint-portrait-stats",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "127-checkpoint-skills",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "128-checkpoint-hud-skill3",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "130-checkpoint-mapping-retained",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "131-checkpoint-inventory",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "132-checkpoint-item-gold",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "133-checkpoint-unequip",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "134-checkpoint-equip",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    },
+    {
+      "label": "135-checkpoint-return-world",
+      "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+      "pid": "13095"
+    }
+  ],
+  "final_rebuild_difference": "Read-only actor HP snapshots in renderer_player_cast_v2.inc; menu/HUD production code unchanged. Current APK navigation/alignment/preview and live skill were checked again."
+}

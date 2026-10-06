@@ -1,0 +1,1904 @@
+[
+  {
+    "path": "root/sprite139",
+    "tag": 12,
+    "frame": 0,
+    "offset": 43984,
+    "rows": [
+      {
+        "offset": 43984,
+        "op": "decl_dict",
+        "length": 651,
+        "constants": [
+          "NativeGetLoadingProgress",
+          "BarState",
+          "$percentLoaded: ",
+          "loading_anim",
+          "gotoAndStop",
+          "IS FINISHED",
+          "continue_text._currentframe is:",
+          "continue_text",
+          "_currentframe",
+          "NativeIsMultiplayerLoadCompleted",
+          "MENU_TOUCH_TO_CONTINUE",
+          "text",
+          "MENU_MULTIPLAYER_WAITING",
+          "NativeGetStringFromSymbol",
+          "btn_loading_continue",
+          "_visible",
+          "NativeIsMultiplayerHost",
+          "MENU_WAITING_FOR_HOST",
+          "NativeMustWaitForHost",
+          "NativeEndLoading",
+          "NativeBackToHud",
+          "NativeRefreshHudManager",
+          "nextFrame",
+          "gotoAndPlay",
+          "onRelease",
+          "MenuConfirm",
+          "NativePlaySoundFX",
+          "this",
+          "onShow",
+          "LoadingText",
+          "MENU_LOADING_TITLE",
+          "play",
+          "loading",
+          "htmlText",
+          "NativeGetLoadingTipStrID",
+          "NativeGetStringFromID",
+          "btn_BLOCKER",
+          "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        ]
+      },
+      {
+        "offset": 44638,
+        "op": "function2",
+        "length": 18,
+        "name": "onProgress",
+        "args": [],
+        "registers": 3,
+        "flags": 298,
+        "body": [
+          {
+            "offset": 44659,
+            "op": "push_data",
+            "length": 13,
+            "values": [
+              0.0,
+              {
+                "register": 1
+              },
+              {
+                "constant": 0,
+                "text": "NativeGetLoadingProgress"
+              }
+            ]
+          },
+          {
+            "offset": 44675,
+            "op": "call_method",
+            "length": 0
+          },
+          {
+            "offset": 44676,
+            "op": "store_register",
+            "length": 1,
+            "register": 2
+          },
+          {
+            "offset": 44680,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 44681,
+            "op": "push_data",
+            "length": 9,
+            "values": [
+              {
+                "register": 2
+              },
+              1,
+              {
+                "constant": 1,
+                "text": "BarState"
+              }
+            ]
+          },
+          {
+            "offset": 44693,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 44694,
+            "op": "pop",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 44695,
+        "op": "function2",
+        "length": 32,
+        "name": "BarState",
+        "args": [
+          {
+            "register": 2,
+            "name": "$percentLoaded"
+          }
+        ],
+        "registers": 3,
+        "flags": 41,
+        "body": [
+          {
+            "offset": 44730,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 2,
+                "text": "$percentLoaded: "
+              },
+              {
+                "register": 2
+              }
+            ]
+          },
+          {
+            "offset": 44737,
+            "op": "add_t",
+            "length": 0
+          },
+          {
+            "offset": 44738,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 44739,
+            "op": "push_data",
+            "length": 7,
+            "values": [
+              {
+                "register": 2
+              },
+              1
+            ]
+          },
+          {
+            "offset": 44749,
+            "op": "add_t",
+            "length": 0
+          },
+          {
+            "offset": 44750,
+            "op": "push_data",
+            "length": 9,
+            "values": [
+              1,
+              {
+                "register": 1
+              },
+              {
+                "constant": 3,
+                "text": "loading_anim"
+              }
+            ]
+          },
+          {
+            "offset": 44762,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44763,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 4,
+                "text": "gotoAndStop"
+              }
+            ]
+          },
+          {
+            "offset": 44768,
+            "op": "call_method",
+            "length": 0
+          },
+          {
+            "offset": 44769,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 44770,
+            "op": "push_data",
+            "length": 7,
+            "values": [
+              {
+                "register": 2
+              },
+              100
+            ]
+          },
+          {
+            "offset": 44780,
+            "op": "lt_t",
+            "length": 0
+          },
+          {
+            "offset": 44781,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 44782,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 44783,
+            "op": "branch_if_true",
+            "length": 2,
+            "target": 45199
+          },
+          {
+            "offset": 44788,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 5,
+                "text": "IS FINISHED"
+              }
+            ]
+          },
+          {
+            "offset": 44793,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 44794,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 6,
+                "text": "continue_text._currentframe is:"
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 44801,
+            "op": "get_var",
+            "length": 0
+          },
+          {
+            "offset": 44802,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 8,
+                "text": "_currentframe"
+              }
+            ]
+          },
+          {
+            "offset": 44807,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44808,
+            "op": "add_t",
+            "length": 0
+          },
+          {
+            "offset": 44809,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 44810,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 9,
+                "text": "NativeIsMultiplayerLoadCompleted"
+              }
+            ]
+          },
+          {
+            "offset": 44824,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 44825,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 44826,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 44827,
+            "op": "branch_if_true",
+            "length": 2,
+            "target": 44895
+          },
+          {
+            "offset": 44832,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 44839,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44840,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              }
+            ]
+          },
+          {
+            "offset": 44845,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44846,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 44851,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44852,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              },
+              {
+                "constant": 12,
+                "text": "MENU_MULTIPLAYER_WAITING"
+              },
+              1,
+              {
+                "constant": 13,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 44866,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 44867,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 44868,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 3,
+                "text": "loading_anim"
+              }
+            ]
+          },
+          {
+            "offset": 44875,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44876,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 14,
+                "text": "btn_loading_continue"
+              }
+            ]
+          },
+          {
+            "offset": 44881,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44882,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 15,
+                "text": "_visible"
+              },
+              false
+            ]
+          },
+          {
+            "offset": 44889,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 44890,
+            "op": "goto",
+            "length": 2,
+            "target": 45107
+          },
+          {
+            "offset": 44895,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 16,
+                "text": "NativeIsMultiplayerHost"
+              }
+            ]
+          },
+          {
+            "offset": 44909,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 44910,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 44911,
+            "op": "branch_if_true",
+            "length": 2,
+            "target": 44979
+          },
+          {
+            "offset": 44916,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 44923,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44924,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              }
+            ]
+          },
+          {
+            "offset": 44929,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44930,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 44935,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44936,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              },
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              },
+              1,
+              {
+                "constant": 13,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 44950,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 44951,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 44952,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 3,
+                "text": "loading_anim"
+              }
+            ]
+          },
+          {
+            "offset": 44959,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44960,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 14,
+                "text": "btn_loading_continue"
+              }
+            ]
+          },
+          {
+            "offset": 44965,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44966,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 15,
+                "text": "_visible"
+              },
+              true
+            ]
+          },
+          {
+            "offset": 44973,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 44974,
+            "op": "goto",
+            "length": 2,
+            "target": 45107
+          },
+          {
+            "offset": 44979,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 44986,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44987,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              }
+            ]
+          },
+          {
+            "offset": 44992,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44993,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 44998,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 44999,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              },
+              {
+                "constant": 17,
+                "text": "MENU_WAITING_FOR_HOST"
+              },
+              1,
+              {
+                "constant": 13,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 45013,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45014,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 45015,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 3,
+                "text": "loading_anim"
+              }
+            ]
+          },
+          {
+            "offset": 45022,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45023,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 14,
+                "text": "btn_loading_continue"
+              }
+            ]
+          },
+          {
+            "offset": 45028,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45029,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 15,
+                "text": "_visible"
+              },
+              false
+            ]
+          },
+          {
+            "offset": 45036,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 45037,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 18,
+                "text": "NativeMustWaitForHost"
+              }
+            ]
+          },
+          {
+            "offset": 45051,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45052,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 45053,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 45054,
+            "op": "branch_if_true",
+            "length": 2,
+            "target": 45107
+          },
+          {
+            "offset": 45059,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 19,
+                "text": "NativeEndLoading"
+              }
+            ]
+          },
+          {
+            "offset": 45073,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45074,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45075,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 20,
+                "text": "NativeBackToHud"
+              }
+            ]
+          },
+          {
+            "offset": 45089,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45090,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45091,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 21,
+                "text": "NativeRefreshHudManager"
+              }
+            ]
+          },
+          {
+            "offset": 45105,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45106,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45107,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45112,
+            "op": "get_var",
+            "length": 0
+          },
+          {
+            "offset": 45113,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 15,
+                "text": "_visible"
+              },
+              true
+            ]
+          },
+          {
+            "offset": 45120,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 45121,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45126,
+            "op": "get_var",
+            "length": 0
+          },
+          {
+            "offset": 45127,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 8,
+                "text": "_currentframe"
+              }
+            ]
+          },
+          {
+            "offset": 45132,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45133,
+            "op": "push_data",
+            "length": 5,
+            "values": [
+              72
+            ]
+          },
+          {
+            "offset": 45141,
+            "op": "eq_t",
+            "length": 0
+          },
+          {
+            "offset": 45142,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 45143,
+            "op": "not",
+            "length": 0
+          },
+          {
+            "offset": 45144,
+            "op": "branch_if_true",
+            "length": 2,
+            "target": 45176
+          },
+          {
+            "offset": 45149,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45163,
+            "op": "get_var",
+            "length": 0
+          },
+          {
+            "offset": 45164,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 22,
+                "text": "nextFrame"
+              }
+            ]
+          },
+          {
+            "offset": 45169,
+            "op": "call_method",
+            "length": 0
+          },
+          {
+            "offset": 45170,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45171,
+            "op": "push_data",
+            "length": 1,
+            "values": [
+              {
+                "undefined": true
+              }
+            ]
+          },
+          {
+            "offset": 45175,
+            "op": "return",
+            "length": 0
+          },
+          {
+            "offset": 45176,
+            "op": "push_data",
+            "length": 12,
+            "values": [
+              1,
+              1,
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45191,
+            "op": "get_var",
+            "length": 0
+          },
+          {
+            "offset": 45192,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 23,
+                "text": "gotoAndPlay"
+              }
+            ]
+          },
+          {
+            "offset": 45197,
+            "op": "call_method",
+            "length": 0
+          },
+          {
+            "offset": 45198,
+            "op": "pop",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 45199,
+        "op": "function2",
+        "length": 20,
+        "name": "HostIsInGame",
+        "args": [],
+        "registers": 2,
+        "flags": 41,
+        "body": [
+          {
+            "offset": 45222,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45229,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45230,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              }
+            ]
+          },
+          {
+            "offset": 45235,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45236,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 45241,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45242,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              },
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              },
+              1,
+              {
+                "constant": 13,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 45256,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45257,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 45258,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 3,
+                "text": "loading_anim"
+              }
+            ]
+          },
+          {
+            "offset": 45265,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45266,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 14,
+                "text": "btn_loading_continue"
+              }
+            ]
+          },
+          {
+            "offset": 45271,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45272,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 15,
+                "text": "_visible"
+              },
+              true
+            ]
+          },
+          {
+            "offset": 45279,
+            "op": "set_member",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 45280,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 3,
+            "text": "loading_anim"
+          }
+        ]
+      },
+      {
+        "offset": 45285,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 45286,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 14,
+            "text": "btn_loading_continue"
+          }
+        ]
+      },
+      {
+        "offset": 45291,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 45292,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 24,
+            "text": "onRelease"
+          }
+        ]
+      },
+      {
+        "offset": 45297,
+        "op": "func",
+        "length": 5,
+        "name": "",
+        "args": [],
+        "registers": null,
+        "flags": null,
+        "body": [
+          {
+            "offset": 45305,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 19,
+                "text": "NativeEndLoading"
+              }
+            ]
+          },
+          {
+            "offset": 45319,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45320,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45321,
+            "op": "push_data",
+            "length": 9,
+            "values": [
+              {
+                "constant": 25,
+                "text": "MenuConfirm"
+              },
+              1,
+              {
+                "constant": 26,
+                "text": "NativePlaySoundFX"
+              }
+            ]
+          },
+          {
+            "offset": 45333,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45334,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45335,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 20,
+                "text": "NativeBackToHud"
+              }
+            ]
+          },
+          {
+            "offset": 45349,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45350,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45351,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 21,
+                "text": "NativeRefreshHudManager"
+              }
+            ]
+          },
+          {
+            "offset": 45365,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45366,
+            "op": "pop",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 45367,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 45368,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 27,
+            "text": "this"
+          }
+        ]
+      },
+      {
+        "offset": 45373,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 45374,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 28,
+            "text": "onShow"
+          }
+        ]
+      },
+      {
+        "offset": 45379,
+        "op": "function2",
+        "length": 8,
+        "name": "",
+        "args": [],
+        "registers": 3,
+        "flags": 297,
+        "body": [
+          {
+            "offset": 45390,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 29,
+                "text": "LoadingText"
+              }
+            ]
+          },
+          {
+            "offset": 45397,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45398,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              },
+              {
+                "constant": 30,
+                "text": "MENU_LOADING_TITLE"
+              },
+              1,
+              {
+                "constant": 13,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 45412,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45413,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 45414,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45421,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45422,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "constant": 15,
+                "text": "_visible"
+              },
+              false
+            ]
+          },
+          {
+            "offset": 45429,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 45430,
+            "op": "push_data",
+            "length": 13,
+            "values": [
+              0.0,
+              {
+                "register": 1
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45446,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45447,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 31,
+                "text": "play"
+              }
+            ]
+          },
+          {
+            "offset": 45452,
+            "op": "call_method",
+            "length": 0
+          },
+          {
+            "offset": 45453,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 45454,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 7,
+                "text": "continue_text"
+              }
+            ]
+          },
+          {
+            "offset": 45461,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45462,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              }
+            ]
+          },
+          {
+            "offset": 45467,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45468,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 45473,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45474,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              },
+              {
+                "constant": 10,
+                "text": "MENU_TOUCH_TO_CONTINUE"
+              },
+              1,
+              {
+                "constant": 13,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 45488,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45489,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 45490,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 32,
+                "text": "loading"
+              }
+            ]
+          },
+          {
+            "offset": 45497,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45498,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 11,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 45503,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 45504,
+            "op": "push_data",
+            "length": 15,
+            "values": [
+              {
+                "constant": 33,
+                "text": "htmlText"
+              },
+              0.0,
+              {
+                "register": 2
+              },
+              {
+                "constant": 34,
+                "text": "NativeGetLoadingTipStrID"
+              }
+            ]
+          },
+          {
+            "offset": 45522,
+            "op": "call_method",
+            "length": 0
+          },
+          {
+            "offset": 45523,
+            "op": "push_data",
+            "length": 7,
+            "values": [
+              1,
+              {
+                "constant": 35,
+                "text": "NativeGetStringFromID"
+              }
+            ]
+          },
+          {
+            "offset": 45533,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 45534,
+            "op": "set_member",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 45535,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 45536,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 27,
+            "text": "this"
+          }
+        ]
+      },
+      {
+        "offset": 45541,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 45542,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 36,
+            "text": "btn_BLOCKER"
+          }
+        ]
+      },
+      {
+        "offset": 45547,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 45548,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 24,
+            "text": "onRelease"
+          }
+        ]
+      },
+      {
+        "offset": 45553,
+        "op": "func",
+        "length": 5,
+        "name": "",
+        "args": [],
+        "registers": null,
+        "flags": null,
+        "body": [
+          {
+            "offset": 45561,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45566,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45567,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45572,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45573,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45578,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45579,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45584,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45585,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45590,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45591,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45596,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45597,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45602,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45603,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45608,
+            "op": "trace",
+            "length": 0
+          },
+          {
+            "offset": 45609,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 37,
+                "text": "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              }
+            ]
+          },
+          {
+            "offset": 45614,
+            "op": "trace",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 45615,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 45616,
+        "op": "<end>",
+        "length": 0
+      }
+    ]
+  }
+]

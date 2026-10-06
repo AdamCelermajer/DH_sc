@@ -4,6 +4,8 @@
 #include "character_menu_faery_actions_v1.hpp"
 #include "item_text_varargs_v5.hpp"
 #include "character_menu_inventory_order_v1.hpp"
+#include "character_menu_gold_v4.hpp"
+#include "character_menu_potions_v4.hpp"
 #include "../level-world/player_equipment_queries_v1.hpp"
 #include <algorithm>
 #include <cmath>
@@ -241,7 +243,14 @@ bool CharacterMenuQueriesOwnerV1::dispatch(const char* name,CharacterMenuCallV1&
   double index;if(!number(c,0,index,e))return false;std::uintptr_t actor;if(!player(integer(index),false,false,actor,e))return false;if(actor)return graph_.actions->swap(e);
   if(!g.swap_hud){e="Source swap HUD continuation required even for absent player";return false;}return g.swap_hud("DisplayRightHud",e)&&g.swap_hud("FillActionIcon",e);
  }
- unsigned arity=0;if(equal("NativeInvEquipItem")||equal("NativeEquipSkill"))arity=3;else if(equal("NativeInvUnequipItem")||equal("NativeStatsAssignPoint")||equal("NativeSkillsTrainSkill"))arity=2;else if(equal("NativeSkillsGetSkillPointsLeft")||equal("NativeInvGetPlayerGold"))arity=1;
+ if(equal("NativeInvGetPlayerGold")){
+  CharacterMenuGoldServicesV4 services;services.owner=graph_.owner;
+  services.player=[this](std::int32_t index,bool remote,std::uintptr_t& actor,std::string& e){return player(index,remote,false,actor,e);};
+  services.gold=[&g](std::uintptr_t,std::int32_t& amount,std::string&){amount=g.equipment->inventory()->gold();return true;};
+  services.parse_integer=[this](const char* format,std::int32_t amount,std::string& out,std::string& e){if(!graph_.text){e="Required same HudText gold formatter";return false;}return character_menu_potion_integer_text_v4(*graph_.text,graph_.text_environment,format,amount,out,e);};
+  return character_menu_gold_call_v4(c,services,e);
+ }
+ unsigned arity=0;if(equal("NativeInvEquipItem")||equal("NativeEquipSkill"))arity=3;else if(equal("NativeInvUnequipItem")||equal("NativeStatsAssignPoint")||equal("NativeSkillsTrainSkill"))arity=2;else if(equal("NativeSkillsGetSkillPointsLeft"))arity=1;
  if(arity){if(count!=arity)return true;for(auto& v:c.arguments)if(v.kind!=2||std::isnan(v.number))return true;std::uintptr_t actor;bool requires_skills=equal("NativeEquipSkill")||equal("NativeSkillsTrainSkill")||equal("NativeSkillsGetSkillPointsLeft");if(!player(integer(c.arguments.back().number),false,requires_skills,actor,e))return false;if(!actor)return true;
   auto first=integer(c.arguments[0].number);if(equal("NativeInvEquipItem"))return graph_.actions->equip(std::uint32_t(first),std::uint32_t(integer(c.arguments[1].number)),e);
   if(equal("NativeInvUnequipItem"))return graph_.actions->unequip(std::uint32_t(first),e);

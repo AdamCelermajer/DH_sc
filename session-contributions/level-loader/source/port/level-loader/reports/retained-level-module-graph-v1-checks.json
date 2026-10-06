@@ -1,0 +1,209 @@
+{
+  "scope": "Retained same-Level Module graph API and actual Character constructor/shared application RNG source flow; explicit outer fixtures, no complete Level constructor/gameplay claim",
+  "coherent_files_verified": 579,
+  "original_character_table_assets_verified": 20,
+  "cases": [
+    {
+      "build": "x86_64",
+      "probes": [
+        {
+          "target": "dh2_loader_module_graph_source_probe",
+          "binary_sha256": "fb702285a230e2c9471ee3bcc5e4ae3e16e57db362a5de5b3757e5751bafd365",
+          "result": {
+            "validation": "PASS",
+            "original_mlx_declarations": 10,
+            "actual_modules": 9,
+            "floor_clones": 16,
+            "exits": 19,
+            "generated_zones": 9,
+            "actual_init_final": 9,
+            "render_frame_modules": 9,
+            "render_frame_meshes": 386,
+            "same_root_controllers": 9,
+            "controllers_released": 9,
+            "reserved_null_key0": true,
+            "actual_container_constructed": 2,
+            "actual_container_published": 2,
+            "factory_failure_prefix": "overrides",
+            "config_across_rooms_modern_repair": true,
+            "room_zone_across_rooms_modern_repair": true,
+            "authored_container_properties_verified": true,
+            "named_template_context_modern_repair": true,
+            "template_assertion_fixture": true,
+            "template_context_problem": false,
+            "actual_character_constructed": 1,
+            "character_authored_fields_verified": true,
+            "shared_application_RNG_connected": true,
+            "first_mgp_missing_type": "Character",
+            "module_source_error": "Level::_LoadFromXML service: Required whole same Character SetPosition/PF/destination",
+            "container_init_post_missing_service": "OpenableContainer required source service: GetDataId",
+            "outer_provider_fixtures": true,
+            "retained_application_API_verified": true,
+            "full_loader_verified": false
+          }
+        },
+        {
+          "target": "dh2_loader_config_across_regression",
+          "binary_sha256": "1c6fb3c149c656516bf651af933e219fbb3b1f252e8f13a52df0f1ac6abab3ee",
+          "result": "PASS LevelConfig original defaults, separate inherited names, vector debug stub, four Debug queries, one-shot prefix"
+        },
+        {
+          "target": "dh2_loader_room_zone_across_regression",
+          "binary_sha256": "36d4b2bcf3f79481c895a4799445f92288c770d0de61babe731b7a91ffc319fa",
+          "result": "RoomZone modern byte87 safety PASS 9 fresh receivers; no full Module lifecycle claim"
+        },
+        {
+          "target": "dh2_loader_character_family_prefix_probe",
+          "binary_sha256": "bdcf34f37cdb46d4b074e7568b9746bb0ccc772444fbf4e6c18134a55001cf50",
+          "result": "actual row 419 WanderingPriest AItype 2 model data/3D/characters/npcs/Priest_good.bdae\r\nCanonical Character family native PASS 433 actual NPC rows; same constructor/sheets/inventory/FSM/model prefix; intentional Visual InitPost boundary, no whole level claim"
+        },
+        {
+          "target": "dh2_loader_application_rng_probe",
+          "binary_sha256": "edc7d74b274e20886a15ae8d138489b80bbb22e3a8a380fe4cf078717097c478",
+          "result": "Application spawn globals native PASS nine shared rolls/cache + channel1 signedfc + delete failureprefix + player bypass; online/Handle/visibility/manager callbacks explicit fixtures"
+        }
+      ]
+    },
+    {
+      "build": "host",
+      "probes": [
+        {
+          "target": "dh2_loader_module_graph_source_probe",
+          "binary_sha256": "372d95e027d54c8defaa6b182e2bb3210554260811fca26cfa848ed0740b6d0d",
+          "result": {
+            "validation": "PASS",
+            "original_mlx_declarations": 10,
+            "actual_modules": 9,
+            "floor_clones": 16,
+            "exits": 19,
+            "generated_zones": 9,
+            "actual_init_final": 9,
+            "render_frame_modules": 9,
+            "render_frame_meshes": 386,
+            "same_root_controllers": 9,
+            "controllers_released": 9,
+            "reserved_null_key0": true,
+            "actual_container_constructed": 2,
+            "actual_container_published": 2,
+            "factory_failure_prefix": "overrides",
+            "config_across_rooms_modern_repair": true,
+            "room_zone_across_rooms_modern_repair": true,
+            "authored_container_properties_verified": true,
+            "named_template_context_modern_repair": true,
+            "template_assertion_fixture": true,
+            "template_context_problem": false,
+            "actual_character_constructed": 1,
+            "character_authored_fields_verified": true,
+            "shared_application_RNG_connected": true,
+            "first_mgp_missing_type": "Character",
+            "module_source_error": "Level::_LoadFromXML service: Required whole same Character SetPosition/PF/destination",
+            "container_init_post_missing_service": "OpenableContainer required source service: GetDataId",
+            "outer_provider_fixtures": true,
+            "retained_application_API_verified": true,
+            "full_loader_verified": false
+          }
+        },
+        {
+          "target": "dh2_loader_config_across_regression",
+          "binary_sha256": "8973fbce8046964f2b7b221b3b2e51f17609cd2cab99412cae2965fbcbca8d32",
+          "result": "PASS LevelConfig original defaults, separate inherited names, vector debug stub, four Debug queries, one-shot prefix"
+        },
+        {
+          "target": "dh2_loader_room_zone_across_regression",
+          "binary_sha256": "8bd0d692069325b8ac40d4a0295e391db9cafdd360063061e9c96f5b6c86e72d",
+          "result": "RoomZone modern byte87 safety PASS 9 fresh receivers; no full Module lifecycle claim"
+        },
+        {
+          "target": "dh2_loader_character_family_prefix_probe",
+          "binary_sha256": "4f7e055f28debe032490c5855a3e27af9e25742b272e3be960401ba9d64a0ca2",
+          "result": "actual row 419 WanderingPriest AItype 2 model data/3D/characters/npcs/Priest_good.bdae\nCanonical Character family native PASS 433 actual NPC rows; same constructor/sheets/inventory/FSM/model prefix; intentional Visual InitPost boundary, no whole level claim"
+        },
+        {
+          "target": "dh2_loader_application_rng_probe",
+          "binary_sha256": "659252b3df63cff28aa556ac75161e049324618c1cd426ffbb3e5b5ad47e5311",
+          "result": "Application spawn globals native PASS nine shared rolls/cache + channel1 signedfc + delete failureprefix + player bypass; online/Handle/visibility/manager callbacks explicit fixtures"
+        }
+      ]
+    },
+    {
+      "build": "sanitizers",
+      "probes": [
+        {
+          "target": "dh2_loader_module_graph_source_probe",
+          "binary_sha256": "38fd4a09490a21999cf32568f11958bd103dc1a0e959b48af00c516f6d057475",
+          "result": {
+            "validation": "PASS",
+            "original_mlx_declarations": 10,
+            "actual_modules": 9,
+            "floor_clones": 16,
+            "exits": 19,
+            "generated_zones": 9,
+            "actual_init_final": 9,
+            "render_frame_modules": 9,
+            "render_frame_meshes": 386,
+            "same_root_controllers": 9,
+            "controllers_released": 9,
+            "reserved_null_key0": true,
+            "actual_container_constructed": 2,
+            "actual_container_published": 2,
+            "factory_failure_prefix": "overrides",
+            "config_across_rooms_modern_repair": true,
+            "room_zone_across_rooms_modern_repair": true,
+            "authored_container_properties_verified": true,
+            "named_template_context_modern_repair": true,
+            "template_assertion_fixture": true,
+            "template_context_problem": false,
+            "actual_character_constructed": 1,
+            "character_authored_fields_verified": true,
+            "shared_application_RNG_connected": true,
+            "first_mgp_missing_type": "Character",
+            "module_source_error": "Level::_LoadFromXML service: Required whole same Character SetPosition/PF/destination",
+            "container_init_post_missing_service": "OpenableContainer required source service: GetDataId",
+            "outer_provider_fixtures": true,
+            "retained_application_API_verified": true,
+            "full_loader_verified": false
+          }
+        },
+        {
+          "target": "dh2_loader_config_across_regression",
+          "binary_sha256": "dbe1fbb0ca35fd30f8116ba5682433e6b1fc17950dca22c1844ff515123405e3",
+          "result": "PASS LevelConfig original defaults, separate inherited names, vector debug stub, four Debug queries, one-shot prefix"
+        },
+        {
+          "target": "dh2_loader_room_zone_across_regression",
+          "binary_sha256": "e5770b3deb254d65dba8e03c56ec8a859e42c809931f371ced16f6ca3cd13def",
+          "result": "RoomZone modern byte87 safety PASS 9 fresh receivers; no full Module lifecycle claim"
+        },
+        {
+          "target": "dh2_loader_character_family_prefix_probe",
+          "binary_sha256": "fcada39797505a695b3a0cd0a99d5ceae4e5ce3991596901b9e758f6cf35d6e9",
+          "result": "actual row 419 WanderingPriest AItype 2 model data/3D/characters/npcs/Priest_good.bdae\nCanonical Character family native PASS 433 actual NPC rows; same constructor/sheets/inventory/FSM/model prefix; intentional Visual InitPost boundary, no whole level claim"
+        },
+        {
+          "target": "dh2_loader_application_rng_probe",
+          "binary_sha256": "e8287a0d3074148c1a1844b53d4ea4a6c6ca0ca88963cf72e4b87f59d34c264b",
+          "result": "Application spawn globals native PASS nine shared rolls/cache + channel1 signedfc + delete failureprefix + player bypass; online/Handle/visibility/manager callbacks explicit fixtures"
+        }
+      ]
+    }
+  ],
+  "full_loader_verified": false,
+  "visible_apk_updated": false,
+  "validation": "PASS",
+  "arm64_binaries": {
+    "dh2_loader_module_graph_source_probe": "4b429d237ce39f2c22e4245722a3fdff8f81fb404abd0d58be4d69e4de3a8924",
+    "dh2_loader_config_across_regression": "f3e09a12140fb6f6b3e827020725917d9b3c984f44ea4c77e12936e751fc86f0",
+    "dh2_loader_room_zone_across_regression": "ee78a2badf58f22967c62a9250280134ce434486dc68f15aabc2332cb385ef15",
+    "dh2_loader_character_family_prefix_probe": "c2f4883f3e3464fa8a13b33fa5da544c2cd2ec52cd9ee99468a13a1aeed54c58",
+    "dh2_loader_application_rng_probe": "bd8de68a10b5dacb003b4e01bc1e1b8aaa12dedf84ea63974843556650cc52af"
+  },
+  "source_sha256": {
+    "retained_level_module_graph_v1.hpp": "3ad3dc634cd6d580d286ef75350d807c645b1254726ef218db1de8150e666eb3",
+    "retained_level_module_graph_v1.cpp": "15ffbe6b469bd9cb32f44f97baa7476229b7e03059cc7ad37610aa4126e37ff5",
+    "canonical_level_class_dispatch_v1.hpp": "8a90a887bcf62499dcaf6289de1289abf683271ec64001a5eca12a5022cfa6f8",
+    "canonical_level_class_dispatch_v1.cpp": "0057830f05467e8006ec4ba50bc658f89ad92df64777805b7f4c1d37276d5f3e",
+    "module_draw_frame_v1.hpp": "eee28010dfba8e0c3fd7685f23680be61ba7722c83bce6b8c577aeaf2bab08ca",
+    "module_draw_frame_v1.cpp": "99f52cdd44ff7c371fc07019dc22628427cac0d161acfedb2d47133eefd7077e",
+    "tests/canonical_module_graph_source_probe.cpp": "4f7887dbbfeb8a2b8309d673ad3730e0437061f627990cacbb17a78ae184a41c"
+  }
+}

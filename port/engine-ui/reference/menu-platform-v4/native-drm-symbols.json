@@ -1,0 +1,111 @@
+[
+  {
+    "name": "_ZN8RenderFX16InvokeASCallbackEPKcS1_PKN7gameswf8as_valueEi",
+    "address": "0x7ad7e8",
+    "size": 52
+  },
+  {
+    "name": "_ZN5Level12_LoadProcessEv",
+    "address": "0x3f6990",
+    "size": 6472
+  },
+  {
+    "name": "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi",
+    "address": "0x7abe0c",
+    "size": 296
+  },
+  {
+    "name": "_ZN8RenderFX8SetFocusEPKci",
+    "address": "0x7ac498",
+    "size": 36
+  },
+  {
+    "name": "_ZN13ALicenseCheck7LoadRMSEv",
+    "address": "0x89b25c",
+    "size": 1024
+  },
+  {
+    "name": "ALicenseCheck_ValidateLicense",
+    "address": "0x89becc",
+    "size": 4
+  },
+  {
+    "name": "_ZN8RenderFX8SetFocusEPN7gameswf9characterEi",
+    "address": "0x7ac228",
+    "size": 488
+  },
+  {
+    "name": "_ZN6GSInit6UpdateEP12StateMachined",
+    "address": "0x3850c8",
+    "size": 2084
+  },
+  {
+    "name": "_ZN8RenderFX10Controller5ResetEv",
+    "address": "0x7a84c4",
+    "size": 72
+  },
+  {
+    "name": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEPKcb",
+    "address": "0x7ab924",
+    "size": 224
+  },
+  {
+    "name": "_ZN8RenderFX8PlayAnimEPN7gameswf9characterEPKci",
+    "address": "0x7aba04",
+    "size": 8
+  },
+  {
+    "name": "_ZN8RenderFX10ResetFocusEi",
+    "address": "0x7ac410",
+    "size": 52
+  },
+  {
+    "multilogin_got": "0x994a98",
+    "literal": "0x210c",
+    "slot": "0x996ba4",
+    "value": "0x9f640e",
+    "symbols": [
+      {
+        "name": "USE_NATIVE_DRM_GAME",
+        "address": "0x9f640e",
+        "size": 1
+      }
+    ],
+    "relocations": [
+      {
+        "symbol": "",
+        "value": "0x0"
+      }
+    ]
+  },
+  {
+    "global_section": ".bss",
+    "section_type": "SHT_NOBITS"
+  },
+  {
+    "literal_candidates_not_confirmed_xrefs": [
+      {
+        "literal": "0x27d38",
+        "owners": []
+      },
+      {
+        "literal": "0x3858a4",
+        "owners": [
+          "_ZN6GSInit6UpdateEP12StateMachined"
+        ]
+      },
+      {
+        "literal": "0x3f7948",
+        "owners": [
+          "_ZN5Level12_LoadProcessEv"
+        ]
+      },
+      {
+        "literal": "0x438b84",
+        "owners": [
+          "_ZN16MultiMenuManager8PushMenuEP8MenuBase"
+        ]
+      }
+    ]
+  }
+]

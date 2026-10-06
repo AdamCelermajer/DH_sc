@@ -1,0 +1,32 @@
+[
+  {
+    "label": "continued_debug",
+    "literal": "0x3d0b60",
+    "address": "0x8c5498",
+    "text": "isTracingCharAICommands"
+  },
+  {
+    "label": "new_debug",
+    "literal": "0x3d0b64",
+    "address": "0x8c5498",
+    "text": "isTracingCharAICommands"
+  },
+  {
+    "label": "retained_debug",
+    "literal": "0x3d0b7c",
+    "address": "0x8c54c8",
+    "text": "isTracingChar_MeleePotentialTarget"
+  },
+  {
+    "label": "front_group",
+    "literal": "0x3d0b6c",
+    "address": "0x8c1758",
+    "text": "CharacterDesign"
+  },
+  {
+    "label": "front_name",
+    "literal": "0x3d0b70",
+    "address": "0x8c54b0",
+    "text": "Attack_FrontalAngle"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "synthetic actual-layout geometry byte-equivalence, changing streams, atomic rejection and allocation regression; not actual game FPS",
+  "checks_per_run": 521,
+  "frames_per_allocation_sample": 4000,
+  "old_packet_allocations": 8000,
+  "cached_packet_allocations": 0,
+  "cached_topology_builds": 1,
+  "runs": [
+    {"compiler": "WSL g++", "optimization": "O1", "asan_ubsan": true, "old_us": 36444, "cached_us": 17319, "sanitizer_findings": 0},
+    {"compiler": "WSL g++", "optimization": "O2", "asan_ubsan": false, "old_us": 1713, "cached_us": 1438}
+  ],
+  "test": "port/level-world/tests/authored_fx_geometry_cache_v34.cpp",
+  "production": "port/level-world/authored_fx_geometry_packet_v7.cpp"
+}

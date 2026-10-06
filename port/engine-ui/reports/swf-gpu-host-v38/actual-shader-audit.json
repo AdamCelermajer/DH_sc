@@ -1,0 +1,22 @@
+{
+  "pack_path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\shaders\\shaders.pak",
+  "pack_sha256": "365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0",
+  "members": [
+    {
+      "member": "GameSWFVS.glsl",
+      "sha256": "23d0c271fe19c3f305b44529879b18fab395be3416c2c8300605401f42c8bf24",
+      "source": "attribute highp vec4 Position;\r\nattribute lowp vec4 Color0;\r\n\r\nattribute mediump vec2 TexCoord0;\r\nvarying mediump vec2 vTexCoord0;\r\n\r\nuniform highp mat4 WorldViewProjectionMatrix;\r\n\r\n//uniform mediump vec4 DiffuseColor;\r\n\r\nvarying lowp vec4 vColor0;\r\n\r\nvoid main(void)\r\n{\r\n\tgl_Position = WorldViewProjectionMatrix * Position;\r\n\r\n\tvColor0 = Color0;\r\n\t\r\n\t//vColor0 *= DiffuseColor;\r\n\tvTexCoord0 = TexCoord0;\r\n}\r\n"
+    },
+    {
+      "member": "GameSWFFS.glsl",
+      "sha256": "7465b4e89519dd371f779eef62048efd12ea9ced3d4e542606ffa0c867036889",
+      "source": "uniform lowp sampler2D TextureSampler;\r\nuniform lowp vec4 DiffuseColor;\r\n\r\nvarying mediump vec2 vTexCoord0;\r\nvarying lowp vec4 vColor0;\r\n\r\nvoid main()\r\n{\r\n\tlowp vec4 color = texture2D(TextureSampler, vTexCoord0) + DiffuseColor;\r\n\tcolor *= vColor0;\r\n\r\n\tgl_FragColor = color;\r\n}"
+    },
+    {
+      "member": "GameSWFFS_blend.glsl",
+      "sha256": "2038491cbcd7af3523e70c98d0ba72a7e904efa784acd7b878b835b60003b59c",
+      "source": "uniform lowp sampler2D TextureSampler;\r\nuniform lowp vec4 DiffuseColor;\r\n\r\nvarying mediump vec2 vTexCoord0;\r\nvarying lowp vec4 vColor0;\r\n\r\nvoid main()\r\n{\r\n\tlowp vec4 color = texture2D(TextureSampler, vTexCoord0) + DiffuseColor;\r\n\tcolor *= vColor0;\r\n\tcolor.rgb *= color.a;\r\n\r\n\tgl_FragColor = color;\r\n}"
+    }
+  ],
+  "normal_final_alpha_zero_inference": "Normal fragment multiplies every channel by vColor0; DiffuseColor.a=0 for actual texture formats. Exact final vColor0.a=0 gives fragment alpha0. SRC_ALPHA/ONE_MINUS_SRC_ALPHA RGB and ONE/ONE_MINUS_SRC_ALPHA coverage alpha preserve destination. Only outside masks; non-normal passes retained. Mathematical/source proof, not actual pixels."
+}

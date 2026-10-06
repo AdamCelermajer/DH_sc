@@ -1,0 +1,70 @@
+{
+  "validation": "PASS",
+  "archive": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\loader-npc-object-header-supplement-v1.zip",
+  "sha256": "40989e6c2b3de89ca32a0d74ef6279d7d8a31032ab692c2133461d1b1d8e2255",
+  "verified_headers": 12,
+  "comparisons": [
+    {
+      "path": "port/level-world/character_world_npc_object_v1.hpp",
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b",
+      "private_status": "missing"
+    },
+    {
+      "path": "port/level-world/collision.hpp",
+      "sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/navigation.hpp",
+      "sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/navigation_search.hpp",
+      "sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/octree.hpp",
+      "sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/selector.hpp",
+      "sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790",
+      "private_status": "identical"
+    },
+    {
+      "path": "port/level-world/subobjects_update.hpp",
+      "sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03",
+      "private_status": "identical"
+    }
+  ],
+  "existing_files_overwritten": false,
+  "full_loader_verified": false
+}

@@ -1,14 +1,22 @@
-# Native generic level loader — active reconstruction
+<!-- A partial canonical source adapter now consumes retained original XML and
+actual owner-assigned signed handles. See CANONICAL-SOURCE-ADAPTER-HANDOFF.md.
+This does not mean mobs/chests or complete runtime restoration are available. -->
+<!-- Current map recovery adds original backup selection, exact reference
+repairs and explicit static AnimatedDecor inspection. See MAP-RECOVERY-HANDOFF.md
+for final Android, host and sanitizer verification receipts. -->
+# Native generic level loader â€” active reconstruction
 
-The full loader goal is active. Swamp's map mesh/material preview now renders in
-the private emulator; the complete level with mobs/chests is not verified.
-Native procedural generation matches the original engine across all 35 supplied
-procedural definitions at seeds 0 and 1. Generated module overrides also match
-the original at both seeds. Native generated geometry and selected MGP/MVP
-assembly pass 66 tested map/seed combinations; three original no-layout results
-and one missing placement dependency remain explicit. Runtime objects remain
-pending. Current visible inspection evidence and limitations are recorded in
-`PROCEDURAL-MODULES-MILESTONE-HANDOFF.md`.
+The full loader goal is blocked on canonical gameplay providers from the main
+session. Swamp map geometry renders in the private emulator; runtime mobs/chests
+remain unverified. Current source preparation follows the original backup route
+after generation returns false and applies explicit, recorded repairs for two
+confirmed Void Maze resource-name defects. The supplied cache is unchanged.
+
+The map-recovery checkpoint verifies 344 native map/seed assembly cases, preserves
+the 86 frozen original-mode cases, and checks cancellation/failure retention with
+address/undefined-behavior sanitizers. See `MAP-RECOVERY-HANDOFF.md` and the new
+recovery receipts for current rendering evidence and integration boundaries.
+Older milestone receipts retain their original source hashes and results.
 Work is isolated at
 `C:\Users\adamc\.codex\worktrees\generic-level-loader\DH_sc`.
 
@@ -380,3 +388,15 @@ assembly and selectable private Android inspection are recorded in
 `PROCEDURAL-MODULES-MILESTONE-HANDOFF.md`. Earlier stage receipts and descriptions
 above are historical; use the module checkpoint for current source/build hashes
 and visible map evidence. Complete runtime mobs/chests remain unverified.
+
+## Canonical cached source composition
+
+See [CANONICAL-CACHED-FILE-HANDOFF.md](CANONICAL-CACHED-FILE-HANDOFF.md) for the verified connected-owner snapshot and exact SWAMP LevelConfig first failure. Cached XML now delivers retained canonical factory attempts; actual module/class/scene/condition/restoration providers still gate live readiness.
+
+## Same retained Level fields and current GSLevel global
+
+CanonicalLevelContextV1 now supplies the one game-Level identity, shared config/music fields and original constructor word150 through the exact KillLevel16 view. CanonicalGSLevelGlobalSlotV1 borrows the authoritative retained GSLevel::s_level global without automatic publication. See CANONICAL-LEVEL-CONTEXT-HANDOFF.md for interface mapping, constructor-prefix scope, ownership and verification. Full Level constructor/initialization, runtime wiring and SWAMP acceptance remain pending.
+
+## SAME Level Module load fields
+
+The retained Level now also owns original module_offset160 and object_module_id18c. module_load_fields() exposes the same storage for the main owner ModuleLevelLoadBorrowV1. The18-check follow-up includes original constructor field evidence and actual root Module load method verification with declared file/Random/class fixtures. See CANONICAL-LEVEL-MODULE-FIELDS-HANDOFF.md; complete ModuleInitPost and SWAMP acceptance are still pending. Rebuild changed receiver consumers; older frozen13-check binaries belong to the earlier layout.

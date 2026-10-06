@@ -1,0 +1,53 @@
+--- a/port/level-world/retained_character_actor_v1.hpp
++++ b/port/level-world/retained_character_actor_v1.hpp
+@@ -11,6 +11,7 @@
+ #include "gameobject_visual_field_borrow_v5.hpp"
+ #include "character_set_position_v7.hpp"
+ #include "character_model_name_v38.hpp"
++#include "character_is_player_v41.hpp"
+ #include <array>
+ namespace dh2::character {
+ enum class RetainedCharacterConstructionV7 {existing_actor_adoption,fresh_canonical};
+@@ -19,6 +20,10 @@
+  std::uintptr_t identity{};
+  std::int16_t* properties13c8{};std::int16_t* template13ca{};
+  std::uintptr_t* master418{};
++};
++struct CharacterSpawnFieldsV42 {
++ std::shared_ptr<const void> receiver_lease;std::uintptr_t identity{};
++ std::int32_t* cached_roll270{};const std::int32_t* probability274{};
+ };
+ // Native retained ownership extracted from the renderer. No second properties,
+ // HP, target, FSM or timers: object is the same registry-published script object.
+@@ -36,6 +41,7 @@
+  const char* class_name20_{};
+  std::map<std::uint32_t,std::uint8_t> source_bools_;
+  std::map<std::uint32_t,std::string> source_strings_;
++ std::int32_t source_cached_spawn270_{-1}; // original GameObject C2 store38c4a8
+  std::int32_t spawn_probability_{};bool spawn_probability_written_{};
+  std::array<std::int32_t,2> spawn_delay_{};bool spawn_delay_written_{};
+  float spawn_view_radius_{};bool spawn_view_radius_written_{};
+@@ -132,6 +138,8 @@
+  std::uintptr_t& source_self_fx1484()noexcept{return self_fx1484_;}
+  std::uintptr_t& source_state_fx148c()noexcept{return state_fx148c_;}
+  std::uintptr_t& source_highlight14a0()noexcept{return highlight14a0_;}
++ bool spawn_fields_v42(std::shared_ptr<const void>,CharacterSpawnFieldsV42&,std::string&);
++ bool is_player_fields_v41(std::shared_ptr<const void>,CharacterIsPlayerFieldsV41&,std::string&);
+  bool loader_fields_v38(std::shared_ptr<const void>,CharacterLoaderFieldsV38&,std::string&);
+  bool model_name_fields_v38(std::shared_ptr<const void>,CharacterModelFieldsV38&,std::string&);
+  bool init_post_fields(NpcInitPostBorrowV1&,std::string&);
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ -124,4 +124,12 @@
+  if(!properties){error="Required SAME actual initialized Character PropertyView";return false;}
+  out={std::move(fields.receiver_lease),identity_,properties,fields.properties13c8,fields.master418};error.clear();return true;
+ }
++bool RetainedCharacterActorV1::spawn_fields_v42(std::shared_ptr<const void> lease,CharacterSpawnFieldsV42& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_||!spawn_probability_written_){error="Required SAME fresh Character cache270 alias and actual property-produced probability274";return false;}
++ out={std::move(lease),identity_,&source_cached_spawn270_,&spawn_probability_};error.clear();return true;
+ }
++bool RetainedCharacterActorV1::is_player_fields_v41(std::shared_ptr<const void> lease,CharacterIsPlayerFieldsV41& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_){error="Required SAME fresh Character IsPlayer receiver alias authority";return false;}
++ out={std::move(lease),identity_,&source_archetype_};error.clear();return true;
++}
++}

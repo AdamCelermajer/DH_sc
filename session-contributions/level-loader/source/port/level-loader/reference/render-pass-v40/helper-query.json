@@ -1,0 +1,9 @@
+{
+  "query": "_colbox_",
+  "address": "0x8cd6b0",
+  "search_flags": 1,
+  "exact_visual_source_constructor": "0x472a0c",
+  "stores_colbox28_at": "0x472ba0",
+  "zero_mesh_byte138_at": "0x472bf0",
+  "set_visible_false_virtual48_at": "0x472c04"
+}

@@ -1,0 +1,134 @@
+{
+  "scope": "Current V2 source serializer/cache/OBJS/job/filegate closure; actual Android storage and real actor SG receiver providers required",
+  "previous_frozen_v1_zip_sha256": "1cb85657cc718cf2e34885e6bb887e3c66d72d5a8f2764f3b7a4ba24c9019ad7",
+  "entries": [
+    {
+      "path": "port/level-world/level_savegame_owner_v1.hpp",
+      "sha256": "33e1869ee0df95affb272a577a21c63d2b6465845a62a24e205b5eeed89b06c0"
+    },
+    {
+      "path": "port/level-world/level_savegame_owner_v1.cpp",
+      "sha256": "bddb330a95b2d7443cea60c5ee5a5c276ba222db912d083c8e8da468b169af0b"
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.hpp",
+      "sha256": "326411bd1374f0efb4bc26dc7fc2d6d9dfa0da941bb8e8076845f456b9bd0096"
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.cpp",
+      "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9"
+    },
+    {
+      "path": "port/level-world/level_savegame_runtime_v1.hpp",
+      "sha256": "676cfd119fb6bbbe086445d22a37c3186f5413a38d90634b165e5f0103a2378e"
+    },
+    {
+      "path": "port/level-world/level_savegame_runtime_v1.cpp",
+      "sha256": "a96a52df3a2b87e94503611ce6be6e66441865c760cdd6195350168a5ae33e2f"
+    },
+    {
+      "path": "port/level-world/savegame_stream_v2.hpp",
+      "sha256": "07bdb768bd38f0d368e510b6efd9296fbd3605f57e9c536ac24cec0710eade77"
+    },
+    {
+      "path": "port/level-world/savegame_stream_v2.cpp",
+      "sha256": "38ec4dd1251e0759986e2a63459c17cb8a0a805d31cf921fddcd2ffb286d0bc7"
+    },
+    {
+      "path": "port/level-world/savegame_jobs_owner_v2.hpp",
+      "sha256": "c9b9e16a8fbe35195bb3054d8616e2e7d4bfa6f9adbb03be35fd9e3899f755c1"
+    },
+    {
+      "path": "port/level-world/savegame_jobs_owner_v2.cpp",
+      "sha256": "b32ab2529bbb4d42647327c85b1d3a8d421995965eb27795751cd121c9500372"
+    },
+    {
+      "path": "port/level-world/level_savegame_objects_v2.hpp",
+      "sha256": "7ef07f587e4910a453a4101d2ff1f5c25bf31a4e2dd529fcdf3427a34a8d0cb6"
+    },
+    {
+      "path": "port/level-world/level_savegame_objects_v2.cpp",
+      "sha256": "26fb0d7f719827d71b9cd893c9b69552ce2e545723315508e2b9b47872198ffe"
+    },
+    {
+      "path": "port/level-world/level_savegame_writer_v2.hpp",
+      "sha256": "be75d27bb95ea07e8015e9584061cd0057baeb26ad4d9b3d2e617faee177e771"
+    },
+    {
+      "path": "port/level-world/level_savegame_writer_v2.cpp",
+      "sha256": "77e1a65512e13da92103e768c5bd7f3d53299affc80ffeeaf3131ff77fca23cb"
+    },
+    {
+      "path": "port/level-world/savegame_file_gate_v2.hpp",
+      "sha256": "63350f34826b6abb0f29e12d25280bd00e54a4bd190c79df95d60320cbec389e"
+    },
+    {
+      "path": "port/level-world/savegame_file_gate_v2.cpp",
+      "sha256": "a2c92a2642fc59a66abd22a5a16db7dbc623aea0c9c9838660a3c09663226dda"
+    },
+    {
+      "path": "port/level-world/tests/level_savegame_backend_v2_native.cpp",
+      "sha256": "27d641f41325233534b37f17a17c876be4339b388bc05c30ec89f2c1fb5e30fb"
+    },
+    {
+      "path": "port/level-world/tools/produce_level_savegame_backend_v2.py",
+      "sha256": "0745ee9a3ba2eb448f2fd03a0193fbcef087d0f625b2f0d72fccafdca23dee38"
+    },
+    {
+      "path": "port/level-world/tools/produce_savegame_jobs_v2.py",
+      "sha256": "c218d4d645225c22fc44278673d484b8e316ac55baa8c373f4a1f91a2226510c"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/integration.md",
+      "sha256": "e2b968b22b00c70bc58a29377d630dbe6e2e0bb73e580c821ac9e21297dc88cd"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/jobs-gold.hpp",
+      "sha256": "ae31a6c1b1b037bf9a241f45d3df873b5b95846391ecdc9e62bef8c547a38d99"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/jobs-gold.json",
+      "sha256": "e7219e8dc9a6dbab6faebcc2ff33554ab899e7c75b5232ba3bbb3dd3c3834a09"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/load-objects-gold.hpp",
+      "sha256": "f7cf9fe96257f36aa496addcdc475b73b990955598633121a914cf62de8d31dd"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/load-objects-gold.json",
+      "sha256": "c46c730c31683439345a720105def79182998b9465acd2f5c9578100950e28b7"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/save-all-gold.hpp",
+      "sha256": "1c2bb4eab15192ce28e9d1712039263d4c1533632bdb9187a2a8329bd94ad75d"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/save-all-gold.json",
+      "sha256": "e4bddca82c1eb424d60606827e2de049872a8b164b181bea152b6d3181c51d3e"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/save-objects-gold.hpp",
+      "sha256": "05773ee336615699f4cd5877c2e342b095499b3f2ea3ffa22815b1fb47e76958"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v2/save-objects-gold.json",
+      "sha256": "b43c4aab1029fb9c44d810c57a7963e8a8ec645a52ffa5441f43d234b657f0d4"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/file-backend-original.asm",
+      "sha256": "6f26f1c4bbdd25adb50b6bb7c0b5d9429e9a7dbbbb2394ec4f2250d7c85e7aae"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/file-backend-original.json",
+      "sha256": "7637fa9ffe18977248f9a974a436d3f64a17971cf0ad79feb67eefd49c27305a"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/stream-helpers-original.asm",
+      "sha256": "be6360f4b98d070338d6c92b53c489efd751e9e4a39693125663de7a19df1b10"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/level-savegame-v2/receipt.json",
+      "sha256": "5bf9471e0887322079d07c22f82b4a9d12d7af8b58dd10fc2e988a7009faae39"
+    }
+  ]
+}

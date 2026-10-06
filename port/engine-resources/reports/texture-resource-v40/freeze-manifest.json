@@ -1,0 +1,44 @@
+{
+  "scope": "Frozen surgical texture admission handoff, source-bound fake GL tests; shared live sources unchanged",
+  "source_sha256": {
+    "port/engine-resources/admitted_cpu_bytes_v40.hpp": "9683e546b6b649c7936cea1cc40bbad812d45ddcf7847065e8e5c59a44622ab2",
+    "port/engine-resources/admitted_cpu_bytes_v40.cpp": "2f2b8d32e5971bbebde2763d043f422c5cd9c90a3f8499647f5e0edd8ece9be5",
+    "port/android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc": "77540e7fe79faa6e773ea813c3c2de9f6502be52708fc8668b876cc234fd1b4e",
+    "port/engine-resources/tests/texture_resource_consumer_v40.cpp": "dfe98af7112172286556d8d3d4e61005c6fe8fc445b4e030db6d8ed31b957b7b",
+    "port/engine-resources/tools/prepare_texture_patch_v40.py": "7f88e111e377db800aba09c10e0c0d32eccd3ed329e5ae4ff7f1cf506344d5cc",
+    "port/engine-resources/tools/test_texture_resources_v40_host.py": "addc0ac4166440cd92ef7bd7b2751bd62c106e2a2bce94bc3d4ab84e0bbe010d",
+    "port/engine-resources/tools/compile_texture_resources_v40_android.py": "9c5cb45c598efdcd0e145788c02e9fc2cb5772eabefc570ffc87482950052c64",
+    "port/engine-resources/reports/texture-resource-v40/zip_asset_pack_v1.hpp": "1f3b1b158d1f5ed92840fb88b8b789e063f1b461b3797eb724f45c177d64f9ad",
+    "port/engine-resources/reports/texture-resource-v40/zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4",
+    "port/engine-resources/reports/texture-resource-v40/original_cache_assets_v1.hpp": "79db2a5dd189cdefe766c0ccf8f4330189c91637ebfb37ed1a626185dee51082",
+    "port/engine-resources/reports/texture-resource-v40/original_cache_assets_v1.cpp": "9105ee8da9a7673248654adaa0d286a2bf33b75cf4021e34b3efcf959243d820",
+    "port/engine-resources/reports/texture-resource-v40/model_renderer.cpp": "6efd8f5f97604cb739177d1ef396c816ab56775c28980e7d12a237f53c9d8ec7",
+    "port/engine-resources/reports/texture-resource-v40/renderer_loot_gpu_v27.inc": "c7b3043086e4a3c8429bba150b4ca6c6bbc52a0e1bac5c8e773b3cd238e43691",
+    "port/engine-resources/reports/texture-resource-v40/renderer_front_visual_v87.inc": "b4af4b31b3390be0f0817e0c178a2e0b409a4c0e0c4a011c2c558f6991a0858a",
+    "port/engine-resources/reports/texture-resource-v40/renderer_authored_effect_scene_v5.inc": "b92086f223309d643bf551f90a656dbb3bdc380ef8cfc6e5db0145a17a1a459a",
+    "port/engine-resources/reports/texture-resource-v40/renderer_effect_texture_v5.inc": "a366fdc8df488c450197bde5512c68c18ed571f8e748b772daf4759d9f700391",
+    "port/engine-resources/reports/texture-resource-v40/texture_owner_v1.cpp": "192196f5f73082e86dc7acfc7ddd98524dfe5676de003a95c1242fc17e8a42f2",
+    "port/engine-resources/reports/texture-resource-v40/CMakeLists.txt": "01d986201d4d30ae81be8d00a763e7acc8c74bcfd664b15ed83deaef2aef9eaa",
+    "port/engine-resources/reports/texture-resource-v40/texture-resource-v40.patch": "ccea49de1b7357faba9fc1036e1d1a915e466a43cfc826e4ca6874093dec7d3b",
+    "port/engine-resources/reports/texture-resource-v40/actual-effect-owner.inc": "df7dc003f366be8b3b147285ebb1d891cc1701ada11954d860dc7e98176007ed",
+    "port/engine-resources/reports/texture-resource-v40/baseline-source-sha256.json": "69d85d2aff634984ad80320f63b5d7f863d8e7c8a57155f0ca79740540d63ad3",
+    "port/engine-resources/reports/texture-resource-v40/host-receipt.json": "217570e7e1360b7ce8aa20ea0fa572100a8256bb68085fba4fb8e035972fbda6",
+    "port/engine-resources/reports/texture-resource-v40/android-compile.json": "399d803a6e041d9049868384a86de880f01f4e362003f8fe4cb03e5a8bdf88eb",
+    "port/engine-resources/reports/texture-resource-v40/android-overlay.json": "437051468dc381158e8dc96fa488cf87bdd9a48de56ba0eb99112303555189f6",
+    "port/engine-resources/reports/texture-resource-v40/tiny-fixture.zip": "54ad95cdec433ba29110876f35da39a8dc01a66bd998c5a84c8ac39a554f0632",
+    "port/engine-resources/reports/texture-resource-v40/README.md": "7ec584b0c76186cc3cb0145711a6f51453b11803ecdef31bfd675bc83485c3ea"
+  },
+  "patch_check": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "dependencies_sha256": {
+    "port/engine-resources/resource_budget_v37.hpp": "98a67c1bf9056df9f879c317c83a4f3d61b69cfc227f36a6b1ccffe54185a869",
+    "port/engine-resources/resource_budget_v37.cpp": "9282aacb83c4a57d474e25ea6d6962db342b3b7db3efb6f4ecdbae75da93a8e2",
+    "port/engine-resources/retained_bytes_v39.hpp": "1529d8621f4d6c526ba4ead545c029cdf62592073bb1064df5721929be217069",
+    "port/engine-resources/retained_bytes_v39.cpp": "2852adfa84c7049dc321dab44bb432779b05eb76e28bf235aed954008da6bd06",
+    "port/android-native/app/src/main/cpp/native_resource_budget_v38.hpp": "47eebfe8cbdf08deb3f4d7aee37b83473df2d2fa071415b33da85d44efae5295",
+    "port/android-native/app/src/main/cpp/native_resource_budget_v38.cpp": "e0b003463909869e7353b318c9918f5a5a0b53c3df1d1024e5aa03d53e52d383"
+  }
+}

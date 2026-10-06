@@ -1,0 +1,31 @@
+{
+  "original_saved_function_sha256": "4343f9af3f46906534b0c8f4ccaff0f2501e57550f044b885f7962e33250d6f1",
+  "source_format_maximum_complete_bytes": 4294967295,
+  "format_framing": "u32 section count; each section u32 payload length +4byte tag; INFO int32; OBJS u32 object count, two positive signed32 CStrings, u32 room,u64 payload length, variable virtual object Save",
+  "application_transport_policy_bytes": 16777216,
+  "policy_is_source_maximum": false,
+  "real_saved_chapter_samples_available": false,
+  "memory_note": "16MiB input cap does not bound all duplicated profile/section/object allocations or prove every future Save virtual fits; aggregate parser/object-stage accounting still required",
+  "sources": [
+    {
+      "path": "port/game-data/player_profile_index_v1.cpp",
+      "sha256": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a"
+    },
+    {
+      "path": "port/level-world/savegame_stream_v2.cpp",
+      "sha256": "38ec4dd1251e0759986e2a63459c17cb8a0a805d31cf921fddcd2ffb286d0bc7"
+    },
+    {
+      "path": "port/level-world/level_savegame_writer_v2.cpp",
+      "sha256": "77e1a65512e13da92103e768c5bd7f3d53299affc80ffeeaf3131ff77fca23cb"
+    },
+    {
+      "path": "port/level-world/level_savegame_objects_v2.cpp",
+      "sha256": "26fb0d7f719827d71b9cd893c9b69552ce2e545723315508e2b9b47872198ffe"
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.cpp",
+      "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9"
+    }
+  ]
+}

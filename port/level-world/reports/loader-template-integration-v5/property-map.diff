@@ -1,0 +1,20 @@
+--- root before
+
++++ selected loader leaf
+
+@@ -87,6 +87,14 @@
+
+  if(!name){e="source SetProperty requires descriptor name";return false;}auto* descriptors=current(actor,e);if(!descriptors)return false;
+  auto i=descriptors->find(name);if(i==descriptors->end())return true; // actual null descriptor gate
+  auto& descriptor=i->second;if(!text)return write(actor,descriptor,descriptor.default_value,e);
++ // Explicit modern compatibility correction: the shipped editor-format
++ // _templateName attribute selects a named map without a separate "template"
++ // attribute. Raw string assignment would leave that map empty and discard
++ // subsequent authored fields. Use the existing actual SetTemplate clone and
++ // its required LoadTemplate assertion delivery, preserving XML iteration.
++ if(descriptor.source_offset==8&&std::holds_alternative<std::string>(descriptor.default_value)&&*text)
++  return set_template(actor,text,e);
++
+  if(std::holds_alternative<std::string>(descriptor.default_value))return write(actor,descriptor,std::string{text},e);
+  auto value=zero_value(descriptor.default_value);
+  // Source FromString clears actual destination before scalar/vector parse.

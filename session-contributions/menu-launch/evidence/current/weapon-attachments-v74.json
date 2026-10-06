@@ -1,0 +1,8 @@
+{
+  "mapping": [
+    "anchor_shield_left_offset",
+    "anchor_weapon_right_offset",
+    "anchor_weapon_left_offset"
+  ],
+  "source": "VisualObject::SetWeaponSkin473cd8 table956ad8; parent selected by attachment argument, no manual mesh offsets"
+}

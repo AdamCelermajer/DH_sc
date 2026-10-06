@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "original_cases": 339,
+  "fixture_sha256": "d472f4f1e6da9b965634aed229149edd46eed4716a5031769b7d2a8836395391",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Whole original AddLoot40407c on every actual loot-table row.\nReal cache/RNG/power/value bodies; explicit text, player-count, difficulty and\nstorage fixtures. World item spawning and pickup are outside this proof.\n"
+}

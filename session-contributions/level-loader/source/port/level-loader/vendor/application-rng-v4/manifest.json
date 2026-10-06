@@ -1,0 +1,253 @@
+{
+  "scope": "process-initial shared RNG + typed spawn/Delete, required external providers; not live campaign RNG sequence",
+  "files": [
+    {
+      "path": ".local-inputs/audit_spawn_random_v4.py",
+      "sha256": "161d3452270baa31155049097d17e5431bd4c6b147557d7b13b03c92093d656e"
+    },
+    {
+      "path": ".local-inputs/run_application_spawn_random_v4.py",
+      "sha256": "5357dc2fb236ee5ca566207f838b53d7f2c7f4c89dd337c36a9534ce1c3d057a"
+    },
+    {
+      "path": "port/asset-payloads/payloads.hpp",
+      "sha256": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee"
+    },
+    {
+      "path": "port/engine-animation/animation.hpp",
+      "sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3"
+    },
+    {
+      "path": "port/engine-animation/events.hpp",
+      "sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a"
+    },
+    {
+      "path": "port/engine-resources/resources.hpp",
+      "sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230"
+    },
+    {
+      "path": "port/game-data/animation_tables.hpp",
+      "sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d"
+    },
+    {
+      "path": "port/game-data/data.hpp",
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+    },
+    {
+      "path": "port/game-data/items.hpp",
+      "sha256": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f"
+    },
+    {
+      "path": "port/game-data/loot_tables_v2.cpp",
+      "sha256": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a"
+    },
+    {
+      "path": "port/game-data/loot_tables_v2.hpp",
+      "sha256": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931"
+    },
+    {
+      "path": "port/level-world/actor_rotation.hpp",
+      "sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212"
+    },
+    {
+      "path": "port/level-world/actor_runtime.hpp",
+      "sha256": "4cd7e66812fd48321180fd2593859c1339f4048964b4059dc5549b4e59f4ebe7"
+    },
+    {
+      "path": "port/level-world/application_spawn_random_owner_v4.cpp",
+      "sha256": "702c277e132c63679d7284ae28dabee7655cce62160e987dac47ab60c990e37d"
+    },
+    {
+      "path": "port/level-world/application_spawn_random_owner_v4.hpp",
+      "sha256": "cd990c3a27bbeb14cbedaa222063f199deb171a1911e8b230d54bc01529bdbb3"
+    },
+    {
+      "path": "port/level-world/canonical_gameobject_base_owner_v1.cpp",
+      "sha256": "dae9a311022831ba59f9a3288493209d7d63f341a91c86378e8b5601a9297c0b"
+    },
+    {
+      "path": "port/level-world/canonical_gameobject_base_owner_v1.hpp",
+      "sha256": "39710d3c9bbb81e204615a2b54e45bd6943c5004824ec6b3d81bba14a102d4b2"
+    },
+    {
+      "path": "port/level-world/canonical_object_factory_v1.hpp",
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.hpp",
+      "sha256": "d66a38c1b01b2d37d9481dec0935e2e0a11d65532696b320e9fe84ce37ff75a8"
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.hpp",
+      "sha256": "bfacc2040fc34fabd86eb93863eb5cf6182f78c39d4518f17b8bc00757ea6ad8"
+    },
+    {
+      "path": "port/level-world/character_combat_queries.hpp",
+      "sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf"
+    },
+    {
+      "path": "port/level-world/character_target_providers.hpp",
+      "sha256": "2b6042a6a05c8b5be3f80738e7e308316832048271b875c018c2d9dbcdba7aa1"
+    },
+    {
+      "path": "port/level-world/character_world_npc_object_v1.hpp",
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b"
+    },
+    {
+      "path": "port/level-world/collision.cpp",
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378"
+    },
+    {
+      "path": "port/level-world/collision.hpp",
+      "sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b"
+    },
+    {
+      "path": "port/level-world/game_object_initialization_owner_v1.cpp",
+      "sha256": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865"
+    },
+    {
+      "path": "port/level-world/game_object_initialization_owner_v1.hpp",
+      "sha256": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809"
+    },
+    {
+      "path": "port/level-world/game_object_relative_box_v3.cpp",
+      "sha256": "55c6fccf4b005f81022721fd3a710e1744849cda0c9ff0176dc9f6f77fcaeb58"
+    },
+    {
+      "path": "port/level-world/game_object_relative_box_v3.hpp",
+      "sha256": "751b05c547ae305d349976464d4660879af65bf392ef235a1231f2c097caa09a"
+    },
+    {
+      "path": "port/level-world/game_object_set_position_v2.cpp",
+      "sha256": "4054b95cab71f550215eecd4f579f54f29943d83fc58c8a5b694b59723d1dde2"
+    },
+    {
+      "path": "port/level-world/game_object_set_position_v2.hpp",
+      "sha256": "4d9075703fa64f9a29afc6ff85ed07764e3ef32753634a31446f59cc141bd600"
+    },
+    {
+      "path": "port/level-world/game_object_spawn_probability_v1.hpp",
+      "sha256": "ac474a9414a481802a63f95324e60c0253d3f1e1693f2ac509385255dfd9e87f"
+    },
+    {
+      "path": "port/level-world/move_state.hpp",
+      "sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0"
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140"
+    },
+    {
+      "path": "port/level-world/navigation.hpp",
+      "sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71"
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.hpp",
+      "sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36"
+    },
+    {
+      "path": "port/level-world/navigation_controller.hpp",
+      "sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6"
+    },
+    {
+      "path": "port/level-world/navigation_heading.hpp",
+      "sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e"
+    },
+    {
+      "path": "port/level-world/navigation_motion.cpp",
+      "sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f"
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac"
+    },
+    {
+      "path": "port/level-world/navigation_objects.cpp",
+      "sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9"
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011"
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "sha256": "939d187f857ac4eae7eafa3b517b9beb0b312d4d75541e769dd1566cc6a4b619"
+    },
+    {
+      "path": "port/level-world/navigation_search.cpp",
+      "sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0"
+    },
+    {
+      "path": "port/level-world/navigation_search.hpp",
+      "sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0"
+    },
+    {
+      "path": "port/level-world/navigation_world.cpp",
+      "sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d"
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e"
+    },
+    {
+      "path": "port/level-world/octree.cpp",
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a"
+    },
+    {
+      "path": "port/level-world/octree.hpp",
+      "sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83"
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85"
+    },
+    {
+      "path": "port/level-world/reference/application-spawn-random-v4/handoff.md",
+      "sha256": "2b6dbadeaca9482fc1c22a2409efcea7751343b77c7740148bbc0ca8e95959ff"
+    },
+    {
+      "path": "port/level-world/reference/application-spawn-random-v4/original-functions.asm",
+      "sha256": "bed47211cc094339db6cc37dd22314c452521637e9231b4b4ef35a54f426fa28"
+    },
+    {
+      "path": "port/level-world/reference/application-spawn-random-v4/source-global-initialization.json",
+      "sha256": "a24e6a467a20dae606f633e108ad5b22a50afac3123ee69f894b1ea2b98818ba"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/application-spawn-random-v4/application-spawn-random-v4.bin",
+      "sha256": "32163a38c8068ca2d5eab0b6d92f140ab8e7d7f6c5fd75a6a2d16ee05e2ab342"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/application-spawn-random-v4/compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/application-spawn-random-v4/receipt.json",
+      "sha256": "f684282801aeecc7c31eff3e8d8c7e60629f650c6e2949cde7d2c84e6412de4d"
+    },
+    {
+      "path": "port/level-world/selector.cpp",
+      "sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5"
+    },
+    {
+      "path": "port/level-world/selector.hpp",
+      "sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790"
+    },
+    {
+      "path": "port/level-world/subobjects_update.hpp",
+      "sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03"
+    },
+    {
+      "path": "port/level-world/tests/application_spawn_random_owner_v4.cpp",
+      "sha256": "d2fd07daf0c76231a70e4451779f3d7d308d4cd36cab683bf6a3e93dc1b64863"
+    },
+    {
+      "path": "port/level-world/visual_motion.hpp",
+      "sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f"
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "sha256": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3"
+    }
+  ]
+}

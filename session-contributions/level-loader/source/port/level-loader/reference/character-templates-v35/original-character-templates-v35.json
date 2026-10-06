@@ -1,0 +1,62 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_original_rows": 121,
+  "record_bytes_consumed": 2516,
+  "selector_cases": 371,
+  "gold_sha256": "4f4924bd8c6160c6e1f65c31dd0e689f95f5772a311977319a0c3da20e83e6c7",
+  "scope": "Whole original CharTemplate/CharInfoName record readers and non-player SafeGetCharPropsId/template lookup/inline RNG branch; stream/storage and IsPlayer=false services explicit. Player/save branch outside this adapter.",
+  "swamp_rows": {
+    "Swamp2_CommonType1": [
+      351,
+      351,
+      351,
+      351,
+      352
+    ],
+    "Swamp2_CommonType2": [
+      354,
+      354,
+      354,
+      354,
+      355
+    ],
+    "Swamp_CommonType1": [
+      360,
+      360,
+      360,
+      360,
+      361
+    ],
+    "Swamp_CommonType2": [
+      371,
+      371,
+      371,
+      371,
+      372
+    ],
+    "Swamp_CommonType3": [
+      349
+    ],
+    "Swamp_MiniBossType1": [
+      363
+    ],
+    "Swamp_MiniBossType2": [
+      384
+    ],
+    "Swamp_SpecialType1": [
+      361
+    ],
+    "Swamp_UncommonType1": [
+      362
+    ],
+    "Swamp_UncommonType2": [
+      368
+    ]
+  },
+  "inputs_sha256": {
+    "character_templates_pyarray.bin": "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2",
+    "character_templates_pyarraynames.bin": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+    "character_templates_pystructnames.bin": "cb84c15300beb2528555c01e281eaac151a523d3a36fd2aaadc7c4574a41e64b"
+  }
+}

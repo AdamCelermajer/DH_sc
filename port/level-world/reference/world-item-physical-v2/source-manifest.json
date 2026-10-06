@@ -1,0 +1,15 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source": {
+    "port/level-world/canonical_item_factory_v2.hpp": "f6629aa733321cda9b744a0832bfd9d216ec1288f883c02dc9dfee4b5d85ac20",
+    "port/level-world/canonical_item_factory_v2.cpp": "fdc8caf13ee762227c9f919d1c0f053d4bf35279879bda8522994133652e4754",
+    "port/level-world/item_body_config_v2.hpp": "2e62ede8afe47bb5cad7219cb600eb94bf02ed82904303cdd692984678b59d4b",
+    "port/level-world/item_body_config_v2.cpp": "581d8da57e4dd3e0d1006375ee2077e81e53089da0015625db3bcef74817cb33",
+    "port/level-world/world_item_physical_v2.hpp": "65104c82a9c17b707f18fe4c2226a29538f53e2d7cd260d30a7281f57c605501",
+    "port/level-world/world_item_physical_v2.cpp": "c0824959cdf077d7bdfc5842aa7fce6f539087cdfaa0a38b16fa61f9e61c3b85",
+    "port/game-data/item_pickup_type_v2.hpp": "5e8c46c65c4c78973f7c36fa9efa846f1b34c20cd5832b770396b6905d7551b8",
+    "port/level-world/tests/canonical_item_factory_v2.cpp": "790d3d52f18c76273a50c90960c43c17b60cce0d5b56b565c31ccb04b950256b",
+    "port/level-world/tests/world_item_physical_v2.cpp": "c6fa4a59607e81ad81ba15028865b6685b26e6d0d48d14324a7ddc0f3fac8489",
+    "port/level-world/tests/item_body_config_v2_original.py": "08482070882c41f5732016944d48d258862ba3b4f6e4bf595b0055f6aa2fd8b5"
+  }
+}

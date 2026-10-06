@@ -1,0 +1,12 @@
+--- a/port/level-loader/level_constructor_v3.hpp
++++ b/port/level-loader/level_constructor_v3.hpp
+@@ -20,7 +20,8 @@
+  std::uintptr_t field128{},field12c{};
+  std::uint32_t field130{}; // source Level::_LoadProcess state, not a pointer
+  std::uint32_t field134{},field138{}; // source scalar counters; signed comparison in progress tail
+- std::uintptr_t field13c{},field140{};
++ std::uint32_t field13c{}; // source file-count/index scalar, ADD32 in state7
++ std::uintptr_t field140{}; // actual LoadFileData stream-state pointer
+  std::uint8_t byte144{},byte145{};std::int32_t field148{-1};
+  std::uintptr_t field14c{},field154{},field158{},field15c{},field194{},field19c{},field1a0{},field1a4{};
+  std::uint8_t byte16c{},byte198{},byte1a8{};

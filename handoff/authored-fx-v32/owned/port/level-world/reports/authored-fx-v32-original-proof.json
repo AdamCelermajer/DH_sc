@@ -1,0 +1,168 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "arm64_instructions_executed": true,
+  "nonrender_geometry": [
+    {
+      "asset": "asset_05.bdae",
+      "geometry_kind": 1,
+      "original_mesh_pointer": 0
+    },
+    {
+      "asset": "asset_06.bdae",
+      "geometry_kind": 1,
+      "original_mesh_pointer": 0
+    },
+    {
+      "asset": "asset_07.bdae",
+      "geometry_kind": 1,
+      "original_mesh_pointer": 0
+    },
+    {
+      "asset": "asset_08.bdae",
+      "geometry_kind": 1,
+      "original_mesh_pointer": 0
+    },
+    {
+      "asset": "asset_09.bdae",
+      "geometry_kind": 1,
+      "original_mesh_pointer": 0
+    }
+  ],
+  "darkqueen_original_parameter_calls": [
+    [
+      "EmitterType",
+      1
+    ],
+    [
+      "RadiusLength",
+      1084227584
+    ],
+    [
+      "MaxParticles",
+      4
+    ],
+    [
+      "BirthRate",
+      1106247680
+    ],
+    [
+      "Life",
+      1040746610
+    ],
+    [
+      "LifeVariation",
+      1051372191
+    ],
+    [
+      "TargetSize",
+      1125515264
+    ],
+    [
+      "SizeVariation",
+      1036831949
+    ],
+    [
+      "SizeGrowthTime",
+      0
+    ],
+    [
+      "SizeFadeTime",
+      1040746610
+    ],
+    [
+      "Speed",
+      0
+    ],
+    [
+      "SpeedVariation",
+      0
+    ],
+    [
+      "Direction",
+      [
+        0,
+        0,
+        3212836864
+      ]
+    ],
+    [
+      "DirectionVariation",
+      0
+    ],
+    [
+      "AnimOffset",
+      0
+    ],
+    [
+      "AnimOffsetVariation",
+      0
+    ],
+    [
+      "AnimLength",
+      1059760816
+    ],
+    [
+      "AnimLengthVariation",
+      0
+    ],
+    [
+      "AnimScaleMultiplier",
+      1065353216
+    ],
+    [
+      "AnimScaleMultiplierVariation",
+      0
+    ],
+    [
+      "SpinTime",
+      945429139
+    ],
+    [
+      "SpinVariation",
+      1065353216
+    ],
+    [
+      "SpinPhase",
+      1061752792
+    ],
+    [
+      "SpinPhaseVariation",
+      1065353216
+    ],
+    [
+      "SpinAxisType",
+      2
+    ],
+    [
+      "SpinAxis",
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      "SpinAxisVariation",
+      0
+    ]
+  ],
+  "validation": "PASS",
+  "sort_bbox_comparisons": 240,
+  "sort_count_domain": [
+    0,
+    1,
+    16,
+    17,
+    30,
+    31,
+    45,
+    64,
+    127,
+    256
+  ],
+  "spin2_comparisons": 160,
+  "gold_sha256": "1dd02a1cc4c444938c555445024ad7eeb2ddca37e8034ad3f169710a44105b61",
+  "arm64_sha256": "2bbde49e848ac0e2331dc83d6d458ad2ab26883ee91ee06c8c132cb5ff16a3a3",
+  "scope": "CPU source proofs with explicit camera/registry/libm services. No GPU or live gameplay acceptance."
+}

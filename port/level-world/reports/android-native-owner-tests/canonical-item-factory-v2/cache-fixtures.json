@@ -1,0 +1,42 @@
+{
+  "verified": true,
+  "serial": "emulator-5554",
+  "fixtures": [
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\player-loot-v7\\cache\\loot_table_pyarray.bin",
+      "destination": "/data/local/tmp/dh2-canonical-item-cache-v2/loot/loot_table_pyarray.bin",
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "bytes": 284104
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\player-loot-v7\\cache\\loot_table_pyarraynames.bin",
+      "destination": "/data/local/tmp/dh2-canonical-item-cache-v2/loot/loot_table_pyarraynames.bin",
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "bytes": 39604
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\player-loot-v7\\cache\\loot_table_pystructnames.bin",
+      "destination": "/data/local/tmp/dh2-canonical-item-cache-v2/loot/loot_table_pystructnames.bin",
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+      "bytes": 8858
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\loot-world-v8\\cache\\loot_audiovisual_pyarray.bin",
+      "destination": "/data/local/tmp/dh2-canonical-item-cache-v2/audiovisual/loot_audiovisual_pyarray.bin",
+      "sha256": "f9a6e2c45bad836955d63290d51d2ec811a5003b7fa2c82df907fae5aa44084d",
+      "bytes": 1022
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\loot-world-v8\\cache\\loot_audiovisual_pyarraynames.bin",
+      "destination": "/data/local/tmp/dh2-canonical-item-cache-v2/audiovisual/loot_audiovisual_pyarraynames.bin",
+      "sha256": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
+      "bytes": 356
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\loot-world-v8\\cache\\loot_audiovisual_pystructnames.bin",
+      "destination": "/data/local/tmp/dh2-canonical-item-cache-v2/audiovisual/loot_audiovisual_pystructnames.bin",
+      "sha256": "86984964c123debae476a20a8c6d0c54fab46bd905d09ee82849b062ab4a3248",
+      "bytes": 42
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "controlled-old-2334",
+  "layer": "f3d2a22 SurfaceView[com.example.dh2/com.example.dh2.MainActivity](BLAST)#114",
+  "device_backend": "visible x86_64 emulator5554, swiftshader software GPU",
+  "workload": "12 one-second collection waits plus ADB sampling overhead, stationary live Crypt, unchanged AI, no screen recording",
+  "samples": 397,
+  "presentation_span_seconds": 13.9181319,
+  "median_ms": 33.5745,
+  "p95_ms": 48.9281,
+  "p99_ms": 51.8202,
+  "mean_ms": 35.05826675062972,
+  "over_25ms": 397,
+  "over_50ms": 10,
+  "native_perf": [],
+  "errors": []
+}

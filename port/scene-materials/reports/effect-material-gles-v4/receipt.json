@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "scope": "standalone actual GLES shader cache/reflection/typed current material directory/source equal-distance sort/actual pinned FIRE atlas draws and shared program cleanup across context cycles; quad and current color mutations declared fixture, not full native scene acceptance",
+  "binary_sha256": "55393b61202861e5cf0fff1dce09b2bd9201ae59575da4f3f8db19f49606bf4a",
+  "sources": {
+    "port/scene-materials/tests/effect_material_gles_v4.cpp": "4c1256fcfc4587a1c2e57448b0fe7325b1332338adf7582e3cc977e7a67fb77d",
+    "port/engine-textures/blood_texture_image_v1.cpp": "eb26bbb9fef7880265eb6eedc6521187a40a2fe6dbe3874e3f41001e44ac12fb",
+    "port/engine-textures/texture_owner_v1.cpp": "e88d255184c05432ead7130aacded3ae79ae6d80e0f4e4935684ffbe38e19812",
+    "port/engine-textures/texture_driver_fields_v1.cpp": "2209fd3f3fae3c170e56e6aae2318c107f74ab520d4cef922b4d8a4c2f720f51",
+    "port/engine-textures/texture_binding_owner_v1.cpp": "6a9dc09420f9675048d04909ebae9545ed2a7e7abb2e032d22a503523dd61419",
+    "port/engine-textures/texture_mipmap_v1.cpp": "8bbdb7a4e31fb3553aca77ec7df01ac557ccaa3f8aa35b7b92a87cb35e0bbbac",
+    "port/engine-textures/texture_unbind_v1.cpp": "1c0cc3e01ea24e9f68718dca2cdbf95c5fd87dce94c901ca6cf3b271abbae5d9",
+    "port/engine-textures/textures.cpp": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb",
+    "port/engine-textures/pvrtc.cpp": "dd88a34faff7b5741da77be72a49c0668e75f5aa57c146a3ea7c51817228d575",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/scene-materials/blood_render_pass_v3.cpp": "c485048ba315ee65fac71169ca8de9f573f9d608e7cefe149c03d65998921b45",
+    "port/scene-materials/effect_render_pass_v4.cpp": "eaca1eb604e4b1198603a6d4cebfae82d3364f2cf9e163c7d44f93491f600d29",
+    "port/scene-materials/shader_sources.cpp": "f05874e30bba3a3b1c8cec643e5fda6bcba4f31e9b935eae8e94c9872b41cde1",
+    "port/scene-materials/shader_reflection_v4.cpp": "027ab73c484cbf598cd95bceadbddaa62c6e4c54fe9e85e7b03129e0331f048b",
+    "port/scene-materials/shader_program_collection_v4.cpp": "5beaab919c02a8bbc54baa77240a45acf3ad1b1b7ca4a7062ff1ef0c12dca431",
+    "port/scene-materials/material_compare_v4.cpp": "aeab85d6ea22ce6a0a9fa44bd7c6ca5b6b03963e5b5503b7539f88b49ef60665",
+    "port/scene-materials/effect_material_directory_v4.cpp": "33f46bcf778c739340db87fd992b5d0c0c2cda2d0e5f5591795c1a47f7b686c8",
+    "port/scene-materials/transparent_queue_v1.cpp": "d63cbcea25ab1658df60ceb89adda26d685ee9c7434a9ca042a0d2c70d19b2e4",
+    "port/scene-materials/transparent_sort_v2.cpp": "b6536a3ece32921bcaf35e6f83f3a4a415c88a971182f9ccb3af2054d4a67dad"
+  },
+  "shader_pack_sha256": "365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0",
+  "exit_code": 0,
+  "stdout": "context 0 shared=1 uniforms=4 queue comparisons=27/8 actual atlas pixels PASS\ncontext 1 shared=1 uniforms=4 queue comparisons=27/8 actual atlas pixels PASS\ncontext 2 shared=1 uniforms=4 queue comparisons=27/8 actual atlas pixels PASS\nPASS 292 real GLES shared material/program checks; declared quad/current-color inputs, not whole gameFX acceptance\n",
+  "stderr": "",
+  "production_includes": {
+    "port/android-native/app/src/main/cpp/renderer_effect_draw_v4.inc": "0dfc459a90f238dc505bed1706688008d3a1824922b6295c7a3fe0cfd182e317",
+    "port/android-native/app/src/main/cpp/renderer_effect_program_connection_v4.inc": "5d72ceb4002fd8b7a791ba2ba3ffd0262bebb66a1ad76b614265d0b81efcea58",
+    "port/android-native/app/src/main/cpp/renderer_effect_material_directory_v4.inc": "c226d2ca9f9a3943433c454373cfcea1802064653a3deedaae1307cc7a3e0206",
+    "port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc": "c4fbb7857648208b31cad17b804fa1f1ed0f0d413c3fa349b75403cab13b7c16",
+    "port/scene-materials/material_matrix_v4.hpp": "441a01b6d85f69b2e4680521be9185ef1c28ff248a85014d0434d4dccd00f163"
+  },
+  "actual_asset_fixtures": {
+    ".local-inputs/fire_atlas_native_fixture_v5.inc": "9ede80462f7bf1f1377bfc73d56bd59579c6b171e3fa16f3b1f0d80f19f31212",
+    ".local-inputs/fire_bdae_native_fixture_v5.inc": "6f93e9dfffe1550e5d1129511af620a43ea1dd631c32c4efbe35b0f5d679cbcc"
+  }
+}

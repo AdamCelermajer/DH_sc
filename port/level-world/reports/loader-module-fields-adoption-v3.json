@@ -1,0 +1,37 @@
+{
+  "archive_sha256": "f52a2dccd9055ea097c3c29f652c7666b43a50d95bd18d59e726e55e4537284d",
+  "all_29_entry_hashes_verified": true,
+  "adopted": [
+    {
+      "path": "port/level-loader/canonical_level_context_v1.hpp",
+      "before_sha256": "72a1e627c5423a9f0ad7f583d476d28b24b954274cb195b70118b1fd3ff34010",
+      "after_sha256": "60c515881bb4b581b43067f72888cf7bc4e5c93534076f2b68492bb2723c4ee8"
+    },
+    {
+      "path": "port/level-loader/canonical_level_context_v1.cpp",
+      "before_sha256": "70ed2c5436439184619dc94bf5af88bd788358f57f5cb437f3368ee1038d49e2",
+      "after_sha256": "8d5e0314d1d3085b5f7aab0b52d67a95ab6b84d3c1664fbc8f0f2e3403105062"
+    },
+    {
+      "path": "port/level-loader/CANONICAL-LEVEL-MODULE-FIELDS-HANDOFF.md",
+      "before_sha256": null,
+      "after_sha256": "44520f7f759c3396f1d61b42679e5ca04c5693a7ac35a13a8f97368bdbc4e31a"
+    },
+    {
+      "path": "port/level-loader/reports/canonical-level-module-fields-checks.json",
+      "before_sha256": null,
+      "after_sha256": "857688f6489ee5a600fec801732c349e05b5cd6d35d3173a77e858425c9c2f65"
+    },
+    {
+      "path": "port/level-loader/reports/level-module-fields-original.json",
+      "before_sha256": null,
+      "after_sha256": "7ae7d21b418c485776ad21f49b473b3f1a31db1e989bb405aa2e783e20cbee8b"
+    }
+  ],
+  "excluded": [
+    "CMakeLists.txt",
+    "live selectors",
+    "fixture probe",
+    "vendor duplicates"
+  ]
+}

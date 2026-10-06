@@ -1,0 +1,32 @@
+[
+  {
+    "asset": "models/mc_rweapon_longsword_01.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/weapons/mc_rweapon_longsword_01.bdae",
+    "bytes": 11092,
+    "sha256": "ab502ff4ef77b0e7afa813de71685cac38e85e82327d24da6ef9cc7e002840f7"
+  },
+  {
+    "asset": "models/mc_rweapon_dagger_01.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/weapons/mc_rweapon_dagger_01.bdae",
+    "bytes": 11660,
+    "sha256": "d8361c9e2479f9a121767a97174ec468d8ddd7be738a8b9419147258a1ef3af9"
+  },
+  {
+    "asset": "models/mc_rweapon_quarterstaff_01.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/weapons/mc_rweapon_quarterstaff_01.bdae",
+    "bytes": 8972,
+    "sha256": "7edea6e46bf94ebb29ac9d21405ee49a0df8342d9ab99de99bfc2ae6ea161553"
+  },
+  {
+    "asset": "textures/atlas_weapons_dh2.tga",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_weapons_dh2.tga",
+    "bytes": 524348,
+    "sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1"
+  },
+  {
+    "asset": "textures/envmap_swamp.tga",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/envmap_swamp.tga",
+    "bytes": 2108,
+    "sha256": "db73421e085b1068185f7ec04f8a0950fa0cb5a768a0b81953a692cbafd47bb7"
+  }
+]

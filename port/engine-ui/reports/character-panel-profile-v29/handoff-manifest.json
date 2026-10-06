@@ -1,0 +1,65 @@
+{
+  "scope": "Same-graph source faery producer restores original character-panel startup path; strict compile proof only, current live menu visual acceptance pending",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_character_panel_faery_v29.inc",
+      "sha256": "02bc1c6ab68c6d40bf2c8e7b9ca25c5734721d7cd46e1f2114d181dfeb2753e0"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_character_faery_v8.inc",
+      "sha256": "e37768f0fb6f71344b33c76fd82f16c8c2687ccc8312cad071fc5e2b672562eb"
+    },
+    {
+      "path": "port/level-world/character_menu_faery_connection_v8.hpp",
+      "sha256": "5b46780a3e15e42615b8ff68257c52b6cfec4621448c22a8cd60fb4891717439"
+    },
+    {
+      "path": "port/level-world/character_menu_faery_connection_v8.cpp",
+      "sha256": "595fc9a9092f87de6ab4677c5a56409a99e5f6ae08a8a755683b7ed53ed33f72"
+    },
+    {
+      "path": "port/level-world/level_faery_placement_v8.hpp",
+      "sha256": "4f68cc744e78573e8f1d8b6dacac09b37d2f163740902a96deecba5bf6f54f54"
+    },
+    {
+      "path": "port/level-world/level_faery_placement_v8.cpp",
+      "sha256": "179f4ec488861e256640f31bf6adb4922e3f654dc271f02749d157581373220e"
+    },
+    {
+      "path": "port/engine-ui/tests/character_panel_profile_v29.cpp",
+      "sha256": "b73949aa7ba95008e43215de877ca587d4acaa67dae74bea8f7cee8941c6eb21"
+    },
+    {
+      "path": "port/engine-ui/tests/character_menu_connected_as_host_v29.hpp",
+      "sha256": "1ab2e2f449493c8cf9917a58cbd89d74facc41fd13a7188c58fb127b1c3cbe5d"
+    },
+    {
+      "path": ".local-inputs/prepare_character_panel_v29_test.py",
+      "sha256": "a710e5f74b1c362011aa4c9267630493188a5e4405064301bc18e33549c5e401"
+    },
+    {
+      "path": ".local-inputs/run_character_panel_profile_v29_host.py",
+      "sha256": "541c86d0aee50846ba79e2a08d2cc28a69f9e2349abe916a6aa5a924bedea99e"
+    },
+    {
+      "path": ".local-inputs/compile_character_panel_v29.py",
+      "sha256": "36fc2942a0bd16d5e26c860cce222c80dd643ab392fd8a151665673c68e8b31e"
+    },
+    {
+      "path": "port/engine-ui/reports/character-panel-profile-v29/README.md",
+      "sha256": "28ff484e5a1fb474f40949d42796424989be398f4f829c57366f120e2fa7518f"
+    },
+    {
+      "path": "port/engine-ui/reports/character-panel-profile-v29/compile.json",
+      "sha256": "c838ce92c4c4f9aac708a9f603e0ceffefdc994828713a71ca3eb348187a7a31"
+    },
+    {
+      "path": "port/engine-ui/reports/character-panel-profile-v29/host-receipt.json",
+      "sha256": "ba12c98a08bf195bb3a760d4ba4eef0b407a82030654dd407e6c4ee434bf02a9"
+    }
+  ],
+  "source_compiles": 10,
+  "composed_host_regression": "FAIL: stale old library session/material ABI; not suppressed and not accepted",
+  "emulators_untouched": true,
+  "apk_built_or_installed": false
+}

@@ -1,0 +1,56 @@
+--------- beginning of main
+I/libprocessgroup(25749): Created cgroup /sys/fs/cgroup/apps/uid_10235/pid_25749
+I/Zygote  (25749): Process 25749 created for com.example.dh2
+I/com.example.dh2(25749): Late-enabling -Xcheck:jni
+I/com.example.dh2(25749): Using generational CollectorTypeCMC GC.
+W/com.example.dh2(25749): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2(25749): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader(25749): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter(25749): Compat change id reported: 333566037; UID 10235; state: ENABLED
+D/nativeloader(25749): Configuring clns-9 for other apk /data/app/~~leGIsg1BdgvSj1AvRwGEKA==/com.example.dh2-0hyHcjFlwROyagyHd8jW1g==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~leGIsg1BdgvSj1AvRwGEKA==/com.example.dh2-0hyHcjFlwROyagyHd8jW1g==/lib/x86_64:/data/app/~~leGIsg1BdgvSj1AvRwGEKA==/com.example.dh2-0hyHcjFlwROyagyHd8jW1g==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+V/GraphicsEnvironment(25749): Currently set values for:
+V/GraphicsEnvironment(25749):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment(25749):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment(25749): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment(25749): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment(25749): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter(25749): Compat change id reported: 407952621; UID 10235; state: ENABLED
+D/CompatChangeReporter(25749): Compat change id reported: 419020719; UID 10235; state: ENABLED
+D/CompatChangeReporter(25749): Compat change id reported: 458413887; UID 10235; state: ENABLED
+--------- beginning of system
+I/DisplayManager(25749): Choreographer implicitly registered for the refresh rate.
+D/DesktopExperienceFlags(25749): Toggle override initialized to: false
+I/GFXSTREAM(25749): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM(25749): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    (25749): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    (25749): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/nativeloader(25749): Load /data/app/~~leGIsg1BdgvSj1AvRwGEKA==/com.example.dh2-0hyHcjFlwROyagyHd8jW1g==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~leGIsg1BdgvSj1AvRwGEKA==/com.example.dh2-0hyHcjFlwROyagyHd8jW1g==/base.apk!classes3.dex): ok
+D/CompatChangeReporter(25749): Compat change id reported: 418924588; UID 10235; state: ENABLED
+W/HWUI    (25749): Unknown dataspace 0
+D/InsetsController(25749): Setting requestedVisibleTypes to 496 (was 503)
+W/libc    (25749): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/WindowOnBackDispatcher(25749): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@3e3811d
+D/VRI[MainActivity](25749): WindowInsets changed: 2400x1080 statusBars:[0,63,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,63,0,84] 
+I/HWUI    (25749): Using FreeType backend (prop=Auto)
+I/Surface (25749): Creating surface for consumer unnamed-25749-0 with slotExpansion=1 for 64 slots
+I/Surface (25749): Creating surface for consumer VRI[MainActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+D/VRI[MainActivity](25749): WindowInsets changed: statusBars:null navigationBars:null 
+I/Surface (25749): Creating surface for consumer unnamed-25749-1 with slotExpansion=1 for 64 slots
+I/Surface (25749): Creating surface for consumer 6317d63 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#1(BLAST Consumer)1 with slotExpansion=1 for 64 slots
+W/libc    (25749): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/DH2Native(25749): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1
+I/DH2Native(25749): Renderer: Android Emulator OpenGL ES Translator (Google SwiftShader)
+I/DH2Native(25749): GLES: OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+I/DH2Native(25749): Original menu device facts | manufacturer Google | model sdk_gphone64_x86_64 | driver type 8 | sharp 0 | htc 0 | no IGP 0
+I/DH2Native(25749): Character overlay simulation pause | open 0 | same live World
+I/DH2Native(25749): Enemy AI configured | automatic melee 1
+I/DH2Native(25749): Original main menu | character selection | Play launches the Knight Crypt demo
+I/DH2Native(25749): Surface resized to 2400 x 1080
+I/DH2Native(25749): Original loading hints connected | rows 16
+I/DH2Native(25749): Front settings loaded | found 0 | options 16 | language 0 | music 100 | fx 100
+E/DH2Native(25749): Merged main menu failed: Player already has an input history receiver
+E/DH2Native(25749): Original UI display failed: Main menu: Player already has an input history receiver
+D/InsetsController(25749): hide(ime())
+I/ImeTracker(25749): com.example.dh2:3832bec8: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+W/InteractionJankMonitor(25749): Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=com.example.dh2
+I/com.example.dh2(25749): Compiler allocated 5239KB to compile void android.view.ViewRootImpl.performTraversals(long)

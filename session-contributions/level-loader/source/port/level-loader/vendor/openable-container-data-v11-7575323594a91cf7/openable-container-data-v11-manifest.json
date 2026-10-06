@@ -1,0 +1,101 @@
+{
+  "version": 11,
+  "scope": "separate immutable chest table/dictionary provider; no gathering/Item shared-layout successors",
+  "entries": [
+    {
+      "path": ".local-inputs/freeze_openable_data_v11.py",
+      "size": 3539,
+      "sha256": "054f4dce1b68a0ec527c35dd4d283dd2d4c02eb7b2a41cb29b9b732093c71569"
+    },
+    {
+      "path": "port/game-data/game_object_dictionary_v11.cpp",
+      "size": 1933,
+      "sha256": "d8f53c3915ff088e251e139ebb8ec06bc9eee4e4620be5f3097893bdda76b09f"
+    },
+    {
+      "path": "port/game-data/game_object_dictionary_v11.hpp",
+      "size": 638,
+      "sha256": "6e25c22ddf5209553abfdaf274c8158144400ef9fac91e04cc54c974e30969d2"
+    },
+    {
+      "path": "port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/cache/game_objects_dictionary_pyarray.bin",
+      "size": 4144,
+      "sha256": "99ef357caa883a0f5ba0709d6fc4abcb6b8ab9741adc275ca9a295dd70b8be9a"
+    },
+    {
+      "path": "port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/cache/game_objects_dictionary_pyarraynames.bin",
+      "size": 2019,
+      "sha256": "b01c74698bd0dcbcfb05d0d3a8ad645342bfed294bfa82c9c46185bb9dc0ccad"
+    },
+    {
+      "path": "port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/cache/game_objects_pyarray.bin",
+      "size": 5326,
+      "sha256": "8b02cf1bd776621c18d82fd24ef0320d996b28ea77e3a24be3f986e84160e07d"
+    },
+    {
+      "path": "port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/cache/game_objects_pyarraynames.bin",
+      "size": 3846,
+      "sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53"
+    },
+    {
+      "path": "port/level-world/openable_container_data_connection_v11.cpp",
+      "size": 1355,
+      "sha256": "0b4895276a3b73e7fb9750f52279f33fe973b79bb63c3168c6b9202ffee57407"
+    },
+    {
+      "path": "port/level-world/openable_container_data_connection_v11.hpp",
+      "size": 996,
+      "sha256": "4bba7e3c7e758ea816a6530d6af9aff44669df394702570c0342390117af1596"
+    },
+    {
+      "path": "port/level-world/openable_container_owner_v1.cpp",
+      "size": 9214,
+      "sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65"
+    },
+    {
+      "path": "port/level-world/openable_container_owner_v1.hpp",
+      "size": 3857,
+      "sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf"
+    },
+    {
+      "path": "port/level-world/reference/inventory-gathering-v11/chest-binding-original.asm",
+      "size": 6828,
+      "sha256": "a4abcf7e5eafa59ffabe35a5b872201cb0c1f9004a0ea520fc039ba1c365ec05"
+    },
+    {
+      "path": "port/level-world/reference/openable-container-data-v11/group-extraction-proof.json",
+      "size": 1439,
+      "sha256": "1019746c99b922bde405ad42024e67d3bcb1cd11a3e6db2fde4fb024223d3742"
+    },
+    {
+      "path": "port/level-world/reference/openable-container-data-v11/openable-containers-group5-names.bin",
+      "size": 1865,
+      "sha256": "8dc7c6dc7ce3e45b48a80ec40f7be1979549dc3785713981654f2e51f6569824"
+    },
+    {
+      "path": "port/level-world/reference/openable-container-data-v11/openable-containers-group5-records.bin",
+      "size": 1976,
+      "sha256": "1f4fcc285468a268351cff228d16e16c28d33ecb7707087ff3e4cecce6e63690"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/openable-container-data-v11/receipt.json",
+      "size": 5402,
+      "sha256": "36c9852c5e123c189480789ca06f86a390a403c6e4c9104da5a8bce78062141d"
+    },
+    {
+      "path": "port/level-world/reports/openable-container-data-v11-handoff.md",
+      "size": 3730,
+      "sha256": "738fcee68246faf6f6b3118633bf3a66e802c068420e418405df4d59687ee3d8"
+    },
+    {
+      "path": "port/level-world/tests/openable_container_data_connection_v11.cpp",
+      "size": 2783,
+      "sha256": "ba2485456967277d343450c5e913779a41cfefe681ff7fc25c879ac3fd37e391"
+    },
+    {
+      "path": "port/level-world/tests/openable_container_real_cache_fixture_v1.hpp",
+      "size": 12171,
+      "sha256": "7a8a5a4006dc263a1906a367d028e4d260f86b5d617a17da5818d03ba7471333"
+    }
+  ]
+}

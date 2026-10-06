@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "scope": "Bounded original UI catalog descriptors; no pixels, GL or device access.",
+  "bounded_encoded_bytes_read": 14451136,
+  "all_catalog_variant_textures": 8,
+  "all_catalog_rgba_base_bytes": 27525120,
+  "largest_decoded_image_bytes": 8388608,
+  "default_cpu_individual64_and_gpu_individual128_fit": true,
+  "duplicated_retained_plus_one_decode_transient_cpu_envelope_bytes": 63438848,
+  "representative_targets": [
+    {
+      "width": 960,
+      "height": 540,
+      "one_owner_target_gpu_bytes": 6220800,
+      "both_owner_target_gpu_bytes": 12441600,
+      "both_owner_target_texture_bytes": 8294400,
+      "single_catalog_plus_both_targets_gpu_bytes": 39966720,
+      "single_catalog_plus_both_targets_texture_bytes": 35819520,
+      "duplicated_catalog_plus_both_targets_gpu_bytes": 67491840,
+      "duplicated_catalog_plus_both_targets_texture_bytes": 63344640,
+      "default_gpu256_texture128_static_duplicated_fit": true
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "one_owner_target_gpu_bytes": 11059200,
+      "both_owner_target_gpu_bytes": 22118400,
+      "both_owner_target_texture_bytes": 14745600,
+      "single_catalog_plus_both_targets_gpu_bytes": 49643520,
+      "single_catalog_plus_both_targets_texture_bytes": 42270720,
+      "duplicated_catalog_plus_both_targets_gpu_bytes": 77168640,
+      "duplicated_catalog_plus_both_targets_texture_bytes": 69795840,
+      "default_gpu256_texture128_static_duplicated_fit": true
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "one_owner_target_gpu_bytes": 24883200,
+      "both_owner_target_gpu_bytes": 49766400,
+      "both_owner_target_texture_bytes": 33177600,
+      "single_catalog_plus_both_targets_gpu_bytes": 77291520,
+      "single_catalog_plus_both_targets_texture_bytes": 60702720,
+      "duplicated_catalog_plus_both_targets_gpu_bytes": 104816640,
+      "duplicated_catalog_plus_both_targets_texture_bytes": 88227840,
+      "default_gpu256_texture128_static_duplicated_fit": true
+    },
+    {
+      "width": 2712,
+      "height": 1220,
+      "one_owner_target_gpu_bytes": 39703680,
+      "both_owner_target_gpu_bytes": 79407360,
+      "both_owner_target_texture_bytes": 52938240,
+      "single_catalog_plus_both_targets_gpu_bytes": 106932480,
+      "single_catalog_plus_both_targets_texture_bytes": 80463360,
+      "duplicated_catalog_plus_both_targets_gpu_bytes": 134457600,
+      "duplicated_catalog_plus_both_targets_texture_bytes": 107988480,
+      "default_gpu256_texture128_static_duplicated_fit": true
+    },
+    {
+      "width": 3200,
+      "height": 1440,
+      "one_owner_target_gpu_bytes": 55296000,
+      "both_owner_target_gpu_bytes": 110592000,
+      "both_owner_target_texture_bytes": 73728000,
+      "single_catalog_plus_both_targets_gpu_bytes": 138117120,
+      "single_catalog_plus_both_targets_texture_bytes": 101253120,
+      "duplicated_catalog_plus_both_targets_gpu_bytes": 165642240,
+      "duplicated_catalog_plus_both_targets_texture_bytes": 128778240,
+      "default_gpu256_texture128_static_duplicated_fit": true
+    }
+  ],
+  "rows": [
+    {
+      "encoded_bytes": 32828,
+      "kind": "texture",
+      "width": 256,
+      "height": 256,
+      "decoded_rgba_bytes": 262144,
+      "full_mip_rgba_bytes": 349524,
+      "uri": "data/3d/textures/iphone_table_dh2.tga",
+      "sha256": "9850caf0375d313529b4219ecc4bb2be24118e70546c5edfc577f4028dc0f58b"
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "uri": "data/3d/textures/map_bottom.tga",
+      "sha256": "038faedbd0f68f42975deca4638257382dcd79fc5907138fad67efb026c0a1b3"
+    },
+    {
+      "encoded_bytes": 131132,
+      "kind": "texture",
+      "width": 512,
+      "height": 512,
+      "decoded_rgba_bytes": 1048576,
+      "full_mip_rgba_bytes": 1398100,
+      "uri": "data/3d/textures/map_top.tga",
+      "sha256": "d758912d7e9e9cfaee64bb8fe7afdafd70eaf7841c106b82f205e176a2b97be9"
+    },
+    {
+      "encoded_bytes": 4194348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "uri": "data/3d/textures/MenusGraphics.tga",
+      "sha256": "ddc6194e85381e07ecc9586040e0546fd3219a53fc054095277f6c0d7262ad74"
+    },
+    {
+      "encoded_bytes": 131132,
+      "kind": "texture",
+      "width": 512,
+      "height": 512,
+      "decoded_rgba_bytes": 1048576,
+      "full_mip_rgba_bytes": 1398100,
+      "uri": "data/3d/textures/menusgraphics1.tga",
+      "sha256": "364498ef2145d5176e98694311aa3de90cb27f3c4d1480c892c451544b35f3b0"
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "uri": "data/3d/textures/MenusGraphics_droid.tga",
+      "sha256": "c75e8f4df8a9b28fcca7aa819a05cd69e6206d27a391b4364fd67790aeea86c7"
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "uri": "data/3d/textures/MenusGraphics_I9000.tga",
+      "sha256": "44d275f3e6ce9b06ed4870eba4a0d8e3e6707b3667203fa6b86f724a4356d282"
+    },
+    {
+      "encoded_bytes": 8388652,
+      "kind": "texture",
+      "width": 2048,
+      "height": 1024,
+      "decoded_rgba_bytes": 8388608,
+      "full_mip_rgba_bytes": 11184812,
+      "uri": "data/3d/textures/splash_final_droid.tga",
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8"
+    }
+  ],
+  "catalog_sha256": "582c8085ac69ea500469eb746a7e4ec00850cd0636ae55350e7807fb6011b2e1",
+  "census_binary_sha256": "4c4eeb7983edbb9863d8ea13be77450497e77d35cc06c50496900b2d28995bff",
+  "limits": "All catalog variants, single and duplicated front/gameplay copies. Not actual selected exports, generated glyphs, vertex caches, model/effect textures, driver residency or simultaneous resize peaks. Target dimensions are representative, not observed device dimensions."
+}

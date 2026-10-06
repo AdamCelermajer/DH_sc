@@ -1,0 +1,85 @@
+{
+  "validation": "PASS",
+  "scope": "Complete original SWAMP root XML -> actual config/nine-Module static graph, generated RoomZones, same-world floor/collision/post-load/InitFinal and same-root controller construction/release and cached static Module render submission; actual first MGP constructor failure; outer providers fixtures",
+  "cases": [
+    {
+      "build": "host",
+      "probe_sha256": "6d3c147e2c00daeac2cab81b4948c568ce3eedb00b299e08e125f8bcdbc74145",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "render_frame_modules": 9,
+        "render_frame_meshes": 386,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "3177acaaf1ff3bd382cf1c53b81c7bffc9b19cacc2260ecb9aafc501b326dc38",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "render_frame_modules": 9,
+        "render_frame_meshes": 386,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "2fff9c17e48641cbb53fbf48fa9df17e903cac75ea932effc270dac26a6d6706",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "render_frame_modules": 9,
+        "render_frame_meshes": 386,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": "6c2d7ab476da9711df20636a36e7d3b7e6f6c595b4734738df262d1f41aa420c",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "probe_source_sha256": "fe938f06faf3ed53bcfd7f09ea9c7a0989b311d4e12fd948d57009b389e40226",
+  "render_source_sha256": {
+    "module_draw_frame_v1.hpp": "eee28010dfba8e0c3fd7685f23680be61ba7722c83bce6b8c577aeaf2bab08ca",
+    "module_draw_frame_v1.cpp": "99f52cdd44ff7c371fc07019dc22628427cac0d161acfedb2d47133eefd7077e"
+  },
+  "coherent_manifest_sha256": "04f154f9dd60a5667202586f631348af53d0199cd6fbdb1319f9ca513acf0303",
+  "coherent_files": 351,
+  "incoming_controller_entries_verified": 17,
+  "copied_module_declarations": false,
+  "whole_candidate_destruction_verified": false,
+  "tiny_anim_controller_constructor_verified": true,
+  "controller_scope": "actual nine static SWAMP roots, empty original animation libraries",
+  "visible_apk_updated": false,
+  "full_loader_verified": false
+}

@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "scope": "Actual current-APK linked SkillTables/AnimationTables cache decoding and three authored Knight source-step FX routing; fixture manager callback validates anchored/unanchored arguments and failure prefixes. No Save mutation/unlock, live animation, mixed-resource/GPU or video acceptance.",
+  "apk_sha256": "c438fd7476ddfedb1129638b64c93a6e49361a8a945186ac1bb45329bddbcea3",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\character_animation_step_fx_v2.cpp",
+      "sha256": "212d6d8d14967500028ad542da2c9f982916ff51a259451a7be91a0f7eeca2fd"
+    },
+    {
+      "path": "port\\level-world\\character_animation_step_fx_v2.cpp",
+      "sha256": "a6c654fade608a2e7f2a5beef96a30dc26be472f5e4c24fd82178f18c6defa2c"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "c1ba3ccb21daf91acb96f9901ac73ffee2011b922ec7093a7194b129fb98f7e2"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "f7b792df6a638fbec5ed616cd5b0dc07137ca3d621e043a6d87ac93f0fd10905"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "dc1eb115670672154fcfc8f856b70f85fa39755ead72c7c889225122cf6dad45"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "d9c1336e8173b647235215da0f7a1d122df6cb1073a849892815c74099cdaee8"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "e1f1d1d6f4b0c540cdf8d85a8c3cda248be005afe5a6039a9e59828ed0186830"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "348a0162cc0f614ba148e66daf7ccaa2ef0e4487320c37d6c3ff788246695845"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "aaf5bc531b0ae59b19ba276e9ee7a3f31a1d32224f1e06dfd07b1e7a722c3b27",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_animation_step_fx_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_animation_step_fx_v2.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-animation-step-fx-v2\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-animation-step-fx-v2\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-animation-step-fx-v2\\character-animation-step-fx-v2.bin"
+  ],
+  "stdout": "PASS 20 actual Knight cache/source step FX routing and failure-prefix checks; playback/GPU providers remain explicit fixtures\n",
+  "stderr": "",
+  "exit_code": 0,
+  "cache_inputs": {
+    "animations_dictionary_pyarraynames.bin": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+    "animations_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    "animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "animations_pystructnames.bin": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134",
+    "skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9"
+  }
+}

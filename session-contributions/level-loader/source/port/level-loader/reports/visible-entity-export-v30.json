@@ -1,0 +1,31 @@
+{
+  "scope": "canonical constructed-prefix object asset inspection, not gameplay activation or full scene acceptance",
+  "entities": 54,
+  "coverage": {
+    "characters": "49",
+    "chests": "5",
+    "blocked_visuals": "1",
+    "constructed": "195",
+    "next_constructor": ""
+  },
+  "assets": [
+    "data/3D/GameObjects/go_chest_swamp.bdae",
+    "data/3D/characters/invisible_man/invisible_man.bdae",
+    "data/3D/characters/lizardman/lizardman.bdae",
+    "data/3D/characters/lizardman/lizardman_big.bdae",
+    "data/3D/characters/moth/moth.bdae",
+    "data/3D/characters/npcs/Priest_good.bdae",
+    "data/3D/characters/npcs/edward_with_weapon.bdae",
+    "data/3D/characters/npcs/prisoner.bdae",
+    "data/3D/characters/swampking/swampking.bdae",
+    "data/3D/characters/troll/troll_swamp.bdae"
+  ],
+  "blocked": [
+    {
+      "name": "_prim_Faery",
+      "kind": "Character",
+      "reason": "Actual player/faery model-name branch pending"
+    }
+  ],
+  "manifest_sha256": "66374b3b3f5cfd9a3ae07b789783739aefa7f962e3bf2511e847ac041d183d8e"
+}

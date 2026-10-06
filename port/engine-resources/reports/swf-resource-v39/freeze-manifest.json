@@ -1,0 +1,33 @@
+{
+  "scope": "Staged integration handoff, no shared live edits/device/GLES operations",
+  "source_sha256": {
+    "port/engine-resources/retained_bytes_v39.hpp": "1529d8621f4d6c526ba4ead545c029cdf62592073bb1064df5721929be217069",
+    "port/engine-resources/retained_bytes_v39.cpp": "2852adfa84c7049dc321dab44bb432779b05eb76e28bf235aed954008da6bd06",
+    "port/engine-resources/tests/swf_resource_consumer_v39.cpp": "3e3f398d3504cc6b625fc8e393a90bfa30339d0fdefed34b0cd649de594d5b31",
+    "port/engine-resources/tools/prepare_swf_resource_patch_v39.py": "6dae725b9c89908312d465200fdac1998fd5ddf1b3432d36b35970356a2451e1",
+    "port/engine-resources/tools/test_swf_resources_v39_host.py": "97504300dc9dbf68bd249b393c3881460fb3e9b29348b26fa60ba99048555d1d",
+    "port/engine-resources/tools/compile_swf_resources_v39_android.py": "9fa7857824fc3fa5825570ec43acebb6b3ffc773f4b8a94c6d45a3c5a7afeb67",
+    "port/engine-resources/tools/census_swf_assets_v39.py": "0979eb13e5efff8833c5b4e60a09ea6379c92e7bebb0ffbc0b8d8ca333892a7b",
+    "port/engine-resources/reports/swf-resource-v39/swf_gpu.hpp": "a4a10c24b71edddf4e68a7e8c753dfb697ec26359c57550c0cc72ebeb53294db",
+    "port/engine-resources/reports/swf-resource-v39/swf_gpu.cpp": "c38039ca536121e11b841e1d84a224592e9f534a8595270a0fe6507e872bd4b0",
+    "port/engine-resources/reports/swf-resource-v39/swf-resource-v39.patch": "0bb673611147df70153e6e1ea626bd0f9933aab5cc41d87c83477e0fe4622c54",
+    "port/engine-resources/reports/swf-resource-v39/baseline-source-sha256.json": "f844367653ea5b42ff3de9276d3039a055cb04bf441ef8f9a57ee3c20282ae6b",
+    "port/engine-resources/reports/swf-resource-v39/test-header.hpp": "c88006a1cfa750be6567edc851ba4417a1859d906266dd2ac8b9afa7518090c6",
+    "port/engine-resources/reports/swf-resource-v39/actual-methods.inc": "3a90c5f52d72f2a195bcf133f91153a3602c9b933f5a6d72ca366f1b5fa160e7",
+    "port/engine-resources/reports/swf-resource-v39/host-receipt.json": "3a289b2703aa9ae49201d34adc0549cac543adccf03f5fc5c5be8c791da421bd",
+    "port/engine-resources/reports/swf-resource-v39/android-compile.json": "a83b81c0034e44697d6096f95d908b26775b4d0b3ff469df9c277c478ddd0090",
+    "port/engine-resources/reports/swf-resource-v39/ui-asset-census.json": "b9cee191646c23880afcb034155ffb9280ff3b8b95a8a4fab23e73a29ec92f88",
+    "port/engine-resources/reports/swf-resource-v39/README.md": "a3dead1d4967930a18e678a62d250576451a8c10a382c136c376e75f371d805d"
+  },
+  "patch_check": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "dependency_sha256": {
+    "port/engine-resources/resource_budget_v37.hpp": "98a67c1bf9056df9f879c317c83a4f3d61b69cfc227f36a6b1ccffe54185a869",
+    "port/engine-resources/resource_budget_v37.cpp": "9282aacb83c4a57d474e25ea6d6962db342b3b7db3efb6f4ecdbae75da93a8e2",
+    "port/android-native/app/src/main/cpp/native_resource_budget_v38.hpp": "47eebfe8cbdf08deb3f4d7aee37b83473df2d2fa071415b33da85d44efae5295",
+    "port/android-native/app/src/main/cpp/native_resource_budget_v38.cpp": "e0b003463909869e7353b318c9918f5a5a0b53c3df1d1024e5aa03d53e52d383"
+  }
+}

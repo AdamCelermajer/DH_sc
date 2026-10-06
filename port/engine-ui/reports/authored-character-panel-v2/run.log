@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "apk_sha256": "0b775b13b63422ebda41fe0b35498267c73422e8657056f06c6609854054e896",
+  "stdout": "{\"validation\":\"PASS\",\"authored_screens\":20,\"source_stats_skills_inventory_back\":true,\"actual_shape_hit_and_scoped_release\":true,\"nested_required_failure_propagated\":true,\"fixture_query_calls\":77,\"fixture_lifecycle_calls\":99,\"limits\":{\"profile_queries_and_application_are_fixtures\":true,\"GL_upload_and_draw_are_fixtures\":true,\"live_Android_menu_acceptance\":false}}\n",
+  "stderr": "shape bounds 3229,4517.52,-263,757.49 screen 344.559,18.5434\nmouse 193,12 rootMatch=1 direct=btnCharacterSheet hit=1 visible=1 matrix=1,0,0 active=btnCharacterSheet top=btnCharacterSheet\n",
+  "receipt": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-character-panel-v2\\receipt.json"
+}

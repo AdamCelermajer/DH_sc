@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "results": [
+    {
+      "optimization": "-O1",
+      "result": {
+        "validation": "PASS",
+        "checks": 35
+      }
+    },
+    {
+      "optimization": "-O2",
+      "result": {
+        "validation": "PASS",
+        "checks": 35
+      }
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_heading_owner_v1.cpp": "480777b5e931f7470d4cde5bce52d10a4cbaecc1c6c9827222bc0b6a77e6a29c",
+    "port/level-world/tests/character_heading_owner_v1_host.cpp": "da2802807373952022791db5f5f6c6f59e63f577e884a445d4a8618aaf3b53c2"
+  },
+  "scope": "Source command/Character/Stop orchestration with actual frozen native target/heading/path/body kernels; service observers, no live transport or original differential claimed"
+}

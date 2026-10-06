@@ -1,0 +1,106 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/tests/character_world_clear_aggro_v40.cpp",
+        "port/level-world/character_world_clear_aggro_v40.cpp",
+        "port/level-world/character_target_bindings.cpp",
+        "port/game-data/aggro.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/world-clear-aggro-v40"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/world-clear-aggro-v40",
+        "port/level-world/reference/target-cleanup-v40/clear-original.bin"
+      ],
+      "exit": 0,
+      "stdout": "world ClearAggro V40 PASS 133 checks: reciprocal source maps/target setter/reentrant retarget & controller/failure prefixes; actual notification/Stop endpoints remain fixtures\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/tests/character_world_clear_aggro_v40.cpp",
+        "port/level-world/character_world_clear_aggro_v40.cpp",
+        "port/level-world/character_target_bindings.cpp",
+        "port/game-data/aggro.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/world-clear-aggro-v40"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/world-clear-aggro-v40",
+        "port/level-world/reference/target-cleanup-v40/clear-original.bin"
+      ],
+      "exit": 0,
+      "stdout": "world ClearAggro V40 PASS 133 checks: reciprocal source maps/target setter/reentrant retarget & controller/failure prefixes; actual notification/Stop endpoints remain fixtures\n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/level-world/tests/character_world_clear_aggro_v40.cpp": "39c8eb0b2128c101ebcdb42f33e666151c0a669c483bfc6d44cad558b578e2f8",
+    "port/level-world/character_world_clear_aggro_v40.cpp": "6f2d4fcda9995c79fdf2c4f072b56779842fb1f76966414c8daf02c670f7b50e",
+    "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665",
+    "port/game-data/aggro.cpp": "ae05055695fb38680e41b8a11c79ce8f31b3865c14d44864e6da52def34c89fe"
+  },
+  "dependencies": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  },
+  "live_acceptance": false,
+  "endpoint_facts_are_fixtures": true
+}

@@ -1,0 +1,10 @@
+{
+  "scope": "Unchanged retain_prepared_source body split into one separate TU; compile exactly once when using successor context CPP",
+  "payloads": [
+    {
+      "path": "port/level-loader/canonical_level_prepared_source_v25.cpp",
+      "bytes": 867,
+      "sha256": "734de74a996cca81eacda5fe5c77b86eeb256c60a171405f381838b72644e936"
+    }
+  ]
+}

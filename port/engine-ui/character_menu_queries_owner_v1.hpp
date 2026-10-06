@@ -34,6 +34,9 @@ struct CharacterMenuCallV1 {
   // Original navigation uses to_xstring: object/null pointer representation,
   // ordinary string conversion for other tags. Keep it distinct from text.
   std::function<bool(const CharacterMenuValueV1&,std::string&,std::string&)> debug_text;
+ // Only valid during this protected native call. Source RenderFX Invoke uses
+ // the current movie environment, even during initial load before publication.
+ std::function<bool(const char*,const char*,bool,std::string&)> invoke_boolean;
 };
 class CharacterMenuItemActionsV1;
 class CharacterMenuSaveActionsV1;

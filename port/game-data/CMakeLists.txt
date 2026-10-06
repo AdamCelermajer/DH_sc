@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 project(dh2_game_data LANGUAGES CXX)
 add_library(dh2_game_data SHARED data.cpp items.cpp animation_bank.cpp animation_tables.cpp animation_selection.cpp animation_scheduler.cpp class_tables.cpp properties.cpp vitals.cpp combat.cpp combat_events.cpp combat_result.cpp health.cpp combat_application.cpp aggro.cpp ai.cpp)
 target_sources(dh2_game_data PRIVATE game_design_tables.cpp)
+target_sources(dh2_game_data PRIVATE player_save_load_owner_v1.cpp)
 target_sources(dh2_game_data PRIVATE level_tables.cpp)
 target_sources(dh2_game_data PRIVATE design_settings.cpp)
 target_sources(dh2_game_data PRIVATE skill_tables.cpp)
@@ -15,6 +16,12 @@ target_sources(dh2_game_data PRIVATE item_gear_properties_v5.cpp item_power_tabl
 set_source_files_properties(item_gear_properties_v5.cpp item_power_tables_v5.cpp
  item_presentation_v5.cpp player_gear_effects_v5.cpp PROPERTIES COMPILE_OPTIONS "-ffp-contract=off")
 target_sources(dh2_game_data PRIVATE loot_power_resources_v7.cpp loot_power_creation_v7.cpp)
+target_sources(dh2_game_data PRIVATE loot_creation_v8.cpp loot_temporary_inventory_v8.cpp
+ loot_entry_selection_v8.cpp loot_item_selection_v8.cpp loot_table_selection_v8.cpp
+ loot_audiovisual_v8.cpp)
+set_source_files_properties(loot_creation_v8.cpp loot_temporary_inventory_v8.cpp
+ loot_entry_selection_v8.cpp loot_item_selection_v8.cpp loot_table_selection_v8.cpp
+ loot_audiovisual_v8.cpp PROPERTIES COMPILE_OPTIONS "-ffp-contract=off")
 set_source_files_properties(loot_power_resources_v7.cpp loot_power_creation_v7.cpp
  PROPERTIES COMPILE_OPTIONS "-ffp-contract=off;-Wno-misleading-indentation")
 target_compile_features(dh2_game_data PUBLIC cxx_std_17)
@@ -92,3 +99,5 @@ else()
  add_executable(ai_audit tests/ai.cpp)
  target_link_libraries(ai_audit PRIVATE dh2_game_data)
 endif()
+
+target_sources(dh2_game_data PRIVATE class_preview_setup.cpp campaign_profile_files_v1.cpp menu_profile_metadata_v1.cpp fresh_player_profile_v1.cpp)

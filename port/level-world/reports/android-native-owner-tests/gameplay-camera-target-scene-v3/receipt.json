@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "29d2d5b504589cbe37a7d79650b7963474573b89b05903b4ce3c7bbe32e1f098",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\gameplay_camera_target_scene_v3.cpp",
+      "sha256": "aa7dbdf6d32ea115551e3e4a3fd3f82ae4835ec553075a72e7c5b093b2f235fd"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_scene_v3.cpp",
+      "sha256": "b91dd314b44322842971ea6e15c687f6f9a3bbe32301c10673795da6e5ab9a66"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_target_v2.cpp",
+      "sha256": "1e85243bd75022c782ae29628c990c22bf7fca41d07cb730426681704b60c2f9"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_damping_v1.cpp",
+      "sha256": "84e5de5d02ef505a7b8d8b494862e6e1d8970e68ce5d15880a3caa1d08d592b2"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "2a8b8fdc9fcc69dfbe26d6b62a5c3b91f0db2fa132e4018f28e882172470d322"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "68910b94e9eed77a8db5b9f51fcd52c78b7c5a493a73daad83f262d400e8eb3d"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "dd78f961710a60a50f19887edc47b69c8b0232f2f3298d429011dab63720903d"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "369b15bfe3482c02c1cc95488af83a4e00c9333df05c48244c36d5f5711b5659"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "18c6fb40900681c872e90f8920d06747b01276767ee96be4aee17aa4671cf257"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "b695a69d21d6af6ab1c7d0d84fd448b5104b0caeaed0d0263b05e9de04365e4d",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\gameplay_camera_target_scene_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_scene_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_target_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_damping_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-camera-target-scene-v3\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-camera-target-scene-v3\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-camera-target-scene-v3\\gameplay-camera-target-scene-v3.bin"
+  ],
+  "stdout": "cameratests.bdae actual camera/target nodes 1 3\nplayercamera.bdae actual camera/target nodes 1 3\nGameplay camera actual-cache graph/Target lifecycle PASS checks 34; external actor/dt fixtures; no CameraLevel AnimSet/render claim\n",
+  "stderr": "",
+  "exit_code": 0
+}

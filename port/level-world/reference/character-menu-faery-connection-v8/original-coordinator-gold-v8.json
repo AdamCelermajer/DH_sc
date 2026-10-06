@@ -1,0 +1,808 @@
+{
+  "validation": "PASS",
+  "cases": [
+    {
+      "tier": 0,
+      "index": 0,
+      "faery_present": false,
+      "selected": [
+        0,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 0,
+      "faery_present": true,
+      "selected": [
+        0,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 1,
+      "faery_present": false,
+      "selected": [
+        1,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 1,
+      "faery_present": true,
+      "selected": [
+        1,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 2,
+      "faery_present": false,
+      "selected": [
+        2,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 2,
+      "faery_present": true,
+      "selected": [
+        2,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 3,
+      "faery_present": false,
+      "selected": [
+        3,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 3,
+      "faery_present": true,
+      "selected": [
+        3,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 4,
+      "faery_present": false,
+      "selected": [
+        4,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 4,
+      "faery_present": true,
+      "selected": [
+        4,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 0,
+      "faery_present": false,
+      "selected": [
+        0,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 0,
+      "faery_present": true,
+      "selected": [
+        0,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 1,
+      "faery_present": false,
+      "selected": [
+        0,
+        1,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 1,
+      "faery_present": true,
+      "selected": [
+        0,
+        1,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 2,
+      "faery_present": false,
+      "selected": [
+        0,
+        2,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 2,
+      "faery_present": true,
+      "selected": [
+        0,
+        2,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 3,
+      "faery_present": false,
+      "selected": [
+        0,
+        3,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 3,
+      "faery_present": true,
+      "selected": [
+        0,
+        3,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 4,
+      "faery_present": false,
+      "selected": [
+        0,
+        4,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 4,
+      "faery_present": true,
+      "selected": [
+        0,
+        4,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 0,
+      "faery_present": false,
+      "selected": [
+        0,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 0,
+      "faery_present": true,
+      "selected": [
+        0,
+        0,
+        0
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 1,
+      "faery_present": false,
+      "selected": [
+        0,
+        0,
+        1
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 1,
+      "faery_present": true,
+      "selected": [
+        0,
+        0,
+        1
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 2,
+      "faery_present": false,
+      "selected": [
+        0,
+        0,
+        2
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 2,
+      "faery_present": true,
+      "selected": [
+        0,
+        0,
+        2
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 3,
+      "faery_present": false,
+      "selected": [
+        0,
+        0,
+        3
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 3,
+      "faery_present": true,
+      "selected": [
+        0,
+        0,
+        3
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 4,
+      "faery_present": false,
+      "selected": [
+        0,
+        0,
+        4
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 4,
+      "faery_present": true,
+      "selected": [
+        0,
+        0,
+        4
+      ],
+      "ordered_calls": [
+        [
+          "difficulty"
+        ],
+        [
+          "UpdateAllSkills",
+          1
+        ],
+        [
+          "GetCharModelName",
+          1
+        ],
+        [
+          "SetVisualObject",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "ANIM_AddSetToRenderObject",
+          1
+        ]
+      ]
+    }
+  ],
+  "boundaries": [
+    "fresh difficulty",
+    "UpdateAllSkills",
+    "GetCharModelName",
+    "SetVisualObject",
+    "ANIM_AddSetToRenderObject"
+  ],
+  "same_original_save_stores": true
+}

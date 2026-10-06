@@ -1,6 +1,7 @@
 #pragma once
 #include "visual_skin_selection_v6.hpp"
 #include "skinning.hpp"
+#include "skin_pose_cache_v32.hpp"
 #include "../game-data/player_gear_effects_v5.hpp"
 #include <memory>
 #include <functional>
@@ -24,6 +25,15 @@ public:
 enum class VisualAssetResultV6 {found,missing,failed};
 struct VisualAssetServicesV6 {void* context{};VisualAssetResultV6(*read)(void*,const char* requested_uri,std::vector<std::uint8_t>& owned_bytes,std::string& error){};};
 struct VisualDrawPartV6 {std::shared_ptr<const void> retention;const VisualGeometryV6* geometry{};const std::vector<scene::Material>* material_table{};const std::vector<std::uint32_t>* materials{};std::vector<std::array<float,3>> positions;std::array<float,16> world{};bool skinned{};std::int32_t category{-1},module{-1},weapon_slot{};};
+struct VisualDrawViewV32 {
+ std::shared_ptr<const void> retention;
+ const VisualGeometryV6* geometry{};const std::vector<scene::Material>* material_table{};
+ const std::vector<std::uint32_t>* materials{};
+ const std::vector<std::array<float,3>>* positions{};
+ std::array<float,16> world{};bool skinned{},positions_changed{};
+ std::int32_t category{-1},module{-1},weapon_slot{};
+ std::uint64_t pose_revision{};
+};
 class VisualSkinOwnerV6 {
  struct Impl;std::unique_ptr<Impl> impl_;
 public:
@@ -35,6 +45,12 @@ public:
  std::int32_t category_id(const char*)const;std::int32_t module_id(std::int32_t,const char*)const;
  bool set_modular(std::int32_t,std::int32_t,std::string&);bool set_weapon(const char* nullable_name,std::int32_t slot,std::int32_t mode,std::string&);
  bool draw_parts(std::vector<VisualDrawPartV6>&,std::string&)const;
+ // Synchronous render borrow; views/positions remain valid until the next
+ // draw_views, selection mutation or owner destruction. retention separately
+ // pins geometry/materials and may be stored for GPU topology identity. Never
+ // store positions for deferred use. All clocks/events still advance normally.
+ bool draw_views(const std::vector<VisualDrawViewV32>*&,std::string&)const;
+ SkinPoseCountersV32 pose_counters()const noexcept;
  std::int32_t current_module(std::uint32_t)const;bool visibility_dirty()const noexcept;void clear_visibility_dirty()noexcept;
  std::string weapon_uri(std::int32_t slot)const;
  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}

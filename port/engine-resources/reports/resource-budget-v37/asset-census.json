@@ -1,0 +1,782 @@
+{
+  "status": "PASS",
+  "scope": "Bounded real asset descriptors; no pixels/GL/emulator or whole ZIP inflate.",
+  "limits": "Engineering defaults, descriptor envelope only; shader/reflection, bone state, occurrence-specific allocations and simultaneous FX concurrency not fully censused",
+  "canonical_swamp_scope": "49 characters +5 chests, 10 unique model assets; constructed inspection prefix, whole activation unverified",
+  "blocked": [
+    {
+      "name": "_prim_Faery",
+      "kind": "Character",
+      "reason": "Actual player/faery model-name branch pending"
+    }
+  ],
+  "loader_packet_sha256": "a82afce4b37c33b9f98956e02dfc8cb606b97a32909a9f2fd71b4d5b175e08c2",
+  "loader_xml_sha256": "66374b3b3f5cfd9a3ae07b789783739aefa7f962e3bf2511e847ac041d183d8e",
+  "archive_bytes": 433189197,
+  "bounded_encoded_bytes_read": 20214744,
+  "rows": [
+    {
+      "encoded_bytes": 23652,
+      "kind": "BRES",
+      "geometries": 2,
+      "primitives": 3,
+      "static_vbo_bytes": 14184,
+      "static_ebo_bytes": 714,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/gameobjects/go_chest_swamp.bdae",
+      "instances": 5,
+      "sha256": "3387a4e39ff726b01aac29b2788f6ab64c97e0f37ca034c7c5c00545b9155e00"
+    },
+    {
+      "encoded_bytes": 42136,
+      "kind": "BRES",
+      "geometries": 1,
+      "primitives": 1,
+      "static_vbo_bytes": 9000,
+      "static_ebo_bytes": 2040,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/npcs/priest_good.bdae",
+      "instances": 1,
+      "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf"
+    },
+    {
+      "encoded_bytes": 76684,
+      "kind": "BRES",
+      "geometries": 2,
+      "primitives": 3,
+      "static_vbo_bytes": 31320,
+      "static_ebo_bytes": 3012,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/npcs/prisoner.bdae",
+      "instances": 7,
+      "sha256": "e77dd02716e81dbe9694d757d90ae2376e160f21294e48fbc1602a2a0ed742e5"
+    },
+    {
+      "encoded_bytes": 70344,
+      "kind": "BRES",
+      "geometries": 3,
+      "primitives": 3,
+      "static_vbo_bytes": 17280,
+      "static_ebo_bytes": 3270,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/troll/troll_swamp.bdae",
+      "instances": 3,
+      "sha256": "fd5d995cc2ff52d21d87b2f28fd1cb10f054e4206db6811bf019502430091a98"
+    },
+    {
+      "encoded_bytes": 73432,
+      "kind": "BRES",
+      "geometries": 3,
+      "primitives": 4,
+      "static_vbo_bytes": 42264,
+      "static_ebo_bytes": 2892,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/moth/moth.bdae",
+      "instances": 9,
+      "sha256": "c1ef1fef10e8ae846845734d1808eabe8acd219ad2f0d0b710dc70a9dcafbc7c"
+    },
+    {
+      "encoded_bytes": 68540,
+      "kind": "BRES",
+      "geometries": 3,
+      "primitives": 3,
+      "static_vbo_bytes": 15084,
+      "static_ebo_bytes": 2520,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/lizardman/lizardman.bdae",
+      "instances": 20,
+      "sha256": "acd6ff9ce6f2bad967cbdd8f015536304980443333fb3b7f8c735a450911acde"
+    },
+    {
+      "encoded_bytes": 71668,
+      "kind": "BRES",
+      "geometries": 4,
+      "primitives": 5,
+      "static_vbo_bytes": 30888,
+      "static_ebo_bytes": 2820,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/lizardman/lizardman_big.bdae",
+      "instances": 6,
+      "sha256": "e107edc11ae1aa0d69dbbee19153dd4b5ae3925d9a0850eac3f3478f40804e7b"
+    },
+    {
+      "encoded_bytes": 960,
+      "kind": "BRES",
+      "geometries": 0,
+      "primitives": 0,
+      "static_vbo_bytes": 0,
+      "static_ebo_bytes": 0,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [],
+      "family": "swamp54",
+      "uri": "data/3d/characters/invisible_man/invisible_man.bdae",
+      "instances": 1,
+      "sha256": "30a4c5431d8b53137f8eb1d87c9a166d13df5438a92fec2c14c4fa8781843d7e"
+    },
+    {
+      "encoded_bytes": 68908,
+      "kind": "BRES",
+      "geometries": 4,
+      "primitives": 5,
+      "static_vbo_bytes": 29520,
+      "static_ebo_bytes": 3432,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/swampking/swampking.bdae",
+      "instances": 1,
+      "sha256": "8f19f222bcfff6a5c4df93463310922e1b780026005c00c3cfecbee889233a81"
+    },
+    {
+      "encoded_bytes": 118864,
+      "kind": "BRES",
+      "geometries": 4,
+      "primitives": 4,
+      "static_vbo_bytes": 28764,
+      "static_ebo_bytes": 4188,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+        "q:/data/iphone/3d/textures/atlas_weapons_dh2.tga",
+        "q:/data/iphone/3d/textures/envmap_swamp.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/characters/npcs/edward_with_weapon.bdae",
+      "instances": 1,
+      "sha256": "8dda01234f264e28d88cf7f8af426c7be48bb331f979bf38cf3ce4743e5ee413"
+    },
+    {
+      "encoded_bytes": 5585024,
+      "kind": "BRES",
+      "geometries": 782,
+      "primitives": 814,
+      "static_vbo_bytes": 3196836,
+      "static_ebo_bytes": 254826,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/env_swamp.tga",
+        "q:/data/iphone/3d/textures/env_swamp_spec.tga",
+        "q:/data/iphone/3d/textures/pvr2_env_swamp_alpha.tga",
+        "q:/data/iphone/3d/textures/fx_black_eclipse.tga"
+      ],
+      "family": "swamp54",
+      "uri": "data/3d/modules/swamp/swamp.bdae",
+      "instances": 1,
+      "sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d"
+    },
+    {
+      "encoded_bytes": 3922816,
+      "kind": "BRES",
+      "geometries": 285,
+      "primitives": 291,
+      "static_vbo_bytes": 3227724,
+      "static_ebo_bytes": 245424,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/env_crypt.tga",
+        "q:/data/iphone/3d/textures/env_crypt_spec.tga",
+        "q:/data/iphone/3d/textures/pvr2_env_crypt_alpha.tga"
+      ],
+      "family": "crypt",
+      "uri": "data/3d/modules/crypt/crypt.bdae",
+      "instances": 1,
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    {
+      "encoded_bytes": 3207072,
+      "kind": "BRES",
+      "geometries": 173,
+      "primitives": 173,
+      "static_vbo_bytes": 907344,
+      "static_ebo_bytes": 163374,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+        "q:/data/iphone/3d/textures/atlas_modular_mage.tga",
+        "q:/data/iphone/3d/textures/atlas_modular_rogue.tga",
+        "q:/data/iphone/3d/textures/atlas_modular_warrior.tga",
+        "q:/data/iphone/3d/textures/envmap_swamp.tga"
+      ],
+      "family": "crypt",
+      "uri": "data/3d/characters/prince/prince_modular.bdae",
+      "instances": 1,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "encoded_bytes": 70736,
+      "kind": "BRES",
+      "geometries": 3,
+      "primitives": 3,
+      "static_vbo_bytes": 17028,
+      "static_ebo_bytes": 2340,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+        "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga"
+      ],
+      "family": "crypt",
+      "uri": "data/3d/characters/skeleton/skeleton.bdae",
+      "instances": 1,
+      "sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36"
+    },
+    {
+      "encoded_bytes": 19832,
+      "kind": "BRES",
+      "geometries": 3,
+      "primitives": 3,
+      "static_vbo_bytes": 432,
+      "static_ebo_bytes": 36,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga"
+      ],
+      "family": "target",
+      "uri": "data/3d/interface/quest_marker.bdae",
+      "instances": 1,
+      "sha256": "e49cd0fb966f3b8f83e0ed1e2865efdb392e4bc98e42eacc6b68a1508117f10c"
+    },
+    {
+      "encoded_bytes": 16444,
+      "kind": "BRES",
+      "geometries": 2,
+      "primitives": 2,
+      "static_vbo_bytes": 288,
+      "static_ebo_bytes": 24,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga"
+      ],
+      "family": "target",
+      "uri": "data/3d/interface/target_circle.bdae",
+      "instances": 1,
+      "sha256": "3625892b56a4cafc412669dbd8e4981e7053db8eb2bad45b4c401b16131628a5"
+    },
+    {
+      "encoded_bytes": 18048,
+      "kind": "BRES",
+      "geometries": 2,
+      "primitives": 2,
+      "static_vbo_bytes": 288,
+      "static_ebo_bytes": 24,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga"
+      ],
+      "family": "target",
+      "uri": "data/3d/interface/target_cross.bdae",
+      "instances": 1,
+      "sha256": "4ce1c8f0eadd3f876a8747a7acaae9ee1e0be8cb786218dfba1950e9f0e4c734"
+    },
+    {
+      "encoded_bytes": 20800,
+      "kind": "BRES",
+      "geometries": 1,
+      "primitives": 1,
+      "static_vbo_bytes": 1152,
+      "static_ebo_bytes": 96,
+      "emitters": 0,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "images": [
+        "q:/data/iphone/3d/textures/FX_smoke_03.tga"
+      ],
+      "family": "fire",
+      "uri": "data/3d/interface/spell_fire_hurt.bdae",
+      "instances": 1,
+      "sha256": "0a7f6ad9df54201b1591aeddd224546561bad5e441aec56d876f63ae6e0d68df"
+    },
+    {
+      "encoded_bytes": 40684,
+      "kind": "BRES",
+      "geometries": 1,
+      "primitives": 1,
+      "static_vbo_bytes": 144,
+      "static_ebo_bytes": 12,
+      "emitters": 1,
+      "max_particle_vbo_bytes": 14400,
+      "max_particle_ebo_bytes": 1200,
+      "images": [
+        "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga"
+      ],
+      "family": "fire",
+      "uri": "data/3d/interface/spell_fire_prince_casting.bdae",
+      "instances": 1,
+      "sha256": "98e66bf8f3c1906423272351a7b8303dec9656c4c0bff756a251a72b5c584360"
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "instances": 1,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "referenced_by": [
+        "crypt",
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "instances": 1,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "referenced_by": [
+        "crypt",
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 131132,
+      "kind": "texture",
+      "width": 512,
+      "height": 512,
+      "decoded_rgba_bytes": 1048576,
+      "full_mip_rgba_bytes": 1398100,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "instances": 1,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "referenced_by": [
+        "crypt",
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_fx_particles_002.tga",
+      "instances": 1,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18",
+      "referenced_by": [
+        "fire",
+        "target"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_modular_mage.tga",
+      "instances": 1,
+      "sha256": "3a171eb9f83cc008fb577a4dd66fdbc98db65499eda85e6a5a7de62c064ce6b9",
+      "referenced_by": [
+        "crypt"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_modular_rogue.tga",
+      "instances": 1,
+      "sha256": "edbd02af477575a8f83f3a80933b44018e86c5f4300fa5c01b356759011c03fc",
+      "referenced_by": [
+        "crypt"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_modular_warrior.tga",
+      "instances": 1,
+      "sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a",
+      "referenced_by": [
+        "crypt"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "instances": 1,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "referenced_by": [
+        "crypt",
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "instances": 1,
+      "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+      "referenced_by": [
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/atlas_weapons_dh2.tga",
+      "instances": 1,
+      "sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1",
+      "referenced_by": [
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/env_crypt.tga",
+      "instances": 1,
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad",
+      "referenced_by": [
+        "crypt"
+      ]
+    },
+    {
+      "encoded_bytes": 131132,
+      "kind": "texture",
+      "width": 512,
+      "height": 512,
+      "decoded_rgba_bytes": 1048576,
+      "full_mip_rgba_bytes": 1398100,
+      "family": "texture",
+      "uri": "data/3d/textures/env_crypt_spec.tga",
+      "instances": 1,
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737",
+      "referenced_by": [
+        "crypt"
+      ]
+    },
+    {
+      "encoded_bytes": 524348,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/env_swamp.tga",
+      "instances": 1,
+      "sha256": "f3eb432f6f2332b65a2bbeeb26528c3a6e3075ada4df9c6425aa1934816b4e4e",
+      "referenced_by": [
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 131132,
+      "kind": "texture",
+      "width": 512,
+      "height": 512,
+      "decoded_rgba_bytes": 1048576,
+      "full_mip_rgba_bytes": 1398100,
+      "family": "texture",
+      "uri": "data/3d/textures/env_swamp_spec.tga",
+      "instances": 1,
+      "sha256": "cd892b928ea9671bff1bf49154cecb3ee2271064aa2236127cb5b3542e95c0fc",
+      "referenced_by": [
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 2108,
+      "kind": "texture",
+      "width": 64,
+      "height": 64,
+      "decoded_rgba_bytes": 16384,
+      "full_mip_rgba_bytes": 21844,
+      "family": "texture",
+      "uri": "data/3d/textures/envmap_swamp.tga",
+      "instances": 1,
+      "sha256": "db73421e085b1068185f7ec04f8a0950fa0cb5a768a0b81953a692cbafd47bb7",
+      "referenced_by": [
+        "crypt",
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 8252,
+      "kind": "texture",
+      "width": 128,
+      "height": 128,
+      "decoded_rgba_bytes": 65536,
+      "full_mip_rgba_bytes": 87380,
+      "family": "texture",
+      "uri": "data/3d/textures/fx_black_eclipse.tga",
+      "instances": 1,
+      "sha256": "cb71b26bdfd476f0514d93f25ce6a878118df8633e7ab205fe08f882b7e23672",
+      "referenced_by": [
+        "swamp54"
+      ]
+    },
+    {
+      "encoded_bytes": 2108,
+      "kind": "texture",
+      "width": 64,
+      "height": 64,
+      "decoded_rgba_bytes": 16384,
+      "full_mip_rgba_bytes": 21844,
+      "family": "texture",
+      "uri": "data/3d/textures/fx_smoke_03.tga",
+      "instances": 1,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0",
+      "referenced_by": [
+        "fire"
+      ]
+    },
+    {
+      "encoded_bytes": 262204,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "instances": 1,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99",
+      "referenced_by": [
+        "crypt"
+      ]
+    },
+    {
+      "encoded_bytes": 262204,
+      "kind": "texture",
+      "width": 1024,
+      "height": 1024,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "family": "texture",
+      "uri": "data/3d/textures/pvr2_env_swamp_alpha.tga",
+      "instances": 1,
+      "sha256": "928622d0ef735d0cda4120b5bbe66e2d58e56d81cd7646579a23f683c20e76a0",
+      "referenced_by": [
+        "swamp54"
+      ]
+    }
+  ],
+  "families": {
+    "swamp54": {
+      "encoded_bytes": 6200212,
+      "static_vbo_bytes": 3415140,
+      "static_ebo_bytes": 279714,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "unique_models": 11,
+      "entity_occurrences": 54,
+      "module_occurrences": 1,
+      "unique_textures": 11,
+      "decoded_rgba_bytes": 31539200,
+      "full_mip_rgba_bytes": 42052252,
+      "texture_encoded_bytes": 3680916,
+      "occurrence_weighted_static_gpu_bytes": 4865802,
+      "shared_descriptor_gpu_bytes": 45747106,
+      "default_gpu256_texture128_fx64_fit": true
+    },
+    "crypt": {
+      "encoded_bytes": 7200624,
+      "static_vbo_bytes": 4152096,
+      "static_ebo_bytes": 411138,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "unique_models": 3,
+      "entity_occurrences": 3,
+      "module_occurrences": 0,
+      "unique_textures": 11,
+      "decoded_rgba_bytes": 35667968,
+      "full_mip_rgba_bytes": 47557276,
+      "texture_encoded_bytes": 4197012,
+      "occurrence_weighted_static_gpu_bytes": 4563234,
+      "shared_descriptor_gpu_bytes": 52120510,
+      "default_gpu256_texture128_fx64_fit": true
+    },
+    "target": {
+      "encoded_bytes": 54324,
+      "static_vbo_bytes": 1008,
+      "static_ebo_bytes": 84,
+      "max_particle_vbo_bytes": 0,
+      "max_particle_ebo_bytes": 0,
+      "unique_models": 3,
+      "entity_occurrences": 3,
+      "module_occurrences": 0,
+      "unique_textures": 1,
+      "decoded_rgba_bytes": 4194304,
+      "full_mip_rgba_bytes": 5592404,
+      "texture_encoded_bytes": 524348,
+      "occurrence_weighted_static_gpu_bytes": 1092,
+      "shared_descriptor_gpu_bytes": 5593496,
+      "default_gpu256_texture128_fx64_fit": true
+    },
+    "fire": {
+      "encoded_bytes": 61484,
+      "static_vbo_bytes": 1296,
+      "static_ebo_bytes": 108,
+      "max_particle_vbo_bytes": 14400,
+      "max_particle_ebo_bytes": 1200,
+      "unique_models": 2,
+      "entity_occurrences": 2,
+      "module_occurrences": 0,
+      "unique_textures": 2,
+      "decoded_rgba_bytes": 4210688,
+      "full_mip_rgba_bytes": 5614248,
+      "texture_encoded_bytes": 526456,
+      "occurrence_weighted_static_gpu_bytes": 1404,
+      "shared_descriptor_gpu_bytes": 5631252,
+      "default_gpu256_texture128_fx64_fit": true
+    }
+  },
+  "sources_sha256": {
+    "port/engine-resources/tests/resource_budget_asset_census_v37.cpp": "51f1077248d537efe6db8d807595d513a5092ef6640505153795680ddd4c9f8e",
+    "port/engine-resources/resource_budget_v37.cpp": "9282aacb83c4a57d474e25ea6d6962db342b3b7db3efb6f4ecdbae75da93a8e2",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/engine-textures/textures.cpp": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb"
+  },
+  "compile": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "port/engine-resources/tests/resource_budget_asset_census_v37.cpp",
+    "port/engine-resources/resource_budget_v37.cpp",
+    "port/engine-resources/resources.cpp",
+    "port/asset-payloads/payloads.cpp",
+    "port/engine-textures/textures.cpp",
+    "-Wl,--gc-sections",
+    "-pthread",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/resource-budget-v37/asset-census"
+  ]
+}

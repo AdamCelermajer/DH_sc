@@ -1,0 +1,7 @@
+{
+  "cases": 64,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_capture_sha256": "77ee71fb4fef11bc8a692f8d0b56b9e613912d098cd4aa021598e27ca94e50ac",
+  "corpus_sha256": "b93cd3e74e5c3cb2c3e644ab0a5c3225e5e65200ef3d3fbe19d8b0b2840b4623",
+  "scope": "Retained original direct ClearAggro contrast captures, actual RB erase/ownership instructions; original OnDeAggro/SetTarget/Stop bodies are supplied endpoints."
+}

@@ -31,7 +31,7 @@ jstring result(JNIEnv* env,const std::string& text){return env->NewStringUTF(tex
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_buildInfo(JNIEnv* env,jclass) {
   return result(env,"Native source reconstruction: animated scene nodes");
 }
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initialize(JNIEnv* env,jclass,jobject assets){
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initialize(JNIEnv* env,jclass,jobject assets,jstring manufacturer,jstring model){
   // Android has created a new context: previous GL names belong to the old
   // context and must not be deleted against this context's reused names.
   model_renderer::reset_context();ui_program={};texture=0;report_texture_frame=true;
@@ -43,6 +43,17 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initializ
     dh2::android_ui::validate_pixels(ui_program,premultiplied);
     dh2::android_ui::release(premultiplied);
     std::string ui_error;
+    const auto* version=glGetString(GL_VERSION);const auto* language=glGetString(GL_SHADING_LANGUAGE_VERSION);
+    if(!version||!language)throw std::runtime_error("Required live GLES2 driver unavailable");
+    auto java_string=[&](jstring value){
+        if(!value)throw std::runtime_error("Required Android Build fact absent");
+        const char* bytes=env->GetStringUTFChars(value,nullptr);
+        if(!bytes)throw std::runtime_error("Cannot read Android Build fact");
+        std::string result(bytes);env->ReleaseStringUTFChars(value,bytes);return result;
+    };
+    // Actual EGL context is requested as version2 and uses this GLES2 backend.
+    // Original COpenGLES2Driver::getDriverType5aefa4 returns8.
+    original_ui.bind_menu_device(java_string(manufacturer),java_string(model),8);
     if(!original_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);
   }catch(const std::exception& e){
     dh2::android_ui::release(premultiplied);dh2::android_ui::release(ui_program);
@@ -197,6 +208,20 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOr
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuAudio(JNIEnv* env,jclass){
   const auto command=original_ui.consume_menu_audio();return command.empty()?nullptr:result(env,command);
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuBrowser(JNIEnv* env,jclass){
+  const auto url=original_ui.consume_menu_browser();return url.empty()?nullptr:result(env,url);
+}
+extern "C" JNIEXPORT jint JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuCatalog(JNIEnv*,jclass){
+  return original_ui.consume_menu_catalog();
+}
+extern "C" JNIEXPORT jboolean JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuExit(JNIEnv*,jclass){
+  std::string error;
+  if(!original_ui.consume_menu_exit(error)){
+    if(!error.empty())original_ui_error=error;
+    return JNI_FALSE;
+  }
+  model_renderer::deactivate();return JNI_TRUE;
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_debugOriginalMenuSound(JNIEnv* env,jclass,jstring probe){
   if(!probe)return result(env,"Menu sound probe failed: missing probe");

@@ -1,0 +1,35 @@
+{
+  "validation": "PASS",
+  "scope": "Both-ABI build, full supplied cache, current x86_64 emulator Crypt/HUD/movement and one actual targeted Bash hit; source tests remain scoped. Not all skills, audio output, levels, full menus, responsive loading or stable60FPS.",
+  "checkpoint": {
+    "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\build\\checkpoints\\dh2-native-feature-v40-75dc51c6.apk",
+    "sha256": "75dc51c6d9f11c0a047b3f28be10112f942abc982bef719d1308142083d16051",
+    "bytes": 595906710
+  },
+  "physical_phone": {
+    "model": "Xiaomi17TPro",
+    "android": "16",
+    "apk_sha256": "280c64e168cd6ae1dc15b0185817af6909b1da232ff2850ceb51cf05dc762943",
+    "scope": "Earlier V40 cold launch fix+Crypt ARM64 rendering; no FPS/audio acceptance and predates HUD-resource integration."
+  },
+  "emulator": {
+    "api": 37,
+    "visible": true,
+    "hard_job_gib": 15,
+    "soft_job_gib": 14,
+    "paging_explicitly_requested": true,
+    "same_installed_apk_sha256_verified": true,
+    "targeted_skill_hp": [
+      12759,
+      10564
+    ],
+    "all_skill_families_verified": false,
+    "native_errors_in_saved_log": 0,
+    "fps": 37.86667025537364,
+    "p95_ms": 40.693695,
+    "p99_ms": 45.681708,
+    "max_ms": 381.340104,
+    "stationary_native_cpu_median_ms": 2.091,
+    "stationary_hud_mean_ms": 0.83
+  }
+}

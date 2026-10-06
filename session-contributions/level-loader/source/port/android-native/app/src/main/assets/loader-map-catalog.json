@@ -1,8 +1,8 @@
 {
   "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
-  "coverage_sha256": "e544f1c73c2871d6dcea841f8f5b351b7cc25f2192241c84b3fecedf348c3157",
-  "procedural_coverage_sha256": "012059d93c745ab142c995062a6f306958859b21e72285e26234701e46f0417b",
-  "scope": "Original fixed/generated map inspection; runtime mobs/chests pending; known seed failures explicit",
+  "coverage_sha256": "80919d0126a9203f0ecd694240ceaa75feaedaecb113b5034b935071177f150d",
+  "procedural_coverage_sha256": "5cc44ad8c1867def394c83dc30b3d7f74c5021cbeb000e2e9b5f676fb43b38bb",
+  "scope": "Fixed/procedural map inspection; original backups and explicit reference repairs; runtime mobs/chests pending",
   "maps": [
     {
       "identity": "ABBEY_RUINS_01",
@@ -104,7 +104,7 @@
       "identity": "ABBEY_ENTRANCE_01",
       "definition": "009_abbey.rule.xml",
       "kind": "procedural",
-      "label": "ABBEY_ENTRANCE_01 (generated)",
+      "label": "ABBEY_ENTRANCE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -114,7 +114,7 @@
       "identity": "APPLETEMPLE",
       "definition": "050_earth_temple_demo.rule.xml",
       "kind": "procedural",
-      "label": "APPLETEMPLE (generated)",
+      "label": "APPLETEMPLE (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -124,7 +124,7 @@
       "identity": "DESERT_CAVE_01",
       "definition": "016_red_desert_cave_01.rule.xml",
       "kind": "procedural",
-      "label": "DESERT_CAVE_01 (generated)",
+      "label": "DESERT_CAVE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -134,7 +134,7 @@
       "identity": "DESERT_CAVE_02",
       "definition": "017_red_desert_cave_02.rule.xml",
       "kind": "procedural",
-      "label": "DESERT_CAVE_02 (generated; 0: original no layout)",
+      "label": "DESERT_CAVE_02 (procedural; 0: original no layout)",
       "preparation_by_seed": {
         "0": "original_no_layout",
         "1": "assembled"
@@ -144,7 +144,7 @@
       "identity": "DESERT_CAVE_03",
       "definition": "018_red_desert_cave_03.rule.xml",
       "kind": "procedural",
-      "label": "DESERT_CAVE_03 (generated)",
+      "label": "DESERT_CAVE_03 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -154,7 +154,7 @@
       "identity": "EARTH_TEMPLE_01",
       "definition": "011_earth_temple_01.rule.xml",
       "kind": "procedural",
-      "label": "EARTH_TEMPLE_01 (generated)",
+      "label": "EARTH_TEMPLE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -164,7 +164,7 @@
       "identity": "EARTH_TEMPLE_02",
       "definition": "012_earth_temple_02.rule.xml",
       "kind": "procedural",
-      "label": "EARTH_TEMPLE_02 (generated)",
+      "label": "EARTH_TEMPLE_02 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -174,7 +174,7 @@
       "identity": "EARTH_TEMPLE_03",
       "definition": "013_earth_temple_03.rule.xml",
       "kind": "procedural",
-      "label": "EARTH_TEMPLE_03 (generated)",
+      "label": "EARTH_TEMPLE_03 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -184,7 +184,7 @@
       "identity": "ELEMENTAL_AIR",
       "definition": "030_el_air.rule.xml",
       "kind": "procedural",
-      "label": "ELEMENTAL_AIR (generated)",
+      "label": "ELEMENTAL_AIR (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -194,7 +194,7 @@
       "identity": "ELEMENTAL_EARTH",
       "definition": "014_el_earth.rule.xml",
       "kind": "procedural",
-      "label": "ELEMENTAL_EARTH (generated)",
+      "label": "ELEMENTAL_EARTH (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -204,7 +204,7 @@
       "identity": "ELEMENTAL_FIRE",
       "definition": "032_el_fire.rule.xml",
       "kind": "procedural",
-      "label": "ELEMENTAL_FIRE (generated)",
+      "label": "ELEMENTAL_FIRE (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -214,7 +214,7 @@
       "identity": "ELEMENTAL_LIGHT",
       "definition": "010_el_lightning.rule.xml",
       "kind": "procedural",
-      "label": "ELEMENTAL_LIGHT (generated)",
+      "label": "ELEMENTAL_LIGHT (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -224,7 +224,7 @@
       "identity": "ELEMENTAL_WATER",
       "definition": "024_el_water.rule.xml",
       "kind": "procedural",
-      "label": "ELEMENTAL_WATER (generated)",
+      "label": "ELEMENTAL_WATER (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -234,7 +234,7 @@
       "identity": "GOTHICUS_CASTLE_01",
       "definition": "008_gothicus_castle_01.rule.xml",
       "kind": "procedural",
-      "label": "GOTHICUS_CASTLE_01 (generated)",
+      "label": "GOTHICUS_CASTLE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -244,7 +244,7 @@
       "identity": "GOTHICUS_CASTLE_02",
       "definition": "021_gothicus_castle_02.rule.xml",
       "kind": "procedural",
-      "label": "GOTHICUS_CASTLE_02 (generated)",
+      "label": "GOTHICUS_CASTLE_02 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -254,7 +254,7 @@
       "identity": "GOTHICUS_CRYPT_01",
       "definition": "007_crypt_01.rule.xml",
       "kind": "procedural",
-      "label": "GOTHICUS_CRYPT_01 (generated)",
+      "label": "GOTHICUS_CRYPT_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -264,7 +264,7 @@
       "identity": "GOTHICUS_CRYPT_02",
       "definition": "020_crypt_02.rule.xml",
       "kind": "procedural",
-      "label": "GOTHICUS_CRYPT_02 (generated)",
+      "label": "GOTHICUS_CRYPT_02 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -274,7 +274,7 @@
       "identity": "ICY_CAVERN_01",
       "definition": "026_icy_cavern_01.rule.xml",
       "kind": "procedural",
-      "label": "ICY_CAVERN_01 (generated)",
+      "label": "ICY_CAVERN_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -284,7 +284,7 @@
       "identity": "ICY_CAVERN_02",
       "definition": "027_icy_cavern_02.rule.xml",
       "kind": "procedural",
-      "label": "ICY_CAVERN_02 (generated; 0: original no layout, 1: original no layout)",
+      "label": "ICY_CAVERN_02 (procedural; 0: original no layout, 1: original no layout)",
       "preparation_by_seed": {
         "0": "original_no_layout",
         "1": "original_no_layout"
@@ -294,7 +294,7 @@
       "identity": "ICY_CAVERN_03",
       "definition": "028_icy_cavern_03.rule.xml",
       "kind": "procedural",
-      "label": "ICY_CAVERN_03 (generated)",
+      "label": "ICY_CAVERN_03 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -304,7 +304,7 @@
       "identity": "LIGHT_HOUSE_01",
       "definition": "019_light_house_01.rule.xml",
       "kind": "procedural",
-      "label": "LIGHT_HOUSE_01 (generated)",
+      "label": "LIGHT_HOUSE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -314,7 +314,7 @@
       "identity": "LIGHT_HOUSE_02",
       "definition": "019_light_house_02.rule.xml",
       "kind": "procedural",
-      "label": "LIGHT_HOUSE_02 (generated)",
+      "label": "LIGHT_HOUSE_02 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -324,7 +324,7 @@
       "identity": "LIGHT_HOUSE_03",
       "definition": "019_light_house_03.rule.xml",
       "kind": "procedural",
-      "label": "LIGHT_HOUSE_03 (generated)",
+      "label": "LIGHT_HOUSE_03 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -334,7 +334,7 @@
       "identity": "QUESTTEST",
       "definition": "102_debug_QUESTTEST.rule.xml",
       "kind": "procedural",
-      "label": "QUESTTEST (generated)",
+      "label": "QUESTTEST (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -344,7 +344,7 @@
       "identity": "RANDOMFORALEX",
       "definition": "125_RandomForAlexB.rule.xml",
       "kind": "procedural",
-      "label": "RANDOMFORALEX (generated)",
+      "label": "RANDOMFORALEX (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -354,7 +354,7 @@
       "identity": "ROOT_DEN_01",
       "definition": "004_root_den.rule.xml",
       "kind": "procedural",
-      "label": "ROOT_DEN_01 (generated)",
+      "label": "ROOT_DEN_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -364,7 +364,7 @@
       "identity": "SECRET_BASEMENT_01",
       "definition": "006_basement.rule.xml",
       "kind": "procedural",
-      "label": "SECRET_BASEMENT_01 (generated)",
+      "label": "SECRET_BASEMENT_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -374,7 +374,7 @@
       "identity": "SWAMP_02",
       "definition": "022_swamp2.rule.xml",
       "kind": "procedural",
-      "label": "SWAMP_02 (generated)",
+      "label": "SWAMP_02 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -384,7 +384,7 @@
       "identity": "SWAMP_CAVE_TROLL_A",
       "definition": "022_swamp2_trollcave.rule.xml",
       "kind": "procedural",
-      "label": "SWAMP_CAVE_TROLL_A (generated)",
+      "label": "SWAMP_CAVE_TROLL_A (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -394,7 +394,7 @@
       "identity": "SWAMP_CAVE_WITCH_A",
       "definition": "002_swamp_witchcave.rule.xml",
       "kind": "procedural",
-      "label": "SWAMP_CAVE_WITCH_A (generated)",
+      "label": "SWAMP_CAVE_WITCH_A (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -404,7 +404,7 @@
       "identity": "VOID_MAZE_01",
       "definition": "033_voidmaze_01.rule.xml",
       "kind": "procedural",
-      "label": "VOID_MAZE_01 (generated)",
+      "label": "VOID_MAZE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -414,7 +414,7 @@
       "identity": "VOID_MAZE_02",
       "definition": "034_voidmaze_02.rule.xml",
       "kind": "procedural",
-      "label": "VOID_MAZE_02 (generated)",
+      "label": "VOID_MAZE_02 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -424,7 +424,7 @@
       "identity": "VOID_MAZE_03",
       "definition": "035_voidmaze_03.rule.xml",
       "kind": "procedural",
-      "label": "VOID_MAZE_03 (generated; 1: assembly blocked)",
+      "label": "VOID_MAZE_03 (procedural; 1: assembly blocked)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembly_blocked"
@@ -434,7 +434,7 @@
       "identity": "WATER_TEMPLE_01",
       "definition": "023_watertemple.rule.xml",
       "kind": "procedural",
-      "label": "WATER_TEMPLE_01 (generated)",
+      "label": "WATER_TEMPLE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"
@@ -444,7 +444,7 @@
       "identity": "WIND_TEMPLE_01",
       "definition": "029_wind_temple.rule.xml",
       "kind": "procedural",
-      "label": "WIND_TEMPLE_01 (generated)",
+      "label": "WIND_TEMPLE_01 (procedural)",
       "preparation_by_seed": {
         "0": "assembled",
         "1": "assembled"

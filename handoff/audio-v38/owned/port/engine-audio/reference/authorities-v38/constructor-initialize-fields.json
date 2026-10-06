@@ -1,0 +1,16 @@
+{
+  "validation": "PASS",
+  "original_instructions_executed": true,
+  "constructor_prefix_until": "324114 logging endpoint before soundpack/engine construction",
+  "constructor_distance_fields": [
+    1000,
+    1000,
+    1.0
+  ],
+  "initialize_block": "36c3bc..36c3d8",
+  "general_integer_call": [
+    2,
+    4
+  ],
+  "scope": "Reached scalar fields only. No whole manager/World/output initialization claim."
+}

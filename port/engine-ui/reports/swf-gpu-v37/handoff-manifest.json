@@ -1,0 +1,95 @@
+{
+  "scope": "Bounded V37 shared HUD submission successor: exact final normal alpha-zero no-op outside masks, mandatory GL error barriers with command ranges, per-context capability cache; V36 bounded geometry/lazy target retained",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.hpp",
+      "sha256": "76883045e1bad108fbb1f388a9fa937eb497a965fbcb43c9546237fcc29b3723"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "sha256": "10c7fcd0997f5294db92177153930c2a95173947649a2c71248ca5edbf016457"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "sha256": "cb10f80b5666619c1aa64a02023642a053a2f35fee0609955e2d868a73c3f0c0"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/frame_perf_v35.hpp",
+      "sha256": "ad689e2416e2965e79afca3c56499728578cbb25dad8bc8076fdeac0200024b7"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.hpp",
+      "sha256": "ea8e59d32f4fb53a532391f277c395829737ca61ae0a7e0294b5ad1dca1fbe53"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.cpp",
+      "sha256": "23dbc3a073659037c1a0e25486c46db3b683d31bc4bd42e13cec2203a78a97cc"
+    },
+    {
+      "path": "port/engine-ui/tests/swf_gpu_submission_v37.cpp",
+      "sha256": "c32c6aac090ab8f9d8a666b0f3b2091829400169c98bde12e3466c4ff3294197"
+    },
+    {
+      "path": "port/engine-ui/tests/swf_gpu_submission_contract_v37.cpp",
+      "sha256": "dab670a56adb8c56634f4f3b48afff74e5c005dea1e2ffc4fe3d3cd0dbe9ccb1"
+    },
+    {
+      "path": ".local-inputs/run_swf_gpu_host_v37.py",
+      "sha256": "200d403b9d8a73cdb65c2fcb02ad886176c56e061972655778253558ceb61bed"
+    },
+    {
+      "path": ".local-inputs/compile_swf_gpu_v37.py",
+      "sha256": "b7bc9b4a86c2069dc79c1e70e76ca95b6934f1764f014c48e46ccf510b918ad1"
+    },
+    {
+      "path": ".local-inputs/compile_swf_gpu_pixel_v37_bothabi.py",
+      "sha256": "b426847f3293abbba25c6e34fbbd6cef4c60e028176a7df285df8dc95f112536"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v37/compile.json",
+      "sha256": "6bbae8e12f32cdebfe18da92150291d15da4e2ec6409a9eb040c3bd980e02a5f"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v37/host-receipt.json",
+      "sha256": "dc0fed1a87da8341095657ec8f2e8f88aaac6a865e80bff79728fe9ce940dde1"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v37/pixel-compile-receipt.json",
+      "sha256": "5a69879f293fe6ec2a132797c0e22c5778d8f40103ade0a9e3b47b65d0f2f829"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v37/README.md",
+      "sha256": "a4e5eec3d409283f6eb253443797e3f7ea52f0b32f64342b4e9d302b78ca4045"
+    },
+    {
+      "path": ".local-inputs/swf-gpu-v37-host-headers/GLES2/gl2.h",
+      "sha256": "0704835ae4d63ef570d8e2351201a22346cfd8d16571d0811f3102a6491a8c31"
+    },
+    {
+      "path": ".local-inputs/swf-gpu-v37-host-headers/GLES2/gl2platform.h",
+      "sha256": "8f25443c4c5b3c8e702c3510f12b6ec8c23c2e3c1ca1c71bb07d148653696d9a"
+    },
+    {
+      "path": ".local-inputs/swf-gpu-v37-host-headers/KHR/khrplatform.h",
+      "sha256": "c0c4d12cbb14161c88509b3d7a853730da6ea5a68592ca613668428dd2381129"
+    },
+    {
+      "path": ".local-inputs/swf-gpu-v37-host-headers/android/asset_manager.h",
+      "sha256": "18672be6a7587af7a1ad316b8297117a9c7940bed1f547053f3dfb72c18e3704"
+    },
+    {
+      "path": ".local-inputs/swf-gpu-v37-host-headers/android/log.h",
+      "sha256": "6b419b60192911d2232d111fe107918490228ce2430fdba867ae86ac6d56d8bd"
+    }
+  ],
+  "proofs": {
+    "strict_ABI_compiles": 6,
+    "host_ASan_UBSan_checks": 1085,
+    "actual_GLES_fixture_ABI_link_compiles": 2
+  },
+  "runtime_pixel_menu_FPS_acceptance": "PENDING safe QA environment; no device operation",
+  "required_shared_hooks": [
+    "existing engine-ui CMake swf_vertex_cache_v36.cpp",
+    "existing root frame_perf_v35.hpp ui_geometry/ui_submit/ui_update phases"
+  ]
+}

@@ -15,6 +15,7 @@ public:
     HudFreetypeFont(const HudFreetypeFont&)=delete;
     HudFreetypeFont& operator=(const HudFreetypeFont&)=delete;
     bool load(const std::uint8_t*,std::size_t,std::string&);
+    bool face_metrics(float& units,float& height,std::string&) const;
     bool raster(FreetypeGlyph&,std::uint32_t,std::int32_t,float,std::string&,HudBitmapInfo32* info=nullptr);
     static const char* version();
 private:

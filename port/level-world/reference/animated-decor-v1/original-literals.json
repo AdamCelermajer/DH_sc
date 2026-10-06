@@ -1,0 +1,12 @@
+[
+  {
+    "use": "random_all_token",
+    "address": "0x8c22c0",
+    "value": "randomall"
+  },
+  {
+    "use": "empty_start_animation_assignment",
+    "address": "0x8c22b8",
+    "value": "idle"
+  }
+]

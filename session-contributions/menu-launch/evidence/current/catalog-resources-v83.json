@@ -1,0 +1,73 @@
+{
+  "2131034593": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "Loading..."
+    ]
+  ],
+  "2131034594": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "Chargement..."
+    ]
+  ],
+  "2131034595": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "L\u00e4dt..."
+    ]
+  ],
+  "2131034596": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "Caricamento in corso..."
+    ]
+  ],
+  "2131034597": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "Cargando..."
+    ]
+  ],
+  "2131034598": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "\u8aad\u307f\u8fbc\u3093\u3067\u3044\u307e\u3059..."
+    ]
+  ],
+  "2131034599": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "\ubd88\ub7ec\uc624\ub294 \uc911..."
+    ]
+  ],
+  "2131034600": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "\u8f7d\u5165\u4e2d\u2026\u2026"
+    ]
+  ],
+  "2131034601": [
+    [
+      "<ARSCResTableConfig ''=(0, 0, 0, 0, 0, 0, 0, 0, 0)>",
+      "Carregando..."
+    ]
+  ],
+  "activities": [
+    {
+      "{http://schemas.android.com/apk/res/android}theme": "@android:01030006",
+      "{http://schemas.android.com/apk/res/android}name": ".GLiveMain",
+      "{http://schemas.android.com/apk/res/android}multiprocess": "false",
+      "{http://schemas.android.com/apk/res/android}screenOrientation": "1",
+      "{http://schemas.android.com/apk/res/android}configChanges": "0x4000037F"
+    },
+    {
+      "{http://schemas.android.com/apk/res/android}name": ".IGPActivity",
+      "{http://schemas.android.com/apk/res/android}multiprocess": "false",
+      "{http://schemas.android.com/apk/res/android}finishOnTaskLaunch": "true",
+      "{http://schemas.android.com/apk/res/android}clearTaskOnLaunch": "true",
+      "{http://schemas.android.com/apk/res/android}screenOrientation": "1",
+      "{http://schemas.android.com/apk/res/android}configChanges": "0x4000037F"
+    }
+  ]
+}

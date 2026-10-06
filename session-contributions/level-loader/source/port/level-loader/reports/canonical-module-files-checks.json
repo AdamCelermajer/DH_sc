@@ -1,0 +1,53 @@
+{
+  "validation": "PASS",
+  "scope": "Actual Module LoadFile relay over retained original XML and SAME Level fields; positive Player-exclusion source fixtures only",
+  "cases": [
+    {
+      "build": "host",
+      "probe_sha256": "c0540a8f37de4dcd3a3ddb623c015ae89f70fb73920e2f8f4cf0596f26b42290",
+      "result": {
+        "validation": "PASS",
+        "module_file_checks": 14,
+        "positive_source_gate_fixtures": true,
+        "class_construction_verified": false,
+        "full_loader_verified": false
+      },
+      "original_source_stop": "real_first_failure=OpenableContainer uri=data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "59d88faf9d3844eb8f2f19612f22dcfe6a7710710cee57c1fa616b09b70c4dd3",
+      "result": {
+        "validation": "PASS",
+        "module_file_checks": 14,
+        "positive_source_gate_fixtures": true,
+        "class_construction_verified": false,
+        "full_loader_verified": false
+      },
+      "original_source_stop": "real_first_failure=OpenableContainer uri=data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "6c779bdb3c53fdd21580866861cb47e62791e848285ecd4a39e330db7c8ef6b7",
+      "result": {
+        "validation": "PASS",
+        "module_file_checks": 14,
+        "positive_source_gate_fixtures": true,
+        "class_construction_verified": false,
+        "full_loader_verified": false
+      },
+      "original_source_stop": "real_first_failure=OpenableContainer uri=data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+    }
+  ],
+  "arm64_compile_sha256": "a5ae9a0f188f7b21b5dd016c67531eb7e06ea1eb1d7bf2b4dbf901138a7bd3c0",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "fixture_sha256": "770b21ab0ddef32e7ca14fc4d462c3c409b98d89e6b5e310ca7b61214e68aff5",
+  "source_sha256": {
+    "port/level-loader/canonical_module_files_v1.hpp": "8e72dc7a77c3b0d8076a58f7d8201634b0907269a3f72754d6496ec8755398a5",
+    "port/level-loader/canonical_module_files_v1.cpp": "47fc1dc4dc58f462136b82ac69d2e82a7b25b1a18a8d54396d5268d2617627fd",
+    "port/level-loader/tests/canonical_module_files_probe.cpp": "a41c6ff2233c20e550d219ffb6565134854f86f3229ab613aa45f731114b329d"
+  },
+  "actual_module_class_verified": false,
+  "class_construction_verified": false,
+  "full_loader_verified": false
+}

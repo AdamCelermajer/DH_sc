@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "archive": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\reports\\level-constructor-state-type-v38\\handoff.zip",
+  "archive_sha256": "08c71c1a4a2ee214b939ff76989afeba630850e56d224259deb61bc376d33d0a",
+  "payloads_verified": 2,
+  "destination": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\level-constructor-state-type-v38-received",
+  "selected_into_active_graph": false,
+  "whole_level_init_verified": false,
+  "scope": "Frozen main state130 type successor only; actual counter134/138 reconstruction remains separate"
+}

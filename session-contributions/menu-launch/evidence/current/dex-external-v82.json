@@ -1,0 +1,1832 @@
+[
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/Billing;",
+    "name": "getsUrl",
+    "code_offset": 206436,
+    "flags": 10,
+    "registers": 1,
+    "units": [
+      "0x62",
+      "0x40",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/Billing;",
+    "name": "setsUrl",
+    "code_offset": 206668,
+    "flags": 9,
+    "registers": 1,
+    "units": [
+      "0x69",
+      "0x40",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "name": "OpenGLive",
+    "code_offset": 208996,
+    "flags": 9,
+    "registers": 1,
+    "units": [
+      "0x1071",
+      "0x258",
+      "0x0",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible method",
+        0,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+          "launchGLLive"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "name": "OpenIGP",
+    "code_offset": 209020,
+    "flags": 9,
+    "registers": 1,
+    "units": [
+      "0x1071",
+      "0x259",
+      "0x0",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible method",
+        0,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+          "launchIGP"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "name": "launchIGP",
+    "code_offset": 210132,
+    "flags": 9,
+    "registers": 4,
+    "units": [
+      "0x33b",
+      "0x3",
+      "0x312",
+      "0x367",
+      "0x6c",
+      "0x22",
+      "0x24",
+      "0x162",
+      "0x294",
+      "0x21c",
+      "0xc9",
+      "0x3070",
+      "0x6e",
+      "0x210",
+      "0x11a",
+      "0xcaa",
+      "0x306e",
+      "0x78",
+      "0x310",
+      "0x162",
+      "0x294",
+      "0x206e",
+      "0x67",
+      "0x1",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible method",
+        11,
+        [
+          "Landroid/content/Intent;",
+          "<init>"
+        ]
+      ],
+      [
+        "possible method",
+        12,
+        [
+          "Landroid/widget/TextView;",
+          "setText"
+        ]
+      ],
+      [
+        "possible string",
+        14,
+        "language"
+      ],
+      [
+        "possible method",
+        16,
+        [
+          "Landroid/content/Intent;",
+          "putExtra"
+        ]
+      ],
+      [
+        "possible method",
+        21,
+        [
+          "Landroid/content/Context;",
+          "startActivity"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "name": "openBrowser",
+    "code_offset": 210276,
+    "flags": 9,
+    "registers": 4,
+    "units": [
+      "0x338",
+      "0x8",
+      "0x106e",
+      "0xd01",
+      "0x3",
+      "0xa",
+      "0x3c",
+      "0x3",
+      "0xe",
+      "0x22",
+      "0x24",
+      "0x11a",
+      "0x795",
+      "0x1071",
+      "0xd0",
+      "0x3",
+      "0x20c",
+      "0x3070",
+      "0x70",
+      "0x210",
+      "0x162",
+      "0x294",
+      "0x206e",
+      "0x67",
+      "0x1",
+      "0xef28",
+      "0xd",
+      "0x106e",
+      "0xcce",
+      "0x0",
+      "0xea28"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible method",
+        2,
+        [
+          "Ljava/lang/String;",
+          "length"
+        ]
+      ],
+      [
+        "possible string",
+        11,
+        "android.intent.action.VIEW"
+      ],
+      [
+        "possible method",
+        13,
+        [
+          "Landroid/net/Uri;",
+          "parse"
+        ]
+      ],
+      [
+        "possible method",
+        17,
+        [
+          "Landroid/content/Intent;",
+          "<init>"
+        ]
+      ],
+      [
+        "possible method",
+        18,
+        [
+          "Landroid/widget/TextView;",
+          "setText"
+        ]
+      ],
+      [
+        "possible method",
+        22,
+        [
+          "Landroid/content/Context;",
+          "startActivity"
+        ]
+      ],
+      [
+        "possible method",
+        27,
+        [
+          "Ljava/lang/Exception;",
+          "printStackTrace"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/GLUtils/Device;",
+    "name": "ValidateStringforURL",
+    "code_offset": 229812,
+    "flags": 9,
+    "registers": 2,
+    "units": [
+      "0x1a",
+      "0x63f",
+      "0x2071",
+      "0xd4f",
+      "0x1",
+      "0x10c",
+      "0x111",
+      "0xd",
+      "0xfe28"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible string",
+        0,
+        "UTF-8"
+      ],
+      [
+        "possible method",
+        2,
+        [
+          "Ljava/net/URLEncoder;",
+          "encode"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain$HelloWebViewClient;",
+    "name": "shouldOverrideUrlLoading",
+    "code_offset": 254924,
+    "flags": 17,
+    "registers": 9,
+    "units": [
+      "0xf312",
+      "0x1112",
+      "0x12",
+      "0x21a",
+      "0xbeb",
+      "0x206e",
+      "0xd06",
+      "0x28",
+      "0x20a",
+      "0x238",
+      "0x10",
+      "0x16a",
+      "0x255",
+      "0x21a",
+      "0xb9b",
+      "0x206e",
+      "0xcfd",
+      "0x28",
+      "0x20a",
+      "0x3232",
+      "0x20",
+      "0x2070",
+      "0x3ce",
+      "0x86",
+      "0xf",
+      "0x263",
+      "0x255",
+      "0x238",
+      "0xa",
+      "0x21a",
+      "0xb9e",
+      "0x206e",
+      "0xd06",
+      "0x28",
+      "0x20a",
+      "0x239",
+      "0xa",
+      "0x21a",
+      "0xd1c",
+      "0x206e",
+      "0xd06",
+      "0x28",
+      "0x20a",
+      "0x238",
+      "0x5",
+      "0x16a",
+      "0x255",
+      "0xde28",
+      "0x6a",
+      "0x255",
+      "0xdb28",
+      "0x21a",
+      "0xb9e",
+      "0x206e",
+      "0xd06",
+      "0x28",
+      "0x20a",
+      "0x238",
+      "0x7",
+      "0x2070",
+      "0x3ce",
+      "0x86",
+      "0x1001",
+      "0xd928",
+      "0x21a",
+      "0x1181",
+      "0x206e",
+      "0xcfd",
+      "0x28",
+      "0x20a",
+      "0x3232",
+      "0x7",
+      "0x2070",
+      "0x3ce",
+      "0x86",
+      "0x1001",
+      "0xcc28",
+      "0x21a",
+      "0xd1c",
+      "0x206e",
+      "0xd06",
+      "0x28",
+      "0x20a",
+      "0x238",
+      "0x7",
+      "0x2070",
+      "0x3ce",
+      "0x86",
+      "0x1001",
+      "0xbf28",
+      "0x21a",
+      "0xbea",
+      "0x206e",
+      "0xcf0",
+      "0x28",
+      "0x20a",
+      "0x239",
+      "0x2e",
+      "0x262",
+      "0x22f",
+      "0x362",
+      "0x1fa",
+      "0x206e",
+      "0x1eb",
+      "0x32",
+      "0x262",
+      "0x22f",
+      "0x362",
+      "0x275",
+      "0x206e",
+      "0x1eb",
+      "0x32",
+      "0x222",
+      "0x88",
+      "0x360",
+      "0x1ac",
+      "0x460",
+      "0x1ad",
+      "0x5070",
+      "0x177",
+      "0x432",
+      "0x362",
+      "0x275",
+      "0x106e",
+      "0x17b",
+      "0x3",
+      "0x6a",
+      "0x254",
+      "0x62",
+      "0x22f",
+      "0x362",
+      "0x275",
+      "0x306e",
+      "0x1e5",
+      "0x230",
+      "0x62",
+      "0x275",
+      "0x106e",
+      "0x17d",
+      "0x0",
+      "0x1001",
+      "0x8b28",
+      "0x21a",
+      "0xbbf",
+      "0x206e",
+      "0xcf0",
+      "0x28",
+      "0x20a",
+      "0x239",
+      "0x55",
+      "0x262",
+      "0x22f",
+      "0x362",
+      "0x26e",
+      "0x206e",
+      "0x1eb",
+      "0x32",
+      "0x262",
+      "0x22f",
+      "0x362",
+      "0x264",
+      "0x206e",
+      "0x1eb",
+      "0x32",
+      "0x262",
+      "0x22f",
+      "0x362",
+      "0x26d",
+      "0x206e",
+      "0x1eb",
+      "0x32",
+      "0x262",
+      "0x22f",
+      "0x362",
+      "0x1c5",
+      "0x206e",
+      "0x1eb",
+      "0x32",
+      "0x222",
+      "0x88",
+      "0x360",
+      "0x1ac",
+      "0x460",
+      "0x1ad",
+      "0x5070",
+      "0x177",
+      "0x432",
+      "0x362",
+      "0x22f",
+      "0x462",
+      "0x276",
+      "0x306e",
+      "0x1e5",
+      "0x243",
+      "0x16a",
+      "0x21c",
+      "0x262",
+      "0x208",
+      "0x31a",
+      "0xc97",
+      "0x206e",
+      "0x1a8",
+      "0x32",
+      "0x262",
+      "0x208",
+      "0x314",
+      "0x7a7a",
+      "0xff7a",
+      "0x206e",
+      "0x1a9",
+      "0x32",
+      "0x262",
+      "0x208",
+      "0x2312",
+      "0x1071",
+      "0xa8",
+      "0x3",
+      "0x30c",
+      "0x206e",
+      "0x1ab",
+      "0x32",
+      "0x262",
+      "0x206",
+      "0x206e",
+      "0x16f",
+      "0x82",
+      "0x16a",
+      "0x209",
+      "0x6a",
+      "0x20a",
+      "0x1001",
+      "0x29",
+      "0xff31",
+      "0x21a",
+      "0xbbe",
+      "0x206e",
+      "0xd06",
+      "0x28",
+      "0x20a",
+      "0x239",
+      "0xa",
+      "0x21a",
+      "0xbbd",
+      "0x206e",
+      "0xd06",
+      "0x28",
+      "0x20a",
+      "0x238",
+      "0x59",
+      "0x21a",
+      "0x1130",
+      "0x206e",
+      "0xd05",
+      "0x28",
+      "0x20c",
+      "0x246",
+      "0x102",
+      "0x31a",
+      "0x55",
+      "0x206e",
+      "0xd05",
+      "0x32",
+      "0x20c",
+      "0x362",
+      "0x1d2",
+      "0x460",
+      "0x1d4",
+      "0x546",
+      "0x2",
+      "0x54d",
+      "0x403",
+      "0x362",
+      "0x1d3",
+      "0x460",
+      "0x1d4",
+      "0x246",
+      "0x102",
+      "0x24d",
+      "0x403",
+      "0x260",
+      "0x1d4",
+      "0x2d8",
+      "0x102",
+      "0x267",
+      "0x1d4",
+      "0x262",
+      "0x22f",
+      "0x362",
+      "0x1fa",
+      "0x206e",
+      "0x1eb",
+      "0x32",
+      "0x222",
+      "0x88",
+      "0x360",
+      "0x1ac",
+      "0x460",
+      "0x1ad",
+      "0x5070",
+      "0x177",
+      "0x432",
+      "0x362",
+      "0x275",
+      "0x106e",
+      "0x17b",
+      "0x3",
+      "0x6a",
+      "0x254",
+      "0x62",
+      "0x22f",
+      "0x362",
+      "0x275",
+      "0x306e",
+      "0x1e5",
+      "0x230",
+      "0x62",
+      "0x275",
+      "0x106e",
+      "0x17d",
+      "0x0",
+      "0x6054",
+      "0x1aa",
+      "0x262",
+      "0x1d2",
+      "0x360",
+      "0x1d4",
+      "0x3d8",
+      "0xff03",
+      "0x246",
+      "0x302",
+      "0x206e",
+      "0x3db",
+      "0x20",
+      "0x1001",
+      "0x29",
+      "0xfeca",
+      "0x21a",
+      "0xba4",
+      "0x206e",
+      "0xcf0",
+      "0x28",
+      "0x20a",
+      "0x239",
+      "0x14",
+      "0x1071",
+      "0xcd8",
+      "0x0",
+      "0x20c",
+      "0x269",
+      "0x1d6",
+      "0x1071",
+      "0xcd8",
+      "0x0",
+      "0xc",
+      "0x69",
+      "0x1cb",
+      "0x206e",
+      "0x16f",
+      "0x87",
+      "0x1001",
+      "0x29",
+      "0xfeb0",
+      "0x1a",
+      "0x734",
+      "0x206e",
+      "0xcf0",
+      "0x8",
+      "0xa",
+      "0x39",
+      "0x5",
+      "0x1001",
+      "0x29",
+      "0xfea5",
+      "0x206e",
+      "0x16f",
+      "0x87",
+      "0x29",
+      "0xff6e",
+      "0x20d",
+      "0x29",
+      "0xfef5"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible string",
+        3,
+        "http://livewebapp.gameloft.com/scripts/banners_click.php"
+      ],
+      [
+        "possible method",
+        5,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible string",
+        13,
+        "http://dl.gameloft.com"
+      ],
+      [
+        "possible method",
+        15,
+        [
+          "Ljava/lang/String;",
+          "indexOf"
+        ]
+      ],
+      [
+        "possible method",
+        21,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain$HelloWebViewClient;",
+          "a"
+        ]
+      ],
+      [
+        "possible string",
+        29,
+        "http://ingameads.gameloft.com/redir/?from"
+      ],
+      [
+        "possible method",
+        31,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible string",
+        37,
+        "market://"
+      ],
+      [
+        "possible method",
+        39,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible string",
+        51,
+        "http://ingameads.gameloft.com/redir/?from"
+      ],
+      [
+        "possible method",
+        53,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible method",
+        59,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain$HelloWebViewClient;",
+          "a"
+        ]
+      ],
+      [
+        "possible string",
+        64,
+        "youtube.com"
+      ],
+      [
+        "possible method",
+        66,
+        [
+          "Ljava/lang/String;",
+          "indexOf"
+        ]
+      ],
+      [
+        "possible method",
+        72,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain$HelloWebViewClient;",
+          "a"
+        ]
+      ],
+      [
+        "possible string",
+        77,
+        "market://"
+      ],
+      [
+        "possible method",
+        79,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible method",
+        85,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain$HelloWebViewClient;",
+          "a"
+        ]
+      ],
+      [
+        "possible string",
+        90,
+        "http://livewebapp.gameloft.com/glive/signal-back"
+      ],
+      [
+        "possible method",
+        92,
+        [
+          "Ljava/lang/String;",
+          "compareTo"
+        ]
+      ],
+      [
+        "possible method",
+        102,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "removeView"
+        ]
+      ],
+      [
+        "possible method",
+        109,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "removeView"
+        ]
+      ],
+      [
+        "possible method",
+        118,
+        [
+          "Landroid/widget/AbsoluteLayout$LayoutParams;",
+          "<init>"
+        ]
+      ],
+      [
+        "possible method",
+        123,
+        [
+          "Landroid/widget/AbsoluteLayout;",
+          "clearFocus"
+        ]
+      ],
+      [
+        "possible method",
+        132,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "addView"
+        ]
+      ],
+      [
+        "possible method",
+        137,
+        [
+          "Landroid/widget/AbsoluteLayout;",
+          "requestFocus"
+        ]
+      ],
+      [
+        "possible string",
+        142,
+        "http://livewebapp.gameloft.com/glive/friends/show-invite-email"
+      ],
+      [
+        "possible method",
+        144,
+        [
+          "Ljava/lang/String;",
+          "compareTo"
+        ]
+      ],
+      [
+        "possible method",
+        154,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "removeView"
+        ]
+      ],
+      [
+        "possible method",
+        161,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "removeView"
+        ]
+      ],
+      [
+        "possible method",
+        168,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "removeView"
+        ]
+      ],
+      [
+        "possible method",
+        175,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "removeView"
+        ]
+      ],
+      [
+        "possible method",
+        184,
+        [
+          "Landroid/widget/AbsoluteLayout$LayoutParams;",
+          "<init>"
+        ]
+      ],
+      [
+        "possible method",
+        191,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "addView"
+        ]
+      ],
+      [
+        "possible string",
+        198,
+        "john@example.com, alex@example.com"
+      ],
+      [
+        "possible method",
+        200,
+        [
+          "Landroid/widget/EditText;",
+          "setText"
+        ]
+      ],
+      [
+        "possible method",
+        208,
+        [
+          "Landroid/widget/EditText;",
+          "setTextColor"
+        ]
+      ],
+      [
+        "possible method",
+        214,
+        [
+          "Landroid/graphics/Typeface;",
+          "defaultFromStyle"
+        ]
+      ],
+      [
+        "possible method",
+        218,
+        [
+          "Landroid/widget/EditText;",
+          "setTypeface"
+        ]
+      ],
+      [
+        "possible method",
+        223,
+        [
+          "Landroid/webkit/WebView;",
+          "loadUrl"
+        ]
+      ],
+      [
+        "possible method",
+        224,
+        [
+          "Landroid/content/IntentFilter;",
+          "<init>"
+        ]
+      ],
+      [
+        "possible string",
+        233,
+        "http://livewebapp.gameloft.com/glive/friends/index/select/yes?user_name="
+      ],
+      [
+        "possible method",
+        235,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible string",
+        241,
+        "http://livewebapp.gameloft.com/glive/friends/index/select/yes/?user_name="
+      ],
+      [
+        "possible method",
+        243,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible string",
+        249,
+        "user_name="
+      ],
+      [
+        "possible method",
+        251,
+        [
+          "Ljava/lang/String;",
+          "split"
+        ]
+      ],
+      [
+        "possible string",
+        257,
+        "&user_id="
+      ],
+      [
+        "possible method",
+        259,
+        [
+          "Ljava/lang/String;",
+          "split"
+        ]
+      ],
+      [
+        "possible method",
+        289,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "removeView"
+        ]
+      ],
+      [
+        "possible method",
+        298,
+        [
+          "Landroid/widget/AbsoluteLayout$LayoutParams;",
+          "<init>"
+        ]
+      ],
+      [
+        "possible method",
+        303,
+        [
+          "Landroid/widget/AbsoluteLayout;",
+          "clearFocus"
+        ]
+      ],
+      [
+        "possible method",
+        312,
+        [
+          "Landroid/widget/RelativeLayout;",
+          "addView"
+        ]
+      ],
+      [
+        "possible method",
+        317,
+        [
+          "Landroid/widget/AbsoluteLayout;",
+          "requestFocus"
+        ]
+      ],
+      [
+        "possible method",
+        330,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain;",
+          "a"
+        ]
+      ],
+      [
+        "possible string",
+        336,
+        "http://livewebapp.gameloft.com/glive/"
+      ],
+      [
+        "possible method",
+        338,
+        [
+          "Ljava/lang/String;",
+          "compareTo"
+        ]
+      ],
+      [
+        "possible method",
+        344,
+        [
+          "Ljava/lang/Integer;",
+          "valueOf"
+        ]
+      ],
+      [
+        "possible method",
+        350,
+        [
+          "Ljava/lang/Integer;",
+          "valueOf"
+        ]
+      ],
+      [
+        "possible method",
+        356,
+        [
+          "Landroid/webkit/WebView;",
+          "loadUrl"
+        ]
+      ],
+      [
+        "possible method",
+        357,
+        [
+          "Landroid/content/SharedPreferences$Editor;",
+          "putInt"
+        ]
+      ],
+      [
+        "possible string",
+        362,
+        "about:blank"
+      ],
+      [
+        "possible method",
+        364,
+        [
+          "Ljava/lang/String;",
+          "compareTo"
+        ]
+      ],
+      [
+        "possible method",
+        373,
+        [
+          "Landroid/webkit/WebView;",
+          "loadUrl"
+        ]
+      ],
+      [
+        "possible method",
+        374,
+        [
+          "Landroid/content/SharedPreferences$Editor;",
+          "putInt"
+        ]
+      ],
+      [
+        "possible method",
+        377,
+        [
+          "Landroid/widget/TextView;",
+          "setPadding"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/av;",
+    "name": "shouldOverrideUrlLoading",
+    "code_offset": 316504,
+    "flags": 17,
+    "registers": 7,
+    "units": [
+      "0x1312",
+      "0x1a",
+      "0xb9e",
+      "0x206e",
+      "0xd06",
+      "0x6",
+      "0xa",
+      "0x38",
+      "0x1e",
+      "0x638",
+      "0x8",
+      "0x106e",
+      "0xd01",
+      "0x6",
+      "0xa",
+      "0x3c",
+      "0x3",
+      "0x30f",
+      "0x22",
+      "0x24",
+      "0x11a",
+      "0x795",
+      "0x1071",
+      "0xd0",
+      "0x6",
+      "0x20c",
+      "0x3070",
+      "0x70",
+      "0x210",
+      "0x4154",
+      "0x333",
+      "0x206e",
+      "0x446",
+      "0x1",
+      "0xef28",
+      "0xd",
+      "0xed28",
+      "0x62",
+      "0x2d3",
+      "0x206e",
+      "0xd06",
+      "0x6",
+      "0xa",
+      "0x38",
+      "0x8",
+      "0x4054",
+      "0x333",
+      "0x106e",
+      "0x428",
+      "0x0",
+      "0xdf28",
+      "0x1a",
+      "0x114c",
+      "0x206e",
+      "0xd06",
+      "0x6",
+      "0xa",
+      "0x38",
+      "0x8",
+      "0x4054",
+      "0x333",
+      "0x2071",
+      "0x42b",
+      "0x60",
+      "0xd128",
+      "0x206e",
+      "0x16f",
+      "0x65",
+      "0xcd28"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible string",
+        1,
+        "http://ingameads.gameloft.com/redir/?from"
+      ],
+      [
+        "possible method",
+        3,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible method",
+        11,
+        [
+          "Ljava/lang/String;",
+          "length"
+        ]
+      ],
+      [
+        "possible string",
+        20,
+        "android.intent.action.VIEW"
+      ],
+      [
+        "possible method",
+        22,
+        [
+          "Landroid/net/Uri;",
+          "parse"
+        ]
+      ],
+      [
+        "possible method",
+        26,
+        [
+          "Landroid/content/Intent;",
+          "<init>"
+        ]
+      ],
+      [
+        "possible method",
+        27,
+        [
+          "Landroid/widget/TextView;",
+          "setText"
+        ]
+      ],
+      [
+        "possible method",
+        31,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/IGPActivity;",
+          "startActivity"
+        ]
+      ],
+      [
+        "possible method",
+        39,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible method",
+        47,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/IGPActivity;",
+          "a"
+        ]
+      ],
+      [
+        "possible string",
+        51,
+        "vnd.youtube:"
+      ],
+      [
+        "possible method",
+        53,
+        [
+          "Ljava/lang/String;",
+          "startsWith"
+        ]
+      ],
+      [
+        "possible method",
+        61,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/IGPActivity;",
+          "access$100"
+        ]
+      ],
+      [
+        "possible method",
+        65,
+        [
+          "Landroid/webkit/WebView;",
+          "loadUrl"
+        ]
+      ],
+      [
+        "possible method",
+        66,
+        [
+          "Landroid/content/Context;",
+          "registerReceiver"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/billing/common/AServerInfo;",
+    "name": "getPromoCodeURL",
+    "code_offset": 318764,
+    "flags": 10,
+    "registers": 1,
+    "units": [
+      "0x12",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/installer/GameInstaller;",
+    "name": "GetUrl",
+    "code_offset": 351764,
+    "flags": 10,
+    "registers": 2,
+    "units": [
+      "0x1a",
+      "0xb99",
+      "0x206e",
+      "0xcfd",
+      "0x1",
+      "0xa",
+      "0x206e",
+      "0xd07",
+      "0x1",
+      "0xc",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible string",
+        0,
+        "http"
+      ],
+      [
+        "possible method",
+        2,
+        [
+          "Ljava/lang/String;",
+          "indexOf"
+        ]
+      ],
+      [
+        "possible method",
+        6,
+        [
+          "Ljava/lang/String;",
+          "substring"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/gameloft/android/GAND/GloftD2SS/installer/utils/Tracking;",
+    "name": "buildURL",
+    "code_offset": 403348,
+    "flags": 10,
+    "registers": 6,
+    "units": [
+      "0x62",
+      "0x8be",
+      "0x1071",
+      "0x338",
+      "0x0",
+      "0xc",
+      "0x162",
+      "0x8c4",
+      "0x1071",
+      "0x338",
+      "0x1",
+      "0x10c",
+      "0x21a",
+      "0x1f",
+      "0x362",
+      "0x8c5",
+      "0x306e",
+      "0xd02",
+      "0x325",
+      "0x20c",
+      "0x31a",
+      "0x1c",
+      "0x462",
+      "0x8c1",
+      "0x306e",
+      "0xd02",
+      "0x432",
+      "0x20c",
+      "0x31a",
+      "0x22",
+      "0x462",
+      "0x8c0",
+      "0x306e",
+      "0xd02",
+      "0x432",
+      "0x20c",
+      "0x31a",
+      "0x24",
+      "0x462",
+      "0x8c6",
+      "0x306e",
+      "0xd02",
+      "0x432",
+      "0x20c",
+      "0x31a",
+      "0x1d",
+      "0x462",
+      "0x8c2",
+      "0x306e",
+      "0xd02",
+      "0x432",
+      "0x20c",
+      "0x31a",
+      "0x1e",
+      "0x462",
+      "0x8c3",
+      "0x306e",
+      "0xd02",
+      "0x432",
+      "0x20c",
+      "0x31a",
+      "0x20",
+      "0x306e",
+      "0xd02",
+      "0x32",
+      "0xc",
+      "0x21a",
+      "0x1b",
+      "0x362",
+      "0x8bf",
+      "0x306e",
+      "0xd02",
+      "0x320",
+      "0xc",
+      "0x21a",
+      "0x21",
+      "0x362",
+      "0x8c7",
+      "0x306e",
+      "0xd02",
+      "0x320",
+      "0xc",
+      "0x21a",
+      "0x23",
+      "0x306e",
+      "0xd02",
+      "0x120",
+      "0xc",
+      "0x11a",
+      "0xd",
+      "0x21a",
+      "0x0",
+      "0x306e",
+      "0xd02",
+      "0x210",
+      "0xc",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible method",
+        2,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/GLUtils/Encrypter;",
+          "crypt"
+        ]
+      ],
+      [
+        "possible method",
+        8,
+        [
+          "Lcom/gameloft/android/GAND/GloftD2SS/GLUtils/Encrypter;",
+          "crypt"
+        ]
+      ],
+      [
+        "possible string",
+        12,
+        "#GAME#"
+      ],
+      [
+        "possible method",
+        16,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        20,
+        "#COUNTRY#"
+      ],
+      [
+        "possible method",
+        24,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        28,
+        "#LANG#"
+      ],
+      [
+        "possible method",
+        32,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        36,
+        "#VERSION#"
+      ],
+      [
+        "possible method",
+        40,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        44,
+        "#DEVICE#"
+      ],
+      [
+        "possible method",
+        48,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        52,
+        "#FIRMWARE#"
+      ],
+      [
+        "possible method",
+        56,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        60,
+        "#ID#"
+      ],
+      [
+        "possible method",
+        62,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        66,
+        "#ANDROID_ID#"
+      ],
+      [
+        "possible method",
+        70,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        74,
+        "#IGP_VERSION#"
+      ],
+      [
+        "possible method",
+        78,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        82,
+        "#LINE_NUMBER#"
+      ],
+      [
+        "possible method",
+        84,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ],
+      [
+        "possible string",
+        88,
+        " "
+      ],
+      [
+        "possible string",
+        90,
+        ""
+      ],
+      [
+        "possible method",
+        92,
+        [
+          "Ljava/lang/String;",
+          "replace"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/samsung/zirconia/LicenseRetriever;",
+    "name": "urlEncode",
+    "code_offset": 448424,
+    "flags": 2,
+    "registers": 5,
+    "units": [
+      "0x1071",
+      "0xd4e",
+      "0x4",
+      "0xc",
+      "0x11a",
+      "0x704",
+      "0x21a",
+      "0x31",
+      "0x306e",
+      "0xd03",
+      "0x210",
+      "0xc",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": [
+      [
+        "possible method",
+        0,
+        [
+          "Ljava/net/URLEncoder;",
+          "encode"
+        ]
+      ],
+      [
+        "possible string",
+        4,
+        "\\+"
+      ],
+      [
+        "possible string",
+        6,
+        "%20"
+      ],
+      [
+        "possible method",
+        8,
+        [
+          "Ljava/lang/String;",
+          "replaceAll"
+        ]
+      ]
+    ]
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/CyberCashPaymentMethod$CyberCashType;",
+    "name": "getTermsUrl",
+    "code_offset": 454376,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x1054",
+      "0xbab",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/CyberCashPaymentMethod$CyberCashType;",
+    "name": "setTermsUrl",
+    "code_offset": 454448,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x15b",
+      "0xbab",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/ItemInformation;",
+    "name": "getItemDownloadUrl",
+    "code_offset": 456020,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x1054",
+      "0xbc6",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/ItemInformation;",
+    "name": "getItemImageUrl",
+    "code_offset": 456068,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x1054",
+      "0xbc7",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/ItemInformation;",
+    "name": "setItemDownloadUrl",
+    "code_offset": 456284,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x15b",
+      "0xbc6",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/ItemInformation;",
+    "name": "setItemImageUrl",
+    "code_offset": 456332,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x15b",
+      "0xbc7",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/PrepaidCardPaymentMethod$PrepaidCardType;",
+    "name": "getTermsUrl",
+    "code_offset": 469196,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x1054",
+      "0xc79",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/PrepaidCardPaymentMethod$PrepaidCardType;",
+    "name": "setTermsUrl",
+    "code_offset": 469268,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x15b",
+      "0xc79",
+      "0xe"
+    ],
+    "unverified_raw_unit_refs": []
+  },
+  {
+    "class": "Lcom/samsungapps/plasma/PurchaseTicket;",
+    "name": "getVerifyUrl",
+    "code_offset": 471420,
+    "flags": 1,
+    "registers": 2,
+    "units": [
+      "0x1054",
+      "0xc93",
+      "0x11"
+    ],
+    "unverified_raw_unit_refs": []
+  }
+]

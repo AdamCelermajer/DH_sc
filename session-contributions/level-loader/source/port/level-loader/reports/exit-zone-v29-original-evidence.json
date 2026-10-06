@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "scope": "original constructor/properties only; no native Exit implementation yet",
+  "files": {
+    "exit-zone-original-v29.json": {
+      "sha256": "7c4286c4872e9039816199152cd6653eb88647495556558c9d1ba36d519d75fe",
+      "bytes": 3758
+    },
+    "prove_exit_zone_original_v29.py": {
+      "sha256": "21e1bacba17af6c6b86b41650e39b2b14af3125abebc198b768272eb3ab3bfe9",
+      "bytes": 3893
+    },
+    "TriggerZoneExitLevel-constructor-properties.asm": {
+      "sha256": "e823ddb1524721a64e926f703e8a40e9c37d605b7d96b75fbacfa0778a121b64",
+      "bytes": 8549
+    },
+    "TriggerZoneExitLevel-symbols.txt": {
+      "sha256": "fbc86e336eb8841973bbacb07ea31d2d2c6611a6fb5479aa3e8a2ca747bfbe9c",
+      "bytes": 1016
+    }
+  }
+}

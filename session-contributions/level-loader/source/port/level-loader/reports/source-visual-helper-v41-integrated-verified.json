@@ -1,0 +1,40 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T13:14:07+00:00",
+  "scope": "Actual retained chest Visual C1 helper suppression and synchronous native draw submissions in coherent SWAMP source inspection; no GPU backend or whole lifecycle execution.",
+  "coherent_files_verified": 731,
+  "manifest_sha256": "08e4d0eca4cc50afcf7d8a9753865dd06b8cc6513fdaef1b66aca94f74f4b4d1",
+  "binary_sha256": "da027489efa8423650fe28998ae9325ee35559fcacf095c3d3bf33061f3b7819",
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_source_visual_helper_v41_probe",
+    "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+  ],
+  "stdout": "{\"validation\":\"PASS\",\"original_mlx_declarations\":10,\"actual_modules\":9,\"floor_clones\":16,\"exits\":19,\"generated_zones\":9,\"actual_init_final\":9,\"render_frame_modules\":9,\"render_frame_meshes\":386,\"same_root_controllers\":9,\"controllers_released\":9,\"reserved_null_key0\":true,\"actual_container_constructed\":5,\"actual_container_published\":5,\"factory_failure_prefix\":\"none\",\"config_across_rooms_modern_repair\":true,\"room_zone_across_rooms_modern_repair\":true,\"authored_container_properties_verified\":true,\"named_template_context_modern_repair\":true,\"template_assertion_fixture\":true,\"template_context_problem\":false,\"actual_character_constructed\":50,\"authored_objects_constructed\":195,\"character_authored_fields_verified\":true,\"whole_character_factory_position_verified\":true,\"shared_application_RNG_connected\":true,\"actual_chest_table_dictionary_connected\":true,\"chest_condition_names\":[\"\",\"\"],\"chest_condition_source_kernel_connected\":true,\"actual_chest_visual_constructed\":true,\"source_null_user_pf_kernel_connected\":true,\"source_device_predicate_connected\":true,\"device_facts_fixture\":true,\"actual_dummy_constructed\":41,\"actual_destructible_constructed\":9,\"actual_spawn_point_constructed\":11,\"actual_decor_constructed\":10,\"actual_trigger_zone_constructed\":18,\"actual_animated_decor_constructed\":37,\"animated_decor_whole_init_verified\":false,\"actual_checkpoint_constructed\":4,\"checkpoint_activation_save_verified\":false,\"actual_door_constructed\":4,\"door_whole_init_verified\":false,\"actual_trigger_object_constructed\":1,\"trigger_object_whole_init_verified\":false,\"actual_exit_zone_constructed\":3,\"exit_zone_transition_verified\":false,\"actual_quest_move_zone_constructed\":1,\"quest_collision_verified\":false,\"actual_sound_emitter_constructed\":1,\"audio_playback_verified\":false,\"source_container_graph_v21_selected\":true,\"positive_animation_callbacks_verified\":false,\"completed_module_source_pairs\":9,\"all_module_object_sources_complete\":true,\"first_mgp_complete\":true,\"first_missing_file_index\":-1,\"first_missing_source_type\":\"\",\"module_source_error\":\"\",\"container_init_post_missing_service\":\"OpenableContainer required source service: MeetCondition\",\"outer_provider_fixtures\":true,\"retained_application_API_verified\":true,\"whole_source_level_ctor_verified\":true,\"source_gate150\":0,\"whole_level_init_verified\":false,\"current_GSLevel_published\":false,\"full_loader_verified\":false}\n",
+  "stderr": "SOURCE_VISUAL_HELPER_V41 PASS retained_instances=2 visible_instances=1 hidden_helper=1 primitives=2 native_skinned=2 rigid=0 unresolved_materials=0 helper_bounds_preserved=1 independent_render_byte_guard=1 whole_level_init=0 backend_rendering=0\n",
+  "retained_instances": 2,
+  "visible_instances": 1,
+  "hidden_helper": 1,
+  "skinned_primitives": 2,
+  "rigid_primitives": 0,
+  "unresolved_materials": 0,
+  "helper_bounds_preserved": true,
+  "independent_render_byte_guard": true,
+  "whole_level_init_verified": false,
+  "backend_rendering_verified": false,
+  "emulator_launched": false,
+  "sources": {
+    "tests/source_visual_helper_v41_probe.cpp": "8c1ebc765dd710e8509b0ca24369f25f82ff1272476dc05410e460db0659eb38",
+    "tests/source_visual_helper_v41_capture.inc": "382bbf23ab6dce832c14264167473c017bc14559bebffb1a8112d1635fb45e21",
+    "generic_actor_draw_submission_v38.cpp": "90dfb6d0f8cbc6e97c28caed1d5173ad4474519013b5975471311f68f56038fc",
+    "scene_material_slot_v39.cpp": "b57eca18d8c6daa5853d2d0c8245519679c7bb00acbfb7a67fd3996007547f1c",
+    "render_eligibility_v40.cpp": "ec216f5855c4e8c1ee297176fe83298add4b390f3196a524c8cd9aebfa62d829",
+    "vendor/character-rng-integration-v5-loading/port/level-world/retained_gameobject_visual_v1.hpp": "bbd53355bacb860dff618351551003f5d1c52a778778b7017a733479691b0879",
+    "vendor/character-rng-integration-v5-loading/port/level-world/retained_gameobject_visual_v1.cpp": "8b322900edcf8e46231ac5da1bb05cc161c05f70975493963dd5b093d3112ce5"
+  }
+}

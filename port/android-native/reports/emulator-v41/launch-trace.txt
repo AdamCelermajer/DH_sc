@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }
+Status: ok
+LaunchState: COLD
+Activity: com.example.dh2/.MainActivity
+TotalTime: 1614
+WaitTime: 1617
+Complete

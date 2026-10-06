@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "original_cases": 256,
+  "fixture_sha256": "6c741e982e71383dd3fce9c5ec8c1b821b8be0e8d94a9061af6069a5ad01fea5",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Whole source _AddLootItems on entries selected from original actual-cache tables.\nExplicit Debug fixture; item creation, death and world pickup are outside scope.\n"
+}

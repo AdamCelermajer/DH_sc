@@ -1,0 +1,102 @@
+{
+  "scope": "actual Decor/SpawnPoint receivers and source-ordered required providers; not full live World acceptance",
+  "supersedes": "Dummy handoff PropertyMap cpp checksum only",
+  "files": [
+    {
+      "path": "port/level-world/canonical_spawn_point_v15.hpp",
+      "sha256": "22e5ef4bff33579f7de6c7ebcdd295ebe2ad236ff83c103ca8ea0c3a45c51299"
+    },
+    {
+      "path": "port/level-world/canonical_spawn_point_v15.cpp",
+      "sha256": "270e08c02233e32cffd94ea767f1ef9dc791da679adc79cc0d060ede79bd8a94"
+    },
+    {
+      "path": "port/level-world/canonical_decor_v15.hpp",
+      "sha256": "24f139998497c7a7384ac7d9dff675274308b28c594f6abf23b7eaa6cba34ee0"
+    },
+    {
+      "path": "port/level-world/canonical_decor_v15.cpp",
+      "sha256": "7e2f57f9785b6e9994e509d56c9406c5b17d45822cb634920696d971cb4b40da"
+    },
+    {
+      "path": "port/level-world/canonical_family_fields_v15.hpp",
+      "sha256": "e1563ad19d2d55f8a0a80faa5fceb139cdfc3e0c8e6407fe2d45c8415b4104ff"
+    },
+    {
+      "path": "port/level-world/canonical_swamp_family_declarations_v15.inc",
+      "sha256": "89cf69f2c3e42ba59d885146f5a58805018ebffa71ff06ec5832b5b5fe00c5af"
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.cpp",
+      "sha256": "30911a8d2d89396b3ebf5e7869c7da4c4917849a475e7f817f247bc7b1140d18"
+    },
+    {
+      "path": "port/level-world/tests/canonical_swamp_family_v15.cpp",
+      "sha256": "f3d40ab083830bf9518fda9d752791a127ddf5c3617df049d2e8184da25cc1b0"
+    },
+    {
+      "path": "port/level-world/tests/canonical_swamp_family_declarations_v15.inc",
+      "sha256": "fd4f9f94ba6a18fa3e1f77486a7444626cc9e9f849b90a95176da77d240015bf"
+    },
+    {
+      "path": "port/level-world/tests/canonical_swamp_family_v15_original.py",
+      "sha256": "d4853c64de1fb33d58518faaa2339bf4bc2f157777e5dec847afa5bd3abd8a63"
+    },
+    {
+      "path": "port/level-world/tests/canonical_swamp_lifecycle_v15_original.py",
+      "sha256": "33f2f021d047a33781c224d4e6efdf2018f5596ee27043501049761d2adedb92"
+    },
+    {
+      "path": "port/level-world/reports/canonical-swamp-families-v15-handoff.md",
+      "sha256": "1c74027aa5b70729f77c7f20a2bfa6d22d0adadff2ad1151f0f0e6063bdbef7b"
+    },
+    {
+      "path": "port/level-world/reports/canonical-swamp-family-v15-arm64-syntax.json",
+      "sha256": "e5c65bad78421aff7fd53b7f476a8654dea70afec26ad8124085e96626630aca"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/canonical-swamp-family-v15/receipt.json",
+      "sha256": "15b5fddba967a139fcb821c91c700d2faab8a083b9a230e02536cdf4583e1382"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/continuation-symbols-v15.json",
+      "sha256": "95f99a1e2fb642ea8ff10ad5dd4e2591f2995566348de25a0527e12f032e54c6"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/dummy-constructor-original.json",
+      "sha256": "a8fb46540cece466aeed4d5d1f02f66173131f893fc2a5ad4f239d30d32b11e6"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/dummy-declarations.json",
+      "sha256": "e8f6ad08a6b1ebc44ab5153b50635bda4066b0350ca5da26b74969d9ce8b7392"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/dummy-slots.json",
+      "sha256": "4eb83a9549268c56fd3e42dd27f8e98da49a10b74e66a7c778cad7537fd3373b"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/family-constructors-original-v15.json",
+      "sha256": "40e03d35452f76d42a7dd4a33244f1b8f4225340e91582eefcd7b4e572340e0e"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/family-declarations-v15.json",
+      "sha256": "0e427561e699bcf439fca07986da9747be3f8d51a8b9dba247478d4abdf39b85"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/family-lifecycle-original-v15.json",
+      "sha256": "cacb6657906aad7a4ee5f6ab282a4b885715e8318318ad016a282814371f8270"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/family-property-declarations-original-v15.json",
+      "sha256": "082ab9baa1789b1ac000beffa74cbf9d7b2a0e95ebf62c3ea3040986b7a2ca17"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/original.asm",
+      "sha256": "87d2649f5dcfeae7312999c39e268da7218f52b757241456d8d5dd1e7013c67a"
+    },
+    {
+      "path": "port/level-world/reference/swamp-families-v14/symbols.json",
+      "sha256": "792239f004ff71d5d199cc7d99fa9bdb9169f5ebe667f14c4081c0122a4197cb"
+    }
+  ]
+}

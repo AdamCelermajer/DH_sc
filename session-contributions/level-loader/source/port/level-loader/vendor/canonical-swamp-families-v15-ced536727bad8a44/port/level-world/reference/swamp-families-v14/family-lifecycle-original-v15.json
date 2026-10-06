@@ -1,0 +1,253 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "kind": "Decor",
+      "physical": 0,
+      "room_present": false,
+      "calls": [
+        {
+          "method": "base_init",
+          "arguments": [
+            34664448,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "visual_sync",
+          "arguments": [
+            42991616,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "load_room",
+          "arguments": [
+            10102488,
+            42995712,
+            4294967295,
+            34664496
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "Decor",
+      "physical": 0,
+      "room_present": true,
+      "calls": [
+        {
+          "method": "base_init",
+          "arguments": [
+            34672640,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "visual_sync",
+          "arguments": [
+            42991616,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "load_room",
+          "arguments": [
+            10102488,
+            42995712,
+            4294967295,
+            34672688
+          ]
+        },
+        {
+          "method": "extend_bounds",
+          "arguments": [
+            42999808,
+            34672940,
+            4294967295,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "Decor",
+      "physical": 1,
+      "room_present": false,
+      "calls": [
+        {
+          "method": "base_init",
+          "arguments": [
+            34680832,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "visual_sync",
+          "arguments": [
+            42991616,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "podecor_ctor",
+          "arguments": [
+            34689024,
+            0,
+            34680832,
+            10090284
+          ]
+        },
+        {
+          "method": "set_physical",
+          "arguments": [
+            34680832,
+            34689024,
+            0,
+            10090284
+          ]
+        },
+        {
+          "method": "load_room",
+          "arguments": [
+            10102488,
+            42995712,
+            4294967295,
+            34680880
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "Decor",
+      "physical": 1,
+      "room_present": true,
+      "calls": [
+        {
+          "method": "base_init",
+          "arguments": [
+            34693120,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "visual_sync",
+          "arguments": [
+            42991616,
+            9848556,
+            1,
+            9848544
+          ]
+        },
+        {
+          "method": "podecor_ctor",
+          "arguments": [
+            34701312,
+            0,
+            34693120,
+            10090284
+          ]
+        },
+        {
+          "method": "set_physical",
+          "arguments": [
+            34693120,
+            34701312,
+            0,
+            10090284
+          ]
+        },
+        {
+          "method": "load_room",
+          "arguments": [
+            10102488,
+            42995712,
+            4294967295,
+            34693168
+          ]
+        },
+        {
+          "method": "extend_bounds",
+          "arguments": [
+            42999808,
+            34693420,
+            4294967295,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "SpawnPoint",
+      "script_id": -1,
+      "calls": [
+        {
+          "method": "set_position",
+          "arguments": [
+            43003904,
+            34705760,
+            1,
+            6688
+          ]
+        },
+        {
+          "method": "set_rotation",
+          "arguments": [
+            43003904,
+            34705772,
+            1,
+            6688
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "SpawnPoint",
+      "script_id": 17,
+      "calls": [
+        {
+          "method": "set_position",
+          "arguments": [
+            43003904,
+            34713952,
+            1,
+            6688
+          ]
+        },
+        {
+          "method": "set_rotation",
+          "arguments": [
+            43003904,
+            34713964,
+            1,
+            6688
+          ]
+        },
+        {
+          "method": "start_script",
+          "arguments": [
+            10117084,
+            17,
+            4294967295,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Whole original derived InitPost/LoadFloorMap/PlaceObject control and stores. Required inherited InitPost, visual, PODecor/PF and ScriptManager calls use declared observation fixtures; not a full World acceptance claim."
+}

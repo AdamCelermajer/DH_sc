@@ -1,0 +1,325 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "2334e8a84f1d5bd1cc0c9ea108175533711502b5575b468b59537697989a6b46",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\character_loot_pickup_fx_v32.cpp",
+      "sha256": "e4ac04e361c2a384c8222bb1eb59eeed76aa2ddd53e814a28a6d9e5b1b833ac4"
+    },
+    {
+      "path": "port\\level-world\\character_loot_pickup_fx_v32.cpp",
+      "sha256": "e157d4b3714908c391440d56b38e156436b46b0feb741551c84165a7710d11bf"
+    },
+    {
+      "path": "port\\level-world\\character_loot_actor_binding_v31.cpp",
+      "sha256": "c2e85b5875d8585168aa5f3c1cb2dcb301fd478a5da40472d1e3f888551bd255"
+    },
+    {
+      "path": "port\\level-world\\character_mesh_fx_owner_v4.cpp",
+      "sha256": "21116a21eb77455703ce63641d0d15eb1c54661e6f8612a693a8d7a0aa17f084"
+    },
+    {
+      "path": "port\\level-world\\character_authored_resource_v6.cpp",
+      "sha256": "488c560b87fcfe15bb32c08b9e799f4e3a462a73a0ad749223879a6247273caf"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_transform_v5.cpp",
+      "sha256": "7051df9421c9d931c32a63d5def9d94fdd4543d38ce08cf5e172a447e387d933"
+    },
+    {
+      "path": "port\\level-world\\character_authored_fx_forces_v4.cpp",
+      "sha256": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e"
+    },
+    {
+      "path": "port\\level-world\\source_fx_node_matrix_v4.cpp",
+      "sha256": "e5649ef21d3d25c1f8e55054d87973cc5fac1ad11248be30268f6d9406804501"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_mesh_graph_v6.cpp",
+      "sha256": "a7fcc7ddd4e7ab6b11f19380f2e9fea5d73c875aa55fa71b117764a6b77b2c00"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_geometry_packet_v7.cpp",
+      "sha256": "e4d3d4f5c0e595cb39fcba1440b63d7675d3e66b16c65f6943ea23e38f37c779"
+    },
+    {
+      "path": "port\\engine-animation\\particle_scalar_animation_v6.cpp",
+      "sha256": "720148094772015729da8542c30af8ef5bd9821692ddc1347358d7b90161d4c2"
+    },
+    {
+      "path": "port\\engine-animation\\particle_cloud_runtime_v3.cpp",
+      "sha256": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba"
+    },
+    {
+      "path": "port\\engine-animation\\particle_deflector_v1.cpp",
+      "sha256": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff"
+    },
+    {
+      "path": "port\\engine-animation\\particle_force_scene_v2.cpp",
+      "sha256": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58"
+    },
+    {
+      "path": "port\\engine-animation\\particle_bound_forces_v4.cpp",
+      "sha256": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68"
+    },
+    {
+      "path": "port\\level-world\\character_kill_fields_v21.cpp",
+      "sha256": "53b525fc680377ceb535f1c06ac671202bb9eee0190e09e9e5f6473b6154649f"
+    },
+    {
+      "path": "port\\level-world\\character_kill_live_v21.cpp",
+      "sha256": "ca2c7cea3d9d99ddae33f682c29adf14dd673a8a3e3fc1e43830111a980d4fca"
+    },
+    {
+      "path": "port\\level-world\\combat_ctrl_kill_owner_v1.cpp",
+      "sha256": "c308aee12d0bb243e17d5f55980ade269d69c15c4a0fa7e9a5c12c95a633cc89"
+    },
+    {
+      "path": "port\\level-world\\canonical_spawn_owner_v1.cpp",
+      "sha256": "032cd11dc4f7e372096c88d0fd09a1f71a26834d9e65124b2366af28a2c9e391"
+    },
+    {
+      "path": "port\\level-world\\canonical_item_factory_v2.cpp",
+      "sha256": "fdc8caf13ee762227c9f919d1c0f053d4bf35279879bda8522994133652e4754"
+    },
+    {
+      "path": "port\\level-world\\canonical_gameobject_base_owner_v1.cpp",
+      "sha256": "dae9a311022831ba59f9a3288493209d7d63f341a91c86378e8b5601a9297c0b"
+    },
+    {
+      "path": "port\\level-world\\world_item_object_owner_v1.cpp",
+      "sha256": "603f80ccca9570082c8d512f375c098e49ce404bd7439a1d20d569039fb5ca5f"
+    },
+    {
+      "path": "port\\game-data\\loot_temporary_inventory_v8.cpp",
+      "sha256": "5ab6874f76d9f044773489fed0722f3d5b8397690a64985da8ecf967605cb412"
+    },
+    {
+      "path": "port\\level-world\\world_item_visual_v2.cpp",
+      "sha256": "6141fd912ad504e2da83c5ced5d2610fff951ffc444b0e15092a13aa66e9926e"
+    },
+    {
+      "path": "port\\level-world\\base_index_animation_controller_v2.cpp",
+      "sha256": "5d536f01f1a59f720e155a0b7b944b7d329229db9f7eb42247ece4d8f6e1be56"
+    },
+    {
+      "path": "port\\level-world\\item_color_lookup_v2.cpp",
+      "sha256": "f2343dc982bb007a72ebeeec0d2b061185d186666a8f8863021462d781da5346"
+    },
+    {
+      "path": "port\\level-world\\world_item_drop_sound_v2.cpp",
+      "sha256": "3d7906b164f920f850e2b7695b978e7331d327483a7f3dea90d4093551c0c965"
+    },
+    {
+      "path": "port\\level-world\\world_item_graph_v3.cpp",
+      "sha256": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043"
+    },
+    {
+      "path": "port\\level-world\\world_item_physical_v2.cpp",
+      "sha256": "c0824959cdf077d7bdfc5842aa7fce6f539087cdfaa0a38b16fa61f9e61c3b85"
+    },
+    {
+      "path": "port\\level-world\\item_body_config_v2.cpp",
+      "sha256": "581d8da57e4dd3e0d1006375ee2077e81e53089da0015625db3bcef74817cb33"
+    },
+    {
+      "path": "port\\level-world\\world_loot_item_runtime_v1.cpp",
+      "sha256": "17713015272e7fa41991e90bc3ea1769009f9d01509e375d1de47cd3a2d8086d"
+    },
+    {
+      "path": "port\\level-world\\game_object_set_position_v2.cpp",
+      "sha256": "4054b95cab71f550215eecd4f579f54f29943d83fc58c8a5b694b59723d1dde2"
+    },
+    {
+      "path": "port\\level-world\\world_item_scene_services_v3.cpp",
+      "sha256": "00bc33c8ca1e08ae7cca72d7f5357dbe98469da042bc8fd41e8e3546d31a938f"
+    },
+    {
+      "path": "port\\level-world\\object_enable_condition_v2.cpp",
+      "sha256": "56fa9e790b7270593b1fc084893b5949d28496f356bb482f0c3b7869193de021"
+    },
+    {
+      "path": "port\\level-world\\retained_gameobject_visual_v1.cpp",
+      "sha256": "a9ae0d500930bfc565740e3fdd021a1215d232fbef5c19f40fc8c60f9e2f40d5"
+    },
+    {
+      "path": "port\\level-world\\retained_gameobject_visual_asset_connection_v2.cpp",
+      "sha256": "6e73a49104ef731f12ee20f759f07e868d2703d863103de986d0ba1ab35e2b4a"
+    },
+    {
+      "path": "port\\level-world\\authored_scene_subtree_v2.cpp",
+      "sha256": "495018b2a1763cc888bb96e717feb6471253978b2b1516bcdb871d202bd24c5a"
+    },
+    {
+      "path": "port\\level-world\\visual_mesh_box_fallback_v2.cpp",
+      "sha256": "6f18d304a9d3b09d71dfc44dbe47c8f85126cf8af1252c741af45b81213bfa1b"
+    },
+    {
+      "path": "port\\level-world\\visual_aabb_dispatch_scope_v3.cpp",
+      "sha256": "f963d719a46a8730a76017a3fdfdcde78aad9adc293b90ed3ecd29f42f9e6215"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_manager_v1.cpp",
+      "sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549"
+    },
+    {
+      "path": "port\\level-world\\canonical_property_map_v1.cpp",
+      "sha256": "c40d5514e19aa59c02a0bcbf0d911958230df68e41d307ef669db84b5e47b3a0"
+    },
+    {
+      "path": "port\\level-world\\world_item_live_owner_v5.cpp",
+      "sha256": "ae175c89f98043652fb679e044fcc8cbcbd408e627d6f856f2dc326874b92079"
+    },
+    {
+      "path": "port\\level-world\\world_item_pf_connection_v4.cpp",
+      "sha256": "433b8449277fe627245c9450f8d6bd563861b12648eafd6dc74ca3eb3c25dc13"
+    },
+    {
+      "path": "port\\level-world\\game_object_initialization_owner_v1.cpp",
+      "sha256": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865"
+    },
+    {
+      "path": "port\\level-world\\character_game_design.cpp",
+      "sha256": "1569afd14b63603b9862b7dde82b306e440c1d94ec3bc4874cf606061e899275"
+    },
+    {
+      "path": "port\\engine-ui\\character_menu_font_palette_v1.cpp",
+      "sha256": "e946e5454a30df8ce6a25f012235bd2ceb5b6e69f31848e8c613b3662031eb8e"
+    },
+    {
+      "path": "port\\level-world\\vox_play3d_owner_v2.cpp",
+      "sha256": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "c5adb9d2114d73cd6128179c9cb3739f68cc34c809b172d0e88a77bcd2a55480"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "1b114ade854a941b3ab17de72b7a0ff4038099bf8980c91416b05fbe1273831f"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "c474e356b709d9197ccc201d3acb41b6b0f968ae8c067676e681ef6abd481ac3"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "39a8be1fa650745af4a48ee7d5975d1aea264c5edbf9250145e03f9c3e537180",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_loot_pickup_fx_v32.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_loot_pickup_fx_v32.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_loot_actor_binding_v31.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_mesh_fx_owner_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_authored_resource_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_transform_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_authored_fx_forces_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\source_fx_node_matrix_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_mesh_graph_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_geometry_packet_v7.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_scalar_animation_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_cloud_runtime_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_deflector_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_force_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_bound_forces_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_kill_fields_v21.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_kill_live_v21.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\combat_ctrl_kill_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_spawn_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_item_factory_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_gameobject_base_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_object_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_temporary_inventory_v8.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_visual_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\base_index_animation_controller_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\item_color_lookup_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_drop_sound_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_graph_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_physical_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\item_body_config_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_loot_item_runtime_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\game_object_set_position_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_scene_services_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\object_enable_condition_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\retained_gameobject_visual_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\retained_gameobject_visual_asset_connection_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_scene_subtree_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\visual_mesh_box_fallback_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\visual_aabb_dispatch_scope_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_manager_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_property_map_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_live_owner_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_pf_connection_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\game_object_initialization_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_game_design.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\character_menu_font_palette_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\vox_play3d_owner_v2.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-fx-v32\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-fx-v32\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\loot-fx-v32\\loot-fx-v32.bin"
+  ],
+  "stdout": "PASS loot FX V32 checks=850 mesh_packets=0 cloud_packets=81; actual cache resource/source NULL-rotation play/lifetime/pool/draw packets, source actor/camera/floor inputs fixtures; GPU/pickup award not claimed\n",
+  "stderr": "",
+  "exit_code": 0
+}

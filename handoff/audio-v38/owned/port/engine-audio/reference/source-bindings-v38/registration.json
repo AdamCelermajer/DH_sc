@@ -1,0 +1,156 @@
+[
+  {
+    "call": "0x4c05dc",
+    "operation": "file",
+    "name": "sounds_pyarray.bin",
+    "function": "0x4b96bc",
+    "finalizer": "0x4a5380"
+  },
+  {
+    "call": "0x4c05f8",
+    "operation": "file",
+    "name": "sounds_pyarraynames.bin",
+    "function": "0x4b0934",
+    "finalizer": "0x4a52e4"
+  },
+  {
+    "call": "0x4c0610",
+    "operation": "class",
+    "name": "CharSounds",
+    "function": "0x4ad084",
+    "finalizer": "0x1f60"
+  },
+  {
+    "call": "0x4c0628",
+    "operation": "class",
+    "name": "CharSoundsTable",
+    "function": "0x4ad010",
+    "finalizer": "0x27e4"
+  },
+  {
+    "call": "0x4c0644",
+    "operation": "file",
+    "name": "sounds_pyarray.bin",
+    "function": "0x4b9578",
+    "finalizer": "0x4a5200"
+  },
+  {
+    "call": "0x4c0660",
+    "operation": "file",
+    "name": "sounds_pyarraynames.bin",
+    "function": "0x4b0c68",
+    "finalizer": "0x4a5164"
+  },
+  {
+    "call": "0x4c06ac",
+    "operation": "file",
+    "name": "sounds_pyarray.bin",
+    "function": "0x4b9434",
+    "finalizer": "0x4a5080"
+  },
+  {
+    "call": "0x4c06c8",
+    "operation": "file",
+    "name": "sounds_pyarraynames.bin",
+    "function": "0x4b0ad0",
+    "finalizer": "0x4a4fe4"
+  },
+  {
+    "call": "0x4c06e0",
+    "operation": "class",
+    "name": "SoundBank",
+    "function": "0x4acef8",
+    "finalizer": "0x23ec"
+  },
+  {
+    "call": "0x4c06f8",
+    "operation": "class",
+    "name": "SoundBankPlayback",
+    "function": "0x4ace84",
+    "finalizer": "0x1da4"
+  },
+  {
+    "call": "0x4c0714",
+    "operation": "file",
+    "name": "sounds_pyarray.bin",
+    "function": "0x4b92f8",
+    "finalizer": "0x4a4f0c"
+  },
+  {
+    "call": "0x4c0730",
+    "operation": "file",
+    "name": "sounds_pyarraynames.bin",
+    "function": "0x4b0f98",
+    "finalizer": "0x4a4e70"
+  },
+  {
+    "call": "0x4c0748",
+    "operation": "class",
+    "name": "SoundGroup",
+    "function": "0x4ace38",
+    "finalizer": "0x207c"
+  },
+  {
+    "call": "0x4c0760",
+    "operation": "class",
+    "name": "SoundGroupsRouting",
+    "function": "0x4acdc4",
+    "finalizer": "0x3ce8"
+  },
+  {
+    "call": "0x4c0780",
+    "operation": "file",
+    "name": "sounds_pyarray.bin",
+    "function": "0x4b91ac",
+    "finalizer": "0x4a4d8c"
+  },
+  {
+    "call": "0x4c07a4",
+    "operation": "file",
+    "name": "sounds_pyarraynames.bin",
+    "function": "0x4b0e00",
+    "finalizer": "0x4a4cf0"
+  },
+  {
+    "call": "0x4c07bc",
+    "operation": "class",
+    "name": "Sound",
+    "function": "0x4acd6c",
+    "finalizer": "0x4518"
+  },
+  {
+    "call": "0x4c07d4",
+    "operation": "class",
+    "name": "Sounds_bak",
+    "function": "0x4accf8",
+    "finalizer": "0x1edc"
+  },
+  {
+    "call": "0x4c0d80",
+    "operation": "file",
+    "name": "sdd_dungeon_hunter_2_iphone_pyarray.bin",
+    "function": "0x4b5690",
+    "finalizer": "0x4a38a4"
+  },
+  {
+    "call": "0x4c0da0",
+    "operation": "file",
+    "name": "sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+    "function": "0x4b313c",
+    "finalizer": "0x4a3808"
+  },
+  {
+    "call": "0x4c0db8",
+    "operation": "class",
+    "name": "SoundAutoGen",
+    "function": "0x4ac574",
+    "finalizer": "0x4c4c"
+  },
+  {
+    "call": "0x4c0dd0",
+    "operation": "class",
+    "name": "Sounds",
+    "function": "0x37ba84",
+    "finalizer": "0xa6c"
+  }
+]

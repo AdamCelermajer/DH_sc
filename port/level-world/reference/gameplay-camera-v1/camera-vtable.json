@@ -1,0 +1,287 @@
+{
+  "scene_animator_vtable": [
+    {
+      "offset": "0xc",
+      "address": "0x667cb4",
+      "name": "_ZNK6glitch7collada18ISceneNodeAnimator19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE"
+    },
+    {
+      "offset": "0x10",
+      "address": "0x667cb8",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE"
+    },
+    {
+      "offset": "0x14",
+      "address": "0x65fa08",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetD1Ev"
+    },
+    {
+      "offset": "0x18",
+      "address": "0x65fb10",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetD0Ev"
+    },
+    {
+      "offset": "0x1c",
+      "address": "0x65f270",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet11animateNodeEPNS_5scene10ISceneNodeEj"
+    },
+    {
+      "offset": "0x20",
+      "address": "0x667c48",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator10updateTimeEj"
+    },
+    {
+      "offset": "0x24",
+      "address": "0x667cbc",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator11createCloneEv"
+    },
+    {
+      "offset": "0x28",
+      "address": "0x59979c",
+      "name": "_ZNK6glitch5scene18ISceneNodeAnimator22isEventReceiverEnabledEv"
+    },
+    {
+      "offset": "0x2c",
+      "address": "0x5997ac",
+      "name": "_ZN6glitch5scene18ISceneNodeAnimator7onEventERKNS_6SEventE"
+    },
+    {
+      "offset": "0x30",
+      "address": "0x5997b4",
+      "name": "_ZNK6glitch5scene18ISceneNodeAnimator7getTypeEv"
+    },
+    {
+      "offset": "0x34",
+      "address": "0x669538",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator6onBindEPNS_5scene10ISceneNodeE"
+    },
+    {
+      "offset": "0x38",
+      "address": "0x667d9c",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator8onUnbindEPNS_5scene10ISceneNodeE"
+    },
+    {
+      "offset": "0x3c",
+      "address": "0x5997c4",
+      "name": "_ZN6glitch5scene18ISceneNodeAnimator16setAnimationClipEi"
+    },
+    {
+      "offset": "0x40",
+      "address": "0x5997e0",
+      "name": "_ZN6glitch5scene18ISceneNodeAnimator16setAnimationClipEPKc"
+    },
+    {
+      "offset": "0x44",
+      "address": "0x5997fc",
+      "name": "_ZN6glitch5scene18ISceneNodeAnimator21getAnimationClipIndexEPKc"
+    },
+    {
+      "offset": "0x48",
+      "address": "0x599818",
+      "name": "_ZN6glitch5scene18ISceneNodeAnimator15setTimelineCtrlEPNS0_19ITimelineControllerE"
+    },
+    {
+      "offset": "0x4c",
+      "address": "0x599868",
+      "name": "_ZNK6glitch5scene18ISceneNodeAnimator15getTimelineCtrlEv"
+    },
+    {
+      "offset": "0x50",
+      "address": "0x599870",
+      "name": "_ZN6glitch5scene18ISceneNodeAnimator15getTimelineCtrlEv"
+    },
+    {
+      "offset": "0x54",
+      "address": "0x667cc4",
+      "name": "_ZNK6glitch7collada18ISceneNodeAnimator9getLengthEv"
+    },
+    {
+      "offset": "0x58",
+      "address": "0x65f5dc",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet22computeAnimationValuesEj"
+    },
+    {
+      "offset": "0x5c",
+      "address": "0x65f418",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet20applyAnimationValuesEj"
+    },
+    {
+      "offset": "0x60",
+      "address": "0x65f124",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationTrackEi"
+    },
+    {
+      "offset": "0x64",
+      "address": "0x65f140",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet19getAnimationTrackExEi"
+    },
+    {
+      "offset": "0x68",
+      "address": "0x6699c4",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator19hasCompatibleTargetERKNS0_8SChannelE"
+    },
+    {
+      "offset": "0x6c",
+      "address": "0x669574",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator19setCompatibleTargetERKNS0_8SChannelEPv"
+    },
+    {
+      "offset": "0x70",
+      "address": "0x667dc4",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator9setTargetEPKcPv"
+    },
+    {
+      "offset": "0x74",
+      "address": "0x65f208",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE"
+    },
+    {
+      "offset": "0x78",
+      "address": "0x65f15c",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet10getBindURIEi"
+    },
+    {
+      "offset": "0x7c",
+      "address": "0x65f17c",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetCountEv"
+    },
+    {
+      "offset": "0x80",
+      "address": "0x65f188",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet13getTargetSizeEi"
+    },
+    {
+      "offset": "0x84",
+      "address": "0x65f1ac",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetsSizeEv"
+    },
+    {
+      "offset": "0x88",
+      "address": "0x65f7b4",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationValueEiiPv"
+    },
+    {
+      "offset": "0x8c",
+      "address": "0x366214",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator14isTrackEnabledEi"
+    },
+    {
+      "offset": "0x90",
+      "address": "0x3662c4",
+      "name": "_ZN6glitch7collada18ISceneNodeAnimator11onUnbindAllEv"
+    },
+    {
+      "offset": "0x94",
+      "address": "0x65f8c8",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet19setCurrentAnimationEi"
+    },
+    {
+      "offset": "0x98",
+      "address": "0x65f288",
+      "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet16getIdentityValueEiPv"
+    },
+    {
+      "offset": "0xa4",
+      "address": "0x65fa00",
+      "name": "_ZThn4_N6glitch7collada21CSceneNodeAnimatorSetD1Ev"
+    },
+    {
+      "offset": "0xa8",
+      "address": "0x65fb08",
+      "name": "_ZThn4_N6glitch7collada21CSceneNodeAnimatorSetD0Ev"
+    },
+    {
+      "offset": "0xac",
+      "address": "0x5997a4",
+      "name": "_ZThn4_N6glitch5scene18ISceneNodeAnimator7onEventERKNS_6SEventE"
+    },
+    {
+      "offset": "0xc0",
+      "address": "0x660d9c",
+      "name": "_ZTv0_n12_N6glitch7collada21CSceneNodeAnimatorSetD1Ev"
+    },
+    {
+      "offset": "0xc4",
+      "address": "0x660d8c",
+      "name": "_ZTv0_n12_N6glitch7collada21CSceneNodeAnimatorSetD0Ev"
+    },
+    {
+      "offset": "0xc8",
+      "address": "0x31d5cc",
+      "name": "_ZN6glitch17IReferenceCounted8onDeleteEv"
+    }
+  ],
+  "0xa0": {
+    "address": "0x597124",
+    "name": "_ZNK6glitch5scene10ISceneNode11getPositionEv"
+  },
+  "0xa4": {
+    "address": "0x59712c",
+    "name": "_ZN6glitch5scene10ISceneNode11setPositionERKNS_4core8vector3dIfEE"
+  },
+  "0x10c": {
+    "address": "0x35beb0",
+    "name": "_ZNK6glitch5scene16ICameraSceneNode13getTargetNodeEv"
+  },
+  "0x114": {
+    "address": "0x582008",
+    "name": "_ZN6glitch5scene16CCameraSceneNode11setUpVectorERKNS_4core8vector3dIfEE"
+  },
+  "0x128": {
+    "address": "0x582044",
+    "name": "_ZNK6glitch5scene16CCameraSceneNode6getFOVEv"
+  },
+  "0x130": {
+    "address": "0x582054",
+    "name": "_ZN6glitch5scene16CCameraSceneNode12setNearValueEf"
+  },
+  "0x134": {
+    "address": "0x58206c",
+    "name": "_ZN6glitch5scene16CCameraSceneNode11setFarValueEf"
+  },
+  "0x138": {
+    "address": "0x582084",
+    "name": "_ZN6glitch5scene16CCameraSceneNode14setAspectRatioEf"
+  },
+  "0x13c": {
+    "address": "0x58209c",
+    "name": "_ZN6glitch5scene16CCameraSceneNode6setFOVEf"
+  },
+  "0x3edbf877": 0.42963001132011414,
+  "0x3fd578e9": 1.6677523851394653,
+  "HandleZoom_debug_key": {
+    "address": "0x8c7f10",
+    "text": "InfiniteZoom"
+  },
+  "Level_camera_animset_names": {
+    "got": "0x9984f4",
+    "pointer": "0x9a643c",
+    "symbol": "_ZN6Arrays15CamAnimSetTable13m_memberNamesE"
+  },
+  "Level_camera_animset_rows": {
+    "got": "0x99886c",
+    "pointer": "0x9a6438",
+    "symbol": "_ZN6Arrays15CamAnimSetTable7membersE"
+  },
+  "SetTarget_null_prior_origin": {
+    "pointer": "0x99f854",
+    "symbol": "Vec3f_Origin"
+  },
+  "HandleZoom_configuration": {
+    "pointer": "0x9a6498",
+    "symbol": "_ZN6Arrays19DesignSettingsTable7membersE"
+  },
+  "AnimSetManager_skip_load_flag": {
+    "pointer": "0x9f6406",
+    "symbol": "LG_DEVICES",
+    "file_byte": null
+  },
+  "appInit_manufacturer5_set": {
+    "pointer": "0x9f6406",
+    "symbol": "LG_DEVICES"
+  },
+  "appInit_model1or2_clear": {
+    "pointer": "0x9f6409",
+    "symbol": "JAVA_SOUNDS"
+  }
+}

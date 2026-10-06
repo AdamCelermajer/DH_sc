@@ -1,0 +1,2513 @@
+[
+  {
+    "parent": {
+      "tag": 39,
+      "length": 862,
+      "offset": 17871,
+      "depth": 0,
+      "frame": 0,
+      "id": 77,
+      "frames": 20,
+      "children": [
+        {
+          "tag": 43,
+          "length": 10,
+          "offset": 17881,
+          "depth": 1,
+          "frame": 0,
+          "text": "HUDSelect"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 17897,
+          "depth": 1,
+          "frame": 0,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 17901,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 37,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            296,
+            328
+          ]
+        },
+        {
+          "tag": 26,
+          "length": 23,
+          "offset": 17916,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 3,
+          "move": false,
+          "character_id": 41,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            327,
+            324
+          ],
+          "color_mult": [
+            256,
+            256,
+            256,
+            0
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "instance_name": "HudChar"
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 17941,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 17943,
+          "depth": 1,
+          "frame": 1
+        },
+        {
+          "tag": 43,
+          "length": 9,
+          "offset": 17951,
+          "depth": 1,
+          "frame": 1,
+          "text": "HUDPause"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 17966,
+          "depth": 1,
+          "frame": 1,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 17970,
+          "depth": 1,
+          "frame": 1,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 43,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            331,
+            448
+          ],
+          "ratio": 1
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 17983,
+          "depth": 1,
+          "frame": 1
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 17985,
+          "depth": 1,
+          "frame": 2
+        },
+        {
+          "tag": 43,
+          "length": 10,
+          "offset": 17993,
+          "depth": 1,
+          "frame": 2,
+          "text": "HUDPotion"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18009,
+          "depth": 1,
+          "frame": 2,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18013,
+          "depth": 1,
+          "frame": 2,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 45,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            313,
+            362
+          ],
+          "ratio": 2
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18026,
+          "depth": 1,
+          "frame": 2
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18028,
+          "depth": 1,
+          "frame": 3
+        },
+        {
+          "tag": 43,
+          "length": 9,
+          "offset": 18036,
+          "depth": 1,
+          "frame": 3,
+          "text": "MenuBack"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18051,
+          "depth": 1,
+          "frame": 3,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18055,
+          "depth": 1,
+          "frame": 3,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 47,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            310,
+            367
+          ],
+          "ratio": 3
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18068,
+          "depth": 1,
+          "frame": 3
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18070,
+          "depth": 1,
+          "frame": 4
+        },
+        {
+          "tag": 43,
+          "length": 12,
+          "offset": 18078,
+          "depth": 1,
+          "frame": 4,
+          "text": "MenuCompare"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18096,
+          "depth": 1,
+          "frame": 4,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18100,
+          "depth": 1,
+          "frame": 4,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 49,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            306,
+            370
+          ],
+          "ratio": 4
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18113,
+          "depth": 1,
+          "frame": 4
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18115,
+          "depth": 1,
+          "frame": 5
+        },
+        {
+          "tag": 43,
+          "length": 9,
+          "offset": 18123,
+          "depth": 1,
+          "frame": 5,
+          "text": "MenuGold"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18138,
+          "depth": 1,
+          "frame": 5,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18142,
+          "depth": 1,
+          "frame": 5,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 51,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            401,
+            350
+          ],
+          "ratio": 5
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18155,
+          "depth": 1,
+          "frame": 5
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18157,
+          "depth": 1,
+          "frame": 6
+        },
+        {
+          "tag": 43,
+          "length": 11,
+          "offset": 18165,
+          "depth": 1,
+          "frame": 6,
+          "text": "DialogNext"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18182,
+          "depth": 1,
+          "frame": 6,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18186,
+          "depth": 1,
+          "frame": 6,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 53,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            446,
+            363
+          ],
+          "ratio": 6
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18199,
+          "depth": 1,
+          "frame": 6
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18201,
+          "depth": 1,
+          "frame": 7
+        },
+        {
+          "tag": 43,
+          "length": 6,
+          "offset": 18209,
+          "depth": 1,
+          "frame": 7,
+          "text": "Torso"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18221,
+          "depth": 1,
+          "frame": 7,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18225,
+          "depth": 1,
+          "frame": 7,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 55,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            207,
+            301
+          ],
+          "ratio": 7
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18238,
+          "depth": 1,
+          "frame": 7
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18240,
+          "depth": 1,
+          "frame": 8
+        },
+        {
+          "tag": 43,
+          "length": 10,
+          "offset": 18248,
+          "depth": 1,
+          "frame": 8,
+          "text": "RightHand"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18264,
+          "depth": 1,
+          "frame": 8,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18268,
+          "depth": 1,
+          "frame": 8,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 57,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            290,
+            268
+          ],
+          "ratio": 8
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18281,
+          "depth": 1,
+          "frame": 8
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18283,
+          "depth": 1,
+          "frame": 9
+        },
+        {
+          "tag": 43,
+          "length": 9,
+          "offset": 18291,
+          "depth": 1,
+          "frame": 9,
+          "text": "LeftHand"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18306,
+          "depth": 1,
+          "frame": 9,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18310,
+          "depth": 1,
+          "frame": 9,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 59,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            308,
+            244
+          ],
+          "ratio": 9
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18323,
+          "depth": 1,
+          "frame": 9
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18325,
+          "depth": 1,
+          "frame": 10
+        },
+        {
+          "tag": 43,
+          "length": 5,
+          "offset": 18333,
+          "depth": 1,
+          "frame": 10,
+          "text": "Feet"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18344,
+          "depth": 1,
+          "frame": 10,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18348,
+          "depth": 1,
+          "frame": 10,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 61,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            374,
+            275
+          ],
+          "ratio": 10
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18361,
+          "depth": 1,
+          "frame": 10
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18363,
+          "depth": 1,
+          "frame": 11
+        },
+        {
+          "tag": 43,
+          "length": 10,
+          "offset": 18371,
+          "depth": 1,
+          "frame": 11,
+          "text": "HandArmor"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18387,
+          "depth": 1,
+          "frame": 11,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18391,
+          "depth": 1,
+          "frame": 11,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 63,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            280,
+            246
+          ],
+          "ratio": 11
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18404,
+          "depth": 1,
+          "frame": 11
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18406,
+          "depth": 1,
+          "frame": 12
+        },
+        {
+          "tag": 43,
+          "length": 20,
+          "offset": 18414,
+          "depth": 1,
+          "frame": 12,
+          "text": "RightHandRingFinger"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18440,
+          "depth": 1,
+          "frame": 12,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18444,
+          "depth": 1,
+          "frame": 12,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 65,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            290,
+            300
+          ],
+          "ratio": 12
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18457,
+          "depth": 1,
+          "frame": 12
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18459,
+          "depth": 1,
+          "frame": 13
+        },
+        {
+          "tag": 43,
+          "length": 19,
+          "offset": 18467,
+          "depth": 1,
+          "frame": 13,
+          "text": "LeftHandRingFinger"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18492,
+          "depth": 1,
+          "frame": 13,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18496,
+          "depth": 1,
+          "frame": 13,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 67,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            290,
+            300
+          ],
+          "ratio": 13
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18509,
+          "depth": 1,
+          "frame": 13
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18511,
+          "depth": 1,
+          "frame": 14
+        },
+        {
+          "tag": 43,
+          "length": 6,
+          "offset": 18519,
+          "depth": 1,
+          "frame": 14,
+          "text": "Waist"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18531,
+          "depth": 1,
+          "frame": 14,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18535,
+          "depth": 1,
+          "frame": 14,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 69,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            251,
+            330
+          ],
+          "ratio": 14
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18548,
+          "depth": 1,
+          "frame": 14
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18550,
+          "depth": 1,
+          "frame": 15
+        },
+        {
+          "tag": 43,
+          "length": 5,
+          "offset": 18558,
+          "depth": 1,
+          "frame": 15,
+          "text": "Head"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18569,
+          "depth": 1,
+          "frame": 15,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18573,
+          "depth": 1,
+          "frame": 15,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 71,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            278,
+            220
+          ],
+          "ratio": 15
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18586,
+          "depth": 1,
+          "frame": 15
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18588,
+          "depth": 1,
+          "frame": 16
+        },
+        {
+          "tag": 43,
+          "length": 6,
+          "offset": 18596,
+          "depth": 1,
+          "frame": 16,
+          "text": "Blank"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18608,
+          "depth": 1,
+          "frame": 16,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18612,
+          "depth": 1,
+          "frame": 16
+        },
+        {
+          "tag": 43,
+          "length": 8,
+          "offset": 18618,
+          "depth": 1,
+          "frame": 17,
+          "text": "HUDChar"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18632,
+          "depth": 1,
+          "frame": 17,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 4,
+          "offset": 18636,
+          "depth": 1,
+          "frame": 17,
+          "placement_depth": 3,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            256
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18642,
+          "depth": 1,
+          "frame": 17
+        },
+        {
+          "tag": 43,
+          "length": 8,
+          "offset": 18648,
+          "depth": 1,
+          "frame": 18,
+          "text": "HUDHome"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18662,
+          "depth": 1,
+          "frame": 18,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18666,
+          "depth": 1,
+          "frame": 18,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 73,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            336,
+            436
+          ],
+          "ratio": 18
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 18679,
+          "depth": 1,
+          "frame": 18,
+          "placement_depth": 3,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            0
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18690,
+          "depth": 1,
+          "frame": 18
+        },
+        {
+          "tag": 28,
+          "length": 2,
+          "offset": 18692,
+          "depth": 1,
+          "frame": 19
+        },
+        {
+          "tag": 43,
+          "length": 8,
+          "offset": 18700,
+          "depth": 1,
+          "frame": 19,
+          "text": "levelup"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 18714,
+          "depth": 1,
+          "frame": 19,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 18718,
+          "depth": 1,
+          "frame": 19,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 76,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            319,
+            299
+          ],
+          "ratio": 19
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 18731,
+          "depth": 1,
+          "frame": 19
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 18733,
+          "depth": 1,
+          "frame": 20
+        }
+      ]
+    },
+    "child_definitions": [
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16058,
+        "depth": 0,
+        "frame": 0,
+        "id": 37,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16064,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 36,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16072,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16074,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 71,
+        "offset": 16225,
+        "depth": 0,
+        "frame": 0,
+        "id": 41,
+        "frames": 3,
+        "children": [
+          {
+            "tag": 43,
+            "length": 8,
+            "offset": 16235,
+            "depth": 1,
+            "frame": 0,
+            "text": "Warrior"
+          },
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16245,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 38,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16253,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 43,
+            "length": 6,
+            "offset": 16259,
+            "depth": 1,
+            "frame": 1,
+            "text": "Rogue"
+          },
+          {
+            "tag": 26,
+            "length": 5,
+            "offset": 16267,
+            "depth": 1,
+            "frame": 1,
+            "placement_depth": 1,
+            "move": true,
+            "character_id": 39
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16274,
+            "depth": 1,
+            "frame": 1
+          },
+          {
+            "tag": 43,
+            "length": 5,
+            "offset": 16280,
+            "depth": 1,
+            "frame": 2,
+            "text": "Mage"
+          },
+          {
+            "tag": 26,
+            "length": 5,
+            "offset": 16287,
+            "depth": 1,
+            "frame": 2,
+            "placement_depth": 1,
+            "move": true,
+            "character_id": 40
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16294,
+            "depth": 1,
+            "frame": 2
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16296,
+            "depth": 1,
+            "frame": 3
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16348,
+        "depth": 0,
+        "frame": 0,
+        "id": 43,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16354,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 42,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16362,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16364,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16415,
+        "depth": 0,
+        "frame": 0,
+        "id": 45,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16421,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 44,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16429,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16431,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16483,
+        "depth": 0,
+        "frame": 0,
+        "id": 47,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16489,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 46,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16497,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16499,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16566,
+        "depth": 0,
+        "frame": 0,
+        "id": 49,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16572,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 48,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16580,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16582,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16720,
+        "depth": 0,
+        "frame": 0,
+        "id": 51,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16726,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 50,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16734,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16736,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16787,
+        "depth": 0,
+        "frame": 0,
+        "id": 53,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16793,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 52,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16801,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16803,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16856,
+        "depth": 0,
+        "frame": 0,
+        "id": 55,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16862,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 54,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16870,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16872,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16925,
+        "depth": 0,
+        "frame": 0,
+        "id": 57,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16931,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 56,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16939,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16941,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 16994,
+        "depth": 0,
+        "frame": 0,
+        "id": 59,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17000,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 58,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17008,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17010,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 17063,
+        "depth": 0,
+        "frame": 0,
+        "id": 61,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17069,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 60,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17077,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17079,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 17131,
+        "depth": 0,
+        "frame": 0,
+        "id": 63,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17137,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 62,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17145,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17147,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 17199,
+        "depth": 0,
+        "frame": 0,
+        "id": 65,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17205,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 64,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17213,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17215,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 17267,
+        "depth": 0,
+        "frame": 0,
+        "id": 67,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17273,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 66,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17281,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17283,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 17336,
+        "depth": 0,
+        "frame": 0,
+        "id": 69,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17342,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 68,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17350,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17352,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 17405,
+        "depth": 0,
+        "frame": 0,
+        "id": 71,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17411,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 70,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17419,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17421,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 16,
+        "offset": 17473,
+        "depth": 0,
+        "frame": 0,
+        "id": 73,
+        "frames": 1,
+        "children": [
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17479,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 72,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17487,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17489,
+            "depth": 1,
+            "frame": 1
+          }
+        ]
+      },
+      {
+        "tag": 39,
+        "length": 301,
+        "offset": 17564,
+        "depth": 0,
+        "frame": 0,
+        "id": 76,
+        "frames": 20,
+        "children": [
+          {
+            "tag": 26,
+            "length": 8,
+            "offset": 17570,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 75,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              20
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17580,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17582,
+            "depth": 1,
+            "frame": 1,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.0555572509765625,
+              0.0,
+              0.0,
+              1.0555572509765625,
+              -16,
+              6
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17595,
+            "depth": 1,
+            "frame": 1
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17597,
+            "depth": 1,
+            "frame": 2,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.111114501953125,
+              0.0,
+              0.0,
+              1.111114501953125,
+              -32,
+              -8
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17610,
+            "depth": 1,
+            "frame": 2
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17612,
+            "depth": 1,
+            "frame": 3,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.1666717529296875,
+              0.0,
+              0.0,
+              1.1666717529296875,
+              -48,
+              -22
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17625,
+            "depth": 1,
+            "frame": 3
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17627,
+            "depth": 1,
+            "frame": 4,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.22222900390625,
+              0.0,
+              0.0,
+              1.22222900390625,
+              -64,
+              -36
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17640,
+            "depth": 1,
+            "frame": 4
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17642,
+            "depth": 1,
+            "frame": 5,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.2777862548828125,
+              0.0,
+              0.0,
+              1.2777862548828125,
+              -81,
+              -49
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17655,
+            "depth": 1,
+            "frame": 5
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17657,
+            "depth": 1,
+            "frame": 6,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.333343505859375,
+              0.0,
+              0.0,
+              1.333343505859375,
+              -97,
+              -63
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17670,
+            "depth": 1,
+            "frame": 6
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17672,
+            "depth": 1,
+            "frame": 7,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.388885498046875,
+              0.0,
+              0.0,
+              1.388885498046875,
+              -113,
+              -77
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17685,
+            "depth": 1,
+            "frame": 7
+          },
+          {
+            "tag": 26,
+            "length": 12,
+            "offset": 17687,
+            "depth": 1,
+            "frame": 8,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.4444427490234375,
+              0.0,
+              0.0,
+              1.4444427490234375,
+              -129,
+              -91
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17701,
+            "depth": 1,
+            "frame": 8
+          },
+          {
+            "tag": 26,
+            "length": 12,
+            "offset": 17703,
+            "depth": 1,
+            "frame": 9,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.5,
+              0.0,
+              0.0,
+              1.5,
+              -145,
+              -105
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17717,
+            "depth": 1,
+            "frame": 9
+          },
+          {
+            "tag": 26,
+            "length": 12,
+            "offset": 17719,
+            "depth": 1,
+            "frame": 10,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.45001220703125,
+              0.0,
+              0.0,
+              1.45001220703125,
+              -130,
+              -93
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17733,
+            "depth": 1,
+            "frame": 10
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17735,
+            "depth": 1,
+            "frame": 11,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.4000244140625,
+              0.0,
+              0.0,
+              1.4000244140625,
+              -115,
+              -80
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17748,
+            "depth": 1,
+            "frame": 11
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17750,
+            "depth": 1,
+            "frame": 12,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.3500213623046875,
+              0.0,
+              0.0,
+              1.3500213623046875,
+              -102,
+              -68
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17763,
+            "depth": 1,
+            "frame": 12
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17765,
+            "depth": 1,
+            "frame": 13,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.3000030517578125,
+              0.0,
+              0.0,
+              1.3000030517578125,
+              -87,
+              -55
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17778,
+            "depth": 1,
+            "frame": 13
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17780,
+            "depth": 1,
+            "frame": 14,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.2500152587890625,
+              0.0,
+              0.0,
+              1.2500152587890625,
+              -72,
+              -43
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17793,
+            "depth": 1,
+            "frame": 14
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17795,
+            "depth": 1,
+            "frame": 15,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.20001220703125,
+              0.0,
+              0.0,
+              1.20001220703125,
+              -58,
+              -30
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17808,
+            "depth": 1,
+            "frame": 15
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17810,
+            "depth": 1,
+            "frame": 16,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.1500244140625,
+              0.0,
+              0.0,
+              1.1500244140625,
+              -43,
+              -18
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17823,
+            "depth": 1,
+            "frame": 16
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17825,
+            "depth": 1,
+            "frame": 17,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.100006103515625,
+              0.0,
+              0.0,
+              1.100006103515625,
+              -28,
+              -5
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17838,
+            "depth": 1,
+            "frame": 17
+          },
+          {
+            "tag": 26,
+            "length": 11,
+            "offset": 17840,
+            "depth": 1,
+            "frame": 18,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.050018310546875,
+              0.0,
+              0.0,
+              1.050018310546875,
+              -15,
+              7
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17853,
+            "depth": 1,
+            "frame": 18
+          },
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 17855,
+            "depth": 1,
+            "frame": 19,
+            "placement_depth": 1,
+            "move": true,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              20
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 17863,
+            "depth": 1,
+            "frame": 19
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 17865,
+            "depth": 1,
+            "frame": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "parent": {
+      "tag": 39,
+      "length": 53,
+      "offset": 32875,
+      "depth": 0,
+      "frame": 0,
+      "id": 159,
+      "frames": 1,
+      "children": [
+        {
+          "tag": 43,
+          "length": 8,
+          "offset": 32885,
+          "depth": 1,
+          "frame": 0,
+          "text": "HUDChar"
+        },
+        {
+          "tag": 12,
+          "length": 2,
+          "offset": 32899,
+          "depth": 1,
+          "frame": 0,
+          "action_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "tag": 26,
+          "length": 17,
+          "offset": 32907,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 41,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            327,
+            324
+          ],
+          "instance_name": "HudChar"
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 32926,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 32928,
+          "depth": 1,
+          "frame": 1
+        }
+      ]
+    },
+    "child_definitions": [
+      {
+        "tag": 39,
+        "length": 71,
+        "offset": 16225,
+        "depth": 0,
+        "frame": 0,
+        "id": 41,
+        "frames": 3,
+        "children": [
+          {
+            "tag": 43,
+            "length": 8,
+            "offset": 16235,
+            "depth": 1,
+            "frame": 0,
+            "text": "Warrior"
+          },
+          {
+            "tag": 26,
+            "length": 6,
+            "offset": 16245,
+            "depth": 1,
+            "frame": 0,
+            "placement_depth": 1,
+            "move": false,
+            "character_id": 38,
+            "matrix_twips": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16253,
+            "depth": 1,
+            "frame": 0
+          },
+          {
+            "tag": 43,
+            "length": 6,
+            "offset": 16259,
+            "depth": 1,
+            "frame": 1,
+            "text": "Rogue"
+          },
+          {
+            "tag": 26,
+            "length": 5,
+            "offset": 16267,
+            "depth": 1,
+            "frame": 1,
+            "placement_depth": 1,
+            "move": true,
+            "character_id": 39
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16274,
+            "depth": 1,
+            "frame": 1
+          },
+          {
+            "tag": 43,
+            "length": 5,
+            "offset": 16280,
+            "depth": 1,
+            "frame": 2,
+            "text": "Mage"
+          },
+          {
+            "tag": 26,
+            "length": 5,
+            "offset": 16287,
+            "depth": 1,
+            "frame": 2,
+            "placement_depth": 1,
+            "move": true,
+            "character_id": 40
+          },
+          {
+            "tag": 1,
+            "length": 0,
+            "offset": 16294,
+            "depth": 1,
+            "frame": 2
+          },
+          {
+            "tag": 0,
+            "length": 0,
+            "offset": 16296,
+            "depth": 1,
+            "frame": 3
+          }
+        ]
+      }
+    ]
+  }
+]

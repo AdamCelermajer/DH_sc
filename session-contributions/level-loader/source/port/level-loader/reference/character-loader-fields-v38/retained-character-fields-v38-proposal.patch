@@ -1,0 +1,37 @@
+--- a/port/level-world/retained_character_actor_v1.hpp
++++ b/port/level-world/retained_character_actor_v1.hpp
+@@ Actual retained Character ownership; proposal only
++#include "character_model_name_v38.hpp"
++struct CharacterLoaderFieldsV38 {
++ std::shared_ptr<const void> receiver_lease;
++ std::uintptr_t identity{};
++ std::int16_t* properties13c8{};
++ std::int16_t* template13ca{};
++ std::uintptr_t* master418{};
++};
+@@ Next to existing char_properties_id13c8_
++ std::int16_t char_template_id13ca_{-1}; // source3aa354, signed halfword
++ bool loader_fields_produced_v38_{};
+@@ Next to source_ai_group34
++ std::uintptr_t source_ai_master50{}; // actual CharAI+50 / Character+418
+@@ New actual-source borrows; signatures, not sidecar values
++ bool loader_fields_v38(std::shared_ptr<const void>,CharacterLoaderFieldsV38&,std::string&);
++ bool model_name_fields_v38(std::shared_ptr<const void>,CharacterModelFieldsV38&,std::string&);
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ Inside existing fresh_canonical constructor branch only
++  // Existing/adopted actors need actual ownership transfer; no source C1 replay.
++  char_template_id13ca_=-1;
++  source_ai_master50=0;
++  loader_fields_produced_v38_=true;
+@@ Actual borrows only; caller lease must pin SAME record/runtime
++bool RetainedCharacterActorV1::loader_fields_v38(std::shared_ptr<const void> lease,CharacterLoaderFieldsV38& out,std::string& error){
++ if(!lease||!loader_fields_produced_v38_){error="Required actual Character constructor/adoption cache-master field authority";return false;}
++ out={std::move(lease),identity_,&char_properties_id13c8_,&char_template_id13ca_,&source_ai_master50};return true;
++}
++bool RetainedCharacterActorV1::model_name_fields_v38(std::shared_ptr<const void> lease,CharacterModelFieldsV38& out,std::string& error){
++ CharacterLoaderFieldsV38 fields;if(!loader_fields_v38(std::move(lease),fields,error))return false;
++ const auto* properties=initialization_properties_?initialization_properties_:(session?&session->property_view():nullptr);
++ if(!properties){error="Required SAME actual initialized Character PropertyView";return false;}
++ out={std::move(fields.receiver_lease),identity_,properties,fields.properties13c8,fields.master418};return true;
++}

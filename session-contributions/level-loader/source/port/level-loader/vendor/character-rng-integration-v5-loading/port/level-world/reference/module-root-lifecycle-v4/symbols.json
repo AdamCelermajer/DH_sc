@@ -1,0 +1,172 @@
+[
+  {
+    "name": "_ZN6glitch7collada10CSceneNodeC2ERKNS0_16CColladaDatabaseEPNS0_5SNodeE",
+    "address": "0x65d2b4",
+    "size": 308
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNodeD1Ev",
+    "address": "0x65c074",
+    "size": 464
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode21removeBindedAnimatorsEv",
+    "address": "0x597f68",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNodeD1Ev",
+    "address": "0x598b84",
+    "size": 284
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNodeC2EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_",
+    "address": "0x5990c0",
+    "size": 424
+  },
+  {
+    "name": "_ZN13RootSceneNodeD2Ev",
+    "address": "0x35d764",
+    "size": 192
+  },
+  {
+    "name": "_ZN12VisualObjectD1Ev",
+    "address": "0x473884",
+    "size": 540
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode8addChildEPS1_",
+    "address": "0x598864",
+    "size": 164
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode9removeAllEv",
+    "address": "0x5987e8",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode20removeBindedAnimatorEPNS0_18ISceneNodeAnimatorE",
+    "address": "0x597fe4",
+    "size": 116
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode8onDeleteEv",
+    "address": "0x596ce0",
+    "size": 40
+  },
+  {
+    "name": "_ZN6glitch7collada10CSceneNodeD0Ev",
+    "address": "0x35c4e0",
+    "size": 28
+  },
+  {
+    "name": "_ZNK6glitch5scene10ISceneNode12getAnimatorsEv",
+    "address": "0x597094",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNodeD0Ev",
+    "address": "0x598ca0",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNodeC1EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_",
+    "address": "0x599268",
+    "size": 476
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNode18removeMorphingMeshEPNS0_13CMorphingMeshE",
+    "address": "0x65b000",
+    "size": 60
+  },
+  {
+    "name": "_ZN12VisualObjectD0Ev",
+    "address": "0x473aa0",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNodeC2ERKNS0_16CColladaDatabaseE",
+    "address": "0x65b844",
+    "size": 212
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNodeD2Ev",
+    "address": "0x65c260",
+    "size": 452
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode14removeAnimatorEPNS0_18ISceneNodeAnimatorE",
+    "address": "0x5986e8",
+    "size": 136
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode15removeAnimatorsEv",
+    "address": "0x598658",
+    "size": 144
+  },
+  {
+    "name": "_ZN6glitch7collada10CSceneNodeD1Ev",
+    "address": "0x35c444",
+    "size": 124
+  },
+  {
+    "name": "_ZN13RootSceneNodeD1Ev",
+    "address": "0x35d67c",
+    "size": 204
+  },
+  {
+    "name": "_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE",
+    "address": "0x35d824",
+    "size": 236
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNode14removeMaterialERKN5boost13intrusive_ptrINS_5video9CMaterialEEE",
+    "address": "0x65add4",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode11removeChildEPS1_",
+    "address": "0x597004",
+    "size": 104
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNodeC1ERKNS0_16CColladaDatabaseE",
+    "address": "0x65b734",
+    "size": 272
+  },
+  {
+    "name": "_ZN12VisualObjectD2Ev",
+    "address": "0x473abc",
+    "size": 540
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNodeD0Ev",
+    "address": "0x65c244",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch7collada10CSceneNodeC1ERKNS0_16CColladaDatabaseEPNS0_5SNodeE",
+    "address": "0x65d150",
+    "size": 356
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode6removeEv",
+    "address": "0x59706c",
+    "size": 40
+  },
+  {
+    "name": "_ZNK6glitch17IReferenceCounted4dropEv",
+    "address": "0x31d584",
+    "size": 72
+  },
+  {
+    "name": "_ZN13RootSceneNodeC2ERKN6glitch7collada16CColladaDatabaseE",
+    "address": "0x35d910",
+    "size": 176
+  },
+  {
+    "name": "_ZN13RootSceneNodeD0Ev",
+    "address": "0x35d748",
+    "size": 28
+  }
+]

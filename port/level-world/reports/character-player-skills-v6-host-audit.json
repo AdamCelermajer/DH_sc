@@ -52,7 +52,7 @@
         ".local-inputs/items-discovery"
       ],
       "exit_code": 0,
-      "stdout": "{\"validation\":\"PASS\",\"actual_source_scripts\":3,\"same_v3_callbacks\":15,\"same_owner_mana_spends\":3,\"required_debug_failure_prefix\":3,\"explicit_empty_world_fixture\":true,\"no_alias_fixture\":true,\"full_campaign\":false,\"checks\":562}\n",
+      "stdout": "{\"validation\":\"PASS\",\"actual_source_scripts\":3,\"same_v3_callbacks\":18,\"same_owner_mana_spends\":3,\"required_debug_failure_prefix\":3,\"explicit_empty_world_fixture\":true,\"no_alias_fixture\":true,\"full_campaign\":false,\"checks\":565}\n",
       "stderr": ""
     }
   ],
@@ -60,27 +60,27 @@
     {
       "validation": "PASS",
       "actual_source_scripts": 3,
-      "same_v3_callbacks": 15,
+      "same_v3_callbacks": 18,
       "same_owner_mana_spends": 3,
       "required_debug_failure_prefix": 3,
       "explicit_empty_world_fixture": true,
       "no_alias_fixture": true,
       "full_campaign": false,
-      "checks": 562
+      "checks": 565
     }
   ],
   "source_sha256": {
-    "port/level-world/character_player_skills_v6.cpp": "d37ebd6f949d4eee9c1d16b86e513d2505edc44051aba06755eef80f45eb9828",
+    "port/level-world/character_player_skills_v6.cpp": "7dc439ea2e8ed8e3e4722d00dfea1005bc5692d42f2f64b75509d48c2b8d3294",
     "port/level-world/character_skill_mana_v5.cpp": "e64b46e566add5c2d247a544c127557c401cd2832b5826b3954dfa09c0587f9f",
     "port/level-world/character_skill_native_v5.cpp": "98237f63987e656d42b5d4ea0bec53152c9148928483b190819a60b0ac72815f",
     "port/level-world/character_target_search_v5.cpp": "e8aaa43805dcaed1cbff6f5fb3d224694033a4a2129e298418defe200224f170",
     "port/game-data/fresh_inventory_owned_v4.cpp": "25fdaf86072992f801b673a6c033fdef5d5a3973b59ca9f85dd64054b7daa0a2",
-    "port/level-world/tests/character_player_skills_v6_host.cpp": "e63f8b7a7d6ff6e0d46144d493760b9f2930e08e1113d4afdfddaaacf05c4dd3",
+    "port/level-world/tests/character_player_skills_v6_host.cpp": "8ffb25dbc9f38f7197c8ef932bb5e94e9c48c6e14164678c70ea44ac26f8cc35",
     "port/level-world/character_skills_owner_v6.cpp": "19c942f5fcae812f4026b9b4dde1e9f72dc1d880e54c7fb6ed081c2360f9624e",
     "port/level-world/character_skill_save_reload_v6.cpp": "fbd97ac170df6f3ef9ac28d589faef68dd5cf27b5fcc1ce42dfb4f2f0f880046",
     "port/level-world/character_skill_reload_v6.cpp": "3e01b0521d478ef234961471ebb0330030d9a6fd034c726af0eeebbb22208643",
-    "port/level-world/character_player_skills_v6.hpp": "f03585415a6d612e6b91eeb77badce22a9954b98ccc416ffc8cbfa895c9d2e7f",
-    "port/level-world/tools/prepare_character_player_skills_v6.py": "21170b3b6ed71430943a2d91d3c69486bda153e91491586db2e4fa3ee8cb5beb",
+    "port/level-world/character_player_skills_v6.hpp": "db114ad7f610b7e94f84681e2d0ecfd7b0c71f3c2ea01abbd2894c3b73948e1a",
+    "port/level-world/tools/prepare_character_player_skills_v6.py": "d61089c9a6dafa30c54dbfa9e316352d71d8c6f019635ef3305ac1d09c2e1749",
     "port/level-world/tools/prepare_character_player_skills_v6_host.py": "a00a417ad96f976b9fc8e18606f6e853c19499a84cac883b402aeec7cf98c57c",
     "port/level-world/tools/run_character_player_skills_v6_host.py": "8df634b4901ae34d260d83c20c1cf2572abcc89dc74e98b57001b78d2336ba1f"
   },

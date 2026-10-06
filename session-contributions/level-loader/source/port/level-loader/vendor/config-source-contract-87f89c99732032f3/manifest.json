@@ -1,0 +1,33 @@
+{
+  "scope": "Exact current root LevelConfig receiver/publication source contract for isolated integration verification; Module functions compile but are not exercised or substituted",
+  "files": {
+    "canonical_gameobject_base_owner_v1.hpp": {
+      "sha256": "02cf1d5da5b10016f2649c5f32ff2484b187911e590937f39828fa36e07c8343",
+      "bytes": 3353
+    },
+    "canonical_level_config_module_v1.cpp": {
+      "sha256": "b94c505916e72d3f5a1764bc46b2d19e5ff0ed71bffe65cb00b1f5328bdc44e3",
+      "bytes": 9986
+    },
+    "canonical_level_config_module_v1.hpp": {
+      "sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb",
+      "bytes": 5765
+    },
+    "game_object_initialization_owner_v1.hpp": {
+      "sha256": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809",
+      "bytes": 2242
+    },
+    "level_config_publication_v2.cpp": {
+      "sha256": "b43db249af94ab3a2cb821272dc7609bd0c1b974ee01f452fedce13c98e9598f",
+      "bytes": 1218
+    },
+    "level_config_publication_v2.hpp": {
+      "sha256": "16ed42de545755c17932346e961a3e262cca4c8019d1e00da36c505cb2914983",
+      "bytes": 767
+    },
+    "module_xml_selection_v1.hpp": {
+      "sha256": "3791d0c31854c331a2ea792b602eacb5f8e000ce1d19f43256ab5a9af2d22d66",
+      "bytes": 1121
+    }
+  }
+}

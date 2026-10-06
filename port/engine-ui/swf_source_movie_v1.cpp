@@ -28,4 +28,11 @@ bool source_movie_services_v1(const SwfServices&original,SwfServices&wrapped,std
  if(out.native_call)out.native_call=SourceOwner::native;if(out.native_action)out.native_action=SourceOwner::native_as;if(out.stencil)out.stencil=SourceOwner::stencil;if(out.diagnostic)out.diagnostic=SourceOwner::diagnostic;
  wrapped=std::move(out);e.clear();return true;
 }
+bool source_movie_frame_borrow_v1(const SwfServices& services,SwfSourceFrameBorrowV1& out,std::string& error){
+ if(services.graph_start!=SourceOwner::start||!services.native_owner||services.context!=services.native_owner.get()){
+  error="Required actual source movie frame owner";return false;
+ }
+ auto& owner=SourceOwner::self(services.context);
+ out={owner.history,&owner.frames};error.clear();return true;
+}
 }

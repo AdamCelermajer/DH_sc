@@ -1,0 +1,11 @@
+{
+  "base_header": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\level-constructor-state-type-v38-received\\port\\level-loader\\level_constructor_v3.hpp",
+  "base_sha256": "e3559999aff2a78e4dbb6e149ca06bf8d42162f00f0dc152e34a32f9adc9ac95",
+  "proposed_header_sha256": "d673aca40592f36af03ebf6c216bf79130223325ae3a377c39dd99289bad46eb",
+  "scope": "Only134/138 semantic field storage uintptr_t->uint32_t. Source pointer-like fields13c/140 and every other field preserved. No selected-graph mutation.",
+  "original_field_width_bits": 32,
+  "signedness": "Store raw source words; progress-tail signed CMP orders int32 interpretations. C1 zero/state7 constant500/manager1c count are scalar producers.",
+  "proposed_header_normalized_lf_sha256": "f1cee411211946aedce636cc00c5e69a3ad35ceb98d8929d8e00f2e00fb19244",
+  "hash_representation": "Actual saved file bytes, including CRLF",
+  "newline_provenance": "Initial metadata hashed normalized LF text before Windows write_text serialized CRLF. Corrected to read_bytes SHA; semantic diff remains exclusively134/138."
+}

@@ -470,6 +470,11 @@ int class_camera_node=-1,class_selected=-1,class_clip_start=0,class_clip_end=0,c
 struct ClassClip {std::string name;int start,end;};std::vector<ClassClip> class_clips;
 std::string class_clip_name;
 unsigned class_pane_frames=0;
+struct ClassPreviewWeapon {
+ dh2::objects::Resource resource;
+ std::vector<Draw> draws;std::vector<GLuint> images;
+ unsigned anchor=0;std::string module;
+};
 struct ClassPreviewActor {
  dh2::objects::Resource resource;
  std::vector<Draw> draws;
@@ -477,10 +482,11 @@ struct ClassPreviewActor {
  unsigned anchor=0;
  float scale[3]{1,1,1};
  std::uint64_t elapsed=0,sample_elapsed=0;
+ std::vector<ClassPreviewWeapon> weapons;
 };
 std::vector<ClassPreviewActor> class_preview_actors;
 void release_class_previews(){
- for(auto& actor:class_preview_actors)release(actor.draws,actor.images);
+ for(auto& actor:class_preview_actors){release(actor.draws,actor.images);for(auto& weapon:actor.weapons)release(weapon.draws,weapon.images);}
  class_preview_actors.clear();
 }
 std::array<dh2::data::ClassPreviewDefinition,3> class_preview_definitions;
@@ -505,16 +511,48 @@ void load_class_preview_definitions(AAssetManager* assets){
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original class preview definition | %s | row %d | loot %d | anim table %d | starting entries %zu | idle %s | inventory and rendering pending",
    value.character.c_str(),value.row,value.loot,value.animation_table,value.starting_items.size(),value.idle_clip.c_str());
 }
-void load_class_preview_actors(AAssetManager* assets){
+// VisualObject::SetWeaponSkin(0x473cd8) constructs the original weapon
+// scene and parents it under s_slotMapping[attachment] (table0x956ad8).
+// For starting longsword/staff use attachment1; duplicate Rogue daggers
+// occupy attachments1/2. No hand-authored position/rotation corrections.
+void load_class_preview_weapons(AAssetManager* assets,const dh2::data::ClassPreviewDefinition& definition,ClassPreviewActor& actor){
+ const char* anchors[]={"anchor_weapon_right_offset-node","anchor_weapon_left_offset-node"};
+ unsigned count=0;
+ for(const auto& item:definition.starting_items){
+  if(item.module.find("MC_RWeapon_")!=0)continue;
+  if(count>=2)throw std::runtime_error("Starting weapon count exceeds two hands");
+  const auto anchor=std::find_if(actor.resource.scene.graph.begin(),actor.resource.scene.graph.end(),[&](const dh2::scene::Node& n){return n.id==anchors[count];});
+  if(anchor==actor.resource.scene.graph.end())throw std::runtime_error("Original weapon attachment anchor absent");
+  actor.weapons.emplace_back();auto& weapon=actor.weapons.back();weapon.anchor=unsigned(anchor-actor.resource.scene.graph.begin());weapon.module=item.module;
+  auto name=item.module+".bdae";std::transform(name.begin(),name.end(),name.begin(),[](unsigned char c){return char(std::tolower(c));});
+  const auto raw=read(assets,name,"models");std::string error;
+  if(!dh2::objects::load_resource(raw.data(),raw.size(),nullptr,0,weapon.resource,error))throw std::runtime_error("Original weapon scene rejected: "+error);
+  std::map<std::string,GLuint> cache;
+  for(const auto& primitive:weapon.resource.primitives){
+   if(!primitive.skin.nodes.empty())throw std::runtime_error("Starting weapon requires unsupported skinned attachment");
+   weapon.draws.emplace_back();auto& batch=weapon.draws.back();batch.node=primitive.node;batch.material=weapon.resource.scene.materials.at(primitive.material);
+   batch.diffuse=upload(assets,batch.material.diffuse,cache,weapon.images);batch.alpha=upload(assets,batch.material.alpha_map,cache,weapon.images);batch.count=primitive.indices.size();
+   glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data(),GL_STATIC_DRAW);
+   glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*sizeof(std::uint16_t),primitive.indices.data(),GL_STATIC_DRAW);check("Weapon preview upload");
+  }
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original preview weapon attached | class %s | item %s | module %s | anchor %s | triangles %u",definition.character.c_str(),item.identifier.c_str(),item.module.c_str(),anchors[count],weapon.resource.triangles);
+  ++count;
+ }
+ if(count!=(definition.character=="RoguePlayerBase"?2u:1u))throw std::runtime_error("Original starting weapon definitions incomplete");
+}
+int menu_persona_class=-1;
+std::chrono::steady_clock::time_point menu_persona_epoch;
+void load_class_preview_actors(AAssetManager* assets,int menu_class=-1){
  std::vector<ClassPreviewActor> next;
  try{
   const auto model=read(assets,"prince_modular.bdae","models");
   const char* anchors[]={"dummy_Warrior-node","dummy_Rogue-node","dummy_Mage-node"};
   for(unsigned i=0;i<class_preview_definitions.size();++i){
+   if(menu_class>=0&&i!=unsigned(menu_class))continue;
    const auto& definition=class_preview_definitions[i];next.emplace_back();auto& actor=next.back();
    const auto anchor=std::find_if(current_scene.graph.begin(),current_scene.graph.end(),[&](const dh2::scene::Node& n){return n.id==anchors[i];});
-   if(anchor==current_scene.graph.end())throw std::runtime_error(std::string("Original class anchor absent: ")+anchors[i]);
-   actor.anchor=unsigned(anchor-current_scene.graph.begin());
+   if(menu_class<0&&anchor==current_scene.graph.end())throw std::runtime_error(std::string("Original class anchor absent: ")+anchors[i]);
+   actor.anchor=menu_class>=0?0:unsigned(anchor-current_scene.graph.begin());
    if(dh2_character_visual_scale(actor.scale,definition.properties.base.data()+12))throw std::runtime_error("Class preview visual scale rejected");
    // INV_UpdateSkin resolves empty head as category + __naked, with
    // __placeholder only if that exact module is absent. All three starting
@@ -542,11 +580,12 @@ void load_class_preview_actors(AAssetManager* assets){
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*sizeof(std::uint16_t),primitive.indices.data(),GL_STATIC_DRAW);
     check("Class preview buffer upload");
    }
-   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original class body preview connected | %s | anchor %s | modules %zu | draws %zu | idle tracks %u | unbound %u | clip %s | weapons, inventory and lighting pending",
+   load_class_preview_weapons(assets,definition,actor);
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original class body preview connected | %s | anchor %s | modules %zu | draws %zu | idle tracks %u | unbound %u | clip %s | inventory and lighting pending",
     definition.character.c_str(),anchors[i],modules.size(),actor.draws.size(),actor.resource.animation.track_count(),actor.resource.animation.unbound,definition.idle_clip.c_str());
   }
   release_class_previews();class_preview_actors=std::move(next);
- }catch(...){for(auto& actor:next)release(actor.draws,actor.images);throw;}
+ }catch(...){for(auto& actor:next){release(actor.draws,actor.images);for(auto& weapon:actor.weapons)release(weapon.draws,weapon.images);}throw;}
 }
 Matrix class_camera(int width,int height){
  const auto& m=current_scene.graph.at(class_camera_node).world;
@@ -733,6 +772,7 @@ std::string load_menu_background(AAssetManager* assets){
     const auto report=load(bytes.data(),bytes.size(),assets);
     if(report.find("3D upload OK")!=0)return report;
     menu_background=true;
+    if(menu_persona_class>=0){load_class_preview_definitions(assets);load_class_preview_actors(assets,menu_persona_class);menu_persona_epoch=std::chrono::steady_clock::now();}
     for(const auto& batch:draws)if(batch.material.effect_file=="GL_Diffuse_L1_VC_iPhone.bdae"&&
         batch.material.gles2_technique=="L1_Vc_Al_----_----_----_----")
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original menu material alpha connected | material %s | technique %s | alpha source blue replacement | lighting pending",
@@ -740,6 +780,14 @@ std::string load_menu_background(AAssetManager* assets){
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original menu swamp connected | original camera values | existing material renderer | avatar pending");
     return report;
   }catch(const std::exception& error){return std::string("Menu background failed: ")+error.what();}
+}
+bool select_menu_persona(int index,AAssetManager* assets,std::string& error){
+ if(index < -1 || index > 2){error="Unsafe menu persona class";return false;}
+ if(menu_persona_class==index){error.clear();return true;}
+ menu_persona_class=index;
+ try{if(menu_background&&active()){release_class_previews();if(index>=0){load_class_preview_definitions(assets);load_class_preview_actors(assets,index);menu_persona_epoch=std::chrono::steady_clock::now();}}}
+ catch(const std::exception& failure){error=failure.what();return false;}
+ error.clear();return true;
 }
 void draw_menu_background(int width,int height){
   if(!menu_background||!active())throw std::runtime_error("Menu swamp renderer unavailable");
@@ -1731,17 +1779,28 @@ void draw(int width,int height){
     // Native actor joints already include owner * helper * authored graph.
     const auto transform=b.environment?dh2::scene::multiply(projection,b.placement):b.skin.nodes.empty()?dh2::scene::multiply(projection,current_scene.graph[b.node].world):projection;submit(b,transform);
   }
-  if(class_scene)for(auto& actor:class_preview_actors){
+  if(class_scene||(menu_background&&menu_persona_class>=0))for(auto& actor:class_preview_actors){
+   if(menu_background)actor.sample_elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-menu_persona_epoch).count();
    auto& resource=actor.resource;const auto& clip=resource.animation;std::string error;
    const auto ms=clip.start+int(actor.sample_elapsed%unsigned(clip.end-clip.start));
    if(!dh2::objects::sample(resource,ms,error))throw std::runtime_error("Class body animation failed: "+error);
-   Matrix placement=current_scene.graph.at(actor.anchor).world;
+   // Original main SetupCharacter position (0,-200,-20). The menu-only
+   // body uses its authored idle and starting armor; saved equipment pending.
+   // SetupCharacter quaternion::set(0,0,PI * -0.125), source PI float.
+   const float menu_angle=3.1415927410125732f * -.125f;
+   Matrix placement=menu_background?Matrix{std::cos(menu_angle),std::sin(menu_angle),0,0,-std::sin(menu_angle),std::cos(menu_angle),0,0,0,0,1,0,0,-200,-20,1}:current_scene.graph.at(actor.anchor).world;
    for(unsigned column=0;column<3;++column)for(unsigned row=0;row<4;++row)placement[column*4+row]*=actor.scale[column];
    const auto owner_projection=dh2::scene::multiply(projection,placement);
    for(unsigned i=0;i<actor.draws.size();++i){const auto& primitive=resource.primitives[i];const auto& batch=actor.draws[i];
     glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferSubData(GL_ARRAY_BUFFER,0,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());
     const auto transform=primitive.skin.nodes.empty()?dh2::scene::multiply(owner_projection,resource.scene.graph.at(primitive.node).world):owner_projection;
     submit(batch,transform);
+   }
+   for(const auto& weapon:actor.weapons){
+    const auto attachment=dh2::scene::multiply(owner_projection,resource.scene.graph.at(weapon.anchor).world);
+    for(const auto& batch:weapon.draws){
+     const auto transform=dh2::scene::multiply(attachment,weapon.resource.scene.graph.at(batch.node).world);submit(batch,transform);
+    }
    }
   }
   if(world_mode)for(auto& group:object_groups){

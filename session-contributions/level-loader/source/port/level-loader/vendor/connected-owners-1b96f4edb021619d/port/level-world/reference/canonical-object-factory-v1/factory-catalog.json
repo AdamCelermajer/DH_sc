@@ -1,0 +1,170 @@
+{
+  "address": "0x95c800",
+  "entries": [
+    {
+      "index": 0,
+      "name": "Decor",
+      "factory": "0x3410fc"
+    },
+    {
+      "index": 1,
+      "name": "AnimatedDecor",
+      "factory": "0x342600"
+    },
+    {
+      "index": 2,
+      "name": "Dummy",
+      "factory": "0x3410a4"
+    },
+    {
+      "index": 3,
+      "name": "Floor",
+      "factory": "0x34104c"
+    },
+    {
+      "index": 4,
+      "name": "LightPoint",
+      "factory": "0x34115c"
+    },
+    {
+      "index": 5,
+      "name": "ColBox",
+      "factory": "0x340fe0"
+    },
+    {
+      "index": 6,
+      "name": "Billboard",
+      "factory": "0x340fbc"
+    },
+    {
+      "index": 7,
+      "name": "Module",
+      "factory": "0x340f98"
+    },
+    {
+      "index": 8,
+      "name": "Block",
+      "factory": "0x340f98"
+    },
+    {
+      "index": 9,
+      "name": "Character",
+      "factory": "0x340800"
+    },
+    {
+      "index": 10,
+      "name": "Player",
+      "factory": "0x340800"
+    },
+    {
+      "index": 11,
+      "name": "RoomZone",
+      "factory": "0x340f74"
+    },
+    {
+      "index": 12,
+      "name": "QuestMoveInZone",
+      "factory": "0x340f50"
+    },
+    {
+      "index": 13,
+      "name": "CheckpointZone",
+      "factory": "0x340f2c"
+    },
+    {
+      "index": 14,
+      "name": "TriggerObject",
+      "factory": "0x340f0c"
+    },
+    {
+      "index": 15,
+      "name": "TriggerPlate",
+      "factory": "0x340ee8"
+    },
+    {
+      "index": 16,
+      "name": "TriggerZone",
+      "factory": "0x340ec4"
+    },
+    {
+      "index": 17,
+      "name": "TriggerZoneExitLevel",
+      "factory": "0x340ea0"
+    },
+    {
+      "index": 18,
+      "name": "TriggerTrap",
+      "factory": "0x340e7c"
+    },
+    {
+      "index": 19,
+      "name": "TimerTrap",
+      "factory": "0x340e58"
+    },
+    {
+      "index": 20,
+      "name": "ProjectileTrap",
+      "factory": "0x340e34"
+    },
+    {
+      "index": 21,
+      "name": "Door",
+      "factory": "0x340824"
+    },
+    {
+      "index": 22,
+      "name": "SpawnPoint",
+      "factory": "0x340e10"
+    },
+    {
+      "index": 23,
+      "name": "SpawnSpot",
+      "factory": "0x340dec"
+    },
+    {
+      "index": 24,
+      "name": "LiftableObject",
+      "factory": "0x340dc8"
+    },
+    {
+      "index": 25,
+      "name": "OpenableContainer",
+      "factory": "0x340da4"
+    },
+    {
+      "index": 26,
+      "name": "SlotContainer",
+      "factory": "0x340d80"
+    },
+    {
+      "index": 27,
+      "name": "DestructibleContainer",
+      "factory": "0x340d5c"
+    },
+    {
+      "index": 28,
+      "name": "Item",
+      "factory": "0x340d38"
+    },
+    {
+      "index": 29,
+      "name": "Projectile",
+      "factory": "0x340d14"
+    },
+    {
+      "index": 30,
+      "name": "LaserTypeProjectile",
+      "factory": "0x340cf0"
+    },
+    {
+      "index": 31,
+      "name": "SoundEmitter",
+      "factory": "0x340ccc"
+    },
+    {
+      "index": 32,
+      "name": "LevelConfig",
+      "factory": "0x340ca8"
+    }
+  ]
+}

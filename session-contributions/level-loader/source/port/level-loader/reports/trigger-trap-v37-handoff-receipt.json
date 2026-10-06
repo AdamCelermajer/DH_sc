@@ -1,0 +1,11 @@
+{
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\trigger-trap-constructor-v37-583bf99f3132fcd7.zip",
+  "archive_sha256": "92f2dab2a62aec3dfa27843793d01d8739aa87823fd514da8cc50746094023e6",
+  "manifest_sha256": "583bf99f3132fcd795c60c897de318737a647ec9bf6491fc852ccf5e916c57e6",
+  "verified_payloads": 17,
+  "constructor_transport_verified": true,
+  "active_loader_integrated": false,
+  "whole_initpost_verified": false,
+  "trap_behavior_verified": false,
+  "device_launch": false
+}

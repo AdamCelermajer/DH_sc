@@ -1,0 +1,17 @@
+#include "canonical_sound_emitter_v32.hpp"
+#include <algorithm>
+#include <utility>
+namespace dh2::world {
+CanonicalSoundEmitterV32::CanonicalSoundEmitterV32(std::shared_ptr<void> world,actor::RuntimeState& runtime,GameObjectInitializationServicesV1 init,SoundEmitterServicesV32 services):base_(reinterpret_cast<std::uintptr_t>(this),20,std::move(world),runtime),initialization_services_(std::move(init)),initialization_(base_,initialization_services_),services_(std::move(services)){*base_.byte(0x85)=1;}
+CanonicalPropertyActorV1 CanonicalSoundEmitterV32::properties()noexcept{auto result=canonical_family_fields_v15(*this);result.fields.write_float=[](void*p,std::uint32_t o,float v,std::string&e){return static_cast<CanonicalSoundEmitterV32*>(p)->write_float(o,v,e);};return result;}
+bool CanonicalSoundEmitterV32::read_bool(std::uint32_t o,std::uint8_t&v,std::string&e){if(o==0x374){if(!loop374_){e="SoundEmitter loop374 unproduced before property defaults";return false;}v=*loop374_;return true;}auto f=base_.properties().fields;return f.read_bool(f.context,o,v,e);}
+bool CanonicalSoundEmitterV32::write_bool(std::uint32_t o,std::uint8_t v,std::string&e){if(o==0x374){loop374_=v;return true;}auto f=base_.properties().fields;return f.write_bool(f.context,o,v,e);}
+bool CanonicalSoundEmitterV32::write_int(std::uint32_t o,std::int32_t v,std::string&e){auto f=base_.properties().fields;return f.write_int(f.context,o,v,e);}
+bool CanonicalSoundEmitterV32::write_float(std::uint32_t o,float v,std::string&e){if(o==0x394){dist_min394_=v;return true;}if(o==0x398){dist_max398_=v;return true;}auto f=base_.properties().fields;return f.write_float(f.context,o,v,e);}
+bool CanonicalSoundEmitterV32::write_string(std::uint32_t o,const std::string&v,std::string&e){if(o==0x378){sound378_=v;return true;}auto f=base_.properties().fields;return f.write_string(f.context,o,v,e);}
+bool CanonicalSoundEmitterV32::init_post(std::string&e){if(!services_.sound_names){e="Required actual Arrays::Sounds name snapshot";return false;}const auto&names=*services_.sound_names;auto at=std::find(names.begin(),names.end(),sound378_);sound_id390_=at==names.end()?-1:static_cast<std::int32_t>(at-names.begin());return true;}
+bool CanonicalSoundEmitterV32::update(std::string&e){if(!services_.whole_update){e="Required actual SoundEmitter playback/update3951c0";return false;}return services_.whole_update(*this,e);}
+bool CanonicalSoundEmitterV32::destroy(std::string&e){if(destroyed_){e="SoundEmitter destruction cannot replay";return false;}if(!services_.whole_destroy){e="Required actual SoundEmitter audio shutdown/destruction";return false;}destroyed_=true;return services_.whole_destroy(*this,e);}
+bool CanonicalSoundEmitterV32::set_position(const std::array<float,3>&v,bool d,std::string&e){if(!initialization_services_.set_position){e="Required SAME SoundEmitter SetPosition";return false;}return initialization_services_.set_position(v.data(),d,e);}
+CanonicalClassReceiverV1 CanonicalSoundEmitterV32::factory_receiver(std::shared_ptr<CanonicalSoundEmitterV32> owner,std::shared_ptr<const void> xml){auto result=canonical_class_receiver_v1(owner);result.source_lease=std::move(xml);result.init_post=[owner](std::string&e){return owner->init_post(e);};result.is_game_object=[](bool&v,std::string&){v=true;return true;};result.position=[owner](std::array<float,3>&v,std::string&){std::copy_n(owner->base().vector3(0x160),3,v.begin());return true;};result.set_position=[owner](const std::array<float,3>&v,bool d,std::string&e){return owner->set_position(v,d,e);};return result;}
+}

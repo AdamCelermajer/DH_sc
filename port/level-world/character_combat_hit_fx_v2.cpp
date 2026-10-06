@@ -23,6 +23,7 @@ bool character_combat_hit_fx_v2(CharacterWorldRuntimeV1& world,data::EffectsTabl
  if(!services.rotation||services.rotation(services.context,target,rotation)){error="Required source Character hit FX rotation+16c";return false;}
  if(id<0||std::size_t(id)>=tables.sets().size())return true;
  if(!owner){error="Required source VisualFXManager for positive hit set "+std::to_string(id);return false;}
- std::uintptr_t created=0;return owner->play_set(id,position,rotation,0,&created,error);
+ std::uintptr_t created=0;if(owner->play_set(id,position,rotation,0,&created,error))return true;
+ error="HitFX set "+std::to_string(id)+" weapon category "+std::to_string(result.weapon_category)+": "+error;return false;
 }
 }

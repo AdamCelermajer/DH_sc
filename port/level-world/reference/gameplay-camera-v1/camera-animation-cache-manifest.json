@@ -1,0 +1,22 @@
+[
+  {
+    "archive_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_template.bdae",
+    "sha256": "86a80b182030000cfb48e959d1a11b6dd5f7b4206d536a85f33a1840c5136ead",
+    "bytes": 7164
+  },
+  {
+    "archive_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_idle.bdae",
+    "sha256": "8d674d409a0d08395fa42c8a0262e2dfea0f3073354102cdbfad3447305c88dc",
+    "bytes": 1652
+  },
+  {
+    "archive_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/cam_shake_horiz.bdae",
+    "sha256": "9fa611486a45eade5aeb34a134baea01f89bc0924e1a4fed1944a6ed86a3af69",
+    "bytes": 1464
+  },
+  {
+    "archive_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_0.bdae",
+    "sha256": "2c9cc5443ec8b654cedc0c94eea4820376ce0816928249543bc704911d94b169",
+    "bytes": 1200
+  }
+]

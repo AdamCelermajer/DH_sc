@@ -1,0 +1,47 @@
+[
+  {
+    "name": "_ZN13ConditionData4InitEv",
+    "address": "0x33eb28",
+    "size": 228
+  },
+  {
+    "name": "_ZN13ConditionDataD1Ev",
+    "address": "0x33e7f8",
+    "size": 64
+  },
+  {
+    "name": "_ZN13ConditionData5ClearEv",
+    "address": "0x33e7c8",
+    "size": 48
+  },
+  {
+    "name": "_ZN13ConditionDataD0Ev",
+    "address": "0x33eacc",
+    "size": 28
+  },
+  {
+    "name": "_ZN13ConditionDataD2Ev",
+    "address": "0x33eae8",
+    "size": 64
+  },
+  {
+    "name": "_ZN13ConditionDataC2Ev",
+    "address": "0x33edd8",
+    "size": 92
+  },
+  {
+    "name": "_ZN13ConditionDataC1Ev",
+    "address": "0x33ed7c",
+    "size": 92
+  },
+  {
+    "name": "_ZN13ConditionData11SetAsTestedEb",
+    "address": "0x33dd24",
+    "size": 8
+  },
+  {
+    "name": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+    "address": "0x33f310",
+    "size": 436
+  }
+]

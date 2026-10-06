@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax, all changed source owners",
+  "sources": [
+    "port/game-data/inventory_gathering_ids_v11.cpp",
+    "port/game-data/game_object_dictionary_v11.cpp",
+    "port/game-data/fresh_inventory_owned_v4.cpp",
+    "port/level-world/player_equipment_render_owner_v1.cpp",
+    "port/level-world/world_item_object_owner_v1.cpp",
+    "port/level-world/objective_gathering_registration_v11.cpp",
+    "port/level-world/openable_container_data_connection_v11.cpp"
+  ],
+  "stdout": "",
+  "stderr": ""
+}

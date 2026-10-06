@@ -3,6 +3,7 @@
 #include "player_equipment_queries_v1.hpp"
 #include "../game-data/item_presentation_v5.hpp"
 #include "../engine-ui/character_menu_inventory_mutation_v1.hpp"
+#include "../engine-ui/character_menu_item_actions_v1.hpp"
 #include <cstring>
 #include <stdexcept>
 namespace dh2::player {
@@ -50,6 +51,21 @@ struct PlayerEquipmentRenderOwnerV1::Impl {
  }
  static void observe(void* p,FreshInventoryOwnedV4& inventory,const OwnedInventoryRequestV4& q){auto& s=*static_cast<Impl*>(p);if(s.input.required.observe_storage)s.input.required.observe_storage(s.input.required.context,inventory,q);}
  OwnedInventoryServicesV4 effects(){return {this,effect,observe};}
+ static bool drop_effect_v4(void* p,FreshInventoryOwnedV4& inventory,const OwnedInventoryRequestV4& q,OwnedInventoryResponseV4& out,std::string& e){
+  auto& s=*static_cast<Impl*>(p);
+  if(inventory.character()||inventory.properties()!=s.input.properties||&inventory.table()!=&s.inventory->table()){
+   e="Menu drop effects require original NULL-character inventory and same property/table backing";return false;
+  }
+  using O=OwnedInventoryOperationV4;
+  switch(q.operation){
+   case O::debug_load:case O::debug_query:return s.debug(q.operation==O::debug_load,q.name,out.value,e);
+   case O::update_name:case O::update_stats:case O::update_requirements:{if(!q.item){e="Drop text requires actual transferred item";return false;}auto t=s.item_text->services();if(q.operation==O::update_name)return item_update_name_v5(*q.item,t,e);if(q.operation==O::update_stats)return item_update_stats_v5(*q.item,t,e);return item_update_requirements_v5(*q.item,t,e);}
+   case O::current_player:return s.query(q.argument?EquipmentWorldQueryV1::current_difficulty:EquipmentWorldQueryV1::current_player,out.identity,out.value,e);
+   case O::player_count:return s.query(EquipmentWorldQueryV1::player_count,out.identity,out.value,e);
+   default:if(s.input.required.invoke)return s.input.required.invoke(s.input.required.context,inventory,q,out,e);
+    e="Required NULL-character drop inventory continuation "+std::to_string(q.source_caller);return false;
+  }
+ }
  static int grant(void* p,const InitialGrantRequest32V2* q,InitialGrantResponse8V2* out){auto& s=*static_cast<Impl*>(p);try{
   if(q->owner!=s.input.character){s.failure="Initial equipment Character identity mismatch";return -1;}std::uintptr_t id;std::int32_t value=0;bool ok=true;
   switch(q->operation){
@@ -70,7 +86,8 @@ struct PlayerEquipmentRenderOwnerV1::Impl {
  bool available(std::string& e){if(!ready||!visual){e="Equipment owner not ready or visual detached";return false;}if(running){e="Unsupported destructive equipment callback reentry";return false;}return true;}
  bool meets(const ItemInstanceV1* instance,bool& result,std::string& e){std::uintptr_t id;std::int32_t v;if(!query(EquipmentWorldQueryV1::online,id,v,e))return false;EquipmentRequirements32V1 facts{};facts.online=std::uint32_t(v);if(v){if(!query(EquipmentWorldQueryV1::remotely_updated,id,v,e))return false;facts.remote=std::uint32_t(v);if(v){result=true;return true;}}if(!instance){result=true;return true;}auto* row=item(inventory->table(),instance->id);if(!row){e="Equipment requirement metadata absent";return false;}constexpr unsigned fields[5]{19,149,150,151,152};facts.present=1;for(unsigned j=0;j<5;++j)facts.cached[j]=input.properties->resolved[fields[j]];std::int32_t accepted;if(dh2_equipment_requirements_v1(&accepted,&facts,&row->record)){e="Malformed source requirement projection";return false;}result=accepted!=0;return true;}
  bool prune(std::string& e,unsigned depth=0){if(depth>18){e="Requirement pruning source reentry exceeds bounded owner budget";return false;}bool changed=false;for(unsigned slot=0;slot<9;++slot){auto set=slot==1||slot==2?inventory->current_equipment():0;auto* cell=inventory->equipment()[set][slot];bool accepted;if(!meets(cell?cell->item.get():nullptr,accepted,e))return false;if(!accepted){if(!inventory->unequip_from_slot(slot,-1,effects(),e))return false;changed=true;}}
-  if(changed)return gear->update_properties(e)&&prune(e,depth+1)&&skin(e)&&gear->validate_hp_mp(e);return true;
+  if(changed)return gear->update_properties(e)&&prune(e,depth+1)&&skin(e)&&gear->validate_hp_mp(e);
+  return true;
  }
  bool refresh(std::string& e,bool requirements){return gear->update_properties(e)&&(!requirements||prune(e))&&skin(e)&&gear->validate_hp_mp(e);}
  bool weapon_queries(EquipmentQueries12V1& out,std::string& e)const {const auto& set=inventory->equipment()[inventory->current_equipment()];const ItemRecord164* records[2]{};for(unsigned j=0;j<2;++j)if(set[j+1]){auto* row=item(inventory->table(),set[j+1]->item->id);if(!row){e="Equipment weapon metadata absent";return false;}records[j]=&row->record;}if(dh2_equipment_queries_v1(&out,records[0],records[1],input.properties->resolved[203])){e="Malformed owned weapon query";return false;}return true;}
@@ -104,8 +121,57 @@ bool PlayerEquipmentRenderOwnerV1::remove_one_potion(std::string& e){
  e="Potion identity absent from authoritative inventory";return false;
 }
 void PlayerEquipmentRenderOwnerV1::project_potion_capacity(std::int8_t value)noexcept{if(impl_->inventory)impl_->inventory->project_potion_capacity(value);}
+bool PlayerEquipmentRenderOwnerV1::loot_add_item_v8(std::unique_ptr<data::ItemInstanceV1>& incoming,bool force,bool convert_gold,std::int32_t& index,std::string& e){
+ auto& s=*impl_;e.clear();if(!s.available(e))return false;
+ s.running=true;struct G{bool& b;~G(){b=false;}}guard{s.running};
+ return s.inventory->add_item(incoming,force,convert_gold,index,s.effects(),e);
+}
+bool PlayerEquipmentRenderOwnerV1::loot_add_gold_v8(std::int32_t amount,std::string& e){
+ auto& s=*impl_;e.clear();if(!s.available(e))return false;
+ s.running=true;struct G{bool& b;~G(){b=false;}}guard{s.running};
+ return s.inventory->add_gold(amount,s.effects(),e);
+}
+bool PlayerEquipmentRenderOwnerV1::loot_inventory_full_v10(bool& full,std::string& e){
+ auto& s=*impl_;e.clear();if(!s.available(e))return false;
+ s.running=true;struct G{bool& b;~G(){b=false;}}guard{s.running};
+ return s.inventory->inventory_full(full,s.effects(),e);
+}
+const data::InventoryGatheringIdsV11* PlayerEquipmentRenderOwnerV1::gathering_ids_v11()const noexcept{return impl_->inventory?&impl_->inventory->gathering_ids_v11():nullptr;}
+bool PlayerEquipmentRenderOwnerV1::register_gathering_id_v11(std::int32_t id,std::string& e){
+ auto& s=*impl_;e.clear();if(!s.inventory||s.running){e="Required same inventory/nonreentrant gathering registration";return false;}
+ s.running=true;struct Guard{bool& b;~Guard(){b=false;}}guard{s.running};
+ s.inventory->gathering_ids_v11().register_id(id);return true;
+}
+bool PlayerEquipmentRenderOwnerV1::unregister_gathering_id_v11(std::int32_t id,const data::InventoryGatheringAssertServicesV11& a,std::string& e){
+ auto& s=*impl_;e.clear();if(!s.inventory||s.running){e="Required same inventory/nonreentrant gathering unregistration";return false;}
+ s.running=true;struct Guard{bool& b;~Guard(){b=false;}}guard{s.running};
+ return s.inventory->gathering_ids_v11().unregister_id(id,a,e);
+}
+bool PlayerEquipmentRenderOwnerV1::check_item_requirements_v1(std::string& e){
+ auto& s=*impl_;e.clear();if(!s.available(e))return false;
+ s.running=true;struct G{bool& b;~G(){b=false;}}guard{s.running};
+ return s.prune(e);
+}
+bool PlayerEquipmentRenderOwnerV1::bind_menu_item_actions_v4(ui::CharacterMenuItemActionsGraphV1& graph,std::string& e){
+ auto& s=*impl_;if(!s.available(e))return false;
+ graph.inventory=s.inventory.get();graph.properties=&s.view;graph.inventory_services=s.effects();
+ graph.skin=[this](std::string& error){auto& actual=*impl_;if(!actual.available(error))return false;
+  actual.running=true;struct Guard{bool& value;~Guard(){value=false;}}guard{actual.running};return actual.skin(error);};
+ graph.drop_container=[this](std::unique_ptr<data::FreshInventoryOwnedV4>& out,data::OwnedInventoryServicesV4& effects,std::string& error){
+  auto& actual=*impl_;if(!actual.available(error)||!actual.input.random)return false;
+  out=data::FreshInventoryOwnedV4::create_drop_temporary_v4(actual.loot.borrow(),*actual.input.random,actual.input.properties);
+  effects={&actual,Impl::drop_effect_v4,Impl::observe};return true;
+ };
+ return true;
+}
+bool PlayerEquipmentRenderOwnerV1::loot_sources_v8(data::LootTablesV2::Borrow& tables,data::ItemPowerTablesV5::Borrow& powers,data::ItemTextServicesV5& text,data::LootRandom8V2*& random,std::string& e)const{
+ auto& s=*impl_;e.clear();if(!s.ready||s.running||!s.inventory||!s.item_text||!s.input.random){e="Player loot sources unavailable or active destructive callback";return false;}
+ tables=s.loot.borrow();powers=s.powers.borrow();text=s.item_text->services();random=s.input.random;return true;
+}
 bool PlayerEquipmentRenderOwnerV1::swap_inventory_for_initial_slots(std::string& error){auto& s=*impl_;if(!s.available(error))return false;s.inventory->swap_equipment();error.clear();return true;}
 bool PlayerEquipmentRenderOwnerV1::draw_parts(std::vector<skinning::VisualDrawPartV6>& out,std::string& e)const{if(!impl_->ready||!impl_->visual){e="Equipment draw visual absent";return false;}return impl_->visual->draw_parts(out,e);}
+bool PlayerEquipmentRenderOwnerV1::draw_views(const std::vector<skinning::VisualDrawViewV32>*& out,std::string& e)const{out=nullptr;if(!impl_->ready||!impl_->visual){e="Equipment draw visual absent";return false;}return impl_->visual->draw_views(out,e);}
+skinning::SkinPoseCountersV32 PlayerEquipmentRenderOwnerV1::pose_counters()const noexcept{return impl_->visual?impl_->visual->pose_counters():skinning::SkinPoseCountersV32{};}
 bool PlayerEquipmentRenderOwnerV1::stance_facts(bool player,std::int32_t count,character::StanceFacts16& out,std::string& e)const{auto& s=*impl_;if(!s.ready){e="Equipment stance requires initialized owner";return false;}EquipmentQueries12V1 q;if(!s.weapon_queries(q,e))return false;character::StanceFacts16 f;f.count=count;f.predicates=player?std::uint32_t(character::stance_is_player):0u;if(q.flags&query_main)f.predicates|=character::stance_has_main_hand;if(q.flags&query_bow)f.predicates|=character::stance_has_bow;if(q.flags&query_staff)f.predicates|=character::stance_has_staff;if(q.flags&query_dual)f.predicates|=character::stance_dual_wielding;if(q.flags&query_two_effective)f.predicates|=character::stance_has_two_hander;out=f;return true;}
 void PlayerEquipmentRenderOwnerV1::detach_visual()noexcept{impl_->visual_identity=0;impl_->visual.reset();impl_->input.live_scene=nullptr;}
 bool PlayerEquipmentRenderOwnerV1::combat_view(data::CombatantView& out,std::string& e)const{auto& s=*impl_;if(!s.ready){e="Equipment combat requires initialized owner";return false;}EquipmentQueries12V1 q;if(!s.weapon_queries(q,e))return false;if(q.main_category<-1||q.main_category>=141||q.off_category<-1||q.off_category>=141){e="Combat equipment category outside genuine kernel domain";return false;}auto value=out;value.properties=s.input.properties->resolved.data();value.main_damage_class=q.main_category;value.off_damage_class=q.off_category;value.dual_wield=bool(q.flags&query_dual);value.shield=bool(q.flags&query_shield);value.two_hander=bool(q.flags&query_two_raw);out=value;return true;}

@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "scope": "original HUD2 source joystick and automatic melee acquisition/damage/death; not full game, direct touch targeting, character menu or physical device",
+  "pid": "3612",
+  "apk_sha256": "e34d971a3e77e23bfee01276cf1ff4020530e941d82e9c2be57399393bab3930",
+  "source_sha256": {
+    "port/engine-ui/enemy_status_hud_v1.cpp": "550d86185d052ec188899cf5d29d2d3838a3a951e1e2923640f78c73bcca7e2b",
+    "port/engine-ui/enemy_status_hud_v1.hpp": "f4a3325bc4bf6b694ff37e2a7592bdf774e48629751c6238c7fd9c2174e1fc69",
+    "port/engine-ui/tests/enemy_status_hud_v1.cpp": "0c341da61d26f891361710eed06d9e9e286be9d110a99b2a58a10693ed3f7e9b",
+    "port/android-native/app/src/main/cpp/renderer_player_collisions_v1.inc": "f7d8651ec4d4a31aa464e179aa13fdfccf14a72ff802bc860de2fbb91ae1693f",
+    "port/android-native/app/src/main/cpp/renderer_player_cast_v2.inc": "4225185ee440896469cf23983effda67ffcd29edb07de97bd9ceecd8f6ec4de4",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "b27de00b4c4e38b9ac04d34f9038434f43a0f1c0455eeba7fcdf6cebea66bea6",
+    "port/android-native/app/src/main/cpp/original_ui_session.cpp": "16c3afce98883411a7c0ef9dd9ddca5a09558f7666239bc9600a4cc365588742"
+  },
+  "source_stop_to_idle": 7,
+  "automatic_target": "0x100000006",
+  "full_health_frame": 99,
+  "first_damaged_frame": 81,
+  "zero_hp_death_hides_enemy": true,
+  "failing_frame_or_input_messages": false,
+  "additional_attack_taps": 7
+}

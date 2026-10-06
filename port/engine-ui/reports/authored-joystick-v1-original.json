@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "original_cases": 1000,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Execute the original whole joystick event5 branch through source position\nand actual CTRLIsAllowed-false exit. Receiver/local-matrix/cache callbacks are\nfixtures; float libc/ABI imports model IEEE binary32. No original GPU/controller\nor whole unrelated HUD event dispatch is claimed.",
+  "fixtures_sha256": "b0d1e58dbc7daf57e310d33d0b004b20580de9922c772cbc87635a5684cf51b6"
+}

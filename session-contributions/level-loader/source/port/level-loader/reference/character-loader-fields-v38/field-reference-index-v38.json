@@ -1,0 +1,684 @@
+[
+  {
+    "symbol": "0036ea50 <PlayerManager::GetNumPlayerCharactersOfClass(int)>:",
+    "instruction": "  36ea74: e30173c8     \tmovw\tr7, #0x13c8",
+    "preceding": [
+      "  36ea54: e59036c4     \tldr\tr3, [r0, #0x6c4]",
+      "  36ea58: e1a05000     \tmov\tr5, r0",
+      "  36ea5c: e1a06001     \tmov\tr6, r1",
+      "  36ea60: e3530000     \tcmp\tr3, #0",
+      "  36ea64: d3a08000     \tmovle\tr8, #0",
+      "  36ea68: da000010     \tble\t0x36eab0 <PlayerManager::GetNumPlayerCharactersOfClass(int)+0x60> @ imm = #0x40",
+      "  36ea6c: e3a04000     \tmov\tr4, #0",
+      "  36ea70: e1a08004     \tmov\tr8, r4",
+      "  36ea74: e30173c8     \tmovw\tr7, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "0037565c <PlayerManager::ReviveLocalPlayers(bool)>:",
+    "instruction": "  375930: e5932418     \tldr\tr2, [r3, #0x418]",
+    "preceding": [
+      "  375910: e590111c     \tldr\tr1, [r0, #0x11c]",
+      "  375914: e3a02001     \tmov\tr2, #1",
+      "  375918: e1a00004     \tmov\tr0, r4",
+      "  37591c: e3a03000     \tmov\tr3, #0",
+      "  375920: e58dc000     \tstr\tr12, [sp]",
+      "  375924: ebffd913     \tbl\t0x36bd78 <VoxSoundManager::PlayMusic(int, bool, bool, int)> @ imm = #-0x9bb4",
+      "  375928: e28dd064     \tadd\tsp, sp, #100",
+      "  37592c: e8bd8ff0     \tpop\t{r4, r5, r6, r7, r8, r9, r10, r11, pc}",
+      "  375930: e5932418     \tldr\tr2, [r3, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a4d78 <Character::Interact(GameObject*)>:",
+    "instruction": "  3a4fcc: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3a4fac: ebfde978     \tbl\t0x31f594 <Application::GetCurrentLevel() const> @ imm = #-0x85a20",
+      "  3a4fb0: e2509000     \tsubs\tr9, r0, #0",
+      "  3a4fb4: 0a00004c     \tbeq\t0x3a50ec <Character::Interact(GameObject*)+0x374> @ imm = #0x130",
+      "  3a4fb8: e7943008     \tldr\tr3, [r4, r8]",
+      "  3a4fbc: e59f1194     \tldr\tr1, [pc, #0x194]        @ 0x3a5158 <Character::Interact(GameObject*)+0x3e0>",
+      "  3a4fc0: e59f2194     \tldr\tr2, [pc, #0x194]        @ 0x3a515c <Character::Interact(GameObject*)+0x3e4>",
+      "  3a4fc4: e593002c     \tldr\tr0, [r3, #0x2c]",
+      "  3a4fc8: e08f1001     \tadd\tr1, pc, r1",
+      "  3a4fcc: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003a52a4 <Character::CanUpdate()>:",
+    "instruction": "  3a52f0: e5945418     \tldr\tr5, [r4, #0x418]",
+    "preceding": [
+      "  3a52d0: e3530000     \tcmp\tr3, #0",
+      "  3a52d4: 1a000030     \tbne\t0x3a539c <Character::CanUpdate()+0xf8> @ imm = #0xc0",
+      "  3a52d8: e3560000     \tcmp\tr6, #0",
+      "  3a52dc: 0a00001c     \tbeq\t0x3a5354 <Character::CanUpdate()+0xb0> @ imm = #0x70",
+      "  3a52e0: e59f30f4     \tldr\tr3, [pc, #0xf4]         @ 0x3a53dc <Character::CanUpdate()+0x138>",
+      "  3a52e4: e3a01000     \tmov\tr1, #0",
+      "  3a52e8: e3a02001     \tmov\tr2, #1",
+      "  3a52ec: e7953003     \tldr\tr3, [r5, r3]",
+      "  3a52f0: e5945418     \tldr\tr5, [r4, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a54d4 <Character::GetCharModelName() const>:",
+    "instruction": "  3a5540: e5966418     \tldr\tr6, [r6, #0x418]",
+    "preceding": [
+      "  3a5520: ebff7089     \tbl\t0x38174c <Device::IsHighPerformance()> @ imm = #-0x23ddc",
+      "  3a5524: e3500000     \tcmp\tr0, #0",
+      "  3a5528: 0a00001b     \tbeq\t0x3a559c <Character::GetCharModelName() const+0xc8> @ imm = #0x6c",
+      "  3a552c: e3550000     \tcmp\tr5, #0",
+      "  3a5530: aa00000d     \tbge\t0x3a556c <Character::GetCharModelName() const+0x98> @ imm = #0x34",
+      "  3a5534: e3a00000     \tmov\tr0, #0",
+      "  3a5538: e28dd008     \tadd\tsp, sp, #8",
+      "  3a553c: e8bd8070     \tpop\t{r4, r5, r6, pc}",
+      "  3a5540: e5966418     \tldr\tr6, [r6, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a54d4 <Character::GetCharModelName() const>:",
+    "instruction": "  3a55b8: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3a5598: eaffffe6     \tb\t0x3a5538 <Character::GetCharModelName() const+0x64> @ imm = #-0x68",
+      "  3a559c: e59f30e8     \tldr\tr3, [pc, #0xe8]         @ 0x3a568c <Character::GetCharModelName() const+0x1b8>",
+      "  3a55a0: e1a01006     \tmov\tr1, r6",
+      "  3a55a4: e7943003     \tldr\tr3, [r4, r3]",
+      "  3a55a8: e5930040     \tldr\tr0, [r3, #0x40]",
+      "  3a55ac: ebff2692     \tbl\t0x36effc <PlayerManager::IsLocalPlayer(Character const*)> @ imm = #-0x365b8",
+      "  3a55b0: e3500000     \tcmp\tr0, #0",
+      "  3a55b4: 1affffdc     \tbne\t0x3a552c <Character::GetCharModelName() const+0x58> @ imm = #-0x90",
+      "  3a55b8: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003a5b18 <Character::Kill(GameObject*, bool)>:",
+    "instruction": "  3a5e5c: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3a5e3c: e3530000     \tcmp\tr3, #0",
+      "  3a5e40: 1affff40     \tbne\t0x3a5b48 <Character::Kill(GameObject*, bool)+0x30> @ imm = #-0x300",
+      "  3a5e44: e7950009     \tldr\tr0, [r5, r9]",
+      "  3a5e48: ebfde5d1     \tbl\t0x31f594 <Application::GetCurrentLevel() const> @ imm = #-0x868bc",
+      "  3a5e4c: e3500000     \tcmp\tr0, #0",
+      "  3a5e50: e58d0014     \tstr\tr0, [sp, #0x14]",
+      "  3a5e54: 0a0000bd     \tbeq\t0x3a6150 <Character::Kill(GameObject*, bool)+0x638> @ imm = #0x2f4",
+      "  3a5e58: e59f8360     \tldr\tr8, [pc, #0x360]        @ 0x3a61c0 <Character::Kill(GameObject*, bool)+0x6a8>",
+      "  3a5e5c: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003a5b18 <Character::Kill(GameObject*, bool)>:",
+    "instruction": "  3a5f48: e30123ca     \tmovw\tr2, #0x13ca",
+    "preceding": [
+      "  3a5f28: e59d3018     \tldr\tr3, [sp, #0x18]",
+      "  3a5f2c: e58dc070     \tstr\tr12, [sp, #0x70]",
+      "  3a5f30: e58d706c     \tstr\tr7, [sp, #0x6c]",
+      "  3a5f34: e58d307c     \tstr\tr3, [sp, #0x7c]",
+      "  3a5f38: e5cd6074     \tstrb\tr6, [sp, #0x74]",
+      "  3a5f3c: e5cd6075     \tstrb\tr6, [sp, #0x75]",
+      "  3a5f40: e58d9078     \tstr\tr9, [sp, #0x78]",
+      "  3a5f44: ebfe4c51     \tbl\t0x339090 <EventManager::RaiseAsync(IEvent const&) const> @ imm = #-0x6cebc",
+      "  3a5f48: e30123ca     \tmovw\tr2, #0x13ca"
+    ]
+  },
+  {
+    "symbol": "003a5b18 <Character::Kill(GameObject*, bool)>:",
+    "instruction": "  3a5fc8: e30133ca     \tmovw\tr3, #0x13ca",
+    "preceding": [
+      "  3a5fa8: e58d7050     \tstr\tr7, [sp, #0x50]",
+      "  3a5fac: e5cd6058     \tstrb\tr6, [sp, #0x58]",
+      "  3a5fb0: e5cd6059     \tstrb\tr6, [sp, #0x59]",
+      "  3a5fb4: e58d905c     \tstr\tr9, [sp, #0x5c]",
+      "  3a5fb8: ebfe4c34     \tbl\t0x339090 <EventManager::RaiseAsync(IEvent const&) const> @ imm = #-0x6cf30",
+      "  3a5fbc: e59f221c     \tldr\tr2, [pc, #0x21c]        @ 0x3a61e0 <Character::Kill(GameObject*, bool)+0x6c8>",
+      "  3a5fc0: e58db048     \tstr\tr11, [sp, #0x48]",
+      "  3a5fc4: e1a01008     \tmov\tr1, r8",
+      "  3a5fc8: e30133ca     \tmovw\tr3, #0x13ca"
+    ]
+  },
+  {
+    "symbol": "003a6a24 <Character::NetStructCharacter::NetStructCharacter()>:",
+    "instruction": "  3a6ab4: e5841418     \tstr\tr1, [r4, #0x418]",
+    "preceding": [
+      "  3a6a94: e7951008     \tldr\tr1, [r5, r8]",
+      "  3a6a98: e3a0b000     \tmov\tr11, #0",
+      "  3a6a9c: e184a0f0     \tstrd\tr10, r11, [r4, r0]",
+      "  3a6aa0: e3e02000     \tmvn\tr2, #0",
+      "  3a6aa4: e3a03000     \tmov\tr3, #0",
+      "  3a6aa8: e2811008     \tadd\tr1, r1, #8",
+      "  3a6aac: e3a00010     \tmov\tr0, #16",
+      "  3a6ab0: e584041c     \tstr\tr0, [r4, #0x41c]",
+      "  3a6ab4: e5841418     \tstr\tr1, [r4, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a6a24 <Character::NetStructCharacter::NetStructCharacter()>:",
+    "instruction": "  3a6b3c: e584e418     \tstr\tlr, [r4, #0x418]",
+    "preceding": [
+      "  3a6b1c: e3a00000     \tmov\tr0, #0",
+      "  3a6b20: e18400fc     \tstrd\tr0, r1, [r4, r12]",
+      "  3a6b24: e3e02000     \tmvn\tr2, #0",
+      "  3a6b28: e3a03000     \tmov\tr3, #0",
+      "  3a6b2c: e3a00010     \tmov\tr0, #16",
+      "  3a6b30: e3a08000     \tmov\tr8, #0",
+      "  3a6b34: e1a01008     \tmov\tr1, r8",
+      "  3a6b38: e5840444     \tstr\tr0, [r4, #0x444]",
+      "  3a6b3c: e584e418     \tstr\tlr, [r4, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a6f0c <Character::PopulateOutgoingNetStruct(bool)>:",
+    "instruction": "  3a7034: e58d2418     \tstr\tr2, [sp, #0x418]",
+    "preceding": [
+      "  3a7014: e3a03000     \tmov\tr3, #0",
+      "  3a7018: e28cc008     \tadd\tr12, r12, #8",
+      "  3a701c: e59d0428     \tldr\tr0, [sp, #0x428]",
+      "  3a7020: e3a01000     \tmov\tr1, #0",
+      "  3a7024: e1cea0f0     \tstrd\tr10, r11, [lr]",
+      "  3a7028: e58d241c     \tstr\tr2, [sp, #0x41c]",
+      "  3a702c: e5cd3424     \tstrb\tr3, [sp, #0x424]",
+      "  3a7030: e58dc408     \tstr\tr12, [sp, #0x408]",
+      "  3a7034: e58d2418     \tstr\tr2, [sp, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a7a50 <Character::NetStructCharacter::~NetStructCharacter()>:",
+    "instruction": "  3a7ab4: e584c418     \tstr\tr12, [r4, #0x418]",
+    "preceding": [
+      "  3a7a94: e5842000     \tstr\tr2, [r4]",
+      "  3a7a98: e584c520     \tstr\tr12, [r4, #0x520]",
+      "  3a7a9c: e584c500     \tstr\tr12, [r4, #0x500]",
+      "  3a7aa0: e584c4e0     \tstr\tr12, [r4, #0x4e0]",
+      "  3a7aa4: e584c4b8     \tstr\tr12, [r4, #0x4b8]",
+      "  3a7aa8: e584c490     \tstr\tr12, [r4, #0x490]",
+      "  3a7aac: e584c468     \tstr\tr12, [r4, #0x468]",
+      "  3a7ab0: e584c440     \tstr\tr12, [r4, #0x440]",
+      "  3a7ab4: e584c418     \tstr\tr12, [r4, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a8bc4 <Character::HitFor(unsigned int, GameObject*)>:",
+    "instruction": "  3a9038: e5953418     \tldr\tr3, [r5, #0x418]",
+    "preceding": [
+      "  3a9018: ebffe811     \tbl\t0x3a3064 <Character::IsMonster() const> @ imm = #-0x5fbc",
+      "  3a901c: e3500000     \tcmp\tr0, #0",
+      "  3a9020: 0affff1d     \tbeq\t0x3a8c9c <Character::HitFor(unsigned int, GameObject*)+0xd8> @ imm = #-0x38c",
+      "  3a9024: e1a00008     \tmov\tr0, r8",
+      "  3a9028: e58da010     \tstr\tr10, [sp, #0x10]",
+      "  3a902c: ebfdbc88     \tbl\t0x318254 <std::basic_string<char, std::char_traits<char>, std::allocator<char>>::~basic_string()> @ imm = #-0x90de0",
+      "  3a9030: e59d2010     \tldr\tr2, [sp, #0x10]",
+      "  3a9034: eaffff31     \tb\t0x3a8d00 <Character::HitFor(unsigned int, GameObject*)+0x13c> @ imm = #-0x33c",
+      "  3a9038: e5953418     \tldr\tr3, [r5, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003a9340 <Character::Character(ObjectBase::GO_IDS)>:",
+    "instruction": "  3a94d4: e30123c8     \tmovw\tr2, #0x13c8",
+    "preceding": [
+      "  3a94b4: e7847003     \tstr\tr7, [r4, r3]",
+      "  3a94b8: e3a01010     \tmov\tr1, #16",
+      "  3a94bc: e784700a     \tstr\tr7, [r4, r10]",
+      "  3a94c0: ebfda06d     \tbl\t0x31167c <std::priv::_String_base<char, std::allocator<char>>::_M_allocate_block(unsigned int)> @ imm = #-0x97e4c",
+      "  3a94c4: e794200a     \tldr\tr2, [r4, r10]",
+      "  3a94c8: e084700a     \tadd\tr7, r4, r10",
+      "  3a94cc: e287300c     \tadd\tr3, r7, #12",
+      "  3a94d0: e5c28000     \tstrb\tr8, [r2]",
+      "  3a94d4: e30123c8     \tmovw\tr2, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003a9340 <Character::Character(ObjectBase::GO_IDS)>:",
+    "instruction": "  3a94dc: e30123ca     \tmovw\tr2, #0x13ca",
+    "preceding": [
+      "  3a94bc: e784700a     \tstr\tr7, [r4, r10]",
+      "  3a94c0: ebfda06d     \tbl\t0x31167c <std::priv::_String_base<char, std::allocator<char>>::_M_allocate_block(unsigned int)> @ imm = #-0x97e4c",
+      "  3a94c4: e794200a     \tldr\tr2, [r4, r10]",
+      "  3a94c8: e084700a     \tadd\tr7, r4, r10",
+      "  3a94cc: e287300c     \tadd\tr3, r7, #12",
+      "  3a94d0: e5c28000     \tstrb\tr8, [r2]",
+      "  3a94d4: e30123c8     \tmovw\tr2, #0x13c8",
+      "  3a94d8: e18460b2     \tstrh\tr6, [r4, r2]",
+      "  3a94dc: e30123ca     \tmovw\tr2, #0x13ca"
+    ]
+  },
+  {
+    "symbol": "003aa1b4 <Character::Character(ObjectBase::GO_IDS)>:",
+    "instruction": "  3aa348: e30123c8     \tmovw\tr2, #0x13c8",
+    "preceding": [
+      "  3aa328: e7847003     \tstr\tr7, [r4, r3]",
+      "  3aa32c: e3a01010     \tmov\tr1, #16",
+      "  3aa330: e784700a     \tstr\tr7, [r4, r10]",
+      "  3aa334: ebfd9cd0     \tbl\t0x31167c <std::priv::_String_base<char, std::allocator<char>>::_M_allocate_block(unsigned int)> @ imm = #-0x98cc0",
+      "  3aa338: e794200a     \tldr\tr2, [r4, r10]",
+      "  3aa33c: e084700a     \tadd\tr7, r4, r10",
+      "  3aa340: e287300c     \tadd\tr3, r7, #12",
+      "  3aa344: e5c28000     \tstrb\tr8, [r2]",
+      "  3aa348: e30123c8     \tmovw\tr2, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003aa1b4 <Character::Character(ObjectBase::GO_IDS)>:",
+    "instruction": "  3aa350: e30123ca     \tmovw\tr2, #0x13ca",
+    "preceding": [
+      "  3aa330: e784700a     \tstr\tr7, [r4, r10]",
+      "  3aa334: ebfd9cd0     \tbl\t0x31167c <std::priv::_String_base<char, std::allocator<char>>::_M_allocate_block(unsigned int)> @ imm = #-0x98cc0",
+      "  3aa338: e794200a     \tldr\tr2, [r4, r10]",
+      "  3aa33c: e084700a     \tadd\tr7, r4, r10",
+      "  3aa340: e287300c     \tadd\tr3, r7, #12",
+      "  3aa344: e5c28000     \tstrb\tr8, [r2]",
+      "  3aa348: e30123c8     \tmovw\tr2, #0x13c8",
+      "  3aa34c: e18460b2     \tstrh\tr6, [r4, r2]",
+      "  3aa350: e30123ca     \tmovw\tr2, #0x13ca"
+    ]
+  },
+  {
+    "symbol": "003b36ec <Character::SafeGetCharPropsTemplateId()>:",
+    "instruction": "  3b3760: e30133ca     \tmovw\tr3, #0x13ca",
+    "preceding": [
+      "  3b3740: e1540006     \tcmp\tr4, r6",
+      "  3b3744: 0a000009     \tbeq\t0x3b3770 <Character::SafeGetCharPropsTemplateId()+0x84> @ imm = #0x24",
+      "  3b3748: e7971104     \tldr\tr1, [r7, r4, lsl #2]",
+      "  3b374c: e1a00005     \tmov\tr0, r5",
+      "  3b3750: ebfd6af1     \tbl\t0x30e31c <.plt+0x5a8>   @ imm = #-0xa543c",
+      "  3b3754: e3500000     \tcmp\tr0, #0",
+      "  3b3758: 1afffff7     \tbne\t0x3b373c <Character::SafeGetCharPropsTemplateId()+0x50> @ imm = #-0x24",
+      "  3b375c: e6ff4074     \tuxth\tr4, r4",
+      "  3b3760: e30133ca     \tmovw\tr3, #0x13ca"
+    ]
+  },
+  {
+    "symbol": "003b36ec <Character::SafeGetCharPropsTemplateId()>:",
+    "instruction": "  3b3774: e30133ca     \tmovw\tr3, #0x13ca",
+    "preceding": [
+      "  3b3754: e3500000     \tcmp\tr0, #0",
+      "  3b3758: 1afffff7     \tbne\t0x3b373c <Character::SafeGetCharPropsTemplateId()+0x50> @ imm = #-0x24",
+      "  3b375c: e6ff4074     \tuxth\tr4, r4",
+      "  3b3760: e30133ca     \tmovw\tr3, #0x13ca",
+      "  3b3764: e6bf0074     \tsxth\tr0, r4",
+      "  3b3768: e18840b3     \tstrh\tr4, [r8, r3]",
+      "  3b376c: e8bd81f0     \tpop\t{r4, r5, r6, r7, r8, pc}",
+      "  3b3770: e30f4fff     \tmovw\tr4, #0xffff",
+      "  3b3774: e30133ca     \tmovw\tr3, #0x13ca"
+    ]
+  },
+  {
+    "symbol": "003b36ec <Character::SafeGetCharPropsTemplateId()>:",
+    "instruction": "  3b3784: e30133ca     \tmovw\tr3, #0x13ca",
+    "preceding": [
+      "  3b3764: e6bf0074     \tsxth\tr0, r4",
+      "  3b3768: e18840b3     \tstrh\tr4, [r8, r3]",
+      "  3b376c: e8bd81f0     \tpop\t{r4, r5, r6, r7, r8, pc}",
+      "  3b3770: e30f4fff     \tmovw\tr4, #0xffff",
+      "  3b3774: e30133ca     \tmovw\tr3, #0x13ca",
+      "  3b3778: e3e00000     \tmvn\tr0, #0",
+      "  3b377c: e18840b3     \tstrh\tr4, [r8, r3]",
+      "  3b3780: e8bd81f0     \tpop\t{r4, r5, r6, r7, r8, pc}",
+      "  3b3784: e30133ca     \tmovw\tr3, #0x13ca"
+    ]
+  },
+  {
+    "symbol": "003b379c <Character::InitSpawned(int, Point3D<float> const&)>:",
+    "instruction": "  3b379c: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "003b379c <Character::InitSpawned(int, Point3D<float> const&)>:",
+      "  3b379c: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b3d38 <Character::SafeGetCharPropsId()>:",
+    "instruction": "  3b3d3c: e30163c8     \tmovw\tr6, #0x13c8",
+    "preceding": [
+      "003b3d38 <Character::SafeGetCharPropsId()>:",
+      "  3b3d38: e92d45f0     \tpush\t{r4, r5, r6, r7, r8, r10, lr}",
+      "  3b3d3c: e30163c8     \tmovw\tr6, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b3d38 <Character::SafeGetCharPropsId()>:",
+    "instruction": "  3b3dfc: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3b3ddc: eb001e86     \tbl\t0x3bb7fc <Character::SG_GetPlayerClass() const> @ imm = #0x7a18",
+      "  3b3de0: e6ff0070     \tuxth\tr0, r0",
+      "  3b3de4: e6bf1070     \tsxth\tr1, r0",
+      "  3b3de8: e3710001     \tcmn\tr1, #1",
+      "  3b3dec: e18400b6     \tstrh\tr0, [r4, r6]",
+      "  3b3df0: 0a000031     \tbeq\t0x3b3ebc <Character::SafeGetCharPropsId()+0x184> @ imm = #0xc4",
+      "  3b3df4: e1a00004     \tmov\tr0, r4",
+      "  3b3df8: eb001e85     \tbl\t0x3bb814 <Character::SG_SetPlayerClass(int)> @ imm = #0x7a14",
+      "  3b3dfc: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b3d38 <Character::SafeGetCharPropsId()>:",
+    "instruction": "  3b3eac: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3b3e8c: e3530002     \tcmp\tr3, #2",
+      "  3b3e90: 058aa000     \tstreq\tr10, [r10]",
+      "  3b3e94: 0a000001     \tbeq\t0x3b3ea0 <Character::SafeGetCharPropsId()+0x168> @ imm = #0x4",
+      "  3b3e98: e3530001     \tcmp\tr3, #1",
+      "  3b3e9c: 0a000042     \tbeq\t0x3b3fac <Character::SafeGetCharPropsId()+0x274> @ imm = #0x108",
+      "  3b3ea0: e5953008     \tldr\tr3, [r5, #0x8]",
+      "  3b3ea4: e0836186     \tadd\tr6, r3, r6, lsl #3",
+      "  3b3ea8: e1d600b4     \tldrh\tr0, [r6, #4]",
+      "  3b3eac: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b3d38 <Character::SafeGetCharPropsId()>:",
+    "instruction": "  3b3f14: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3b3ef4: 0a000029     \tbeq\t0x3b3fa0 <Character::SafeGetCharPropsId()+0x268> @ imm = #0xa4",
+      "  3b3ef8: e7971105     \tldr\tr1, [r7, r5, lsl #2]",
+      "  3b3efc: e1a00008     \tmov\tr0, r8",
+      "  3b3f00: ebfd6905     \tbl\t0x30e31c <.plt+0x5a8>   @ imm = #-0xa5bec",
+      "  3b3f04: e3500000     \tcmp\tr0, #0",
+      "  3b3f08: 1afffff7     \tbne\t0x3b3eec <Character::SafeGetCharPropsId()+0x1b4> @ imm = #-0x24",
+      "  3b3f0c: e6ff5075     \tuxth\tr5, r5",
+      "  3b3f10: e6bf1075     \tsxth\tr1, r5",
+      "  3b3f14: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b3d38 <Character::SafeGetCharPropsId()>:",
+    "instruction": "  3b3f88: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3b3f68: 0a000009     \tbeq\t0x3b3f94 <Character::SafeGetCharPropsId()+0x25c> @ imm = #0x24",
+      "  3b3f6c: e7971105     \tldr\tr1, [r7, r5, lsl #2]",
+      "  3b3f70: e1a00008     \tmov\tr0, r8",
+      "  3b3f74: ebfd68e8     \tbl\t0x30e31c <.plt+0x5a8>   @ imm = #-0xa5c60",
+      "  3b3f78: e3500000     \tcmp\tr0, #0",
+      "  3b3f7c: 1afffff7     \tbne\t0x3b3f60 <Character::SafeGetCharPropsId()+0x228> @ imm = #-0x24",
+      "  3b3f80: e6ff5075     \tuxth\tr5, r5",
+      "  3b3f84: e6bf0075     \tsxth\tr0, r5",
+      "  3b3f88: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b4d60 <Character::InitPost()>:",
+    "instruction": "  3b4e70: e30173c8     \tmovw\tr7, #0x13c8",
+    "preceding": [
+      "  3b4e50: 0a000005     \tbeq\t0x3b4e6c <Character::InitPost()+0x10c> @ imm = #0x14",
+      "  3b4e54: e1a00008     \tmov\tr0, r8",
+      "  3b4e58: ebfe2c21     \tbl\t0x33fee4 <ObjectHandle::operator GameObject*()> @ imm = #-0x74f7c",
+      "  3b4e5c: e2501000     \tsubs\tr1, r0, #0",
+      "  3b4e60: 0a000001     \tbeq\t0x3b4e6c <Character::InitPost()+0x10c> @ imm = #0x4",
+      "  3b4e64: e5940378     \tldr\tr0, [r4, #0x378]",
+      "  3b4e68: eb0141b4     \tbl\t0x405540 <v2Controller::Cmd_MoveTo(GameObject*)> @ imm = #0x506d0",
+      "  3b4e6c: e1a00004     \tmov\tr0, r4",
+      "  3b4e70: e30173c8     \tmovw\tr7, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b4d60 <Character::InitPost()>:",
+    "instruction": "  3b517c: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3b515c: eb0019fb     \tbl\t0x3bb950 <Character::SG_SetGameDifficulty(int)> @ imm = #0x67ec",
+      "  3b5160: e59d2010     \tldr\tr2, [sp, #0x10]",
+      "  3b5164: e1a01004     \tmov\tr1, r4",
+      "  3b5168: e7953002     \tldr\tr3, [r5, r2]",
+      "  3b516c: e5930040     \tldr\tr0, [r3, #0x40]",
+      "  3b5170: ebfee7a1     \tbl\t0x36effc <PlayerManager::IsLocalPlayer(Character const*)> @ imm = #-0x4617c",
+      "  3b5174: e3500000     \tcmp\tr0, #0",
+      "  3b5178: 1a0000d7     \tbne\t0x3b54dc <Character::InitPost()+0x77c> @ imm = #0x35c",
+      "  3b517c: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b6c70 <Character::_GetMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+    "instruction": "  3b6c74: e5921418     \tldr\tr1, [r2, #0x418]",
+    "preceding": [
+      "003b6c70 <Character::_GetMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+      "  3b6c70: e1a00001     \tmov\tr0, r1",
+      "  3b6c74: e5921418     \tldr\tr1, [r2, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003b6d5c <Character::_GetCharID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+    "instruction": "  3b6d5c: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "003b6d5c <Character::_GetCharID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+      "  3b6d5c: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003b6f3c <Character::_HasMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+    "instruction": "  3b6f3c: e5923418     \tldr\tr3, [r2, #0x418]",
+    "preceding": [
+      "003b6f3c <Character::_HasMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+      "  3b6f3c: e5923418     \tldr\tr3, [r2, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003b6fc4 <Character::_IsMasterHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+    "instruction": "  3b6fcc: e5922418     \tldr\tr2, [r2, #0x418]",
+    "preceding": [
+      "003b6fc4 <Character::_IsMasterHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+      "  3b6fc4: e92d4070     \tpush\t{r4, r5, r6, lr}",
+      "  3b6fc8: e1a04002     \tmov\tr4, r2",
+      "  3b6fcc: e5922418     \tldr\tr2, [r2, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003b6fc4 <Character::_IsMasterHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)>:",
+    "instruction": "  3b6ff8: e5943418     \tldr\tr3, [r4, #0x418]",
+    "preceding": [
+      "  3b6fd8: e3520000     \tcmp\tr2, #0",
+      "  3b6fdc: e08f3003     \tadd\tr3, pc, r3",
+      "  3b6fe0: 01a01002     \tmoveq\tr1, r2",
+      "  3b6fe4: 0a000008     \tbeq\t0x3b700c <Character::_IsMasterHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)+0x48> @ imm = #0x20",
+      "  3b6fe8: e59f202c     \tldr\tr2, [pc, #0x2c]         @ 0x3b701c <Character::_IsMasterHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)+0x58>",
+      "  3b6fec: e7933002     \tldr\tr3, [r3, r2]",
+      "  3b6ff0: e5930040     \tldr\tr0, [r3, #0x40]",
+      "  3b6ff4: ebfedc28     \tbl\t0x36e09c <PlayerManager::GetHostingPlayer()> @ imm = #-0x48f60",
+      "  3b6ff8: e5943418     \tldr\tr3, [r4, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003bd1cc <Character::ResetStatsChange(int, int, int, int)>:",
+    "instruction": "  3bd240: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3bd220: e1a00007     \tmov\tr0, r7",
+      "  3bd224: e26a2000     \trsb\tr2, r10, #0",
+      "  3bd228: e3a01097     \tmov\tr1, #151",
+      "  3bd22c: eb008d59     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x23564",
+      "  3bd230: e2642000     \trsb\tr2, r4, #0",
+      "  3bd234: e1a00007     \tmov\tr0, r7",
+      "  3bd238: e3a01098     \tmov\tr1, #152",
+      "  3bd23c: eb008d55     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x23554",
+      "  3bd240: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003bd26c <Character::ResetStats()>:",
+    "instruction": "  3bd2a4: e30123c8     \tmovw\tr2, #0x13c8",
+    "preceding": [
+      "  3bd284: e0822003     \tadd\tr2, r2, r3",
+      "  3bd288: e5943b50     \tldr\tr3, [r4, #0xb50]",
+      "  3bd28c: e0822000     \tadd\tr2, r2, r0",
+      "  3bd290: e0822001     \tadd\tr2, r2, r1",
+      "  3bd294: e0822003     \tadd\tr2, r2, r3",
+      "  3bd298: e3a03000     \tmov\tr3, #0",
+      "  3bd29c: e5843b44     \tstr\tr3, [r4, #0xb44]",
+      "  3bd2a0: e5842b40     \tstr\tr2, [r4, #0xb40]",
+      "  3bd2a4: e30123c8     \tmovw\tr2, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003bd4f8 <Character::IncStatNrg()>:",
+    "instruction": "  3bd558: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3bd538: e1a00005     \tmov\tr0, r5",
+      "  3bd53c: e3a01094     \tmov\tr1, #148",
+      "  3bd540: e3e02000     \tmvn\tr2, #0",
+      "  3bd544: eb008c93     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x2324c",
+      "  3bd548: e3a02001     \tmov\tr2, #1",
+      "  3bd54c: e1a00005     \tmov\tr0, r5",
+      "  3bd550: e3a01098     \tmov\tr1, #152",
+      "  3bd554: eb008c8f     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x2323c",
+      "  3bd558: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003bd600 <Character::IncStatEnd()>:",
+    "instruction": "  3bd660: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3bd640: e1a00005     \tmov\tr0, r5",
+      "  3bd644: e3a01094     \tmov\tr1, #148",
+      "  3bd648: e3e02000     \tmvn\tr2, #0",
+      "  3bd64c: eb008c51     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x23144",
+      "  3bd650: e3a02001     \tmov\tr2, #1",
+      "  3bd654: e1a00005     \tmov\tr0, r5",
+      "  3bd658: e3a01097     \tmov\tr1, #151",
+      "  3bd65c: eb008c4d     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x23134",
+      "  3bd660: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003bd708 <Character::IncStatDex()>:",
+    "instruction": "  3bd768: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3bd748: e1a00005     \tmov\tr0, r5",
+      "  3bd74c: e3a01094     \tmov\tr1, #148",
+      "  3bd750: e3e02000     \tmvn\tr2, #0",
+      "  3bd754: eb008c0f     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x2303c",
+      "  3bd758: e3a02001     \tmov\tr2, #1",
+      "  3bd75c: e1a00005     \tmov\tr0, r5",
+      "  3bd760: e3a01096     \tmov\tr1, #150",
+      "  3bd764: eb008c0b     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x2302c",
+      "  3bd768: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003bd810 <Character::IncStatStr()>:",
+    "instruction": "  3bd870: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3bd850: e1a00005     \tmov\tr0, r5",
+      "  3bd854: e3a01094     \tmov\tr1, #148",
+      "  3bd858: e3e02000     \tmvn\tr2, #0",
+      "  3bd85c: eb008bcd     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x22f34",
+      "  3bd860: e3a02001     \tmov\tr2, #1",
+      "  3bd864: e1a00005     \tmov\tr0, r5",
+      "  3bd868: e3a01095     \tmov\tr1, #149",
+      "  3bd86c: eb008bc9     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x22f24",
+      "  3bd870: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003bda74 <Character::ModifyCharProps(int, int)>:",
+    "instruction": "  3bdad0: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3bdab0: 0a000019     \tbeq\t0x3bdb1c <Character::ModifyCharProps(int, int)+0xa8> @ imm = #0x64",
+      "  3bdab4: e3570000     \tcmp\tr7, #0",
+      "  3bdab8: ba00001e     \tblt\t0x3bdb38 <Character::ModifyCharProps(int, int)+0xc4> @ imm = #0x78",
+      "  3bdabc: e285ae56     \tadd\tr10, r5, #1376",
+      "  3bdac0: e1a02007     \tmov\tr2, r7",
+      "  3bdac4: e1a01008     \tmov\tr1, r8",
+      "  3bdac8: e1a0000a     \tmov\tr0, r10",
+      "  3bdacc: eb008b0d     \tbl\t0x3e0708 <CharProperties::PROPS_Add(int, int)> @ imm = #0x22c34",
+      "  3bdad0: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003beb88 <Character::LevelUp(int)>:",
+    "instruction": "  3bec8c: e30133c8     \tmovw\tr3, #0x13c8",
+    "preceding": [
+      "  3bec6c: e1a00006     \tmov\tr0, r6",
+      "  3bec70: e3a01013     \tmov\tr1, #19",
+      "  3bec74: e3a02001     \tmov\tr2, #1",
+      "  3bec78: eb0086c6     \tbl\t0x3e0798 <CharProperties::PROPS_AddInt(int, int)> @ imm = #0x21b18",
+      "  3bec7c: e3a02000     \tmov\tr2, #0",
+      "  3bec80: e1a00006     \tmov\tr0, r6",
+      "  3bec84: e3a01021     \tmov\tr1, #33",
+      "  3bec88: eb0086de     \tbl\t0x3e0808 <CharProperties::PROPS_SetInt(int, int)> @ imm = #0x21b78",
+      "  3bec8c: e30133c8     \tmovw\tr3, #0x13c8"
+    ]
+  },
+  {
+    "symbol": "003cf3f0 <CharAI::_UpdateAggro()>:",
+    "instruction": "  3cf5b4: e5903418     \tldr\tr3, [r0, #0x418]",
+    "preceding": [
+      "  3cf594: eb001cbd     \tbl\t0x3d6890 <CharAI::AI_SetTarget(GameObject*, bool)> @ imm = #0x72f4",
+      "  3cf598: eaffffa4     \tb\t0x3cf430 <CharAI::_UpdateAggro()+0x40> @ imm = #-0x170",
+      "  3cf59c: e5950004     \tldr\tr0, [r5, #0x4]",
+      "  3cf5a0: ebff4ebb     \tbl\t0x3a3094 <Character::IsFaerie() const> @ imm = #-0x2c514",
+      "  3cf5a4: e3500000     \tcmp\tr0, #0",
+      "  3cf5a8: 05950004     \tldreq\tr0, [r5, #0x4]",
+      "  3cf5ac: 0a000003     \tbeq\t0x3cf5c0 <CharAI::_UpdateAggro()+0x1d0> @ imm = #0xc",
+      "  3cf5b0: e5950004     \tldr\tr0, [r5, #0x4]",
+      "  3cf5b4: e5903418     \tldr\tr3, [r0, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003d1050 <CharAI::OnUpdate()>:",
+    "instruction": "  3d10f4: e5932418     \tldr\tr2, [r3, #0x418]",
+    "preceding": [
+      "  3d10d4: ebffbc55     \tbl\t0x3c0230 <CharStateMachine::SM_IsAwaitingToSpawn() const> @ imm = #-0x10eac",
+      "  3d10d8: e3500000     \tcmp\tr0, #0",
+      "  3d10dc: 05943004     \tldreq\tr3, [r4, #0x4]",
+      "  3d10e0: 0affffef     \tbeq\t0x3d10a4 <CharAI::OnUpdate()+0x54> @ imm = #-0x44",
+      "  3d10e4: e5943004     \tldr\tr3, [r4, #0x4]",
+      "  3d10e8: e5932408     \tldr\tr2, [r3, #0x408]",
+      "  3d10ec: e3520000     \tcmp\tr2, #0",
+      "  3d10f0: 1affffeb     \tbne\t0x3d10a4 <CharAI::OnUpdate()+0x54> @ imm = #-0x54",
+      "  3d10f4: e5932418     \tldr\tr2, [r3, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003d11bc <CharAI::OnTerminate()>:",
+    "instruction": "  3d11ec: e5903418     \tldr\tr3, [r0, #0x418]",
+    "preceding": [
+      "  3d11cc: eb001375     \tbl\t0x3d5fa8 <CharAI::AI_ClearAllAggro()> @ imm = #0x4dd4",
+      "  3d11d0: e1a00005     \tmov\tr0, r5",
+      "  3d11d4: e3a01000     \tmov\tr1, #0",
+      "  3d11d8: eb001637     \tbl\t0x3d6abc <CharAI::AI_ClearAllAggroTowardMe(bool)> @ imm = #0x58dc",
+      "  3d11dc: e5950058     \tldr\tr0, [r5, #0x58]",
+      "  3d11e0: e3500000     \tcmp\tr0, #0",
+      "  3d11e4: 0a000003     \tbeq\t0x3d11f8 <CharAI::OnTerminate()+0x3c> @ imm = #0xc",
+      "  3d11e8: e5952004     \tldr\tr2, [r5, #0x4]",
+      "  3d11ec: e5903418     \tldr\tr3, [r0, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003d11bc <CharAI::OnTerminate()>:",
+    "instruction": "  3d1220: e5903418     \tldr\tr3, [r0, #0x418]",
+    "preceding": [
+      "  3d1200: e5853058     \tstr\tr3, [r5, #0x58]",
+      "  3d1204: e285605c     \tadd\tr6, r5, #92",
+      "  3d1208: e1560004     \tcmp\tr6, r4",
+      "  3d120c: 0a000011     \tbeq\t0x3d1258 <CharAI::OnTerminate()+0x9c> @ imm = #0x44",
+      "  3d1210: e5940014     \tldr\tr0, [r4, #0x14]",
+      "  3d1214: e3500000     \tcmp\tr0, #0",
+      "  3d1218: 0a000003     \tbeq\t0x3d122c <CharAI::OnTerminate()+0x70> @ imm = #0xc",
+      "  3d121c: e5952004     \tldr\tr2, [r5, #0x4]",
+      "  3d1220: e5903418     \tldr\tr3, [r0, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003f0898 <Level::PlaceFaeryAndFollowers(Character*)>:",
+    "instruction": "  3f09bc: e5953418     \tldr\tr3, [r5, #0x418]",
+    "preceding": [
+      "  3f099c: e2844001     \tadd\tr4, r4, #1",
+      "  3f09a0: e3530000     \tcmp\tr3, #0",
+      "  3f09a4: 15835420     \tstrne\tr5, [r3, #0x420]",
+      "  3f09a8: e7973008     \tldr\tr3, [r7, r8]",
+      "  3f09ac: e5930040     \tldr\tr0, [r3, #0x40]",
+      "  3f09b0: e59036c4     \tldr\tr3, [r0, #0x6c4]",
+      "  3f09b4: e1540003     \tcmp\tr4, r3",
+      "  3f09b8: bafffff3     \tblt\t0x3f098c <Level::PlaceFaeryAndFollowers(Character*)+0xf4> @ imm = #-0x34",
+      "  3f09bc: e5953418     \tldr\tr3, [r5, #0x418]"
+    ]
+  },
+  {
+    "symbol": "003f0ae0 <Level::UpdateListener()>:",
+    "instruction": "  3f0b04: 0a000106     \tbeq\t0x3f0f24 <Level::UpdateListener()+0x444> @ imm = #0x418",
+    "preceding": [
+      "  3f0ae4: e59f54d4     \tldr\tr5, [pc, #0x4d4]        @ 0x3f0fc0 <Level::UpdateListener()+0x4e0>",
+      "  3f0ae8: e59f44d4     \tldr\tr4, [pc, #0x4d4]        @ 0x3f0fc4 <Level::UpdateListener()+0x4e4>",
+      "  3f0aec: e24dd08c     \tsub\tsp, sp, #140",
+      "  3f0af0: e08f5005     \tadd\tr5, pc, r5",
+      "  3f0af4: e5953004     \tldr\tr3, [r5, #0x4]",
+      "  3f0af8: e08f4004     \tadd\tr4, pc, r4",
+      "  3f0afc: e1a06000     \tmov\tr6, r0",
+      "  3f0b00: e3130001     \ttst\tr3, #1",
+      "  3f0b04: 0a000106     \tbeq\t0x3f0f24 <Level::UpdateListener()+0x444> @ imm = #0x418"
+    ]
+  }
+]

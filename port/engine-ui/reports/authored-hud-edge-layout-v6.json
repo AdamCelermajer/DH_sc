@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "checks": 1449378,
+  "cases": 12,
+  "scope": "actual cached HUD graph/actions/shape picking; explicit texture/font/native platform fixture",
+  "hashes": {
+    "port/engine-ui/tests/authored_hud_edge_layout_v6.cpp": "7c652d2c27fc8d375f9fadf52f1265557f22327dac1237119e84cdcc3a9173d0",
+    "port/engine-ui/authored_gameplay_hud_v1.cpp": "70ff9b412b5be8f62dde6d7ac6766146385dd631c4029fe6e9487f948819498a",
+    "port/engine-ui/authored_hud_edge_layout_v6.cpp": "2c28a0dd1e87b1c7e94936e79a85b9d3e7b0101cdcd7021c9ba13663f133fc39",
+    "port/engine-ui/overlays/source-facade-v1/swf_movie.cpp": "4cee76342964485ed94b587cb694ca6024ad0fefa91b21ddb3eafda6b88aa790",
+    "port/engine-ui/swf_input_connection.cpp": "ddb9b5ba28c941f3a0f6152b98926e72b32dd065259f16ebf7080fee5e6b4051",
+    "port/engine-ui/tests/authored_hud_edge_layout_v6_font_fixture.cpp": "f9f61d1d445848218aaa8d100adfdef3e2bfc6c93154dca0227258836d77b1c3",
+    ".local-inputs/authored_hud_edge_layout_v6_host": "57317e2b16d0c1936ed67cb1311def4b9069078dc48555d3a129dd8c701df939",
+    "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+    "port/android-native/app/src/main/assets/original-cache/data/menus/dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263"
+  }
+}

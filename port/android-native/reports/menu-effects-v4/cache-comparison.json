@@ -1,0 +1,2136 @@
+[
+  {
+    "path": "C:\\Users\\adamc\\Downloads\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "sound_members": 265,
+    "entries": {
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/": {
+        "bytes": 0,
+        "crc": 0
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_comdemnation.wav": {
+        "bytes": 138042,
+        "crc": 3516075766
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_2.wav": {
+        "bytes": 31956,
+        "crc": 694425445
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_venom_shot.wav": {
+        "bytes": 90246,
+        "crc": 1924431062
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_2_22.wav": {
+        "bytes": 49446,
+        "crc": 1013972979
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_1.wav": {
+        "bytes": 39120,
+        "crc": 3206076184
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_desert_pinwheel.wav": {
+        "bytes": 144240,
+        "crc": 3063578069
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_gothicus_edward_1.wav": {
+        "bytes": 539212,
+        "crc": 695468732
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_3_22.wav": {
+        "bytes": 16512,
+        "crc": 792668422
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_2_22.wav": {
+        "bytes": 36204,
+        "crc": 2990949751
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_1_22.wav": {
+        "bytes": 15836,
+        "crc": 1906263294
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_shop_nodeal.wav": {
+        "bytes": 16152,
+        "crc": 632254672
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_1_22.wav": {
+        "bytes": 13696,
+        "crc": 1454277072
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_1_22.wav": {
+        "bytes": 26970,
+        "crc": 1312621844
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_vicious_strike.wav": {
+        "bytes": 145758,
+        "crc": 1188861910
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_1.wav": {
+        "bytes": 68944,
+        "crc": 2966612531
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_critical hit_1.wav": {
+        "bytes": 85080,
+        "crc": 3856202485
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_faerie.wav": {
+        "bytes": 744956,
+        "crc": 2768978699
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_3.wav": {
+        "bytes": 31468,
+        "crc": 2276279170
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_swamp_sfx_water.vxn": {
+        "bytes": 12278272,
+        "crc": 2990091028
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_shop_deal.wav": {
+        "bytes": 48002,
+        "crc": 195260981
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_1.wav": {
+        "bytes": 31728,
+        "crc": 592322565
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_3_22.wav": {
+        "bytes": 22078,
+        "crc": 2824154528
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_2.wav": {
+        "bytes": 32204,
+        "crc": 1741024018
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_3.wav": {
+        "bytes": 47182,
+        "crc": 3924421633
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_hold_time.wav": {
+        "bytes": 338284,
+        "crc": 2868339778
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_3_22.wav": {
+        "bytes": 14790,
+        "crc": 2392174226
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_confirm.wav": {
+        "bytes": 248108,
+        "crc": 3829842207
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_gothicus_edward_2.wav": {
+        "bytes": 208156,
+        "crc": 1500843771
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_3_22.wav": {
+        "bytes": 27376,
+        "crc": 3840231584
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_dark_queen.wav": {
+        "bytes": 2481300,
+        "crc": 1069222520
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_1_22.wav": {
+        "bytes": 12486,
+        "crc": 267707370
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_4.wav": {
+        "bytes": 67922,
+        "crc": 799231329
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_2.wav": {
+        "bytes": 71736,
+        "crc": 2336589018
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_moth.wav": {
+        "bytes": 374376,
+        "crc": 2102972956
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_3.wav": {
+        "bytes": 20174,
+        "crc": 3497320572
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_select.wav": {
+        "bytes": 10784,
+        "crc": 1052002921
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_2.wav": {
+        "bytes": 24182,
+        "crc": 908609190
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_left_game.wav": {
+        "bytes": 1436176,
+        "crc": 493178880
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_4.wav": {
+        "bytes": 31420,
+        "crc": 2134955202
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_maim_shot.wav": {
+        "bytes": 77316,
+        "crc": 3752123154
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_1_22.wav": {
+        "bytes": 21868,
+        "crc": 1612242468
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_hold_time_hit.wav": {
+        "bytes": 377508,
+        "crc": 618254061
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_ice.wav": {
+        "bytes": 140672,
+        "crc": 2128020840
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_raise.wav": {
+        "bytes": 410202,
+        "crc": 3427322977
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_1.wav": {
+        "bytes": 67922,
+        "crc": 2637087902
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_bandit_lair_river_loop.wav": {
+        "bytes": 430126,
+        "crc": 1095036098
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_1_22.wav": {
+        "bytes": 31970,
+        "crc": 3955585633
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_3_22.wav": {
+        "bytes": 13916,
+        "crc": 1098267699
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_1.wav": {
+        "bytes": 55136,
+        "crc": 4011396411
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_add_2.wav": {
+        "bytes": 134726,
+        "crc": 130233946
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_spiritual_sight.wav": {
+        "bytes": 140546,
+        "crc": 3077999600
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_3.wav": {
+        "bytes": 21442,
+        "crc": 3661128236
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_fire.wav": {
+        "bytes": 90444,
+        "crc": 3805709202
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_2.wav": {
+        "bytes": 29904,
+        "crc": 2150948800
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_assassin.wav": {
+        "bytes": 2218132,
+        "crc": 1474045041
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_annihilating_spin.wav": {
+        "bytes": 152484,
+        "crc": 3214757569
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_1.wav": {
+        "bytes": 28824,
+        "crc": 3633973222
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step3_loop.wav": {
+        "bytes": 2453652,
+        "crc": 4098271284
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step2_loop.wav": {
+        "bytes": 1148052,
+        "crc": 2868269131
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_3.wav": {
+        "bytes": 64776,
+        "crc": 3652285325
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_shield_rush.wav": {
+        "bytes": 89434,
+        "crc": 1696237486
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_heel_strike.wav": {
+        "bytes": 172388,
+        "crc": 651534602
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_3.wav": {
+        "bytes": 67922,
+        "crc": 2848551757
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_loop.wav": {
+        "bytes": 307058,
+        "crc": 3898940156
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_red_desert_sfx_red_desert.vxn": {
+        "bytes": 8946176,
+        "crc": 956519522
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_2.wav": {
+        "bytes": 67922,
+        "crc": 2974651787
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_death.wav": {
+        "bytes": 81226,
+        "crc": 3845088093
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_2.wav": {
+        "bytes": 52520,
+        "crc": 744900717
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_small.wav": {
+        "bytes": 144892,
+        "crc": 828948094
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_troll_die.wav": {
+        "bytes": 1406044,
+        "crc": 3131566744
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_add_1.wav": {
+        "bytes": 134726,
+        "crc": 4088018745
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_big.wav": {
+        "bytes": 277086,
+        "crc": 3920717005
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_crusade.wav": {
+        "bytes": 172184,
+        "crc": 3804541756
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_1.wav": {
+        "bytes": 18100,
+        "crc": 3826569312
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_waterfall_loop_1.wav": {
+        "bytes": 136020,
+        "crc": 4248809939
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_2.wav": {
+        "bytes": 32070,
+        "crc": 4103476206
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_2.wav": {
+        "bytes": 32306,
+        "crc": 1337215651
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_medium.wav": {
+        "bytes": 158312,
+        "crc": 1658303584
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_king_die.wav": {
+        "bytes": 289496,
+        "crc": 3565462432
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_medium.wav": {
+        "bytes": 161454,
+        "crc": 4211214884
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_headsplitter.wav": {
+        "bytes": 131034,
+        "crc": 160077170
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_1_22.wav": {
+        "bytes": 26938,
+        "crc": 3554312829
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_energy_source_loop.wav": {
+        "bytes": 525616,
+        "crc": 926896188
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_fire_loop.wav": {
+        "bytes": 554033,
+        "crc": 1750763218
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_1.wav": {
+        "bytes": 19854,
+        "crc": 2766170906
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_small.wav": {
+        "bytes": 269420,
+        "crc": 3795258231
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_wind.wav": {
+        "bytes": 214572,
+        "crc": 901622820
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_act_completed.wav": {
+        "bytes": 933140,
+        "crc": 1010258356
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_1.wav": {
+        "bytes": 32044,
+        "crc": 2766149995
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_rain_of_arrows.wav": {
+        "bytes": 69400,
+        "crc": 3785489682
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_assassinate.wav": {
+        "bytes": 203168,
+        "crc": 1294493282
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_3.wav": {
+        "bytes": 32288,
+        "crc": 3421723862
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_3.wav": {
+        "bytes": 32094,
+        "crc": 3010991042
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_1.wav": {
+        "bytes": 32094,
+        "crc": 310355241
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_waterfall_loop_2.wav": {
+        "bytes": 136020,
+        "crc": 3588752747
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_shoot_arrow.wav": {
+        "bytes": 49146,
+        "crc": 3331884844
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_red_desert.wav": {
+        "bytes": 3591228,
+        "crc": 2978797477
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_1.wav": {
+        "bytes": 31828,
+        "crc": 1454283792
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_nightmare.wav": {
+        "bytes": 205128,
+        "crc": 1429511012
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_3.wav": {
+        "bytes": 23942,
+        "crc": 2342781249
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_death.wav": {
+        "bytes": 1036480,
+        "crc": 1830317993
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_icy_cliff_sfx_ice_hub.vxn": {
+        "bytes": 10463744,
+        "crc": 86779979
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds_he.xml": {
+        "bytes": 102414,
+        "crc": 4196435656
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_1_22.wav": {
+        "bytes": 21946,
+        "crc": 1811185281
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_2.wav": {
+        "bytes": 16334,
+        "crc": 3441922397
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_pierce_shot.wav": {
+        "bytes": 74748,
+        "crc": 1365573376
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_4.wav": {
+        "bytes": 32150,
+        "crc": 2389066587
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_2.wav": {
+        "bytes": 19312,
+        "crc": 847575192
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_4.wav": {
+        "bytes": 32100,
+        "crc": 2759637165
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fire_loop.wav": {
+        "bytes": 598330,
+        "crc": 3936894063
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_wind.wav": {
+        "bytes": 85100,
+        "crc": 2740426294
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_4.wav": {
+        "bytes": 32432,
+        "crc": 3288849866
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_1_22.wav": {
+        "bytes": 27224,
+        "crc": 1133218174
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_quake.wav": {
+        "bytes": 381656,
+        "crc": 942188496
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_earthstrike.wav": {
+        "bytes": 258622,
+        "crc": 1504611021
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_glowing_rene.wav": {
+        "bytes": 277208,
+        "crc": 246482880
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_vortex_fire_loop.wav": {
+        "bytes": 735788,
+        "crc": 3478377521
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid.wav": {
+        "bytes": 99650,
+        "crc": 935220495
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_2.wav": {
+        "bytes": 1539620,
+        "crc": 1965543947
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_terror.wav": {
+        "bytes": 188774,
+        "crc": 2345389333
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_1.wav": {
+        "bytes": 31716,
+        "crc": 1761022918
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_soldier_enter.wav": {
+        "bytes": 212356,
+        "crc": 469482089
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_2_22.wav": {
+        "bytes": 46816,
+        "crc": 2998230829
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_panel_up.wav": {
+        "bytes": 266624,
+        "crc": 2283668640
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_crippling_strike.wav": {
+        "bytes": 157824,
+        "crc": 1493630616
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_doppelganger_statue_explode.wav": {
+        "bytes": 103492,
+        "crc": 809413933
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_back.wav": {
+        "bytes": 254588,
+        "crc": 1529111649
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_cathedral_sfx_catacomb.vxn": {
+        "bytes": 10281472,
+        "crc": 2829835020
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_1_22.wav": {
+        "bytes": 34270,
+        "crc": 2478508139
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_steam_loop.wav": {
+        "bytes": 351036,
+        "crc": 1683479267
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_monster.wav": {
+        "bytes": 1985684,
+        "crc": 2104850653
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_fire_temple_1.wav": {
+        "bytes": 510288,
+        "crc": 804315241
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav": {
+        "bytes": 277092,
+        "crc": 2784607561
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_complete.wav": {
+        "bytes": 800776,
+        "crc": 23524452
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_3.wav": {
+        "bytes": 32018,
+        "crc": 184807939
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_2_22.wav": {
+        "bytes": 22112,
+        "crc": 3827149879
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_1.wav": {
+        "bytes": 909524,
+        "crc": 4197134253
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magical_shrine_loop.wav": {
+        "bytes": 540840,
+        "crc": 1780374398
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_2.wav": {
+        "bytes": 33310,
+        "crc": 302378802
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_spending.wav": {
+        "bytes": 36426,
+        "crc": 1759293170
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_alastor_blessing.wav": {
+        "bytes": 205928,
+        "crc": 588594862
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_loop.wav": {
+        "bytes": 870836,
+        "crc": 2055140733
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_swamp.wav": {
+        "bytes": 3591228,
+        "crc": 25807459
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_medium.wav": {
+        "bytes": 269420,
+        "crc": 1489183489
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_earth.wav": {
+        "bytes": 58250,
+        "crc": 2512391728
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_outro.wav": {
+        "bytes": 1028412,
+        "crc": 3389218349
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_void_maze.vxn": {
+        "bytes": 11692544,
+        "crc": 785320523
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_river_loop.wav": {
+        "bytes": 407574,
+        "crc": 242554669
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_2_22.wav": {
+        "bytes": 16678,
+        "crc": 3936820233
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step1_loop.wav": {
+        "bytes": 1890452,
+        "crc": 1714802702
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_2.wav": {
+        "bytes": 904172,
+        "crc": 2203829583
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_escape_castle.wav": {
+        "bytes": 91930,
+        "crc": 3693883681
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_water_temple_2.wav": {
+        "bytes": 231456,
+        "crc": 665025858
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_doppelganger.wav": {
+        "bytes": 128472,
+        "crc": 2928179495
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_1.wav.wav": {
+        "bytes": 1524320,
+        "crc": 3473393629
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_4.wav": {
+        "bytes": 175426,
+        "crc": 1912384336
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_cast_loop.wav": {
+        "bytes": 1337760,
+        "crc": 3561983291
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_swamp_sfx_swamp.vxn": {
+        "bytes": 12278272,
+        "crc": 1390125284
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_darkwood.vxn": {
+        "bytes": 11692544,
+        "crc": 1817967557
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_3.wav": {
+        "bytes": 501868,
+        "crc": 1150704866
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_pestilence_breath.wav": {
+        "bytes": 157570,
+        "crc": 2763397043
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_1.wav": {
+        "bytes": 22962,
+        "crc": 3864062589
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_rene_thunder.wav": {
+        "bytes": 736652,
+        "crc": 4250390257
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_intro.wav": {
+        "bytes": 627160,
+        "crc": 580873106
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_hell_sfx_dark.vxn": {
+        "bytes": 8397312,
+        "crc": 3595725903
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_2_22.wav": {
+        "bytes": 13322,
+        "crc": 523946711
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_red_desert_sfx_fire.vxn": {
+        "bytes": 8946176,
+        "crc": 380820157
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_throw_knife.wav": {
+        "bytes": 44338,
+        "crc": 1293469598
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_icy_cliff_sfx_wind.vxn": {
+        "bytes": 10463744,
+        "crc": 3455316536
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_1.wav": {
+        "bytes": 466536,
+        "crc": 402755371
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_water_temple_1.wav": {
+        "bytes": 806872,
+        "crc": 1526351876
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_level_up.wav": {
+        "bytes": 439048,
+        "crc": 4046952368
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_big.wav": {
+        "bytes": 259736,
+        "crc": 1123271672
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_4_22.wav": {
+        "bytes": 26412,
+        "crc": 2554812542
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_concealing_cloud.wav": {
+        "bytes": 169264,
+        "crc": 1002115108
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_well_scream_loop.wav": {
+        "bytes": 854868,
+        "crc": 4164045264
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cultist_group_chant_loop.wav": {
+        "bytes": 398644,
+        "crc": 175327587
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_2.wav": {
+        "bytes": 17722,
+        "crc": 1932629343
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_02_sfx_ice_hub.wav": {
+        "bytes": 3697724,
+        "crc": 50402823
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_troll_spawn.wav": {
+        "bytes": 310744,
+        "crc": 3731415641
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_earth.wav": {
+        "bytes": 122032,
+        "crc": 3294595467
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_new.wav": {
+        "bytes": 671072,
+        "crc": 1148087465
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_small.wav": {
+        "bytes": 154024,
+        "crc": 3068184429
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_dark_temple.wav": {
+        "bytes": 3591228,
+        "crc": 1040011740
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_thunder.wav": {
+        "bytes": 53498,
+        "crc": 3923824353
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_eclipse.wav": {
+        "bytes": 306688,
+        "crc": 2437822638
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_assassin_die.wav": {
+        "bytes": 63104,
+        "crc": 3980914468
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_gothicus_no_ambiance.vxn": {
+        "bytes": 9515520,
+        "crc": 760319512
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_1.wav": {
+        "bytes": 49714,
+        "crc": 1605772031
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_2_22.wav": {
+        "bytes": 22206,
+        "crc": 3664635211
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_2_22.wav": {
+        "bytes": 11270,
+        "crc": 2268234919
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_2_22.wav": {
+        "bytes": 12226,
+        "crc": 1055282265
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_1_22.wav": {
+        "bytes": 38006,
+        "crc": 3223175794
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_wind.wav": {
+        "bytes": 92178,
+        "crc": 843907608
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_2.wav": {
+        "bytes": 107460,
+        "crc": 3949922983
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_3.wav": {
+        "bytes": 166560,
+        "crc": 904650596
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_2.wav": {
+        "bytes": 359840,
+        "crc": 718988986
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_1_22.wav": {
+        "bytes": 47522,
+        "crc": 3883568854
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_title.vxn": {
+        "bytes": 3837292,
+        "crc": 2175098285
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_thunder.wav": {
+        "bytes": 89472,
+        "crc": 3552363514
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_catacomb_wind_loop.wav": {
+        "bytes": 217734,
+        "crc": 306050290
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_world_map.wav": {
+        "bytes": 1037460,
+        "crc": 1744202
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_tab.wav": {
+        "bytes": 59534,
+        "crc": 4043243403
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_vortex_loop.wav": {
+        "bytes": 770641,
+        "crc": 2988813204
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_stormslave.wav": {
+        "bytes": 322744,
+        "crc": 3454249685
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_reaperstorm.wav": {
+        "bytes": 288514,
+        "crc": 1762256021
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_2.wav": {
+        "bytes": 50146,
+        "crc": 754869802
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_lose.wav": {
+        "bytes": 516244,
+        "crc": 1919285948
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_harrowing_grasp.wav": {
+        "bytes": 282422,
+        "crc": 2506961582
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_burst_shot.wav": {
+        "bytes": 110944,
+        "crc": 2814527085
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_1.wav": {
+        "bytes": 99260,
+        "crc": 2191802470
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_1.wav": {
+        "bytes": 807936,
+        "crc": 2574250359
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl.wav": {
+        "bytes": 222956,
+        "crc": 1158072890
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_tutorial_popup.wav": {
+        "bytes": 387912,
+        "crc": 1899353353
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step3_intro.wav": {
+        "bytes": 193684,
+        "crc": 2587252897
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_icy_cliff_sfx_ice_cavern.vxn": {
+        "bytes": 10463744,
+        "crc": 2979196374
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magic_portal_loop.wav": {
+        "bytes": 729004,
+        "crc": 1973884686
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_root_den.vxn": {
+        "bytes": 11692544,
+        "crc": 3646712725
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_1_22.wav": {
+        "bytes": 46816,
+        "crc": 220204585
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_red_desert_no_ambiance.vxn": {
+        "bytes": 8946176,
+        "crc": 126363286
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_3_22.wav": {
+        "bytes": 21698,
+        "crc": 1622028694
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_shoot_arrow_22.wav": {
+        "bytes": 33880,
+        "crc": 1944658853
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_ice.wav": {
+        "bytes": 102206,
+        "crc": 823599524
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_big.wav": {
+        "bytes": 306424,
+        "crc": 4080915731
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_low_hp.wav": {
+        "bytes": 720764,
+        "crc": 1184835401
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_swamp_sfx_witch.vxn": {
+        "bytes": 12278272,
+        "crc": 2715260422
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_1.wav": {
+        "bytes": 39072,
+        "crc": 213968703
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_condemnation.wav": {
+        "bytes": 289938,
+        "crc": 3067042637
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_earth.wav": {
+        "bytes": 99610,
+        "crc": 571587907
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_burst_shot.wav": {
+        "bytes": 190262,
+        "crc": 305645031
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav": {
+        "bytes": 227786,
+        "crc": 112212178
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cave_mouth_loop.wav": {
+        "bytes": 487098,
+        "crc": 2550357773
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_4.wav": {
+        "bytes": 38308,
+        "crc": 2300605025
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_cold_ray.wav": {
+        "bytes": 123628,
+        "crc": 1727550335
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_ruins.wav": {
+        "bytes": 626072,
+        "crc": 1016092670
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml": {
+        "bytes": 102135,
+        "crc": 4111327128
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_2.wav": {
+        "bytes": 54662,
+        "crc": 1083130071
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_1_22.wav": {
+        "bytes": 22130,
+        "crc": 4032443378
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_thunder_22.wav": {
+        "bytes": 61612,
+        "crc": 756920553
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_2_22.wav": {
+        "bytes": 34568,
+        "crc": 3203684930
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_featherfoot.wav": {
+        "bytes": 122646,
+        "crc": 1157763662
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_intro_intense.wav": {
+        "bytes": 1160340,
+        "crc": 3478629368
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_1.wav": {
+        "bytes": 39488,
+        "crc": 3512191954
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_tap_dialog.wav": {
+        "bytes": 72184,
+        "crc": 3199584257
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_fire.wav": {
+        "bytes": 80106,
+        "crc": 4174848281
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_low_hp.wav": {
+        "bytes": 591504,
+        "crc": 2351369950
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_2_22.wav": {
+        "bytes": 37680,
+        "crc": 2202187976
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_infected.vxn": {
+        "bytes": 11692544,
+        "crc": 242974750
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_1.wav": {
+        "bytes": 46374,
+        "crc": 1004678255
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_witch_spawn.wav": {
+        "bytes": 367148,
+        "crc": 714956399
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_plague_edge.wav": {
+        "bytes": 203632,
+        "crc": 1632789604
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_orb_loop.wav": {
+        "bytes": 374200,
+        "crc": 2687157404
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_2.wav": {
+        "bytes": 46660,
+        "crc": 1872439128
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_1_22.wav": {
+        "bytes": 21878,
+        "crc": 3308814882
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magical_wall_loop.wav": {
+        "bytes": 539906,
+        "crc": 1926373513
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_3.wav": {
+        "bytes": 39708,
+        "crc": 713122289
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/.nomedia": {
+        "bytes": 0,
+        "crc": 0
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_2_22.wav": {
+        "bytes": 22276,
+        "crc": 4201766852
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_2.wav": {
+        "bytes": 50912,
+        "crc": 3586160936
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_telepoint_loop.wav": {
+        "bytes": 471656,
+        "crc": 2958345445
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_3.wav": {
+        "bytes": 44600,
+        "crc": 3249131511
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_revive.wav": {
+        "bytes": 1523216,
+        "crc": 750008597
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step2_intro.wav": {
+        "bytes": 194708,
+        "crc": 2051036096
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_02_sfx_darkwood.wav": {
+        "bytes": 3697724,
+        "crc": 168345863
+      }
+    },
+    "pickup": []
+  },
+  {
+    "path": "C:\\Users\\adamc\\Downloads\\dungeonhunter2\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "sound_members": 265,
+    "entries": {
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/": {
+        "bytes": 0,
+        "crc": 0
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_comdemnation.wav": {
+        "bytes": 138042,
+        "crc": 3516075766
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_2.wav": {
+        "bytes": 31956,
+        "crc": 694425445
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_venom_shot.wav": {
+        "bytes": 90246,
+        "crc": 1924431062
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_2_22.wav": {
+        "bytes": 49446,
+        "crc": 1013972979
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_1.wav": {
+        "bytes": 39120,
+        "crc": 3206076184
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_desert_pinwheel.wav": {
+        "bytes": 144240,
+        "crc": 3063578069
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_gothicus_edward_1.wav": {
+        "bytes": 539212,
+        "crc": 695468732
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_3_22.wav": {
+        "bytes": 16512,
+        "crc": 792668422
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_2_22.wav": {
+        "bytes": 36204,
+        "crc": 2990949751
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_1_22.wav": {
+        "bytes": 15836,
+        "crc": 1906263294
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_shop_nodeal.wav": {
+        "bytes": 16152,
+        "crc": 632254672
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_1_22.wav": {
+        "bytes": 13696,
+        "crc": 1454277072
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_1_22.wav": {
+        "bytes": 26970,
+        "crc": 1312621844
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_vicious_strike.wav": {
+        "bytes": 145758,
+        "crc": 1188861910
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_1.wav": {
+        "bytes": 68944,
+        "crc": 2966612531
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_critical hit_1.wav": {
+        "bytes": 85080,
+        "crc": 3856202485
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_faerie.wav": {
+        "bytes": 744956,
+        "crc": 2768978699
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_3.wav": {
+        "bytes": 31468,
+        "crc": 2276279170
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_swamp_sfx_water.vxn": {
+        "bytes": 12278272,
+        "crc": 2990091028
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_shop_deal.wav": {
+        "bytes": 48002,
+        "crc": 195260981
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_1.wav": {
+        "bytes": 31728,
+        "crc": 592322565
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_3_22.wav": {
+        "bytes": 22078,
+        "crc": 2824154528
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_2.wav": {
+        "bytes": 32204,
+        "crc": 1741024018
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_3.wav": {
+        "bytes": 47182,
+        "crc": 3924421633
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_hold_time.wav": {
+        "bytes": 338284,
+        "crc": 2868339778
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_3_22.wav": {
+        "bytes": 14790,
+        "crc": 2392174226
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_confirm.wav": {
+        "bytes": 248108,
+        "crc": 3829842207
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_gothicus_edward_2.wav": {
+        "bytes": 208156,
+        "crc": 1500843771
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_3_22.wav": {
+        "bytes": 27376,
+        "crc": 3840231584
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_dark_queen.wav": {
+        "bytes": 2481300,
+        "crc": 1069222520
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_1_22.wav": {
+        "bytes": 12486,
+        "crc": 267707370
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_4.wav": {
+        "bytes": 67922,
+        "crc": 799231329
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_2.wav": {
+        "bytes": 71736,
+        "crc": 2336589018
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_moth.wav": {
+        "bytes": 374376,
+        "crc": 2102972956
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_3.wav": {
+        "bytes": 20174,
+        "crc": 3497320572
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_select.wav": {
+        "bytes": 10784,
+        "crc": 1052002921
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_2.wav": {
+        "bytes": 24182,
+        "crc": 908609190
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_left_game.wav": {
+        "bytes": 1436176,
+        "crc": 493178880
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_4.wav": {
+        "bytes": 31420,
+        "crc": 2134955202
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_maim_shot.wav": {
+        "bytes": 77316,
+        "crc": 3752123154
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_1_22.wav": {
+        "bytes": 21868,
+        "crc": 1612242468
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_hold_time_hit.wav": {
+        "bytes": 377508,
+        "crc": 618254061
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_ice.wav": {
+        "bytes": 140672,
+        "crc": 2128020840
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_raise.wav": {
+        "bytes": 410202,
+        "crc": 3427322977
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_1.wav": {
+        "bytes": 67922,
+        "crc": 2637087902
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_bandit_lair_river_loop.wav": {
+        "bytes": 430126,
+        "crc": 1095036098
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_1_22.wav": {
+        "bytes": 31970,
+        "crc": 3955585633
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_3_22.wav": {
+        "bytes": 13916,
+        "crc": 1098267699
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_1.wav": {
+        "bytes": 55136,
+        "crc": 4011396411
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_add_2.wav": {
+        "bytes": 134726,
+        "crc": 130233946
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_spiritual_sight.wav": {
+        "bytes": 140546,
+        "crc": 3077999600
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_3.wav": {
+        "bytes": 21442,
+        "crc": 3661128236
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_fire.wav": {
+        "bytes": 90444,
+        "crc": 3805709202
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_2.wav": {
+        "bytes": 29904,
+        "crc": 2150948800
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_assassin.wav": {
+        "bytes": 2218132,
+        "crc": 1474045041
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_annihilating_spin.wav": {
+        "bytes": 152484,
+        "crc": 3214757569
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_1.wav": {
+        "bytes": 28824,
+        "crc": 3633973222
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step3_loop.wav": {
+        "bytes": 2453652,
+        "crc": 4098271284
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step2_loop.wav": {
+        "bytes": 1148052,
+        "crc": 2868269131
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_3.wav": {
+        "bytes": 64776,
+        "crc": 3652285325
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_shield_rush.wav": {
+        "bytes": 89434,
+        "crc": 1696237486
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_heel_strike.wav": {
+        "bytes": 172388,
+        "crc": 651534602
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_3.wav": {
+        "bytes": 67922,
+        "crc": 2848551757
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_loop.wav": {
+        "bytes": 307058,
+        "crc": 3898940156
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_red_desert_sfx_red_desert.vxn": {
+        "bytes": 8946176,
+        "crc": 956519522
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_2.wav": {
+        "bytes": 67922,
+        "crc": 2974651787
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_death.wav": {
+        "bytes": 81226,
+        "crc": 3845088093
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_2.wav": {
+        "bytes": 52520,
+        "crc": 744900717
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_small.wav": {
+        "bytes": 144892,
+        "crc": 828948094
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_troll_die.wav": {
+        "bytes": 1406044,
+        "crc": 3131566744
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_add_1.wav": {
+        "bytes": 134726,
+        "crc": 4088018745
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_big.wav": {
+        "bytes": 277086,
+        "crc": 3920717005
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_crusade.wav": {
+        "bytes": 172184,
+        "crc": 3804541756
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_1.wav": {
+        "bytes": 18100,
+        "crc": 3826569312
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_waterfall_loop_1.wav": {
+        "bytes": 136020,
+        "crc": 4248809939
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_2.wav": {
+        "bytes": 32070,
+        "crc": 4103476206
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_2.wav": {
+        "bytes": 32306,
+        "crc": 1337215651
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_medium.wav": {
+        "bytes": 158312,
+        "crc": 1658303584
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_king_die.wav": {
+        "bytes": 289496,
+        "crc": 3565462432
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_medium.wav": {
+        "bytes": 161454,
+        "crc": 4211214884
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_headsplitter.wav": {
+        "bytes": 131034,
+        "crc": 160077170
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_1_22.wav": {
+        "bytes": 26938,
+        "crc": 3554312829
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_energy_source_loop.wav": {
+        "bytes": 525616,
+        "crc": 926896188
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_fire_loop.wav": {
+        "bytes": 554033,
+        "crc": 1750763218
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_1.wav": {
+        "bytes": 19854,
+        "crc": 2766170906
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_small.wav": {
+        "bytes": 269420,
+        "crc": 3795258231
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_wind.wav": {
+        "bytes": 214572,
+        "crc": 901622820
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_act_completed.wav": {
+        "bytes": 933140,
+        "crc": 1010258356
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_1.wav": {
+        "bytes": 32044,
+        "crc": 2766149995
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_rain_of_arrows.wav": {
+        "bytes": 69400,
+        "crc": 3785489682
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_assassinate.wav": {
+        "bytes": 203168,
+        "crc": 1294493282
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_3.wav": {
+        "bytes": 32288,
+        "crc": 3421723862
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_3.wav": {
+        "bytes": 32094,
+        "crc": 3010991042
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_1.wav": {
+        "bytes": 32094,
+        "crc": 310355241
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_waterfall_loop_2.wav": {
+        "bytes": 136020,
+        "crc": 3588752747
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_shoot_arrow.wav": {
+        "bytes": 49146,
+        "crc": 3331884844
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_red_desert.wav": {
+        "bytes": 3591228,
+        "crc": 2978797477
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_1.wav": {
+        "bytes": 31828,
+        "crc": 1454283792
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_nightmare.wav": {
+        "bytes": 205128,
+        "crc": 1429511012
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_3.wav": {
+        "bytes": 23942,
+        "crc": 2342781249
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_death.wav": {
+        "bytes": 1036480,
+        "crc": 1830317993
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_icy_cliff_sfx_ice_hub.vxn": {
+        "bytes": 10463744,
+        "crc": 86779979
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds_he.xml": {
+        "bytes": 102414,
+        "crc": 4196435656
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_1_22.wav": {
+        "bytes": 21946,
+        "crc": 1811185281
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_2.wav": {
+        "bytes": 16334,
+        "crc": 3441922397
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_pierce_shot.wav": {
+        "bytes": 74748,
+        "crc": 1365573376
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_4.wav": {
+        "bytes": 32150,
+        "crc": 2389066587
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_2.wav": {
+        "bytes": 19312,
+        "crc": 847575192
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_4.wav": {
+        "bytes": 32100,
+        "crc": 2759637165
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fire_loop.wav": {
+        "bytes": 598330,
+        "crc": 3936894063
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_wind.wav": {
+        "bytes": 85100,
+        "crc": 2740426294
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_4.wav": {
+        "bytes": 32432,
+        "crc": 3288849866
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_1_22.wav": {
+        "bytes": 27224,
+        "crc": 1133218174
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_quake.wav": {
+        "bytes": 381656,
+        "crc": 942188496
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_earthstrike.wav": {
+        "bytes": 258622,
+        "crc": 1504611021
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_glowing_rene.wav": {
+        "bytes": 277208,
+        "crc": 246482880
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_vortex_fire_loop.wav": {
+        "bytes": 735788,
+        "crc": 3478377521
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid.wav": {
+        "bytes": 99650,
+        "crc": 935220495
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_2.wav": {
+        "bytes": 1539620,
+        "crc": 1965543947
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_terror.wav": {
+        "bytes": 188774,
+        "crc": 2345389333
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_1.wav": {
+        "bytes": 31716,
+        "crc": 1761022918
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_soldier_enter.wav": {
+        "bytes": 212356,
+        "crc": 469482089
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_2_22.wav": {
+        "bytes": 46816,
+        "crc": 2998230829
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_panel_up.wav": {
+        "bytes": 266624,
+        "crc": 2283668640
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_crippling_strike.wav": {
+        "bytes": 157824,
+        "crc": 1493630616
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_doppelganger_statue_explode.wav": {
+        "bytes": 103492,
+        "crc": 809413933
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_back.wav": {
+        "bytes": 254588,
+        "crc": 1529111649
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_cathedral_sfx_catacomb.vxn": {
+        "bytes": 10281472,
+        "crc": 2829835020
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_1_22.wav": {
+        "bytes": 34270,
+        "crc": 2478508139
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_steam_loop.wav": {
+        "bytes": 351036,
+        "crc": 1683479267
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_monster.wav": {
+        "bytes": 1985684,
+        "crc": 2104850653
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_fire_temple_1.wav": {
+        "bytes": 510288,
+        "crc": 804315241
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav": {
+        "bytes": 277092,
+        "crc": 2784607561
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_complete.wav": {
+        "bytes": 800776,
+        "crc": 23524452
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_3.wav": {
+        "bytes": 32018,
+        "crc": 184807939
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_2_22.wav": {
+        "bytes": 22112,
+        "crc": 3827149879
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_1.wav": {
+        "bytes": 909524,
+        "crc": 4197134253
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magical_shrine_loop.wav": {
+        "bytes": 540840,
+        "crc": 1780374398
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_2.wav": {
+        "bytes": 33310,
+        "crc": 302378802
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_spending.wav": {
+        "bytes": 36426,
+        "crc": 1759293170
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_alastor_blessing.wav": {
+        "bytes": 205928,
+        "crc": 588594862
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_loop.wav": {
+        "bytes": 870836,
+        "crc": 2055140733
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_swamp.wav": {
+        "bytes": 3591228,
+        "crc": 25807459
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_medium.wav": {
+        "bytes": 269420,
+        "crc": 1489183489
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_earth.wav": {
+        "bytes": 58250,
+        "crc": 2512391728
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_outro.wav": {
+        "bytes": 1028412,
+        "crc": 3389218349
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_void_maze.vxn": {
+        "bytes": 11692544,
+        "crc": 785320523
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_river_loop.wav": {
+        "bytes": 407574,
+        "crc": 242554669
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_2_22.wav": {
+        "bytes": 16678,
+        "crc": 3936820233
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step1_loop.wav": {
+        "bytes": 1890452,
+        "crc": 1714802702
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_2.wav": {
+        "bytes": 904172,
+        "crc": 2203829583
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_escape_castle.wav": {
+        "bytes": 91930,
+        "crc": 3693883681
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_water_temple_2.wav": {
+        "bytes": 231456,
+        "crc": 665025858
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_doppelganger.wav": {
+        "bytes": 128472,
+        "crc": 2928179495
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_1.wav.wav": {
+        "bytes": 1524320,
+        "crc": 3473393629
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_4.wav": {
+        "bytes": 175426,
+        "crc": 1912384336
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_cast_loop.wav": {
+        "bytes": 1337760,
+        "crc": 3561983291
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_swamp_sfx_swamp.vxn": {
+        "bytes": 12278272,
+        "crc": 1390125284
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_darkwood.vxn": {
+        "bytes": 11692544,
+        "crc": 1817967557
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_3.wav": {
+        "bytes": 501868,
+        "crc": 1150704866
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_pestilence_breath.wav": {
+        "bytes": 157570,
+        "crc": 2763397043
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_1.wav": {
+        "bytes": 22962,
+        "crc": 3864062589
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_rene_thunder.wav": {
+        "bytes": 736652,
+        "crc": 4250390257
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_intro.wav": {
+        "bytes": 627160,
+        "crc": 580873106
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_hell_sfx_dark.vxn": {
+        "bytes": 8397312,
+        "crc": 3595725903
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_2_22.wav": {
+        "bytes": 13322,
+        "crc": 523946711
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_red_desert_sfx_fire.vxn": {
+        "bytes": 8946176,
+        "crc": 380820157
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_throw_knife.wav": {
+        "bytes": 44338,
+        "crc": 1293469598
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_icy_cliff_sfx_wind.vxn": {
+        "bytes": 10463744,
+        "crc": 3455316536
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_1.wav": {
+        "bytes": 466536,
+        "crc": 402755371
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_water_temple_1.wav": {
+        "bytes": 806872,
+        "crc": 1526351876
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_level_up.wav": {
+        "bytes": 439048,
+        "crc": 4046952368
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_big.wav": {
+        "bytes": 259736,
+        "crc": 1123271672
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_4_22.wav": {
+        "bytes": 26412,
+        "crc": 2554812542
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_concealing_cloud.wav": {
+        "bytes": 169264,
+        "crc": 1002115108
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_well_scream_loop.wav": {
+        "bytes": 854868,
+        "crc": 4164045264
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cultist_group_chant_loop.wav": {
+        "bytes": 398644,
+        "crc": 175327587
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_2.wav": {
+        "bytes": 17722,
+        "crc": 1932629343
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_02_sfx_ice_hub.wav": {
+        "bytes": 3697724,
+        "crc": 50402823
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_troll_spawn.wav": {
+        "bytes": 310744,
+        "crc": 3731415641
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_earth.wav": {
+        "bytes": 122032,
+        "crc": 3294595467
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_new.wav": {
+        "bytes": 671072,
+        "crc": 1148087465
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_small.wav": {
+        "bytes": 154024,
+        "crc": 3068184429
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_dark_temple.wav": {
+        "bytes": 3591228,
+        "crc": 1040011740
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_thunder.wav": {
+        "bytes": 53498,
+        "crc": 3923824353
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_eclipse.wav": {
+        "bytes": 306688,
+        "crc": 2437822638
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_assassin_die.wav": {
+        "bytes": 63104,
+        "crc": 3980914468
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_gothicus_no_ambiance.vxn": {
+        "bytes": 9515520,
+        "crc": 760319512
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_1.wav": {
+        "bytes": 49714,
+        "crc": 1605772031
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_2_22.wav": {
+        "bytes": 22206,
+        "crc": 3664635211
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_2_22.wav": {
+        "bytes": 11270,
+        "crc": 2268234919
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_2_22.wav": {
+        "bytes": 12226,
+        "crc": 1055282265
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_1_22.wav": {
+        "bytes": 38006,
+        "crc": 3223175794
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_wind.wav": {
+        "bytes": 92178,
+        "crc": 843907608
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_2.wav": {
+        "bytes": 107460,
+        "crc": 3949922983
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_3.wav": {
+        "bytes": 166560,
+        "crc": 904650596
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_2.wav": {
+        "bytes": 359840,
+        "crc": 718988986
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_1_22.wav": {
+        "bytes": 47522,
+        "crc": 3883568854
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_title.vxn": {
+        "bytes": 3837292,
+        "crc": 2175098285
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_thunder.wav": {
+        "bytes": 89472,
+        "crc": 3552363514
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_catacomb_wind_loop.wav": {
+        "bytes": 217734,
+        "crc": 306050290
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_world_map.wav": {
+        "bytes": 1037460,
+        "crc": 1744202
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_tab.wav": {
+        "bytes": 59534,
+        "crc": 4043243403
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_vortex_loop.wav": {
+        "bytes": 770641,
+        "crc": 2988813204
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_stormslave.wav": {
+        "bytes": 322744,
+        "crc": 3454249685
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_reaperstorm.wav": {
+        "bytes": 288514,
+        "crc": 1762256021
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_2.wav": {
+        "bytes": 50146,
+        "crc": 754869802
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_lose.wav": {
+        "bytes": 516244,
+        "crc": 1919285948
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_harrowing_grasp.wav": {
+        "bytes": 282422,
+        "crc": 2506961582
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_burst_shot.wav": {
+        "bytes": 110944,
+        "crc": 2814527085
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_1.wav": {
+        "bytes": 99260,
+        "crc": 2191802470
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_1.wav": {
+        "bytes": 807936,
+        "crc": 2574250359
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl.wav": {
+        "bytes": 222956,
+        "crc": 1158072890
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_tutorial_popup.wav": {
+        "bytes": 387912,
+        "crc": 1899353353
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step3_intro.wav": {
+        "bytes": 193684,
+        "crc": 2587252897
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_icy_cliff_sfx_ice_cavern.vxn": {
+        "bytes": 10463744,
+        "crc": 2979196374
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magic_portal_loop.wav": {
+        "bytes": 729004,
+        "crc": 1973884686
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_root_den.vxn": {
+        "bytes": 11692544,
+        "crc": 3646712725
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_1_22.wav": {
+        "bytes": 46816,
+        "crc": 220204585
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_red_desert_no_ambiance.vxn": {
+        "bytes": 8946176,
+        "crc": 126363286
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_3_22.wav": {
+        "bytes": 21698,
+        "crc": 1622028694
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_shoot_arrow_22.wav": {
+        "bytes": 33880,
+        "crc": 1944658853
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_ice.wav": {
+        "bytes": 102206,
+        "crc": 823599524
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_big.wav": {
+        "bytes": 306424,
+        "crc": 4080915731
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_low_hp.wav": {
+        "bytes": 720764,
+        "crc": 1184835401
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_swamp_sfx_witch.vxn": {
+        "bytes": 12278272,
+        "crc": 2715260422
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_1.wav": {
+        "bytes": 39072,
+        "crc": 213968703
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_condemnation.wav": {
+        "bytes": 289938,
+        "crc": 3067042637
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_earth.wav": {
+        "bytes": 99610,
+        "crc": 571587907
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_burst_shot.wav": {
+        "bytes": 190262,
+        "crc": 305645031
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav": {
+        "bytes": 227786,
+        "crc": 112212178
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cave_mouth_loop.wav": {
+        "bytes": 487098,
+        "crc": 2550357773
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_4.wav": {
+        "bytes": 38308,
+        "crc": 2300605025
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_cold_ray.wav": {
+        "bytes": 123628,
+        "crc": 1727550335
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_ruins.wav": {
+        "bytes": 626072,
+        "crc": 1016092670
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml": {
+        "bytes": 102135,
+        "crc": 4111327128
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_2.wav": {
+        "bytes": 54662,
+        "crc": 1083130071
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_1_22.wav": {
+        "bytes": 22130,
+        "crc": 4032443378
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_thunder_22.wav": {
+        "bytes": 61612,
+        "crc": 756920553
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_2_22.wav": {
+        "bytes": 34568,
+        "crc": 3203684930
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_featherfoot.wav": {
+        "bytes": 122646,
+        "crc": 1157763662
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_intro_intense.wav": {
+        "bytes": 1160340,
+        "crc": 3478629368
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_1.wav": {
+        "bytes": 39488,
+        "crc": 3512191954
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_tap_dialog.wav": {
+        "bytes": 72184,
+        "crc": 3199584257
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_fire.wav": {
+        "bytes": 80106,
+        "crc": 4174848281
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_low_hp.wav": {
+        "bytes": 591504,
+        "crc": 2351369950
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_2_22.wav": {
+        "bytes": 37680,
+        "crc": 2202187976
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_infected.vxn": {
+        "bytes": 11692544,
+        "crc": 242974750
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_1.wav": {
+        "bytes": 46374,
+        "crc": 1004678255
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_witch_spawn.wav": {
+        "bytes": 367148,
+        "crc": 714956399
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_plague_edge.wav": {
+        "bytes": 203632,
+        "crc": 1632789604
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_orb_loop.wav": {
+        "bytes": 374200,
+        "crc": 2687157404
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_2.wav": {
+        "bytes": 46660,
+        "crc": 1872439128
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_1_22.wav": {
+        "bytes": 21878,
+        "crc": 3308814882
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magical_wall_loop.wav": {
+        "bytes": 539906,
+        "crc": 1926373513
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_3.wav": {
+        "bytes": 39708,
+        "crc": 713122289
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/.nomedia": {
+        "bytes": 0,
+        "crc": 0
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_2_22.wav": {
+        "bytes": 22276,
+        "crc": 4201766852
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_2.wav": {
+        "bytes": 50912,
+        "crc": 3586160936
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_telepoint_loop.wav": {
+        "bytes": 471656,
+        "crc": 2958345445
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_3.wav": {
+        "bytes": 44600,
+        "crc": 3249131511
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_revive.wav": {
+        "bytes": 1523216,
+        "crc": 750008597
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_boss_hell_king_step2_intro.wav": {
+        "bytes": 194708,
+        "crc": 2051036096
+      },
+      "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_02_sfx_darkwood.wav": {
+        "bytes": 3697724,
+        "crc": 168345863
+      }
+    },
+    "pickup": []
+  }
+]

@@ -1,0 +1,518 @@
+{
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entry": "80f1ec",
+  "full_original_bodies": [
+    "CNetPlayerInfo.IsLocal",
+    "CMatching.IsServer",
+    "CMatchingLocal.GetMemberId",
+    "CMatchingLocal.GetServerMemberId"
+  ],
+  "matching_get_fixture": "returns SAME explicit source-vtable matching receiver",
+  "cases": [
+    {
+      "joined": 0,
+      "member": -1,
+      "server": -2,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": -2,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": -2,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": -2,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 0,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 0,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 0,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 0,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 4,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 4,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 4,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": -1,
+      "server": 4,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": -2,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": -2,
+      "owner": 0,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": -2,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": -2,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 0,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 0,
+      "owner": 0,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 0,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 0,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 4,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 4,
+      "owner": 0,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 4,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 0,
+      "server": 4,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": -2,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": -2,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": -2,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": -2,
+      "owner": 4,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 0,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 0,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 0,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 0,
+      "owner": 4,
+      "original": 1
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 4,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 4,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 4,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 0,
+      "member": 4,
+      "server": 4,
+      "owner": 4,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": -2,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": -2,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": -2,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": -2,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 0,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 0,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 0,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 0,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 4,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 4,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 4,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": -1,
+      "server": 4,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": -2,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": -2,
+      "owner": 0,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": -2,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": -2,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 0,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 0,
+      "owner": 0,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 0,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 0,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 4,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 4,
+      "owner": 0,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 4,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 0,
+      "server": 4,
+      "owner": 4,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": -2,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": -2,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": -2,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": -2,
+      "owner": 4,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 0,
+      "owner": -1,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 0,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 0,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 0,
+      "owner": 4,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 4,
+      "owner": -1,
+      "original": 1
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 4,
+      "owner": 0,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 4,
+      "owner": 3,
+      "original": 0
+    },
+    {
+      "joined": 1,
+      "member": 4,
+      "server": 4,
+      "owner": 4,
+      "original": 1
+    }
+  ],
+  "mismatches": 0
+}

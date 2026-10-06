@@ -1,0 +1,88 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T12:32:19.207945+00:00",
+  "executions": [
+    {
+      "command": [
+        "C:/Users/adamc/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\level-init-v36\\stage-loader-v38-compare.py"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\": \"PASS\", \"original_trace_sha256\": \"134337ba0eceabf0926441e0007d18e3fa05b1396bb5cb6723f5604e0508e017\", \"original_trace_fixtures\": 16, \"original_calls\": 182, \"original_events\": 269, \"matched\": [\"calls\", \"events\", \"room_list\", \"transient_lists\", \"module_list\"], \"actual_manager_stdout\": \"PASS actual_manager_projection_checks=8 source_map1c=3 published_count50=0 actual_init_phase7c=3\", \"trace_command\": [\"wsl.exe\", \"-d\", \"Ubuntu\", \"--\", \"/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage-loader-v38/dh2_stage_v38_trace\"], \"manager_command\": [\"wsl.exe\", \"-d\", \"Ubuntu\", \"--\", \"/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage-loader-v38/dh2_stage_v38_manager\"], \"sanitizers\": [\"ASAN\", \"UBSAN\"], \"whole_level_init_verified\": false, \"original_stage7_cases\": 40, \"original_stage7_receipt_sha256\": \"2c28c31a20a6d3e364c9943c87d0863d9cc9107faf25af8b88f4c464af3800f0\", \"native_stage7_stdout_sha256\": \"ffd210c84602cf6fcc577d0671ac30fd9b25a2ac070495a83261baedf2d12f1a\", \"native_stage7_matches_original_filename_and_event_order\": true}",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage-loader-v38/dh2_stage_v38_bridge"
+      ],
+      "returncode": 0,
+      "stdout": "PASS actual_map_counter_once=1 source_module_before_geometry=1 bridge_shape_checks=3 actual_module_effects_verified=0",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage-loader-v38/dh2_stage_v38_post",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/level-init-v36/lifecycle_v36_original_gold.bin"
+      ],
+      "returncode": 0,
+      "stdout": "PASS original_dispatch_cases=38 original_progress_cases=195 adapter_safety_cases=13 whole_level_init_verified=0",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "object_initialization_v1.hpp": "e85e7479696b336d4e2bf2879fba99eb05cbf5fc3793825db2ea42d85cdfaf0b",
+    "reference/level-init-v36/lifecycle_v36_original_gold.bin": "f692ce50d586a000a65e8d4f732e40a08c7b4fbbf998e5e3df8042b128cd20f7",
+    "reference/level-init-v36/stage-loader-v38-compare.py": "88fd54034ee0bcad51f175af66e844225edc2dc559c1f56204c41b9d3303ab12",
+    "reference/level-init-v36/stage-loader-v38-lifecycle-post-increment.diff": "7c64a827b07bc9134235f395da24708e911569ffe02dbee5670a162ed3c90cc2",
+    "reference/level-init-v36/stage-loader-v38-lifecycle-post-proposal.json": "e5f40f5a4f8c424c5540f8b75823ac93d8da1bf5f2d0edf91b2b188467024bad",
+    "reference/level-init-v36/stage-loader-v38-manager-3496b8.asm": "c2b89c4509a8d20a09440f225e0c7fbca43a2e3a968b3d3b4a9eeef0bc9fe705",
+    "reference/level-init-v36/stage-loader-v38-manager-34a1e8.asm": "2349920a3151d3292886d3532a68711ebf54a48f088c8ba4e32ac031ac2e2040",
+    "reference/level-init-v36/stage-loader-v38-manager-34a404.asm": "64be4cb904d672be0763ba3c319d06e639c790e6f56e00764391baf5957c22ce",
+    "reference/level-init-v36/stage-loader-v38-manager-ctor-original.json": "c8a6ff02bc9fd7a92d1849357eafc5a7fc52188895bc7996b6a83ad541e1d795",
+    "reference/level-init-v36/stage-loader-v38-manager-ctor-proof.py": "778a3754c6532a04c8dc1c57c2158c565b692cd6a29bb3dd5a70ffed9c3bd233",
+    "reference/level-init-v36/stage-loader-v38-manager-proposal.json": "06d75f8a54086d907b42b3793c71629b0ae19f99185d42c4a470a4425ae6fa95",
+    "reference/level-init-v36/stage-loader-v38-manager-proposed.diff": "38fd77b7118e37cc2ffea656e695e9101fd77393b05c13af64693568b15b6180",
+    "reference/level-init-v36/stage-loader-v38-manager-symbols.json": "b89c6076d4854b871657d15269ee0213dca085094ca76f7e4bd571f182511a65",
+    "reference/level-init-v36/stage-loader-v38-stage7-original.json": "2c28c31a20a6d3e364c9943c87d0863d9cc9107faf25af8b88f4c464af3800f0",
+    "reference/level-init-v36/stage-loader-v38-stage7-proof.py": "031f2e784276e1d2d84beea6ad014ff7d0493cb7afbac899c88d65a3c953ee93",
+    "reports/object-initialization-original.json": "134337ba0eceabf0926441e0007d18e3fa05b1396bb5cb6723f5604e0508e017",
+    "reports/stage-loader-v38-handoff.md": "e08268c6c286e073d9a28387606d215bda8e54d54b07ca241322a18eef8111ed",
+    "reports/stage-loader-v38-init-post-verified.json": "c824c80679c92c4d065100ddd8f1a6bc6c7292b529c0498305979a7e0e187f53",
+    "stage_loader_v38_init_post.hpp": "9f6de8d6420684e909cb992f86611b85fcfa44fddacfde346d670cdc8a1bc6ed",
+    "stage_loader_v38_root_file.hpp": "6a5922fcf82536a28661926cf4528866a6d8c1c5cbd22a3289b4a66f56f8ebd9",
+    "stage_loader_v38_stage10.hpp": "8420dff02c1b569108372b6b3d6b1aa340fa903aecc2ba652b559ad74e9afda0",
+    "tests/cmake-stage-loader-v38/CMakeLists.txt": "ce905b2242e7516cdb4891f1dafad386c1bc02250cc465cf9f8c3e29818bb787",
+    "tests/object_initialization_original.py": "435b6c6ae66d85034e73dac22cf5641f8e22ed4b205fb444b250f6c68dbd1d85",
+    "tests/stage-loader-v38-lifecycle-overlay/lifecycle_v36.cpp": "acfa3919ee5687691ba28e2ed72d6089365857a692ac59c82a30f54060768901",
+    "tests/stage-loader-v38-lifecycle-overlay/lifecycle_v36.hpp": "a0245418d65c48a04654b23f66d900b0ca8863a7bffd0237a0081adf3996b6c3",
+    "tests/stage-loader-v38-lifecycle-overlay/lifecycle_v36_test.cpp": "473c527a456bc8d5d26b07fdb24cc9c47975bfa7c93a199bd6c687052caacae9",
+    "tests/stage-loader-v38-manager-overlay/canonical_object_manager_v1.cpp": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549",
+    "tests/stage-loader-v38-manager-overlay/canonical_object_manager_v1.hpp": "bbcc1a8591116b58a80ba276d7c86844b1fd42659203ce1c3e4192225d3e8669",
+    "tests/stage_loader_v38_bridge_probe.cpp": "52330fed18a8715d1a6088cf77ee1e02066918f0d92769b06bf906b486f91cb7",
+    "tests/stage_loader_v38_manager_probe.cpp": "d6eae6bc246aa6ad4a8125da4c4fd3dae09f3ff8007cbc4f163570a84fba4f47",
+    "tests/stage_loader_v38_root_probe.cpp": "fc6737f57a047fd2e5f6b0b41f7131b5b1187fad4752e1e110a088b983c87be8",
+    "tests/stage_loader_v38_trace_probe.cpp": "693bed28b1cfd67eade34f49c1f6c119baaf737b060bf77e8c0d167635c8a5e4"
+  },
+  "original_stage7_cases": 40,
+  "original_initpost_fixtures": 16,
+  "original_initpost_calls": 182,
+  "original_initpost_events": 269,
+  "actual_manager_checks": 8,
+  "original_manager_ctor_cases": 6,
+  "original_flush_phase_slices": 3,
+  "post_increment_safety_cases": 13,
+  "counter_once_and_bridge_shape_verified": true,
+  "selected_parent_graph_modified": false,
+  "shared_checkout_modified": false,
+  "full_level_init_verified": false,
+  "gameplay_ready": false,
+  "emulator_launched": false
+}

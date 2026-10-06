@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "cases": 1763,
+  "allocations": 65,
+  "frees": 58,
+  "base_lifecycle_deliveries": 1763,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "841fcb6283633b391ff473273fccf31c0f796e09325b8bfc7581a7a143216002",
+  "scope": "Whole original Objective_GatherLoot Register/Unregister and inventory unlink/counter bodies; generic Objective lifecycle, source16 allocator and mode0 assertion configuration declared fixtures. Source ordered sentinel/list and byte wrap execute."
+}

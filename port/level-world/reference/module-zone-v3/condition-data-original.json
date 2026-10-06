@@ -1,0 +1,56 @@
+{
+  "scope": "Whole original ConditionDataC1/C2 and Init empty/Invalid paths.\nCString reserve and libc strcmp are explicit allocation/string leaf services;\nno condition table, compiler, predicate or successful nonempty backend is faked.\n",
+  "checks": 6,
+  "cases": [
+    {
+      "constructor": "0x33ed7c",
+      "compiled": 0,
+      "tested": 0,
+      "name": "",
+      "calls": [
+        "CStringReserve"
+      ]
+    },
+    {
+      "constructor": "0x33ed7c",
+      "init_name": "",
+      "compiled_preserved": 287454020,
+      "tested_preserved": 85,
+      "calls": []
+    },
+    {
+      "constructor": "0x33ed7c",
+      "init_name": "Invalid",
+      "compiled_preserved": 287454020,
+      "tested_preserved": 85,
+      "calls": [
+        "strcmp"
+      ]
+    },
+    {
+      "constructor": "0x33edd8",
+      "compiled": 0,
+      "tested": 0,
+      "name": "",
+      "calls": [
+        "CStringReserve"
+      ]
+    },
+    {
+      "constructor": "0x33edd8",
+      "init_name": "",
+      "compiled_preserved": 287454020,
+      "tested_preserved": 85,
+      "calls": []
+    },
+    {
+      "constructor": "0x33edd8",
+      "init_name": "Invalid",
+      "compiled_preserved": 287454020,
+      "tested_preserved": 85,
+      "calls": [
+        "strcmp"
+      ]
+    }
+  ]
+}

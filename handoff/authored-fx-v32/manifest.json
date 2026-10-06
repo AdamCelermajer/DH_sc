@@ -1,0 +1,1775 @@
+{
+  "scope": "45 actual FX resource CPU domains; no GPU/live acceptance",
+  "production_tus": [
+    "port/level-world/character_authored_resource_v32.cpp",
+    "port/level-world/authored_fx_mesh_graph_v32.cpp",
+    "port/level-world/authored_fx_nonrender_geometry_v32.cpp",
+    "port/engine-animation/particle_resource_init_v32.cpp",
+    "port/engine-animation/particle_billboard_v32.cpp"
+  ],
+  "owned": [
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v32.cpp",
+      "frozen": "owned/port/level-world/authored_fx_mesh_graph_v32.cpp",
+      "sha256": "6a7ccc060e29ad4944da1a495ede9faae976c22820a40d13b309c815b231e6b4"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v32.hpp",
+      "frozen": "owned/port/level-world/authored_fx_mesh_graph_v32.hpp",
+      "sha256": "f79ca79079270d2c1e490f953ee12330230a79e928fa81d1ec20cc405c14bfa6"
+    },
+    {
+      "path": "port/level-world/authored_fx_nonrender_geometry_v32.cpp",
+      "frozen": "owned/port/level-world/authored_fx_nonrender_geometry_v32.cpp",
+      "sha256": "a912ddf16a1cd9dde9558f44d039a8ea4fc87fe708a281ebcbd596948b6f2f6d"
+    },
+    {
+      "path": "port/level-world/authored_fx_nonrender_geometry_v32.hpp",
+      "frozen": "owned/port/level-world/authored_fx_nonrender_geometry_v32.hpp",
+      "sha256": "b052b82feadd6d0386e22d990055ef1c5a003255d856087eccb7dcb714b3a900"
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v32.cpp",
+      "frozen": "owned/port/level-world/character_authored_resource_v32.cpp",
+      "sha256": "61e5cf0815fd2a95a34cc73c3735492a78bcb00139d1e8c0c1c12c9588de6f54"
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v32.hpp",
+      "frozen": "owned/port/level-world/character_authored_resource_v32.hpp",
+      "sha256": "cfdb2a529c1bf28f2b1038a9c343abc1222d6ccb38bf0a4129ecb5d346ab15de"
+    },
+    {
+      "path": "port/level-world/character_loot_pickup_fx_v32.cpp",
+      "frozen": "owned/port/level-world/character_loot_pickup_fx_v32.cpp",
+      "sha256": "e157d4b3714908c391440d56b38e156436b46b0feb741551c84165a7710d11bf"
+    },
+    {
+      "path": "port/level-world/character_loot_pickup_fx_v32.hpp",
+      "frozen": "owned/port/level-world/character_loot_pickup_fx_v32.hpp",
+      "sha256": "a45314004622306e415ad61a413ef22e201088fcfa9ea848a3ef563e2ece46ea"
+    },
+    {
+      "path": "port/engine-animation/particle_billboard_v32.cpp",
+      "frozen": "owned/port/engine-animation/particle_billboard_v32.cpp",
+      "sha256": "61433cab652840a91c95ae365345f2dcba46b2acbe48a000e6d01228b5194caa"
+    },
+    {
+      "path": "port/engine-animation/particle_billboard_v32.hpp",
+      "frozen": "owned/port/engine-animation/particle_billboard_v32.hpp",
+      "sha256": "63415a1e062f48052e2cb93b10667cb8c883cc0768aadbde8471446a31bdc271"
+    },
+    {
+      "path": "port/engine-animation/particle_resource_init_v32.cpp",
+      "frozen": "owned/port/engine-animation/particle_resource_init_v32.cpp",
+      "sha256": "d1689290a55ac75e8b294e3e2410850391e39e8d2795dc128cb0a6cb8aad7b54"
+    },
+    {
+      "path": "port/engine-animation/particle_resource_init_v32.hpp",
+      "frozen": "owned/port/engine-animation/particle_resource_init_v32.hpp",
+      "sha256": "7dbee9a26e0509067bf41649c5cd0a6d6bf37c440b5be773ffade02a0e6b1a00"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_geometry_packet_v32.cpp",
+      "frozen": "owned/port/level-world/tests/authored_fx_geometry_packet_v32.cpp",
+      "sha256": "f8275fdc0d4a8ef5c6cdf6bc43569e871743e9e0413cf2f5150958e12f24c3d7"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_skin_scalar_v32.cpp",
+      "frozen": "owned/port/level-world/tests/authored_fx_skin_scalar_v32.cpp",
+      "sha256": "452990341443c035339a4a2a9975e5275ab6a47cdc194f2c9ff8752bc7ee0169"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_source_v32_host.cpp",
+      "frozen": "owned/port/level-world/tests/authored_fx_source_v32_host.cpp",
+      "sha256": "9ea8e062bd62c20cfff7f0c82a8501963be8ffe81d9522d26a2c3f505f680214"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_source_v32_oracle.cpp",
+      "frozen": "owned/port/level-world/tests/authored_fx_source_v32_oracle.cpp",
+      "sha256": "bfe8a8977b6e0cdb9585605e368b6bf3cf4c11303be514a9a09890c8b32b3133"
+    },
+    {
+      "path": "port/level-world/tests/character_authored_resource_domains_v32.cpp",
+      "frozen": "owned/port/level-world/tests/character_authored_resource_domains_v32.cpp",
+      "sha256": "48ee4cfd167ac58d150e5c45875264313c434af0cc15694a2e7ac6a937d236cf"
+    },
+    {
+      "path": "port/level-world/tests/character_loot_pickup_fx_v32.cpp",
+      "frozen": "owned/port/level-world/tests/character_loot_pickup_fx_v32.cpp",
+      "sha256": "9a427ac7f9a3a92200a5f09b2aa26e6393d1609633130abc263869dca95ba54f"
+    },
+    {
+      "path": "port/level-world/tools/compile_authored_fx_v32.py",
+      "frozen": "owned/port/level-world/tools/compile_authored_fx_v32.py",
+      "sha256": "7090833398aae152f23d134f5d24efd37a54b7461369ac91382f1151f198b7da"
+    },
+    {
+      "path": "port/level-world/tools/freeze_authored_fx_v32.py",
+      "frozen": "owned/port/level-world/tools/freeze_authored_fx_v32.py",
+      "sha256": "d979f017c2407dadaba78a964f4ce5de5e1257a6a03d51242bd480956f74974c"
+    },
+    {
+      "path": "port/level-world/tools/inspect_authored_fx_v32.py",
+      "frozen": "owned/port/level-world/tools/inspect_authored_fx_v32.py",
+      "sha256": "86bcd2db916b078aed86e409c28ec28cfb96e7d21fef8c616791956c8cff181c"
+    },
+    {
+      "path": "port/level-world/tools/prove_authored_fx_v32_original.py",
+      "frozen": "owned/port/level-world/tools/prove_authored_fx_v32_original.py",
+      "sha256": "c7e68b920f8ef974d6ff4e6caf5897aee5cca907ba8601a4fd82a455502abd84"
+    },
+    {
+      "path": "port/level-world/tools/run_authored_fx_v32_host.py",
+      "frozen": "owned/port/level-world/tools/run_authored_fx_v32_host.py",
+      "sha256": "1bc420637772ce6d5b54534548ba8c269875f92e41a1cdbd68aa588277a0a8f6"
+    },
+    {
+      "path": "port/level-world/reference/authored-fx-v32-init-gold.bin",
+      "frozen": "owned/port/level-world/reference/authored-fx-v32-init-gold.bin",
+      "sha256": "1418c496cf8c209a9523bfb075aed05dd291bc5a6aa6caf130d46823f5ecde23"
+    },
+    {
+      "path": "port/level-world/reference/authored-fx-v32-source-gold.bin",
+      "frozen": "owned/port/level-world/reference/authored-fx-v32-source-gold.bin",
+      "sha256": "1dd02a1cc4c444938c555445024ad7eeb2ddca37e8034ad3f169710a44105b61"
+    },
+    {
+      "path": "port/level-world/reference/fx-resource-v32-original-instance.asm",
+      "frozen": "owned/port/level-world/reference/fx-resource-v32-original-instance.asm",
+      "sha256": "4d5a7e8f12d80c66ce2ec625e7dca96df26e70b8d3971801ea9727fd5ff10201"
+    },
+    {
+      "path": "port/level-world/reference/fx-resource-v32-original-mesh.asm",
+      "frozen": "owned/port/level-world/reference/fx-resource-v32-original-mesh.asm",
+      "sha256": "fe531690ac3267d58704a99cc930841a8e8cc56dfeb14998e6378953fa259fa4"
+    },
+    {
+      "path": "port/level-world/reference/fx-resource-v32-original-node.asm",
+      "frozen": "owned/port/level-world/reference/fx-resource-v32-original-node.asm",
+      "sha256": "d567c5c56611c24d5fa581acee29e9215f650bc9c5dd2740ae0128e422787d8a"
+    },
+    {
+      "path": "port/level-world/reference/fx-resource-v32-original-spin.asm",
+      "frozen": "owned/port/level-world/reference/fx-resource-v32-original-spin.asm",
+      "sha256": "bbfe86e3feb9509f87be832415f7194bed9d4b669d628f8a6a8d3869aa8fe86f"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-census-v32.json",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-census-v32.json",
+      "sha256": "9c17e8ee413f6cbb8377c55fc05fcbe0955b45e589e1051a497fcea2b12deaee"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-census-v6.json",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-census-v6.json",
+      "sha256": "b96736161b435038f2ede7bf429858646c4e673d1e7d69d9f116eb74bdef2785"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-handoff.md",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-handoff.md",
+      "sha256": "c12833efb1a786b6ef022d75b6a308b18c2b7827a983e248eaf81969efa2338f"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-original-proof.json",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-original-proof.json",
+      "sha256": "1b8905a8da05110063e176a8face944649ff8765406f454184a283ce73237634"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-packets-v32.json",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-packets-v32.json",
+      "sha256": "fbb85674fbda6305e02b64c892511203622c2cfcd53572a28a1d53171c3ce324"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-skin-v32.json",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-skin-v32.json",
+      "sha256": "23428fcb2c0f9989b5c6044721b012c461ea4eb58691be9928b0c7cab1339d3b"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-source-v32.json",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-source-v32.json",
+      "sha256": "a631e4e18036d2e718a5fd210a2368aa50c05821a41fba0e6a3a70aa805be2b4"
+    },
+    {
+      "path": "port/level-world/reports/authored-fx-v32-strict-compile.json",
+      "frozen": "owned/port/level-world/reports/authored-fx-v32-strict-compile.json",
+      "sha256": "0edc2b953c2275464d23b015677042fdf805c2f31d6026042f6a40a670440a96"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "port/asset-payloads/payloads.hpp",
+      "frozen": "dependency-snapshot/port/asset-payloads/payloads.hpp",
+      "sha256": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee"
+    },
+    {
+      "path": "port/engine-animation/angle_interpreter.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/angle_interpreter.hpp",
+      "sha256": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df"
+    },
+    {
+      "path": "port/engine-animation/animation.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/animation.hpp",
+      "sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3"
+    },
+    {
+      "path": "port/engine-animation/component_applicator.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/component_applicator.hpp",
+      "sha256": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d"
+    },
+    {
+      "path": "port/engine-animation/events.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/events.hpp",
+      "sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a"
+    },
+    {
+      "path": "port/engine-animation/material_color.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/material_color.cpp",
+      "sha256": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51"
+    },
+    {
+      "path": "port/engine-animation/material_color.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/material_color.hpp",
+      "sha256": "c8c0f1572a0706c448a28e0112ca50d4497562e7e21ced2da33c0c1b2da59083"
+    },
+    {
+      "path": "port/engine-animation/material_color_v3.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/material_color_v3.cpp",
+      "sha256": "41deb9b53027cb815919fc0bace3a338b4d8b2afb6a7c29f2ccda5577ac5f2eb"
+    },
+    {
+      "path": "port/engine-animation/material_color_v3.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/material_color_v3.hpp",
+      "sha256": "b5ba82a93237cf8ab6a88fa258d33902c7a13ff08f33c6497faa8694d9dc55ef"
+    },
+    {
+      "path": "port/engine-animation/particle_billboard_v1.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_billboard_v1.cpp",
+      "sha256": "665a84f44d7a8692d585210151107d63aba702c354553ba510f43e8d6f3f8054"
+    },
+    {
+      "path": "port/engine-animation/particle_billboard_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_billboard_v1.hpp",
+      "sha256": "f80a3d4557478353a308b9d16f480bf04255059a363dad3b8c990ed1f82937a6"
+    },
+    {
+      "path": "port/engine-animation/particle_bound_forces_v4.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_bound_forces_v4.cpp",
+      "sha256": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68"
+    },
+    {
+      "path": "port/engine-animation/particle_bound_forces_v4.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_bound_forces_v4.hpp",
+      "sha256": "1c5cae2691ea35ee12a02c9caaafe94d961924899422dec6f7ad66f723642a6f"
+    },
+    {
+      "path": "port/engine-animation/particle_box_v2.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_box_v2.cpp",
+      "sha256": "3e31bb713f0d1f26ba5fe4004f31a7a99d9c8a10e342c6e409ca143c1f36ee6a"
+    },
+    {
+      "path": "port/engine-animation/particle_box_v2.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_box_v2.hpp",
+      "sha256": "064287c1196600c394431f752641c176fe3208581eded9ae122570aa4689858d"
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_models_v1.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_cloud_models_v1.cpp",
+      "sha256": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747"
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_models_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_cloud_models_v1.hpp",
+      "sha256": "ac90e53d9a6b9c9eb44a68f3017776adac375dd18642894e7c7698e02b731c7b"
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_runtime_v1.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_cloud_runtime_v1.cpp",
+      "sha256": "76a3accf7a3998d9bcfe0b6317549a2390e0a4fc3cd40331aea38a12293b854e"
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_runtime_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_cloud_runtime_v1.hpp",
+      "sha256": "a9da5dc1ec94dc6496edd4ace51a9ceec8861d48f9cca3ca4aaeb887c0edc64b"
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_runtime_v2.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_cloud_runtime_v2.hpp",
+      "sha256": "5f7357ff5fe60e75e9a768aaa718fdac491494ea5e152e2030d20b380640285c"
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_runtime_v3.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_cloud_runtime_v3.cpp",
+      "sha256": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba"
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_runtime_v3.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_cloud_runtime_v3.hpp",
+      "sha256": "0322c20757bffe1849c4887de714075ec58915f7eff5a43ec389d94a2e5457b1"
+    },
+    {
+      "path": "port/engine-animation/particle_deflector_v1.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_deflector_v1.cpp",
+      "sha256": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff"
+    },
+    {
+      "path": "port/engine-animation/particle_deflector_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_deflector_v1.hpp",
+      "sha256": "2a9c856bf390a717c7ad604262002cca7f55ef14a3801b17fac83a1b3085f271"
+    },
+    {
+      "path": "port/engine-animation/particle_emission.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_emission.cpp",
+      "sha256": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035"
+    },
+    {
+      "path": "port/engine-animation/particle_emission.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_emission.hpp",
+      "sha256": "862711675eab2ef90e4cc966fb8632c2472d54aa46fa9389db5cfcd000311bb4"
+    },
+    {
+      "path": "port/engine-animation/particle_factory.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_factory.cpp",
+      "sha256": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce"
+    },
+    {
+      "path": "port/engine-animation/particle_factory.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_factory.hpp",
+      "sha256": "c7c88d7c8839914f8146316cc06ef101ca9170e0927b10855531a83aad0b77c2"
+    },
+    {
+      "path": "port/engine-animation/particle_force_scene_v1.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_force_scene_v1.cpp",
+      "sha256": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274"
+    },
+    {
+      "path": "port/engine-animation/particle_force_scene_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_force_scene_v1.hpp",
+      "sha256": "2a12d88e6ccf6d8db49ddd0e707608f73bdbad8f93f0a63af53d309b9aacff64"
+    },
+    {
+      "path": "port/engine-animation/particle_force_scene_v2.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_force_scene_v2.cpp",
+      "sha256": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58"
+    },
+    {
+      "path": "port/engine-animation/particle_force_scene_v2.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_force_scene_v2.hpp",
+      "sha256": "514f2a8b9b0b69efc2d58a88b858cbdedc831bca0a0ffa1ae2a7a3ee580672c2"
+    },
+    {
+      "path": "port/engine-animation/particle_parameter.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_parameter.hpp",
+      "sha256": "0a09d7a4264e07ab25991fa458e68f29b1473a313ae4716c689fd3c50843b0c6"
+    },
+    {
+      "path": "port/engine-animation/particle_random_v1.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_random_v1.cpp",
+      "sha256": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0"
+    },
+    {
+      "path": "port/engine-animation/particle_random_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_random_v1.hpp",
+      "sha256": "cefbaa9224182c5314ee58f6a45c0dba9d40a2a1ed9481af5fcf57066a1c9a1c"
+    },
+    {
+      "path": "port/engine-animation/particle_resource_init_v2.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_resource_init_v2.cpp",
+      "sha256": "2006759c93a39d11d55d159cdcebf415c536d47c249af4521a565e44b9a1d1f1"
+    },
+    {
+      "path": "port/engine-animation/particle_resource_init_v2.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_resource_init_v2.hpp",
+      "sha256": "8a40fb3e25b5bd35d503949e310634ac95ddc52c6b8d2d3a3f987a97e8a64714"
+    },
+    {
+      "path": "port/engine-animation/particle_scalar_animation_v6.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_scalar_animation_v6.cpp",
+      "sha256": "720148094772015729da8542c30af8ef5bd9821692ddc1347358d7b90161d4c2"
+    },
+    {
+      "path": "port/engine-animation/particle_scalar_animation_v6.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_scalar_animation_v6.hpp",
+      "sha256": "b242da4c35081deedb477bcc5dc10ba8538ba6848f8395e88344150d03965619"
+    },
+    {
+      "path": "port/engine-animation/particle_scene_color_v1.cpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_scene_color_v1.cpp",
+      "sha256": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106"
+    },
+    {
+      "path": "port/engine-animation/particle_scene_color_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-animation/particle_scene_color_v1.hpp",
+      "sha256": "33527230ecd39e397451f0294e55d123b508abecf30db5e1a660db32e9f262d9"
+    },
+    {
+      "path": "port/engine-animation/tests/animation_blend_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/animation_blend_differential.py",
+      "sha256": "d989bde7ea51d0f1e2e105bfe794e45066cf97c94a2efaf927d9558959aec42d"
+    },
+    {
+      "path": "port/engine-animation/tests/compiled_transforms_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/compiled_transforms_differential.py",
+      "sha256": "a06f353a638183af8f15e1869d6c1fad7f1b84e2e06864c05bcf4ebec23776f9"
+    },
+    {
+      "path": "port/engine-animation/tests/particle_cloud_models_v1_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/particle_cloud_models_v1_differential.py",
+      "sha256": "303c64219c12b960aaf6bed8f21c4126644754d9674074ceb9faf7719caa94bb"
+    },
+    {
+      "path": "port/engine-animation/tests/particle_factory_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/particle_factory_differential.py",
+      "sha256": "b4debf9cf8c43ceacdc1be4a320524f8bdaee5db425ee7ed767072cea77faaf8"
+    },
+    {
+      "path": "port/engine-math/math.cpp",
+      "frozen": "dependency-snapshot/port/engine-math/math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    },
+    {
+      "path": "port/engine-math/math.hpp",
+      "frozen": "dependency-snapshot/port/engine-math/math.hpp",
+      "sha256": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+    },
+    {
+      "path": "port/engine-resources/resources.hpp",
+      "frozen": "dependency-snapshot/port/engine-resources/resources.hpp",
+      "sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230"
+    },
+    {
+      "path": "port/engine-resources/tests/cpu.py",
+      "frozen": "dependency-snapshot/port/engine-resources/tests/cpu.py",
+      "sha256": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a"
+    },
+    {
+      "path": "port/engine-skinning/skinning.hpp",
+      "frozen": "dependency-snapshot/port/engine-skinning/skinning.hpp",
+      "sha256": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2"
+    },
+    {
+      "path": "port/engine-skinning/visual_skin_owner_v6.hpp",
+      "frozen": "dependency-snapshot/port/engine-skinning/visual_skin_owner_v6.hpp",
+      "sha256": "8908d89b56b2768c6b6e8c1311229fcf846368beb1a53d076e87a5aa80d9f50a"
+    },
+    {
+      "path": "port/engine-skinning/visual_skin_selection_v6.hpp",
+      "frozen": "dependency-snapshot/port/engine-skinning/visual_skin_selection_v6.hpp",
+      "sha256": "d9293ee7d7bbbe38be513fe50dbcf891608a6d4e8d61889fbae3a7289cd2c3b3"
+    },
+    {
+      "path": "port/engine-ui/game_option_table_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/game_option_table_v1.hpp",
+      "sha256": "5dd3edbc9a5f1e4fd568f7513b90e6f37964023b3aecd6e421d1be494e8ada93"
+    },
+    {
+      "path": "port/engine-ui/hud_startup_callbacks.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/hud_startup_callbacks.hpp",
+      "sha256": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f"
+    },
+    {
+      "path": "port/engine-ui/hud_text_format_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/hud_text_format_v1.hpp",
+      "sha256": "79870b445ca0d172fd4c851eacf17325d68f3b2f820d2c7de9c6215fb38b7190"
+    },
+    {
+      "path": "port/engine-ui/hud_text_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/hud_text_v1.hpp",
+      "sha256": "c1782f854b388e03fa3b21d3c908badbbe789d63e11b9922d9fef692e65647d0"
+    },
+    {
+      "path": "port/engine-ui/item_text_owner_v5.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/item_text_owner_v5.hpp",
+      "sha256": "fc3f230a6b4883ff93dc0f213ee68e5f59b36b81ace41a6302151739247b9524"
+    },
+    {
+      "path": "port/engine-ui/item_text_varargs_v5.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/item_text_varargs_v5.hpp",
+      "sha256": "b895cb56d41a1e2450a745d097ce8a0dc07189cce58f99c5f737411ab6ac5901"
+    },
+    {
+      "path": "port/engine-ui/localization.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/localization.hpp",
+      "sha256": "342ca80e0783f678923a863866a629d7747fe95e88c41e9b4ba29667677319a3"
+    },
+    {
+      "path": "port/engine-ui/owned_hud_settings_v1.hpp",
+      "frozen": "dependency-snapshot/port/engine-ui/owned_hud_settings_v1.hpp",
+      "sha256": "8bf657a8f3965d2d695569221a27019b296c3f9d1db8c3a0e916458a6b005e3e"
+    },
+    {
+      "path": "port/game-data/aggro.hpp",
+      "frozen": "dependency-snapshot/port/game-data/aggro.hpp",
+      "sha256": "a4624693ae19a5ab6f058f4137d535a9b3ad41a5129faa5c0eb1a82850a1f703"
+    },
+    {
+      "path": "port/game-data/ai.hpp",
+      "frozen": "dependency-snapshot/port/game-data/ai.hpp",
+      "sha256": "e74238d1609df42c9086c0bdbad0b0e3a863d8081dba7260cc33fa67e512bf70"
+    },
+    {
+      "path": "port/game-data/animation_tables.hpp",
+      "frozen": "dependency-snapshot/port/game-data/animation_tables.hpp",
+      "sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d"
+    },
+    {
+      "path": "port/game-data/class_tables.hpp",
+      "frozen": "dependency-snapshot/port/game-data/class_tables.hpp",
+      "sha256": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7"
+    },
+    {
+      "path": "port/game-data/combat.hpp",
+      "frozen": "dependency-snapshot/port/game-data/combat.hpp",
+      "sha256": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958"
+    },
+    {
+      "path": "port/game-data/combat_application.hpp",
+      "frozen": "dependency-snapshot/port/game-data/combat_application.hpp",
+      "sha256": "f32e8d69188beecc3f84551fd61c2d55e61d515a1b43df540734b9d222724334"
+    },
+    {
+      "path": "port/game-data/combat_result.hpp",
+      "frozen": "dependency-snapshot/port/game-data/combat_result.hpp",
+      "sha256": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120"
+    },
+    {
+      "path": "port/game-data/data.hpp",
+      "frozen": "dependency-snapshot/port/game-data/data.hpp",
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+    },
+    {
+      "path": "port/game-data/effects_tables.hpp",
+      "frozen": "dependency-snapshot/port/game-data/effects_tables.hpp",
+      "sha256": "8e0b1eb1ce1f7f581ed59283a65fbceee9ebea0515daab220605903a5ab69fac"
+    },
+    {
+      "path": "port/game-data/faery_tables.hpp",
+      "frozen": "dependency-snapshot/port/game-data/faery_tables.hpp",
+      "sha256": "b1c8cd5f5ac736f10e7ae09765bb0e567098d32ef74338ec5c0fca64c8cd779c"
+    },
+    {
+      "path": "port/game-data/fresh_inventory_owned_v4.hpp",
+      "frozen": "dependency-snapshot/port/game-data/fresh_inventory_owned_v4.hpp",
+      "sha256": "9bee487fbbbb0a0b150684d73a84e15192383f254bd873791630d4a009fe8033"
+    },
+    {
+      "path": "port/game-data/game_design_tables.hpp",
+      "frozen": "dependency-snapshot/port/game-data/game_design_tables.hpp",
+      "sha256": "52bdb1135fdaa4fd03866797d0ccb5dd200ecd622963b8afeeb4470a2b58049e"
+    },
+    {
+      "path": "port/game-data/health.hpp",
+      "frozen": "dependency-snapshot/port/game-data/health.hpp",
+      "sha256": "fa8d4508a841c26cfcb72526cb5b811eee0a7775d82bea1b209588149c630aa8"
+    },
+    {
+      "path": "port/game-data/inventory_gathering_ids_v11.hpp",
+      "frozen": "dependency-snapshot/port/game-data/inventory_gathering_ids_v11.hpp",
+      "sha256": "2d5b6cb11e6f0dde452d1a4696bd39f0f07f55daade15563d2f6e011fda730eb"
+    },
+    {
+      "path": "port/game-data/item_gear_properties_v5.hpp",
+      "frozen": "dependency-snapshot/port/game-data/item_gear_properties_v5.hpp",
+      "sha256": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e"
+    },
+    {
+      "path": "port/game-data/item_inventory_v1.hpp",
+      "frozen": "dependency-snapshot/port/game-data/item_inventory_v1.hpp",
+      "sha256": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847"
+    },
+    {
+      "path": "port/game-data/item_pickup_type_v2.hpp",
+      "frozen": "dependency-snapshot/port/game-data/item_pickup_type_v2.hpp",
+      "sha256": "5e8c46c65c4c78973f7c36fa9efa846f1b34c20cd5832b770396b6905d7551b8"
+    },
+    {
+      "path": "port/game-data/item_power_tables_v5.hpp",
+      "frozen": "dependency-snapshot/port/game-data/item_power_tables_v5.hpp",
+      "sha256": "cec1eab98e7d137303267bd586e8be00821c3067ffa2501e5d6730e8aba3167d"
+    },
+    {
+      "path": "port/game-data/item_presentation_v5.hpp",
+      "frozen": "dependency-snapshot/port/game-data/item_presentation_v5.hpp",
+      "sha256": "f296c1caa3bd008fc7de5dc09379657eeb084d57711c1345343575868eee41b3"
+    },
+    {
+      "path": "port/game-data/items.hpp",
+      "frozen": "dependency-snapshot/port/game-data/items.hpp",
+      "sha256": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f"
+    },
+    {
+      "path": "port/game-data/level_tables.hpp",
+      "frozen": "dependency-snapshot/port/game-data/level_tables.hpp",
+      "sha256": "ba2961fde528980f9d9d69d05a9d1bbc58ae29f34d3825af8e02465ca5c3a4d9"
+    },
+    {
+      "path": "port/game-data/loot_audiovisual_v8.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_audiovisual_v8.hpp",
+      "sha256": "d1a214c822e07670c3e879299c28c25b0910c2c284143d1a2bdbd001f2139783"
+    },
+    {
+      "path": "port/game-data/loot_creation_v8.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_creation_v8.hpp",
+      "sha256": "83bfd41b2451b76409da7a3e5ce8d0c1aec339c128313ce44aa3d435b2e35eb8"
+    },
+    {
+      "path": "port/game-data/loot_entry_selection_v8.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_entry_selection_v8.hpp",
+      "sha256": "10496da3c798a0f01f6c026a20efa91ee65b076b864dc05ecf241bb291039a56"
+    },
+    {
+      "path": "port/game-data/loot_item_selection_v8.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_item_selection_v8.hpp",
+      "sha256": "c71c699e918a85f36193f586a46cc3de94c2304dbdf2e1dc065aff7c82b264fd"
+    },
+    {
+      "path": "port/game-data/loot_power_creation_v7.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_power_creation_v7.hpp",
+      "sha256": "577640b7ee36c61673fc88960750aeeb8a9b745c872be262ddc180d82b1b2a1d"
+    },
+    {
+      "path": "port/game-data/loot_power_resources_v7.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_power_resources_v7.hpp",
+      "sha256": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b"
+    },
+    {
+      "path": "port/game-data/loot_table_selection_v8.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_table_selection_v8.hpp",
+      "sha256": "a2db9e8def398b1950a41d8d3a86354d9e0b8bb31008014b164251b743f558cd"
+    },
+    {
+      "path": "port/game-data/loot_tables_v2.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_tables_v2.hpp",
+      "sha256": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931"
+    },
+    {
+      "path": "port/game-data/loot_temporary_inventory_v8.hpp",
+      "frozen": "dependency-snapshot/port/game-data/loot_temporary_inventory_v8.hpp",
+      "sha256": "2fbf25612dca62ab08c3d7a203c0d986e7afa63833b035cf46a5f3d9551def43"
+    },
+    {
+      "path": "port/game-data/player_gear_effects_v5.hpp",
+      "frozen": "dependency-snapshot/port/game-data/player_gear_effects_v5.hpp",
+      "sha256": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7"
+    },
+    {
+      "path": "port/game-data/player_savegame_v1.hpp",
+      "frozen": "dependency-snapshot/port/game-data/player_savegame_v1.hpp",
+      "sha256": "014acd3b821b4ab99b7fbd2072a8df4132465d783917e3b9592e58e8aeda0f6f"
+    },
+    {
+      "path": "port/game-data/properties.hpp",
+      "frozen": "dependency-snapshot/port/game-data/properties.hpp",
+      "sha256": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d"
+    },
+    {
+      "path": "port/game-data/skill_tables.hpp",
+      "frozen": "dependency-snapshot/port/game-data/skill_tables.hpp",
+      "sha256": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab"
+    },
+    {
+      "path": "port/game-data/vitals.hpp",
+      "frozen": "dependency-snapshot/port/game-data/vitals.hpp",
+      "sha256": "526cb0138fadc5964f4a74e27c65d33d2054a0cd61f3a71cbf08981c8954ed85"
+    },
+    {
+      "path": "port/level-world/actor_rotation.hpp",
+      "frozen": "dependency-snapshot/port/level-world/actor_rotation.hpp",
+      "sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212"
+    },
+    {
+      "path": "port/level-world/actor_runtime.hpp",
+      "frozen": "dependency-snapshot/port/level-world/actor_runtime.hpp",
+      "sha256": "4cd7e66812fd48321180fd2593859c1339f4048964b4059dc5549b4e59f4ebe7"
+    },
+    {
+      "path": "port/level-world/authored_fx_geometry_packet_v7.cpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_geometry_packet_v7.cpp",
+      "sha256": "e4d3d4f5c0e595cb39fcba1440b63d7675d3e66b16c65f6943ea23e38f37c779"
+    },
+    {
+      "path": "port/level-world/authored_fx_geometry_packet_v7.hpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_geometry_packet_v7.hpp",
+      "sha256": "3a065ec7c23de743bfd5dfac6082c0c2868b01b31c47c1056880e795337ddfd5"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_mesh_graph_v4.hpp",
+      "sha256": "94b7c4631dbbefa2b1f77541612b92f4d200767f5014ed92242a2736af792c43"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v6.cpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_mesh_graph_v6.cpp",
+      "sha256": "a7fcc7ddd4e7ab6b11f19380f2e9fea5d73c875aa55fa71b117764a6b77b2c00"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v6.hpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_mesh_graph_v6.hpp",
+      "sha256": "c13cfc1095bfb649e7d070208b146dc24dd50058f203f2573c6bac26487cbdae"
+    },
+    {
+      "path": "port/level-world/authored_fx_null_tracks_v5.hpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_null_tracks_v5.hpp",
+      "sha256": "097055dd5a99f6b62d0189d1f60df32081d2489522b4eacab879163e750c74b1"
+    },
+    {
+      "path": "port/level-world/authored_fx_transform_v5.cpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_transform_v5.cpp",
+      "sha256": "7051df9421c9d931c32a63d5def9d94fdd4543d38ce08cf5e172a447e387d933"
+    },
+    {
+      "path": "port/level-world/authored_fx_transform_v5.hpp",
+      "frozen": "dependency-snapshot/port/level-world/authored_fx_transform_v5.hpp",
+      "sha256": "a5297ef86bf05eed2ce7f246beda7f676cf116606a97049cbde9ad50b1e4664b"
+    },
+    {
+      "path": "port/level-world/base_named_animation_controller_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/base_named_animation_controller_v1.hpp",
+      "sha256": "016336a3f31af22cb1304c95b6ab2d9ccf574e4b6dffde6e36bb101a330e0f1f"
+    },
+    {
+      "path": "port/level-world/canonical_class_receiver_bindings_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_class_receiver_bindings_v1.hpp",
+      "sha256": "bb8b1fb01df649723f670aaca953e6ddfa459eb8e1f5a267d1eda8a27953f233"
+    },
+    {
+      "path": "port/level-world/canonical_gameobject_base_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_gameobject_base_owner_v1.hpp",
+      "sha256": "39710d3c9bbb81e204615a2b54e45bd6943c5004824ec6b3d81bba14a102d4b2"
+    },
+    {
+      "path": "port/level-world/canonical_item_factory_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_item_factory_v2.hpp",
+      "sha256": "f6629aa733321cda9b744a0832bfd9d216ec1288f883c02dc9dfee4b5d85ac20"
+    },
+    {
+      "path": "port/level-world/canonical_object_factory_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_object_factory_v1.hpp",
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_object_manager_v1.hpp",
+      "sha256": "5081202d2351b59912ad2ffb376a0b6d4e5fb01f3c1e7d599fbb3aac30644545"
+    },
+    {
+      "path": "port/level-world/canonical_point3d_globals_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_point3d_globals_v1.hpp",
+      "sha256": "b8d0af9c06ad4fed356146d2d094656170e58caa804116b29ea22fcf7b4ba789"
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_property_map_v1.hpp",
+      "sha256": "bfacc2040fc34fabd86eb93863eb5cf6182f78c39d4518f17b8bc00757ea6ad8"
+    },
+    {
+      "path": "port/level-world/canonical_spawn_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/canonical_spawn_owner_v1.hpp",
+      "sha256": "fd9b35014eb9107294b8d88add29ae124c0012e1366329aad302bb7a18dd45df"
+    },
+    {
+      "path": "port/level-world/character_ai_update.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_ai_update.hpp",
+      "sha256": "35efb90d8a55675e48a602d21dcce1ddbdb1aa211a6fca0acddcaa66d77e2758"
+    },
+    {
+      "path": "port/level-world/character_authored_fx_forces_v4.cpp",
+      "frozen": "dependency-snapshot/port/level-world/character_authored_fx_forces_v4.cpp",
+      "sha256": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e"
+    },
+    {
+      "path": "port/level-world/character_authored_fx_forces_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_authored_fx_forces_v4.hpp",
+      "sha256": "2003c9e0ed80f6feef1e6f9c995eb821a6363a10b58aef7142e9daf7a7a173b3"
+    },
+    {
+      "path": "port/level-world/character_authored_particle_fx_v3.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_authored_particle_fx_v3.hpp",
+      "sha256": "028aadb98fa074a009378521e506b495bae65531c9563a6609b444d95fdbe889"
+    },
+    {
+      "path": "port/level-world/character_authored_particle_fx_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_authored_particle_fx_v4.hpp",
+      "sha256": "cce38efc95922f3b5f77c8a40dd7958bef3348fabc6ecc8e534bc0d817fa16d5"
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v6.cpp",
+      "frozen": "dependency-snapshot/port/level-world/character_authored_resource_v6.cpp",
+      "sha256": "488c560b87fcfe15bb32c08b9e799f4e3a462a73a0ad749223879a6247273caf"
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v6.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_authored_resource_v6.hpp",
+      "sha256": "7b3379cb343178d4846119f54282c8205dad3884cfe9084d58ea6d9e0717db6d"
+    },
+    {
+      "path": "port/level-world/character_blood_fx_resource_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_blood_fx_resource_v2.hpp",
+      "sha256": "68b5d3442259e41d9f674280d69334541d17f7afb594a687c5b4c5c69ce23d66"
+    },
+    {
+      "path": "port/level-world/character_body_config.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_body_config.hpp",
+      "sha256": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d"
+    },
+    {
+      "path": "port/level-world/character_combat_queries.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_combat_queries.hpp",
+      "sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf"
+    },
+    {
+      "path": "port/level-world/character_combat_sound_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_combat_sound_v1.hpp",
+      "sha256": "73a686daebea0f9d619be3bde0f8bba9a2b349757c7dadd3eee09dca4a108a53"
+    },
+    {
+      "path": "port/level-world/character_controller_commands.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_controller_commands.hpp",
+      "sha256": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5"
+    },
+    {
+      "path": "port/level-world/character_current_skill_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_current_skill_v2.hpp",
+      "sha256": "a6b97ec7b41734e375e9c995e46be56df55362c76f94b3d1ec589dd95ad3e21e"
+    },
+    {
+      "path": "port/level-world/character_design_services.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_design_services.hpp",
+      "sha256": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064"
+    },
+    {
+      "path": "port/level-world/character_fx_anchor_rotation_v28.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_fx_anchor_rotation_v28.hpp",
+      "sha256": "d4a3ff468b09258105927e2f4c19704f0e404bfd7de4510bcce6fecb2df2896d"
+    },
+    {
+      "path": "port/level-world/character_fx_kernels_v1.cpp",
+      "frozen": "dependency-snapshot/port/level-world/character_fx_kernels_v1.cpp",
+      "sha256": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d"
+    },
+    {
+      "path": "port/level-world/character_fx_kernels_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_fx_kernels_v1.hpp",
+      "sha256": "7ec1c3349fcb0177a41a1757e0b4e9a5b9e6cfbcb0851705ae0cb716a2c012cb"
+    },
+    {
+      "path": "port/level-world/character_fx_state_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_fx_state_v1.hpp",
+      "sha256": "d5ba33e1a5655710224e77f16af9a8414ad031cf5f3ea306f2181961c0a9c3a5"
+    },
+    {
+      "path": "port/level-world/character_game_design.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_game_design.hpp",
+      "sha256": "3e2a36aae3aaca6dac7eb48dd92206bf72f8fbd694ecd90e4777552f817e92a8"
+    },
+    {
+      "path": "port/level-world/character_host_context.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_host_context.hpp",
+      "sha256": "cd51145421b37194bd79deec6603696a1d26e9d20f3030cb20372012430ac80e"
+    },
+    {
+      "path": "port/level-world/character_kill.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_kill.hpp",
+      "sha256": "ceee60938d3862a39134672a85f5a9fb3a01c3ec9c2a664bb028d162cbf66b06"
+    },
+    {
+      "path": "port/level-world/character_kill_fields_v21.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_kill_fields_v21.hpp",
+      "sha256": "382d902f9f7f03b80ff2ac96356e39f4f0aa4c85984db247acb8cf1e8a704636"
+    },
+    {
+      "path": "port/level-world/character_kill_live_v21.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_kill_live_v21.hpp",
+      "sha256": "3da3d22f124a8424b77c088c25200abae404457ec8c964df25bb3733f8ed52ed"
+    },
+    {
+      "path": "port/level-world/character_kill_loot_connection_v10.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_kill_loot_connection_v10.hpp",
+      "sha256": "f39d3c5fdf28ee50de2334063b661512470d97be3f7a8df24287a453a56d02ab"
+    },
+    {
+      "path": "port/level-world/character_level.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_level.hpp",
+      "sha256": "c4cb773dd1468a41d9c630eb1f46d6a732ee64b0cd7062722f5e3cc7a90aaf76"
+    },
+    {
+      "path": "port/level-world/character_loot_actor_binding_v31.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_actor_binding_v31.hpp",
+      "sha256": "ca0efd85c293feb981c92c9fa12c6445016a0b61287d1f8c04861773766ba64e"
+    },
+    {
+      "path": "port/level-world/character_loot_creation_bindings_v22.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_creation_bindings_v22.hpp",
+      "sha256": "78873da1e8611be9942cf237e8da6eac9ab6d0c5c82161c665fd5b31c483c540"
+    },
+    {
+      "path": "port/level-world/character_loot_drop_award_v8.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_drop_award_v8.hpp",
+      "sha256": "94e9732ccdda1300ed03fce2daecaae4664c5ef608ee4db123f8d6c81fcfb20a"
+    },
+    {
+      "path": "port/level-world/character_loot_drop_v8.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_drop_v8.hpp",
+      "sha256": "0a123a22e129a51ccc60c16e1d268cd15a1e91e43f8bd8b48af328eaba2f4613"
+    },
+    {
+      "path": "port/level-world/character_loot_interact_v8.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_interact_v8.hpp",
+      "sha256": "c12956651bb34c49c3740856f4854e5ba03819629c240f3afbd44f5125b52861"
+    },
+    {
+      "path": "port/level-world/character_loot_item_manager_v8.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_item_manager_v8.hpp",
+      "sha256": "4ac4aedd08577403beb07b3e087f3b961cc78a76984bf0a8646aeb31231abd86"
+    },
+    {
+      "path": "port/level-world/character_loot_live_v22.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_live_v22.hpp",
+      "sha256": "16773e83ab82171c8661bdc1480eb4361267bb6cfa975d5d328ea4b8e1ca46d5"
+    },
+    {
+      "path": "port/level-world/character_loot_scatter_connection_v9.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_scatter_connection_v9.hpp",
+      "sha256": "940e11c481e515295ca82c3a0c4abbfc88885bac1d13ffd7763b090882145988"
+    },
+    {
+      "path": "port/level-world/character_loot_scatter_v8.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_loot_scatter_v8.hpp",
+      "sha256": "108f9c46a996b417775552b997f4cfe6c2451d7a765a664d5fa68faecd43cf80"
+    },
+    {
+      "path": "port/level-world/character_mesh_fx_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_mesh_fx_owner_v1.hpp",
+      "sha256": "a2092518ecf924856d9874b11016417bc07d05b3b5f060ec786a526d3da6e4e3"
+    },
+    {
+      "path": "port/level-world/character_mesh_fx_owner_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_mesh_fx_owner_v4.hpp",
+      "sha256": "433e33c68588289a31fc54457bc803b65710e0abd0f1dd994d507946c47a5782"
+    },
+    {
+      "path": "port/level-world/character_native_fsm.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_native_fsm.hpp",
+      "sha256": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b"
+    },
+    {
+      "path": "port/level-world/character_particle_fx_resource_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_particle_fx_resource_v2.hpp",
+      "sha256": "3ba703cd0fbe6e9c884ba2aa2974ec079f8bc3de3a99346de9f3071d7ada07dc"
+    },
+    {
+      "path": "port/level-world/character_path_commands.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_path_commands.hpp",
+      "sha256": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7"
+    },
+    {
+      "path": "port/level-world/character_script_commands.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_script_commands.hpp",
+      "sha256": "51f22d25809578af83f6da1f07b4cacbe2be6dbd2e1d5e35eec7b0477089e3c9"
+    },
+    {
+      "path": "port/level-world/character_script_lifecycle.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_script_lifecycle.hpp",
+      "sha256": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7"
+    },
+    {
+      "path": "port/level-world/character_script_owner.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_script_owner.hpp",
+      "sha256": "e540eda340d30395f9536aa370bc44a0219d52e0a1fcad57bb7ce55957929435"
+    },
+    {
+      "path": "port/level-world/character_script_owner_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_script_owner_v2.hpp",
+      "sha256": "c2011cfba7ff7cee327b93620a0b726b87c533e09072baa7bdc04896b021f080"
+    },
+    {
+      "path": "port/level-world/character_script_selection.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_script_selection.hpp",
+      "sha256": "4414d0203ca20c90d40460863f75c3f0d373b43017664547386e41c43c73514e"
+    },
+    {
+      "path": "port/level-world/character_script_session.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_script_session.hpp",
+      "sha256": "1b631de5545071fc792da625bbeb7389e379ddd805d37af8ceb4f8c9e6f06e0c"
+    },
+    {
+      "path": "port/level-world/character_script_session_v3.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_script_session_v3.hpp",
+      "sha256": "32f48250fac5bdf10714a4920aa2ecb889bd1118f8337b57a33d7961fd8cacaa"
+    },
+    {
+      "path": "port/level-world/character_skill_native_v5.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_skill_native_v5.hpp",
+      "sha256": "fcc6f12b129ae74a79bbe83c148beb6878728b319f648028b226e1a96ee63643"
+    },
+    {
+      "path": "port/level-world/character_skill_properties_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_skill_properties_v1.hpp",
+      "sha256": "d04404c5f2ba7d446255c19146b444b4fe3a012805ffc1bf9a98a74c3979b07a"
+    },
+    {
+      "path": "port/level-world/character_skill_readonly_v6.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_skill_readonly_v6.hpp",
+      "sha256": "47dc2251541beb0e4f17cf13f56d410be27801cc3a83a7d9ed8cb944c3c5bb9d"
+    },
+    {
+      "path": "port/level-world/character_skill_state_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_skill_state_v4.hpp",
+      "sha256": "ee4a21a3503a8e4b3abd21dde48e5c45094e76f2354ba3fd090210deac977150"
+    },
+    {
+      "path": "port/level-world/character_skill_target_queries_v6.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_skill_target_queries_v6.hpp",
+      "sha256": "533916de1324d6d1ee3f57cee02dabc54989e16cec3995646691cd4e50ca0b6e"
+    },
+    {
+      "path": "port/level-world/character_skills.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_skills.hpp",
+      "sha256": "553db42a288878ad476338ce33aa3d3bfdf7afca8c6f45ba99e952b4d0cb36b5"
+    },
+    {
+      "path": "port/level-world/character_spatial_bindings.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_spatial_bindings.hpp",
+      "sha256": "72bc0754adb341676c03b220c03cad59804231e2403cb2e5d5be23ec3f821f6b"
+    },
+    {
+      "path": "port/level-world/character_stance.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_stance.hpp",
+      "sha256": "b4166f82c932a2122cccb1bee48cfedc930ee78903413a0ed342e6ed61e6c757"
+    },
+    {
+      "path": "port/level-world/character_state.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_state.hpp",
+      "sha256": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83"
+    },
+    {
+      "path": "port/level-world/character_target_bindings.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_target_bindings.hpp",
+      "sha256": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75"
+    },
+    {
+      "path": "port/level-world/character_target_providers.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_target_providers.hpp",
+      "sha256": "2b6042a6a05c8b5be3f80738e7e308316832048271b875c018c2d9dbcdba7aa1"
+    },
+    {
+      "path": "port/level-world/character_target_search.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_target_search.hpp",
+      "sha256": "38ce6f1b5742642abe5e79e222330264d2a67933dddfa38bb81569b40b2e9c8a"
+    },
+    {
+      "path": "port/level-world/character_timers.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_timers.hpp",
+      "sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883"
+    },
+    {
+      "path": "port/level-world/character_world_ai_relationship_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_world_ai_relationship_v1.hpp",
+      "sha256": "5015af38b54de29262f75b75e25a8b75a60f348c611b8fd22566ee3a25e271a3"
+    },
+    {
+      "path": "port/level-world/character_world_handle_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_world_handle_v1.hpp",
+      "sha256": "6877803c1ff3006fac070eb23c0019b7bd5e2a124b15bbf6f68467fae8815f18"
+    },
+    {
+      "path": "port/level-world/character_world_npc_object_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_world_npc_object_v1.hpp",
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b"
+    },
+    {
+      "path": "port/level-world/character_world_runtime_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_world_runtime_v1.hpp",
+      "sha256": "3e9e9c9db7cbdf05ddb1c938f6ac745835442c809ab329e13868ba3cfd301f67"
+    },
+    {
+      "path": "port/level-world/character_world_target_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_world_target_owner_v1.hpp",
+      "sha256": "9141d378372a60472bb4d73b33e7829f2835c69cebc49b48065095807dcf0ce2"
+    },
+    {
+      "path": "port/level-world/collision.hpp",
+      "frozen": "dependency-snapshot/port/level-world/collision.hpp",
+      "sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b"
+    },
+    {
+      "path": "port/level-world/combat_ctrl_kill_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/combat_ctrl_kill_owner_v1.hpp",
+      "sha256": "7d8b785920744668cd5d52097c6b3e0305f15361870586d71c43df9ca9457302"
+    },
+    {
+      "path": "port/level-world/decor_body_config.hpp",
+      "frozen": "dependency-snapshot/port/level-world/decor_body_config.hpp",
+      "sha256": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd"
+    },
+    {
+      "path": "port/level-world/decor_scene.hpp",
+      "frozen": "dependency-snapshot/port/level-world/decor_scene.hpp",
+      "sha256": "1c88689fc04a83b61022a80521f810ee61a850120f8c30972e16be49dfc4bcb7"
+    },
+    {
+      "path": "port/level-world/floor_source.hpp",
+      "frozen": "dependency-snapshot/port/level-world/floor_source.hpp",
+      "sha256": "8491cb902451cd4b82a25509819661a060db7f4e44e4a8c87f02f9cf8e46bfe8"
+    },
+    {
+      "path": "port/level-world/floors.hpp",
+      "frozen": "dependency-snapshot/port/level-world/floors.hpp",
+      "sha256": "8d770c1b41e29c9261c6074dc942b9db2d4b343d87743a66c7475bb9cb3267f0"
+    },
+    {
+      "path": "port/level-world/fx_texture_animation_v1.cpp",
+      "frozen": "dependency-snapshot/port/level-world/fx_texture_animation_v1.cpp",
+      "sha256": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc"
+    },
+    {
+      "path": "port/level-world/fx_texture_animation_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/fx_texture_animation_v1.hpp",
+      "sha256": "563cd48c2b8853efc4a87687cc1e84d5017fbb0f8df658452efbbd9b152cf109"
+    },
+    {
+      "path": "port/level-world/game_object_initialization_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/game_object_initialization_owner_v1.hpp",
+      "sha256": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809"
+    },
+    {
+      "path": "port/level-world/game_object_set_position_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/game_object_set_position_v2.hpp",
+      "sha256": "4d9075703fa64f9a29afc6ff85ed07764e3ef32753634a31446f59cc141bd600"
+    },
+    {
+      "path": "port/level-world/game_object_visual_asset_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/game_object_visual_asset_owner_v1.hpp",
+      "sha256": "ffd3d1dc3e9d84d34c48a9c10e5071876b9e24fc869b37ed9ff9b43a1c626304"
+    },
+    {
+      "path": "port/level-world/gameobject_online_update_v5.hpp",
+      "frozen": "dependency-snapshot/port/level-world/gameobject_online_update_v5.hpp",
+      "sha256": "5b734408eb0a1f895a3d4974f4915722bf9b8d9cb356f84bb00fed6432fef933"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_binding_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/gameobject_scene_binding_v1.hpp",
+      "sha256": "9ed12bda8b9b9c2d43f3a24d2a90ba93c30d7de5a09da60f60366a3988a7b116"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_root_registry_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/gameobject_scene_root_registry_v1.hpp",
+      "sha256": "625861d77ee05371603e96b1adc4cc28b232ccf15755f78e70a8e02961c5245c"
+    },
+    {
+      "path": "port/level-world/gameobject_update_prefix_v23.hpp",
+      "frozen": "dependency-snapshot/port/level-world/gameobject_update_prefix_v23.hpp",
+      "sha256": "bfc175e43d76daea24845193ca3275cecfbec9870b4fb6ae99fca80cc8a8710a"
+    },
+    {
+      "path": "port/level-world/gameobject_visual_field_borrow_v5.hpp",
+      "frozen": "dependency-snapshot/port/level-world/gameobject_visual_field_borrow_v5.hpp",
+      "sha256": "18c28b17363aed319eb2943a4a5d95a98cf688ae55d9358a54a3c71bdc40726c"
+    },
+    {
+      "path": "port/level-world/generic_animation_callbacks_v21.hpp",
+      "frozen": "dependency-snapshot/port/level-world/generic_animation_callbacks_v21.hpp",
+      "sha256": "acc9e8bba1773f450cf33b4c3156782eea71c89ab218ea984d01262866cc9aee"
+    },
+    {
+      "path": "port/level-world/item_body_config_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/item_body_config_v2.hpp",
+      "sha256": "2e62ede8afe47bb5cad7219cb600eb94bf02ed82904303cdd692984678b59d4b"
+    },
+    {
+      "path": "port/level-world/item_color_lookup_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/item_color_lookup_v2.hpp",
+      "sha256": "e2b5c648678a6dd9da1804149bb802ed14c120eeae7e73b3fbf57972dfa403c2"
+    },
+    {
+      "path": "port/level-world/item_frame_virtual_policy_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/item_frame_virtual_policy_v4.hpp",
+      "sha256": "6103451470ed76fd5815810cde456fcb6a9e7c5fc0016fc0ca90c12f84858f5e"
+    },
+    {
+      "path": "port/level-world/light_set_name_owner_v3.hpp",
+      "frozen": "dependency-snapshot/port/level-world/light_set_name_owner_v3.hpp",
+      "sha256": "e7afc43e2b671f75832f0061821c6a045e5a76dd68aed2e840e9dad432775b4a"
+    },
+    {
+      "path": "port/level-world/loot_pickup_quest_tail_v10.hpp",
+      "frozen": "dependency-snapshot/port/level-world/loot_pickup_quest_tail_v10.hpp",
+      "sha256": "833d88292bcb6534859dc4460ee42c5e7790e3b658b772ab2e04c0850e245718"
+    },
+    {
+      "path": "port/level-world/move_state.hpp",
+      "frozen": "dependency-snapshot/port/level-world/move_state.hpp",
+      "sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0"
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "frozen": "dependency-snapshot/port/level-world/native_body.hpp",
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140"
+    },
+    {
+      "path": "port/level-world/navigation.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation.hpp",
+      "sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71"
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_avoidance.hpp",
+      "sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36"
+    },
+    {
+      "path": "port/level-world/navigation_controller.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_controller.hpp",
+      "sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6"
+    },
+    {
+      "path": "port/level-world/navigation_heading.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_heading.hpp",
+      "sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e"
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_motion.hpp",
+      "sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac"
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_objects.hpp",
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011"
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_path.hpp",
+      "sha256": "939d187f857ac4eae7eafa3b517b9beb0b312d4d75541e769dd1566cc6a4b619"
+    },
+    {
+      "path": "port/level-world/navigation_producers.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_producers.hpp",
+      "sha256": "a53b42be122b26269044a86e646b7e842ce1782a9bb96cba6778ae30d5f826e3"
+    },
+    {
+      "path": "port/level-world/navigation_search.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_search.hpp",
+      "sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0"
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "frozen": "dependency-snapshot/port/level-world/navigation_world.hpp",
+      "sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e"
+    },
+    {
+      "path": "port/level-world/object_enable_condition_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/object_enable_condition_v2.hpp",
+      "sha256": "9cf3fb9c69d24db8643ee742551af7c9aa259be5686823e16e24dc1856ef2e85"
+    },
+    {
+      "path": "port/level-world/objects.hpp",
+      "frozen": "dependency-snapshot/port/level-world/objects.hpp",
+      "sha256": "8ed9aa68b9da6bf86cfeb10f901965fc931e9a112c7ccaf2ac6bad262d6d485c"
+    },
+    {
+      "path": "port/level-world/octree.hpp",
+      "frozen": "dependency-snapshot/port/level-world/octree.hpp",
+      "sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83"
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "frozen": "dependency-snapshot/port/level-world/physical_controls.hpp",
+      "sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85"
+    },
+    {
+      "path": "port/level-world/physical_world.hpp",
+      "frozen": "dependency-snapshot/port/level-world/physical_world.hpp",
+      "sha256": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6"
+    },
+    {
+      "path": "port/level-world/player_equipment_render_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/player_equipment_render_owner_v1.hpp",
+      "sha256": "47f13722da3348d3796dfc5e3a1eb973f5ab9616156f35e1404924bf8d80ccce"
+    },
+    {
+      "path": "port/level-world/player_manager_loot_queries_v8.hpp",
+      "frozen": "dependency-snapshot/port/level-world/player_manager_loot_queries_v8.hpp",
+      "sha256": "1b07c1943f43ba329cec775e3400bc85014e8ae0890fb2c76836cba2f78a3263"
+    },
+    {
+      "path": "port/level-world/player_manager_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/player_manager_owner_v1.hpp",
+      "sha256": "8b969842103f8a792e168d515eb5f5bd302abe00f9ac92f30ac540007da78f6a"
+    },
+    {
+      "path": "port/level-world/point3d_normalize_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/point3d_normalize_v2.hpp",
+      "sha256": "47167ef8096ce4c1a132b1dbc63fc584166e25d89a407bd6676c576b75867e32"
+    },
+    {
+      "path": "port/level-world/reference/character-kill-live-v21/aggro-original.hpp",
+      "frozen": "dependency-snapshot/port/level-world/reference/character-kill-live-v21/aggro-original.hpp",
+      "sha256": "2ce832020ff414182f46e0950d5d36e9245567cecf6ea0c495a648a0f74ef30f"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_asset_connection_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/retained_gameobject_visual_asset_connection_v1.hpp",
+      "sha256": "ed4563081642491b538bbb7e627e01321bba2b91c141b8eecd38940650525cbb"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_asset_connection_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/retained_gameobject_visual_asset_connection_v2.hpp",
+      "sha256": "e6d9ccd1b05d705514e5d84e98a66c0e590e796016f7a8993b83679d887e2060"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/retained_gameobject_visual_v1.hpp",
+      "sha256": "c4b48e35914c911873dfdfb0aab91306de36abfece8953c971b45a3116e43583"
+    },
+    {
+      "path": "port/level-world/selector.hpp",
+      "frozen": "dependency-snapshot/port/level-world/selector.hpp",
+      "sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790"
+    },
+    {
+      "path": "port/level-world/source_fx_node_matrix_v4.cpp",
+      "frozen": "dependency-snapshot/port/level-world/source_fx_node_matrix_v4.cpp",
+      "sha256": "e5649ef21d3d25c1f8e55054d87973cc5fac1ad11248be30268f6d9406804501"
+    },
+    {
+      "path": "port/level-world/source_fx_node_matrix_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/source_fx_node_matrix_v4.hpp",
+      "sha256": "a4aa1b986cd3ce68704f3440e6dd2df965130dfcd6439f18d20c25040d71839b"
+    },
+    {
+      "path": "port/level-world/subobjects_update.hpp",
+      "frozen": "dependency-snapshot/port/level-world/subobjects_update.hpp",
+      "sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03"
+    },
+    {
+      "path": "port/level-world/tests/character_authored_resource_domains_v6.cpp",
+      "frozen": "dependency-snapshot/port/level-world/tests/character_authored_resource_domains_v6.cpp",
+      "sha256": "017d56b5c66a12d7f0296f7564651f2b643ff8b6763498b0ce6a92f7839bce31"
+    },
+    {
+      "path": "port/level-world/tests/character_kill_live_v21_native.cpp",
+      "frozen": "dependency-snapshot/port/level-world/tests/character_kill_live_v21_native.cpp",
+      "sha256": "1d15ebec91e7fa350d8652304434c7b3f98eaa84d91ed25631813c43995db005"
+    },
+    {
+      "path": "port/level-world/tests/character_melee_fx_manager_v8.cpp",
+      "frozen": "dependency-snapshot/port/level-world/tests/character_melee_fx_manager_v8.cpp",
+      "sha256": "5f5ea4d2b1797e4bdea15814787cb7c74a1a1a197877926acbea8537e3ede198"
+    },
+    {
+      "path": "port/level-world/visual_fx_preload.hpp",
+      "frozen": "dependency-snapshot/port/level-world/visual_fx_preload.hpp",
+      "sha256": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b"
+    },
+    {
+      "path": "port/level-world/visual_motion.hpp",
+      "frozen": "dependency-snapshot/port/level-world/visual_motion.hpp",
+      "sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f"
+    },
+    {
+      "path": "port/level-world/visual_timeline.hpp",
+      "frozen": "dependency-snapshot/port/level-world/visual_timeline.hpp",
+      "sha256": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611"
+    },
+    {
+      "path": "port/level-world/vox_play3d_owner_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/vox_play3d_owner_v2.hpp",
+      "sha256": "a073edeec74610b44afbae5eaa8571d6ddf173ec4f50543c700b60da58d47a8b"
+    },
+    {
+      "path": "port/level-world/world.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world.hpp",
+      "sha256": "01540581a742a143176fabb7c490541215b047ca2d0b5d399d6d35e9fb3f28f1"
+    },
+    {
+      "path": "port/level-world/world_item_drop_sound_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_drop_sound_v2.hpp",
+      "sha256": "44cd8f0143cd8ae62029f5f9c5ab6f1582e45794c3fe5dc483d2ffa43d6abc9b"
+    },
+    {
+      "path": "port/level-world/world_item_frame_v5.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_frame_v5.hpp",
+      "sha256": "30d565805493da17d5bb06a82823eec7521ad1daff8bc90f27f3482b78230183"
+    },
+    {
+      "path": "port/level-world/world_item_graph_v3.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_graph_v3.hpp",
+      "sha256": "35ed779c0ff054da8657481a85f4b1ba9a2d3140d652e743b71a8baa8747fc46"
+    },
+    {
+      "path": "port/level-world/world_item_live_owner_v5.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_live_owner_v5.hpp",
+      "sha256": "3d856d2583f63c7ed01e7362f20a35b3e4cf46dc9e2403da343b6c593dbcd773"
+    },
+    {
+      "path": "port/level-world/world_item_loot_creation_v10.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_loot_creation_v10.hpp",
+      "sha256": "5108abb4d1d087bfa692bfd2d762db4eff24c34c71ec22a28b79e7b1a7acaf60"
+    },
+    {
+      "path": "port/level-world/world_item_object_owner_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_object_owner_v1.hpp",
+      "sha256": "62508fe879ad99754e9ab658ec2ff53d21682d9d454c33ff0136e10450b7905f"
+    },
+    {
+      "path": "port/level-world/world_item_pf_connection_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_pf_connection_v4.hpp",
+      "sha256": "f686e8252bcb3373ecd3ffe1acbe7fe145b6675879d014efa4b29406f6993322"
+    },
+    {
+      "path": "port/level-world/world_item_physical_contact_v4.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_physical_contact_v4.hpp",
+      "sha256": "8789f6099fb4b0e95781626d7742c91e2a35249d1b1b8d358ba1de606be72f00"
+    },
+    {
+      "path": "port/level-world/world_item_physical_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_physical_v2.hpp",
+      "sha256": "65104c82a9c17b707f18fe4c2226a29538f53e2d7cd260d30a7281f57c605501"
+    },
+    {
+      "path": "port/level-world/world_item_pickup_inventory_v10.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_pickup_inventory_v10.hpp",
+      "sha256": "81259ea34f5d10d8bd274d4f3bcd5fffad48c66acff8da3ca6c0ec5802435f61"
+    },
+    {
+      "path": "port/level-world/world_item_scene_services_v3.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_scene_services_v3.hpp",
+      "sha256": "692e46d0da5d84bc977cc17b4783cf544f1eed0cbfe4eb78b9a0d96b7dca40b0"
+    },
+    {
+      "path": "port/level-world/world_item_visual_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_item_visual_v2.hpp",
+      "sha256": "3b8bfbc9907ff330e2b64ec90b5e10c29fb960fc3362fdf81d5ded4391720e45"
+    },
+    {
+      "path": "port/level-world/world_loot_gameplay_v23.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_loot_gameplay_v23.hpp",
+      "sha256": "704cbf601be501a9ee3bb95baedc7eb044954c9df03e4b3e60f06107453a77d2"
+    },
+    {
+      "path": "port/level-world/world_loot_item_runtime_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_loot_item_runtime_v1.hpp",
+      "sha256": "f83af3ff137c41c5b384f040ea04066f9f3e4e1b2e4627b9a6f51edd004bc371"
+    },
+    {
+      "path": "port/level-world/world_loot_pickup_v23.hpp",
+      "frozen": "dependency-snapshot/port/level-world/world_loot_pickup_v23.hpp",
+      "sha256": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe"
+    },
+    {
+      "path": "port/scene-materials/material_matrix_v4.hpp",
+      "frozen": "dependency-snapshot/port/scene-materials/material_matrix_v4.hpp",
+      "sha256": "441a01b6d85f69b2e4680521be9185ef1c28ff248a85014d0434d4dccd00f163"
+    },
+    {
+      "path": "port/scene-materials/particle_scene_v1.cpp",
+      "frozen": "dependency-snapshot/port/scene-materials/particle_scene_v1.cpp",
+      "sha256": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc"
+    },
+    {
+      "path": "port/scene-materials/particle_scene_v1.hpp",
+      "frozen": "dependency-snapshot/port/scene-materials/particle_scene_v1.hpp",
+      "sha256": "59ccb28b7faeb5df24f7320239f057b21176a05b26451ab9406f21e4d0eac41f"
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "frozen": "dependency-snapshot/port/scene-materials/scene.hpp",
+      "sha256": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3"
+    },
+    {
+      "path": "port/script-runtime/script_constants.hpp",
+      "frozen": "dependency-snapshot/port/script-runtime/script_constants.hpp",
+      "sha256": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01"
+    },
+    {
+      "path": "port/script-runtime/script_design_bindings.h",
+      "frozen": "dependency-snapshot/port/script-runtime/script_design_bindings.h",
+      "sha256": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9"
+    },
+    {
+      "path": "port/script-runtime/script_function_alias.h",
+      "frozen": "dependency-snapshot/port/script-runtime/script_function_alias.h",
+      "sha256": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e"
+    },
+    {
+      "path": "port/script-runtime/script_int_bindings.hpp",
+      "frozen": "dependency-snapshot/port/script-runtime/script_int_bindings.hpp",
+      "sha256": "4cf66271fe2a909759e03f62d5016b960cc374273eabec8a38279d15716e4d9a"
+    },
+    {
+      "path": "port/script-runtime/script_object_bridge.h",
+      "frozen": "dependency-snapshot/port/script-runtime/script_object_bridge.h",
+      "sha256": "63c357b3879fb74e882f8ec5a4d3fb6f6a3ad9360ca1bbabcbc38f1c142a15d9"
+    },
+    {
+      "path": "port/script-runtime/script_runtime.h",
+      "frozen": "dependency-snapshot/port/script-runtime/script_runtime.h",
+      "sha256": "8c1c24ccdc09c8b06ee1d3be35536fa25af265a650047bf6d98a08dbc707ee54"
+    },
+    {
+      "path": "port/script-runtime/script_scalar_bindings.h",
+      "frozen": "dependency-snapshot/port/script-runtime/script_scalar_bindings.h",
+      "sha256": "378f06afa5311644a89a5d2d057e8e490dcf23e3ff2a555a5fc73b06a3833a3b"
+    }
+  ],
+  "assets": [
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_00.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+      "sha256": "f0f6bb3a6799294e6a0c34de719e5c08b7d8f38d4bc3974abee73115a8a1b7f6"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_01.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+      "sha256": "ab1f34ae1c0231a2a2ad5dabfbde349205ab82fedce4b14911c5b2047e586b04"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_02.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+      "sha256": "016a676b45a9d75ac5f0cf39e10ce5689096ccf1995d4600861186666df73e07"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_03.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae",
+      "sha256": "c07166af37ad4d6939f62db0ed9f8f57159012e464f2b77a14d4b730d3daeaaa"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_04.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_01.bdae",
+      "sha256": "b3d3d14829a76fb5d1a2f6ca7e54e38efa181146d4065ed923a906830c52d0af"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_05.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_02.bdae",
+      "sha256": "7b721e0454499b23c08c851942c3ce4f57fc6ccd8c4503a84fe65566ce43c7fa"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_06.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_03.bdae",
+      "sha256": "1a74b8cd645b5a62df0d0d849952f722b47b53f7ea97abb567d0249beb779d90"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_07.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+      "sha256": "f12fd64bd4da6507c1b210532e796e3894e905b87d4b6d573d04c399227fff26"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_08.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+      "sha256": "f6f4879cbd4064eca6cecabb072635e6eb381b1e99e8d046d7edb1684ff34f12"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_09.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+      "sha256": "9b1ab2eab19ec3dd0f534a7a7b61df1de4b96e802c8375c885eb078aa261c15e"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_10.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae",
+      "sha256": "c78a664b520ba59b32d6556e327a036746c88796b3fb05e964d6250a3edb7faf"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_11.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+      "sha256": "e540421312c357e78350b24b39d739061ae05ba2388f467c1b0f05acadc46b3b"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_12.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+      "sha256": "195ab93329212f1317c190da73fcce09196158164bd5ffb29603d1db0fb26864"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_13.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+      "sha256": "43cf7b9e32dc7cf7682d77ecc2c6a2347184f7f8315ee945b4c398595c98bf1e"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_14.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+      "sha256": "16dbfbb7e8aa3120c03db5147a5418eacf4c548af02b3937c099e942e9575ed3"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_15.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+      "sha256": "8ca2e4dbed2e24118bac851c842efbd41b93410bd69ca757f1008ee74049d105"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_16.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_charge.bdae",
+      "sha256": "3955a176721c3629d5c61138195878dd9e8f05ad00c6498e498f38acb65094d2"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_17.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+      "sha256": "404fa288abb83fce820a6daa8e3b95dc49b704fb0638215e7f5194d10ab0b3c1"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_18.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+      "sha256": "b13e28c2ab80f53436d6f4673be0abd6a6d281b4717101e65cd4c4be25b2ab39"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_19.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+      "sha256": "8a829848c1d6cb060dd4b9f8ee557b74fcabc47e4212f847680625844d6fcbef"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_20.bdae",
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+      "sha256": "5ac3759d38828ceeabec82da531551a8c4d8405602c11a8a5d892298fbbb0a2c"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_21.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae",
+      "sha256": "df5949273178514c56b7c36b8fc86872e1e93e26b2de2b0c035196eded7dd620"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_22.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+      "sha256": "4f631738a350f2af593b9bb42177c3e04fce9d0a4f1be671d5560c2311a0e8d3"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_23.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "sha256": "db9b3ec2a98e0092d3b342ff91e9fa6ef531149cab5d0b8c20c3d1a56746b3ae"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_24.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "sha256": "0f4f057d6e2d49a434fe0f714f863c34e1fc894affa28efc79cab148bfc2b167"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_25.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "sha256": "566e505ddbea2c028fa6a0035adf840295236b112219f4421974c4e6c6b5ef81"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_26.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+      "sha256": "507c27b61fd198c8e0ccacf30d568d9a9c7ee5351d054fbb0416f161b73cfb70"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_27.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "sha256": "86bf06d20c11014f2b8209f4a6090f8be31607e85aa78d210c05cae0180742f4"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_28.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+      "sha256": "400a7f48e704138087441a29cf7f79365a19519a9ff8cbf7cf47ad78d306a6be"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_29.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+      "sha256": "b8f5a6063b50fbd288a609b7fdfefd3c09c291cdefeebf53111bee988d21b2e4"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_30.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+      "sha256": "6d83fde03477ac7a2d819f634043cd18a0995878466e55c95f9ae9bca68e256e"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_31.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+      "sha256": "a693ed51a7432dec4ac8c5cdff26754dcce83bd280f8b9b6ef960409907d0721"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_32.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+      "sha256": "5d918f432e3970a50b3798fbf26686a5df0dcb902c3d47c877c128639ecf430c"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_33.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+      "sha256": "2c269390c1675394f81393f0988fe050197382fedcefad595ce69eb917cfcf74"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_34.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+      "sha256": "14a5f50e9d3ea7fb3b9df6b675fe89e0cbe4fc35969ccb2337f3cdd4f091695d"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_35.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+      "sha256": "306053d3483a2822bd5ce9d5daefe50e098e72c7e2d098ad56e38feb08bc0c38"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_36.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+      "sha256": "ed0c2873f8c2fdbe60031ed1ac1d0c22a9d4b19ae48cfae7e54eb2ad6bd70d6d"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_37.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "sha256": "bfe0a384dd7d4d89e8a39ea62bf052b15e0d3c953472f3f95e95e49446c45207"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_38.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+      "sha256": "21a31d374a80b9b6f7d1f9b7f273c62459dde9bfd9a2fabfa629fc2fae83a483"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_39.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+      "sha256": "db062ce2f63406656dee399e312b17416d9e7139890facb44c754a5f3171883b"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_40.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+      "sha256": "3b4ab3392f887d3036498b2005362ae227ad19972094ed18a77bfc65e70f2a2b"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_41.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+      "sha256": "d6f8b20823b97bdf09b205b7b3b22d011b2eb5ccbd191bc073f86d9e5d126e3a"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_42.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+      "sha256": "10a9a78be5882e87ce921d2ec2649b0163d351148b8e23a054e934a3cdf87bfe"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_43.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+      "sha256": "17cbcd5d103dc7e57fbd22890a48712890d18a5836fd96bc2a345d2a5ee8762c"
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_44.bdae",
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+      "sha256": "37a71a99ef80c172bb39d571c55475474e497ffe8080c112905b6e6fedbb811a"
+    }
+  ],
+  "host_libraries": [
+    {
+      "path": ".local-inputs/character-fx-owner-v1/host-snapshot/libdh2_engine_animation.so",
+      "sha256": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0"
+    },
+    {
+      "path": ".local-inputs/character-fx-owner-v1/host-snapshot/libdh2_engine_skinning.so",
+      "sha256": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b"
+    },
+    {
+      "path": ".local-inputs/character-fx-owner-v1/host-snapshot/libdh2_engine_ui.so",
+      "sha256": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c"
+    },
+    {
+      "path": ".local-inputs/character-fx-owner-v1/host-snapshot/libdh2_game_data.so",
+      "sha256": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8"
+    },
+    {
+      "path": ".local-inputs/character-fx-owner-v1/host-snapshot/libdh2_level_world.so",
+      "sha256": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986"
+    },
+    {
+      "path": ".local-inputs/character-fx-owner-v1/host-snapshot/libdh2_scene_materials.so",
+      "sha256": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb"
+    },
+    {
+      "path": ".local-inputs/character-fx-owner-v1/host-snapshot/libdh2_script_runtime.so",
+      "sha256": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+    }
+  ],
+  "original": {
+    "path": ".local-inputs/libDungeonHunter2.so",
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+  }
+}

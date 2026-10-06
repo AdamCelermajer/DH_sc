@@ -120,6 +120,8 @@ int main(int argc,char** argv){try{
   check(pre==0&&answer==1,player.error());
   check(input.properties->resolved[41]<before,"Same-owner actual UseMana effect");++spent;
   check(!player.callback(index,sk::skill_use_v3,&answer)&&answer==1,player.error());++callbacks;
+  player.skill_ai().current=int(index);
+  check(!player.native_skill_animation_event(&answer),player.error());++callbacks;
   target.candidate=target.target=target.last_target=id+100;
   check(!player.callback(index,sk::skill_post_v3,&answer),player.error());++callbacks;
   check(!target.candidate&&!target.target&&!target.last_target,"Actual scoped native ClearTarget source effects");

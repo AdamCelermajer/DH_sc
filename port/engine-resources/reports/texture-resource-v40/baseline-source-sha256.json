@@ -1,0 +1,13 @@
+{
+  "port/asset-payloads/zip_asset_pack_v1.hpp": "4fc7ae99288a30a36bcb32009f17b2972ba4dd7a186370b67707446a57fcc602",
+  "port/asset-payloads/zip_asset_pack_v1.cpp": "badd8da04cdcce67778638af09f4cb6ca1f10c3c3e260202faa8274d044d5a8c",
+  "port/engine-textures/texture_owner_v1.cpp": "e88d255184c05432ead7130aacded3ae79ae6d80e0f4e4935684ffbe38e19812",
+  "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp": "d1c63fb57e022926f6a5953cc3bff0af4ec4c75b63fb924ca3a64e3ee8c5773e",
+  "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp": "30117c2034aa5f58875b80add986a78731e166baa5e7159b4851d5957281944e",
+  "port/android-native/app/src/main/cpp/model_renderer.cpp": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+  "port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc": "bf40a8045cc37f6e9a4ca07231c300b2a189b87217ef5e9adea33e61842b9200",
+  "port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc": "629ea9bdee9db54fc8becaed7c372646562981b97b9557dae1e60d8c4f364368",
+  "port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc": "8cf6da9ea0c339f338cdf6be1c6e0b5826b2a9f9a1966326e0deb62aad66ff88",
+  "port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc": "6363e9147aa3c1fd27c0ab01cc75c0165fa10859badd7c53d25135f7517d1e51",
+  "port/android-native/app/src/main/cpp/CMakeLists.txt": "7e728df81c1097e8b8f7859e0d178e0216c276dba1e395a6332563e168046396"
+}

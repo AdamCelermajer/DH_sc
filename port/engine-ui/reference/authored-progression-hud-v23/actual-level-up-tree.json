@@ -1,0 +1,807 @@
+{
+  "placements": [
+    {
+      "tag": 26,
+      "length": 22,
+      "offset": 33543,
+      "depth": 1,
+      "frame": 0,
+      "placement_depth": 5,
+      "move": false,
+      "character_id": 162,
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        146,
+        1
+      ],
+      "instance_name": "anim_levelup"
+    }
+  ],
+  "subtrees": [
+    {
+      "tag": 39,
+      "length": 16,
+      "offset": 32980,
+      "depth": 0,
+      "frame": 0,
+      "id": 161,
+      "frames": 1,
+      "children": [
+        {
+          "tag": 26,
+          "length": 6,
+          "offset": 32986,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 160,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 32994,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 32996,
+          "depth": 1,
+          "frame": 1
+        }
+      ]
+    },
+    {
+      "tag": 39,
+      "length": 473,
+      "offset": 33002,
+      "depth": 0,
+      "frame": 0,
+      "id": 162,
+      "frames": 30,
+      "children": [
+        {
+          "tag": 26,
+          "length": 13,
+          "offset": 33008,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 161,
+          "matrix_twips": [
+            0.8751678466796875,
+            0.0,
+            0.0,
+            0.8751678466796875,
+            108,
+            234
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33023,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33025,
+          "depth": 1,
+          "frame": 1,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.89324951171875,
+            0.0,
+            0.0,
+            0.89324951171875,
+            101,
+            228
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33038,
+          "depth": 1,
+          "frame": 1
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33040,
+          "depth": 1,
+          "frame": 2,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.91131591796875,
+            0.0,
+            0.0,
+            0.91131591796875,
+            95,
+            222
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33053,
+          "depth": 1,
+          "frame": 2
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33055,
+          "depth": 1,
+          "frame": 3,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.9293975830078125,
+            0.0,
+            0.0,
+            0.9293975830078125,
+            88,
+            216
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33068,
+          "depth": 1,
+          "frame": 3
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33070,
+          "depth": 1,
+          "frame": 4,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.947479248046875,
+            0.0,
+            0.0,
+            0.947479248046875,
+            81,
+            210
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33083,
+          "depth": 1,
+          "frame": 4
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33085,
+          "depth": 1,
+          "frame": 5,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.965545654296875,
+            0.0,
+            0.0,
+            0.965545654296875,
+            75,
+            203
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33098,
+          "depth": 1,
+          "frame": 5
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33100,
+          "depth": 1,
+          "frame": 6,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.9836273193359375,
+            0.0,
+            0.0,
+            0.9836273193359375,
+            67,
+            198
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33113,
+          "depth": 1,
+          "frame": 6
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33115,
+          "depth": 1,
+          "frame": 7,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.001708984375,
+            0.0,
+            0.0,
+            1.001708984375,
+            62,
+            192
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33129,
+          "depth": 1,
+          "frame": 7
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33131,
+          "depth": 1,
+          "frame": 8,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.019775390625,
+            0.0,
+            0.0,
+            1.019775390625,
+            55,
+            186
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33145,
+          "depth": 1,
+          "frame": 8
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33147,
+          "depth": 1,
+          "frame": 9,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.0378570556640625,
+            0.0,
+            0.0,
+            1.0378570556640625,
+            48,
+            180
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33161,
+          "depth": 1,
+          "frame": 9
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33163,
+          "depth": 1,
+          "frame": 10,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.0559234619140625,
+            0.0,
+            0.0,
+            1.0559234619140625,
+            41,
+            173
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33177,
+          "depth": 1,
+          "frame": 10
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33179,
+          "depth": 1,
+          "frame": 11,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.074005126953125,
+            0.0,
+            0.0,
+            1.074005126953125,
+            35,
+            168
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33193,
+          "depth": 1,
+          "frame": 11
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33195,
+          "depth": 1,
+          "frame": 12,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.0920867919921875,
+            0.0,
+            0.0,
+            1.0920867919921875,
+            28,
+            162
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33209,
+          "depth": 1,
+          "frame": 12
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33211,
+          "depth": 1,
+          "frame": 13,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.1101531982421875,
+            0.0,
+            0.0,
+            1.1101531982421875,
+            21,
+            156
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33225,
+          "depth": 1,
+          "frame": 13
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33227,
+          "depth": 1,
+          "frame": 14,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.12823486328125,
+            0.0,
+            0.0,
+            1.12823486328125,
+            14,
+            149
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33241,
+          "depth": 1,
+          "frame": 14
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33243,
+          "depth": 1,
+          "frame": 15,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.1113433837890625,
+            0.0,
+            0.0,
+            1.1113433837890625,
+            21,
+            156
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33257,
+          "depth": 1,
+          "frame": 15
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33259,
+          "depth": 1,
+          "frame": 16,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.0944976806640625,
+            0.0,
+            0.0,
+            1.0944976806640625,
+            27,
+            161
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33273,
+          "depth": 1,
+          "frame": 16
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33275,
+          "depth": 1,
+          "frame": 17,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.0776214599609375,
+            0.0,
+            0.0,
+            1.0776214599609375,
+            33,
+            166
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33289,
+          "depth": 1,
+          "frame": 17
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33291,
+          "depth": 1,
+          "frame": 18,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.0607452392578125,
+            0.0,
+            0.0,
+            1.0607452392578125,
+            40,
+            171
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33305,
+          "depth": 1,
+          "frame": 18
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33307,
+          "depth": 1,
+          "frame": 19,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.04388427734375,
+            0.0,
+            0.0,
+            1.04388427734375,
+            45,
+            178
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33321,
+          "depth": 1,
+          "frame": 19
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33323,
+          "depth": 1,
+          "frame": 20,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.027008056640625,
+            0.0,
+            0.0,
+            1.027008056640625,
+            52,
+            184
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33337,
+          "depth": 1,
+          "frame": 20
+        },
+        {
+          "tag": 26,
+          "length": 12,
+          "offset": 33339,
+          "depth": 1,
+          "frame": 21,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            1.0101318359375,
+            0.0,
+            0.0,
+            1.0101318359375,
+            59,
+            188
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33353,
+          "depth": 1,
+          "frame": 21
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33355,
+          "depth": 1,
+          "frame": 22,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.9932708740234375,
+            0.0,
+            0.0,
+            0.9932708740234375,
+            64,
+            194
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33368,
+          "depth": 1,
+          "frame": 22
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33370,
+          "depth": 1,
+          "frame": 23,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.9763946533203125,
+            0.0,
+            0.0,
+            0.9763946533203125,
+            71,
+            200
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33383,
+          "depth": 1,
+          "frame": 23
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33385,
+          "depth": 1,
+          "frame": 24,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.9595184326171875,
+            0.0,
+            0.0,
+            0.9595184326171875,
+            77,
+            206
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33398,
+          "depth": 1,
+          "frame": 24
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33400,
+          "depth": 1,
+          "frame": 25,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.942657470703125,
+            0.0,
+            0.0,
+            0.942657470703125,
+            83,
+            211
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33413,
+          "depth": 1,
+          "frame": 25
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33415,
+          "depth": 1,
+          "frame": 26,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.92578125,
+            0.0,
+            0.0,
+            0.92578125,
+            89,
+            216
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33428,
+          "depth": 1,
+          "frame": 26
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33430,
+          "depth": 1,
+          "frame": 27,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.908905029296875,
+            0.0,
+            0.0,
+            0.908905029296875,
+            96,
+            223
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33443,
+          "depth": 1,
+          "frame": 27
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33445,
+          "depth": 1,
+          "frame": 28,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.8920440673828125,
+            0.0,
+            0.0,
+            0.8920440673828125,
+            102,
+            228
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33458,
+          "depth": 1,
+          "frame": 28
+        },
+        {
+          "tag": 26,
+          "length": 11,
+          "offset": 33460,
+          "depth": 1,
+          "frame": 29,
+          "placement_depth": 1,
+          "move": true,
+          "matrix_twips": [
+            0.8751678466796875,
+            0.0,
+            0.0,
+            0.8751678466796875,
+            108,
+            234
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 33473,
+          "depth": 1,
+          "frame": 29
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 33475,
+          "depth": 1,
+          "frame": 30
+        }
+      ]
+    }
+  ]
+}

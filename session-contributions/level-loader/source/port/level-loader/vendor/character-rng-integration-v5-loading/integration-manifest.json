@@ -1,0 +1,3674 @@
+{
+  "scope": "Coherent native loading context with actual original-derived state/progress/counter words and separately compiled prepared-source TU. Whole lifecycle services/current world readiness remain open.",
+  "incoming": [
+    {
+      "archive": "canonical-character-family-v4.zip",
+      "sha256": "55676da53b5e85b6adca268d7201199417aee766b7d861b112534c64a25bc1da",
+      "verified_entries": 176
+    },
+    {
+      "archive": "application-spawn-random-v4.zip",
+      "sha256": "bf3c54b2ebe48500342deac0084249e9a86dfa48c95972949f31db2f0fe2b7f6",
+      "verified_entries": 62
+    }
+  ],
+  "files": {
+    ".local-inputs/audit_character_factory_v4.py": {
+      "sha256": "fdbe66a4f284af23a50b9bd043bf7d4d73de82e54f3782e66ee2f5fc803ca2a9",
+      "bytes": 915,
+      "origin": "verified character-family-v4 handoff"
+    },
+    ".local-inputs/audit_spawn_random_v4.py": {
+      "sha256": "161d3452270baa31155049097d17e5431bd4c6b147557d7b13b03c92093d656e",
+      "bytes": 1909,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    ".local-inputs/check_openable_graph_v4.py": {
+      "sha256": "20ef99811e72e4aa8910f5b52a8e9765dce41dae1acf7ea34ba6722cf2a4e52c",
+      "bytes": 810,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    ".local-inputs/container-base-source.asm": {
+      "sha256": "d0990a4858955dd11ea018aadbbd0c0f6869e0e242a9eecf0d01fa34508a2aba",
+      "bytes": 22923,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    ".local-inputs/openable-container-source.asm": {
+      "sha256": "dc8b52838da260265430edcb67399fc19eecc9574efe166b4889ea12405064af",
+      "bytes": 16044,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    ".local-inputs/run_application_spawn_random_v4.py": {
+      "sha256": "5357dc2fb236ee5ca566207f838b53d7f2c7f4c89dd337c36a9534ce1c3d057a",
+      "bytes": 819,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    ".local-inputs/run_canonical_character_family_v4.py": {
+      "sha256": "bd5a069af75ab1742330950c76ff5d9dc37e2bb0047abb864f34b4e7b7ccb1b4",
+      "bytes": 1411,
+      "origin": "verified character-family-v4 handoff"
+    },
+    ".local-inputs/run_canonical_openable_graph_v4.py": {
+      "sha256": "88636d91742de787d90586f832b7adfd649d100135d222806679c23664b96eb1",
+      "bytes": 1225,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/ai_factions_pyarray.bin": {
+      "sha256": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d",
+      "bytes": 636,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/ai_factions_pyarraynames.bin": {
+      "sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+      "bytes": 230,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/ai_factions_pystructnames.bin": {
+      "sha256": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15",
+      "bytes": 35,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/ai_pyarray.bin": {
+      "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+      "bytes": 5071,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/ai_pyarraynames.bin": {
+      "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+      "bytes": 1068,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/ai_pystructnames.bin": {
+      "sha256": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+      "bytes": 209,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_classes_pyarray.bin": {
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+      "bytes": 34224,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_classes_pyarraynames.bin": {
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+      "bytes": 6607,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_classes_pystructnames.bin": {
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+      "bytes": 750,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_models_dictionary_pyarray.bin": {
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51",
+      "bytes": 5366,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_models_dictionary_pyarraynames.bin": {
+      "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9",
+      "bytes": 1755,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_properties_pyarray.bin": {
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "bytes": 401608,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_properties_pyarraynames.bin": {
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "bytes": 8993,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/character_properties_pystructnames.bin": {
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+      "bytes": 5032,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/levels_pyarray.bin": {
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+      "bytes": 5574,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/levels_pyarraynames.bin": {
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+      "bytes": 1943,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/levels_pystructnames.bin": {
+      "sha256": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705",
+      "bytes": 337,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/loot_table_pyarray.bin": {
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "bytes": 284104,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/loot_table_pyarraynames.bin": {
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "bytes": 39604,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/android-native/app/src/main/assets/data/loot_table_pystructnames.bin": {
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+      "bytes": 8858,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/asset-payloads/payloads.cpp": {
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+      "bytes": 18957,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/asset-payloads/payloads.hpp": {
+      "sha256": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+      "bytes": 4261,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/asset-payloads/sha256.hpp": {
+      "sha256": "e71f270904420cd05541b66c9f3e78af369a7636f23c7368e1f0d87a94911ab0",
+      "bytes": 683,
+      "origin": "private baseline header"
+    },
+    "port/asset-payloads/zip_asset_pack_v1.hpp": {
+      "sha256": "4fc7ae99288a30a36bcb32009f17b2972ba4dd7a186370b67707446a57fcc602",
+      "bytes": 1142,
+      "origin": "private baseline header"
+    },
+    "port/engine-animation/angle_interpreter.cpp": {
+      "sha256": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f",
+      "bytes": 2145,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/engine-animation/angle_interpreter.hpp": {
+      "sha256": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df",
+      "bytes": 844,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/engine-animation/animation.cpp": {
+      "sha256": "741a4df6e1c1753a9fbcf20192c2b1f09ed0d1bfc5701ab9ccd943e76713237f",
+      "bytes": 28374,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/engine-animation/animation.hpp": {
+      "sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3",
+      "bytes": 5396,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/engine-animation/animation_blend.hpp": {
+      "sha256": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+      "bytes": 1650,
+      "origin": "private baseline header"
+    },
+    "port/engine-animation/animation_registration.hpp": {
+      "sha256": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1",
+      "bytes": 2314,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/engine-animation/component_applicator.hpp": {
+      "sha256": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+      "bytes": 1914,
+      "origin": "private baseline header"
+    },
+    "port/engine-animation/event_track.cpp": {
+      "sha256": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+      "bytes": 2610,
+      "origin": "existing private event-track implementation; verified byte-identical to current main"
+    },
+    "port/engine-animation/events.cpp": {
+      "sha256": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+      "bytes": 4429,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/engine-animation/events.hpp": {
+      "sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+      "bytes": 1844,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/engine-animation/material_color.hpp": {
+      "sha256": "c8c0f1572a0706c448a28e0112ca50d4497562e7e21ced2da33c0c1b2da59083",
+      "bytes": 2155,
+      "origin": "private baseline header"
+    },
+    "port/engine-animation/particle_emission.hpp": {
+      "sha256": "068c6b40fffb2f48761eef6d07f72077631704ea5652120abd3292e1b96cae46",
+      "bytes": 3515,
+      "origin": "private baseline header"
+    },
+    "port/engine-animation/particle_factory.hpp": {
+      "sha256": "c7c88d7c8839914f8146316cc06ef101ca9170e0927b10855531a83aad0b77c2",
+      "bytes": 3930,
+      "origin": "private baseline header"
+    },
+    "port/engine-animation/particle_parameter.hpp": {
+      "sha256": "0a09d7a4264e07ab25991fa458e68f29b1473a313ae4716c689fd3c50843b0c6",
+      "bytes": 1514,
+      "origin": "private baseline header"
+    },
+    "port/engine-math/math.cpp": {
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+      "bytes": 13157,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/engine-math/math.hpp": {
+      "sha256": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+      "bytes": 3376,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/engine-resources/resources.cpp": {
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+      "bytes": 11880,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/engine-resources/resources.hpp": {
+      "sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+      "bytes": 6630,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/engine-skinning/skinning.cpp": {
+      "sha256": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+      "bytes": 8219,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/engine-skinning/skinning.hpp": {
+      "sha256": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+      "bytes": 1257,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/engine-skinning/visual_skin_owner_v6.hpp": {
+      "sha256": "8908d89b56b2768c6b6e8c1311229fcf846368beb1a53d076e87a5aa80d9f50a",
+      "bytes": 3807,
+      "origin": "private baseline header"
+    },
+    "port/engine-skinning/visual_skin_selection_v6.hpp": {
+      "sha256": "d9293ee7d7bbbe38be513fe50dbcf891608a6d4e8d61889fbae3a7289cd2c3b3",
+      "bytes": 2308,
+      "origin": "private baseline header"
+    },
+    "port/game-data/aggro.hpp": {
+      "sha256": "a4624693ae19a5ab6f058f4137d535a9b3ad41a5129faa5c0eb1a82850a1f703",
+      "bytes": 1983,
+      "origin": "private baseline header"
+    },
+    "port/game-data/ai.hpp": {
+      "sha256": "e74238d1609df42c9086c0bdbad0b0e3a863d8081dba7260cc33fa67e512bf70",
+      "bytes": 2153,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/animation_bank.hpp": {
+      "sha256": "6273ee6614948256576bfc6a1d741f2f605539dcc48b628f177709a7165abdcb",
+      "bytes": 1217,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/animation_scheduler.hpp": {
+      "sha256": "a9392c17dced2f4ab3a39068f9e7f392956edecdcb7f96ea00961699f78f6c17",
+      "bytes": 3835,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/animation_tables.cpp": {
+      "sha256": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67",
+      "bytes": 6804,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/game-data/animation_tables.hpp": {
+      "sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+      "bytes": 2164,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/game-data/class_tables.hpp": {
+      "sha256": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+      "bytes": 1801,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/combat.hpp": {
+      "sha256": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958",
+      "bytes": 1242,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/combat_application.hpp": {
+      "sha256": "f32e8d69188beecc3f84551fd61c2d55e61d515a1b43df540734b9d222724334",
+      "bytes": 2252,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/combat_events.hpp": {
+      "sha256": "9b8779bb369add564066f2da52ca6f444420806faa54959dd09fb1a3434bb7cf",
+      "bytes": 741,
+      "origin": "private baseline header"
+    },
+    "port/game-data/combat_result.hpp": {
+      "sha256": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120",
+      "bytes": 1263,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/data.cpp": {
+      "sha256": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+      "bytes": 3449,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/game-data/data.hpp": {
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+      "bytes": 901,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/game-data/design_settings.hpp": {
+      "sha256": "4f7826db209feaf66822ca6156f7d503c3e7864165cd4c786bc2ab19f3c6b9f4",
+      "bytes": 2534,
+      "origin": "private baseline header"
+    },
+    "port/game-data/effects_tables.hpp": {
+      "sha256": "8e0b1eb1ce1f7f581ed59283a65fbceee9ebea0515daab220605903a5ab69fac",
+      "bytes": 2148,
+      "origin": "private baseline header"
+    },
+    "port/game-data/faery_tables.hpp": {
+      "sha256": "b1c8cd5f5ac736f10e7ae09765bb0e567098d32ef74338ec5c0fca64c8cd779c",
+      "bytes": 2332,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/fresh_inventory_owned_v4.hpp": {
+      "sha256": "fef803c2bd1ff59c05aebf0eceb2aada02617af5b67427012620682073a634ca",
+      "bytes": 6622,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/fresh_inventory_v2.hpp": {
+      "sha256": "7c292dcbdf51f00f0cb80c6ad1ae188c24c663c240b3683c6964e7f771266748",
+      "bytes": 2846,
+      "origin": "private baseline header"
+    },
+    "port/game-data/game_design_tables.hpp": {
+      "sha256": "52bdb1135fdaa4fd03866797d0ccb5dd200ecd622963b8afeeb4470a2b58049e",
+      "bytes": 1851,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/health.hpp": {
+      "sha256": "fa8d4508a841c26cfcb72526cb5b811eee0a7775d82bea1b209588149c630aa8",
+      "bytes": 1373,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/item_gear_properties_v5.hpp": {
+      "sha256": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+      "bytes": 1074,
+      "origin": "private baseline header"
+    },
+    "port/game-data/item_inventory_v1.hpp": {
+      "sha256": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847",
+      "bytes": 4328,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/item_power_tables_v5.hpp": {
+      "sha256": "cec1eab98e7d137303267bd586e8be00821c3067ffa2501e5d6730e8aba3167d",
+      "bytes": 1381,
+      "origin": "private baseline header"
+    },
+    "port/game-data/item_presentation_v5.hpp": {
+      "sha256": "f296c1caa3bd008fc7de5dc09379657eeb084d57711c1345343575868eee41b3",
+      "bytes": 2377,
+      "origin": "private baseline header"
+    },
+    "port/game-data/items.hpp": {
+      "sha256": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+      "bytes": 1860,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/game-data/level_tables.hpp": {
+      "sha256": "ba2961fde528980f9d9d69d05a9d1bbc58ae29f34d3825af8e02465ca5c3a4d9",
+      "bytes": 1691,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/loot_power_creation_v7.hpp": {
+      "sha256": "577640b7ee36c61673fc88960750aeeb8a9b745c872be262ddc180d82b1b2a1d",
+      "bytes": 2397,
+      "origin": "private baseline header"
+    },
+    "port/game-data/loot_power_resources_v7.hpp": {
+      "sha256": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+      "bytes": 1616,
+      "origin": "private baseline header"
+    },
+    "port/game-data/loot_tables_v2.cpp": {
+      "sha256": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+      "bytes": 6594,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/game-data/loot_tables_v2.hpp": {
+      "sha256": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+      "bytes": 2243,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/game-data/player_equipment_v3.hpp": {
+      "sha256": "0a9dfa53dbc7ed85005856dafb43c638ede082c870115fcea1824afd8cabf2d4",
+      "bytes": 2726,
+      "origin": "private baseline header"
+    },
+    "port/game-data/player_gear_effects_v5.hpp": {
+      "sha256": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7",
+      "bytes": 1677,
+      "origin": "private baseline header"
+    },
+    "port/game-data/player_profile_index_v1.hpp": {
+      "sha256": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+      "bytes": 2130,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/game-data/player_savegame_v1.hpp": {
+      "sha256": "014acd3b821b4ab99b7fbd2072a8df4132465d783917e3b9592e58e8aeda0f6f",
+      "bytes": 7572,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/properties.hpp": {
+      "sha256": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+      "bytes": 2254,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/skill_tables.hpp": {
+      "sha256": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab",
+      "bytes": 2686,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/game-data/vitals.hpp": {
+      "sha256": "526cb0138fadc5964f4a74e27c65d33d2054a0cd61f3a71cbf08981c8954ed85",
+      "bytes": 1209,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-loader/CANONICAL-RECEIVER-TRANSPORT-HANDOFF.md": {
+      "sha256": "87d0383df32fead09aeedff918a328c57b5a847a0835ab788c87c36fd1cfa3cd",
+      "bytes": 6621,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-loader/cached_level_file_v1.hpp": {
+      "sha256": "fa67c91e120e302d55f82e9da194167de3def771780c35e995bd7daf9d2cc6ee",
+      "bytes": 1715,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/canonical_cached_file_v1.hpp": {
+      "sha256": "8f16fd825502f4208742d706cd877ff2ce65759a967fccc80dd44d6140817b7b",
+      "bytes": 2695,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/canonical_level_context_v1.cpp": {
+      "sha256": "c9c17c15305e0d600a44b406a7b5e243b9f8a9535a55b80fa65b83ba01bc789a",
+      "bytes": 3636,
+      "origin": "Hash-verified root native GSLevel V27 / state type V38 / prepared-source supplement"
+    },
+    "port/level-loader/canonical_level_context_v1.hpp": {
+      "sha256": "01d64bdb27cbbad5af1d6cb01a7e089f976cd09822eb58b36cc384cea009005e",
+      "bytes": 5740,
+      "origin": "Hash-verified root native GSLevel V27 / state type V38 / prepared-source supplement"
+    },
+    "port/level-loader/canonical_module_files_v1.hpp": {
+      "sha256": "8e72dc7a77c3b0d8076a58f7d8201634b0907269a3f72754d6496ec8755398a5",
+      "bytes": 3356,
+      "origin": "unchanged loader relay retained in coherent constructor header graph"
+    },
+    "port/level-loader/canonical_receiver_transport_v1.cpp": {
+      "sha256": "d4fd2afdba198e32fe5d4d9bbfcf1fe08d3b12c8cdac94aed295e6bb756b430c",
+      "bytes": 6777,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-loader/canonical_receiver_transport_v1.hpp": {
+      "sha256": "fcbedff902549152a7f277f5fd404e0c2a58eea37b95b7fddc0be1da0a50aa6e",
+      "bytes": 3241,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-loader/canonical_source_adapter_v1.hpp": {
+      "sha256": "50b9147bd1682765a52a56d5e9f65ba62f2a5c2a7536c7f0a053f16dbe858847",
+      "bytes": 2858,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/fixed_declarations_v1.hpp": {
+      "sha256": "9a836a73878c6d3cbfeffd3de0f1ca42d06776ae2a6b723b952f5b1f510d59f7",
+      "bytes": 1921,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/fixed_map_v1.hpp": {
+      "sha256": "bc724d9fdbaac87385750eb53a7a02389d31107ccc1cfc35982f859bb2aa7d63",
+      "bytes": 2909,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/fixed_sources_v1.hpp": {
+      "sha256": "29b0251cbfde272455a266fbc87ca7129f7ba334ff60e23a58dea29c051e42cf",
+      "bytes": 2178,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/level_file_walk_v1.hpp": {
+      "sha256": "eab42a9a859e4c6fa8626ab547976d7ef92c2be3b6a9219a313523dea4bad787",
+      "bytes": 1648,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/level_preparation_v1.hpp": {
+      "sha256": "ee184f8b0624bd729cea77d09e14371d596c8ceeaefbc8d228f86efd8cd3a377",
+      "bytes": 3675,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/module_load_v1.hpp": {
+      "sha256": "00069ca5d4f9c850fd09ead14f3829c1256f30a68803123dd43574c4b05afc99",
+      "bytes": 2433,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/object_entry_v1.hpp": {
+      "sha256": "0934a05b557b7797e9a1ddea64fd808d4fc98b7fd8a7ce7d7117398f12270893",
+      "bytes": 1710,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/object_initialization_v1.hpp": {
+      "sha256": "e85e7479696b336d4e2bf2879fba99eb05cbf5fc3793825db2ea42d85cdfaf0b",
+      "bytes": 3084,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/original_factory_table_v1.inc": {
+      "sha256": "4f360e03f04d069d50d7779794b2306ab93cdf177415a941ef4c6bf3d340a643",
+      "bytes": 1124,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_blocks_v1.hpp": {
+      "sha256": "65e3b53f933946d663c8e6251b1a7f597bc86a07aa2704cc647b598313af586d",
+      "bytes": 2029,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_connections_v1.hpp": {
+      "sha256": "23ed0716ba0361e0ac08dcf9e18dd9f52deae851c3e6da222e3277f934bc89d3",
+      "bytes": 1604,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_distribution_v1.inc": {
+      "sha256": "6562814c60154388a33806af1e3da62b199c9bd3b150236d50760903f156f050",
+      "bytes": 54732,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_file_list_v1.hpp": {
+      "sha256": "b9bd71faffe10df3c87115238c9d0eabafd9cb5d2d63b434a28c41b10ee9bf31",
+      "bytes": 478,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_instances_v1.hpp": {
+      "sha256": "e599bdcde6ea4ba7c1a3b7967b86859b718647bab9cc8ded1fe9cd9e48cf6142",
+      "bytes": 1499,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_layout_v1.hpp": {
+      "sha256": "87c423c06b3497b877fa43196ac55b2144ca3cce15ce594118be25fc81ba37c2",
+      "bytes": 1576,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_lists_v1.hpp": {
+      "sha256": "1938c96bbe1ec254a4f7d8e026a23d71543682a0ab3dd5791c9ed3d0fdc75dcd",
+      "bytes": 1860,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_map_sources_v1.hpp": {
+      "sha256": "c232fe10062946000a8656da3935a25e61d6ab8816407cb6c69e4d24d62bad30",
+      "bytes": 828,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_modules_v1.hpp": {
+      "sha256": "794ec19a9fe6e748beb51d8c14ca8ec2c314e2d346b70859cf6224cc9c8c4c3d",
+      "bytes": 1925,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_random_v1.hpp": {
+      "sha256": "b46a6792189e0b1b5667d2eb34ab728dac5054e2bf711925ec5315c3ddbefe63",
+      "bytes": 949,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_rules_v1.hpp": {
+      "sha256": "c3d54e0bbf1c03fe221374ac6343657ee68066f0b70a37676854bb2c705a59b2",
+      "bytes": 2336,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/procedural_sources_v1.hpp": {
+      "sha256": "ccd7f4c63e5cf4901a4b3fe908024c6de9e7741f9abf2a0429f2a3cb0402ddb9",
+      "bytes": 1793,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/resource_paths_v1.hpp": {
+      "sha256": "70e9e1311b612c07426191fe90ade6152c7ad9dfd4d248ad167283576695d02a",
+      "bytes": 465,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/source_reference_repairs_v1.hpp": {
+      "sha256": "ef10dceefbe3808789e285ff23ab6ac59973dd4dcb7ba7c3eee025c15ef32d1c",
+      "bytes": 598,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/static_decor_inspection_v1.hpp": {
+      "sha256": "ea66432fe5ca963362d62ac6c9adf5ce98e33be693cfa9b5bc6080f515c12175",
+      "bytes": 653,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/user_properties_v1.hpp": {
+      "sha256": "f1e230f10f7f2a1573d88778d68cbaaafd12e8c130b414e17a4b128cf1f5fd85",
+      "bytes": 396,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/visual_transform_v1.hpp": {
+      "sha256": "03784831b8e07acf5c955818214c251955c1220ab02aa03d655b09897f7f1f0e",
+      "bytes": 450,
+      "origin": "private baseline header"
+    },
+    "port/level-loader/xml_document_v1.hpp": {
+      "sha256": "bac16414b6fd623d4c0ffd0004814f8a2fb3cfafb0fb048a10e73105028b614b",
+      "bytes": 2806,
+      "origin": "private baseline header"
+    },
+    "port/level-world/actor_blended_playback.hpp": {
+      "sha256": "4637828174e84bf4624df599a1255f1f3bab43b18612ffb686820828258329a8",
+      "bytes": 8850,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/actor_initialization.hpp": {
+      "sha256": "27ce0d3c5d7e7a43f85103a999c24100b4be2a9f152f25a62c6f15d51536f3c1",
+      "bytes": 2462,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/actor_playback.hpp": {
+      "sha256": "a6dab849421a916bb34856a182fe98da57cf3829199423b6bff47eaaf9ac68f4",
+      "bytes": 3992,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/actor_rotation.cpp": {
+      "sha256": "3351581401858a0cfa462de899de720fb292b06e038e074a5e0199c04fdc0c58",
+      "bytes": 2034,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/actor_rotation.hpp": {
+      "sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212",
+      "bytes": 835,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/actor_runtime.cpp": {
+      "sha256": "4019ae9fc82f23ef2781e5f4d20e6d9ec9d604c53af70273f9fb8af3a6f0cdfe",
+      "bytes": 11362,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/actor_runtime.hpp": {
+      "sha256": "4cd7e66812fd48321180fd2593859c1339f4048964b4059dc5549b4e59f4ebe7",
+      "bytes": 3475,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/animation_blender.hpp": {
+      "sha256": "1cbd58f878b9a050c07f6b2a1cfc120808811cf0417f509220154b8ab9bc605c",
+      "bytes": 881,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/application_spawn_random_owner_v4.cpp": {
+      "sha256": "702c277e132c63679d7284ae28dabee7655cce62160e987dac47ab60c990e37d",
+      "bytes": 1628,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/application_spawn_random_owner_v4.hpp": {
+      "sha256": "cd990c3a27bbeb14cbedaa222063f199deb171a1911e8b230d54bc01529bdbb3",
+      "bytes": 1029,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/authored_scene_subtree_v2.cpp": {
+      "sha256": "495018b2a1763cc888bb96e717feb6471253978b2b1516bcdb871d202bd24c5a",
+      "bytes": 1685,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/authored_scene_subtree_v2.hpp": {
+      "sha256": "bdf12ffabb326d435af713178f445c2ef827bb54316c7c1c0e270c0e9bd857a1",
+      "bytes": 416,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/base_named_animation_controller_v1.cpp": {
+      "sha256": "c5ce416da97b92874843c0f85b3594e96dcb3a6e56132fe2f3809b9a8c4c14a6",
+      "bytes": 1662,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/base_named_animation_controller_v1.hpp": {
+      "sha256": "016336a3f31af22cb1304c95b6ab2d9ccf574e4b6dffde6e36bb101a330e0f1f",
+      "bytes": 1346,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/body_transform.hpp": {
+      "sha256": "9f1249603a4cc7425c288ea2f1e87ce23ed59d2cd82763ad75757ff7b925f34f",
+      "bytes": 1541,
+      "origin": "private baseline header"
+    },
+    "port/level-world/canonical_character_family_v4.cpp": {
+      "sha256": "acb147c525ce736011fed21edd5fc52ede1b2b0469a501e87c439b2db1f4c33a",
+      "bytes": 6883,
+      "origin": "verified frozen Character positioning V7 provider"
+    },
+    "port/level-world/canonical_character_family_v4.hpp": {
+      "sha256": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+      "bytes": 2195,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/canonical_class_receiver_bindings_v1.cpp": {
+      "sha256": "7a9f91e730a739462e7e1903e50e63e80090c21f345a89fd640b62c05b72adf3",
+      "bytes": 4673,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_class_receiver_bindings_v1.hpp": {
+      "sha256": "bb8b1fb01df649723f670aaca953e6ddfa459eb8e1f5a267d1eda8a27953f233",
+      "bytes": 3252,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/canonical_gameobject_base_owner_v1.cpp": {
+      "sha256": "dae9a311022831ba59f9a3288493209d7d63f341a91c86378e8b5601a9297c0b",
+      "bytes": 7588,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/canonical_gameobject_base_owner_v1.hpp": {
+      "sha256": "39710d3c9bbb81e204615a2b54e45bd6943c5004824ec6b3d81bba14a102d4b2",
+      "bytes": 3526,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/canonical_level_config_module_declarations_v1.inc": {
+      "sha256": "b9e57f13e0eda8695274db43b3be31959a9d8f0525e742e58b4b0e0f254010ce",
+      "bytes": 3423,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_level_config_module_v1.cpp": {
+      "sha256": "87f7aefe8ec3256ff92e1b0444c23ca7c6948335dac18d91acd84417058ed8ec",
+      "bytes": 10387,
+      "origin": "accepted modern CPP correction"
+    },
+    "port/level-world/canonical_level_config_module_v1.hpp": {
+      "sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb",
+      "bytes": 5765,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_level_module_bindings_v2.cpp": {
+      "sha256": "cd6062a19bbe1a56310af2595b8ac1dfdfdfeee5489df42b332711636b36c585",
+      "bytes": 6884,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_level_module_bindings_v2.hpp": {
+      "sha256": "b061879ca5d610bbbec1732df0d4c9fda9e68e059a13da90a2f2d10134994df5",
+      "bytes": 3389,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_module_graph_v3.cpp": {
+      "sha256": "0b936d79f6fa79e2c933538cd77146e36782cfc720218741e6574d303a5f13b3",
+      "bytes": 7697,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_module_graph_v3.hpp": {
+      "sha256": "8d4f68edc94259ae66467c68ab7568361f45c97e5f570f42b1ad48fbebe664dc",
+      "bytes": 2298,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_object_factory_v1.cpp": {
+      "sha256": "84eb8a2eb9aa8909f8d3f9918ec0fde83d92e434d69a4ce64978a8259bb08463",
+      "bytes": 4510,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_object_factory_v1.hpp": {
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439",
+      "bytes": 2610,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/canonical_object_manager_v1.cpp": {
+      "sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549",
+      "bytes": 7110,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_object_manager_v1.hpp": {
+      "sha256": "bbcc1a8591116b58a80ba276d7c86844b1fd42659203ce1c3e4192225d3e8669",
+      "bytes": 5600,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    },
+    "port/level-world/canonical_openable_container_v1.cpp": {
+      "sha256": "b930290fac48910afaf41410af4a04e5415f81367024a454e7f522884082ee09",
+      "bytes": 1365,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_openable_container_v1.hpp": {
+      "sha256": "c72b0ba8c7e4e1cefa11cfaba63378bbf37923b71188e6626d8c70b077920dc9",
+      "bytes": 2885,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_openable_graph_v4.cpp": {
+      "sha256": "28020cd64dc81c047d14f81a61a26cc65686a957bda400d1f9f47f89e2427342",
+      "bytes": 7091,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_openable_graph_v4.hpp": {
+      "sha256": "1567ff631cb519d40ade6b4f881f52f3c753b111dc5db885d97536cddce7f1b8",
+      "bytes": 2282,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_point3d_globals_v1.hpp": {
+      "sha256": "b8d0af9c06ad4fed356146d2d094656170e58caa804116b29ea22fcf7b4ba789",
+      "bytes": 756,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/canonical_property_declarations_v1.inc": {
+      "sha256": "5525db00248e259892e569d240352ef154cbc9cc807f65022d6759d9211224a3",
+      "bytes": 5991,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/canonical_property_map_v1.cpp": {
+      "sha256": "adc9bbe8597161d69cc3741cdaba5c411aecf91a2b0687feb49a1d211f60166e",
+      "bytes": 12116,
+      "origin": "Original TriggerTrap V37 verified constructor/property contribution; same canonical factory/manager; activation provider required"
+    },
+    "port/level-world/canonical_property_map_v1.hpp": {
+      "sha256": "7a3226351f41d05896af7b89888f6260599a9df6ea56fe201aa0743d92b4ba11",
+      "bytes": 3561,
+      "origin": "V32 SoundEmitter original ctor39551c/schema395718 and typed original constant producer; prior receiver schemas preserved"
+    },
+    "port/level-world/canonical_room_zone_factory_v3.cpp": {
+      "sha256": "37ff002d1bc5fc4f6d3083cdb5a9bb0fdfb9472e0f5531a9819dbf91a876f18b",
+      "bytes": 1828,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_room_zone_factory_v3.hpp": {
+      "sha256": "92c4d63974447d6d12ce61ab80f9a8b76ca28edf07ee1bd045c71e3459c1eadb",
+      "bytes": 1201,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_room_zone_v3.cpp": {
+      "sha256": "95adca9fed8078497a22c7f4f710b62a79bad1e4e8bf55cfb88fdee43aa4778b",
+      "bytes": 2532,
+      "origin": "accepted modern CPP correction"
+    },
+    "port/level-world/canonical_room_zone_v3.hpp": {
+      "sha256": "44fb3653c6bbba1900b0ff5829e18c860d01f3329e80842091eb43de32fcfe2e",
+      "bytes": 2035,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_spawn_owner_v1.cpp": {
+      "sha256": "032cd11dc4f7e372096c88d0fd09a1f71a26834d9e65124b2366af28a2c9e391",
+      "bytes": 4320,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/canonical_spawn_owner_v1.hpp": {
+      "sha256": "fd9b35014eb9107294b8d88add29ae124c0012e1366329aad302bb7a18dd45df",
+      "bytes": 2484,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/character_ai_attack.hpp": {
+      "sha256": "f329c57cf11a0d8542549dfbd3cd8934257838e5bcdd3eefd256ee3de21420a0",
+      "bytes": 2863,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_ai_death.hpp": {
+      "sha256": "ac58296442ef14808c56146a721e5c0ce1593be6c9b102b8a10b2fdc820dc1ba",
+      "bytes": 2546,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_ai_events.hpp": {
+      "sha256": "e78a1542dd1316047414419bcea7d8ad9fee32a410959d2f80db4af47ef357c3",
+      "bytes": 2564,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_ai_frame.hpp": {
+      "sha256": "6f93867b30aeb651c68787493a7ea377670a86f0f11e0e4f1f406e03f3ac883f",
+      "bytes": 2122,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_ai_state.hpp": {
+      "sha256": "c55db3bfcda83c2531ef60c4e6dbe2d42d4ffb3f8d4b57b0ba91a0b7a3ebea8c",
+      "bytes": 1188,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_ai_state_changed.hpp": {
+      "sha256": "1cc5e6f9206be7e6a83b474babb1aa7f7aae1bb030e7e178cc2ce3205b56345e",
+      "bytes": 1582,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_ai_state_changed_vm.hpp": {
+      "sha256": "58b1d1f823578a4e4b0dd589f62088ad0cda5d84f486db16f5298e2da89edd82",
+      "bytes": 534,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_ai_update.hpp": {
+      "sha256": "35efb90d8a55675e48a602d21dcce1ddbdb1aa211a6fca0acddcaa66d77e2758",
+      "bytes": 2015,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_animation_ai.hpp": {
+      "sha256": "d7af17ad1a831587c93f65365120d2f337fcdb23c07abf97a4895f5697cadfe4",
+      "bytes": 2546,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_animation_events.hpp": {
+      "sha256": "63dc4657bc693de9755e4be2575fc7592cc7e054ce83509fa85520010c4f7b34",
+      "bytes": 1330,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_animation_instance.hpp": {
+      "sha256": "2405224396d002e971e3277f1ae1bf9e9d504d977e783acf01557a9c414e41d2",
+      "bytes": 3042,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_attack_geometry.hpp": {
+      "sha256": "7dc77693466a6e547ff3948648ad58c0c79c3e210e3585528f708b617113acf2",
+      "bytes": 1595,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_body_config.cpp": {
+      "sha256": "acef13c8923143a1ad22aa8d57bbdc7c949d24183b6104bc15095db10442f58c",
+      "bytes": 2826,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/character_body_config.hpp": {
+      "sha256": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d",
+      "bytes": 2109,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_buffs.hpp": {
+      "sha256": "2d3b4b7753868bb797c00888c5efb6e40e86f1bda4df5e812cfc6da6a07d7e06",
+      "bytes": 3812,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_can_update.hpp": {
+      "sha256": "d78387cf87b2ca01a2b82ed6a79aab5e37b8cac45c9c39010df331a745f83ae2",
+      "bytes": 2415,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_cancel_sneaking.hpp": {
+      "sha256": "d3b808ff7280d181c96e6ad60df3d650cfbf3dcba33e0286ad0c84b55beeffe0",
+      "bytes": 2081,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_clear_aggro.hpp": {
+      "sha256": "878fdd198713793aa2e24917b019e0518a876eea0208ccf25dd377af328d576f",
+      "bytes": 2284,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_combat_queries.cpp": {
+      "sha256": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225",
+      "bytes": 2841,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/character_combat_queries.hpp": {
+      "sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+      "bytes": 2170,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/character_controller_commands.hpp": {
+      "sha256": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5",
+      "bytes": 2776,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_current_skill_v2.hpp": {
+      "sha256": "a6b97ec7b41734e375e9c995e46be56df55362c76f94b3d1ec589dd95ad3e21e",
+      "bytes": 1305,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_current_spell_v1.hpp": {
+      "sha256": "f277ba46149c52e41909edc0b7d8cce335988c34b20958ece91b144d3df0d967",
+      "bytes": 1511,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_dead_select.hpp": {
+      "sha256": "3416efcae7c459c737fc6ff68a4e1d904ab8d92225f623fa3dcc6e098b8cc074",
+      "bytes": 2142,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_defensive_state_v1.hpp": {
+      "sha256": "23509f3ecf6072969b1bc8bbf768cfc5694d40bd822d24edea751f594fc2fd7f",
+      "bytes": 495,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_deferred_queue.hpp": {
+      "sha256": "84eef0bb553bf211bc69f16cc8417a80da307f4eb898e28536158d989bffb852",
+      "bytes": 4431,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_deferred_script.hpp": {
+      "sha256": "329325647b9703e89fc0a9023018722db0f72339d3d98bec08aab435ed3a883a",
+      "bytes": 2828,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_design_services.hpp": {
+      "sha256": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064",
+      "bytes": 2362,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_dot_attack.hpp": {
+      "sha256": "0ac60776bf112edf56a7576dbb239f8fdac06c74e31e5a14bad64c306d179681",
+      "bytes": 4065,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_enemy_spotted.hpp": {
+      "sha256": "9b053078e0953c46dddbe2e52b8ab4a0a09fd216c4af684ed9e2e9cd2f4f2a44",
+      "bytes": 1818,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_faery_element_v3.hpp": {
+      "sha256": "5a024a1e474d4244e5f0696d1fa8c7e57decdbd8dbfac7124316c7e55ec2b802",
+      "bytes": 861,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_game_design.hpp": {
+      "sha256": "3e2a36aae3aaca6dac7eb48dd92206bf72f8fbd694ecd90e4777552f817e92a8",
+      "bytes": 3141,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_hit.hpp": {
+      "sha256": "9035d572267994ce2dfcdbda05d6e12c6cc92711f526b31720757fe8a9c65311",
+      "bytes": 2840,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_host_context.hpp": {
+      "sha256": "cd51145421b37194bd79deec6603696a1d26e9d20f3030cb20372012430ac80e",
+      "bytes": 2727,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_hud_skill_text_v1.hpp": {
+      "sha256": "ff4103464efda6f3791211244abe948ac1b254b2e5e14f3b0348f1a8aa505c0a",
+      "bytes": 1519,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_idle_event_tables.inc": {
+      "sha256": "f6d314c72947e42e69ed8bb8866334eefd7a494e3155e7019969ba2a4fe825f5",
+      "bytes": 1119,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_idle_events.hpp": {
+      "sha256": "1ba079ba75b9ab2fab2ef2408afbd11cd4af448ae2bb3e05636960e85656f9cc",
+      "bytes": 6062,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_idle_update.hpp": {
+      "sha256": "97b98336bf2dbd82736fc4963f5be3beb3616f7dd37fbb2307171cf1b330fd88",
+      "bytes": 2276,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_init_fx.hpp": {
+      "sha256": "1abe881b0070eadaabd41eaae92ab2923082decef62b0c3c7d11b06be3c0b7e4",
+      "bytes": 1450,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_kill.hpp": {
+      "sha256": "ceee60938d3862a39134672a85f5a9fb3a01c3ec9c2a664bb028d162cbf66b06",
+      "bytes": 3838,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_level.hpp": {
+      "sha256": "c4cb773dd1468a41d9c630eb1f46d6a732ee64b0cd7062722f5e3cc7a90aaf76",
+      "bytes": 2082,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_native_effects.hpp": {
+      "sha256": "159f79b89809057f44c9315e8b8c13dfb4c0c5706819654182cc6bc3c2361421",
+      "bytes": 3739,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_native_fsm.hpp": {
+      "sha256": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+      "bytes": 2936,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_npc_body.hpp": {
+      "sha256": "cc0eecb8675c25e08ac051c994959bd401d98f3b71954950985cb6fa45f1b049",
+      "bytes": 2344,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_npc_initpost_owner_v1.cpp": {
+      "sha256": "d54329cbe6352be13000af9b1db255da091ec332593c9f336280d559eb3d18a4",
+      "bytes": 4387,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_npc_initpost_owner_v1.hpp": {
+      "sha256": "ffad39ec915724a968be4e834364aa31f6b6946640361b3d15b11da5e5f60ff6",
+      "bytes": 2395,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_path_commands.hpp": {
+      "sha256": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7",
+      "bytes": 1896,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_player_skills_v2.hpp": {
+      "sha256": "acb9f4dc55678d83e745f30b1c2f53cd98f441422cbe17c75449a785ea24cba7",
+      "bytes": 1894,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_player_skills_v3.hpp": {
+      "sha256": "8f887c84860a5669a9333f6235d0a21e694612cecc919e40b50ed520c4215a6a",
+      "bytes": 3412,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_pre_spawn.hpp": {
+      "sha256": "dfb4631f7c9dfa1f9b875389fd094192f1632748740306899f4e0ed823c19c7b",
+      "bytes": 3074,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_property_bindings.hpp": {
+      "sha256": "eb38bfc456cb80f567156477e12863671c969a247557f28a0fafd462cf6ba215",
+      "bytes": 2051,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_relationships.hpp": {
+      "sha256": "360426e4401b72b07512164f0321c09a80f4e4c9a5f08388cbc526ef79079cc4",
+      "bytes": 1419,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_scene.hpp": {
+      "sha256": "73f428a7f369a9f924bda424be7215b1d4e522e3edcd3b928f1d679c76d69534",
+      "bytes": 1970,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_assets_v1.hpp": {
+      "sha256": "eed43caf3c764f8107f8ecee224705db655a5f1031196aef6f04da93b4008cba",
+      "bytes": 1873,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_call_timer.hpp": {
+      "sha256": "e4ddc079a1a1a8f6ad110d51b59c307df8c99f2fc189f4d417b5144577f37af8",
+      "bytes": 845,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_collision.hpp": {
+      "sha256": "4f17cc2e4bdbe869533dc5bda1bd1ec8aeeaf5620f498fa18b6521580272ea42",
+      "bytes": 1638,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_commands.hpp": {
+      "sha256": "51f22d25809578af83f6da1f07b4cacbe2be6dbd2e1d5e35eec7b0477089e3c9",
+      "bytes": 2419,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_init_vitals.hpp": {
+      "sha256": "84570494ac2ce5deb39260a63a5345eec2e0e7822215c5c5e50fbe70c366b42a",
+      "bytes": 1682,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_lifecycle.hpp": {
+      "sha256": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7",
+      "bytes": 2275,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_objects.hpp": {
+      "sha256": "b96add92d7d08a97bf167018e9368a75da38729f2be1f38377729d443d7c992e",
+      "bytes": 2709,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_owner.hpp": {
+      "sha256": "e540eda340d30395f9536aa370bc44a0219d52e0a1fcad57bb7ce55957929435",
+      "bytes": 7920,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_owner_bindings.inc": {
+      "sha256": "0a428c0126d314d664a4af687619e0ce22de1ed6c9d1a56b1fb056fc0f814f14",
+      "bytes": 11759,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_owner_v2.hpp": {
+      "sha256": "c2011cfba7ff7cee327b93620a0b726b87c533e09072baa7bdc04896b021f080",
+      "bytes": 4594,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_player_vcb_v2.hpp": {
+      "sha256": "5311769f94231702cbf86f10412a7a5588df7d21662f0ea6718328777c94405d",
+      "bytes": 414,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_selection.hpp": {
+      "sha256": "4414d0203ca20c90d40460863f75c3f0d373b43017664547386e41c43c73514e",
+      "bytes": 1461,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_session.hpp": {
+      "sha256": "1b631de5545071fc792da625bbeb7389e379ddd805d37af8ceb4f8c9e6f06e0c",
+      "bytes": 5990,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_session_v2.hpp": {
+      "sha256": "dcff270aac2a815b555f6f80a45ddc48d37dee818c9f9272c83f6ee2d2e59a96",
+      "bytes": 3291,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_session_v3.hpp": {
+      "sha256": "32f48250fac5bdf10714a4920aa2ecb889bd1118f8337b57a33d7961fd8cacaa",
+      "bytes": 4994,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_script_states.hpp": {
+      "sha256": "fecabe415b6e085b22ca00fbc01a08936f0cd512bda4f576cc7a8ec8f58d8e41",
+      "bytes": 3749,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_timers.hpp": {
+      "sha256": "80861cdf9b5a189ec97d11768d59b27a8ff583fa05fb0493822df9d3be87c3c9",
+      "bytes": 1030,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_update.hpp": {
+      "sha256": "d50372020d0f99fe88aa12c5172fcee54b2c5e4f81a464d080ade1f89c30a4d4",
+      "bytes": 1331,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_script_virtual.hpp": {
+      "sha256": "d8648e61d063878823b09d12ac6f3ab52281c207bb078ed31357493f75ee538b",
+      "bytes": 968,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skill_ai_v3.hpp": {
+      "sha256": "09bc15ca1b49042b7f0eb007e5d8ddabcb382e6df1af7c69b7b7dafa4591f286",
+      "bytes": 2007,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_buff_bindings_v3.hpp": {
+      "sha256": "f956132c74d0b95bf113554bc6772606aa06011efb22ca95f6f796e92aaecec9",
+      "bytes": 1187,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skill_callback_session_v3.hpp": {
+      "sha256": "0c3868261c97ff9b943835b5c11bbc11c1cf1db01b19804725036e884065e1ab",
+      "bytes": 518,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skill_callbacks_v3.hpp": {
+      "sha256": "4d701c9db3a0d08b070d644c089374c958fc8b3a208b5b9c7882c08b3f75c88f",
+      "bytes": 1798,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_class_v3.hpp": {
+      "sha256": "30b8404f9797220a87b764589f82ea6e79ece9b05514d85a12ade670b1fc0c63",
+      "bytes": 507,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skill_combat_v6.hpp": {
+      "sha256": "9b3afc6c883fb5bc10ee66b1e5e449f310fe8694f340008a734a57ccf662482c",
+      "bytes": 6478,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_cooldown_v3.hpp": {
+      "sha256": "e54f2f1779a9361150a395244d7e9ef644e7597f4e0afec3896867df2cb88cbf",
+      "bytes": 555,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skill_info_session_v1.hpp": {
+      "sha256": "524d3013f28e61e5dd3a8cd93652e16a8de77b2ce5befdf42eef0a31ced2be89",
+      "bytes": 821,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skill_info_session_v2.hpp": {
+      "sha256": "f4fef942fc662cac2ba13990c9e45a86f9dd2ca54bca2f5f23a67c843d7ff323",
+      "bytes": 843,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skill_info_session_v3.hpp": {
+      "sha256": "b73adbf78bcbfdd33eceb606ea96e4424dc7ccf1406dff8703d5b1497c1bc4f2",
+      "bytes": 843,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_info_v1.hpp": {
+      "sha256": "06b24f92cec2231c6e23a2f709d7952742bf8352c15caffdfa45c6117fc70a5a",
+      "bytes": 1658,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_native_v5.hpp": {
+      "sha256": "fcc6f12b129ae74a79bbe83c148beb6878728b319f648028b226e1a96ee63643",
+      "bytes": 3599,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_properties_v1.hpp": {
+      "sha256": "d04404c5f2ba7d446255c19146b444b4fe3a012805ffc1bf9a98a74c3979b07a",
+      "bytes": 1331,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_readonly_v6.hpp": {
+      "sha256": "47dc2251541beb0e4f17cf13f56d410be27801cc3a83a7d9ed8cb944c3c5bb9d",
+      "bytes": 2079,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_state_v4.hpp": {
+      "sha256": "ee4a21a3503a8e4b3abd21dde48e5c45094e76f2354ba3fd090210deac977150",
+      "bytes": 2497,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skill_target_queries_v6.hpp": {
+      "sha256": "533916de1324d6d1ee3f57cee02dabc54989e16cec3995646691cd4e50ca0b6e",
+      "bytes": 981,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skills.hpp": {
+      "sha256": "553db42a288878ad476338ce33aa3d3bfdf7afca8c6f45ba99e952b4d0cb36b5",
+      "bytes": 3867,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skills_owner_v3.hpp": {
+      "sha256": "594b8a850bb1ce87bd6e1e2d4e0cfe02d7ba683e13bef905adb832af68c95be5",
+      "bytes": 1212,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_skills_session.hpp": {
+      "sha256": "d189c207a1441b352bb8692381b298685a27ad9064c1769a0f990c10a08855e5",
+      "bytes": 1049,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skills_session_v2.hpp": {
+      "sha256": "496a1bdc4f6a7cdcce05279728597b1bf5e75e81bc253ba3388e91b6bf509874",
+      "bytes": 1098,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_skills_session_v3.hpp": {
+      "sha256": "8e85298e5764a8b1305816e14da37b82087ec2381d39a13bd39c3ca75d6d7bfd",
+      "bytes": 1098,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_sneaking_tables.hpp": {
+      "sha256": "79d2d9034f7fd8036ff6a75b1d49ee66ff870acba2b95e319cf82d3f52706302",
+      "bytes": 924,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_spatial_bindings.hpp": {
+      "sha256": "72bc0754adb341676c03b220c03cad59804231e2403cb2e5d5be23ec3f821f6b",
+      "bytes": 1892,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_spawn_body.hpp": {
+      "sha256": "f61c44da6e3756ae1c2e68557401cf320f0a9b076a7e2590210d49e38cccbc80",
+      "bytes": 2612,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_spawn_owner_extensions.hpp": {
+      "sha256": "9c021c1f99272e01da5c60dfee37361aa9425d3d353c022dd9df36f63a1f75e4",
+      "bytes": 1891,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_spawn_permission.hpp": {
+      "sha256": "72531c1f78a3b95c742ed85971b58a44296f299deae52f37e91f0c57eb832ce5",
+      "bytes": 690,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_spawn_select.hpp": {
+      "sha256": "e6e6e7064610f1e652b538c956d7de49a5a8dde43b00f630e9b20acf02a85bbd",
+      "bytes": 1863,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_stance.hpp": {
+      "sha256": "b4166f82c932a2122cccb1bee48cfedc930ee78903413a0ed342e6ed61e6c757",
+      "bytes": 630,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_state.hpp": {
+      "sha256": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+      "bytes": 4857,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_state_empty.hpp": {
+      "sha256": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+      "bytes": 694,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_state_owner.hpp": {
+      "sha256": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+      "bytes": 4707,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_state_owner_behavior.hpp": {
+      "sha256": "5c3d2e6c58960a2eb6cc16bef179cbd72efcd98ab5b3285f2ccb4583859879b1",
+      "bytes": 1613,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_state_owner_data.inc": {
+      "sha256": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+      "bytes": 4861,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_state_owner_extensions.hpp": {
+      "sha256": "86384b6d2b9ea8c4f71f2355d16ff5b5c7eba43cab7be76191b02f93cf8a3e90",
+      "bytes": 1237,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_state_owner_frame.hpp": {
+      "sha256": "1c3e6b69e9e8e853ed7aba6bdb0466e99a9262a91bc0ec561320026c2d7fac51",
+      "bytes": 1944,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_target_bindings.hpp": {
+      "sha256": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+      "bytes": 3650,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_target_events.hpp": {
+      "sha256": "36ecab0282c65c34b782a09aececdf0249f0374afbdda34c5125a651a1df30cc",
+      "bytes": 2221,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_target_providers.cpp": {
+      "sha256": "24c160b8f7e1d3e95bb06ef5f43f63c794851ec430ccfc4ff6e2135fd7aba70a",
+      "bytes": 5430,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/character_target_providers.hpp": {
+      "sha256": "2b6042a6a05c8b5be3f80738e7e308316832048271b875c018c2d9dbcdba7aa1",
+      "bytes": 2375,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/character_target_search.hpp": {
+      "sha256": "38ce6f1b5742642abe5e79e222330264d2a67933dddfa38bb81569b40b2e9c8a",
+      "bytes": 2190,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_target_update.hpp": {
+      "sha256": "9de6394fe589e5d9329427e8018a1e6a4782e67f1bbda546cbc4d828ba5aa179",
+      "bytes": 1372,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_timer_effects.hpp": {
+      "sha256": "d0d1dcfa0ebb530a8c7fd302a6801357e6a36df9b16d0305c17d67201a0c684a",
+      "bytes": 3159,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_timers.hpp": {
+      "sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+      "bytes": 2309,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_update_queued.hpp": {
+      "sha256": "242ccf94dca0ea22725dcafce9db36ef4728496c83a117f8b6c0d51b062efa36",
+      "bytes": 1340,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_update_startup.hpp": {
+      "sha256": "6ebd3b16c4553ebd72cc318bc32fa83fd986bdbb9c66bea65dbc9250be516a6f",
+      "bytes": 3056,
+      "origin": "private baseline header"
+    },
+    "port/level-world/character_world_ai_can_attack_v1.hpp": {
+      "sha256": "92397821e7ebeb96d8c151dcc81400923c10d91b3c8d05906793116c88ce0785",
+      "bytes": 706,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_world_ai_relationship_v1.hpp": {
+      "sha256": "5015af38b54de29262f75b75e25a8b75a60f348c611b8fd22566ee3a25e271a3",
+      "bytes": 1607,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_world_attack_geometry_v1.hpp": {
+      "sha256": "2d4267329cef3440eda98934210af265af33c98aaa85eba8ea89680f3580bb92",
+      "bytes": 2847,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_world_handle_v1.hpp": {
+      "sha256": "6877803c1ff3006fac070eb23c0019b7bd5e2a124b15bbf6f68467fae8815f18",
+      "bytes": 538,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_world_npc_initialization_v1.hpp": {
+      "sha256": "19928c20cee1c31d706357334c3a4803c2d83646870e143707a44ea42acea24f",
+      "bytes": 3182,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_world_npc_object_v1.cpp": {
+      "sha256": "f97774cd6732ff95fa5702c15882db1dd886316877526bc0aebe4c5729bd0e0b",
+      "bytes": 5924,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/character_world_npc_object_v1.hpp": {
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b",
+      "bytes": 3056,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/character_world_npc_state_owner_v1.hpp": {
+      "sha256": "8e2d49b7cbf31db7d0b3b1d60a901e9f628a4da4f6ee0702fc7fa3ef59ddcc24",
+      "bytes": 3494,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_world_runtime_v1.hpp": {
+      "sha256": "3e9e9c9db7cbdf05ddb1c938f6ac745835442c809ab329e13868ba3cfd301f67",
+      "bytes": 3557,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/character_world_target_owner_v1.hpp": {
+      "sha256": "9141d378372a60472bb4d73b33e7829f2835c69cebc49b48065095807dcf0ce2",
+      "bytes": 3786,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/collision.cpp": {
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378",
+      "bytes": 4727,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/collision.hpp": {
+      "sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b",
+      "bytes": 1482,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/condition_data_init_v3.cpp": {
+      "sha256": "c6dd07c84e01052583a4ad8fcd4f27a6ddd8b7204548d31b0d01fdca0e028a29",
+      "bytes": 2214,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/condition_data_init_v3.hpp": {
+      "sha256": "02bded5b07434640a585a1fe39b158ee0a941b6e5b002bd62a06e9d5043bfdbe",
+      "bytes": 1389,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/controller_physical.hpp": {
+      "sha256": "090f8ab4433146f415201b56fe13dacba8618188b9c4c77d5de4b2decaa1a7c3",
+      "bytes": 1124,
+      "origin": "private baseline header"
+    },
+    "port/level-world/decor_body_config.cpp": {
+      "sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa",
+      "bytes": 3581,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/decor_body_config.hpp": {
+      "sha256": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd",
+      "bytes": 1681,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/decor_scene.cpp": {
+      "sha256": "cc8ffcfd1105191c051eb2c32e1adacc0a9598daf0a0a1a3831df34d00dd2f69",
+      "bytes": 4166,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/decor_scene.hpp": {
+      "sha256": "1c88689fc04a83b61022a80521f810ee61a850120f8c30972e16be49dfc4bcb7",
+      "bytes": 1769,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/floor_source.cpp": {
+      "sha256": "d5b1975107ad31a889cf0d37c25bd13bebf01969bf41b412a74bae64d1d4b706",
+      "bytes": 4332,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/floor_source.hpp": {
+      "sha256": "8491cb902451cd4b82a25509819661a060db7f4e44e4a8c87f02f9cf8e46bfe8",
+      "bytes": 2035,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/floors.cpp": {
+      "sha256": "02c8357c2300d7f19bdc08a7bb156c350fff9c32e14e026f0ef94b68aa03d1a4",
+      "bytes": 14619,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/floors.hpp": {
+      "sha256": "8d770c1b41e29c9261c6074dc942b9db2d4b343d87743a66c7475bb9cb3267f0",
+      "bytes": 3439,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/game_object_initialization_owner_v1.cpp": {
+      "sha256": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865",
+      "bytes": 6382,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/game_object_initialization_owner_v1.hpp": {
+      "sha256": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809",
+      "bytes": 2242,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/game_object_relative_box_v3.cpp": {
+      "sha256": "55c6fccf4b005f81022721fd3a710e1744849cda0c9ff0176dc9f6f77fcaeb58",
+      "bytes": 975,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/game_object_relative_box_v3.hpp": {
+      "sha256": "751b05c547ae305d349976464d4660879af65bf392ef235a1231f2c097caa09a",
+      "bytes": 416,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/game_object_set_position_v2.cpp": {
+      "sha256": "4054b95cab71f550215eecd4f579f54f29943d83fc58c8a5b694b59723d1dde2",
+      "bytes": 1596,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/game_object_set_position_v2.hpp": {
+      "sha256": "4d9075703fa64f9a29afc6ff85ed07764e3ef32753634a31446f59cc141bd600",
+      "bytes": 812,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/game_object_spawn_probability_v1.hpp": {
+      "sha256": "ac474a9414a481802a63f95324e60c0253d3f1e1693f2ac509385255dfd9e87f",
+      "bytes": 965,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/game_object_visual_asset_owner_v1.cpp": {
+      "sha256": "c824c60767dc82bf8c230c6dc64eea63faf69913898893084e8b065f7dab5cb3",
+      "bytes": 2611,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/game_object_visual_asset_owner_v1.hpp": {
+      "sha256": "ffd3d1dc3e9d84d34c48a9c10e5071876b9e24fc869b37ed9ff9b43a1c626304",
+      "bytes": 1379,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/gameobject_lua_catalog.inc": {
+      "sha256": "1652c4df384846be323c91c33d482992d21e6bc3cfd4cecb8105b5286155a586",
+      "bytes": 5587,
+      "origin": "private baseline header"
+    },
+    "port/level-world/gameobject_lua_representation.hpp": {
+      "sha256": "ea430c5a511f34dd820913f4334ffb46e67f94c1d08973fcb29e356f9d711421",
+      "bytes": 729,
+      "origin": "private baseline header"
+    },
+    "port/level-world/gameobject_scene_binding_v1.cpp": {
+      "sha256": "915bf2bedc6c9cc7a1ffb7e292515b45417eba48cbd10163228dba78111ddbbf",
+      "bytes": 2095,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/gameobject_scene_binding_v1.hpp": {
+      "sha256": "51fdb93b6c60cf60088d9236e4e142904de510fa3a4a2af2d2a0091ee6f0d945",
+      "bytes": 883,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/gameobject_scene_root_registry_v1.cpp": {
+      "sha256": "de48dd5e63ee3d238c7c2efee597d6b197fc41a6dffe603c9c250f20fb65c544",
+      "bytes": 2094,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/gameobject_scene_root_registry_v1.hpp": {
+      "sha256": "16bb5d415a064b6726ceccc4ece7652a5fb542beba8555516f2f0d11114fe7d0",
+      "bytes": 1973,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/level_config_publication_v2.cpp": {
+      "sha256": "b43db249af94ab3a2cb821272dc7609bd0c1b974ee01f452fedce13c98e9598f",
+      "bytes": 1218,
+      "origin": "verified publication contract"
+    },
+    "port/level-world/level_config_publication_v2.hpp": {
+      "sha256": "16ed42de545755c17932346e961a3e262cca4c8019d1e00da36c505cb2914983",
+      "bytes": 767,
+      "origin": "verified publication contract"
+    },
+    "port/level-world/light_set_name_owner_v3.cpp": {
+      "sha256": "b23974c16157058ec0130e7cd43f478c2ffee3660d771f7c98b5e4776e13b877",
+      "bytes": 450,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/light_set_name_owner_v3.hpp": {
+      "sha256": "e7afc43e2b671f75832f0061821c6a045e5a76dd68aed2e840e9dad432775b4a",
+      "bytes": 703,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_floor_append_v2.cpp": {
+      "sha256": "98785b8aa345fa95307f2a55094166da89b2ca449d43234d79f050558b5f29d2",
+      "bytes": 5614,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_floor_append_v2.hpp": {
+      "sha256": "6cb815ae5128b5f6d2d70eb831fe9baeda975748c915bddaa59376f7798dd0d0",
+      "bytes": 1324,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_floor_clone_v3.cpp": {
+      "sha256": "64887cd5bbdbaead86112bb78046eb5d366a7cfc280e789b818dac378b4bde28",
+      "bytes": 2903,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_floor_clone_v3.hpp": {
+      "sha256": "dd1be8e79bd94acbe0e2978615030203aa6fcc5f41da0223e1de643904465601",
+      "bytes": 1503,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_floor_graph_v3.cpp": {
+      "sha256": "64ad81b4752ed54023e4b6e5530f74ee3cdfadc571d070f92b4bf72b2457a125",
+      "bytes": 2585,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_floor_graph_v3.hpp": {
+      "sha256": "93766ad4cae8cad5dbc96ac21d2b3d2121768675cec2e671f97664088ce15e90",
+      "bytes": 368,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_pf_actor_connection_v3.cpp": {
+      "sha256": "6af006d4c467cf75b861e9d92878f16929daa55aae4bc53f1bd969bc4e221788",
+      "bytes": 1920,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_pf_actor_connection_v3.hpp": {
+      "sha256": "a62095279d5d2f08431ee10f60fc64efa7f5f7cf145fc5386a22e9e40ccb91bb",
+      "bytes": 801,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_pf_room_v3.cpp": {
+      "sha256": "97144453929f53fddf829b6dc67a178a0c67e1d4f4db61b9b193cd9249f38c6b",
+      "bytes": 5540,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_pf_room_v3.hpp": {
+      "sha256": "df7fe479ad8a7660a1fb1d8f6451f071c55d30d3eba0ac1851dd4d8ef60c20cf",
+      "bytes": 2179,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_room_zone_spawn_v3.cpp": {
+      "sha256": "3be289c9858c588ffa5d330b864291cf987c07ab0def8cf7a7e4f8af6aaec4fc",
+      "bytes": 3102,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_room_zone_spawn_v3.hpp": {
+      "sha256": "71bb3ec5c256f4b281d2757c520b51ec6289730f7a1d3368ff450ffdcc61d43a",
+      "bytes": 1528,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_selected_scene_v2.cpp": {
+      "sha256": "cb03c8c01cb87c2a2eb2f0a2342e3e6393208ae2ab08ed7968bcb15c3d727dc1",
+      "bytes": 9964,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_selected_scene_v2.hpp": {
+      "sha256": "678ad3e49823d1cdefa9b5980be14f34d2b66ddc964bfd1b3467d24d01c252f5",
+      "bytes": 552,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_static_scene_bounds_v3.cpp": {
+      "sha256": "3ea9e9011cf0e0ccdf133a67a259efcccc2f28b3863df2c32caa4a2bf3998962",
+      "bytes": 2914,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_static_scene_bounds_v3.hpp": {
+      "sha256": "178638070f8dbd861fd363c39bede161786ad792682500047f8dfc6aa6248e18",
+      "bytes": 759,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_static_scene_v2.cpp": {
+      "sha256": "8e8e101bd457ad5ec701c6382b55f0c963e78503a7f89b73c1054b9eec9cf531",
+      "bytes": 8794,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_static_scene_v2.hpp": {
+      "sha256": "182fb0deb7791dfba775eafa8317b19fd51cc8318c48cca31f8f771f87eebd25",
+      "bytes": 5201,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/module_visual_mesh_box_v2.cpp": {
+      "sha256": "8020a16cb0a4b1eda63c09037e2eb2ac4b8574c360a2f405811cc39d5b101478",
+      "bytes": 1431,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_visual_mesh_box_v2.hpp": {
+      "sha256": "14fdd3cda41edaeb10a55352806403b77fc5d95a3f284283a3e8394e96183d92",
+      "bytes": 736,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/module_xml_selection_v1.cpp": {
+      "sha256": "80c343e1cd47132306269657b592a9d7f35a5773c4768100224765e4beb42cd4",
+      "bytes": 2721,
+      "origin": "verified current root Module Load implementation"
+    },
+    "port/level-world/module_xml_selection_v1.hpp": {
+      "sha256": "3791d0c31854c331a2ea792b602eacb5f8e000ce1d19f43256ab5a9af2d22d66",
+      "bytes": 1121,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/move_state.cpp": {
+      "sha256": "671596b24c3bce671fc5da633652f93ab5377e26586599369772b0efa4cf1b77",
+      "bytes": 1540,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/move_state.hpp": {
+      "sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0",
+      "bytes": 1119,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/native_body.cpp": {
+      "sha256": "242a54b3ce929e57da9ff41e91206189e7cf31be8a289eb11f676c846b7df6e9",
+      "bytes": 4578,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/native_body.hpp": {
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140",
+      "bytes": 2789,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation.cpp": {
+      "sha256": "cc20d5df2f8b6b1501754b33ea16e5aacd3c35d916880ca868343994c12fdc91",
+      "bytes": 11628,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/navigation.hpp": {
+      "sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71",
+      "bytes": 2744,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_avoidance.cpp": {
+      "sha256": "5b34aeffe47c370fe8683d7dd71d5a383dd44324218b4a1d8e7f0e3cff74d7de",
+      "bytes": 7245,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/navigation_avoidance.hpp": {
+      "sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36",
+      "bytes": 2469,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_controller.cpp": {
+      "sha256": "43e6d236fa5d7bdf7d2befda7f288008a6cfb87ec06a411c19fdcf2465eed9ae",
+      "bytes": 5860,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/navigation_controller.hpp": {
+      "sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6",
+      "bytes": 2098,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_heading.cpp": {
+      "sha256": "98f771927be4021dad6432e1aee509bf91f4db17f7525668ef1332ba09b3818d",
+      "bytes": 2111,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/navigation_heading.hpp": {
+      "sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e",
+      "bytes": 1415,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_motion.cpp": {
+      "sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f",
+      "bytes": 7783,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_motion.hpp": {
+      "sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac",
+      "bytes": 2487,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_objects.cpp": {
+      "sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9",
+      "bytes": 6365,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_objects.hpp": {
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011",
+      "bytes": 2981,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_path.cpp": {
+      "sha256": "4200d57fe3224e9bf423cdca11b34d22a080c868f57b1c7d68416a735b10ca36",
+      "bytes": 7408,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/navigation_path.hpp": {
+      "sha256": "939d187f857ac4eae7eafa3b517b9beb0b312d4d75541e769dd1566cc6a4b619",
+      "bytes": 2937,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_producers.cpp": {
+      "sha256": "6983efb07745d539cb82eb09adc2b841cf14349037e06a9f2f69d33baddb49ac",
+      "bytes": 1877,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/navigation_producers.hpp": {
+      "sha256": "a53b42be122b26269044a86e646b7e842ce1782a9bb96cba6778ae30d5f826e3",
+      "bytes": 1661,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/navigation_search.cpp": {
+      "sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0",
+      "bytes": 5254,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_search.hpp": {
+      "sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0",
+      "bytes": 1714,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_world.cpp": {
+      "sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d",
+      "bytes": 8129,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/navigation_world.hpp": {
+      "sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e",
+      "bytes": 2514,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/npc_injury_runtime_v1.hpp": {
+      "sha256": "dc5a5507445a490736b3d596d4fa5788ae2c36915d5f4d2ffdeb565b13328a7f",
+      "bytes": 2720,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/npc_inventory_owner_v1.hpp": {
+      "sha256": "97369bdfd6cf89fbce25738eb94153b2bd3d861e6e0f593dd9957d44c73b1b27",
+      "bytes": 1173,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/object_enable_condition_v2.cpp": {
+      "sha256": "b22c83282b69447cb3f1a9e858ecb8a45bd72d19c91fd3ae7dbb7739cfe96ba9",
+      "bytes": 2077,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/object_enable_condition_v2.hpp": {
+      "sha256": "36dde508c3c60a790a225418ad01e90690bf50d62ca636bae9cb7651b8b8b38a",
+      "bytes": 1138,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/object_identity.hpp": {
+      "sha256": "ecffe87157463e169126f859d9a144b50ecb09b902b99787918f4262a44231bf",
+      "bytes": 2253,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/objects.hpp": {
+      "sha256": "530f0686b0c189119aa7f44bd9c796543116cb6c500857ced69aa55e966bde05",
+      "bytes": 1501,
+      "origin": "private baseline header"
+    },
+    "port/level-world/octree.cpp": {
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a",
+      "bytes": 5033,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/octree.hpp": {
+      "sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83",
+      "bytes": 1397,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/openable_container_owner_v1.cpp": {
+      "sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "bytes": 9214,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/openable_container_owner_v1.hpp": {
+      "sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf",
+      "bytes": 3857,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/openable_container_property_connection_v1.cpp": {
+      "sha256": "b47d51ba0e259af0fe8fb0f444c4707951c5934a6fc2444c3ce2bd9a1e7897f2",
+      "bytes": 2566,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/openable_container_property_connection_v1.hpp": {
+      "sha256": "a06cdda9f8738efab29d8063ae3b1d9f2b2c95df2ecb1f6c1bd8fafd3bab0bc1",
+      "bytes": 1188,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/physical_controls.cpp": {
+      "sha256": "104b8b409e40eb1e733388d8977b7c0dbe333dfd7b61fc9d17aef67dca77aea6",
+      "bytes": 2523,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/physical_controls.hpp": {
+      "sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85",
+      "bytes": 2081,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/physical_lifecycle.hpp": {
+      "sha256": "f7741420fb2dbeddf23392000b563ed67f27d7ee432189ef9a27067702b53510",
+      "bytes": 1552,
+      "origin": "private baseline header"
+    },
+    "port/level-world/physical_world.cpp": {
+      "sha256": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15",
+      "bytes": 6514,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/physical_world.hpp": {
+      "sha256": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6",
+      "bytes": 2318,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/player_initial_grants_v2.hpp": {
+      "sha256": "bf6395009a9c11c59dae623313191dc203bfea7bd74f0c1619ee1c491a34e87d",
+      "bytes": 2748,
+      "origin": "private baseline header"
+    },
+    "port/level-world/player_injure_state_v7.hpp": {
+      "sha256": "f4fd687f7387d80c480d9db1dfab5324e8dbcc14da9d62eb0ff89fa4a8f81960",
+      "bytes": 1880,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reference/application-spawn-random-v4/handoff.md": {
+      "sha256": "2b6dbadeaca9482fc1c22a2409efcea7751343b77c7740148bbc0ca8e95959ff",
+      "bytes": 3287,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/reference/application-spawn-random-v4/original-functions.asm": {
+      "sha256": "bed47211cc094339db6cc37dd22314c452521637e9231b4b4ef35a54f426fa28",
+      "bytes": 8594,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/reference/application-spawn-random-v4/source-global-initialization.json": {
+      "sha256": "a24e6a467a20dae606f633e108ad5b22a50afac3123ee69f894b1ea2b98818ba",
+      "bytes": 711,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/reference/canonical-character-family-v4/cache-fixture-manifest.json": {
+      "sha256": "e19c9087d6b7f8e0271050799f203545e8d46fab5102fcdd6a0e910f3f45c832",
+      "bytes": 3806,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reference/canonical-character-family-v4/handoff.md": {
+      "sha256": "facc0bec5a16e613815e08b097366b832aa9738a4c1bc81404395379d95f5ee7",
+      "bytes": 4156,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reference/canonical-character-family-v4/property-constructor-source.asm": {
+      "sha256": "75b0ee52adaf59d5b2b73dddf38ed8982a9293b0b33df76d18efccf55ff811f4",
+      "bytes": 8585,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reference/canonical-object-factory-v1/original-source.asm": {
+      "sha256": "cbe05a3acc759ed1175aadc6ab79d5e652348c1e364915b29bdb6d37accea41e",
+      "bytes": 442172,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-declarations-original.json": {
+      "sha256": "af723cffaf05bf022c742c3d8593acbb62b8f89e8851ed6b2dc05062cc379239",
+      "bytes": 31542,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reference/character-game-design/registered_names.inc": {
+      "sha256": "b0405c5c439a864cbf6a6f5291517922fb9d36ba58a0bd79cb7ef909ea41348b",
+      "bytes": 2578,
+      "origin": "private baseline header"
+    },
+    "port/level-world/reference/character-state-methods/native-methods.inc": {
+      "sha256": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+      "bytes": 1742,
+      "origin": "private baseline header"
+    },
+    "port/level-world/reference/module-root-lifecycle-v4/controller-original.json": {
+      "sha256": "a777f574f609f675a84ce9a277afa423f8b58eb15c7613ac75d5dcb170014046",
+      "bytes": 831,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/reference/module-root-lifecycle-v4/original.asm": {
+      "sha256": "62394b0cef0d0ef2d6d21803c111716f31111f73351da90fc4b8591c3ad08c26",
+      "bytes": 46697,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/reference/module-root-lifecycle-v4/symbols.json": {
+      "sha256": "68384676bb7fdd50f0fffee1919970875ccfdc0638786aa33f663c7d2d5ea90a",
+      "bytes": 4089,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/reference/module-zone-v3/anim-controller-device-original-v4.json": {
+      "sha256": "2c397fa2e8f29f520153003ad0a169c407e3f524f6b722654feb8db2427858ad",
+      "bytes": 19268,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/reference/module-zone-v3/light-set-name-producer.json": {
+      "sha256": "584e551586e37492410233f08998d93bdbdbbc507fc8f0f7dbe12ac694f097d8",
+      "bytes": 426,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/reference/module-zone-v3/light-set-names-original.json": {
+      "sha256": "7464c45c7d4e4d8e0d1f8e51dd1739c9e9d3793f429d1b8d694ceee17a9488da",
+      "bytes": 1015,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/reference/module-zone-v3/module-virtual80.json": {
+      "sha256": "8acde434fe95c8ae15f781807928b4cf1da68f6e6d697c237fcb3241734aa42b",
+      "bytes": 470,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/reference/world-item-physical-v2/canonical-openable-graph-v4-handoff.md": {
+      "sha256": "238c71f54e3a5fdb9613800c8833811a7551557c11e14afdddce6f219b2bf47b",
+      "bytes": 4677,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/application-spawn-random-v4/application-spawn-random-v4.bin": {
+      "sha256": "32163a38c8068ca2d5eab0b6d92f140ab8e7d7f6c5fd75a6a2d16ee05e2ab342",
+      "bytes": 623280,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/application-spawn-random-v4/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/application-spawn-random-v4/receipt.json": {
+      "sha256": "f684282801aeecc7c31eff3e8d8c7e60629f650c6e2949cde7d2c84e6412de4d",
+      "bytes": 7657,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-character-family-v4/canonical-character-family-v4.bin": {
+      "sha256": "20ac05ba57c6262e2c542afa7e80284fe67e55aa66daf2266a2e0e43814624ba",
+      "bytes": 675880,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-character-family-v4/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-character-family-v4/receipt.json": {
+      "sha256": "bf4b05e985c79d4751be9ba3ac3f1fecaf4152190c39989fd0618e39c7742d1e",
+      "bytes": 4657,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-module-graph-v3/receipt.json": {
+      "sha256": "8aa078c0115c6ebc8af23814bf97478d4d3ff7880091c794f18746f7b3e05482",
+      "bytes": 15229,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-module-root-lifecycle-v4/receipt.json": {
+      "sha256": "45a1a8c2d115d8e32cfab301188ee8a6f91251abc913b32914cad1f49e6591af",
+      "bytes": 15527,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-openable-graph-v4/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-openable-graph-v4/receipt.json": {
+      "sha256": "f3d646338cbbba14d252fd1c417360fc8dabf837ce747bdd57b20dfc484a2f8a",
+      "bytes": 4941,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/reports/android-native-owner-tests/visual-anim-controller-v4/receipt.json": {
+      "sha256": "0949bfa0078b238af6b11fc737916111d0086e91dfcd96712202bccde1d9aedb",
+      "bytes": 2397,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/reports/canonical-module-controller-v4-handoff.md": {
+      "sha256": "8709b1d204461db3c4ef4bf83b12396f7617309e6dbe03f93188094c242dd188",
+      "bytes": 3175,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/reports/canonical-module-graph-v3-handoff.md": {
+      "sha256": "2a3bad8a3302333a283dc51f3c3c9f81481d578d7db8317355a6c09570ff5b17",
+      "bytes": 8872,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/retained_character_actor_v1.cpp": {
+      "sha256": "3a5a19027f6c1e24cd60f2c1df4a8548f036783be59fdc53231c554b10a5ca33",
+      "bytes": 15718,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    },
+    "port/level-world/retained_character_actor_v1.hpp": {
+      "sha256": "0d0df6e3371723570cdcac7decd713bfa9cfe86dc911e3ca0af5df27ffba8cd9",
+      "bytes": 10073,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    },
+    "port/level-world/retained_gameobject_decor_v1.cpp": {
+      "sha256": "1d9286b1381883f3d80d6daabfc68424c716da12715aabec663f62bcfdbcde90",
+      "bytes": 5436,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/retained_gameobject_decor_v1.hpp": {
+      "sha256": "7f4a406ee88de118b0515f6969e09a2223289d0eaec4b2ce7bf2ff490f3a1569",
+      "bytes": 2047,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v1.cpp": {
+      "sha256": "6891571433a3ffdf2543c431a96fceea36f2f6e9387c03b099f392db05c96d2f",
+      "bytes": 2045,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v1.hpp": {
+      "sha256": "ed4563081642491b538bbb7e627e01321bba2b91c141b8eecd38940650525cbb",
+      "bytes": 946,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v2.cpp": {
+      "sha256": "6e73a49104ef731f12ee20f759f07e868d2703d863103de986d0ba1ab35e2b4a",
+      "bytes": 3164,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v2.hpp": {
+      "sha256": "e6d9ccd1b05d705514e5d84e98a66c0e590e796016f7a8993b83679d887e2060",
+      "bytes": 1556,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/retained_gameobject_visual_v1.cpp": {
+      "sha256": "8b322900edcf8e46231ac5da1bb05cc161c05f70975493963dd5b093d3112ce5",
+      "bytes": 25323,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    },
+    "port/level-world/retained_gameobject_visual_v1.hpp": {
+      "sha256": "bbd53355bacb860dff618351551003f5d1c52a778778b7017a733479691b0879",
+      "bytes": 7006,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    },
+    "port/level-world/retained_module_visual_v3.cpp": {
+      "sha256": "40f5b3e0f1790f076d68286b597e1dc8d8da4628340af4e5a881eead434c35c6",
+      "bytes": 9461,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/retained_module_visual_v3.hpp": {
+      "sha256": "db704557a7c73cbccdf39e64c1b790fce6759af92ae01c6d5669595f654977a3",
+      "bytes": 3534,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/retained_scene_visual_connection_v3.cpp": {
+      "sha256": "d25f250e57c7af201e42246ff57e3cf90eefefdb9a4a8bcbd6936583b6ee0b1c",
+      "bytes": 2102,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/retained_scene_visual_connection_v3.hpp": {
+      "sha256": "a63cfb1507bac2e5d6d2599998554270d340c05570acb2a58547f20d69bee4d5",
+      "bytes": 1209,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/scene_manager_map_owner_v2.cpp": {
+      "sha256": "5a139980a8f6025df7d0d20bdebbb5b07194f42f0e8d0a1ed2e7f931ca719aa4",
+      "bytes": 4293,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/scene_manager_map_owner_v2.hpp": {
+      "sha256": "4f47fc9630624a0fa53ec560b144acf7464e9a202fa92cf4c7c6847817be7cf8",
+      "bytes": 2245,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/selector.cpp": {
+      "sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5",
+      "bytes": 6749,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/selector.hpp": {
+      "sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790",
+      "bytes": 1686,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/subobjects_update.cpp": {
+      "sha256": "da7407030dee5be659b4ffe3b9e5c3f10671fb47b08b2694a7eab2526ba56bfe",
+      "bytes": 4105,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/subobjects_update.hpp": {
+      "sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03",
+      "bytes": 2358,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/tests/application_spawn_random_owner_v4.cpp": {
+      "sha256": "d2fd07daf0c76231a70e4451779f3d7d308d4cd36cab683bf6a3e93dc1b64863",
+      "bytes": 2536,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/tests/canonical_character_family_v4.cpp": {
+      "sha256": "3d5e7e55e4b8a708d82d6a0b89a13686999b633a25778c28def454198b0cd3f4",
+      "bytes": 5165,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/tests/canonical_module_graph_v3.cpp": {
+      "sha256": "372a87cbc8707edaeff7d69afd1462996ae62c9bc6e2f7903fdfae98fb3b31b5",
+      "bytes": 22710,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/tests/canonical_openable_graph_v4.cpp": {
+      "sha256": "d22f75e8a1e36f68c94bab8e4bb15e2b09b0dd0641d441593410fce37a8e4d89",
+      "bytes": 5317,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/tests/openable_container_real_cache_fixture_v1.hpp": {
+      "sha256": "7a8a5a4006dc263a1906a367d028e4d260f86b5d617a17da5818d03ba7471333",
+      "bytes": 12171,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/tests/visual_anim_controller_owner_v4.cpp": {
+      "sha256": "a31a52a18f998fe33517d73031daf6e64a291ecd02f905e5f2cd88995445494b",
+      "bytes": 3310,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/tools/navigation_state.hpp": {
+      "sha256": "f92481ca1434b1fcc561ae3ff1a8ac424599b6cce8f6544938d2553347e11836",
+      "bytes": 1452,
+      "origin": "private baseline header"
+    },
+    "port/level-world/tools/original_visual_anim_controller_v4.py": {
+      "sha256": "0c9ccbaec90c9008b06b0cb730840bcaa15d7686fd228bff4fdc9c51f9218d0d",
+      "bytes": 2078,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/user_properties_v2.cpp": {
+      "sha256": "9a5e7ef71b5e16aa9510cdd5f32eae1aede513ef67c721793800873187b66aa4",
+      "bytes": 1434,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/user_properties_v2.hpp": {
+      "sha256": "b447cf691a7ffab3c277c4b623723966246c4b511228395fdb484e28d1018fea",
+      "bytes": 393,
+      "origin": "verified main Module graph handoff"
+    },
+    "port/level-world/visual_aabb_dispatch_scope_v3.cpp": {
+      "sha256": "f963d719a46a8730a76017a3fdfdcde78aad9adc293b90ed3ecd29f42f9e6215",
+      "bytes": 896,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/visual_aabb_dispatch_scope_v3.hpp": {
+      "sha256": "fba98d2850b0a58777c8d2f241a6e645722189bdd04b8171c366efd8c16ec936",
+      "bytes": 1021,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/visual_anim_controller_owner_v4.cpp": {
+      "sha256": "11059fdf45afecdf15808ea324df4a622c0636fc9ff210ee2564f03823fa0486",
+      "bytes": 1826,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/visual_anim_controller_owner_v4.hpp": {
+      "sha256": "a3aa8cbfc8c53c7d42b32b7528645849dc35f6688ba92182267c7df77bd43925",
+      "bytes": 1771,
+      "origin": "verified main Module/controller V4 handoff"
+    },
+    "port/level-world/visual_fx_preload.hpp": {
+      "sha256": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b",
+      "bytes": 2387,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/visual_fx_tables.hpp": {
+      "sha256": "fbc3e1397c0365085789cd88b7d02cb988432ebe745804a95d514409d7bc0cfb",
+      "bytes": 1049,
+      "origin": "private baseline header"
+    },
+    "port/level-world/visual_mesh_box_fallback_v2.cpp": {
+      "sha256": "6f18d304a9d3b09d71dfc44dbe47c8f85126cf8af1252c741af45b81213bfa1b",
+      "bytes": 1735,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/visual_mesh_box_fallback_v2.hpp": {
+      "sha256": "4aaec6258efc071a5536a1c9a9ab6b1305322f1092903dc41313583e22ca8a22",
+      "bytes": 486,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/visual_motion.cpp": {
+      "sha256": "7d9e9ab6fa0f6a2653f67b114b36dd38a18338409d1969390f75b4ba4a59d414",
+      "bytes": 7995,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/visual_motion.hpp": {
+      "sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f",
+      "bytes": 3202,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/level-world/visual_timeline.cpp": {
+      "sha256": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca",
+      "bytes": 5394,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/visual_timeline.hpp": {
+      "sha256": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611",
+      "bytes": 3387,
+      "origin": "verified character-family-v4 handoff"
+    },
+    "port/level-world/world.hpp": {
+      "sha256": "8ac00eafe7a504f6484aa4359846bdb5469091d512c5d6404c71861d7add52d3",
+      "bytes": 877,
+      "origin": "private baseline header"
+    },
+    "port/physics-backend/CMakeLists.txt": {
+      "sha256": "8e7041f90cf62cc78a52085cac6ddcceface17825916f493ff836561616d0d10",
+      "bytes": 1122,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Include/Box2D.h": {
+      "sha256": "0ad13b9cdae52a4d57f70f824a856601b151d7d5ac483d354740a3e9a46aa7a5",
+      "bytes": 1941,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.cpp": {
+      "sha256": "0629b27c6fd842dea90070e8ea7dcb27fc0eb86bafe9aadaa13b114dfb61aa20",
+      "bytes": 3933,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.h": {
+      "sha256": "a575f875afa9c0aae4e01b1aa186ddfb4fc2aa6f217be69d7d09996e4ab30fcd",
+      "bytes": 2512,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.cpp": {
+      "sha256": "2281e552b7cf16b79d704a89160550c5e0a56da2a210ce926fd0719301cb61e1",
+      "bytes": 12056,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.h": {
+      "sha256": "54b78992f13caf81515710d9341eba4f61a72820a341ce567fdad3062b7041c6",
+      "bytes": 4607,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.cpp": {
+      "sha256": "2bcfc135682d3c311ea246b2b8d2ce14ccc7694a5d586348761ae12bc9cd696e",
+      "bytes": 3727,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.h": {
+      "sha256": "ea59008f09889b632c0ac6cd5f2724781c9dbe23f9663ab9d38a2b21ef07fa4c",
+      "bytes": 8287,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.cpp": {
+      "sha256": "cfa4503a3c9a95db001e10dcc4cd6a9f27a97cbe5c676e46a5751cab7a8c06af",
+      "bytes": 17694,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.h": {
+      "sha256": "b5e0f3f4c15c15f365bae101f819e21098b6a1c819fc2329f3830aa5bdd953d8",
+      "bytes": 4351,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollideCircle.cpp": {
+      "sha256": "a0ce1f621ae819514cfd26b2b9231cfd1fb301d960857256c809bd0620495113",
+      "bytes": 5132,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollidePoly.cpp": {
+      "sha256": "22b2e4611e696f041298ae0b63596f2eb54159d4a039fc65036290295080dacc",
+      "bytes": 9618,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.cpp": {
+      "sha256": "052c979a72176b10b404c7c8b900e1a8662f661ffa6476d2c18edec47e57ddd4",
+      "bytes": 2321,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.h": {
+      "sha256": "d1f825e57717f8163ff8e937b02f2e39a99a16714a37919fa83daca9a62f84a9",
+      "bytes": 5498,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2Distance.cpp": {
+      "sha256": "0e5e43d8a6318555994ad7dbd44e3d8d38430964ea8989991aed9c880365dc1a",
+      "bytes": 9170,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.cpp": {
+      "sha256": "0ba3ce40b97bc5c4c50aacbd131f665a63e44c8130c2ddf4c9ecc9abe75e2f4c",
+      "bytes": 10624,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.h": {
+      "sha256": "f22b19e47d91b75d2fe2f691e5e10100ce1463672524c1fadecb79339e91c1ae",
+      "bytes": 3601,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Collision/b2TimeOfImpact.cpp": {
+      "sha256": "a4b145c6773ad798844f83ee7fb621a143261a237372e1fbb82c27bb72ee6201",
+      "bytes": 3349,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/Fixed.h": {
+      "sha256": "818f120b7f17eee3bf0ceb54acb888650732fa1d267458e5477792d81483ffc5",
+      "bytes": 18569,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.cpp": {
+      "sha256": "12426570e627db745da2bc5f7edbe0629d95b834dfabf87ef621a91623ae39f5",
+      "bytes": 5059,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.h": {
+      "sha256": "b9056e01399ee810604c54097a25d71f8e867e0ffad2712bc98498fce2d5bfce",
+      "bytes": 1825,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.cpp": {
+      "sha256": "9dd538fca46377fc5ddfccaa5aaf293397c83d06e8400426856f0dbb8489a688",
+      "bytes": 1753,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.h": {
+      "sha256": "bb9eb24351da6c1bb1ff6fee57e013e502057e4837511b1d236c2b252d1ba418",
+      "bytes": 14686,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.cpp": {
+      "sha256": "72cc86a675e9caff585175b36ef3eef9d83f2785bba26f5dfd0ad3433aacc6a2",
+      "bytes": 1798,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.h": {
+      "sha256": "8f37991405eb70bf175e3dd47685bbbb167c2aa1d522941a91aefa69ae1780e7",
+      "bytes": 6123,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.cpp": {
+      "sha256": "abbfebe42cd6d45ee5a46d8afb031c8e6560908eadaab010152afb94e3a8a8c4",
+      "bytes": 2109,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.h": {
+      "sha256": "3b65b1456f10ccf5ecb72583f05eaaf50094d3cffbbca1012cb0bee100484e60",
+      "bytes": 1722,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Common/jtypes.h": {
+      "sha256": "4ba0ec25429a79495203fc9ae80d1b82168e5cfa0a85d842f2ed3e89829f9c79",
+      "bytes": 4175,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.cpp": {
+      "sha256": "ded2f2cda858750019b6859922ac5d2b0916ff1f0d388a3fab2ed9689a665c9d",
+      "bytes": 3835,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.h": {
+      "sha256": "7d5d026bc0f7e4d05bfb43f6f01cc5581b672138cd30ab5fb804a8dd42abd231",
+      "bytes": 1547,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.cpp": {
+      "sha256": "a0875445d2a2b253fa2815b26373611fe1cfdfcc24084cae74dba20a21e81b2b",
+      "bytes": 4974,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.h": {
+      "sha256": "da89817056b93e124f53bb520402466df01986d3da9d449222838ff6ad841ac0",
+      "bytes": 5776,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.cpp": {
+      "sha256": "c9c0560fe24e87b37c54268b8a90a36ce3261e61647fc76acf4b38f09b6cf65c",
+      "bytes": 11290,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.h": {
+      "sha256": "4a41c009fd2af2aee9b7c499095f767c92812dc06ab309add137b91be68ebe60",
+      "bytes": 2182,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2NullContact.h": {
+      "sha256": "74899863e071428be4d71d6c1fe062650cde7d49ba7064fc9f9d7f5e8c43d8aa",
+      "bytes": 1207,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp": {
+      "sha256": "0ff192b00e5a99843a0c9515b60a600540f2bdb87b0c493d7d8427798b1891fb",
+      "bytes": 4697,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.h": {
+      "sha256": "a15c3588c089059af1d99b7733412518059e16c2dc2df6c92cd99089fb66d55e",
+      "bytes": 1510,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.cpp": {
+      "sha256": "04e0d8d2be9eb55e2374935f01d09be785959e806f49ec478700cd07f7d6955c",
+      "bytes": 4551,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.h": {
+      "sha256": "67ad4841a0f4a008722bbd1fb41b49b46bb60ea0b1d63fd92002528224acbd8a",
+      "bytes": 1468,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.cpp": {
+      "sha256": "0853ceb8d146a5db0ec0eea208f8751f61386f41532f4edf3ac0e72a0108a34c",
+      "bytes": 5825,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.h": {
+      "sha256": "c167e9f0362edb80c8949e8c66fb9ac267fed3628313c4b696cd055cd88ed100",
+      "bytes": 3039,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.cpp": {
+      "sha256": "4a5424b398f016dc9a8c5b5538066a6c5e391e9748498e702bb5d060ad44083d",
+      "bytes": 6977,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.h": {
+      "sha256": "e61df42dd9366d6f472bf18843838579863602281c336b4148f634b7f9a60fd5",
+      "bytes": 3215,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.cpp": {
+      "sha256": "b6a439cbbf8bc4a4fe835d29b652fcfedf5affb3a8dc7786b68ed1e1a45547dd",
+      "bytes": 3410,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.h": {
+      "sha256": "b01f4e90a0ea7044b9cadeb5c8cf91ae752e2c115cf0f764c1f45a249e4778f9",
+      "bytes": 5514,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.cpp": {
+      "sha256": "0a9d8342dfa3dc12af1876421d3c33e71b5532d14db8cba0bbf24bf80f6b1e78",
+      "bytes": 4237,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.h": {
+      "sha256": "820476f8770f51e86df059703a54244e37291cadf48be436582d2341d5921473",
+      "bytes": 3007,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.cpp": {
+      "sha256": "ee3981cfa0e94d82799d6eebecf81a09cd2bc137ac6f43a6c04ef5de197a9a28",
+      "bytes": 15814,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.h": {
+      "sha256": "0f9fc788a01c0cb02b3e959d9d2a2d6eed1012276288bff39d1dd6cd019f9081",
+      "bytes": 5459,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.cpp": {
+      "sha256": "5cb5b0c762d2e6164c79e62316930f9d317fe4f99be8376481f08ebae157a83a",
+      "bytes": 12007,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.h": {
+      "sha256": "3a3b2642c88952e5412c29409ea066d18b82611710e8cb926b2d83f1931731c4",
+      "bytes": 4533,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.cpp": {
+      "sha256": "c720e0b2cfe29d40292536913d32b2da0f74cc2d60759c5fe6e67cb735b56c33",
+      "bytes": 11735,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.h": {
+      "sha256": "608269ad82b95ba822abcb65d55f1c82dcba40ed07cb35eba22236ebfc58d1ff",
+      "bytes": 5464,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.cpp": {
+      "sha256": "54055e4d49d2dbfb618768bac214855b20eceba404864a585eaf665cd9698cf3",
+      "bytes": 8028,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.h": {
+      "sha256": "634324f14ef3835a5d33e2043a80dbcc4fb2bcbc1db9f9089e8205be998216ea",
+      "bytes": 15858,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.cpp": {
+      "sha256": "7c370f2d5012f921ce8b2a3ae194332792f5e773f3031e61e7c2c4f4a9dcb6a8",
+      "bytes": 6067,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.h": {
+      "sha256": "1e17705e78b21186149ae7177a3725911e7d35a42c503eec383b5eb7813777ed",
+      "bytes": 1737,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.cpp": {
+      "sha256": "6cb95aa76e75683326a5e0a1c841d7df4501559d79d5456ef74dcc7787a0d79f",
+      "bytes": 13742,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.h": {
+      "sha256": "12a643d7d1215966c1f95dc10857bdbce50f1f55aef33a122345b89b12b2d733",
+      "bytes": 2318,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.cpp": {
+      "sha256": "ad0dd30502b442b6b27bc05e62239ff6ef823ade04a19c34482665c25ecbdd56",
+      "bytes": 26422,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.h": {
+      "sha256": "8b54a4fc617e0e15828063ca00b8529c9c254a1b13a100bc91ad7b3d322df93d",
+      "bytes": 8025,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.cpp": {
+      "sha256": "335f631fd1ab520f44025ca684568905be30fe5ab0eb6f9449af1a756be64ee9",
+      "bytes": 2007,
+      "origin": "frozen existing private Box2D2.0.1 backend dependency"
+    },
+    "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.h": {
+      "sha256": "3aab4ccbfc8a8c4d207d7ac82d2fa0509a8942eba792cb0f788e9c1b115b1d19",
+      "bytes": 5963,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/scene-materials/scene.cpp": {
+      "sha256": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556",
+      "bytes": 11754,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/scene-materials/scene.hpp": {
+      "sha256": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3",
+      "bytes": 1626,
+      "origin": "verified application-rng-v4 handoff"
+    },
+    "port/scene-materials/shader_sources.hpp": {
+      "sha256": "8115f47857aca50468885e55fb549d902e4ac0ef5220f6b88ae7ce0da8092afb",
+      "bytes": 1754,
+      "origin": "private baseline header"
+    },
+    "port/scene-materials/swf_texture.hpp": {
+      "sha256": "6013cd34295b1986d1af8327279051a242bfd20eb3f5add8e8580c46000402f7",
+      "bytes": 2765,
+      "origin": "private baseline header"
+    },
+    "port/script-runtime/script_constants.hpp": {
+      "sha256": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01",
+      "bytes": 1558,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_design_bindings.h": {
+      "sha256": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9",
+      "bytes": 1659,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_function_alias.h": {
+      "sha256": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e",
+      "bytes": 2226,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_int_bindings.hpp": {
+      "sha256": "4cf66271fe2a909759e03f62d5016b960cc374273eabec8a38279d15716e4d9a",
+      "bytes": 3408,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_object_bridge.h": {
+      "sha256": "63c357b3879fb74e882f8ec5a4d3fb6f6a3ad9360ca1bbabcbc38f1c142a15d9",
+      "bytes": 2803,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_runtime.h": {
+      "sha256": "8c1c24ccdc09c8b06ee1d3be35536fa25af265a650047bf6d98a08dbc707ee54",
+      "bytes": 9577,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_scalar_bindings.h": {
+      "sha256": "378f06afa5311644a89a5d2d057e8e490dcf23e3ff2a555a5fc73b06a3833a3b",
+      "bytes": 1870,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "reference/openable-container-v1/actual-openable-rows.json": {
+      "sha256": "963f6b88e2d5fcccf44d1f4e034f0cb7556570420d3d5346bf407f97a23cceae",
+      "bytes": 16372,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "reference/openable-container-v1/cache/game_objects_dictionary_pyarray.bin": {
+      "sha256": "99ef357caa883a0f5ba0709d6fc4abcb6b8ab9741adc275ca9a295dd70b8be9a",
+      "bytes": 4144,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "reference/openable-container-v1/cache/game_objects_pyarray.bin": {
+      "sha256": "8b02cf1bd776621c18d82fd24ef0320d996b28ea77e3a24be3f986e84160e07d",
+      "bytes": 5326,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "reference/openable-container-v1/cache/game_objects_pyarraynames.bin": {
+      "sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "bytes": 3846,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "reference/openable-container-v1/cache/go_chest_swamp.bdae": {
+      "sha256": "3387a4e39ff726b01aac29b2788f6ab64c97e0f37ca034c7c5c00545b9155e00",
+      "bytes": 23652,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "reference/openable-container-v1/cache/go_chest_swamp_big.bdae": {
+      "sha256": "ab6564c006ccb80864cf7f6e1720f3678c2cfbaa905608c05adf47ca3f680e43",
+      "bytes": 30324,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "reference/openable-container-v1/cache/go_chest_swamp_rotten.bdae": {
+      "sha256": "ea7af6081a15fbc3f55d253d85cc28e8009981103f7ce4d6f06a8e4969bedc4d",
+      "bytes": 38028,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "reference/openable-container-v1/chest-visual-cache-hashes.json": {
+      "sha256": "d9af61a53bcab7e4c71d3824bd03cea882fc02f79411226b9f73c2ce9a03c89e",
+      "bytes": 647,
+      "origin": "verified main canonical Openable graph V4 handoff"
+    },
+    "port/level-world/character_game_design.cpp": {
+      "sha256": "1569afd14b63603b9862b7dde82b306e440c1d94ec3bc4874cf606061e899275",
+      "bytes": 7587,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/game-data/properties.cpp": {
+      "sha256": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+      "bytes": 4375,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/game-data/class_tables.cpp": {
+      "sha256": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+      "bytes": 8906,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/game-data/items.cpp": {
+      "sha256": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+      "bytes": 6659,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/game-data/game_design_tables.cpp": {
+      "sha256": "a7c5a884708d27c379e80187aecf40873e40b0881202809fde8fa3e1bd181dba",
+      "bytes": 2935,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/game-data/level_tables.cpp": {
+      "sha256": "43e3e130983b6ec3fd9dc9b1c5db1894012143851b21a4ef92993e9392e24ca4",
+      "bytes": 5454,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/game-data/ai.cpp": {
+      "sha256": "e36de5efc51972186aa9a480e55da72b1353fd4c05bbca2211441685881b2e01",
+      "bytes": 6355,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/game-data/fresh_inventory_owned_v4.cpp": {
+      "sha256": "25fdaf86072992f801b673a6c033fdef5d5a3973b59ca9f85dd64054b7daa0a2",
+      "bytes": 20292,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/level-world/character_script_objects.cpp": {
+      "sha256": "18a58d1e6e8fc1c0854851ff3cf4664374532b9033d1c3af106bd3c48bc52f81",
+      "bytes": 5678,
+      "origin": "frozen existing private Character dependency"
+    },
+    "port/level-world/character_world_npc_state_owner_v1.cpp": {
+      "sha256": "b63faf89e423df34c46dbf929a7945d940c436eb94b0d32096315c8cded5b018",
+      "bytes": 3582,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_world_npc_initialization_v1.cpp": {
+      "sha256": "d33f5d01d920799057375133c27138164e4cab4b698e851868f775db092a5d3c",
+      "bytes": 3723,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_idle_events.cpp": {
+      "sha256": "7f01c179d6f080514d2b960cca9ad2ff51584620b80ef1c0629680dc051f8c78",
+      "bytes": 13084,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_script_session.cpp": {
+      "sha256": "a3987646adcdda98023df5ee0bd5bdcb0c5072b0cca55e8f4736821b3e992037",
+      "bytes": 27894,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/script-runtime/script_game_bindings.h": {
+      "sha256": "3772bc95bcb5e26fe4969586705c89912ed468b301f40c1fcd35d628bd257266",
+      "bytes": 2089,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/level-world/character_script_owner.cpp": {
+      "sha256": "b89c759495cbe388e26142539b11f4757f0bdf495d1ee5db5a8d7da85dd15968",
+      "bytes": 19189,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_scene.cpp": {
+      "sha256": "3659d37e59559781fe7ab9f61e3383e1042187577df0cbba0a65bd7c3b8294f0",
+      "bytes": 7356,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/script-runtime/script_constants.cpp": {
+      "sha256": "44d2ade00fca5f991fe5cae1c5f869dc68cb71e57344b0ed9ce240b38b3d476d",
+      "bytes": 3122,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/level-world/character_state_owner.cpp": {
+      "sha256": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+      "bytes": 7028,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_state_owner_extensions.cpp": {
+      "sha256": "bf0ef776260ea12c7eac7e41dbcc9474ddf0b4c94e4f423e27ad869971588058",
+      "bytes": 2650,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_state_owner_behavior.cpp": {
+      "sha256": "36da18ca632a39ea032e1ff4fd70e152ba37cace03557a1a22045808cfc78ce6",
+      "bytes": 2981,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_native_fsm.cpp": {
+      "sha256": "58f7544dc7c4d693f5e6b97a2165c1d645e161e46ab349de48627886ac56ebac",
+      "bytes": 3510,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_design_services.cpp": {
+      "sha256": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+      "bytes": 4744,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_ai_state_changed.cpp": {
+      "sha256": "a7eb1d0e5a2897cbde243a4da8595121bc020e7441e829b9c01c868075ce5eec",
+      "bytes": 1928,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_state.cpp": {
+      "sha256": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+      "bytes": 7652,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_state_empty.cpp": {
+      "sha256": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+      "bytes": 458,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/level-world/character_pre_spawn.cpp": {
+      "sha256": "3922755aa29ace4fca820269697068682b955c438a0f2c1037f33048554b3694",
+      "bytes": 3642,
+      "origin": "frozen read-only shared Character source dependency"
+    },
+    "port/game-data/game_object_dictionary_v11.cpp": {
+      "sha256": "d8f53c3915ff088e251e139ebb8ec06bc9eee4e4620be5f3097893bdda76b09f",
+      "bytes": 1933,
+      "origin": "frozen native105-tested Openable table/visual provider"
+    },
+    "port/game-data/game_object_dictionary_v11.hpp": {
+      "sha256": "6e25c22ddf5209553abfdaf274c8158144400ef9fac91e04cc54c974e30969d2",
+      "bytes": 638,
+      "origin": "frozen native105-tested Openable table/visual provider"
+    },
+    "port/level-world/openable_container_data_connection_v11.cpp": {
+      "sha256": "0b4895276a3b73e7fb9750f52279f33fe973b79bb63c3168c6b9202ffee57407",
+      "bytes": 1355,
+      "origin": "frozen native105-tested Openable table/visual provider"
+    },
+    "port/level-world/openable_container_data_connection_v11.hpp": {
+      "sha256": "4bba7e3c7e758ea816a6530d6af9aff44669df394702570c0342390117af1596",
+      "bytes": 996,
+      "origin": "frozen native105-tested Openable table/visual provider"
+    },
+    "port/level-world/character_set_position_v7.hpp": {
+      "sha256": "15fe83a1b68ef5bc0bf2b68cbe3502b539ab9cc1d11d4d68ce025b31ab4296b7",
+      "bytes": 2111,
+      "origin": "verified frozen Character positioning V7 provider"
+    },
+    "port/level-world/character_set_position_v7.cpp": {
+      "sha256": "98d0c388457c5cf49c4a5eda90bc285dd83ca8ca9bb2c03e9cee7d7cff260d7f",
+      "bytes": 3414,
+      "origin": "verified frozen Character positioning V7 provider"
+    },
+    "port/level-world/retained_character_position_owner_v7.hpp": {
+      "sha256": "50b874868ce01ed101f82018680dc4f04484dc1bcc264a760718b757907f89b6",
+      "bytes": 1582,
+      "origin": "verified frozen Character positioning V7 provider"
+    },
+    "port/level-world/retained_character_position_owner_v7.cpp": {
+      "sha256": "9e0ea0a115e76697693a00cfae97b8747163b70894091e1f9c9dc7e588b9426e",
+      "bytes": 3335,
+      "origin": "verified frozen Character positioning V7 provider"
+    },
+    "port/level-world/gameobject_visual_field_borrow_v5.hpp": {
+      "sha256": "18c28b17363aed319eb2943a4a5d95a98cf688ae55d9358a54a3c71bdc40726c",
+      "bytes": 933,
+      "origin": "independently verified frozen V6 typed field capability"
+    },
+    "port/level-world/tests/character_set_position_v7.cpp": {
+      "sha256": "702271dabbbfa15333c93b96dd107d3dd52acdf3805d360a7a7bc29bac5210fd",
+      "bytes": 4876,
+      "origin": "verified frozen V7 source regression"
+    },
+    "port/level-world/tests/retained_character_position_owner_v7.cpp": {
+      "sha256": "8ae8dbd34064e394ed193d8edb62573b65bbd0ece0a6a98c34f1bed54e95b2e3",
+      "bytes": 5221,
+      "origin": "verified frozen V7 source regression"
+    },
+    "port/level-world/tests/canonical_character_position_prefix_v7.cpp": {
+      "sha256": "d358b156ab14d16a55e699cb9af4a0d8a3418683ddebb2539bcac630ce670d65",
+      "bytes": 3906,
+      "origin": "verified frozen V7 source regression"
+    },
+    "port/engine-ui/hud_startup_callbacks.hpp": {
+      "sha256": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+      "bytes": 2081,
+      "origin": "verified frozen root device predicate source"
+    },
+    "port/engine-ui/hud_startup_callbacks.cpp": {
+      "sha256": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+      "bytes": 2799,
+      "origin": "verified frozen root device predicate source"
+    },
+    "port/level-world/canonical_dummy_owner_v14.hpp": {
+      "sha256": "bcd2cc685d636115a11640559f04fc8dc63d9c3b07749d473a866e8aa03b42db",
+      "bytes": 1954,
+      "origin": "verified frozen Dummy V14 source/schema successor"
+    },
+    "port/level-world/canonical_dummy_owner_v14.cpp": {
+      "sha256": "5547acd52966920e70b943f8e459a8dd094a2d7820e77c709ccbd6b92e2048fb",
+      "bytes": 2249,
+      "origin": "verified frozen Dummy V14 source/schema successor"
+    },
+    "port/level-world/tests/canonical_dummy_v14.cpp": {
+      "sha256": "0681d2a731e2ae666fc5eec594ba778d89abfa6f1505c932409e1b5f26700914",
+      "bytes": 2220,
+      "origin": "verified frozen Dummy parsed-source regression"
+    },
+    "port/level-world/tests/canonical_dummy_declarations_v14.inc": {
+      "sha256": "986e9d3d7c62d5dfc25ccc65a94fe1fe98db76b6b0ad6965c71b1699ac5d28e7",
+      "bytes": 11621,
+      "origin": "verified frozen Dummy parsed-source regression"
+    },
+    "port/level-loader/level_constructor_v3.hpp": {
+      "sha256": "dfe08c0300629ca7c01289891e02bbd266a29efc966d26a1c715f4782d2781b1",
+      "bytes": 4939,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    },
+    "port/level-loader/level_constructor_v3.cpp": {
+      "sha256": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+      "bytes": 5934,
+      "origin": "Hash-verified root native GSLevel V27 / state type V38 / prepared-source supplement"
+    },
+    "port/level-world/event_manager_owner_v12.hpp": {
+      "sha256": "15a5e8206fb3c951fa7a1d3486ca0167cbf486a0d3cffa13d8d6db9f0b040b16",
+      "bytes": 3230,
+      "origin": "verified same-Level complete constructor API V4"
+    },
+    "port/level-world/event_manager_owner_v12.cpp": {
+      "sha256": "b66a23fe43ce48e104cc0845431e541b4a757eee51baa6b18e5cdce81adeb459",
+      "bytes": 5364,
+      "origin": "verified same-Level complete constructor API V4"
+    },
+    "port/level-loader/tests/canonical_level_constructor_v3.cpp": {
+      "sha256": "f8d4bb17a1e5184b03e93cd16ff9cc033ee89d6cb8105e95d1395c94259933f4",
+      "bytes": 4119,
+      "origin": "verified same-Level complete constructor API V4"
+    },
+    "port/level-loader/canonical_module_files_v1.cpp": {
+      "sha256": "47fc1dc4dc58f462136b82ac69d2e82a7b25b1a18a8d54396d5268d2617627fd",
+      "bytes": 6087,
+      "origin": "unchanged loader relay retained in coherent constructor header graph"
+    },
+    "port/level-world/canonical_spawn_point_v15.hpp": {
+      "sha256": "22e5ef4bff33579f7de6c7ebcdd295ebe2ad236ff83c103ca8ea0c3a45c51299",
+      "bytes": 2087,
+      "origin": "verified frozen canonical-swamp-families-v15-ced536727bad8a44"
+    },
+    "port/level-world/canonical_spawn_point_v15.cpp": {
+      "sha256": "270e08c02233e32cffd94ea767f1ef9dc791da679adc79cc0d060ede79bd8a94",
+      "bytes": 3124,
+      "origin": "verified frozen canonical-swamp-families-v15-ced536727bad8a44"
+    },
+    "port/level-world/canonical_decor_v15.hpp": {
+      "sha256": "cb248e91d5c3ad22c0ecfdd1dc1dc074e0233b89d140c43431129871f361497c",
+      "bytes": 2400,
+      "origin": "additive AnimatedDecor source375 borrow; same Decor fields"
+    },
+    "port/level-world/canonical_decor_v15.cpp": {
+      "sha256": "7e2f57f9785b6e9994e509d56c9406c5b17d45822cb634920696d971cb4b40da",
+      "bytes": 3784,
+      "origin": "verified frozen canonical-swamp-families-v15-ced536727bad8a44"
+    },
+    "port/level-world/canonical_family_fields_v15.hpp": {
+      "sha256": "e1563ad19d2d55f8a0a80faa5fceb139cdfc3e0c8e6407fe2d45c8415b4104ff",
+      "bytes": 1379,
+      "origin": "verified frozen canonical-swamp-families-v15-ced536727bad8a44"
+    },
+    "port/level-world/canonical_swamp_family_declarations_v15.inc": {
+      "sha256": "89cf69f2c3e42ba59d885146f5a58805018ebffa71ff06ec5832b5b5fe00c5af",
+      "bytes": 260,
+      "origin": "verified frozen canonical-swamp-families-v15-ced536727bad8a44"
+    },
+    "port/level-world/tests/canonical_swamp_family_v15.cpp": {
+      "sha256": "f3d40ab083830bf9518fda9d752791a127ddf5c3617df049d2e8184da25cc1b0",
+      "bytes": 6639,
+      "origin": "verified frozen canonical-swamp-families-v15-ced536727bad8a44"
+    },
+    "port/level-world/tests/canonical_swamp_family_declarations_v15.inc": {
+      "sha256": "fd4f9f94ba6a18fa3e1f77486a7444626cc9e9f849b90a95176da77d240015bf",
+      "bytes": 8409,
+      "origin": "verified frozen canonical-swamp-families-v15-ced536727bad8a44"
+    },
+    "port/level-world/canonical_destructible_container_v16.hpp": {
+      "sha256": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "bytes": 5507,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/canonical_destructible_container_v16.cpp": {
+      "sha256": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995",
+      "bytes": 10764,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/destructible_container_data_v16.hpp": {
+      "sha256": "18245e775fb0b0c9eda3b69d67578a0c3e9b248baff6260d0c94a26a3fea4b8c",
+      "bytes": 1288,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/destructible_container_data_v16.cpp": {
+      "sha256": "aefd5b7b80cb8c0a873a642118f3fecd250f65dc5b6aeb92ff7539b37a59011f",
+      "bytes": 1922,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/destructible_container_data_connection_v16.hpp": {
+      "sha256": "9d21ef7f6502c0aae342d025bf9e17181ef9e35eb27512b11cfef358495585e4",
+      "bytes": 1374,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/canonical_destructible_declarations_v16.inc": {
+      "sha256": "68ace578b73ea734f1f0d38275bc9e82b4c79842995953a4d84ed4370ffbe580",
+      "bytes": 231,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/tests/canonical_destructible_container_v16.cpp": {
+      "sha256": "a3af3699ab9f9401ff5da9ae6beb060808bc8384e1c4a7d3ec80c23dd6bb0f28",
+      "bytes": 7273,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/tests/destructible_data_fixture_v16.inc": {
+      "sha256": "97edd7a3e978216ccde8b6632240424fd5de3cd055f5f3349edfcee70c00af19",
+      "bytes": 15955,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/tests/destructible_dictionary_fixture_v16.inc": {
+      "sha256": "59fbf9af72efadb258c1ea961523a2ffbce748d63fcbc99e7cd3cbd157bbac12",
+      "bytes": 21454,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/level-world/tests/destructible_declarations_v16.inc": {
+      "sha256": "8f13aae4f2cc19f0c728ac64c305bb000cc5170078546f7fead062deab15d2f3",
+      "bytes": 4826,
+      "origin": "verified frozen canonical-destructible-v16-dedf111fa2da1a0c"
+    },
+    "port/game-data/player_profile_index_v1.cpp": {
+      "sha256": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+      "bytes": 3109,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lapi.c": {
+      "sha256": "6aa0d9fdd88b13fe46568ad6722ecf44164fb84476cfdf6480cf05b5704935f8",
+      "bytes": 22708,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lapi.h": {
+      "sha256": "4aea4c1b975d43184f4f1fd1a42c79cf11d74d2801315740cec07fe9abebb56d",
+      "bytes": 262,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lauxlib.c": {
+      "sha256": "b564650bf4aca2757b9966311d32c8d5fea8803f6f33d72a856448d3b5d6d992",
+      "bytes": 17417,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lauxlib.h": {
+      "sha256": "c741f9c1587f29fd08a79acbe0c46884768a47f89bee4147669f774c5cf50fc0",
+      "bytes": 5777,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lbaselib.c": {
+      "sha256": "703b8c0de8142d486bc6d6082cf6427583189319a4aed3a02dd8c1653e0fd42b",
+      "bytes": 17046,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lcode.c": {
+      "sha256": "f8026741a3e6ea3520c751ef2e7f6c0b88e0e36b4dab93a238d2a5ef0dab18a5",
+      "bytes": 21335,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lcode.h": {
+      "sha256": "97d5a37f3b1b19eda1ef39607b3358aa0f7e917568ccd27ed0f14bc6a70d4b17",
+      "bytes": 2750,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ldebug.c": {
+      "sha256": "afa5840195befaec55177273c8168748026b38df3243767fc740cc7ced0c4c8f",
+      "bytes": 16840,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ldebug.h": {
+      "sha256": "d036f0dbb996bdecd48d505746f72c31b82fb2fc38f111b780568338d4ed9e9c",
+      "bytes": 1061,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ldo.c": {
+      "sha256": "1839bd9227430c5344b348f57e5cd680f56e854932abde31f402282d95882326",
+      "bytes": 14851,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ldo.h": {
+      "sha256": "591ad9a90098d3fbf06839da3de752d2c2585cbf5801dde4cdaffe12b23a182e",
+      "bytes": 1897,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ldump.c": {
+      "sha256": "661d499262e9808732b2bf67d2d0cedafcaf0b4eefb54c922959af450fd2b87b",
+      "bytes": 3229,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lfunc.c": {
+      "sha256": "525681d79098958530e5c937f7cbe94a4dafa679746ffdb16258f82b7ece29ce",
+      "bytes": 4618,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lfunc.h": {
+      "sha256": "3cea0071ffda94eac378adb5f1ecb467ef2ffafff4315459e4ccdf05b5119da4",
+      "bytes": 1125,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lgc.c": {
+      "sha256": "c095b53992c084bf80a9a2f0f0b885eda474646806c8a8c9ab55c4fb5643ad32",
+      "bytes": 20497,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lgc.h": {
+      "sha256": "fbab2b989515377729d4c029dd58b3b6242877a88a7c4cfa703ea0deeb069a1e",
+      "bytes": 3159,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/llex.c": {
+      "sha256": "aecb5f00908832222e62fb1b970825278dc460a65a080d79a3693f82438e52c8",
+      "bytes": 12474,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/llex.h": {
+      "sha256": "0f3715d22b025727ef11debd641600a123b81718d195cd8445ac6378814458e6",
+      "bytes": 2177,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/llimits.h": {
+      "sha256": "1910669296681d9d2814ca46c325063724bb634c0428dae4e5ff59be54e0b758",
+      "bytes": 2349,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lmathlib.c": {
+      "sha256": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
+      "bytes": 5831,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lmem.c": {
+      "sha256": "e63c50cb1c75356bd4123c9ca05f77bd0cd99e05c099cf6d1bf472086761e9c5",
+      "bytes": 2172,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lmem.h": {
+      "sha256": "abd1258418486c69bf5a93ceea3a1b9f8af2c7497a4fa6c27b442ffec2c5bbb1",
+      "bytes": 1494,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lobject.c": {
+      "sha256": "d704915c79c721556cc5850d741ed3bef1611221356f0e3a2f0ee5cfd5fd3632",
+      "bytes": 5498,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lobject.h": {
+      "sha256": "274c18373fbbad71bfebd534cae4b2d2e49934abf6672f44735edc6646fb6a8b",
+      "bytes": 8502,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lopcodes.c": {
+      "sha256": "63cd74edc75970092a8ce078c4ab970efa1ee18de960d00eb826d49fe98d8a76",
+      "bytes": 2884,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lopcodes.h": {
+      "sha256": "a15fe349da7c1e73b563e8c3249fe7d535eccc844cb30ec80b4e335b0699279b",
+      "bytes": 8086,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lparser.c": {
+      "sha256": "61c85a7c4f5387d36b91d53a60df3802d7639928b1d76675ede6fb0868ad2510",
+      "bytes": 36696,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lparser.h": {
+      "sha256": "84512d6540b83ab599cd8de5a1c8c4deaf71ff353f8e4fbc2e4ca135ba4e9ef0",
+      "bytes": 2261,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lstate.c": {
+      "sha256": "c36d6b9354aaa30b5323b4984f3172783f69e0deb3186c2ef6f16a8281c59c29",
+      "bytes": 5674,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lstate.h": {
+      "sha256": "dc64ea7ec74d7c1efaeaf6a9e2257f0b7856a5c988747948af2e76cf079d20fe",
+      "bytes": 5011,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lstring.c": {
+      "sha256": "aa7e934c435d870b9d937ac2fb03dbfa15d367012d46e7e995a2ad8d440f2f6d",
+      "bytes": 3110,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lstring.h": {
+      "sha256": "c0e8af4eb33e3357be79f906e7e1191ba53a3a790d36ca15b50471d3a339e1f0",
+      "bytes": 814,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lstrlib.c": {
+      "sha256": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
+      "bytes": 23481,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ltable.c": {
+      "sha256": "b5d3a42b7068c0c822845563c9974fa00b41a190fd4352910f5e29f0eef94dfb",
+      "bytes": 16396,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ltable.h": {
+      "sha256": "219e6ac2bf43aaa93093c6bcd571c012660325e6b87ea3d6c1b40679a0acfd64",
+      "bytes": 1184,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ltablib.c": {
+      "sha256": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
+      "bytes": 7343,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ltm.c": {
+      "sha256": "9759ae5d1aa3b11e1c7faa6c0f65e05c7126417f7f8f3f989d82fc170b07f891",
+      "bytes": 1650,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/ltm.h": {
+      "sha256": "54f4c2fa76b8ed8d48163e31807a19999f5d65b009ae862cb757e0773f2aa485",
+      "bytes": 1018,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lua.h": {
+      "sha256": "c2a78484b53d115d9229a62e8d16db8309f1c68415b56ad5672e00674119bebb",
+      "bytes": 11688,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/luaconf.h": {
+      "sha256": "b3ec2e1f0d42e099157cc0adc8a4ef5c62afa09f5fefad9c95de3ef3be89cf23",
+      "bytes": 22345,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lualib.h": {
+      "sha256": "13f880e9dd997a0f7fd0b17ccd949c98f33e95bd120f084de66084e888217413",
+      "bytes": 1026,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lundump.c": {
+      "sha256": "611fdad9c97d2b81c918d08bc610c830dc6b8f1167b718cb32b5d1eb76149f21",
+      "bytes": 4759,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lundump.h": {
+      "sha256": "9f3a2924d1585620993a70eea6cf3def34acb8322b2d9c3629bcdacc037edc64",
+      "bytes": 890,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lvm.c": {
+      "sha256": "f9f0979df389c571193c4b5d20ae80180d9857ca5a9873c601c42055583cf19d",
+      "bytes": 23126,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lvm.h": {
+      "sha256": "db4b79dc7f4e7656078aa527350fbf14b2fde5d136ccf1cb4f3dc397def5fb67",
+      "bytes": 1159,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lzio.c": {
+      "sha256": "892bc24d898c19cbedceba419c68f910b99321c0b462be2c2c00b9d763563173",
+      "bytes": 1628,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/lua/lzio.h": {
+      "sha256": "0ec77d0179bf29c1ccab97028fed761944d5c21c02808e10cd7b5883b58b2ca6",
+      "bytes": 1556,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/reports/native-production-closure-v24/script-runtime-production-v24.cmake": {
+      "sha256": "206ef365122972a723df79fbac3221a3df4569f80bd6368390ddb3c1db4c9c4e",
+      "bytes": 2896,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_design_bindings.c": {
+      "sha256": "d3fa2b17d974aec16a130ab9f6ffd547e89f5cc24b26f18e98f970ad8b931e0a",
+      "bytes": 2364,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_function_alias.cpp": {
+      "sha256": "28117cd5fbfe1c15ed14dc2ef5fbf8ec6a23379b5f9450d15e194f67ba2a0fec",
+      "bytes": 4287,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_game_bindings.c": {
+      "sha256": "779f245eb5b5b738381bd003f622f84e83390af254cd2268dc9f81503e3df482",
+      "bytes": 3211,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_int_bindings.cpp": {
+      "sha256": "04b216621891f067b423230fd2b7aa8b47330bb08174bcaef394cca8e22edc7a",
+      "bytes": 6871,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_object_bridge.c": {
+      "sha256": "e8bd39d180c86dfa7e6fa0396351010475ac330284372e4607cd2d3e595cf74c",
+      "bytes": 2456,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_object_bridge_internal.h": {
+      "sha256": "f05dfc2c09b2c61868bc73b47b31aaa21a103b228858d2e47d0f65f976f5e071",
+      "bytes": 440,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_return_observer_v1.h": {
+      "sha256": "a8a6e580833a589a173248b415207f7c2c54c321451b46423ab4c531147dd636",
+      "bytes": 1315,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_return_observer_v3.h": {
+      "sha256": "8f1c27c65cdb48c0e8325196a39f47e8db2a78172fe99b7420b5c41712695617",
+      "bytes": 650,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_runtime_return_v3.c": {
+      "sha256": "e9bf3185c11030a2a0cd3cab4558cc533560684f5d8601a5a7cf01d39988eb06",
+      "bytes": 3712,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_scalar_bindings.c": {
+      "sha256": "de37788729dabcd53afa6ca9bf5f918229979b8624ae20e11dd1499b267ead61",
+      "bytes": 5677,
+      "origin": "verified native-script-runtime V24 production closure"
+    },
+    "port/script-runtime/script_runtime_return_v1.c": {
+      "sha256": "ec7454cbab2ac29b4dc89e6bb759bb92dc7735f7341597322bfcdeb6416bb75f",
+      "bytes": 3682,
+      "origin": "read-only compatible captured textual include dependency; not a translation unit"
+    },
+    "port/script-runtime/script_runtime.c": {
+      "sha256": "571f4009dfac62b4251d9e4555f6b3cf343166a29d8f65ab92d5bc9d55391b9b",
+      "bytes": 31235,
+      "origin": "read-only compatible captured textual include dependency; not a translation unit"
+    },
+    "port/level-loader/level_constructor_bindings_v4.hpp": {
+      "sha256": "616d84515678f29fb394a686e96c2fd41b66b5fd7c24b39172de4d265474e86c",
+      "bytes": 2017,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-loader/level_constructor_bindings_v4.cpp": {
+      "sha256": "3645564435f812c021d9b3c8dfef3ca5b7c889accc850975e7e91671c1f84f15",
+      "bytes": 3552,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-loader/tests/level_constructor_bindings_v4.cpp": {
+      "sha256": "a9e69cd05658a1fac37334d4e6feee219a30bd6c2f06bf8bec38226d6f85fa07",
+      "bytes": 7727,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/generic_lua_script_owner_v13.hpp": {
+      "sha256": "f6f1e18589a13d5e3faab3de1b73365787535f60374aaf354c707061e4930aeb",
+      "bytes": 3158,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/generic_lua_script_owner_v13.cpp": {
+      "sha256": "1129dfa0695977763ab1d3d2749e3771302f6c9c33d9b2072d30b4360e45c863",
+      "bytes": 14993,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/level_savegame_owner_v1.hpp": {
+      "sha256": "33e1869ee0df95affb272a577a21c63d2b6465845a62a24e205b5eeed89b06c0",
+      "bytes": 2731,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/level_savegame_owner_v1.cpp": {
+      "sha256": "bddb330a95b2d7443cea60c5ee5a5c276ba222db912d083c8e8da468b169af0b",
+      "bytes": 4067,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/level_savegame_cache_v1.hpp": {
+      "sha256": "326411bd1374f0efb4bc26dc7fc2d6d9dfa0da941bb8e8076845f456b9bd0096",
+      "bytes": 1879,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/level_savegame_cache_v1.cpp": {
+      "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9",
+      "bytes": 2918,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/level_savegame_runtime_v1.hpp": {
+      "sha256": "676cfd119fb6bbbe086445d22a37c3186f5413a38d90634b165e5f0103a2378e",
+      "bytes": 1875,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/level_savegame_runtime_v1.cpp": {
+      "sha256": "a96a52df3a2b87e94503611ce6be6e66441865c760cdd6195350168a5ae33e2f",
+      "bytes": 2593,
+      "origin": "verified native Level C1 V4 Lua/Save binding source"
+    },
+    "port/level-world/generic_animation_callbacks_v21.hpp": {
+      "sha256": "acc9e8bba1773f450cf33b4c3156782eea71c89ab218ea984d01262866cc9aee",
+      "bytes": 1713,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/generic_animation_callbacks_v21.cpp": {
+      "sha256": "b8ab26f78de7ca8f9048791fdc043c2cff2a577632fd5756c5ece4b73627c991",
+      "bytes": 1123,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/base_index_animation_controller_v21.hpp": {
+      "sha256": "c37ead41f879a08ae27cfff16a1a1b73863650c965313e9b17d5443f1e0b2789",
+      "bytes": 211,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/base_index_animation_controller_v21.cpp": {
+      "sha256": "b424ee80875cca81baf938ec6c187f4bb6e96dafdc459a789f3cd9ad9de704a0",
+      "bytes": 1247,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/retained_generic_animator_v21.hpp": {
+      "sha256": "0558fb838e38ff005c89c52a64779cc37e61e7127f31321d62a345243a980b58",
+      "bytes": 1007,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/retained_generic_animator_v21.cpp": {
+      "sha256": "b7fac61ccf5bb4acde4c61c07bae992f8715fd5e483960f9e6aca2d0acb6b3ee",
+      "bytes": 2096,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/container_animation_connection_v21.hpp": {
+      "sha256": "f312044102a9ddba2890668455d80c9e3a6f62fc133a5e7f3ae0c09409b01263",
+      "bytes": 817,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/container_animation_connection_v21.cpp": {
+      "sha256": "199e491464deeceefa25162ce4064f414c4206a6740931e0ea948230e8b1a74d",
+      "bytes": 3778,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/canonical_openable_graph_v21.hpp": {
+      "sha256": "424db821809d76ab7669f67bbb3c7c7624cf3a03bffc6666ce736dfdd0da10ed",
+      "bytes": 2622,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/canonical_openable_graph_v21.cpp": {
+      "sha256": "57cb49cacedf05d7379d10e669c2d55f5cd58de4004817117731c7bfb2d6187b",
+      "bytes": 8396,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/tests/canonical_openable_graph_v21.cpp": {
+      "sha256": "355f99bc0b4c3cbe513fbf6805255b7bca93a745e47d071968b7d8205c887b1e",
+      "bytes": 8374,
+      "origin": "verified generic container animation V21 successor"
+    },
+    "port/level-world/canonical_trigger_zone_v22.hpp": {
+      "sha256": "c3ee8d59fe9a20ee99bc897ec18afd69de415712d0c554e9b5c9dfeff9b2c942",
+      "bytes": 7850,
+      "origin": "V29 additive actual TriggerZone derived GO-ID constructor/field borrows; existing GO20 and all engine behavior preserved"
+    },
+    "port/level-world/canonical_trigger_zone_v22.cpp": {
+      "sha256": "8e51220e3f80e248ee70330aa3610ed944f79f3c61a802ed7e435338d0ac13f3",
+      "bytes": 14444,
+      "origin": "V29 delegates original GO20 wrapper to same TriggerZone constructor; derived GO14 supported; stable same-field strings"
+    },
+    "port/level-world/canonical_trigger_zone_declarations_v22.inc": {
+      "sha256": "093678afb8f6972508a3fc8460667cd8a533c1a417341546e00595554d629aa5",
+      "bytes": 827,
+      "origin": "V29 original ExitZone inherits exact TriggerZone declaration body; existing schema unchanged"
+    },
+    "port/level-world/tests/canonical_trigger_zone_v22.cpp": {
+      "sha256": "a2de8698e558dbd11a90a53fd755bb4039d8c7d1dfea68046dd1939c91cce8d2",
+      "bytes": 10625,
+      "origin": "verified canonical TriggerZone V22 successor"
+    },
+    "port/level-world/tests/trigger_declarations_v22.inc": {
+      "sha256": "d6b3b3edb22cd03433b78d090669d12d848bd42cb646294c0f8d90f20f72caed",
+      "bytes": 9279,
+      "origin": "verified canonical TriggerZone V22 successor"
+    },
+    "port/level-world/tests/trigger_update_original_cases_v22.inc": {
+      "sha256": "b2ea4c34b136f7cba68dae12a454f1a896a93105cbc01f0048b36bf8bbec1931",
+      "bytes": 254,
+      "origin": "verified canonical TriggerZone V22 successor"
+    },
+    "port/level-world/tests/trigger_predicates_original_v22.inc": {
+      "sha256": "745c34cb6c9bce0354347ce84fe527a22d5e8d508ea1c9e684e3cc99ac493265",
+      "bytes": 3993,
+      "origin": "verified canonical TriggerZone V22 successor"
+    },
+    "port/level-world/canonical_animated_decor_v23.hpp": {
+      "sha256": "11da98c073cc672cd86963a45248d7ce732a7a0134cd52315caa2ee1da1b9a1e",
+      "bytes": 1451,
+      "origin": "source342600 AnimatedDecor constructor/property owner; required engine InitPost"
+    },
+    "port/level-world/canonical_animated_decor_v23.cpp": {
+      "sha256": "75471cca3d3dcadf484534acf12ff74e9687d84655c46c0b9b6303928871f105",
+      "bytes": 1919,
+      "origin": "source342600 AnimatedDecor constructor/property owner; required engine InitPost"
+    },
+    "port/level-world/canonical_checkpoint_zone_v26.hpp": {
+      "sha256": "3fdf76e79eae3e6136baa66210782d035575da6da57159b7409c74620bf2c14e",
+      "bytes": 2781,
+      "origin": "source340f2c CheckpointZone C1/property owner; required lifecycle/save services"
+    },
+    "port/level-world/canonical_checkpoint_zone_v26.cpp": {
+      "sha256": "c72027387ea24da09e6c94b5901ce4fc96feba4a8bcf753335a741f5da386760",
+      "bytes": 3814,
+      "origin": "source340f2c CheckpointZone C1/property owner; required lifecycle/save services"
+    },
+    "port/level-world/canonical_door_v27.hpp": {
+      "sha256": "a36eebda6408753985e8b010cc228b219d76616e161109843dd051f8780df871",
+      "bytes": 4045,
+      "origin": "Door340824 constructor/property receiver; source NetStruct bool zero backing modern safety repair; required engine lifecycle"
+    },
+    "port/level-world/canonical_door_v27.cpp": {
+      "sha256": "9ed2227973dec8db7eec0739966b0b4f0ece48f4e47fbb04aef23b6f63d82349",
+      "bytes": 3596,
+      "origin": "Door340824 constructor/property receiver; source NetStruct bool zero backing modern safety repair; required engine lifecycle"
+    },
+    "port/level-world/canonical_trigger_object_v28.hpp": {
+      "sha256": "e11b1a132d3fae63d9c902c271bd33ae0664799ec0cd808494d120c9aa3db73c",
+      "bytes": 3566,
+      "origin": "Distinct TriggerObject340f0c constructor/property receiver; source Trigger network reused with explicit backing safety repair; required engine interaction/lifecycle"
+    },
+    "port/level-world/canonical_trigger_object_v28.cpp": {
+      "sha256": "ab57e6a15655e8a25211faf00f6f96200891c945bbbd682406944967cb88c7c2",
+      "bytes": 5150,
+      "origin": "Distinct TriggerObject340f0c constructor/property receiver; source Trigger network reused with explicit backing safety repair; required engine interaction/lifecycle"
+    },
+    "port/level-world/canonical_exit_zone_v29.hpp": {
+      "sha256": "9b50dfb0a70b526dc187b01aa47c81e00a4aa2c9364d7ee6b9a7bc4670e5bb08",
+      "bytes": 1606,
+      "origin": "Derived TriggerZoneExitLevel340ea0 C1/schema/initPost39c8c8, required transition execution"
+    },
+    "port/level-world/canonical_exit_zone_v29.cpp": {
+      "sha256": "583c95b07dd911506eb168eb1b6e56952ffe9aa7fb292fbed225e02cae97e8a4",
+      "bytes": 3630,
+      "origin": "Derived TriggerZoneExitLevel340ea0 C1/schema/initPost39c8c8, required transition execution"
+    },
+    "port/level-world/canonical_quest_move_zone_v31.hpp": {
+      "sha256": "bb08e2fbbb41f37703de67d11ff45fe74aaccbffca0a30cb1cec4596d1daa49f",
+      "bytes": 2720,
+      "origin": "V31 original QuestMoveInZone factory340f50/constructor396330 and inherited Zone fields/schema397df8; required quest execution service"
+    },
+    "port/level-world/canonical_quest_move_zone_v31.cpp": {
+      "sha256": "238ae8c12e8ff00ab2de70dce8577ee1b128f6fc388b7b8ab6d1ceaefed72b3a",
+      "bytes": 3875,
+      "origin": "V31 original QuestMoveInZone factory340f50/constructor396330 and inherited Zone fields/schema397df8; required quest execution service"
+    },
+    "port/level-world/canonical_sound_emitter_v32.hpp": {
+      "sha256": "2d5c1f6f65e1b57c6c4a32e626fe7b608df58c8ee64181d750c267303f955b58",
+      "bytes": 2398,
+      "origin": "V32 SoundEmitter original ctor39551c/schema395718 and typed original constant producer; prior receiver schemas preserved"
+    },
+    "port/level-world/canonical_sound_emitter_v32.cpp": {
+      "sha256": "10d8f14925b7b3b81ce2559906c02a53ed5697b069f468664e45a9b462abd7fc",
+      "bytes": 3561,
+      "origin": "V32 SoundEmitter original ctor39551c/schema395718 and typed original constant producer; prior receiver schemas preserved"
+    },
+    "port/level-loader/canonical_level_prepared_source_v25.cpp": {
+      "sha256": "734de74a996cca81eacda5fe5c77b86eeb256c60a171405f381838b72644e936",
+      "bytes": 867,
+      "origin": "Hash-verified root native GSLevel V27 / state type V38 / prepared-source supplement"
+    },
+    "port/level-world/canonical_trigger_trap_v37.hpp": {
+      "sha256": "0abd413886be191e877c397075a99d5574d80b8b06640af07bbf1bb7fe28c8ab",
+      "bytes": 3637,
+      "origin": "Original TriggerTrap V37 verified constructor/property contribution; same canonical factory/manager; activation provider required"
+    },
+    "port/level-world/canonical_trigger_trap_v37.cpp": {
+      "sha256": "c8c65e8f5c727f7190b866d61c3e293e4f7cc21bdfa60b81b1637dff65ba16b8",
+      "bytes": 4212,
+      "origin": "Original TriggerTrap V37 verified constructor/property contribution; same canonical factory/manager; activation provider required"
+    },
+    "port/level-world/canonical_trigger_trap_declarations_v37.inc": {
+      "sha256": "cf8ea822e132eea5de78fcb2cd7967793544cfec5b19f906e7538b123946296d",
+      "bytes": 283,
+      "origin": "Original TriggerTrap V37 verified constructor/property contribution; same canonical factory/manager; activation provider required"
+    },
+    "port/level-world/character_model_name_v38.hpp": {
+      "sha256": "09b56d52678b9f65f97ae21b34b220a08ac1221f15172c2e57e68d3c98a9a292",
+      "bytes": 2156,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    },
+    "port/level-world/character_model_name_v38.cpp": {
+      "sha256": "62af39611d8047fe00b33be7588e377309867e00e4af4a9aa350f4a87c62dc83",
+      "bytes": 2787,
+      "origin": "Reviewed original field/manager/Visual producer adoption V38-V40; actual runtime providers remain explicit"
+    }
+  },
+  "parent_manifest_sha256": "df31322785aa4a59b186afdee5959f624b7877c1b88a4ea81bca6eb093d29164",
+  "staged_utc": "2026-10-06T11:36:50+00:00"
+}

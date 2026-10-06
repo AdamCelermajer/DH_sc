@@ -1,0 +1,47 @@
+{
+  "checkpoint": "port\\android-native\\build\\checkpoints\\dh2-native-hud-edges-29d2d5b5.apk",
+  "sha256": "29d2d5b504589cbe37a7d79650b7963474573b89b05903b4ce3c7bbe32e1f098",
+  "bytes": 614041701,
+  "status": "PASS_HUD_EDGE_PLACEMENT_REAL_TOUCH_AND_MELEE_FX",
+  "scope": "Uniform-scale actual HUD groups anchored to screen edges; current source matrices restored after display/picking. Mirrored styles preserved. Live portrait, joystick and normal Attack verified on5554.",
+  "host_cases": 12,
+  "host_checks": 1449378,
+  "observations": [
+    {
+      "label": "164-hud-edge-attack-regression",
+      "pid": "16514",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\164-hud-edge-attack-regression.png",
+      "log_sha256": "c0d8bef6779156b18b0339355337f0086ba95b4e827f937ac587feb98579a139"
+    },
+    {
+      "label": "165-hud-edge-final-portrait",
+      "pid": "16514",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\165-hud-edge-final-portrait.png",
+      "log_sha256": "f2eaf151b3c3b6103411a51c88dd762524b5ffee32566e8a24b4698df46b7c15"
+    },
+    {
+      "label": "166-hud-edge-final-return",
+      "pid": "16514",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\166-hud-edge-final-return.png",
+      "log_sha256": "d4bbd1c1e30a31ad409b6beeb24bec993b27157c33fd8dc983686b0052829047"
+    },
+    {
+      "label": "167-hud-edge-final-world",
+      "pid": "16514",
+      "screenshot": "port\\android-native\\reports\\front-game-flow-v1\\167-hud-edge-final-world.png",
+      "log_sha256": "9fc44b3f24c8c3c606096f8b33b52c5d42e4d3bb8ccff351605caab5b33110b7"
+    }
+  ],
+  "limits": [
+    "Player/camera follow framing unchanged; original dynamic camera remains unrecovered",
+    "Physical Android device testing and complete first Swamp chapter remain pending"
+  ],
+  "sources": {
+    "port/engine-ui/authored_hud_edge_layout_v6.hpp": "863e38e9a734057fc8775f0a87bc0ea3d4939fd0d6029765bb8428d405d35607",
+    "port/engine-ui/authored_hud_edge_layout_v6.cpp": "2c28a0dd1e87b1c7e94936e79a85b9d3e7b0101cdcd7021c9ba13663f133fc39",
+    "port/engine-ui/authored_gameplay_hud_v1.cpp": "70ff9b412b5be8f62dde6d7ac6766146385dd631c4029fe6e9487f948819498a",
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "b149a8a0d5393ac61a4a1050992cc5446fb1a06bfc763e752112b214909d72d9",
+    "port/android-native/app/src/main/cpp/native_app.cpp": "c9a2ae25d293689ffe4892565e1312967334738b5c51dd70991a9ac5bb68c1af",
+    "port/level-world/character_mesh_fx_owner_v4.cpp": "bfffcc1b9345cddf0e311e8402f7e74d0cce37f7fc2be5acdcad3e2f26fc2528"
+  }
+}

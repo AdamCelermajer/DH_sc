@@ -1,0 +1,170 @@
+port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
+360:     private void loadSelected(){
+361:         String name=assets[selected];
+362:         if(name.equals(loadedAsset))return;
+363:         runOnUiThread(()->{closeCharacterPanel();movement.setVisibility(View.GONE);attack.setVisibility(View.GONE);gameplayHud.update(null);gameplayHud.setVisibility(View.GONE);authoredControls.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);});
+364:         if(name.equals("ui/original-main-menu")){
+365:             String report=NativeBridge.loadOriginalFrontScreen(getFilesDir().getAbsolutePath(),"main");
+366:             if(!report.contains("failed"))loadedAsset=name;
+367:             baseReport=report;Log.i("DH2Native",report);show(report);surface.requestRender();return;
+368:         }
+369:         runOnUiThread(()->frontAudio.stop());
+370:         if(name.equals("ui/original-health-panel")){
+371:             String report=NativeBridge.loadOriginalHealthPanel(getFilesDir().getAbsolutePath());
+372:             if(!report.contains("failed"))loadedAsset=name;
+373:             baseReport=name+"\n"+report;Log.i("DH2Native",baseReport);show(baseReport);surface.requestRender();return;
+374:         }
+375:         try(InputStream input=getAssets().open(name);ByteArrayOutputStream out=new ByteArrayOutputStream()){
+376:             byte[] block=new byte[8192];int n;
+377:             while((n=input.read(block))!=-1){if(out.size()+n>32*1024*1024)throw new java.io.IOException("Texture too large");out.write(block,0,n);}
+378:             String selectedMlx="";
+379:             if(name.startsWith("worlds/")){
+380:                 final String provenance=name.substring(0,name.length()-5)+"-provenance.json";
+381:                 try(InputStream metadata=getAssets().open(provenance);ByteArrayOutputStream metadataBytes=new ByteArrayOutputStream()){
+382:                     byte[] metadataBlock=new byte[4096];int metadataCount;
+383:                     while((metadataCount=metadata.read(metadataBlock))!=-1){if(metadataBytes.size()+metadataCount>1024*1024)throw new java.io.IOException("World provenance too large");metadataBytes.write(metadataBlock,0,metadataCount);}
+384:                     selectedMlx="data/scene/"+new org.json.JSONObject(metadataBytes.toString("UTF-8")).getString("layout");
+385:                 }
+386:             }
+387:             String report=name.startsWith("worlds/")?NativeBridge.loadWorld(out.toByteArray(),getAssets(),getFilesDir().getAbsolutePath(),selectedMlx):name.startsWith("models/")?NativeBridge.loadModel(out.toByteArray(),getAssets()):NativeBridge.loadTexture(out.toByteArray());
+388:             if(!report.contains("failed")&&!report.contains("error"))loadedAsset=name;
+389:             baseReport=name+"\n"+report;
+390:             if(name.startsWith("models/")||name.startsWith("worlds/"))NativeBridge.animationTime(getIntent().getIntExtra("time_ms",-1));
+391:             if(name.startsWith("worlds/"))NativeBridge.focusObject(getIntent().getIntExtra("object_index",-1));
+392:             if(name.startsWith("worlds/")&&pendingActorCommand&&getIntent().getBooleanExtra("player_attack",false)){
+393:                 String attackReport=NativeBridge.playerAttack(getIntent().getIntExtra("player_target_index",-1));report+="\n"+attackReport;
+394:                 Log.i("DH2Native","Player command applied | "+attackReport);pendingActorCommand=false;
+395:             }
+396:             // An intent is a command, not a desired state to replay every time
+397:             // Android recreates the GL surface. The native actor owns its state.
+398:             if(name.startsWith("worlds/")&&pendingActorCommand&&getIntent().getStringExtra("object_state")!=null){
+
+port/android-native/app/src/main/cpp/native_app.cpp
+98: extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initialize(JNIEnv* env,jclass bridge,jobject assets){
+99:   // Android has created a new context: previous GL names belong to the old
+100:   // context and must not be deleted against this context's reused names.
+101:   dh2::android_resources::context_lost_v38();
+102:   model_renderer::reset_context();ui_program={};texture=0;report_texture_frame=true;
+103:   dh2::android_ui::Program premultiplied;
+104:   try{
+105:      dh2::android_resources::begin_context_v38();
+106:      // Service lifetime is the native Application process, not a GL context.
+107:      // This source-backed prefix reconstructs only pointer14 publication;
+108:      // complete Application PostInit/Shutdown remain separate work.
+109:      if(!application_services_v5)application_services_v5=std::make_shared<dh2::application::ApplicationServicesOwnerV5>();
+110:      std::string application_error;
+111:      if(!application_services_v5->events14()&&!application_services_v5->post_init_events_v5(application_error))throw std::runtime_error(application_error);
+112:      auto* manager=assets?AAssetManager_fromJava(env,assets):nullptr;
+113:       gameplay_assets=manager;
+114:       character_panel.reset();authored_character_menu.reset();
+115:     ui_program=dh2::android_ui::create(manager,false);
+116:     premultiplied=dh2::android_ui::create(manager,true);
+117:     dh2::android_ui::validate_pixels(ui_program,premultiplied);
+118:     dh2::android_ui::release(premultiplied);
+119:     std::string ui_error;
+120:      if(!original_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);
+121:      if(!front_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);
+122:      auto music=std::make_shared<MusicPlatformV1>();
+123:      if(env->GetJavaVM(&music->vm)!=JNI_OK)throw std::runtime_error("Required Android music JavaVM");
+124:      music->receiver=static_cast<jclass>(env->NewGlobalRef(bridge));
+125:      music->method=env->GetStaticMethodID(bridge,"isSupportMM","()I");
+126:      if(!music->receiver||!music->method||env->ExceptionCheck()){env->ExceptionClear();throw std::runtime_error("Required original Android isSupportMM receiver");}
+127:      original_ui.bind_platform_music([music](std::int32_t& value,std::string& error){return music->query(value,error);});
+128:       character_panel=std::make_unique<dh2::android_ui::CharacterPanelSessionV1>(manager);
+129:   }catch(const std::exception& e){
+130:     dh2::android_ui::release(premultiplied);dh2::android_ui::release(ui_program);
+131:     __android_log_print(ANDROID_LOG_ERROR,tag,"Authored UI initialization failed: %s",e.what());
+132:     return result(env,std::string("Authored UI initialization failed: ")+e.what());
+133:   }
+134:   std::string report="Renderer: ";const auto* r=glGetString(GL_RENDERER);report+=r?reinterpret_cast<const char*>(r):"unknown";
+135:   report+="\nGLES: ";const auto* v=glGetString(GL_VERSION);report+=v?reinterpret_cast<const char*>(v):"unknown";
+136:   return result(env,report+errors("initialize"));
+137: }
+138: extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadTexture(JNIEnv* env,jclass,jbyteArray input){
+
+port/android-native/app/src/main/cpp/native_app.cpp
+171: extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*,jclass){
+172:   dh2::perf::Frame perf_frame;
+173:   glClearColor(0.08f,0.09f,0.11f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+174:   if(front_ui.active()){
+175:     dh2::perf::Scope perf_front(dh2::perf::Phase::front);
+176:     std::string error;
+177:     if(!front_ui.render(surface_width,surface_height,error)){
+178:       original_ui_error="Main menu: "+error;
+179:       __android_log_print(ANDROID_LOG_ERROR,tag,"Merged main menu failed: %s",error.c_str());
+180:       return;
+181:     }
+182:     dh2::android_ui::FrontUiSessionV87::LaunchRequest request;
+183:     if(front_ui.consume_launch_request(request)){
+184:       // This explicit development destination is the current Crypt demo.
+185:       // Consume after AS dispatch returns; no movie is destroyed in callback.
+186:       AAsset* descriptor=AAssetManager_open(gameplay_assets,"worlds/crypt01.dwld",AASSET_MODE_BUFFER);
+187:       if(!descriptor){original_ui_error="Crypt demo descriptor unavailable";return;}
+188:       const auto length=AAsset_getLength64(descriptor);
+189:       std::vector<std::uint8_t> bytes;
+190:       if(length>0&&length<=65560)bytes.resize(static_cast<std::size_t>(length));
+191:       const bool read=!bytes.empty()&&AAsset_read(descriptor,bytes.data(),bytes.size())==static_cast<int>(bytes.size());
+192:       AAsset_close(descriptor);
+193:       if(!read){original_ui_error="Crypt demo descriptor read failed";return;}
+194:       front_ui.deactivate();model_renderer::deactivate();
+195:       original_ui.deactivate();original_ui_error.clear();report_model_frame=true;
+196:       // Same authored layout recorded by crypt01-provenance.json. The main
+197:       // menu's current development destination is explicitly this Crypt.
+198:       front_launch_report=model_renderer::load_world(bytes.data(),bytes.size(),gameplay_assets,front_directory,"data/scene/x07_crypt_backup.mlx");
+199:       if(!model_renderer::active()||front_launch_report.find("failed")!=std::string::npos){original_ui_error=front_launch_report;return;}
+200:       if(!original_ui.attach_player(front_directory,error)){original_ui_error=error;return;}
+201:       front_launch_report="Crypt demo | selected menu slot "+std::to_string(request.slot)+" | campaign restore pending\n"+front_launch_report;
+202:       __android_log_print(ANDROID_LOG_INFO,tag,"Main menu Play -> Crypt demo | slot %d | difficulty %d | live HUD attached",request.slot,request.difficulty);
+203:     }
+204:     return;
+205:   }
+
+port/android-native/app/src/main/cpp/original_ui_session.cpp
+365:     }
+366: #include "original_ui_gameplay_bridge_v1.inc"
+367:     bool load(std::string& error) {
+368:         if(!constants||!debug){error="Required native UI owner allocation failed";return false;}
+369:         std::size_t cache_files=0;
+370:         if(!assets.mount_cache(cache_files,error)||!assets.verify_cache(error))return false;
+371:         for(const auto* uri:{"data/pydata/common_text_pycst.bin","data/fonts_pycst.bin"}) {
+372:             std::vector<std::uint8_t> bytes;
+373:             if(std::strcmp(uri,"data/fonts_pycst.bin")==0){if(!raw_asset(uri,bytes,error))return false;}
+374:             else if(!assets.read(uri,bytes,error))return false;
+375:             dh2_script_constants_reload record{};
+376:             if(dh2_script_constants_load(constants.get(),bytes.data(),static_cast<std::uint32_t>(bytes.size()),&record)!=0){error="Required UI constants load failed";return false;}
+377:         }
+378:         std::array<std::vector<std::uint8_t>,3> metadata;
+379:         const char* uris[]={"data/pydata/common_text_pyarray.bin","data/pydata/common_text_pyarraynames.bin","data/pydata/common_text_pystructnames.bin"};
+380:         for(unsigned i=0;i<3;++i)if(!assets.read(uris[i],metadata[i],error))return false;
+381:         if(!localization.load({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
+382:         movie=std::make_unique<ui::SwfMovie>();ui::SwfServices services;
+383:         services.context=this;services.read=movie_read;services.texture=texture;services.image=image;
+384:         services.draw=draw;services.stencil=stencil;services.native_call=native;services.diagnostic=diagnostic;
+385:         gameplay_queries=std::make_unique<CharacterPanelSessionV1>(manager);
+386:         gameplay_bridge=std::make_unique<ui::CharacterMenuAsBridgeV1>(shared_from_this(),[this](const char* name,ui::CharacterMenuCallV1& call,std::string& e){return gameplay_call(name,call,e);});
+387:         services.native_actions={"NativeSkillGetEquipedSkillsIDs","NativeGetSkillDetails","NativeHUDGetActiveFaery",
+388:              "NativeHUDSkill","NativeHUDSpell","NativeUsePotion","NativeSwapEquipment","NativeGetOptionParameters","NativeUseIpodPlayer",
+389:              "NativeGetNextStatusMessage","NativeStopMessage"};
+390:         services.native_action=gameplay_native;services.native_owner=shared_from_this();
+391:         fonts=std::make_unique<ui::SwfTextFontPlatformV1>(ui::SwfFontServices{this,source_font_read_gfnt_v1,font_diagnostic},services,shared_from_this(),initialize_gfnt_backend_v1(),1.f);
+392:         fonts->policy().renderer_feature=[this](const ui::edit_text_display_v1::Command& command,std::string& error){
+393:             if(command.kind==ui::edit_text_display_v1::Command::grid_fit){gpu.set_grid_fit(command.enabled);return true;}
+394:             error="Required original text render-cache connection";return false;
+395:         };
+396:         if(!movie->load({"data/menus/dqshared_droid.swf"},"data/menus/dqhud_droid.swf",fonts->services(),error))return false;
+397:         const ui::ViewportState64 seed{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1.f,0,0};
+398:         const std::int32_t hud_bounds[]{0,0,driver_width,driver_height};
+399:         if(!movie->connect_viewport(seed,{this,orientation,dimensions},error)||
+400:            !movie->update_viewport(camera,error)||!movie->set_source_bounds(hud_bounds,2,error)||!movie->advance(0,error))return false;
+401:         ui::SwfClipInfo clip;
+402:         if(!movie->clip(panel,clip,error)||clip.id!=157){error="Required original health/mana parent differs";return false;}
+403:         if(!font_failure.empty()){error=font_failure;return false;}
+404:         status=std::make_unique<ui::PlayerStatusHud>(*movie);
+405:         if(!status->bind(hud_sha,error))return false;
+406:         enemy=std::make_unique<ui::EnemyStatusHudV1>(*movie,ui::EnemyHudTextServicesV1{this,integer_string});
+407:         combat_flash=std::make_unique<ui::CombatFlashSwfV1>(*movie,ui::CombatFlashProjectionV1{this,combat_project,combat_rectangle});
+408:         gameplay=std::make_unique<ui::AuthoredGameplayHudV1>(*movie);gameplay_activated=false;
+409:         if(!combat_flash->scan(error))return false;
+410:         __android_log_print(ANDROID_LOG_INFO,tag,"Source combat flash connected | styles %zu | same retained HUD/font/viewport | Level load-process producer pending",combat_flash->queue().styles().size());
+411:         loaded=true;return true;
+412:     }

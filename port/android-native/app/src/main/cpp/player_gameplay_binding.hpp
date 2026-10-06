@@ -5,6 +5,8 @@
 #include "character_state.hpp"
 #include "character_state_owner.hpp"
 #include "character_world_runtime_v1.hpp"
+#include "owned_hud_settings_v1.hpp"
+#include "character_ai_attack.hpp"
 namespace model_renderer {
 // A synchronous GL-thread borrow. The world owner retains all authorities;
 // callers must discard this descriptor before world replacement/recreation.
@@ -21,7 +23,10 @@ struct PlayerGameplayBinding {
  dh2::character::ControllerCommandState32 controller{};
  std::uintptr_t character{};
  std::int32_t difficulty{};
- bool active{};
+  bool active{};
+  dh2::ui::OwnedHudSettingsV1* settings{};
+ // Sole supplemental Character attack/OOI state, shared with native melee.
+ dh2::character::AttackState64* attack_fields{};
  // Pins external services through menu callbacks and VM finalizers. The
  // descriptor itself remains a synchronous borrow of mutable gameplay state.
  std::shared_ptr<void> world_owner;

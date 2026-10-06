@@ -1,0 +1,17 @@
+[
+  {
+    "path": "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+    "sha256": "6e7d4390521ef857295c59ce3457cde8690a82ee9d14b5208588779b24acbd70",
+    "size": 651739
+  },
+  {
+    "path": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/scripts/level/combat_formulas.luac",
+    "sha256": "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f",
+    "size": 36004
+  },
+  {
+    "path": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/scripts/level/death_scripts.luac",
+    "sha256": "439eb9a4627bb7d6b5076c41cda39f5cf4f36c798c56e744ad14df1711ffe777",
+    "size": 609
+  }
+]

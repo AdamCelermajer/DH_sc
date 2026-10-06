@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "scope": "Current APK-linked native actual Crypt loader/graph and FindPath source policy/caller-output storage regression; explicit fixture PF capability/radius/module policy; not live actor/pursuit acceptance.",
+  "apk_sha256": "c438fd7476ddfedb1129638b64c93a6e49361a8a945186ac1bb45329bddbcea3",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\player_target_route_storage_v2.cpp",
+      "sha256": "60d85e9378a9744095d2a7c14acf294ef2760256c86f272c20e1474a6b44b3e1"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "c1ba3ccb21daf91acb96f9901ac73ffee2011b922ec7093a7194b129fb98f7e2"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "f7b792df6a638fbec5ed616cd5b0dc07137ca3d621e043a6d87ac93f0fd10905"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "dc1eb115670672154fcfc8f856b70f85fa39755ead72c7c889225122cf6dad45"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "d9c1336e8173b647235215da0f7a1d122df6cb1073a849892815c74099cdaee8"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "e1f1d1d6f4b0c540cdf8d85a8c3cda248be005afe5a6039a9e59828ed0186830"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "348a0162cc0f614ba148e66daf7ccaa2ef0e4487320c37d6c3ff788246695845"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "6dbac240e93483be74e8f8f63b0eb1b7be9898e52dc71c2cc5eb00e7c6d96303",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\player_target_route_storage_v2.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\player-target-route-storage-v2\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\player-target-route-storage-v2\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\player-target-route-storage-v2\\player-target-route-storage-v2.bin"
+  ],
+  "stdout": "PASS 3 actual Crypt graph caller-output storage regressions: nodes 335, source route found 1, actor segments 2; explicit fixture PF capability/radius and search policy, not live movement acceptance\n",
+  "stderr": "",
+  "exit_code": 0,
+  "cache_inputs": {
+    "crypt.bdae": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+    "crypt01.dwld": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+  }
+}

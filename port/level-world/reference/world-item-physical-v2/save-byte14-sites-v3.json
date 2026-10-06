@@ -1,0 +1,50 @@
+[
+  {
+    "function": "_ZN14PlayerSavegameC2Ejib",
+    "function_address": "0x4656bc",
+    "address": "0x465704",
+    "instruction": "strb r5, [r4, #0x14]"
+  },
+  {
+    "function": "_ZN14PlayerSavegameC1Ejib",
+    "function_address": "0x4655ac",
+    "address": "0x4655f4",
+    "instruction": "strb r5, [r4, #0x14]"
+  },
+  {
+    "function": "_ZN14PlayerSavegame15SG_TryQuestSyncEv",
+    "function_address": "0x4679e8",
+    "address": "0x467a0c",
+    "instruction": "strbeq r3, [r5, #0x14]"
+  },
+  {
+    "function": "_ZN14PlayerSavegame15SG_TryQuestSyncEv",
+    "function_address": "0x4679e8",
+    "address": "0x467a58",
+    "instruction": "ldrb r3, [r5, #0x14]"
+  },
+  {
+    "function": "_ZN14PlayerSavegame15SG_TryQuestSyncEv",
+    "function_address": "0x4679e8",
+    "address": "0x467b68",
+    "instruction": "strb r3, [r5, #0x14]"
+  },
+  {
+    "function": "_ZN14PlayerSavegame18SG_UnpackQuestSyncER12StreamBuffer",
+    "function_address": "0x467160",
+    "address": "0x4671c4",
+    "instruction": "strb r3, [r6, #0x14]"
+  },
+  {
+    "function": "_ZN14PlayerSavegameC2Ev",
+    "function_address": "0x465c40",
+    "address": "0x465c90",
+    "instruction": "strb r5, [r4, #0x14]"
+  },
+  {
+    "function": "_ZN14PlayerSavegameC1Ev",
+    "function_address": "0x465ae0",
+    "address": "0x465b30",
+    "instruction": "strb r5, [r4, #0x14]"
+  }
+]

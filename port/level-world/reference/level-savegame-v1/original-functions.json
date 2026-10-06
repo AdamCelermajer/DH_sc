@@ -1,0 +1,245 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "name": "_ZN8Savegame3Job6finishEv",
+      "entry": "0x313720",
+      "size": 64,
+      "sha256": "55ede8c5328de8f5672a8c6acbd8ae1206390b2d45688a949fff586aa9666916"
+    },
+    {
+      "name": "_ZN8Savegame3JobD1Ev",
+      "entry": "0x313c90",
+      "size": 76,
+      "sha256": "e51159ecc841e2599fe6b20a897986b981b3cfad5d66d3d7e5606c5b1a64b291"
+    },
+    {
+      "name": "_ZN8Savegame3Job4copyERKS0_",
+      "entry": "0x313cdc",
+      "size": 128,
+      "sha256": "732e714c1d4cd86a6d1f0bde0c5b839d1eacf824a1b2212679295bcdef75ff01"
+    },
+    {
+      "name": "_ZN8SavegameD1Ev",
+      "entry": "0x313dfc",
+      "size": 140,
+      "sha256": "164ec6ee69c98d634ec54fef84241ffe7c7bd39270f6c35453354265d9575baf"
+    },
+    {
+      "name": "_ZN8SavegameD0Ev",
+      "entry": "0x313e88",
+      "size": 28,
+      "sha256": "d8e26aa97866296ed50a28678ec2df7144a80a85bd43e046c3ae48c47bd5128b"
+    },
+    {
+      "name": "_ZN8SavegameD2Ev",
+      "entry": "0x313ea4",
+      "size": 140,
+      "sha256": "8830b9f940eba3b291dd892f162ca7f3b6408e4cd921dd6066cf467c85c85498"
+    },
+    {
+      "name": "_ZN8Savegame18DeleteAllSlotFilesEi",
+      "entry": "0x313fb0",
+      "size": 256,
+      "sha256": "142c5c2cf02ff57682863be9564c4c3da8113e87457e0048431c66b36509cdb0"
+    },
+    {
+      "name": "_ZN8Savegame3JobC1ERKS0_",
+      "entry": "0x3145e0",
+      "size": 72,
+      "sha256": "d55611e719a55e1357a481d3873d1f811a3e0b76709fa66b8408d228cec4265d"
+    },
+    {
+      "name": "_ZN8Savegame10UpdateJobsEv",
+      "entry": "0x314734",
+      "size": 1480,
+      "sha256": "6750c4b6d8609d4d3b053af2181a0f7d84a891319268cc716a7ed9b1dcfde697"
+    },
+    {
+      "name": "_ZN8Savegame9FlushJobsEPKc",
+      "entry": "0x314cfc",
+      "size": 164,
+      "sha256": "2a5d1d5518f1fad6243232efb5d29abe3d4e482e88fbb404e12319ae51673338"
+    },
+    {
+      "name": "_ZN8Savegame6AddJobERNS_3JobE",
+      "entry": "0x315110",
+      "size": 220,
+      "sha256": "7db95461f33f292e3b1e130ee79733120252eaabd06d2ed0f7f4d3fee5e2520e"
+    },
+    {
+      "name": "_ZN8Savegame4loadEPKcPFvP11IStreamBasePvES6_S4_",
+      "entry": "0x315848",
+      "size": 188,
+      "sha256": "080dc9da9c195bff4d1b120e0716ef712c013941163bd7c62d91cae3d80801b5"
+    },
+    {
+      "name": "_ZN8Savegame15initSectionInfoEPKcPFvP11IStreamBasePvES6_S4_",
+      "entry": "0x315904",
+      "size": 116,
+      "sha256": "41e1c9f846da1ef7e31f79b3305bfcaa584bd5a1b2899b1a18642f22f7cef64d"
+    },
+    {
+      "name": "_ZN8Savegame10_cacheFileEP12StreamBuffer",
+      "entry": "0x315ad0",
+      "size": 1032,
+      "sha256": "39a53e263f5393d735860207cd93d503e962d6a697e09c535cf83499ab47c677"
+    },
+    {
+      "name": "_ZN8SavegameC1EPKcb",
+      "entry": "0x315ed8",
+      "size": 112,
+      "sha256": "1af81c3bb801adb7d0de1020425e76b08c69caa4ec9f57fe92f73383067e57c1"
+    },
+    {
+      "name": "_ZN8SavegameC2EPKcb",
+      "entry": "0x315f48",
+      "size": 112,
+      "sha256": "2e556504527d34e911d89beb4bd752c588f45a23c0a8322ad2f4fa83c3dc476b"
+    },
+    {
+      "name": "_ZN8Savegame7saveAllEv",
+      "entry": "0x315fb8",
+      "size": 1032,
+      "sha256": "c1df30aa936cf1b982127964e23318236e6c7449bb7aaef95205aaaedb6e1692"
+    },
+    {
+      "name": "_ZN8Savegame5resetEv",
+      "entry": "0x3163c0",
+      "size": 68,
+      "sha256": "b797df81f0e41504d1ac644fc45ff71050477de4cd562944e512b6a4fd5df338"
+    },
+    {
+      "name": "_ZN13LevelSavegameD1Ev",
+      "entry": "0x461498",
+      "size": 92,
+      "sha256": "2889f7232d9294a3eef63de992dd3095f8f27c74780d4e8f7f4d02b3ddbb60b1"
+    },
+    {
+      "name": "_ZN13LevelSavegameD0Ev",
+      "entry": "0x4614f4",
+      "size": 28,
+      "sha256": "851d1899abc852e8625276e798f73265da6d242525f50bab406b9a817b2e436a"
+    },
+    {
+      "name": "_ZN13LevelSavegameD2Ev",
+      "entry": "0x461510",
+      "size": 92,
+      "sha256": "df3fad7c16c566112fc9dd8d1562a585ce2d51d5dca3613df18207d8d6851aa9"
+    },
+    {
+      "name": "_ZN13LevelSavegame4LoadEv",
+      "entry": "0x46156c",
+      "size": 128,
+      "sha256": "1a3d26b197afc0ce7499f1e57ec060407fc5e71ce0bcc06feadfedaed051b24d"
+    },
+    {
+      "name": "_ZN13LevelSavegame4SaveEv",
+      "entry": "0x4615ec",
+      "size": 124,
+      "sha256": "fe916dafe28ae1fb6697d64b2f3cf8b0d3b9a15e09f629f9c3fc9de26eb6dc0a"
+    },
+    {
+      "name": "_ZN13LevelSavegame15__SaveLevelInfoEP11IStreamBasePv",
+      "entry": "0x4616b8",
+      "size": 8,
+      "sha256": "6c81edbe44e4eea50fa281fc04247b5018a82db8fddbaaf05e009cee60256fa4"
+    },
+    {
+      "name": "_ZN13LevelSavegame15__LoadLevelInfoEP11IStreamBasePv",
+      "entry": "0x461820",
+      "size": 8,
+      "sha256": "6fce4813586edda99059cbd818b539a20b295cafcf3097c72db039f7227dbbd4"
+    },
+    {
+      "name": "_GLOBAL__I_.._.._sources_Game_SaveGames_LevelSavegame.cpp",
+      "entry": "0x4618d8",
+      "size": 652,
+      "sha256": "e9a0871a53bd1d4b2eaff35898366c0932c6aa23d0346b950e6360a760fc12b8"
+    },
+    {
+      "name": "_ZN13LevelSavegame13__LoadObjectsEP11IStreamBasePv",
+      "entry": "0x461e90",
+      "size": 612,
+      "sha256": "19c5a1fefb44e557101028c59d63841d6d03d19d35f3ea3af5fe7254aeaaaa60"
+    },
+    {
+      "name": "_ZN13LevelSavegame18DeleteAllLevelSaveEj",
+      "entry": "0x4620f4",
+      "size": 468,
+      "sha256": "18f93f4e4f3d8f1db45dd26f41c3c362bfe118bf2521b98f31a602830ff88e17"
+    },
+    {
+      "name": "_ZN13LevelSavegame21GetCheckpointFilenameEjibRSs",
+      "entry": "0x4622c8",
+      "size": 204,
+      "sha256": "271682c945bd495b221d0f2bb0117a2c3f7bef21da13aa3dc6200e0616c9bdbb"
+    },
+    {
+      "name": "_ZNK13LevelSavegame16CheckpointExistsEi",
+      "entry": "0x462394",
+      "size": 336,
+      "sha256": "ea7f0500aa362aecc440b75011bb33aafda397541af5e4aec5cc1be60f08ec14"
+    },
+    {
+      "name": "_ZN13LevelSavegame11GetFilenameEjiiiRSs",
+      "entry": "0x4624e4",
+      "size": 184,
+      "sha256": "d5c55152717dd37c2782d16926dfb4a80bc5a7afbf6a64a2c7ffce16b59a73d4"
+    },
+    {
+      "name": "_ZN13LevelSavegame14LoadCheckPointEiii",
+      "entry": "0x46259c",
+      "size": 344,
+      "sha256": "b3c83d8e0169861fb4fd80e29f95d9f8a214975a709822c136548e2015e28229"
+    },
+    {
+      "name": "_ZN13LevelSavegame6DeleteEjiiibb",
+      "entry": "0x4626f4",
+      "size": 304,
+      "sha256": "870492abc43edbed8f473964b14fe7331c82e4f6e1a0c9fdf5150a07ef1f3c67"
+    },
+    {
+      "name": "_ZN13LevelSavegame6ExistsEjiii",
+      "entry": "0x462824",
+      "size": 272,
+      "sha256": "3b3e8a5603e3c3d47497afee1d5059ef2013a58c70a8c9c5548d94357096a19f"
+    },
+    {
+      "name": "_ZN13LevelSavegameC1EP5Leveljiiib",
+      "entry": "0x462934",
+      "size": 436,
+      "sha256": "49e7aa3931b178f2a1731e72e4cf8428be5c4301d34e351f712633b033d6cec8"
+    },
+    {
+      "name": "_ZN13LevelSavegame9LoadLevelEjiii",
+      "entry": "0x462ae8",
+      "size": 232,
+      "sha256": "90cbb3e69dbbf66c7ef4fb3d295cd90b8014beef1cafd434cd4a076ff9ef7f63"
+    },
+    {
+      "name": "_ZN13LevelSavegameC2EP5Leveljiiib",
+      "entry": "0x462bd0",
+      "size": 436,
+      "sha256": "ea52129f45cea078785feb11ba084581f19245e37eb7e4aade26bf79b79c1321"
+    },
+    {
+      "name": "_ZN13LevelSavegame13__SaveObjectsEP11IStreamBasePv",
+      "entry": "0x462d84",
+      "size": 940,
+      "sha256": "152c032a58a728f21e0dcda76cf71334b0caf07fcdf87f19c5d19596f750ef9d"
+    },
+    {
+      "name": "_ZN13LevelSavegame14SaveCheckPointEiii",
+      "entry": "0x463130",
+      "size": 344,
+      "sha256": "f583a704b8d1ed68ce53f034928c0e65cbf00e2d8da3b61958d6e74cb9e8b7e3"
+    },
+    {
+      "name": "_ZN13LevelSavegame18ValidateCheckpointEiii",
+      "entry": "0x463288",
+      "size": 604,
+      "sha256": "17b014d28b7dad78a2f239816af4151b4f7350b86d5f7b6fe58f55ed36d6970e"
+    }
+  ]
+}

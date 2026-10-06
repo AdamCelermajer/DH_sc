@@ -1,0 +1,16 @@
+{
+  "schema": "dh2-character-swamp-model-v40-prepared",
+  "status": "SOURCE PREPARED; coherent parent build/run pending",
+  "syntax_pass": true,
+  "base_probe_sha256": "45e3904511b8b0fef32de931106e2363f8952b0b5a4a85cfb1df04debe734101",
+  "files": {
+    "tests\\character_swamp_model_v40_probe.cpp": "4d80c8b012daa77de633a1d22a2f8b319b0c6ba80ce538746b15abb0f1a74b43",
+    "tests\\character_swamp_model_v40_export.inc": "bf02f78316cb19ad0aec25674dc4ba60ea9a7a9d45038f26923258bf8496e8aa",
+    "tests\\character_swamp_model_v40_cmake.txt": "7c499957ad3eb1b48560d0680fddd3a8bf4cc8ef585722750f902dc20b6f336a",
+    "tools\\run_character_swamp_model_v40.py": "3f945adedca6307e8e61a4f3cf0c27a1e0cf00f94d7f1ceb0c1c1c445cad2145"
+  },
+  "production_character_caches_modified": false,
+  "production_random_consumed": false,
+  "whole_original_init_rng_order_verified": false,
+  "device_launched": false
+}

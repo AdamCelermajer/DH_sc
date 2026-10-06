@@ -1,4 +1,5 @@
 #include "character_world_attack_geometry_v1.hpp"
+#include "character_close_range_v38.hpp"
 #include <cstring>
 namespace dh2::character::skills {
 struct CharacterWorldAttackGeometryV1::Projection {
@@ -60,6 +61,32 @@ bool CharacterWorldAttackGeometryV1::debug(std::string& error){
  if(value&&(dh2_character_debug_load(&debug_,&files_)!=1||dh2_character_debug_get(&value,&debug_,"isTracingCharAITarget",&files_)!=1)){error="Required source melee tracing query";return false;}return true;
 }
 bool CharacterWorldAttackGeometryV1::query(void* p,std::uintptr_t owner,std::uintptr_t target,WorldAIAttackQueryV1 op,std::int32_t& result,std::string& error){return static_cast<CharacterWorldAttackGeometryV1*>(p)->read(owner,target,op,result,error);}
+bool CharacterWorldAttackGeometryV1::close_range_v38(std::uintptr_t owner,std::uintptr_t target,std::uintptr_t current,std::int32_t& result,std::string& error){
+ using O=CloseRangeOperationV38;
+ CloseRangeServicesV38 services{this,[](void* raw,const CloseRangeRequestV38& q,CloseRangeResponseV38& r,std::string& e)->int{
+  auto& g=*static_cast<CharacterWorldAttackGeometryV1*>(raw);
+  if(q.operation==O::resolve_character){
+   target_providers::Handle16 local{},*shared{};target_providers::Registry24* registry{};
+   if(g.world_.get_handle(q.subject,&local)||g.world_.handle_borrow(q.subject,&shared,&registry)){e="Required same registered close-range Handle";return -1;}
+   auto s=g.world_.targets().query_services();return target_providers::dh2_target_handle_character(&r.character,&local,shared,registry,&s);
+  }
+  if(q.operation==O::object_kind)return g.services_.object_kind?g.services_.object_kind(g.services_.context,q.subject,&r.word):-1;
+  if(q.operation==O::interaction_type){target_search::Request24 request{target_search::interaction_type,0,q.subject,q.other};target_search::Response16 response{};auto s=g.world_.targets().search_services();if(s.invoke(s.context,&request,&response)){e=g.world_.targets().error();return -1;}r.word=std::int32_t(response.word);return 0;}
+  if(q.operation==O::interaction_range)return g.services_.interaction_range?g.services_.interaction_range(g.services_.context,q.subject,q.other,&r.word):-1;
+  if(q.operation==O::range_parameters){
+   WorldTargetActorBorrowV1 a{};if(g.world_.actor(q.subject,&a)||!a.character||!a.character->resolved){e="Required same close-range Character properties";return -1;}
+   Projection p;std::memcpy(p.properties.words,a.character->resolved,sizeof p.properties.words);const bool needs_inventory=p.properties.words[32]==-1;
+   if(needs_inventory&&!g.inventory(q.subject,p,e))return -1;
+   r.word=dh2_attack_range_parameters(r.limits,&p.properties,needs_inventory?&p.inventory:nullptr,p.records,p.count);
+   return r.word<0?-1:0;
+  }
+  if(q.operation==O::position){const float* p{};if(!g.position(q.subject,p,e))return -1;std::memcpy(r.position,p,12);return 0;}
+  if(q.operation==O::debug_load)return dh2_character_debug_load(&g.debug_,&g.files_)==1?0:-1;
+  if(q.operation==O::debug_query){std::uint32_t value{};if(!q.name||dh2_character_debug_get(&value,&g.debug_,q.name,&g.files_)!=1)return -1;std::memcpy(&r.word,&value,4);return 0;}
+  return -1;
+ }};
+ return character_close_range_v38(result,owner,target,current,services,error)==0;
+}
 bool CharacterWorldAttackGeometryV1::read(std::uintptr_t owner,std::uintptr_t target,WorldAIAttackQueryV1 op,std::int32_t& result,std::string& error){
  error.clear();result=0;
  // Original AI_IsInRange resolves its explicit/current target before asking

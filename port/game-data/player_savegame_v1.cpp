@@ -52,6 +52,29 @@ int PlayerSavegameV1::load_skills(Bytes b,SkillTables::Borrow tables,std::size_t
 bool PlayerSavegameV1::load_name(Bytes b,std::size_t& n,std::string& e){return string_section(b,name_,n,e);}
 bool PlayerSavegameV1::load_level(Bytes b,std::size_t& n,std::string& e){if(!b.data||b.size<4){e="truncated source level";return false;}std::uint32_t v=std::uint32_t(b.data[0])|std::uint32_t(b.data[1])<<8|std::uint32_t(b.data[2])<<16|std::uint32_t(b.data[3])<<24;level_=signed_word(v);n=4;e.clear();return true;}
 bool PlayerSavegameV1::load_class(Bytes b,const std::vector<std::string>& names,std::size_t& n,std::string& e){std::string key;if(!string_section(b,key,n,e))return false;class_=-1;for(std::size_t i=0;i<names.size();++i)if(std::strcmp(key.c_str(),names[i].c_str())==0){class_=static_cast<std::int32_t>(i);break;}return true;}
+bool PlayerSavegameV1::load_location(Bytes b,std::size_t& used,std::string& e){
+ used=0;if(b.size>UINT32_MAX||(!b.data&&b.size)){e="invalid source location span";return false;}
+ SavedSkillsLoadServices32V1 services{};PlayerProfileSpan24V1 span{b.data,static_cast<std::uint32_t>(b.size),0,0,0};
+ auto next=[&](std::uint32_t& value){const bool ok=word(span,value,services);used=span.cursor;if(!ok)e="truncated source location at byte "+std::to_string(used);return ok;};
+ std::uint32_t value;if(!next(value))return false;location_.save_date=value;
+ for(std::size_t i=0;i<3;++i){
+  if(!next(value))return false;location_.levels[i]=signed_word(value);
+  if(!next(value))return false;location_.seeds[i]=signed_word(value);
+  if(!next(value))return false;location_.current_acts[i]=location_.volatile_acts[i]=signed_word(value);
+ }
+ e.clear();return true;
+}
+bool PlayerSavegameV1::load_entry_points(Bytes b,std::size_t& used,std::string& e){
+ used=0;if(b.size>UINT32_MAX||(!b.data&&b.size)){e="invalid source entry-point span";return false;}
+ SavedSkillsLoadServices32V1 services{};PlayerProfileSpan24V1 span{b.data,static_cast<std::uint32_t>(b.size),0,0,0};
+ for(auto& entry:location_.entry_points){std::uint32_t value;if(!word(span,value,services)){used=span.cursor;e="truncated source entry-point section";return false;}entry=signed_word(value);}
+ used=span.cursor;e.clear();return true;
+}
+bool PlayerSavegameV1::load_spawn_points(Bytes b,std::size_t& used,std::string& e){
+ used=0;if(b.size>UINT32_MAX||(!b.data&&b.size)){e="invalid source spawn-point span";return false;}
+ for(auto& flag:location_.use_spawn_point){if(used>=b.size){e="truncated source spawn-point section";return false;}flag=b.data[used++];}
+ e.clear();return true;
+}
 bool PlayerSavegameV1::set_skill_level(std::uint32_t i,std::int32_t level,std::string& e){SavedSkillsView16V1 v{skills_.data(),static_cast<std::uint32_t>(skills_.size()),0};if(dh2_saved_skill_v1_set_level(&v,i,level)){e="unsafe saved skill index";return false;}e.clear();return true;}
 bool PlayerSavegameV1::set_skill_in_slot(std::int32_t key,std::uint32_t row,const SavedSkillUpdateServicesV1& s,std::string& e){if(!skills_initialized_||!character_||key<0||(row!=UINT32_MAX&&row>=skills_.size())){e="invalid source skill assignment";return false;}
  if(row==UINT32_MAX){slots_[0].erase(key);e.clear();return true;}

@@ -1,0 +1,7 @@
+{
+  "actual_named_job_lease_refused": true,
+  "exit": 125,
+  "error": "GUARDED LAUNCH REFUSED/STOPPED: One guarded emulator already owns the host lease: Local\\DH2-Emulator-1aefc39e-be56-4d12-a4f3-76a0c8f4ee15\n",
+  "no_emulator_started": true,
+  "maximum_job_bytes": 67108864
+}

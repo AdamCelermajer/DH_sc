@@ -1,0 +1,87 @@
+[
+  {
+    "path": "_root.menu_HUD_2.HUDelements.HealthBars.flush_text.#1",
+    "id": 32,
+    "bounds": [
+      -220.0,
+      10042.348754882812,
+      -449.0,
+      2825.390869140625
+    ],
+    "source_bounds": [
+      0,
+      9887,
+      0,
+      6540
+    ],
+    "offset": 15863
+  },
+  {
+    "path": "_root.menu_HUD_2.HUDelements.HealthBars.player.#15.#2",
+    "id": 155,
+    "bounds": [
+      153.600341796875,
+      3480.4896545410156,
+      16.900970458984375,
+      1309.8468170166016
+    ],
+    "source_bounds": [
+      -1875,
+      1627,
+      -694,
+      667
+    ],
+    "offset": 32405
+  },
+  {
+    "path": "_root.menu_HUD_2.HUDelements.btn_charactermenu.btimg.HudChar.#1",
+    "id": 38,
+    "bounds": [
+      395.99950910848565,
+      1230.5903392797336,
+      296.5591568888631,
+      1108.295280662598
+    ],
+    "source_bounds": [
+      -222,
+      837,
+      -161,
+      869
+    ],
+    "offset": 16080
+  },
+  {
+    "path": "_root.menu_HUD_2.HUDelements.btn_charactermenu.#3.#1",
+    "id": 79,
+    "bounds": [
+      268.599853515625,
+      1351.5963745117188,
+      172.8499298095703,
+      1112.3969116210938
+    ],
+    "source_bounds": [
+      58,
+      1198,
+      33,
+      1022
+    ],
+    "offset": 18753
+  },
+  {
+    "path": "_root.menu_HUD_2.HUDelements.btn_charactermenu.anim_levelup.#1.#1",
+    "id": 160,
+    "bounds": [
+      461.80500450287946,
+      1136.0759059581906,
+      355.9583335989155,
+      1017.7581333010457
+    ],
+    "source_bounds": [
+      -3,
+      808,
+      -22,
+      774
+    ],
+    "offset": 32934
+  }
+]

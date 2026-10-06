@@ -1,0 +1,1 @@
+PASS cache_files=6833 actual_assets=3 materials=18 sampler_records=27 source_no_image=9 original_cache_reads=18 foreign_material_rejections=18 original_factory_comparisons=5 missing_legacy_parent_owner_array_rejected=1 actual_byte_owner_release=1

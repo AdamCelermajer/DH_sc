@@ -17,6 +17,9 @@ def main():
     new=[
         'app/src/main/java/com/example/dh2/CinematicActivity.java',
         'app/src/main/java/com/example/dh2/FrontAudio.java',
+        'app/src/main/java/com/example/dh2/OriginalCatalogActivity.java',
+        'app/src/main/java/com/example/dh2/OriginalCatalogUrl.java',
+        'app/src/main/res/xml/original_catalog_network.xml',
         'tools/decode_title_music.py','tools/inspect_front_swf.py',
         'tools/front_media_smoke.py','tools/package_front_handoff.py',
         'tools/front_text_smoke.py','tools/front_loading_smoke.py','tools/audit_loading_bitmap.py',
@@ -27,13 +30,13 @@ def main():
         'tools/front_shared_navigation_smoke.py',
         'tools/front_settings_smoke.py',
         'tools/front_name_smoke.py',
-        'tools/repair_keyboard_atlas.py','tools/verify_keyboard_atlas.py',
+        'tools/repair_keyboard_atlas.py','tools/verify_keyboard_atlas.py','tools/repair_loading_atlas.py',
         'tools/front_keyboard_smoke.py',
         'tools/front_resize_transition_smoke.py',
         'tools/front_pop_above_smoke.py',
         'tools/front_class_smoke.py',
         'tools/front_class_scene_smoke.py',
-        'tools/menu_frame_clock_audit.cpp',
+        'tools/menu_frame_clock_audit.cpp','tools/menu_erase_slot_audit.cpp',
         'tools/menu_options_audit.cpp','tools/menu_save_slot_properties_audit.cpp','tools/menu_save_slot_services_audit.cpp',
         'tools/run_menu_options_audit.py',
         'tools/menu_renderer_scope_audit.cpp',
@@ -66,6 +69,10 @@ def main():
         'swf_menu_sound.hpp','swf_menu_sound.cpp',
         'swf_menu_options.hpp','swf_menu_options.cpp',
         'swf_menu_save_slots.hpp','swf_menu_save_slots.cpp',
+        'swf_menu_device_v1.hpp','swf_menu_device_v1.cpp','loading_menu_v1.hpp','loading_menu_v1.cpp','swf_loading_menu_v1.hpp','swf_loading_menu_v1.cpp',
+        'menu_avatar_preview_v1.hpp','menu_avatar_preview_v1.cpp','swf_menu_avatar_preview_v1.cpp','tests/menu_avatar_preview_v1.cpp',
+        'localization_parse_ex_v1.hpp','localization_parse_ex_v1.cpp','tests/localization_parse_ex_v1.cpp',
+        'swf_menu_parsed_string_v1.hpp','swf_menu_parsed_string_v1.cpp',
         'save_slot_date_v1.hpp','save_slot_date_v1.cpp','tests/save_slot_date_v1.cpp',
         'menu_save_slot_projection_v1.hpp','menu_save_slot_projection_v1.cpp','tests/menu_save_slot_projection_v1.cpp',
         'swf_menu_navigation.hpp','swf_menu_navigation.cpp',
@@ -83,6 +90,9 @@ def main():
         records.append(dict(path=name,kind='modified' if old.exists() else 'new',sha256=hashlib.sha256(current.read_bytes()).hexdigest()))
     for current in sorted((snapshot/'port/android-native/app/src/main/assets/original-media').glob('*')):
         records.append(dict(path=current.relative_to(snapshot).as_posix(),kind='media_asset',bytes=current.stat().st_size,sha256=hashlib.sha256(current.read_bytes()).hexdigest()))
+    for suffix in ['pyarray','pyarraynames','pystructnames']:
+        current=snapshot/'port/android-native/app/src/main/assets/data'/('help_pages_'+suffix+'.bin')
+        records.append(dict(path=current.relative_to(snapshot).as_posix(),kind='original_loading_hint_asset',bytes=current.stat().st_size,sha256=hashlib.sha256(current.read_bytes()).hexdigest(),source='Original help_pages PyData cache'))
     for name in ['design_pyarray.bin','design_pyarraynames.bin','design_pystructnames.bin']:
         current=snapshot/'port/android-native/app/src/main/assets/original-cache/data/pydata'/name
         records.append(dict(path=current.relative_to(snapshot).as_posix(),kind='original_cache_asset',bytes=current.stat().st_size,sha256=hashlib.sha256(current.read_bytes()).hexdigest()))
@@ -97,6 +107,9 @@ def main():
     for name in class_assets:
         current=snapshot/'port/android-native/app/src/main/assets'/name
         records.append(dict(path=current.relative_to(snapshot).as_posix(),kind='original_class_preview_asset',bytes=current.stat().st_size,sha256=hashlib.sha256(current.read_bytes()).hexdigest()))
+    for name in ['models/mc_rweapon_longsword_01.bdae','models/mc_rweapon_dagger_01.bdae','models/mc_rweapon_quarterstaff_01.bdae','textures/atlas_weapons_dh2.tga','textures/envmap_swamp.tga']:
+        current=snapshot/'port/android-native/app/src/main/assets'/name
+        records.append(dict(path=current.relative_to(snapshot).as_posix(),kind='original_weapon_preview_asset',bytes=current.stat().st_size,sha256=hashlib.sha256(current.read_bytes()).hexdigest(),source='Dungeon-Hunter-2-HD-v1-0-2-cache.zip original weapon scene/texture'))
     for current in sorted((snapshot/'port/android-native/app/src/main/assets/front-compat').glob('*')):
         records.append(dict(path=current.relative_to(snapshot).as_posix(),kind='keyboard_compatibility_asset',bytes=current.stat().st_size,sha256=hashlib.sha256(current.read_bytes()).hexdigest(),source='Generated from original SWF/atlas; original Android mapping unresolved'))
     for folder in ['fresh-player-profile-v1','player-location-v1','player-entry-points-v1','quest-savegame-v1','menu-profile-metadata-v1']:

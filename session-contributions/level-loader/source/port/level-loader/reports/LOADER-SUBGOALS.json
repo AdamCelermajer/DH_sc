@@ -1,0 +1,894 @@
+{
+  "schema_version": 1,
+  "revision": 7,
+  "updated_at": "2026-10-06T13:35:01+00:00",
+  "acceptance_gate": "Chapter 1 SWAMP complete runtime map/mobs/chests",
+  "acceptance_gate_complete": false,
+  "subgoals": [
+    {
+      "id": "L01",
+      "task": "Original level data and dependencies",
+      "owner": "chapter_coverage"
+    },
+    {
+      "id": "L02",
+      "task": "Canonical object construction and configuration",
+      "owner": "parent"
+    },
+    {
+      "id": "L03",
+      "task": "Authentic level lifecycle",
+      "owner": "loader_lifecycle"
+    },
+    {
+      "id": "L04",
+      "task": "Generic renderer and navigation input",
+      "owner": "renderer_contract"
+    },
+    {
+      "id": "L05",
+      "task": "Chapter 1 SWAMP visible acceptance",
+      "owner": "parent"
+    },
+    {
+      "id": "L06",
+      "task": "Chapter 1 interactions and story transport",
+      "owner": "chapter_coverage"
+    },
+    {
+      "id": "L07",
+      "task": "Transitions, return visits and save restoration",
+      "owner": "parent + main"
+    },
+    {
+      "id": "L08",
+      "task": "Failures, cancellation and resource lifetime",
+      "owner": "loader_lifecycle"
+    },
+    {
+      "id": "L09",
+      "task": "Every fixed and procedural level",
+      "owner": "chapter_coverage + parent"
+    },
+    {
+      "id": "L10",
+      "task": "Integration, review and reproducible proof",
+      "owner": "parent"
+    }
+  ],
+  "subtasks": [
+    {
+      "id": "L01.1",
+      "parent": "L01",
+      "task": "Inventory original level identities and fixed/procedural modes",
+      "owner": "chapter_coverage",
+      "status": "done",
+      "acceptance": "Every supplied definition listed with provenance and explicit support classification",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/chapter-coverage-v36-validation.json",
+        "reports/chapter-coverage-v36.md"
+      ],
+      "next_action": "51 original identities audited:16 fixed/35 procedural; real runtime support remains L09"
+    },
+    {
+      "id": "L01.2",
+      "parent": "L01",
+      "task": "Decode MLX/MGP/MVP without losing identities or transforms",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "SWAMP source/constructor probe retains all original placements and module pairs",
+      "evidence": [
+        "reports/swamp-original-object-inventory-v32.json",
+        "reports/swamp-complete-constructor-walk-v32.json"
+      ],
+      "next_action": "Broaden canonical use under L09; this done scope is SWAMP transport"
+    },
+    {
+      "id": "L01.3",
+      "parent": "L01",
+      "task": "Decode authored procedural rules and shared RNG semantics",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Recorded original rule/RNG differential checkpoint passes",
+      "evidence": [
+        "reports/procedural-random-differential.json",
+        "reports/procedural-rules-host.json"
+      ],
+      "next_action": "Canonical activation for procedural maps remains L09"
+    },
+    {
+      "id": "L01.4",
+      "parent": "L01",
+      "task": "Resolve original paths, module pairs and dependency errors",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "All 18 SWAMP MGP/MVP files resolve; missing dependencies report explicit failures",
+      "evidence": [
+        "reports/swamp-original-object-inventory-v32.json",
+        "reports/canonical-module-files-checks.json"
+      ],
+      "next_action": "All-level dependency matrix remains L09"
+    },
+    {
+      "id": "L01.5",
+      "parent": "L01",
+      "task": "Decode Character template tables with authored duplicate weights",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "121 original rows and 371 selector/RNG/cache comparisons pass",
+      "evidence": [
+        "reports/character-template-assets-v35-verified.json"
+      ],
+      "next_action": "Integrate actual actor cache fields under L02.5"
+    },
+    {
+      "id": "L01.6",
+      "parent": "L01",
+      "task": "Preserve script, condition and dialogue/cinematic references",
+      "owner": "chapter_coverage",
+      "status": "in_progress",
+      "acceptance": "Per-level references retain original IDs/case and resolve or report missing data",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/chapter-coverage-v36-validation.json",
+        "reports/chapter-coverage-v36.md"
+      ],
+      "next_action": "Original references inventoried and retained in audit; unresolved names/routing require authentic dispatcher integration"
+    },
+    {
+      "id": "L02.1",
+      "parent": "L02",
+      "task": "Construct every authored SWAMP class through native factory graph",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "195/195 objects including 50 Characters and 5 chests, no silent class skipping",
+      "evidence": [
+        "reports/swamp-complete-constructor-walk-v32.json",
+        "reports/swamp-all-authored-constructors-v34-packet.json"
+      ],
+      "next_action": "Whole activation remains L02.6"
+    },
+    {
+      "id": "L02.2",
+      "parent": "L02",
+      "task": "Apply authored properties, module offsets and positions",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Independent original inventory matches constructed types/counts and placement proof",
+      "evidence": [
+        "reports/swamp-original-object-inventory-v32.json",
+        "reports/swamp-complete-constructor-walk-v32.json"
+      ],
+      "next_action": "Cross-level property coverage remains L09"
+    },
+    {
+      "id": "L02.3",
+      "parent": "L02",
+      "task": "Retain actual registry identity and reject stale module draw frames",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Canonical source fixture preserves registry/root ownership and rejects stale frame use",
+      "evidence": [
+        "reports/swamp-complete-constructor-walk-v32.json",
+        "reports/canonical-module-draw-frame-source-checks.json"
+      ],
+      "next_action": "Generic actor draw producer is L04.3"
+    },
+    {
+      "id": "L02.4",
+      "parent": "L02",
+      "task": "Classify unsupported classes across the full cache",
+      "owner": "chapter_coverage",
+      "status": "done",
+      "acceptance": "Every authored class mapped to real factory or explicit missing service",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/loading-context-v37-integrated-verified.json"
+      ],
+      "next_action": "Previously missing TriggerTrap constructor now selected/verified. Native routing of authored link remains explicit unresolved; refresh audit against current graph"
+    },
+    {
+      "id": "L02.5",
+      "parent": "L02",
+      "task": "Wire template selection to actual Character caches and application RNG",
+      "owner": "parent + main",
+      "status": "in_progress",
+      "acceptance": "Production lends genuine 13c8/13ca fields; loader does not duplicate actor cache",
+      "evidence": [
+        "reports/character-loader-fields-v38-handoff.md",
+        "reports/character-swamp-model-v40/character-swamp-model-v40-coverage.json"
+      ],
+      "next_action": "Actual actor13c8/13ca and live CharAI master fields adopted. Coherent original-template model probe passes on separate fresh canonical inspection records; bind the genuine production InitPost call sequence and shared application RNG without inspection fixtures."
+    },
+    {
+      "id": "L02.6",
+      "parent": "L02",
+      "task": "Connect per-class InitPost and enable-condition evaluation",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Actual canonical handles and main-owned services execute original order, membership and conditions",
+      "evidence": [],
+      "next_action": "Use lifecycle adapter plus real behavior providers; fixture success is insufficient"
+    },
+    {
+      "id": "L03.1",
+      "parent": "L03",
+      "task": "Reconstruct original Level::_LoadProcess dispatch and stage providers",
+      "owner": "loader_lifecycle",
+      "status": "done",
+      "acceptance": "Original state130 dispatch/scalar-tail reconstructed and bounded adapter tested; this row does not claim stage-body completion",
+      "evidence": [
+        "reports/lifecycle_v36_verified.json",
+        "reports/lifecycle_v36_handoff.md"
+      ],
+      "next_action": "38 original dispatcher +195 progress cases and11 safety cases pass; actual stage providers remain L03.3/L03.4"
+    },
+    {
+      "id": "L03.2",
+      "parent": "L03",
+      "task": "Adopt received real GSLevel/Level context into selected loader graph",
+      "owner": "parent",
+      "status": "in_progress",
+      "acceptance": "One coherent retained Level C1/loading context and prepared-source TU adopted; full GSLevel/runtime orchestration remains open",
+      "evidence": [
+        "reports/loading-context-v37-integrated-verified.json"
+      ],
+      "next_action": "V5 Level context/C1 words selected and host-tested; genuine GS runtime/current-world orchestration and Android canonical path still require integration"
+    },
+    {
+      "id": "L03.3",
+      "parent": "L03",
+      "task": "Load player, camera, scripts, lightset and batching in genuine order",
+      "owner": "loader_lifecycle + main",
+      "status": "pending",
+      "acceptance": "Original stage producers complete; required services cannot be replaced by success stubs",
+      "evidence": [],
+      "next_action": "Connect authentic producers after dispatch reconstruction"
+    },
+    {
+      "id": "L03.4",
+      "parent": "L03",
+      "task": "Finish object initialization, final initialization and world publication",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Real current GSLevel and world state produced by actual lifecycle; no forced world0/state38",
+      "evidence": [],
+      "next_action": "Requires original stage/actor services and successful activation"
+    },
+    {
+      "id": "L03.5",
+      "parent": "L03",
+      "task": "Expose actual progress and result to menu presentation",
+      "owner": "loader_lifecycle + menu",
+      "status": "in_progress",
+      "acceptance": "Read actual progress30/state130 and error/stage; no timer-based progress",
+      "evidence": [
+        "reports/loading-context-v37-integrated-verified.json"
+      ],
+      "next_action": "Actual progress30/state130 borrow compiled and updates same C1 storage; bind menu to genuine complete runtime next"
+    },
+    {
+      "id": "L03.6",
+      "parent": "L03",
+      "task": "Measure staging CPU time and retained resource counts",
+      "owner": "loader_lifecycle",
+      "status": "in_progress",
+      "acceptance": "Bounded diagnostics distinguish staging, waiting, completion and held leases",
+      "evidence": [
+        "reports/lifecycle_v36_verified.json"
+      ],
+      "next_action": "Accounting code and explicit host observers tested; bind actual runtime resource-counter providers next"
+    },
+    {
+      "id": "L04.1",
+      "parent": "L04",
+      "task": "Define typed generic input over actual retained Level registry",
+      "owner": "renderer_contract",
+      "status": "done",
+      "acceptance": "Borrow actual graph, canonical module frames, ground/nav/spawn records and resource ownership",
+      "evidence": [
+        "reports/generic-renderer-input-v36-verified.json",
+        "reports/generic-renderer-input-v36-handoff.md"
+      ],
+      "next_action": "Contract captures actual graph, registry, original sources and floor world; root rendering integration remains L04.5"
+    },
+    {
+      "id": "L04.2",
+      "parent": "L04",
+      "task": "Carry canonical map geometry/materials and transforms",
+      "owner": "renderer_contract",
+      "status": "done",
+      "acceptance": "Input supplies authored module roots and materials with pinned lifetime",
+      "evidence": [
+        "reports/generic-renderer-input-v36-verified.json"
+      ],
+      "next_action": "Real source probe transports9 module frames/386 meshes with pinned resources; full visual acceptance remains L05.6"
+    },
+    {
+      "id": "L04.3",
+      "parent": "L04",
+      "task": "Connect actual Character and container visual producers",
+      "owner": "renderer_contract + main",
+      "status": "in_progress",
+      "acceptance": "Renderer borrows canonical activated Visual resources instead of detached inspection assets",
+      "evidence": [
+        "reports/generic-actor-visual-input-v37-verified.json",
+        "reports/generic-actor-draw-submission-v38-verified.json",
+        "reports/source-visual-helper-v41-integrated-verified.json"
+      ],
+      "next_action": "Actual chest Visual and native draw producers pass coherent proof with original helpers/materials. Positive Character Visual activation and real graphics pass/cull/program/texture providers remain required."
+    },
+    {
+      "id": "L04.4",
+      "parent": "L04",
+      "task": "Provide navigation and collision input without owning pathing AI",
+      "owner": "renderer_contract + main",
+      "status": "in_progress",
+      "acceptance": "Exact ground/nav transforms and data borrowed by main pathing services",
+      "evidence": [
+        "reports/generic-renderer-input-v36-verified.json"
+      ],
+      "next_action": "SAME floor-world navigation borrow passes; main pathing consumer integration remains pending"
+    },
+    {
+      "id": "L04.5",
+      "parent": "L04",
+      "task": "Replace Crypt-specific root renderer setup through agreed adapter",
+      "owner": "parent + main",
+      "status": "in_progress",
+      "acceptance": "Root uses generic loader output; no level-specific actors/geometry/init/aggro",
+      "evidence": [
+        "reports/generic-renderer-root-consumer-v42-verified.json"
+      ],
+      "next_action": "V42 audited exact Crypt replacement sites and declared required consumer ABI; main informed. Renderer agent resolving canonical texture provenance. No shared replacement/backend run yet."
+    },
+    {
+      "id": "L04.6",
+      "parent": "L04",
+      "task": "Prove lease lifetime, stale-frame rejection and teardown",
+      "owner": "renderer_contract",
+      "status": "done",
+      "acceptance": "Actual graph fixture verifies live ownership and rejects release/stale usage",
+      "evidence": [
+        "reports/generic-renderer-input-v36-verified.json"
+      ],
+      "next_action": "Actual source graph rejects stale handles, new keys, foreign roots and release; actor-resource lifetime remains L04.3"
+    },
+    {
+      "id": "L05.1",
+      "parent": "L05",
+      "task": "Load the complete authored SWAMP map source and canonical module meshes",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Nine map roots and 386 canonical module draw meshes transported",
+      "evidence": [
+        "reports/swamp-complete-constructor-walk-v32.json"
+      ],
+      "next_action": "Complete current visible acceptance is L05.6"
+    },
+    {
+      "id": "L05.2",
+      "parent": "L05",
+      "task": "Resolve mob and chest inspection asset references",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "49 Character references and 5 chests exported; remaining faery explicitly classified",
+      "evidence": [
+        "reports/character-template-assets-v35-verified.json",
+        "reports/character-swamp-model-v40/character-swamp-model-v40-coverage.json"
+      ],
+      "next_action": "This scoped done row does not claim all 50 Characters resolved or rendered"
+    },
+    {
+      "id": "L05.3",
+      "parent": "L05",
+      "task": "Resolve final faery model through real owner/save producer",
+      "owner": "parent + main",
+      "status": "in_progress",
+      "acceptance": "Original owner418/current-faery model branch executes against genuine producer",
+      "evidence": [
+        "reports/character-loader-fields-v38-handoff.md",
+        "reports/character-swamp-model-v40/character-swamp-model-v40-coverage.json"
+      ],
+      "next_action": "All50 Character/5chest references now accounted in bounded model probe, including row97/model34/Celeste with genuine fresh masterNULL. Later nonNULL master requires main live saved-faery producers; production activation remains open."
+    },
+    {
+      "id": "L05.4",
+      "parent": "L05",
+      "task": "Activate canonical mobs/chests with actual gameplay services",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Real registry objects complete activation and supply drawable Visual resources",
+      "evidence": [],
+      "next_action": "Connect L02/L03/L04; detached inspection entities do not satisfy this row"
+    },
+    {
+      "id": "L05.5",
+      "parent": "L05",
+      "task": "Build both Android ABIs for the current inspection checkpoint",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Current x86_64 and ARM64 inspection build compiles after template export",
+      "evidence": [
+        "reports/character-template-assets-v35-verified.json"
+      ],
+      "next_action": "Freeze current APK hash and rerun build after code changes"
+    },
+    {
+      "id": "L05.6",
+      "parent": "L05",
+      "task": "Fresh visible proof of complete map, mobs and chests at authored placements",
+      "owner": "parent",
+      "status": "dependency_blocked",
+      "acceptance": "Safe isolated device renders current build; every authored visual accounted for, nonvisual explicit",
+      "evidence": [
+        "reports/visible-entities-v32-device.json"
+      ],
+      "next_action": "Historical proof is 27 Characters + 5 chests; safe test environment and complete activation still required"
+    },
+    {
+      "id": "L06.1",
+      "parent": "L06",
+      "task": "Audit NPC interaction and authored bindings in chapter 1",
+      "owner": "chapter_coverage",
+      "status": "done",
+      "acceptance": "Original NPC bindings and dependencies enumerated with source provenance and explicit unresolved cases",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/chapter-coverage-v36-validation.json",
+        "reports/chapter-coverage-v36.md"
+      ],
+      "next_action": "Authored NPC/dialogue identities and chapter1 cases audited; actual interactions remain L06.6"
+    },
+    {
+      "id": "L06.2",
+      "parent": "L06",
+      "task": "Load trigger/zone definitions and forward activation events",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Original zones/conditions/script references passed to real main event executor",
+      "evidence": [
+        "reports/swamp-complete-constructor-walk-v32.json"
+      ],
+      "next_action": "Constructors done; collision/condition/dispatch integration still missing"
+    },
+    {
+      "id": "L06.3",
+      "parent": "L06",
+      "task": "Load cinematic/dialogue references and resolve their dependencies",
+      "owner": "chapter_coverage",
+      "status": "in_progress",
+      "acceptance": "Original cinematic/dialogue script resources inventoried; execution dependency resolution remains open",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/chapter-coverage-v36-validation.json",
+        "reports/chapter-coverage-v36.md"
+      ],
+      "next_action": "Exact binary script pairs/names inventoried (SWAMP55); main must decode/execute opcodes and resolve dynamic/template dispatch"
+    },
+    {
+      "id": "L06.4",
+      "parent": "L06",
+      "task": "Delegate cinematic/dialogue execution to main and verify stage handoff",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Main executes choreography/dialogue/quest effects; loader supplies retained level references",
+      "evidence": [],
+      "next_action": "Agree explicit event/resource lifetime seam after audit"
+    },
+    {
+      "id": "L06.5",
+      "parent": "L06",
+      "task": "Preserve quest, skill and item unlock event transport",
+      "owner": "chapter_coverage + main",
+      "status": "in_progress",
+      "acceptance": "Original references and ordering retained; main owns rewards/unlocks/state",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/chapter-coverage-v36-validation.json",
+        "reports/chapter-coverage-v36.md"
+      ],
+      "next_action": "Nine authored Chapter1 cases recorded; original command ordering/effects still need actual main script/quest systems"
+    },
+    {
+      "id": "L06.6",
+      "parent": "L06",
+      "task": "Verify chapter1 interactions using actual gameplay state",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "NPC/trigger/chest/quest/cinematic cases execute with actual main systems",
+      "evidence": [],
+      "next_action": "Requires activated level plus real quest/condition/inventory/cinematic services"
+    },
+    {
+      "id": "L07.1",
+      "parent": "L07",
+      "task": "Keep SWAMP and SWAMP_02 separate despite shared resources",
+      "owner": "chapter_coverage",
+      "status": "done",
+      "acceptance": "Distinct exact original IDs/definitions/script pairs and entrypoint routes retained; no campaign state alias inferred",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/chapter-coverage-v36-validation.json",
+        "reports/chapter-coverage-v36.md"
+      ],
+      "next_action": "SWAMP->SWAMP_02 entry0 gated IsAfter_Gothicus2Survivors; reverse SWAMP entry3. Real transition/restoration tests remain L07.4/L07.5"
+    },
+    {
+      "id": "L07.2",
+      "parent": "L07",
+      "task": "Restore checkpoint and entry placement through main save services",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Original save/checkpoint/entry binding used, with no independent loader save store",
+      "evidence": [],
+      "next_action": "Main lends real restoration and checkpoint state producer"
+    },
+    {
+      "id": "L07.3",
+      "parent": "L07",
+      "task": "Restore quest-dependent objects, opened chests and NPC availability",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Main persistent state determines authored object conditions on return visit",
+      "evidence": [],
+      "next_action": "Audit actual original persistence semantics; avoid assuming whole-level snapshots"
+    },
+    {
+      "id": "L07.4",
+      "parent": "L07",
+      "task": "Drive exits and level transitions through authentic lifecycle",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Exit target identity/entry data preserved and next real level orchestrated",
+      "evidence": [
+        "reports/exit-zone-v29-original-evidence.json"
+      ],
+      "next_action": "Exit InitPost constructor target lookup is proven; transition service still required"
+    },
+    {
+      "id": "L07.5",
+      "parent": "L07",
+      "task": "Verify return visit without state loss or cross-level aliasing",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Leave SWAMP, load another chapter, revisit using main save/quest state",
+      "evidence": [],
+      "next_action": "Requires real transition, restoration and condition execution"
+    },
+    {
+      "id": "L08.1",
+      "parent": "L08",
+      "task": "Report malformed/missing assets without silent fallback",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Recorded source failures identify failed module/type and retain failure context",
+      "evidence": [
+        "reports/swamp-complete-constructor-walk-v32.json",
+        "reports/loader-recovery-host.json"
+      ],
+      "next_action": "Whole lifecycle failure recovery remains L08.3/L08.4"
+    },
+    {
+      "id": "L08.2",
+      "parent": "L08",
+      "task": "Prevent source replay and release constructor-fixture resources",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Completed load no-replay and explicit module/root/controller teardown proven",
+      "evidence": [
+        "reports/swamp-complete-constructor-walk-v32.json"
+      ],
+      "next_action": "Whole runtime unload and repeated transitions remain unverified"
+    },
+    {
+      "id": "L08.3",
+      "parent": "L08",
+      "task": "Implement cancellation and partial-stage cleanup",
+      "owner": "loader_lifecycle + parent",
+      "status": "in_progress",
+      "acceptance": "Adapter cancellation retains/relinquishes actual resources explicitly and cannot publish partial gameplay",
+      "evidence": [
+        "reports/level-counter-producers-v36-verified.json",
+        "reports/lifecycle_v36_verified.json",
+        "reports/source-loading-v43-integrated-verified.json"
+      ],
+      "next_action": "Nested teardown failure now retains pins/error; native+ASAN/UBSAN regression passes. SourceLoading drops its borrowed leases only after completecleanup; genuine incompleteabort versus completedUnload providers remain required and unverified."
+    },
+    {
+      "id": "L08.4",
+      "parent": "L08",
+      "task": "Verify real repeated load/unload and failed-transition recovery",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Actual world services and leases clear correctly across success/failure/cancel cycles",
+      "evidence": [],
+      "next_action": "Test integrated lifecycle; constructor fixtures do not complete this row"
+    },
+    {
+      "id": "L08.5",
+      "parent": "L08",
+      "task": "Disable unsafe launcher and retain memory-crash evidence",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "Private direct launcher disabled; source receipt records safeguard",
+      "evidence": [
+        "reports/direct-emulator-launch-disabled-v34.json"
+      ],
+      "next_action": "Maintain no-launch policy until main provides measured safe environment"
+    },
+    {
+      "id": "L08.6",
+      "parent": "L08",
+      "task": "Obtain safe measured device environment for current visual verification",
+      "owner": "main + parent",
+      "status": "dependency_blocked",
+      "acceptance": "An isolated physical device or measured guarded emulator is available for loader visual verification without disrupting main tests",
+      "evidence": [],
+      "next_action": "Main emulator is now booted and reserved for combat testing. Wait for an agreed safe loader device slot; no second emulator or main app replacement."
+    },
+    {
+      "id": "L09.1",
+      "parent": "L09",
+      "task": "Refresh every level support classification from actual cache",
+      "owner": "chapter_coverage",
+      "status": "done",
+      "acceptance": "Each level has data/constructor/activation/render status and reasons separately",
+      "evidence": [
+        "reports/chapter-coverage-v36-summary.json",
+        "reports/chapter-coverage-v36-validation.json",
+        "reports/chapter-coverage-v36.md"
+      ],
+      "next_action": "51-row source/class/script/historical-assembly matrix distinguishes every runtime acceptance as pending"
+    },
+    {
+      "id": "L09.2",
+      "parent": "L09",
+      "task": "Connect canonical factories across every fixed map",
+      "owner": "parent",
+      "status": "pending",
+      "acceptance": "All authored types load with real objects or explicit unsupported error",
+      "evidence": [],
+      "next_action": "Use all-level class audit and genuine main providers"
+    },
+    {
+      "id": "L09.3",
+      "parent": "L09",
+      "task": "Connect procedural layouts/modules to canonical lifecycle",
+      "owner": "parent",
+      "status": "pending",
+      "acceptance": "Original rules/shared RNG produce maps consumed by real registry/lifecycle",
+      "evidence": [],
+      "next_action": "Existing procedural/map inspection checkpoint is input, not runtime completion"
+    },
+    {
+      "id": "L09.4",
+      "parent": "L09",
+      "task": "Run bounded host checks over all supported definitions",
+      "owner": "parent + agents",
+      "status": "pending",
+      "acceptance": "Per-level real source construction and failure results stored reproducibly",
+      "evidence": [],
+      "next_action": "Create canonical batch probe after factory/dispatch integration"
+    },
+    {
+      "id": "L09.5",
+      "parent": "L09",
+      "task": "Verify representative fixed/procedural maps visually",
+      "owner": "parent",
+      "status": "dependency_blocked",
+      "acceptance": "Safe current runtime/device images match original placements and object coverage",
+      "evidence": [],
+      "next_action": "Requires safe environment plus actual generic activation/render input"
+    },
+    {
+      "id": "L09.6",
+      "parent": "L09",
+      "task": "Close remaining class/dependency gaps without silent skipping",
+      "owner": "parent + main",
+      "status": "pending",
+      "acceptance": "Coverage table has no unreported missing producers; supported runtime cases proven",
+      "evidence": [],
+      "next_action": "Prioritize chapter1 then generalize each uncovered class/service"
+    },
+    {
+      "id": "L10.1",
+      "parent": "L10",
+      "task": "Maintain hierarchical subgoal/subtask table every turn",
+      "owner": "parent",
+      "status": "in_progress",
+      "acceptance": "Table records owners/status/evidence/next action; verified tasks require evidence",
+      "evidence": [],
+      "next_action": "Update this maintained table after every turn with exact tested scope and remaining dependencies."
+    },
+    {
+      "id": "L10.2",
+      "parent": "L10",
+      "task": "Delegate three separate workstreams and review returned code",
+      "owner": "parent",
+      "status": "in_progress",
+      "acceptance": "Lifecycle, renderer and chapter-coverage agents actively work with nonoverlapping files",
+      "evidence": [],
+      "next_action": "Three active delegated workstreams: wholeGS.Update producer contract; actualCharacter spawn270/liveIsPlayer adoption;51level exactmaterial/image dependency matrix. Parent integrates checked selected sources and maintains receipts."
+    },
+    {
+      "id": "L10.3",
+      "parent": "L10",
+      "task": "Freeze source/provenance packets and send main explicit gaps",
+      "owner": "parent",
+      "status": "done",
+      "acceptance": "V34/V35 packets hash-verified and main coordination sent",
+      "evidence": [
+        "reports/swamp-all-authored-constructors-v34-packet.json",
+        "reports/character-template-assets-v35-packet.json"
+      ],
+      "next_action": "New work requires new narrow handoff after tests"
+    },
+    {
+      "id": "L10.4",
+      "parent": "L10",
+      "task": "Integrate successor contracts and pass relevant source/host checks",
+      "owner": "parent",
+      "status": "in_progress",
+      "acceptance": "Actual selected coherent graph builds, assertions and original differential tests pass",
+      "evidence": [
+        "reports/coherent-loader-v42-ready.json",
+        "reports/source-loading-v43-integrated-verified.json"
+      ],
+      "next_action": "Current731file coherent graph and6host targets compile. Concrete source7/10/runtime guards, selectedSWAMP source order and sanitized cancellation pass. Next real GS frame envelope/Character InitPost/graphics consumer; currentGS/gameplay/GPU proof remains open."
+    },
+    {
+      "id": "L10.5",
+      "parent": "L10",
+      "task": "Merge loader/main/menu through reviewed isolated handoff",
+      "owner": "parent + main + menu",
+      "status": "pending",
+      "acceptance": "Ownership preserved and integration behavior proven before merge/push",
+      "evidence": [],
+      "next_action": "No shared source changes or merge until agreed handoff"
+    },
+    {
+      "id": "L10.6",
+      "parent": "L10",
+      "task": "Deliver complete chapter1 proof then all-level acceptance handoff",
+      "owner": "parent",
+      "status": "pending",
+      "acceptance": "Source, reproducible commands, screenshots, coverage and material gaps accompany real acceptance",
+      "evidence": [],
+      "next_action": "Full loader remains incomplete until actual lifecycle/activation/render/save integration verified"
+    },
+    {
+      "id": "L02.7",
+      "parent": "L02",
+      "task": "Reconstruct genuine TriggerTrap constructor and property transport",
+      "owner": "chapter_coverage",
+      "status": "done",
+      "acceptance": "Original GO15 constructor/property/factory transport adopted into selected coherent graph and actual Aux retention pattern; behavior not claimed",
+      "evidence": [
+        "reports/loading-context-v37-integrated-verified.json",
+        "reports/trigger-trap-v37-host-verified.json",
+        "reports/trigger-trap-v37-handoff.md"
+      ],
+      "next_action": "Selected Aux dispatcher/schema loads41 cache-authored declarations; main whole InitPost/physics/timeline/effects required for trap behavior"
+    },
+    {
+      "id": "L02.8",
+      "parent": "L02",
+      "task": "Close actual Character spawn cache and live predicate initialization gaps",
+      "owner": "chapter_coverage + parent",
+      "status": "in_progress",
+      "acceptance": "One inherited actor270 cache and genuine probability backing; exact live IsPlayer type/archetype branches borrowed without second base or constructor preselection",
+      "evidence": [
+        "reports/character-is-player-v41-verified.json",
+        "reports/character-init-model-v41-dependencies.json"
+      ],
+      "next_action": "OriginalC2 stores274=100/270=-1 and63original/native+49liveIsPlayer cases proved. Full candidate actor/checkspawn binding under development outside selectedgraph; production fullInitPost remains open."
+    },
+    {
+      "id": "L03.7",
+      "parent": "L03",
+      "task": "Recover actual loading-counter134/138 producers and typed borrow",
+      "owner": "loader_lifecycle + parent",
+      "status": "done",
+      "acceptance": "Original-proven32bit counter storage and same-owner C1 field borrow adopted; no uintptr reinterpretation or shadow state",
+      "evidence": [
+        "reports/loading-context-v37-integrated-verified.json",
+        "reports/level-counter-producers-v36-verified.json"
+      ],
+      "next_action": "Actual32bit C1 words adopted and alias test passes. Stage10 actual map1c seeding/manager phase integration remains separate body work"
+    },
+    {
+      "id": "L03.8",
+      "parent": "L03",
+      "task": "Connect authentic root-file and manager InitPost source phases",
+      "owner": "loader_lifecycle + parent",
+      "status": "in_progress",
+      "acceptance": "Actual state7 root walk and state10 module sources precede floor.PostLoad11 and InitFinal17; true manager map1c/phase7c borrowed, no copied registry",
+      "evidence": [
+        "reports/loading-context-v37-integrated-verified.json",
+        "reports/stage-loader-v38-manager-adopted.json",
+        "reports/source-loading-v43-integrated-verified.json",
+        "reports/source-stage-swamp-v40-runtime-verified.json"
+      ],
+      "next_action": "Concrete SourceLoadingV43 binds real C1 and same manager/preparation; selected7/10 probe passes10root/9pairs/195objects beforefloor/geometry and stops at actualphase3 chestMeetCondition. Connect genuine upstream0..6/8..9 and all remaining class/condition/membership providers; fixture entry does not prove contiguousInit."
+    },
+    {
+      "id": "L03.9",
+      "parent": "L03",
+      "task": "Connect the authentic GSLevel frame update envelope",
+      "owner": "loader_lifecycle + parent + main",
+      "status": "in_progress",
+      "acceptance": "Actual GS.loading38/Level.Load/Level.Update(false), menu/debug and145/130 gates execute original order through real state and providers",
+      "evidence": [
+        "reports/source-lifecycle-kill-item-v40-handoff.md",
+        "reports/source-lifecycle-kill-item-v40-evidence.json"
+      ],
+      "next_action": "Original GS Ctor publication prefix and loading1/2/3 envelope recovered; existingV27 has no fullUpdate body. Agent recovering whole386630 body and required typed providers; no substitute current-Level or forced38."
+    },
+    {
+      "id": "L04.7",
+      "parent": "L04",
+      "task": "Preserve original material slots and Visual helper visibility",
+      "owner": "renderer_contract + parent",
+      "status": "done",
+      "acceptance": "Original material-slot assignment and Visual C1 helper/render-byte mutations adopted on actual retained chest; geometry/bounds preserved and synchronous native draw transport verified. GPU/backend execution remains L04.5/L05.6.",
+      "evidence": [
+        "reports/scene-material-slots-v39-handoff.md",
+        "reports/source-visual-helper-v41-integrated-verified.json"
+      ],
+      "next_action": "Coherent actual chest emits2skinned primitives,0rigid helper,0unresolvedmaterials, exactmaterials37/38; visibility override cannot bypass source byte138. Integrate genuine root graphics providers separately."
+    },
+    {
+      "id": "L04.8",
+      "parent": "L04",
+      "task": "Bind original material image identities and sampler order",
+      "owner": "renderer_contract + parent + main",
+      "status": "in_progress",
+      "acceptance": "Exact BRES material/sampler/image provenance and source resource-directory lookup order reach canonical resolver/read/pass providers; optional no-image and missing resources explicit",
+      "evidence": [
+        "reports/material-image-identity-v43-verified.json",
+        "reports/material-image-identity-v43-handoff.md"
+      ],
+      "next_action": "Standalone actual chest/swamp/crypt source adapter passes ASAN/UBSAN and5ARM/native factory cases; parent adoption and genuine mount/GPU binding pending. Agent extending51level dependency matrix; q:/iphone compatibility rule explicitly separate from original mount routing."
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-06T11:22:10+00:00",
+      "note": "Created hierarchical tracker and started three agents: authentic lifecycle, retained generic renderer input, original chapter/all-level coverage. Parent reviews integration; no emulator launch."
+    },
+    {
+      "at": "2026-10-06T11:26:41+00:00",
+      "note": "Reviewed received loading context against selected graph: field130/counters134/138 typed dependency found and requested from main. Agents implementing and testing original lifecycle, renderer producer ownership and chapter coverage."
+    },
+    {
+      "at": "2026-10-06T11:32:12+00:00",
+      "note": "Reviewed and hash-verified all three agent results. Source inventory and generic renderer ownership tasks completed within scope; full SWAMP runtime acceptance remains open. Reassigned agents to actual loading-counter producers, canonical actor Visual seam and original TriggerTrap constructor. Received main frozen state130 successor; no emulator/shared edits."
+    },
+    {
+      "at": "2026-10-06T11:33:31+00:00",
+      "note": "End-of-turn update: master table linked from handoff ledger; all three agents confirmed running on their next bounded tasks. Main notified of reviewed lifecycle/renderer/coverage outputs and exact integration gaps. Full SWAMP acceptance remains open."
+    },
+    {
+      "at": "2026-10-06T12:25:01+00:00",
+      "note": "Selected private V5 context/C1 counters and TriggerTrap integration compiled/passed:729 coherent files, SWAMP195/50/5,41 authored traps, actual progress/owner aliases and single prepared-source TU. Recovered original Character cache/master and render/material producers; genuine stage order being integrated. Full runtime/visual acceptance remains open; no devices/shared edits."
+    },
+    {
+      "at": "2026-10-06T13:16:17+00:00",
+      "note": "Coherent731-file V5 rebuilt and verified:195SWAMP authored objects,41TriggerTrap source cases,50Character+5chest references including Celeste, actual chest helper hidden with2skinned draws/originalslots/bounds preserved. GS Ctor publication prefix and liveKill150 contract sent main. Three agents continue authenticstage7/10+ItemPreCache,CharacterInitPost,texturebinding. No device launch or wholeactivation claim."
+    },
+    {
+      "at": "2026-10-06T13:35:01+00:00",
+      "note": "Added concreteSourceLoadingV43 realC1/stage7+10 bridge; actualSWAMP selected-entry probe loads195objects beforefloor/geometry then stopsfirstchestMeetCondition.8atomiccreateguards/2leasecases passed. Fixedcancelreentry withnative+ASAN/UBSAN weaklease proof. Added explicit Character270/IsPlayer,GSUpdate andmaterial-image subtasks; three agents active. Wholeactivation/currentGS/GPU/device acceptance remains open."
+    }
+  ],
+  "reviewed_this_turn": {
+    "lifecycle_sources_hash_verified": true,
+    "renderer_sources_hash_verified": true,
+    "coverage_outputs_hash_verified": true,
+    "full_loader_verified": false,
+    "emulator_launched": false
+  },
+  "device_status": "No private emulator launch. Main currently owns the single guarded emulator and is testing Crypt combat under its user-authorized 15 GiB hard cap and paging policy. A separate safe loader device slot and full activation are still needed for fresh SWAMP visible proof."
+}

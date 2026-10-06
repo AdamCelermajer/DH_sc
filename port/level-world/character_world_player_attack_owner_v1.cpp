@@ -1,4 +1,5 @@
 #include "character_world_player_attack_owner_v1.hpp"
+#include "target_frontal_sort_v41.hpp"
 #include <cstring>
 namespace dh2::character::skills {
 CharacterWorldPlayerAttackOwnerV1::CharacterWorldPlayerAttackOwnerV1(
@@ -107,7 +108,12 @@ void CharacterWorldPlayerAttackOwnerV1::call(AttackState64& s,
   ordered_.clear();view_={reinterpret_cast<std::uintptr_t>(this),nullptr,0,0};
   out.identity=reinterpret_cast<std::uintptr_t>(&view_);break;
  }
- case attack_list_reset_sort:list_.count=0;list_.sort=0;break;
+ case attack_list_reset_sort:{
+  std::string error;
+  if(target_frontal_sort_v41(list_,error))
+   fail(error.c_str(),q.service);
+  break;
+ }
  case attack_list_search:{
   float radius{},angle{};std::memcpy(&radius,&q.argument0,4);std::memcpy(&angle,&q.argument1,4);
   if(dh2_target_search(&list_,&world_.registry(),radius,angle,&services)){

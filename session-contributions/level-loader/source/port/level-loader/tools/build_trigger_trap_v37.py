@@ -1,0 +1,12 @@
+from pathlib import Path
+import re,shlex,subprocess,json,hashlib
+base=Path('C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader').resolve();build=Path('C:/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-host');target=base/'tests/trigger-trap-v37';ninja=(build/'build.ninja').read_text()
+blocks=re.split(r'\n(?=build )',ninja);block=next(b for b in blocks if b.startswith('build CMakeFiles/dh2_loader_trigger_zone_v22_probe.dir/') and 'INCLUDES =' in b)
+includes=shlex.split(re.search(r'\n  INCLUDES = ([^\n]*)',block).group(1));output=build/'trigger-trap-v37-probe'
+def wsl(p):return '/mnt/c/'+str(p).replace('\\','/')[3:]
+libs=list(build.rglob('*.a'));assert libs
+cmd=['wsl.exe','-d','Ubuntu','--','c++','-std=c++17','-O1','-g','-Wall','-Wextra','-Werror','-Wno-misleading-indentation','-ffunction-sections','-fdata-sections','-fno-fast-math','-ffp-contract=off','-UNDEBUG','-I'+wsl(base),*includes,wsl(base/'canonical_trigger_trap_v37.cpp'),wsl(target/'canonical_trigger_trap_v37_test.cpp'),wsl(target/'canonical_property_map_candidate_v37.cpp'),'-Wl,--gc-sections','-Wl,--no-undefined','-Wl,--start-group',*[wsl(p) for p in libs],'-Wl,--end-group','-o',wsl(output)]
+r=subprocess.run(cmd,capture_output=True,text=True);(base/'reports/trigger-trap-v37-host-build.log').write_text(r.stdout+r.stderr);print(r.stdout+r.stderr);assert r.returncode==0,r.returncode
+run=subprocess.run(['wsl.exe','-d','Ubuntu','--',wsl(output),wsl(base/'reference/trigger-trap-v37/authored-trigger-trap-v37.tsv')],capture_output=True,text=True);print(run.stdout+run.stderr);assert run.returncode==0,run.returncode
+receipt={'validation':'PASS','scope':'Isolated native constructor/property/factory transport against current retained libraries; domain callbacks explicit fixtures, whole trap runtime absent','output':run.stdout,'binary_sha256':hashlib.sha256(output.read_bytes()).hexdigest(),'binary':str(output),'single_compiler_invocation':True,'core_property_map_changed':False,'emulator_started':False,'sources':{str(p.relative_to(base)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [base/'canonical_trigger_trap_v37.hpp',base/'canonical_trigger_trap_v37.cpp',base/'canonical_trigger_trap_declarations_v37.inc',target/'canonical_trigger_trap_v37_test.cpp',target/'canonical_property_map_candidate_v37.cpp']}}
+(base/'reports/trigger-trap-v37-host-verified.json').write_text(json.dumps(receipt,indent=2)+'\n')

@@ -1,4 +1,5 @@
 #include "swf_text_font_platform_v1.hpp"
+#include "swf_source_startup_v1.hpp"
 #include "swf_edit_text_connection_v1.hpp"
 #include "gameswf/gameswf_font.h"
 #include "gameswf/gameswf_render.h"
@@ -148,6 +149,11 @@ SwfTextFontPlatformV1::SwfTextFontPlatformV1(SwfFontServices f,SwfServices s,std
     impl_->provider=new Impl::Provider;impl_->provider->parent=impl_;
 }
 SwfTextFontPlatformV1::~SwfTextFontPlatformV1()=default;
+bool SwfTextFontPlatformV1::owns_source_startup(const SwfServices& services) noexcept {
+ if(services.graph_start!=Impl::start||!services.native_owner||services.context!=services.native_owner.get())return false;
+ const auto& base=static_cast<Impl*>(services.context)->base;
+ return swf_source_movie_startup_owned_v1(base)||swf_input_session_startup_owned_v1(base)||swf_input_session_startup_owned_v2(base);
+}
 SwfTextFontPlatformV1::SwfTextFontPlatformV1(std::shared_ptr<Impl> p):impl_(std::move(p)){}
 std::shared_ptr<SwfTextFontPlatformV1> SwfTextFontPlatformV1::for_player(gameswf::player* player){auto it=Impl::players().find(player);auto p=it==Impl::players().end()?nullptr:it->second.lock();return p?std::shared_ptr<SwfTextFontPlatformV1>(new SwfTextFontPlatformV1(std::move(p))):nullptr;}
 SwfServices SwfTextFontPlatformV1::services()const{return impl_->service();}

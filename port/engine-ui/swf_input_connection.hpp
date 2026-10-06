@@ -39,11 +39,13 @@ public:
  bool graphic(gameswf::character*,std::uint32_t,std::string&);
  bool enable(bool,std::uint32_t,std::string&);
  bool set_flags(std::uint32_t,std::string&);
+ bool set_context(gameswf::character*,std::string&);
  // Source 3D attachment is an explicit ownership projection; this adapter's
  // observed native 2D constructors initialize the source scene identity0.
  bool scene_binding(gameswf::character*,std::uintptr_t,std::string&);
  bool snapshot(SwfInputState288&,std::string&)const;
  bool raw_cursor(float xy[2],std::int32_t& index,std::string&)const;
+ bool viewport_rectangle(const std::int32_t xywh[4],std::string&);
  struct State;
 private:std::shared_ptr<State> state_;
 };

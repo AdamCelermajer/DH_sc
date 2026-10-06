@@ -1,0 +1,426 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "factory_cases": [
+    {
+      "poison": 0,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 0,
+        "trigger381": 1,
+        "colzone384": 0,
+        "static84": 0,
+        "updating85": 1,
+        "characters3a0": 0,
+        "players3a4": 0,
+        "count3a8": 1,
+        "delay3ac": 0,
+        "reset3b0": 0,
+        "activated3b4": 0,
+        "timer3b8": 0,
+        "local_only3bc": 0,
+        "touching3c0": 0,
+        "network100": 968,
+        "network104": 1392,
+        "checkpoint28": 1,
+        "networkf8": 4,
+        "data_id730": 4294967295,
+        "script_id74c": 4294967295,
+        "script_id768_unproduced": true,
+        "byte784": 0,
+        "condition788": 0
+      },
+      "empty_strings": {
+        "0x718": true,
+        "0x734": true,
+        "0x750": true,
+        "0x76c": true
+      },
+      "contact_tree": {
+        "color388": 0,
+        "parent38c": 0,
+        "left390": 904,
+        "right394": 904,
+        "size398": 0
+      },
+      "network": [
+        {
+          "offset": 968,
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            344,
+            384
+          ],
+          "members": [
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 0
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 0
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 0
+            }
+          ]
+        },
+        {
+          "offset": 1392,
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            344,
+            384
+          ],
+          "members": [
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 0
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 0
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 0
+            }
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "allocation": 1936
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 0,
+        "trigger381": 1,
+        "colzone384": 0,
+        "static84": 0,
+        "updating85": 1,
+        "characters3a0": 0,
+        "players3a4": 0,
+        "count3a8": 1,
+        "delay3ac": 0,
+        "reset3b0": 0,
+        "activated3b4": 0,
+        "timer3b8": 0,
+        "local_only3bc": 0,
+        "touching3c0": 0,
+        "network100": 968,
+        "network104": 1392,
+        "checkpoint28": 1,
+        "networkf8": 4,
+        "data_id730": 4294967295,
+        "script_id74c": 4294967295,
+        "script_id768_unproduced": true,
+        "byte784": 0,
+        "condition788": 0
+      },
+      "empty_strings": {
+        "0x718": true,
+        "0x734": true,
+        "0x750": true,
+        "0x76c": true
+      },
+      "contact_tree": {
+        "color388": 0,
+        "parent38c": 0,
+        "left390": 904,
+        "right394": 904,
+        "size398": 0
+      },
+      "network": [
+        {
+          "offset": 968,
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            344,
+            384
+          ],
+          "members": [
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            }
+          ]
+        },
+        {
+          "offset": 1392,
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            344,
+            384
+          ],
+          "members": [
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            }
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "allocation": 1936
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 0,
+        "trigger381": 1,
+        "colzone384": 0,
+        "static84": 0,
+        "updating85": 1,
+        "characters3a0": 0,
+        "players3a4": 0,
+        "count3a8": 1,
+        "delay3ac": 0,
+        "reset3b0": 0,
+        "activated3b4": 0,
+        "timer3b8": 0,
+        "local_only3bc": 0,
+        "touching3c0": 0,
+        "network100": 968,
+        "network104": 1392,
+        "checkpoint28": 1,
+        "networkf8": 4,
+        "data_id730": 4294967295,
+        "script_id74c": 4294967295,
+        "script_id768_unproduced": true,
+        "byte784": 0,
+        "condition788": 0
+      },
+      "empty_strings": {
+        "0x718": true,
+        "0x734": true,
+        "0x750": true,
+        "0x76c": true
+      },
+      "contact_tree": {
+        "color388": 0,
+        "parent38c": 0,
+        "left390": 904,
+        "right394": 904,
+        "size398": 0
+      },
+      "network": [
+        {
+          "offset": 968,
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            344,
+            384
+          ],
+          "members": [
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            }
+          ]
+        },
+        {
+          "offset": 1392,
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            344,
+            384
+          ],
+          "members": [
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            },
+            {
+              "type": 32,
+              "backing": 0,
+              "changed": 1
+            }
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "allocation": 1936
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "dimensions": {
+      "source_offset": 884,
+      "default": [
+        200.0,
+        200.0,
+        200.0
+      ]
+    },
+    "triggercount": {
+      "source_offset": 936,
+      "default": 1
+    },
+    "triggerdelay": {
+      "source_offset": 940,
+      "default": 0
+    },
+    "resetonhubchange": {
+      "source_offset": 944,
+      "default": 0
+    },
+    "data": {
+      "source_offset": 1816,
+      "default": ""
+    },
+    "script": {
+      "source_offset": 1844,
+      "default": ""
+    },
+    "scriptOff": {
+      "source_offset": 1872,
+      "default": ""
+    },
+    "unlock_cond": {
+      "source_offset": 1900,
+      "default": ""
+    }
+  },
+  "virtuals": {
+    "0x0": "0x39993c",
+    "0x4": "0x3999d8",
+    "0x8": "0x340124",
+    "0xc": "0x38d7ec",
+    "0x10": "0x3996a4",
+    "0x14": "0x399580",
+    "0x18": "0x399d70",
+    "0x1c": "0x399ff8",
+    "0x20": "0x340054",
+    "0x24": "0x33dcd0",
+    "0x28": "0x33dcd8",
+    "0x2c": "0x3994a8",
+    "0x30": "0x38c968",
+    "0x34": "0x3400ac",
+    "0x38": "0x399318",
+    "0x3c": "0x33dcf0",
+    "0x40": "0x38b0f0",
+    "0x44": "0x38ba38",
+    "0x48": "0x38ba04",
+    "0x4c": "0x398bd8",
+    "0x50": "0x39939c",
+    "0x54": "0x398770",
+    "0x58": "0x38cd48",
+    "0x5c": "0x34005c",
+    "0x60": "0x340064",
+    "0x64": "0x34006c",
+    "0x68": "0x340074",
+    "0x6c": "0x34007c",
+    "0x70": "0x340084",
+    "0x74": "0x34008c",
+    "0x78": "0x34009c",
+    "0x7c": "0x3400a4",
+    "0x80": "0x399328",
+    "0x84": "0x3400b4",
+    "0x88": "0x399490",
+    "0x8c": "0x38ad30",
+    "0x90": "0x399330",
+    "0x94": "0x38ad7c",
+    "0x98": "0x399af0",
+    "0x9c": "0x38b110",
+    "0xa0": "0x3400c0",
+    "0xa4": "0x3400dc",
+    "0xa8": "0x3400e4",
+    "0xac": "0x3400f0",
+    "0xb0": "0x3400fc",
+    "0xb4": "0x340104",
+    "0xb8": "0x34010c",
+    "0xbc": "0x340114",
+    "0xc0": "0x34011c",
+    "0xc4": "0x399320",
+    "0xc8": "0x395940",
+    "0xcc": "0x39858c",
+    "0xd0": "0x395944",
+    "0xd4": "0x398200",
+    "0xd8": "0xfffffffc"
+  },
+  "scope": "Original whole TriggerObject/Trigger/ZoneEx/Zone and both whole NetStructTrigger constructors execute. GameObject and allocator/string services are explicit interceptions. Activation, conditions, table/visual initialization and engine interaction remain required."
+}

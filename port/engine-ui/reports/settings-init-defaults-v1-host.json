@@ -1,0 +1,43 @@
+{
+  "validation": "PASS",
+  "results": [
+    {
+      "optimization": "-O1",
+      "result": {
+        "validation": "PASS",
+        "comparisons": 1038,
+        "owner_cases": 254,
+        "parser_cases": 512,
+        "record_cases": 272,
+        "additional_checks": 294,
+        "atomic_guards": 12,
+        "required_failure_prefixes": 4,
+        "synchronous_mutation_cases": 1,
+        "real_stdio_missing_and_present": true,
+        "mismatches": 0
+      }
+    },
+    {
+      "optimization": "-O2",
+      "result": {
+        "validation": "PASS",
+        "comparisons": 1038,
+        "owner_cases": 254,
+        "parser_cases": 512,
+        "record_cases": 272,
+        "additional_checks": 294,
+        "atomic_guards": 12,
+        "required_failure_prefixes": 4,
+        "synchronous_mutation_cases": 1,
+        "real_stdio_missing_and_present": true,
+        "mismatches": 0
+      }
+    }
+  ],
+  "scope": "Existing 1038 original settings fixtures plus direct whole _initSettings map/default/tutorial/reset and retained file/flags checks; file/language observers are fixtures, full loadSettings application not claimed",
+  "source_sha256": {
+    "port/engine-ui/owned_hud_settings_v1.hpp": "e388ba8e37baea0e95b123f0494a34041e4c5c79cf213743e4d7a4224224d30f",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "b54a8ca7744b148d7d6cdf53bd36671784513c86a3d800590208296549a80529",
+    "port/engine-ui/tests/owned_settings_v1.cpp": "f3d397c17d0bbfa3f7379fab5cad586a045e4cb442a6d33f32fd1ab07a22ac47"
+  }
+}

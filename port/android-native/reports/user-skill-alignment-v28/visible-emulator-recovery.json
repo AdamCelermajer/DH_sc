@@ -1,0 +1,15 @@
+{
+  "pid": 7280,
+  "command": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe",
+    "-avd",
+    "Medium_Phone_API_37.0",
+    "-port",
+    "5554",
+    "-no-snapshot-load",
+    "-no-snapshot-save",
+    "-no-boot-anim"
+  ],
+  "visible": true,
+  "scope": "Restore only root5554 visible AVD; no APK install, wipe or other emulator changes"
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_ZoomHandler.cpp",
+    "address": "0x3823c4",
+    "size": 220
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Cameras_CameraOverview.cpp",
+    "address": "0x410d18",
+    "size": 304
+  },
+  {
+    "name": "_ZThn12_N14CameraOverviewD1Ev",
+    "address": "0x410c5c",
+    "size": 8
+  },
+  {
+    "name": "_ZThn4_N11ZoomHandlerD1Ev",
+    "address": "0x3830f8",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene24CSceneNodeAnimatorDeleteC1EPNS0_13CSceneManagerEj",
+    "address": "0x6cb56c",
+    "size": 192
+  },
+  {
+    "name": "_ZN5LevelD1Ev",
+    "address": "0x3f92c4",
+    "size": 532
+  },
+  {
+    "name": "_ZN11ZoomHandlerC1Ev",
+    "address": "0x382204",
+    "size": 224
+  },
+  {
+    "name": "_ZN11ZoomHandlerD0Ev",
+    "address": "0x38319c",
+    "size": 28
+  },
+  {
+    "name": "_ZThn12_N14CameraOverviewD0Ev",
+    "address": "0x410cac",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene24CSceneNodeAnimatorDeleteC2EPNS0_13CSceneManagerEj",
+    "address": "0x6cb658",
+    "size": 184
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactoryC1EPNS0_13CSceneManagerEPNS_3gui14ICursorControlERKN5boost13intrusive_ptrINS_2io11IFileSystemEEE",
+    "address": "0x6bb008",
+    "size": 1312
+  },
+  {
+    "name": "_ZN6glitch5scene24CColladaBinaryFileLoaderC2EPNS0_13CSceneManagerERKN5boost13intrusive_ptrINS_2io11IFileSystemEEE",
+    "address": "0x6b9310",
+    "size": 80
+  },
+  {
+    "name": "_ZTV11ZoomHandler",
+    "address": "0x963ca8",
+    "size": 44
+  },
+  {
+    "name": "_ZN11ZoomHandler14ResetFingerMapEv",
+    "address": "0x3830bc",
+    "size": 60
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManagerC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE",
+    "address": "0x58d908",
+    "size": 1096
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManagerC1EPNS0_13CSceneManagerEPNS_5video12IVideoDriverE",
+    "address": "0x6c3c48",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManagerC2EPNS0_13CSceneManagerEPNS_5video12IVideoDriverE",
+    "address": "0x6c3bec",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5scene32CDefaultSceneNodeAnimatorFactoryC1EPNS0_13CSceneManagerEPNS_3gui14ICursorControlE",
+    "address": "0x6b95dc",
+    "size": 76
+  },
+  {
+    "name": "_ZN14CameraOverviewD1Ev",
+    "address": "0x410c64",
+    "size": 72
+  },
+  {
+    "name": "_ZN11ZoomHandler9ResetZoomEv",
+    "address": "0x38201c",
+    "size": 28
+  },
+  {
+    "name": "_ZN5LevelD2Ev",
+    "address": "0x3f90b0",
+    "size": 532
+  },
+  {
+    "name": "_ZN14CameraOverviewD0Ev",
+    "address": "0x410cb4",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene35CSceneNodeAnimatorCollisionResponseC2EPNS0_13CSceneManagerEPNS0_17ITriangleSelectorEPNS0_10ISceneNodeERKNS_4core8vector3dIfEESC_SC_f",
+    "address": "0x6cb220",
+    "size": 356
+  },
+  {
+    "name": "_ZN14CameraOverview11DeactivatedEv",
+    "address": "0x410ac4",
+    "size": 40
+  },
+  {
+    "name": "_ZN11ZoomHandler7onEventEPK6IEventPK12EventManager",
+    "address": "0x382bdc",
+    "size": 1192
+  },
+  {
+    "name": "_ZN11ZoomHandlerC2Ev",
+    "address": "0x3822e4",
+    "size": 224
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManagerC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE",
+    "address": "0x58ddd0",
+    "size": 1040
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager17SDefaultNodeEntryC1EPNS0_10ISceneNodeEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvi",
+    "address": "0x350c98",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5scene35CSceneNodeAnimatorCollisionResponseC1EPNS0_13CSceneManagerEPNS0_17ITriangleSelectorEPNS0_10ISceneNodeERKNS_4core8vector3dIfEESC_SC_f",
+    "address": "0x6cb000",
+    "size": 388
+  },
+  {
+    "name": "_ZN11ZoomHandlerD1Ev",
+    "address": "0x383100",
+    "size": 148
+  },
+  {
+    "name": "_ZN6glitch5scene32CDefaultSceneNodeAnimatorFactoryC2EPNS0_13CSceneManagerEPNS_3gui14ICursorControlE",
+    "address": "0x6b9590",
+    "size": 76
+  },
+  {
+    "name": "_ZN10CameraBase11DeactivatedEv",
+    "address": "0x40e71c",
+    "size": 4
+  },
+  {
+    "name": "_ZThn4_N11ZoomHandlerD0Ev",
+    "address": "0x383194",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager21STransparentNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvPS8_i",
+    "address": "0x354e8c",
+    "size": 372
+  },
+  {
+    "name": "_ZN11ZoomHandlerD2Ev",
+    "address": "0x3831b8",
+    "size": 148
+  },
+  {
+    "name": "_ZN11ZoomHandler7onEventERKN6glitch6SEventE",
+    "address": "0x382040",
+    "size": 452
+  },
+  {
+    "name": "_ZN6glitch5scene21CSceneManagerRootNodeC1EPNS0_13CSceneManagerE",
+    "address": "0x58a070",
+    "size": 144
+  },
+  {
+    "name": "_ZN10CameraBase9ActivatedEv",
+    "address": "0x40e718",
+    "size": 4
+  },
+  {
+    "name": "_ZN14CameraOverview6UpdateEv",
+    "address": "0x411234",
+    "size": 932
+  },
+  {
+    "name": "_ZN14CameraOverview7onEventEPK6IEventPK12EventManager",
+    "address": "0x410930",
+    "size": 404
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager18SDistanceNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEPv",
+    "address": "0x350cf4",
+    "size": 360
+  },
+  {
+    "name": "_ZN14CameraOverviewC2Ev",
+    "address": "0x410ea4",
+    "size": 456
+  },
+  {
+    "name": "_ZN5LevelD0Ev",
+    "address": "0x3f94d8",
+    "size": 28
+  },
+  {
+    "name": "_ZTV14CameraOverview",
+    "address": "0x967b68",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene24CColladaBinaryFileLoaderC1EPNS0_13CSceneManagerERKN5boost13intrusive_ptrINS_2io11IFileSystemEEE",
+    "address": "0x6b9360",
+    "size": 80
+  },
+  {
+    "name": "_ZN14CameraOverviewD2Ev",
+    "address": "0x410cd0",
+    "size": 72
+  },
+  {
+    "name": "_ZN14CameraOverviewC1Ev",
+    "address": "0x41106c",
+    "size": 456
+  },
+  {
+    "name": "_ZN6glitch5scene15CBatchSceneNodeC1EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEEPNS0_13CSceneManagerE",
+    "address": "0x57fe84",
+    "size": 336
+  },
+  {
+    "name": "_ZN14CameraOverview9ActivatedEv",
+    "address": "0x410aec",
+    "size": 368
+  },
+  {
+    "name": "_ZN6glitch5scene24CDefaultSceneNodeFactoryC2EPNS0_13CSceneManagerEPNS_3gui14ICursorControlERKN5boost13intrusive_ptrINS_2io11IFileSystemEEE",
+    "address": "0x6baae8",
+    "size": 1312
+  },
+  {
+    "name": "_ZN11ZoomHandler9setCameraEP11CameraLevel",
+    "address": "0x381fb0",
+    "size": 108
+  },
+  {
+    "name": "_ZN6glitch5scene15CBatchSceneNodeC2EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEEPNS0_13CSceneManagerE",
+    "address": "0x57ffd4",
+    "size": 276
+  },
+  {
+    "name": "_ZThn4_N11ZoomHandler7onEventERKN6glitch6SEventE",
+    "address": "0x382038",
+    "size": 8
+  },
+  {
+    "name": "_ZThn12_N14CameraOverview7onEventEPK6IEventPK12EventManager",
+    "address": "0x410928",
+    "size": 8
+  }
+]

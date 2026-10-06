@@ -1,0 +1,14 @@
+[
+  {
+    "optimization": "O1",
+    "exit": 0,
+    "stdout": "ranged AI V41 original replay PASS 256 cases / 604 ordered calls; 11 required endpoint failures; projectile creation not claimed\n",
+    "stderr": ""
+  },
+  {
+    "optimization": "O2",
+    "exit": 0,
+    "stdout": "ranged AI V41 original replay PASS 256 cases / 604 ordered calls; 11 required endpoint failures; projectile creation not claimed\n",
+    "stderr": ""
+  }
+]

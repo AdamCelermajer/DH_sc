@@ -1,0 +1,337 @@
+--- a/port/asset-payloads/zip_asset_pack_v1.hpp
++++ b/port/asset-payloads/zip_asset_pack_v1.hpp
+@@ -26,6 +26,8 @@
+ public:
+     bool mount(ZipBackingV1,const std::string& prefix,std::string&);
+     bool read(const std::string& uri,bool& found,std::vector<std::uint8_t>&,std::string&) const;
++    bool read_admitted(const std::string& uri,bool& found,std::vector<std::uint8_t>&,
++        const std::function<bool(std::uint32_t,std::string&)>& before_payload,std::string&) const;
+     bool mounted() const noexcept {return bool(impl_);}
+     std::vector<ZipEntryV1> entries() const;
+     static bool key(const std::string&,std::string&,std::string&);
+--- a/port/asset-payloads/zip_asset_pack_v1.cpp
++++ b/port/asset-payloads/zip_asset_pack_v1.cpp
+@@ -105,6 +105,10 @@
+     }catch(const std::exception& x){e=std::string("Original cache ZIP: ")+x.what();return false;}
+ }
+ bool ZipAssetPackV1::read(const std::string& uri,bool& found,std::vector<std::uint8_t>& out,std::string& e) const{
++    return read_admitted(uri,found,out,{},e);
++}
++bool ZipAssetPackV1::read_admitted(const std::string& uri,bool& found,std::vector<std::uint8_t>& out,
++    const std::function<bool(std::uint32_t,std::string&)>& before_payload,std::string& e) const{
+     try {
+         auto owner=impl_;
+         if(!owner)return fail(e,"filesystem not mounted");
+@@ -125,6 +129,7 @@
+         std::string original(name_bytes,0);
+         if(!owner->read_at(std::uint64_t(entry.local)+30,original.data(),original.size(),e))return false;
+         if(original!=entry.original)return fail(e,"local entry name mismatch");
++        if(before_payload&&!before_payload(metadata.bytes,e))return false;
+         std::vector<std::uint8_t> candidate(metadata.bytes);
+         if(entry.method==0){if(!owner->read_at(payload,candidate.data(),candidate.size(),e))return false;}
+         else {
+--- a/port/engine-textures/texture_owner_v1.cpp
++++ b/port/engine-textures/texture_owner_v1.cpp
+@@ -53,7 +53,8 @@
+ }
+ bool TextureParameterOwnerV1::update(const TextureDriverBorrowV1& d,const TextureParameterServicesV1& cb,std::string& e){
+  if(!constructed_){e="Required actual source texture construction";return false;}parameters_delivered_=false;
+- if(!texture_update_parameters_v1(fields_,d,cb,e))return false;parameters_delivered_=true;return true;
++ if(!texture_update_parameters_v1(fields_,d,cb,e))return false;
++ parameters_delivered_=true;return true;
+ }
+ bool TextureParameterOwnerV1::set_data(bool generate,std::string& e){
+  if(!constructed_){e="Required actual source texture construction before setData";return false;}
+--- a/port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp
++++ b/port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp
+@@ -2,6 +2,7 @@
+ #include <android/asset_manager.h>
+ #include <cstdint>
+ #include <memory>
++#include <functional>
+ #include <string>
+ #include <vector>
+ namespace dh2::android_ui {
+@@ -15,6 +16,8 @@
+     bool mount(std::size_t& files,std::string& error) const;
+     bool verify_samples(std::string& error) const;
+     bool read(const std::string&,bool& found,std::vector<std::uint8_t>&,std::string&) const;
++    bool read_admitted(const std::string&,bool& found,std::vector<std::uint8_t>&,
++        const std::function<bool(std::uint32_t,std::string&)>& before_payload,std::string&) const;
+     bool directory(std::vector<std::string>&,std::string&) const;
+ };
+ }
+--- a/port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp
++++ b/port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp
+@@ -60,6 +60,14 @@
+     if(!state){e="Original cache APK owner changed during read";return false;}
+     return state->pack.read(uri,found,out,e);
+ }
++bool OriginalCacheAssetsV1::read_admitted(const std::string& uri,bool& found,std::vector<std::uint8_t>& out,
++    const std::function<bool(std::uint32_t,std::string&)>& before_payload,std::string& e) const{
++    std::size_t files;if(!mount(files,e))return false;
++    std::shared_ptr<State> state;
++    {std::lock_guard<std::mutex> lock(mount_mutex);state=state_;}
++    if(!state){e="Original cache APK owner changed during read";return false;}
++    return state->pack.read_admitted(uri,found,out,before_payload,e);
++}
+ bool OriginalCacheAssetsV1::directory(std::vector<std::string>& out,std::string& e) const{
+     std::size_t files;if(!mount(files,e))return false;
+     std::shared_ptr<State> state;
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -182,6 +182,8 @@
+ #include <memory>
+ #include "frame_perf_v35.hpp"
+ #include "native_resource_budget_v38.hpp"
++#include "../../../../../engine-resources/admitted_cpu_bytes_v40.hpp"
++#include "../../../../../engine-resources/retained_bytes_v39.hpp"
+ #include "world_visibility_v35.hpp"
+ #include "skin_pose_cache_v32.hpp"
+ #include <cerrno>
+@@ -774,10 +776,7 @@
+   has_alpha=glGetUniformLocation(program,"has_alpha");alpha_ref=glGetUniformLocation(program,"alpha_ref");
+   original_alpha_blue=glGetUniformLocation(program,"original_alpha_blue");
+ }
+-void release(std::vector<Draw>& batches,std::vector<GLuint>& textures){
+-  for(auto& b:batches){if(b.vertices)glDeleteBuffers(1,&b.vertices);if(b.indices)glDeleteBuffers(1,&b.indices);}
+-  for(auto t:textures)glDeleteTextures(1,&t);batches.clear();textures.clear();
+-}
++#include "renderer_model_texture_budget_v40.inc"
+ void release_objects(std::vector<ObjectGroup>& groups){std::vector<GLuint> none;for(auto& group:groups)release(group.draws,none);groups.clear();}
+ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,const std::string& folder="textures"){
+   auto path=name;
+@@ -938,30 +937,6 @@
+  const auto error=status?std::string(dh2_script_vm_error(vm)):std::string();
+  const auto cleaned=dh2_script_vm_load_source_file(vm,cleanup,sizeof(cleanup)-1);
+  if(status||cleaned)throw std::runtime_error("Scene object position differs: "+error);
+-}
+-GLuint upload(AAssetManager* assets,const std::string& name,std::map<std::string,GLuint>& cache,std::vector<GLuint>& owned,
+- dh2::android_ui::OriginalCacheAssetsV1* original=nullptr){
+-  auto found=cache.find(name);if(found!=cache.end())return found->second;
+-  std::vector<std::uint8_t> rgba;unsigned w=1,h=1;
+-  if(name.empty())rgba={255,255,255,255};
+-  else{
+-    std::vector<std::uint8_t> raw;
+-    if(original){bool found=false;std::string error;
+-      if(!original->read("data/3d/textures/"+name,found,raw,error)||!found)
+-        throw std::runtime_error("Original equipped texture unavailable: "+name+" | "+error);
+-    }else raw=read(assets,name);
+-    dh2::textures::View view{};
+-    if(dh2_texture_open(raw.data(),raw.size(),&view)!=dh2::textures::Error::ok)throw std::runtime_error("Texture header rejected: "+name);
+-    w=view.width;h=view.height;rgba.resize(std::size_t(w)*h*4);
+-    if(dh2_texture_decode(&view,rgba.data(),rgba.size())!=dh2::textures::Error::ok)throw std::runtime_error("Texture decode rejected: "+name);
+-  }
+-  GLint max=0;glGetIntegerv(GL_MAX_TEXTURE_SIZE,&max);if(w>unsigned(max)||h>unsigned(max))throw std::runtime_error("Texture exceeds GPU limit");
+-  GLuint t=0;glGenTextures(1,&t);owned.push_back(t);glBindTexture(GL_TEXTURE_2D,t);
+-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+-  // Original UVs wrap beyond [0,1]; fixture sizes are all powers of two.
+-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+-  glPixelStorei(GL_UNPACK_ALIGNMENT,1);glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,w,h,0,GL_RGBA,GL_UNSIGNED_BYTE,rgba.data());check("Model texture upload");
+-  cache[name]=t;return t;
+ }
+ void sync_equipment_draws(const std::vector<dh2::skinning::VisualDrawViewV32>& parts,
+  AAssetManager* assets,dh2::android_ui::OriginalCacheAssetsV1& original){
+@@ -1018,8 +993,8 @@
+           next.emplace_back();auto& draw=next.back();draw.material=part.material_table->at(material);
+           draw.placement=part.world;draw.environment=true;draw.count=static_cast<GLsizei>(indices.size());
+           draw.cpu_vertices=std::move(vertices);mapping.push_back(i);
+-          draw.diffuse=upload(assets,draw.material.diffuse,cache,textures,&original);
+-          draw.alpha=upload(assets,draw.material.alpha_map,cache,textures,&original);
++          draw.diffuse=upload(assets,draw.material.diffuse,cache,textures,&original,dh2::resources::ResourceScopeV37::equipment);
++          draw.alpha=upload(assets,draw.material.alpha_map,cache,textures,&original,dh2::resources::ResourceScopeV37::equipment);
+           glGenBuffers(1,&draw.vertices);glBindBuffer(GL_ARRAY_BUFFER,draw.vertices);
+           glBufferData(GL_ARRAY_BUFFER,draw.cpu_vertices.size()*sizeof(Vertex),draw.cpu_vertices.data(),GL_DYNAMIC_DRAW);
+           glGenBuffers(1,&draw.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,draw.indices);
+@@ -1121,7 +1096,7 @@
+  // Its genuine initial NULL is distinct from the demo's unpublised C1 owner.
+  return dh2::loader::borrow_current_canonical_level_v1(renderer_gs_globals_v27->borrow(renderer_gs_globals_v27),out,error);
+ }
+-void reset_context(){begin_gameplay_camera_release_v20();class_preview_actors.clear();menu_background=class_scene=false;clear_retained_loot_gpu_v27(true);clear_combat_fx_gpu(true);if(player_equipment)player_equipment->detach_visual();equipment_draws.clear();equipment_images.clear();equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();resume_world=resume_world||world_mode;if(world_mode){saved_actors.clear();for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.kind==1)saved_actors.push_back(actor);}world_mode=false;move_x=move_y=0;draws.clear();images.clear();object_groups.clear();world_objects.clear();prince_locomotion=dh2::actor::BlendedPlayback{};prince_visual={};prince_attack_clips.clear();prince_animation_bank={};scene_clock=0;inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;}
++void reset_context(){begin_gameplay_camera_release_v20();class_preview_actors.clear();menu_background=class_scene=false;clear_retained_loot_gpu_v27(true);clear_combat_fx_gpu(true);if(player_equipment)player_equipment->detach_visual();equipment_draws.clear();equipment_images.clear();equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();resume_world=resume_world||world_mode;if(world_mode){saved_actors.clear();for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.kind==1)saved_actors.push_back(actor);}world_mode=false;move_x=move_y=0;draws.clear();images.clear();object_groups.clear();world_objects.clear();prince_locomotion=dh2::actor::BlendedPlayback{};prince_visual={};prince_attack_clips.clear();prince_animation_bank={};scene_clock=0;inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;discard_model_textures_v40();}
+ void deactivate(){begin_gameplay_camera_release_v20();release_class_previews();menu_background=class_scene=false;clear_retained_loot_gpu_v27(false);clear_combat_fx_gpu(false);clear_npc_death_owners_v2();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();player_skills_runtime.reset();release_canonical_world_v4(live_script_world);if(player_equipment)player_equipment->detach_visual();player_equipment.reset();equipment_platform.reset();release(equipment_draws,equipment_images);equipment_parts.clear();equipment_draw_part.clear();enabled=false;world_mode=false;resume_world=false;move_x=move_y=0;}
+ bool active(){return enabled;}
+ void set_character_panel_open(bool value){character_panel_open=value&&world_mode;move_x=move_y=0;source_hud_heading_active=false;last_frame=std::chrono::steady_clock::now();__android_log_print(ANDROID_LOG_INFO,"DH2Native","Character overlay simulation pause | open %d | same live World",character_panel_open);}
+--- a/port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc
++++ b/port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc
+@@ -12,7 +12,7 @@
+ void clear_retained_loot_gpu_v27(bool lost){
+  for(auto& entry:loot_gpu_records_v27)release_loot_gpu_record_v27(entry.second,lost);
+  loot_gpu_records_v27.clear();
+- if(!lost&&!loot_gpu_textures_v27.empty())glDeleteTextures(GLsizei(loot_gpu_textures_v27.size()),loot_gpu_textures_v27.data());
++ for(auto name:loot_gpu_textures_v27)release_model_texture_v40(name,lost);
+  loot_gpu_textures_v27.clear();loot_gpu_texture_cache_v27.clear();
+ }
+ void refresh_loot_gpu_vertices_v27(LootGpuRecordV27& record){
+@@ -38,8 +38,8 @@
+    record.draws.emplace_back();auto& draw=record.draws.back();
+    draw.material=visual->scene().materials.at(part.material);draw.count=GLsizei(part.indices.size());draw.environment=true;
+    draw.cpu_vertices.resize(part.vertices.size());draw.placement=part.matrix;
+-   draw.diffuse=upload(equipment_platform->manager,draw.material.diffuse,loot_gpu_texture_cache_v27,loot_gpu_textures_v27,&equipment_platform->cache);
+-   draw.alpha=upload(equipment_platform->manager,draw.material.alpha_map,loot_gpu_texture_cache_v27,loot_gpu_textures_v27,&equipment_platform->cache);
++   draw.diffuse=upload(equipment_platform->manager,draw.material.diffuse,loot_gpu_texture_cache_v27,loot_gpu_textures_v27,&equipment_platform->cache,dh2::resources::ResourceScopeV37::loot);
++   draw.alpha=upload(equipment_platform->manager,draw.material.alpha_map,loot_gpu_texture_cache_v27,loot_gpu_textures_v27,&equipment_platform->cache,dh2::resources::ResourceScopeV37::loot);
+    glGenBuffers(1,&draw.vertices);glBindBuffer(GL_ARRAY_BUFFER,draw.vertices);
+    glBufferData(GL_ARRAY_BUFFER,draw.cpu_vertices.size()*sizeof(Vertex),nullptr,GL_DYNAMIC_DRAW);
+    glGenBuffers(1,&draw.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,draw.indices);
+--- a/port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc
++++ b/port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc
+@@ -65,7 +65,7 @@
+   for(const auto& primitive:weapon.resource.primitives){
+    if(!primitive.skin.nodes.empty())throw std::runtime_error("Starting weapon requires unsupported skinned attachment");
+    weapon.draws.emplace_back();auto& batch=weapon.draws.back();batch.node=primitive.node;batch.material=weapon.resource.scene.materials.at(primitive.material);
+-   batch.diffuse=upload(assets,batch.material.diffuse,cache,weapon.images);batch.alpha=upload(assets,batch.material.alpha_map,cache,weapon.images);batch.count=primitive.indices.size();
++   batch.diffuse=upload(assets,batch.material.diffuse,cache,weapon.images,nullptr,dh2::resources::ResourceScopeV37::actor);batch.alpha=upload(assets,batch.material.alpha_map,cache,weapon.images,nullptr,dh2::resources::ResourceScopeV37::actor);batch.count=primitive.indices.size();
+    glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data(),GL_STATIC_DRAW);
+    glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*sizeof(std::uint16_t),primitive.indices.data(),GL_STATIC_DRAW);check("Weapon preview upload");
+   }
+@@ -106,7 +106,7 @@
+    for(const auto& primitive:actor.resource.primitives){
+     actor.draws.emplace_back();auto& batch=actor.draws.back();batch.node=primitive.node;
+     batch.material=actor.resource.scene.materials.at(primitive.material);
+-    batch.diffuse=upload(assets,batch.material.diffuse,cache,actor.images);batch.alpha=upload(assets,batch.material.alpha_map,cache,actor.images);
++    batch.diffuse=upload(assets,batch.material.diffuse,cache,actor.images,nullptr,dh2::resources::ResourceScopeV37::actor);batch.alpha=upload(assets,batch.material.alpha_map,cache,actor.images,nullptr,dh2::resources::ResourceScopeV37::actor);
+     batch.count=primitive.indices.size();
+     glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
+     glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data(),GL_DYNAMIC_DRAW);
+--- a/port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc
++++ b/port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc
+@@ -6,6 +6,10 @@
+ #include "renderer_effect_material_directory_v4.inc"
+ #include "renderer_authored_effect_sources_v5.inc"
+ struct EffectGpuTextureV4 {
++ std::shared_ptr<dh2::resources::ContextResourceBudgetV37> resource_budget_v40;
++ dh2::resources::CpuAdmissionV40 decoded_cpu_v40;
++ dh2::resources::ResourceTokenV37 texture_budget_v40;
++ std::uint64_t texture_generation_v40{};
+  GLuint texture{};dh2::textures::GeneralFxTextureImageOwnerV2 image;
+  dh2::textures::TextureParameterOwnerV1& owner(){return image.parameters();}
+ };
+--- a/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc
++++ b/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc
+@@ -18,8 +18,10 @@
+  dh2::textures::TextureBindingOwnerV1& effect_texture_grid_v5;
+  dh2::textures::TextureGlCacheFieldsV1& effect_texture_cache_v5;
+  std::uint32_t& effect_texture_units_v5;
++ std::shared_ptr<dh2::resources::ContextResourceBudgetV37> budget_v40;
++ std::uint64_t generation_v40{};
+  GLint active{},alignment{};std::array<GLint,8> textures{};
+- EffectTextureStateGuardV5(dh2::textures::TextureBindingOwnerV1& grid,dh2::textures::TextureGlCacheFieldsV1& cache,std::uint32_t& units_ref):effect_texture_grid_v5(grid),effect_texture_cache_v5(cache),effect_texture_units_v5(units_ref){
++ EffectTextureStateGuardV5(dh2::textures::TextureBindingOwnerV1& grid,dh2::textures::TextureGlCacheFieldsV1& cache,std::uint32_t& units_ref):effect_texture_grid_v5(grid),effect_texture_cache_v5(cache),effect_texture_units_v5(units_ref),budget_v40(dh2::android_resources::budget_lease_v39()),generation_v40(budget_v40->snapshot().context_generation){
+   GLint units=0;glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS,&units);
+   effect_texture_units_v5=std::min(std::uint32_t(units),8u);
+   if(!effect_texture_units_v5)throw std::runtime_error("Actual source GLES texture unit count is zero");
+@@ -30,6 +32,10 @@
+   if(effect_texture_cache_v5.active_unit268>=effect_texture_units_v5)throw std::runtime_error("Actual active GL texture unit outside source grid");
+  }
+  ~EffectTextureStateGuardV5(){
++  const auto current=budget_v40->snapshot();
++  if(!current.context_ready||current.context_generation!=generation_v40){
++   effect_texture_grid_v5={};effect_texture_cache_v5={};effect_texture_units_v5=0;return;
++  }
+   const dh2::textures::TextureBindingDriverBorrowV1 driver{&effect_texture_units_v5,&effect_texture_cache_v5.active_unit268};const dh2::textures::TextureBindingServicesV1 services{};std::string ignored;
+   for(std::uint32_t i=0;i<effect_texture_units_v5;++i){
+    effect_texture_grid_v5.set_texture(i,{},0,driver,services,ignored);
+@@ -43,13 +49,18 @@
+ bool release_effect_texture_v5(EffectGpuTextureV4& r,bool discard_context,bool upload_error,std::string& error){
+  auto& fields=r.owner().fields();
+  const dh2::textures::TextureBindingReceiverV1 receiver{&r,&fields.flags3f,&fields.dirty40,&r.texture};
+- if(discard_context){
++ const auto current=r.resource_budget_v40?r.resource_budget_v40->snapshot():dh2::resources::ResourceBudgetSnapshotV37{};
++ const bool same=current.context_ready&&current.context_generation==r.texture_generation_v40;
++ if(discard_context&&r.texture&&same){error="V40 live effect texture context cannot be abandoned";return false;}
++ if(discard_context||!same){
+   // Lost GL context has no callable original destructor GL delivery. Discard
+   // only the adapter's borrowed grid; do not issue GL calls into a new context.
+   const auto driver=effect_texture_driver_v5();const auto services=effect_binding_services_v5();
+   for(std::uint32_t i=0;i<effect_texture_units_v5;++i)
+    if(effect_texture_grid_v5.slot(0,i)->identity==&r&&!effect_texture_grid_v5.set_texture(i,{},0,driver,services,error))return false;
+-  r.owner().context_lost();r.texture=0;return true;
++  r.owner().context_lost();r.texture=0;
++  if(r.texture_budget_v40&&!r.resource_budget_v40->release(r.texture_budget_v40,error))return false;
++  r.texture_generation_v40=0;return true;
+  }
+  dh2::textures::TextureUpload2dBorrowV1 data;
+  if(!r.image.upload_borrow(&effect_texture_cache_v5.unpack_alignment26c,data,error))return false;
+@@ -57,22 +68,45 @@
+  services.delete_texture=[](auto name,std::string&){glDeleteTextures(1,&name);return true;};
+  const bool result=dh2::textures::texture_unbind_2d_v1(effect_texture_grid_v5,receiver,fields,r.texture,
+   effect_texture_driver_v5(),effect_binding_services_v5(),data.pending_bits,data.pending_word_count,services,upload_error,error);
+- r.owner().context_lost();return result;
++ r.owner().context_lost();
++ if(!r.texture&&r.texture_budget_v40&&!r.resource_budget_v40->release(r.texture_budget_v40,error))return false;
++ if(!r.texture)r.texture_generation_v40=0;
++ return result;
+ }
+ std::shared_ptr<EffectGpuTextureV4> effect_texture_v4(const std::string& name,
+  dh2::android_ui::OriginalCacheAssetsV1& cache){
+  if(name.empty())throw std::runtime_error("Required authored effect texture image");
+  const auto found=effect_gpu_textures_v4.find(name);if(found!=effect_gpu_textures_v4.end())return found->second;
+- std::vector<std::uint8_t> bytes;std::string error;bool present=false;
+- if(!cache.read("data/3d/textures/"+name,present,bytes,error)||!present)throw std::runtime_error("Required actual effect texture "+name+": "+error);
++ auto ledger=dh2::android_resources::budget_lease_v39();
++ auto encoded=std::make_shared<dh2::resources::AdmittedVectorV40>();std::string error;bool present=false;
++ const auto admit=[&](std::uint32_t bytes,std::string& why){return encoded->admission.reserve(ledger,dh2::resources::ResourceScopeV37::fx,bytes,why);};
++ if(!cache.read_admitted("data/3d/textures/"+name,present,encoded->bytes,admit,error)||!present)throw std::runtime_error("Required actual effect texture "+name+": "+error);
++ if(!encoded->admission.commit(error))throw std::runtime_error(error);
+  const auto* extensions=glGetString(GL_EXTENSIONS);if(!extensions)throw std::runtime_error("Required owning GLES context extensions");
+  dh2::textures::Gles2TextureSamplerFeaturesV1 features;
+  if(!dh2::textures::texture_gles2_sampler_features_v1(reinterpret_cast<const char*>(extensions),
+   [](auto pname,float& value,std::string&){glGetFloatv(pname,&value);check("Actual source texture feature query");return true;},features,error))throw std::runtime_error(error);
+- auto r=std::make_shared<EffectGpuTextureV4>();
+- if(!r->image.initialize(std::make_shared<const std::vector<std::uint8_t>>(std::move(bytes)),features,{},&effect_driver_options_v4.flags88(),
++ auto r=std::make_shared<EffectGpuTextureV4>();r->resource_budget_v40=ledger;
++ dh2::textures::View view{};
++ if(dh2_texture_open(encoded->bytes.data(),encoded->bytes.size(),&view)!=dh2::textures::Error::ok)throw std::runtime_error("Required actual effect texture header");
++ GLint maximum=0;glGetIntegerv(GL_MAX_TEXTURE_SIZE,&maximum);
++ if(maximum<=0||view.width>std::uint32_t(maximum)||view.height>std::uint32_t(maximum))throw std::runtime_error("Effect texture exceeds GPU dimensions");
++ std::uint64_t decoded_bytes,gpu_bytes;
++ dh2::textures::TextureDescriptorV1 descriptor;
++ if(!dh2::textures::texture_image_descriptor_v1(descriptor,{14,view.width,view.height,0},{},&effect_driver_options_v4.flags88(),error)||
++    !dh2::resources::rgba_texture_bytes_v37(view.width,view.height,false,decoded_bytes,error)||
++    !dh2::resources::rgba_texture_bytes_v37(view.width,view.height,descriptor.mipmapped!=0,gpu_bytes,error))throw std::runtime_error(error);
++ dh2::resources::ResourceReservationV37 gpu;
++ if(!ledger->reserve_create({dh2::resources::ResourceKindV37::texture,dh2::resources::ResourceScopeV37::fx,gpu_bytes,0},gpu,error)||
++    !r->decoded_cpu_v40.reserve(ledger,dh2::resources::ResourceScopeV37::fx,decoded_bytes,error))throw std::runtime_error(error);
++ if(!r->image.initialize(dh2::resources::AdmittedVectorV40::borrow(encoded),features,{},&effect_driver_options_v4.flags88(),
+   [](auto from,auto to,std::string&){__android_log_print(ANDROID_LOG_INFO,"DH2Native","Actual effect image decoded to native RGBA | %u -> %u",from,to);return true;},error))throw std::runtime_error("Actual effect texture "+name+": "+error);
++ if(!r->decoded_cpu_v40.commit(error))throw std::runtime_error(error);
+  EffectTextureStateGuardV5 restore(effect_texture_grid_v5,effect_texture_cache_v5,effect_texture_units_v5);
++ // Allocate cache node before GL ownership; rollback every failed candidate.
++ auto cached=effect_gpu_textures_v4.try_emplace(name,r);
++ if(!cached.second)throw std::runtime_error("V40 effect texture publication changed");
++ r->texture_generation_v40=ledger->snapshot().context_generation;
+  // Acquire sole mutable fields BEFORE update; reacquiring would invalidate
+  // its parameter receipt during virtual20.
+  auto& fields=r->owner().fields();
+@@ -104,8 +138,11 @@
+    return r->owner().generate_mipmaps(r.get(),{&effect_texture_units_v5,&effect_texture_cache_v5.active_unit268},s,e);
+   };
+   if(!r->owner().upload(payload,upload,error)||!r->owner().ready())throw std::runtime_error("Source texture updateData: "+error);
++  check("Source effect texture upload/mipmap allocation");
++  if(!gpu.commit(r->texture_budget_v40,error))throw std::runtime_error(error);
+  }catch(...){
+   const auto exception=std::current_exception();std::string cleanup;
++  effect_gpu_textures_v4.erase(cached.first);
+   // Source bindImpl only republish10 if updateData produced error10. Adapter
+   // missing-provider/exception still releases genuine allocated GL lifetime.
+   const bool source_upload_error=(fields.flags3f&0x10)!=0;
+@@ -113,5 +150,5 @@
+    throw std::runtime_error("Source texture cleanup failed: "+cleanup);
+   std::rethrow_exception(exception);
+  }
+- effect_gpu_textures_v4.emplace(name,r);return r;
++ return r;
+ }
+--- a/port/android-native/app/src/main/cpp/CMakeLists.txt
++++ b/port/android-native/app/src/main/cpp/CMakeLists.txt
+@@ -22,7 +22,8 @@
+ add_subdirectory("${DH2_SOURCE_DIR}/port/level-world" "${CMAKE_CURRENT_BINARY_DIR}/level-world")
+ add_subdirectory("${DH2_SOURCE_DIR}/port/engine-audio" "${CMAKE_CURRENT_BINARY_DIR}/engine-audio")
+ target_sources(dh2_scene_materials PRIVATE "${DH2_SOURCE_DIR}/port/engine-resources/resource_budget_v37.cpp"
+-  "${DH2_SOURCE_DIR}/port/engine-resources/retained_bytes_v39.cpp")
++  "${DH2_SOURCE_DIR}/port/engine-resources/retained_bytes_v39.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-resources/admitted_cpu_bytes_v40.cpp")
+ target_sources(dh2_level_world PRIVATE "${DH2_SOURCE_DIR}/port/level-world/vox_audio_bridge_v34.cpp")
+ target_sources(dh2_level_world PRIVATE "${DH2_SOURCE_DIR}/port/level-world/character_close_range_v38.cpp")
+ target_sources(dh2_level_world PRIVATE "${DH2_SOURCE_DIR}/port/level-world/character_world_clear_aggro_v40.cpp")

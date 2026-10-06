@@ -1,0 +1,87 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_reset_cases": 9,
+  "original_add32_cases": 7,
+  "resets": [
+    {
+      "entry": "0x3f3258",
+      "initial": 0,
+      "result": 0
+    },
+    {
+      "entry": "0x3f3258",
+      "initial": 2779096485,
+      "result": 0
+    },
+    {
+      "entry": "0x3f3258",
+      "initial": 4294967295,
+      "result": 0
+    },
+    {
+      "entry": "0x3f35f0",
+      "initial": 0,
+      "result": 0
+    },
+    {
+      "entry": "0x3f35f0",
+      "initial": 2779096485,
+      "result": 0
+    },
+    {
+      "entry": "0x3f35f0",
+      "initial": 4294967295,
+      "result": 0
+    },
+    {
+      "entry": "0x3f7524",
+      "initial": 0,
+      "result": 0
+    },
+    {
+      "entry": "0x3f7524",
+      "initial": 2779096485,
+      "result": 0
+    },
+    {
+      "entry": "0x3f7524",
+      "initial": 4294967295,
+      "result": 0
+    }
+  ],
+  "increments": [
+    {
+      "initial": 0,
+      "result": 1
+    },
+    {
+      "initial": 1,
+      "result": 2
+    },
+    {
+      "initial": 5,
+      "result": 6
+    },
+    {
+      "initial": 2147483647,
+      "result": 2147483648
+    },
+    {
+      "initial": 2147483648,
+      "result": 2147483649
+    },
+    {
+      "initial": 4294967294,
+      "result": 4294967295
+    },
+    {
+      "initial": 4294967295,
+      "result": 0
+    }
+  ],
+  "actual_scalar13c_width_bits": 32,
+  "field140_pointer_untouched": true,
+  "scope": "Actual Level13c stores/reset/ADD32 and separate field140 pointer.\nOpcode slices execute original instructions with actual receiver/caller zero\nregister fixtures justified by prior MOVs. No file/generator/save effects run.\n",
+  "whole_level_init_verified": false
+}

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "original_native_comparisons": 176,
+  "source_sha256": {
+    "localization.cpp": "c872ebf8803bb0e3a2ac226044dc3761367933b2ff910e1846fd8e98b348be90",
+    "localization_parse_ex_v1.cpp": "6499289c94411aee561f6bfa27f0431386c9adf0948cd27fe9ec7c21e2d7cbfd",
+    "tests/localization_parse_ex_v1.cpp": "338e0d9edc9838962d67339cc0b0b2aeb6d8d486e94d32c4a49fd9d450761d28"
+  },
+  "scope": "Actual parseEx instructions with initialized original allocator, supplied numeric/string Variant projection, borrowed localization defaults, modeled ABI float operations/modff/snprintf. AS conversion/title/version not covered. Native title/version provider and failure tests are separate, not original title/version execution."
+}

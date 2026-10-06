@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\retained-level-module-graph-v1-handoff-81cda0afacdcc44a.zip",
+  "sha256": "747e5f3894cdf9738e701e5b5c7d84acc17b52f06d02347524fa8302894b6ea8",
+  "entries": 1156,
+  "checkpoint_sha256": "81cda0afacdcc44ae48ce08e8e44b39d71e21d45599c8fec820cf2f3dd1ed1d9",
+  "full_loader_verified": false
+}

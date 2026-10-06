@@ -1,0 +1,15 @@
+{
+  "validation": "proposal_syntax_PASS",
+  "scope": "Read-only concrete root takeover-site/capability snapshot + required-service consumer declaration; no backend implementation, GPU or current-GS execution",
+  "proposal_sha256": "1aae1e66759ed4d38047a7dba38b4bca81549c1fe0ee41f4e170e3c585f6c3e3",
+  "site_snapshot_sha256": "94f85adb2874a4fe5530c909d19ee427b340e3c86a19a29e56be92e65d207d86",
+  "syntax_check_passed": true,
+  "current_model_sink": "GL_TRIANGLES/GL_UNSIGNED_SHORT/packed position-UV-color",
+  "root_program_pass_texture_providers_required": true,
+  "generic_shader_attribute_capabilities_required": true,
+  "source_skin_world_placement_preserved_by_contract": true,
+  "shared_source_edits": false,
+  "dirty_archive_runs": false,
+  "device_actions": false,
+  "root_backend_execution_verified": false
+}

@@ -1,0 +1,14 @@
+I/DH2Native(11213): Authored HUD pointer | down 0 | control 4 | source character 353 | screen 1635.0 670.0
+V/DH2Native(11213): Native transition profile | phase 7 | state 3 | event c355
+V/DH2Native(11213): Native transition profile | phase 8 | state 3 | event c355
+I/DH2Native(11213): Character state event | state 6 | event 1e | prior 0 | flags 6341
+I/DH2Native(11213): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native(11213): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native(11213): Source skill step selection | clip 1234 | engine 62 | range 0 1666 | do_skill 700 | events 1 | bank range 0 1666 | unbound 0 | step FX 164 | anchored 1
+I/DH2Native(11213): Character animation selected | state 6 | flags 6341 | sequence 347 | clip 1234 | actor state service
+I/DH2Native(11213): Character state event | state 6 | event 1d | prior 3 | flags 6341
+I/DH2Native(11213): Player source state | previous 3 | current 6 | event 0xc355 | flags 6341 | root 347 | clip 1234 | position -1253.0867 -517.8511 122.9283 | Step 5237
+I/DH2Native(11213): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 4672 | same retained World/Gear/SkillV6
+I/DH2Native(11213): Authored gameplay control | NativeHUDSkill | Skill activated
+I/DH2Native(11213): Source effect texture conversion | 27 -> 14
+E/DH2Native(11213): Native frame failed: Source CombatFX frame failed: Unsupported blood texture source image domain (requires actual non-mipped PVRTC4 RGBA)

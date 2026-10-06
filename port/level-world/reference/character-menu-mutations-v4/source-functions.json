@@ -1,0 +1,129 @@
+{
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "matching_globals": [
+    {
+      "field": "singleton",
+      "address": "0xa2f0e4",
+      "section": ".bss",
+      "source_initial_word": 0
+    },
+    {
+      "field": "mode",
+      "address": "0x99e234",
+      "section": ".data",
+      "source_initial_word": 1
+    }
+  ],
+  "functions": [
+    {
+      "address": "0x3bc4a8",
+      "symbol": "_ZN9Character7SG_SaveEv",
+      "size": 20
+    },
+    {
+      "address": "0x7fe4e0",
+      "symbol": "_ZN9CMatching8IsServerEv",
+      "size": 100
+    },
+    {
+      "address": "0x800f8c",
+      "symbol": "_ZN9CMatching3GetEv",
+      "size": 280
+    },
+    {
+      "address": "0x80003c",
+      "symbol": "_ZN9CMatchingC2Ev",
+      "size": 160
+    },
+    {
+      "address": "0x808094",
+      "symbol": "_ZN14CMatchingLocalD0Ev",
+      "size": 28
+    },
+    {
+      "address": "0x80fc28",
+      "symbol": "_ZN14CNetPlayerInfoC2Ev",
+      "size": 1140
+    },
+    {
+      "address": "0x80f1a0",
+      "symbol": "_ZN14CNetPlayerInfo9IsLocalToEi",
+      "size": 76
+    },
+    {
+      "address": "0x3ff200",
+      "symbol": "_ZN13ItemInventoryC1Ev",
+      "size": 304
+    },
+    {
+      "address": "0x3fdfd8",
+      "symbol": "_ZN13ItemInventory7SetGoldEi",
+      "size": 396
+    },
+    {
+      "address": "0x8137ec",
+      "symbol": "_ZN9NetStruct16GetChangedBitMapEv",
+      "size": 80
+    },
+    {
+      "address": "0x36effc",
+      "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character",
+      "size": 44
+    },
+    {
+      "address": "0x80f27c",
+      "symbol": "_ZN14CNetPlayerInfo5ResetEv",
+      "size": 100
+    },
+    {
+      "address": "0x8074a4",
+      "symbol": "_ZN14CMatchingLocal5ResetEv",
+      "size": 1208
+    },
+    {
+      "address": "0x8135e4",
+      "symbol": "_ZN9NetStruct5EraseER12NetBitStream",
+      "size": 16
+    },
+    {
+      "address": "0x801b48",
+      "symbol": "_ZNK14CMatchingLocal17GetServerMemberIdEv",
+      "size": 12
+    },
+    {
+      "address": "0x801b30",
+      "symbol": "_ZNK14CMatchingLocal11GetMemberIdEv",
+      "size": 12
+    },
+    {
+      "address": "0x464b2c",
+      "symbol": "_ZN14PlayerSavegame7SG_SaveEv",
+      "size": 372
+    },
+    {
+      "address": "0x3ec974",
+      "symbol": "_ZN10ItemObject13DropInventoryER13ItemInventoryPK10GameObjectS4_PK9Character",
+      "size": 368
+    },
+    {
+      "address": "0x8002bc",
+      "symbol": "_ZN9CMatching18UpdateMemberIdListEv",
+      "size": 1356
+    },
+    {
+      "address": "0x807d08",
+      "symbol": "_ZN14CMatchingLocalC1Ev",
+      "size": 316
+    },
+    {
+      "address": "0x806344",
+      "symbol": "_ZN14CMatchingLocal19MemberInfoNetStructD0Ev",
+      "size": 128
+    },
+    {
+      "address": "0x80f1ec",
+      "symbol": "_ZN14CNetPlayerInfo7IsLocalEv",
+      "size": 80
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "upstream": "https://downloads.sourceforge.net/project/tinyxml/tinyxml/2.6.2/tinyxml_2_6_2.zip",
+  "archive_sha256": "ac6bb9501c6f50cc922d22f26b02fab168db47521be5e845b83d3451a3e1d512",
+  "version": "2.6.2",
+  "original_game_version_verified": false,
+  "files": {
+    "tinyxml.cpp": "9ee7ceb204f2f30fe6eb92294999a68437a872c70b0cbf69dc74ee1ce94b1cac",
+    "tinyxml.h": "492ebfc96ca285fa63f50225d94883fab70776293c32cd3c6695096aa6cc74ae",
+    "tinyxmlparser.cpp": "1dd6068847ee18697e559b7876136bcaaf3c9eca58c28863320e8a21c8f4aeb5",
+    "tinyxmlerror.cpp": "2367fc5035030390fd2d420501ed9aff5a5d32c59f3c5b1efb9a769d469ed926",
+    "tinystr.cpp": "220612a57261e51016670678a1474e28c3eecb30b0544cf16efb9851ecb4cb5b",
+    "tinystr.h": "718e05d00ae40d2eabd688c64b980fa40419ace7c12d9685c710888caf102dd5",
+    "readme.txt": "a65b8363834ccbe31ab7b49dcba723ed204622df30326793e0121435624c1a8d"
+  }
+}

@@ -1,0 +1,19 @@
+00399ff8 00000398 T TriggerObject::InitPost()
+003999d8 0000001c T TriggerObject::~TriggerObject()
+0039993c 00000094 T TriggerObject::~TriggerObject()
+003999f4 00000094 T TriggerObject::~TriggerObject()
+004d9d04 0000001c T Structs::TriggerObject::~TriggerObject()
+004d9cc4 00000040 T Structs::TriggerObject::~TriggerObject()
+004d9d20 00000040 T Structs::TriggerObject::~TriggerObject()
+00398da4 000001a0 W Trigger::NetStructTrigger::NetStructTrigger()
+00398a88 000000d4 T Trigger::DeclareProperties()
+00398f44 00000090 T Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)
+00398fd4 00000090 T Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)
+00399328 00000008 W TriggerObject::IsAnimated() const
+00399318 00000008 W TriggerObject::IsUpdatable() const
+00399490 00000018 T TriggerObject::IsInteractive(GameObject*) const
+00399330 00000038 T TriggerObject::GetInteractionType(GameObject*) const
+00399320 00000008 W TriggerObject::IsZonable() const
+003999d0 00000008 T non-virtual thunk to TriggerObject::~TriggerObject()
+00399934 00000008 T non-virtual thunk to TriggerObject::~TriggerObject()
+00398a80 00000008 T non-virtual thunk to Trigger::DeclareProperties()

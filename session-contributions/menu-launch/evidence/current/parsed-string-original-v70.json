@@ -1574,6 +1574,14 @@
       "changed": 0
     }
   ],
+  "abi_imports": {
+    "0x30e3ac": "__aeabi_fsub",
+    "0x30eba4": "__aeabi_fadd",
+    "0x30e70c": "__aeabi_fcmplt",
+    "0x30ec94": "__aeabi_fdiv",
+    "0x30ed6c": "__aeabi_fmul",
+    "0x30ea30": "modff"
+  },
   "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
   "scope": "Actual parseEx instructions with initialized original allocator, supplied numeric/string Variant projection, borrowed localization defaults, modeled ABI float operations/modff/snprintf. AS conversion/title/version not covered."
 }

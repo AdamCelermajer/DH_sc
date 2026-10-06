@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "5bb7b97c942e0f254aee9705cfcbe3643f45bffe9c81ba0a684a738b35cb820f",
+  "sources": [
+    {
+      "path": "port\\scene-materials\\tests\\effect_batch_gles_v34.cpp",
+      "sha256": "badbaf7de30a3e1a6dbd3279c854a03c82a31832130100acadbac3ffccbd76ba"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "647941c5576c120728d43cdc177510510fdd0d5145a24c7623adc35e6b29618f"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "d9b3d2381aa98b96af83dded82fe1d8a6d0506cb14c1f1aed8780aaac7fa758e"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "aa272517627daea212547a4a4d8e6317dd31bcf4f44974ebf096f785ef048eb8"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "0220bf60c05bacca4f7b23ec8de552e3c82f63d03706098db4345e12956a3e1b"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "1a355519f5f154f7d96d54d69ac0e6db74a632f56c142b846a105a7028ccfaee"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "2906accfc65976fc780c3f73060e407d27bdb0741898e2b3e69714bec1320b55"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "dd8302ae929e5afb01dd827f5b542473453ee8d3e1bf69f3a34b744a1774163a"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "be9112e417baaa3d38144ae1eeae1f08c289a9859204da783907e3aa1ec43e1e"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "fa0b69b2991599edd8741d1e70210b24fe9a4e1c658598a3592cd60e57871c9e"
+    }
+  ],
+  "binary_sha256": "f295f803e2c86959989893eea44c5da45ffda8fcc92e118da5c2ed46cdfd2418",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\tests\\effect_batch_gles_v34.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-batch-v34\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-lGLESv2",
+    "-lEGL",
+    "-llog",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-batch-v34\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-batch-v34\\effect-batch-v34.bin"
+  ],
+  "stdout": "PASS effect batchV34 checks=90 draws=8 old_state_queries=360 batch_state_queries=45 contexts=2; actual FIRE BRES/shader/atlas/GLES, declared geometry/current-color fixtures, no live FPS claim\n",
+  "stderr": "",
+  "exit_code": 0
+}

@@ -1,0 +1,1853 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "cache_files": 6833,
+  "bres_files": 2904,
+  "image_records": 3662,
+  "unique_images": 291,
+  "prefixes": {
+    "q:/data/iphone/3d/textures/": 3569,
+    "Q:/data/iphone/3D/Textures/": 10,
+    "": 2,
+    "data/3d/textures/": 2,
+    "Q:/data/old/3D/Modules/Catacombs/": 20,
+    "data/3d/environments/textures/": 48,
+    "D:/PROJETS/DH2%20Iphone%20WORK/texture/": 3,
+    "../../../../../../../Desktop/": 1,
+    "data/3D/environments/textures/": 7
+  },
+  "sampler_names": {
+    "diffuse-sampler": 3137,
+    "transparent-sampler": 657,
+    "Map__1__atlas_fx_particles_002.tga_-sampler": 1,
+    "Diffuse": 475,
+    "AlphaMap": 475,
+    "LightMap": 475,
+    "Specular": 475,
+    "Map__391__char_king.tga_-sampler": 9,
+    "reflexion-sampler": 802,
+    "Map__404__atlas_skinned_characters_animdecor_gameobjects_001.tga_-sampler": 42,
+    "Map__108__char_faerie.tga_-sampler": 1,
+    "Map__108__fx_spark.tga_-sampler": 1,
+    "Map__1__lights.tga_-sampler": 4,
+    "Map__1__ground_cata_dif.tga_-sampler": 4,
+    "Map__1__props_cata_dif.tga_-sampler": 8,
+    "Map__1__deco_cata_dif.tga_-sampler": 4,
+    "Map__1__wall_cata_dif.tga_-sampler": 4,
+    "Map__1__dirt_road_big01.tga_-sampler": 2,
+    "Map__0__dirt_grass.tga_-sampler": 1,
+    "Map__1__cloth01.tga_-sampler": 2,
+    "Map__0__cliff_stone.tga_-sampler": 1,
+    "Map__1__placeholder_sol2.tga_-sampler": 2,
+    "Map__0__pond_floor.tga_-sampler": 1,
+    "Map__1__MarbleFloor_02.tga_-sampler": 2,
+    "Map__0__cloth.tga_-sampler": 1,
+    "Map__1__edge02.tga_-sampler": 2,
+    "Map__0__door.tga_-sampler": 1,
+    "Map__1__rock_cliff.tga_-sampler": 2,
+    "Map__0__RockFloor_14.tga_-sampler": 1,
+    "Map__1__paster02_top.tga_-sampler": 2,
+    "Map__0__old_stone.tga_-sampler": 1,
+    "Map__1__paster01_top.tga_-sampler": 2,
+    "Map__0__mill_wall.tga_-sampler": 1,
+    "Map__3__floor.tga_-sampler": 2,
+    "Map__2__walls.tga_-sampler": 1,
+    "Map__0__env_testing.tga_-sampler": 21,
+    "Map__1__pond_waves.tga_-sampler": 2,
+    "Map__0__RockFloor_01.tga_-sampler": 1,
+    "Map__1__bark.tga_-sampler": 2,
+    "Map__0__awning_brown.tga_-sampler": 1,
+    "Map__1__greenish_stone_wall.tga_-sampler": 2,
+    "Map__0__grass_stone_floor_edge.tga_-sampler": 1,
+    "Map__1__road_dirt3.tga_-sampler": 2,
+    "Map__0__rock.tga_-sampler": 1,
+    "Map__1__ground_rocky_cave.tga_-sampler": 2,
+    "Map__0__leadshingle.tga_-sampler": 1,
+    "Map__1__borders.tga_-sampler": 2,
+    "Map__0__awning_red.tga_-sampler": 1,
+    "Map__1__MarbleFloor_01.tga_-sampler": 2,
+    "Map__0__branches_dry.tga_-sampler": 1,
+    "Map__1__Forge_01.tga_-sampler": 2,
+    "Map__0__edge.tga_-sampler": 1,
+    "Map__1__floor.tga_-sampler": 2,
+    "Map__0__walls.tga_-sampler": 1,
+    "Map__1__columns.tga_-sampler": 2,
+    "Map__0__MarbleFloor_29.tga_-sampler": 1,
+    "Map__419___debug_alphatest.tga_-sampler": 1,
+    "Map__413__env_swamp.tga_-sampler": 3,
+    "Map__2__dirt2.tga_-sampler": 2,
+    "Map__0__crate.tga_-sampler": 1,
+    "Map__1__ruins_stone_floor_out2.tga_-sampler": 2,
+    "Map__0__stonebridge_03.tga_-sampler": 1,
+    "Map__1__grass01.tga_-sampler": 2,
+    "Map__0__gargoyle.tga_-sampler": 1,
+    "Map__1__cathedral_stone_floor.tga_-sampler": 2,
+    "Map__0__cathedral_luxury_floor.tga_-sampler": 1,
+    "Map__1__tile03.tga_-sampler": 2,
+    "Map__0__stonebridge_wooddoor.tga_-sampler": 1,
+    "Map__0__env_abbey.tga_-sampler": 3,
+    "Map__22__tex_corpses_tiled128x128.tga_-sampler": 1,
+    "Map__748__Tas_videCompleteMap.tga_-sampler": 1,
+    "Map__749__cathedral_underground.psd_-sampler": 1,
+    "Map__21__atlas_cadavers.tga_-sampler": 1,
+    "Map__745__env_swamp.tga_-sampler": 1,
+    "Map__15__atlas_modular_character_01.tga_-sampler": 1,
+    "Map__753__dh1_atlas_catacombes.tga_-sampler": 2,
+    "Map__1__dh1_lightray.tga_-sampler": 1,
+    "Map__394__env_ice_cliffs.tga_-sampler": 1,
+    "Map__0__env_swamp.tga_-sampler": 3,
+    "Map__395__env_rottingvillage.tga_-sampler": 2
+  },
+  "sampler_array_examples": [],
+  "decode_errors": [],
+  "exact_candidate_found": [
+    {
+      "authored": "q:/data/iphone/3d/textures/_debug_alphatest.tga",
+      "canonical_candidate": "data/3d/textures/_debug_alphatest.tga",
+      "references": 2,
+      "example": "data/3d/interface/cs_earth_temple_intro_scene07_priests_start_summon.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_streak_02.tga",
+      "canonical_candidate": "data/3d/textures/fx_streak_02.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_prince_mage_summon.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_fx_particles_001.tga",
+      "canonical_candidate": "data/3d/textures/atlas_fx_particles_001.tga",
+      "references": 80,
+      "example": "data/3d/interface/skill_prince_mage_summon.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_smoke_01.tga",
+      "canonical_candidate": "data/3d/textures/fx_smoke_01.tga",
+      "references": 20,
+      "example": "data/3d/interface/cs_sk_outro_scene07_smokinhead.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_002.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_002.tga",
+      "references": 10,
+      "example": "data/3d/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_lightning_01.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_lightning_01.tga",
+      "references": 5,
+      "example": "data/3d/interface/spell_lightning.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_lightning_ground_flash.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_lightning_ground_flash.tga",
+      "references": 5,
+      "example": "data/3d/interface/spell_lightning.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga",
+      "canonical_candidate": "data/3d/textures/atlas_fx_particles_002.tga",
+      "references": 78,
+      "example": "data/3d/interface/spell_fire.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_weapon_trail_blue_gradual.tga",
+      "canonical_candidate": "data/3d/textures/fx_weapon_trail_blue_gradual.tga",
+      "references": 9,
+      "example": "data/3d/interface/swoosh_prince_1hand_combo_01.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_radial_white.tga",
+      "canonical_candidate": "data/3d/textures/fx_radial_white.tga",
+      "references": 25,
+      "example": "data/3d/interface/cs_sk_intro_scene08_swampkingwave.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_water_shockwave.tga",
+      "canonical_candidate": "data/3d/textures/fx_water_shockwave.tga",
+      "references": 4,
+      "example": "data/3d/interface/cs_sk_intro_scene08_swampkingwave.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_smoke_03.tga",
+      "canonical_candidate": "data/3d/textures/fx_smoke_03.tga",
+      "references": 66,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_weapon_trail_skill_gradual.tga",
+      "canonical_candidate": "data/3d/textures/fx_weapon_trail_skill_gradual.tga",
+      "references": 21,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_011.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_011.tga",
+      "references": 11,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_012.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_012.tga",
+      "references": 4,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_aura_paladin_persistent.tga",
+      "canonical_candidate": "data/3d/textures/fx_aura_paladin_persistent.tga",
+      "references": 8,
+      "example": "data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_spiral.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_spiral.tga",
+      "references": 5,
+      "example": "data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spectral_light.tga",
+      "canonical_candidate": "data/3d/textures/fx_spectral_light.tga",
+      "references": 8,
+      "example": "data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_smoke_03.tga",
+      "canonical_candidate": "data/3d/textures/fx_smoke_03.tga",
+      "references": 7,
+      "example": "data/3d/interface/skill_dh2_monster_lighthouse_special_effect.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spark_01.tga",
+      "canonical_candidate": "data/3d/textures/fx_spark_01.tga",
+      "references": 14,
+      "example": "data/3d/interface/cs_earth_temple_intro_scene08a_boss_ports_in.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_sparkles_02.tga",
+      "canonical_candidate": "data/3d/textures/fx_sparkles_02.tga",
+      "references": 8,
+      "example": "data/3d/interface/cs_earth_temple_intro_scene08a_boss_ports_in.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/marker_slow.tga",
+      "canonical_candidate": "data/3d/textures/marker_slow.tga",
+      "references": 1,
+      "example": "data/3d/interface/marker_slow.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_005.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_005.tga",
+      "references": 32,
+      "example": "data/3d/interface/cs_swamp_intro_14_explodedoor.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_010.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_010.tga",
+      "references": 12,
+      "example": "data/3d/interface/cs_swamp_intro_14_explodedoor.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_007.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_007.tga",
+      "references": 33,
+      "example": "data/3d/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_wind_01.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_wind_01.tga",
+      "references": 5,
+      "example": "data/3d/interface/skill_prince_mage_windmastery.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_007_black.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_007_black.tga",
+      "references": 5,
+      "example": "data/3d/interface/skill_dh2_monster_dark_queen2ndform_spawn.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+      "canonical_candidate": "data/3d/textures/atlas_fx_particles_000.tga",
+      "references": 18,
+      "example": "data/3d/interface/faeries_celeste_faery_dust.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_lightning_03.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_lightning_03.tga",
+      "references": 6,
+      "example": "data/3d/interface/spell_lightning_prince_casting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_skill_dh2_prince_warrior_paladin_offensive_aura_weapon.tga",
+      "canonical_candidate": "data/3d/textures/fx_skill_dh2_prince_warrior_paladin_offensive_aura_weapon.tga",
+      "references": 3,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_verticallightlines.tga",
+      "canonical_candidate": "data/3d/textures/fx_verticallightlines.tga",
+      "references": 18,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_ring_hallow.tga",
+      "canonical_candidate": "data/3d/textures/fx_ring_hallow.tga",
+      "references": 14,
+      "example": "data/3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_skill_dh2_prince_warrior_paladin_guarding_aura_shield.tga",
+      "canonical_candidate": "data/3d/textures/fx_skill_dh2_prince_warrior_paladin_guarding_aura_shield.tga",
+      "references": 3,
+      "example": "data/3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_aura_paladin_lightray_halo.tga",
+      "canonical_candidate": "data/3d/textures/fx_aura_paladin_lightray_halo.tga",
+      "references": 13,
+      "example": "data/3d/interface/spell_dh2_monster_dark_queen2ndform_faery_summon.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_dust.tga",
+      "canonical_candidate": "data/3d/textures/fx_dust.tga",
+      "references": 5,
+      "example": "data/3d/interface/skill_dh2_prince_rogue_assassin_blindness.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_lightcolumn.tga",
+      "canonical_candidate": "data/3d/textures/fx_lightcolumn.tga",
+      "references": 7,
+      "example": "data/3d/interface/spell_dh2_monster_assassin_teleport.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_wind_hurt.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_wind_hurt.tga",
+      "references": 5,
+      "example": "data/3d/interface/skill_dh2_prince_mage_cyclone.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_wind_hurt2.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_wind_hurt2.tga",
+      "references": 4,
+      "example": "data/3d/interface/skill_dh2_prince_mage_cyclone.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_shockwave_03.tga",
+      "canonical_candidate": "data/3d/textures/fx_shockwave_03.tga",
+      "references": 11,
+      "example": "data/3d/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_illusionist_hypnoticstare.tga",
+      "canonical_candidate": "data/3d/textures/fx_illusionist_hypnoticstare.tga",
+      "references": 2,
+      "example": "data/3d/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_lightning_sparks.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_lightning_sparks.tga",
+      "references": 11,
+      "example": "data/3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_shockwave_05.tga",
+      "canonical_candidate": "data/3d/textures/fx_shockwave_05.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_bash_down.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_008.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_008.tga",
+      "references": 7,
+      "example": "data/3d/interface/spell_dh2_monster_madrukfinal_lifedrain_persist.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_rogue_poisonsting.tga",
+      "canonical_candidate": "data/3d/textures/fx_rogue_poisonsting.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_rogue_poisonsting_blob.tga",
+      "canonical_candidate": "data/3d/textures/fx_rogue_poisonsting_blob.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_warrior_berzerker_whirlwind.tga",
+      "canonical_candidate": "data/3d/textures/fx_warrior_berzerker_whirlwind.tga",
+      "references": 2,
+      "example": "data/3d/interface/skill_dh2_prince_rogue_quickness.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_ghost.tga",
+      "canonical_candidate": "data/3d/textures/fx_ghost.tga",
+      "references": 5,
+      "example": "data/3d/interface/spell_dh2_prince_mage_illusionist_figments.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_BLOOD_bloodstain_bw_15.tga",
+      "canonical_candidate": "data/3d/textures/fx_blood_bloodstain_bw_15.tga",
+      "references": 8,
+      "example": "data/3d/interface/spell_dh2_hurt_monster_spiderpoison.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_frostcloud.tga",
+      "canonical_candidate": "data/3d/textures/fx_frostcloud.tga",
+      "references": 6,
+      "example": "data/3d/interface/spell_dh2_hurt_monster_spiderpoison.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_004.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_lenz_flares_004.tga",
+      "references": 15,
+      "example": "data/3d/interface/skill_dh2_monster_sand_worm_shockwave.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/godparticle_face.tga",
+      "canonical_candidate": "data/3d/textures/godparticle_face.tga",
+      "references": 3,
+      "example": "data/3d/interface/cs_madruk_end_scene03_gawdparticle.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_fogdot_mask.tga",
+      "canonical_candidate": "data/3d/textures/fx_fogdot_mask.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_monster_faeries_fogdot.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_blast_sphere.tga",
+      "canonical_candidate": "data/3d/textures/fx_blast_sphere.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_prince_mage_psychic_blast.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_blast_wave.tga",
+      "canonical_candidate": "data/3d/textures/fx_blast_wave.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_prince_mage_psychic_blast.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_shockwave_05_rogue_purple.tga",
+      "canonical_candidate": "data/3d/textures/fx_shockwave_05_rogue_purple.tga",
+      "references": 4,
+      "example": "data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_weapon_trail_skill_gradual_rogue_purple.tga",
+      "canonical_candidate": "data/3d/textures/fx_weapon_trail_skill_gradual_rogue_purple.tga",
+      "references": 6,
+      "example": "data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_shockwave_05.tga",
+      "canonical_candidate": "data/3d/textures/fx_shockwave_05.tga",
+      "references": 3,
+      "example": "data/3d/interface/skill_dh2_prince_mage_stone_escape_death.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_magic_smoke_black.tga",
+      "canonical_candidate": "data/3d/textures/fx_magic_smoke_black.tga",
+      "references": 26,
+      "example": "data/3d/interface/skill_dh2_prince_mage_stone_escape_death.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_stone_escape.tga",
+      "canonical_candidate": "data/3d/textures/fx_stone_escape.tga",
+      "references": 2,
+      "example": "data/3d/interface/skill_dh2_prince_mage_stone_escape_death.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "canonical_candidate": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "references": 139,
+      "example": "data/3d/interface/enemy_summoned_minion.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_aura_paladin_offensive.tga",
+      "canonical_candidate": "data/3d/textures/fx_aura_paladin_offensive.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_particles_dust.tga",
+      "canonical_candidate": "data/3d/textures/fx_particles_dust.tga",
+      "references": 5,
+      "example": "data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_black_eclipse.tga",
+      "canonical_candidate": "data/3d/textures/fx_black_eclipse.tga",
+      "references": 5,
+      "example": "data/3d/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/marker_stun_stars.tga",
+      "canonical_candidate": "data/3d/textures/marker_stun_stars.tga",
+      "references": 1,
+      "example": "data/3d/interface/marker_stun.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_doorfire.tga",
+      "canonical_candidate": "data/3d/textures/fx_doorfire.tga",
+      "references": 4,
+      "example": "data/3d/interface/skill_dh2_monster_madrukfinal_lifedrain.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_portal_strongeralpha001.tga",
+      "canonical_candidate": "data/3d/textures/fx_portal_strongeralpha001.tga",
+      "references": 3,
+      "example": "data/3d/interface/skill_dh2_monster_madrukfinal_lifedrain.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_wind_hurt_additive.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_wind_hurt_additive.tga",
+      "references": 5,
+      "example": "data/3d/interface/skill_dh2_monster_dragon_intimidate.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_portal_001.tga",
+      "canonical_candidate": "data/3d/textures/fx_portal_001.tga",
+      "references": 2,
+      "example": "data/3d/interface/cs_darkqueen_scene08_daerk_queen_entrance.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_whirlpool.tga",
+      "canonical_candidate": "data/3d/textures/fx_whirlpool.tga",
+      "references": 3,
+      "example": "data/3d/interface/cs_darkqueen_scene08_daerk_queen_entrance.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_weapon_ground_trail_01.tga",
+      "canonical_candidate": "data/3d/textures/fx_weapon_ground_trail_01.tga",
+      "references": 2,
+      "example": "data/3d/interface/skill_prince_rogue_twinstrike.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_weapon_trail_black.tga",
+      "canonical_candidate": "data/3d/textures/fx_weapon_trail_black.tga",
+      "references": 2,
+      "example": "data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_black_spell_wind_hurt.tga",
+      "canonical_candidate": "data/3d/textures/fx_black_spell_wind_hurt.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_pollen_cloud.tga",
+      "canonical_candidate": "data/3d/textures/fx_pollen_cloud.tga",
+      "references": 2,
+      "example": "data/3d/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_death_claw.tga",
+      "canonical_candidate": "data/3d/textures/fx_death_claw.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_lazer.tga",
+      "canonical_candidate": "data/3d/textures/fx_lazer.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_weapons.tga",
+      "canonical_candidate": "data/3d/textures/atlas_weapons.tga",
+      "references": 20,
+      "example": "data/3d/interface/skill_prince_rogue_bladefury.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_fog.tga",
+      "canonical_candidate": "data/3d/textures/fx_fog.tga",
+      "references": 2,
+      "example": "data/3d/interface/skill_dh2_monster_lighthouse_portal_persist.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_shockwave_madruk01.tga",
+      "canonical_candidate": "data/3d/textures/fx_shockwave_madruk01.tga",
+      "references": 3,
+      "example": "data/3d/interface/skill_dh2_monster_madruk01_shockwave.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/anim_bubule_swamp.tga",
+      "canonical_candidate": "data/3d/textures/anim_bubule_swamp.tga",
+      "references": 2,
+      "example": "data/3d/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/atlas_fx_particles_002.tga",
+      "canonical_candidate": "data/3d/textures/atlas_fx_particles_002.tga",
+      "references": 1,
+      "example": "data/3d/fx/dust_cloud.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_earth_temple.tga",
+      "canonical_candidate": "data/3d/textures/env_earth_temple.tga",
+      "references": 10,
+      "example": "data/3d/props/earth_temple/earth_temple_deadend.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_earth_temple_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_earth_temple_spec.tga",
+      "references": 8,
+      "example": "data/3d/props/earth_temple/earth_temple_deadend.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+      "canonical_candidate": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "references": 187,
+      "example": "data/3d/props/swamp/prop_swamp_corpses.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "canonical_candidate": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "references": 167,
+      "example": "data/3d/props/swamp/prop_swamp_corpses.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "canonical_candidate": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "references": 167,
+      "example": "data/3d/props/swamp/prop_swamp_corpses.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_root_den.tga",
+      "canonical_candidate": "data/3d/textures/env_root_den.tga",
+      "references": 2,
+      "example": "data/3d/animateddecors/root_den/root_den_firefly.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_swamp.tga",
+      "canonical_candidate": "data/3d/textures/env_swamp.tga",
+      "references": 16,
+      "example": "data/3d/animateddecors/cs_swamp_intro_cage.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_swamp_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_swamp_spec.tga",
+      "references": 11,
+      "example": "data/3d/animateddecors/cs_swamp_intro_cage.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_swamp_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_swamp_alpha.tga",
+      "references": 7,
+      "example": "data/3d/animateddecors/cs_swamp_intro_cage.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_crypt_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_crypt_spec.tga",
+      "references": 10,
+      "example": "data/3d/animateddecors/candle_flame.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_crypt.tga",
+      "canonical_candidate": "data/3d/textures/env_crypt.tga",
+      "references": 10,
+      "example": "data/3d/animateddecors/candle_flame.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_darktemple.tga",
+      "canonical_candidate": "data/3d/textures/env_darktemple.tga",
+      "references": 5,
+      "example": "data/3d/animateddecors/darktemple/dalle_levitan.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/skybox_darktemple.tga",
+      "canonical_candidate": "data/3d/textures/skybox_darktemple.tga",
+      "references": 4,
+      "example": "data/3d/animateddecors/darktemple/dalle_levitan.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/skybox_darktemple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/skybox_darktemple_alpha.tga",
+      "references": 3,
+      "example": "data/3d/animateddecors/darktemple/dalle_levitan.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/anim_caustics.tga",
+      "canonical_candidate": "data/3d/textures/anim_caustics.tga",
+      "references": 6,
+      "example": "data/3d/animateddecors/darktemple/bossroom_effect.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_waterfall01.tga",
+      "canonical_candidate": "data/3d/textures/fx_waterfall01.tga",
+      "references": 3,
+      "example": "data/3d/animateddecors/darktemple/bossroom_effect.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_torch_fire_blue.tga",
+      "canonical_candidate": "data/3d/textures/fx_torch_fire_blue.tga",
+      "references": 1,
+      "example": "data/3d/animateddecors/crypt/crypt_flame.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_torch_fire_halo.tga",
+      "canonical_candidate": "data/3d/textures/fx_torch_fire_halo.tga",
+      "references": 1,
+      "example": "data/3d/animateddecors/crypt/crypt_flame.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/anim_cryptwater.tga",
+      "canonical_candidate": "data/3d/textures/anim_cryptwater.tga",
+      "references": 1,
+      "example": "data/3d/animateddecors/crypt/crypt_cryptwater.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/anim_cryptfoam.tga",
+      "canonical_candidate": "data/3d/textures/anim_cryptfoam.tga",
+      "references": 1,
+      "example": "data/3d/animateddecors/crypt/crypt_cryptwater.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_cloud_02.tga",
+      "canonical_candidate": "data/3d/textures/fx_cloud_02.tga",
+      "references": 1,
+      "example": "data/3d/animateddecors/firetemple/cloud.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_waterfall_fog_01.tga",
+      "canonical_candidate": "data/3d/textures/fx_waterfall_fog_01.tga",
+      "references": 4,
+      "example": "data/3d/animateddecors/water_temple_watercaustics.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_wind_temple.tga",
+      "canonical_candidate": "data/3d/textures/env_wind_temple.tga",
+      "references": 2,
+      "example": "data/3d/animateddecors/wind_temple/wind_temple_grass.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_hellgate.tga",
+      "canonical_candidate": "data/3d/textures/env_hellgate.tga",
+      "references": 2,
+      "example": "data/3d/animateddecors/darkwood/smog_hellgate.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_underworldhub_trans.tga",
+      "canonical_candidate": "data/3d/textures/env_underworldhub_trans.tga",
+      "references": 29,
+      "example": "data/3d/animateddecors/underworld/machine02.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_underworldhub.tga",
+      "canonical_candidate": "data/3d/textures/env_underworldhub.tga",
+      "references": 16,
+      "example": "data/3d/animateddecors/underworld/machine02.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_under_LightingMap.tga",
+      "canonical_candidate": "data/3d/textures/env_under_lightingmap.tga",
+      "references": 15,
+      "example": "data/3d/animateddecors/underworld/machine02.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_underworldhub_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_underworldhub_spec.tga",
+      "references": 15,
+      "example": "data/3d/animateddecors/underworld/machine02.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_underworldhub_trans_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_underworldhub_trans_spec.tga",
+      "references": 15,
+      "example": "data/3d/animateddecors/underworld/machine02.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_voidmaze.tga",
+      "canonical_candidate": "data/3d/textures/env_voidmaze.tga",
+      "references": 2,
+      "example": "data/3d/animateddecors/void_maze/void_maze_animations.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/anim_torch_fire.tga",
+      "canonical_candidate": "data/3d/textures/anim_torch_fire.tga",
+      "references": 1,
+      "example": "data/3d/animateddecors/swamp_tikitorches.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_castle.tga",
+      "canonical_candidate": "data/3d/textures/env_castle.tga",
+      "references": 7,
+      "example": "data/3d/animateddecors/castle/chandelier_castle.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_castle_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_castle_spec.tga",
+      "references": 4,
+      "example": "data/3d/animateddecors/castle/chandelier_castle.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_castle_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_castle_alpha.tga",
+      "references": 2,
+      "example": "data/3d/animateddecors/castle/lustre_castle.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/char_king.tga",
+      "canonical_candidate": "data/3d/textures/char_king.tga",
+      "references": 9,
+      "example": "data/3d/animateddecors/cin_king_gothicus_01.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_yellowtrail.tga",
+      "canonical_candidate": "data/3d/textures/fx_yellowtrail.tga",
+      "references": 4,
+      "example": "data/3d/gameobjects/go_cauldron_buff.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_glow_highlight.tga",
+      "canonical_candidate": "data/3d/textures/fx_glow_highlight.tga",
+      "references": 2,
+      "example": "data/3d/gameobjects/go_swamp_witch_lever_lockable.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_lighthousse.tga",
+      "canonical_candidate": "data/3d/textures/env_lighthousse.tga",
+      "references": 2,
+      "example": "data/3d/gameobjects/go_barrel_lighthouse.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_lighthousse_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_lighthousse_spec.tga",
+      "references": 2,
+      "example": "data/3d/gameobjects/go_barrel_lighthouse.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_selectorcharactere_solide.tga",
+      "canonical_candidate": "data/3d/textures/env_selectorcharactere_solide.tga",
+      "references": 2,
+      "example": "data/3d/menu/main_menu_charactere_swamp.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/skybox_selector.tga",
+      "canonical_candidate": "data/3d/textures/skybox_selector.tga",
+      "references": 2,
+      "example": "data/3d/menu/main_menu_charactere_swamp.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_darkwoods_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_darkwoods_alpha.tga",
+      "references": 3,
+      "example": "data/3d/menu/main_menu_charactere_swamp.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+      "references": 3,
+      "example": "data/3d/menu/main_menu_charactere_swamp.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_Arrows.tga",
+      "canonical_candidate": "data/3d/textures/fx_arrows.tga",
+      "references": 5,
+      "example": "data/3d/projectiles/projectile_arrow_explode.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_spell_water_02.tga",
+      "canonical_candidate": "data/3d/textures/fx_spell_water_02.tga",
+      "references": 4,
+      "example": "data/3d/projectiles/projectile_dh2_monster_flower.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_weapons_dh2.tga",
+      "canonical_candidate": "data/3d/textures/atlas_weapons_dh2.tga",
+      "references": 799,
+      "example": "data/3d/projectiles/projectile_returning_knives.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/envmap_swamp.tga",
+      "canonical_candidate": "data/3d/textures/envmap_swamp.tga",
+      "references": 800,
+      "example": "data/3d/projectiles/projectile_returning_knives.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/skybox_blood.tga",
+      "canonical_candidate": "data/3d/textures/skybox_blood.tga",
+      "references": 2,
+      "example": "data/3d/skybox/skybox_blood.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/skybox_uneder.tga",
+      "canonical_candidate": "data/3d/textures/skybox_uneder.tga",
+      "references": 1,
+      "example": "data/3d/skybox/skybox_under.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/skybox_swamp.tga",
+      "canonical_candidate": "data/3d/textures/skybox_swamp.tga",
+      "references": 1,
+      "example": "data/3d/skybox/skybox_swamp.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/skybox_wind.tga",
+      "canonical_candidate": "data/3d/textures/skybox_wind.tga",
+      "references": 3,
+      "example": "data/3d/skybox/skybox_wind.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/prince-warrior.tga",
+      "canonical_candidate": "data/3d/textures/prince-warrior.tga",
+      "references": 2,
+      "example": "data/3d/characters/goblin/goblin_warrior.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "canonical_candidate": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "references": 71,
+      "example": "data/3d/characters/madruk/madruk1.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/char_headcultist.tga",
+      "canonical_candidate": "data/3d/textures/char_headcultist.tga",
+      "references": 1,
+      "example": "data/3d/characters/npcs/head_cultist.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/char_cultist.tga",
+      "canonical_candidate": "data/3d/textures/char_cultist.tga",
+      "references": 1,
+      "example": "data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_r_idle.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/prince-rogue.tga",
+      "canonical_candidate": "data/3d/textures/prince-rogue.tga",
+      "references": 1,
+      "example": "data/3d/characters/prince/prince_low_poly_rogue.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/prince-mage.tga",
+      "canonical_candidate": "data/3d/textures/prince-mage.tga",
+      "references": 1,
+      "example": "data/3d/characters/prince/prince_low_poly_mage.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_modular_mage.tga",
+      "canonical_candidate": "data/3d/textures/atlas_modular_mage.tga",
+      "references": 3,
+      "example": "data/3d/characters/prince/prince_modular.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_modular_rogue.tga",
+      "canonical_candidate": "data/3d/textures/atlas_modular_rogue.tga",
+      "references": 11,
+      "example": "data/3d/characters/prince/prince_modular.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_modular_warrior.tga",
+      "canonical_candidate": "data/3d/textures/atlas_modular_warrior.tga",
+      "references": 13,
+      "example": "data/3d/characters/prince/prince_modular.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_modular_character_01.tga",
+      "canonical_candidate": "data/3d/textures/atlas_modular_character_01.tga",
+      "references": 7,
+      "example": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/fx_wave.tga",
+      "canonical_candidate": "data/3d/textures/fx_wave.tga",
+      "references": 2,
+      "example": "data/3d/characters/faeries/faeries_fx_madruk01.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_skinned_characters_animdecor_gameobjects_003.tga",
+      "canonical_candidate": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_003.tga",
+      "references": 2,
+      "example": "data/3d/characters/ghostdh1/ghostdh1.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_root_den_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_root_den_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/root_den/root_den_rooms.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_root_den_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_root_den_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/root_den/root_den_rooms.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_icyhub_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_icyhub_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/icy_hub/icy_hub2.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_icyhub.tga",
+      "canonical_candidate": "data/3d/textures/env_icyhub.tga",
+      "references": 3,
+      "example": "data/3d/modules/icy_hub/icy_hub2.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_icy_lightmap.tga",
+      "canonical_candidate": "data/3d/textures/env_icy_lightmap.tga",
+      "references": 2,
+      "example": "data/3d/modules/icy_hub/icy_hub2.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_icy_cavern.tga",
+      "canonical_candidate": "data/3d/textures/env_icy_cavern.tga",
+      "references": 1,
+      "example": "data/3d/modules/icy_cavern/icy_cavern.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_icy_cavern_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_icy_cavern_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/icy_cavern/icy_cavern.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_icy_cavern_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_icy_cavern_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/icy_cavern/icy_cavern.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_water_temple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_water_temple_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/water_temple/water_temple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_water_temple.tga",
+      "canonical_candidate": "data/3d/textures/env_water_temple.tga",
+      "references": 1,
+      "example": "data/3d/modules/water_temple/water_temple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_water_temple_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_water_temple_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/water_temple/water_temple.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/env_swamp.tga",
+      "canonical_candidate": "data/3d/textures/env_swamp.tga",
+      "references": 2,
+      "example": "data/3d/modules/test/debugalphatest.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/_debug_alphatest.tga",
+      "canonical_candidate": "data/3d/textures/_debug_alphatest.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/debugalphatest.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/earth_temple/earth_temple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_underworld_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_underworld_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/underworldhub/underworldhub.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_darktemple_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_darktemple_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/darktemple/darktemple_bossroom.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "references": 2,
+      "example": "data/3d/modules/darktemple/darktemple_bossroom.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_desert_cave_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_desert_cave_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/desert_cave/room_cave.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_desert_cave.tga",
+      "canonical_candidate": "data/3d/textures/env_desert_cave.tga",
+      "references": 1,
+      "example": "data/3d/modules/desert_cave/room_cave.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_desert_cave_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_desert_cave_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/desert_cave/room_cave.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_crypt_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/crypt/crypt.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_firetemple_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_firetemple_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/firetemple/firetemple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_firetemple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_firetemple_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/firetemple/firetemple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_firetemple.tga",
+      "canonical_candidate": "data/3d/textures/env_firetemple.tga",
+      "references": 1,
+      "example": "data/3d/modules/firetemple/firetemple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_windtemple_lightmap.tga",
+      "canonical_candidate": "data/3d/textures/env_windtemple_lightmap.tga",
+      "references": 1,
+      "example": "data/3d/modules/wind_temple/wind_temple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_windtemple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_windtemple_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/wind_temple/wind_temple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_infectedvillage.tga",
+      "canonical_candidate": "data/3d/textures/env_infectedvillage.tga",
+      "references": 1,
+      "example": "data/3d/modules/infectedvillage/infectedvillage.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_infectedvillage_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_infectedvillage_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/infectedvillage/infectedvillage.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_infectedvillage_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_infectedvillage_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/infectedvillage/infectedvillage.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_machineroom.tga",
+      "canonical_candidate": "data/3d/textures/env_machineroom.tga",
+      "references": 1,
+      "example": "data/3d/modules/machineroom/machineroom.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_machineroom_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_machineroom_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/machineroom/machineroom.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_lighthousse_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_lighthousse_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/lighthousse/lighthouse.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/env_abbey.tga",
+      "canonical_candidate": "data/3d/textures/env_abbey.tga",
+      "references": 1,
+      "example": "data/3d/modules/abbey/abbey.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/atlas_modular_character_01.tga",
+      "canonical_candidate": "data/3d/textures/atlas_modular_character_01.tga",
+      "references": 1,
+      "example": "data/3d/modules/abbey/abbey.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_darkwoods_solide.tga",
+      "canonical_candidate": "data/3d/textures/env_darkwoods_solide.tga",
+      "references": 1,
+      "example": "data/3d/modules/darkwood/darkwood2.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/dh1_lightray.tga",
+      "canonical_candidate": "data/3d/textures/dh1_lightray.tga",
+      "references": 1,
+      "example": "data/3d/modules/dh1_catacombs/001_catacombs.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/dh1_atlas_catacombes.tga",
+      "canonical_candidate": "data/3d/textures/dh1_atlas_catacombes.tga",
+      "references": 1,
+      "example": "data/3d/modules/dh1_catacombs/001_catacombs.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_blood_desert.tga",
+      "canonical_candidate": "data/3d/textures/env_blood_desert.tga",
+      "references": 1,
+      "example": "data/3d/modules/red_desert/red_desert.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_blooddesert_lightmap.tga",
+      "canonical_candidate": "data/3d/textures/env_blooddesert_lightmap.tga",
+      "references": 1,
+      "example": "data/3d/modules/red_desert/red_desert.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_blood_desert_spec.tga",
+      "canonical_candidate": "data/3d/textures/env_blood_desert_spec.tga",
+      "references": 1,
+      "example": "data/3d/modules/red_desert/red_desert.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/pvr2_env_blooddesert_alpha.tga",
+      "canonical_candidate": "data/3d/textures/pvr2_env_blooddesert_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/red_desert/red_desert.bdae"
+    }
+  ],
+  "candidate_missing": [
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_earth_dirt_01.tga",
+      "canonical_candidate": "data/3d/textures/spell_earth_dirt_01.tga",
+      "references": 2,
+      "example": "data/3d/interface/spell_earth_pre_prince_casting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_earth_dust.tga",
+      "canonical_candidate": "data/3d/textures/spell_earth_dust.tga",
+      "references": 2,
+      "example": "data/3d/interface/spell_earth_pre_prince_casting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_earth_dirt_to_stone_01.tga",
+      "canonical_candidate": "data/3d/textures/spell_earth_dirt_to_stone_01.tga",
+      "references": 2,
+      "example": "data/3d/interface/spell_earth_pre_prince_casting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_wind_01.tga",
+      "canonical_candidate": "data/3d/textures/spell_wind_01.tga",
+      "references": 3,
+      "example": "data/3d/interface/spell_wind_pre_prince_casting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_wind_vortex.tga",
+      "canonical_candidate": "data/3d/textures/spell_wind_vortex.tga",
+      "references": 4,
+      "example": "data/3d/interface/spell_wind_pre_prince_casting.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_water.tga",
+      "canonical_candidate": "data/3d/textures/spell_water.tga",
+      "references": 1,
+      "example": "data/3d/interface/spell_pre_water.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_water_round_splash.tga",
+      "canonical_candidate": "data/3d/textures/spell_water_round_splash.tga",
+      "references": 3,
+      "example": "data/3d/interface/spell_pre_water.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_water_whirlpool.tga",
+      "canonical_candidate": "data/3d/textures/spell_water_whirlpool.tga",
+      "references": 3,
+      "example": "data/3d/interface/spell_pre_water.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_water_02.tga",
+      "canonical_candidate": "data/3d/textures/spell_water_02.tga",
+      "references": 3,
+      "example": "data/3d/interface/spell_pre_water.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/streak_02.tga",
+      "canonical_candidate": "data/3d/textures/streak_02.tga",
+      "references": 1,
+      "example": "data/3d/interface/enemy_summon.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_lightning_ground_flash.tga",
+      "canonical_candidate": "data/3d/textures/spell_lightning_ground_flash.tga",
+      "references": 1,
+      "example": "data/3d/interface/skill_prince_mage_pre_lightningmastery.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_lightning_core.tga",
+      "canonical_candidate": "data/3d/textures/spell_lightning_core.tga",
+      "references": 1,
+      "example": "data/3d/interface/dark_queen_demon_spawn_fx.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/streak_03.tga",
+      "canonical_candidate": "data/3d/textures/streak_03.tga",
+      "references": 1,
+      "example": "data/3d/interface/dark_queen_demon_spawn_fx.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/radial_white.tga",
+      "canonical_candidate": "data/3d/textures/radial_white.tga",
+      "references": 2,
+      "example": "data/3d/interface/dark_queen_demon_spawn_fx.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/smoke_04.tga",
+      "canonical_candidate": "data/3d/textures/smoke_04.tga",
+      "references": 2,
+      "example": "data/3d/interface/dark_queen_demon_spawn_fx.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_fire_01.tga",
+      "canonical_candidate": "data/3d/textures/spell_fire_01.tga",
+      "references": 1,
+      "example": "data/3d/interface/spell_pre_fire.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_fire_02.tga",
+      "canonical_candidate": "data/3d/textures/spell_fire_02.tga",
+      "references": 1,
+      "example": "data/3d/interface/spell_pre_fire.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_fire_shockwave.tga",
+      "canonical_candidate": "data/3d/textures/spell_fire_shockwave.tga",
+      "references": 1,
+      "example": "data/3d/interface/spell_pre_fire.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_fire_particles.tga",
+      "canonical_candidate": "data/3d/textures/spell_fire_particles.tga",
+      "references": 1,
+      "example": "data/3d/interface/spell_pre_fire.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spell_fire_wave.tga",
+      "canonical_candidate": "data/3d/textures/spell_fire_wave.tga",
+      "references": 1,
+      "example": "data/3d/interface/spell_pre_fire.bdae"
+    },
+    {
+      "authored": "env_earth_temple.tga",
+      "canonical_candidate": "env_earth_temple.tga",
+      "references": 1,
+      "example": "data/3d/camera/cscam_earthtemple.bdae"
+    },
+    {
+      "authored": "statue.psd",
+      "canonical_candidate": "statue.psd",
+      "references": 1,
+      "example": "data/3d/camera/cscam_earthtemple.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_earth_temple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_earth_temple_alpha.tga",
+      "references": 7,
+      "example": "data/3d/props/earth_temple/earth_temple_deadend.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/tex_lighteffect.tga",
+      "canonical_candidate": "data/3d/textures/tex_lighteffect.tga",
+      "references": 4,
+      "example": "data/3d/animateddecors/testtheme/bougiesol.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/wood_fence.tga",
+      "canonical_candidate": "data/3d/textures/wood_fence.tga",
+      "references": 2,
+      "example": "data/3d/animateddecors/testtheme2/geara1.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_crypt_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_crypt_alpha.tga",
+      "references": 9,
+      "example": "data/3d/animateddecors/candle_flame.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_darktemple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_darktemple_alpha.tga",
+      "references": 3,
+      "example": "data/3d/animateddecors/darktemple/dalle_levitan.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_underworld_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_underworld_alpha.tga",
+      "references": 14,
+      "example": "data/3d/animateddecors/underworld/machine02.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_castle_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_castle_alpha.tga",
+      "references": 2,
+      "example": "data/3d/animateddecors/castle/chandelier_castle.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_swamp_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_swamp_alpha.tga",
+      "references": 4,
+      "example": "data/3d/gameobjects/go_swamp_witch_lever_lockable.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_lighthousse_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_lighthousse_alpha.tga",
+      "references": 1,
+      "example": "data/3d/gameobjects/go_barrel_lighthouse.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/tex_Prince.tga",
+      "canonical_candidate": "data/3d/textures/tex_prince.tga",
+      "references": 1,
+      "example": "data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/tex_princehair.tga",
+      "canonical_candidate": "data/3d/textures/tex_princehair.tga",
+      "references": 1,
+      "example": "data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/tex_plate_shoulder_default_000.tga",
+      "canonical_candidate": "data/3d/textures/tex_plate_shoulder_default_000.tga",
+      "references": 1,
+      "example": "data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/tex_prince_pants.tga",
+      "canonical_candidate": "data/3d/textures/tex_prince_pants.tga",
+      "references": 1,
+      "example": "data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/atlas_characters_02.tga",
+      "canonical_candidate": "data/3d/textures/atlas_characters_02.tga",
+      "references": 1,
+      "example": "data/3d/characters/prince/niessa_001.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/char_shadow.tga",
+      "canonical_candidate": "data/3d/textures/char_shadow.tga",
+      "references": 1,
+      "example": "data/3d/characters/prince/niessa_001.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/explosion_white_01.tga",
+      "canonical_candidate": "data/3d/textures/explosion_white_01.tga",
+      "references": 2,
+      "example": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/FX_radial_noise.tga",
+      "canonical_candidate": "data/3d/textures/fx_radial_noise.tga",
+      "references": 1,
+      "example": "data/3d/characters/prince/animations/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/rune_glow.tga",
+      "canonical_candidate": "data/3d/textures/rune_glow.tga",
+      "references": 1,
+      "example": "data/3d/characters/traps/elemental_trap.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/tex_faerie_001.tga",
+      "canonical_candidate": "data/3d/textures/tex_faerie_001.tga",
+      "references": 44,
+      "example": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene05.bdae"
+    },
+    {
+      "authored": "data/3d/textures/char_faerie.tga",
+      "canonical_candidate": "data/3d/textures/char_faerie.tga",
+      "references": 1,
+      "example": "data/3d/characters/faeries/animations/faeries_template_anim.bdae"
+    },
+    {
+      "authored": "data/3d/textures/fx_spark.tga",
+      "canonical_candidate": "data/3d/textures/fx_spark.tga",
+      "references": 1,
+      "example": "data/3d/characters/faeries/animations/faeries_template_anim.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/troll_swamp.tga",
+      "canonical_candidate": "data/3d/textures/troll_swamp.tga",
+      "references": 1,
+      "example": "data/3d/characters/troll/north_barb.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/spot_shadow.tga",
+      "canonical_candidate": "data/3d/textures/spot_shadow.tga",
+      "references": 1,
+      "example": "data/3d/characters/spider/animations/spider_template_anim.bdae"
+    },
+    {
+      "authored": "Q:/data/old/3D/Modules/Catacombs/deco_cata_dif.tga",
+      "canonical_candidate": "q:/data/old/3d/modules/catacombs/deco_cata_dif.tga",
+      "references": 4,
+      "example": "data/3d/modules/catacombs/corridor_03.bdae"
+    },
+    {
+      "authored": "Q:/data/old/3D/Modules/Catacombs/ground_cata_dif.tga",
+      "canonical_candidate": "q:/data/old/3d/modules/catacombs/ground_cata_dif.tga",
+      "references": 4,
+      "example": "data/3d/modules/catacombs/corridor_03.bdae"
+    },
+    {
+      "authored": "Q:/data/old/3D/Modules/Catacombs/lights.tga",
+      "canonical_candidate": "q:/data/old/3d/modules/catacombs/lights.tga",
+      "references": 4,
+      "example": "data/3d/modules/catacombs/corridor_03.bdae"
+    },
+    {
+      "authored": "Q:/data/old/3D/Modules/Catacombs/props_cata_dif.tga",
+      "canonical_candidate": "q:/data/old/3d/modules/catacombs/props_cata_dif.tga",
+      "references": 4,
+      "example": "data/3d/modules/catacombs/corridor_03.bdae"
+    },
+    {
+      "authored": "Q:/data/old/3D/Modules/Catacombs/wall_cata_dif.tga",
+      "canonical_candidate": "q:/data/old/3d/modules/catacombs/wall_cata_dif.tga",
+      "references": 4,
+      "example": "data/3d/modules/catacombs/corridor_03.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_icyhub_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_icyhub_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/icy_hub/icy_hub.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/dirt_grass.tga",
+      "canonical_candidate": "data/3d/environments/textures/dirt_grass.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_10.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/dirt_road_big01.tga",
+      "canonical_candidate": "data/3d/environments/textures/dirt_road_big01.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_10.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/cliff_stone.tga",
+      "canonical_candidate": "data/3d/environments/textures/cliff_stone.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_06.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/cloth01.tga",
+      "canonical_candidate": "data/3d/environments/textures/cloth01.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_06.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/pond_floor.tga",
+      "canonical_candidate": "data/3d/environments/textures/pond_floor.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_09.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/placeholder_sol2.tga",
+      "canonical_candidate": "data/3d/environments/textures/placeholder_sol2.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_09.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/cloth.tga",
+      "canonical_candidate": "data/3d/environments/textures/cloth.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_07.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/MarbleFloor_02.tga",
+      "canonical_candidate": "data/3d/environments/textures/marblefloor_02.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_07.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/door.tga",
+      "canonical_candidate": "data/3d/environments/textures/door.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_11.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/edge02.tga",
+      "canonical_candidate": "data/3d/environments/textures/edge02.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_11.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/RockFloor_14.tga",
+      "canonical_candidate": "data/3d/environments/textures/rockfloor_14.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_13.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/rock_cliff.tga",
+      "canonical_candidate": "data/3d/environments/textures/rock_cliff.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_13.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/old_stone.tga",
+      "canonical_candidate": "data/3d/environments/textures/old_stone.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_18.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/paster02_top.tga",
+      "canonical_candidate": "data/3d/environments/textures/paster02_top.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_18.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/mill_wall.tga",
+      "canonical_candidate": "data/3d/environments/textures/mill_wall.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_63.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/paster01_top.tga",
+      "canonical_candidate": "data/3d/environments/textures/paster01_top.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_63.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/walls.tga",
+      "canonical_candidate": "data/3d/environments/textures/walls.tga",
+      "references": 2,
+      "example": "data/3d/modules/test/block_1x1_01.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/floor.tga",
+      "canonical_candidate": "data/3d/environments/textures/floor.tga",
+      "references": 2,
+      "example": "data/3d/modules/test/block_1x1_01.bdae"
+    },
+    {
+      "authored": "Q:/data/iphone/3D/Textures/env_testing.tga",
+      "canonical_candidate": "data/3d/textures/env_testing.tga",
+      "references": 2,
+      "example": "data/3d/modules/test/dh2_tiletests12x12.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/RockFloor_01.tga",
+      "canonical_candidate": "data/3d/environments/textures/rockfloor_01.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_36.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/pond_waves.tga",
+      "canonical_candidate": "data/3d/environments/textures/pond_waves.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_36.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/awning_brown.tga",
+      "canonical_candidate": "data/3d/environments/textures/awning_brown.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_02.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/bark.tga",
+      "canonical_candidate": "data/3d/environments/textures/bark.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_02.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/grass_stone_floor_edge.tga",
+      "canonical_candidate": "data/3d/environments/textures/grass_stone_floor_edge.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_14.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/greenish_stone_wall.tga",
+      "canonical_candidate": "data/3d/environments/textures/greenish_stone_wall.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_14.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/rock.tga",
+      "canonical_candidate": "data/3d/environments/textures/rock.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_40.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/road_dirt3.tga",
+      "canonical_candidate": "data/3d/environments/textures/road_dirt3.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_40.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/leadshingle.tga",
+      "canonical_candidate": "data/3d/environments/textures/leadshingle.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_15.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/ground_rocky_cave.tga",
+      "canonical_candidate": "data/3d/environments/textures/ground_rocky_cave.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_15.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/awning_red.tga",
+      "canonical_candidate": "data/3d/environments/textures/awning_red.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_03.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/borders.tga",
+      "canonical_candidate": "data/3d/environments/textures/borders.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_03.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/branches_dry.tga",
+      "canonical_candidate": "data/3d/environments/textures/branches_dry.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_04.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/MarbleFloor_01.tga",
+      "canonical_candidate": "data/3d/environments/textures/marblefloor_01.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_04.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/edge.tga",
+      "canonical_candidate": "data/3d/environments/textures/edge.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_12.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/Forge_01.tga",
+      "canonical_candidate": "data/3d/environments/textures/forge_01.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_12.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/MarbleFloor_29.tga",
+      "canonical_candidate": "data/3d/environments/textures/marblefloor_29.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_08.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/columns.tga",
+      "canonical_candidate": "data/3d/environments/textures/columns.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_08.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/crate.tga",
+      "canonical_candidate": "data/3d/environments/textures/crate.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_09.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/dirt2.tga",
+      "canonical_candidate": "data/3d/environments/textures/dirt2.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_09.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/stonebridge_03.tga",
+      "canonical_candidate": "data/3d/environments/textures/stonebridge_03.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_27.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/ruins_stone_floor_out2.tga",
+      "canonical_candidate": "data/3d/environments/textures/ruins_stone_floor_out2.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_27.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/gargoyle.tga",
+      "canonical_candidate": "data/3d/environments/textures/gargoyle.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_13.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/grass01.tga",
+      "canonical_candidate": "data/3d/environments/textures/grass01.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_13.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/cathedral_luxury_floor.tga",
+      "canonical_candidate": "data/3d/environments/textures/cathedral_luxury_floor.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_05.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/cathedral_stone_floor.tga",
+      "canonical_candidate": "data/3d/environments/textures/cathedral_stone_floor.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_1x1_05.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/stonebridge_wooddoor.tga",
+      "canonical_candidate": "data/3d/environments/textures/stonebridge_wooddoor.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_50.bdae"
+    },
+    {
+      "authored": "data/3d/environments/textures/tile03.tga",
+      "canonical_candidate": "data/3d/environments/textures/tile03.tga",
+      "references": 1,
+      "example": "data/3d/modules/test/block_2x1_50.bdae"
+    },
+    {
+      "authored": "q:/data/iphone/3d/textures/env_windtemple_alpha.tga",
+      "canonical_candidate": "data/3d/textures/env_windtemple_alpha.tga",
+      "references": 1,
+      "example": "data/3d/modules/wind_temple/wind_temple.bdae"
+    },
+    {
+      "authored": "D:/PROJETS/DH2%20Iphone%20WORK/texture/atlas_cadavers.tga",
+      "canonical_candidate": "d:/projets/dh2%20iphone%20work/texture/atlas_cadavers.tga",
+      "references": 1,
+      "example": "data/3d/modules/abbey/abbey.bdae"
+    },
+    {
+      "authored": "D:/PROJETS/DH2%20Iphone%20WORK/texture/tex_corpses_tiled128x128.tga",
+      "canonical_candidate": "d:/projets/dh2%20iphone%20work/texture/tex_corpses_tiled128x128.tga",
+      "references": 1,
+      "example": "data/3d/modules/abbey/abbey.bdae"
+    },
+    {
+      "authored": "D:/PROJETS/DH2%20Iphone%20WORK/texture/Tas%20videCompleteMap.tga",
+      "canonical_candidate": "d:/projets/dh2%20iphone%20work/texture/tas%20videcompletemap.tga",
+      "references": 1,
+      "example": "data/3d/modules/abbey/abbey.bdae"
+    },
+    {
+      "authored": "../../../../../../../Desktop/cathedral_underground.psd",
+      "canonical_candidate": "../../../../../../../desktop/cathedral_underground.psd",
+      "references": 1,
+      "example": "data/3d/modules/abbey/abbey.bdae"
+    },
+    {
+      "authored": "data/3D/environments/textures/env_ice_cliffs.tga",
+      "canonical_candidate": "data/3d/environments/textures/env_ice_cliffs.tga",
+      "references": 1,
+      "example": "data/3d/optimizedmaxfiles/dh2_sandbox_ice_cliffs.bdae"
+    },
+    {
+      "authored": "data/3D/environments/textures/env_testing.tga",
+      "canonical_candidate": "data/3d/environments/textures/env_testing.tga",
+      "references": 4,
+      "example": "data/3d/optimizedmaxfiles/dh2_testing.bdae"
+    },
+    {
+      "authored": "data/3D/environments/textures/env_swamp.tga",
+      "canonical_candidate": "data/3d/environments/textures/env_swamp.tga",
+      "references": 1,
+      "example": "data/3d/optimizedmaxfiles/dh2_sandbox_swamp.bdae"
+    },
+    {
+      "authored": "data/3D/environments/textures/env_rottingvillage.tga",
+      "canonical_candidate": "data/3d/environments/textures/env_rottingvillage.tga",
+      "references": 1,
+      "example": "data/3d/optimizedmaxfiles/dh2_sandbox_rottingvillage.bdae"
+    }
+  ]
+}

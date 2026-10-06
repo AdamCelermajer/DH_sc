@@ -1,0 +1,97 @@
+[
+  {
+    "name": "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_SkyBoxMeshSceneNode.cpp",
+    "address": "0x362348",
+    "size": 32
+  },
+  {
+    "name": "_ZN19SkyBoxMeshSceneNodeD0Ev",
+    "address": "0x36278c",
+    "size": 28
+  },
+  {
+    "name": "_ZTT19SkyBoxMeshSceneNode",
+    "address": "0x961668",
+    "size": 56
+  },
+  {
+    "name": "_ZN19SkyBoxMeshSceneNodeC2ERKN5boost13intrusive_ptrIN6glitch7collada5IMeshEEEPNS2_5scene14IMeshSceneNodeE",
+    "address": "0x36299c",
+    "size": 332
+  },
+  {
+    "name": "_ZTv0_n24_N19SkyBoxMeshSceneNodeD0Ev",
+    "address": "0x362ae8",
+    "size": 16
+  },
+  {
+    "name": "_ZTC19SkyBoxMeshSceneNode0_N6glitch5scene14IMeshSceneNodeE",
+    "address": "0x9617d8",
+    "size": 308
+  },
+  {
+    "name": "_ZTV19SkyBoxMeshSceneNode",
+    "address": "0x961530",
+    "size": 308
+  },
+  {
+    "name": "_ZTC19SkyBoxMeshSceneNode0_N6glitch2io26IAttributeExchangingObjectE",
+    "address": "0x961a40",
+    "size": 56
+  },
+  {
+    "name": "_ZN19SkyBoxMeshSceneNodeD1Ev",
+    "address": "0x362718",
+    "size": 116
+  },
+  {
+    "name": "_ZTv0_n12_N19SkyBoxMeshSceneNodeD0Ev",
+    "address": "0x362af8",
+    "size": 16
+  },
+  {
+    "name": "_ZN19SkyBoxMeshSceneNodeD2Ev",
+    "address": "0x3627a8",
+    "size": 104
+  },
+  {
+    "name": "_ZN19SkyBoxMeshSceneNode19onRegisterSceneNodeEv",
+    "address": "0x3625d0",
+    "size": 328
+  },
+  {
+    "name": "_ZNK19SkyBoxMeshSceneNode7getTypeEv",
+    "address": "0x36233c",
+    "size": 12
+  },
+  {
+    "name": "_ZN19SkyBoxMeshSceneNode6renderEPv",
+    "address": "0x362398",
+    "size": 568
+  },
+  {
+    "name": "_ZTv0_n24_N19SkyBoxMeshSceneNodeD1Ev",
+    "address": "0x362b08",
+    "size": 16
+  },
+  {
+    "name": "_ZTv0_n12_N19SkyBoxMeshSceneNodeD1Ev",
+    "address": "0x362b18",
+    "size": 16
+  },
+  {
+    "name": "_ZN19SkyBoxMeshSceneNodeC1ERKN5boost13intrusive_ptrIN6glitch7collada5IMeshEEEPNS2_5scene14IMeshSceneNodeE",
+    "address": "0x362810",
+    "size": 396
+  },
+  {
+    "name": "_ZTC19SkyBoxMeshSceneNode0_N6glitch7collada14CMeshSceneNodeE",
+    "address": "0x9616a0",
+    "size": 308
+  },
+  {
+    "name": "_ZTC19SkyBoxMeshSceneNode0_N6glitch5scene10ISceneNodeE",
+    "address": "0x961910",
+    "size": 300
+  }
+]

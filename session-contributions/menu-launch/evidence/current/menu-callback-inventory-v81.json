@@ -1,0 +1,3506 @@
+{
+  "all": {
+    "NativePushMenu": [
+      {
+        "path": "root",
+        "offset": 10305
+      },
+      {
+        "path": "root",
+        "offset": 11795
+      },
+      {
+        "path": "root",
+        "offset": 11807
+      },
+      {
+        "path": "root/sprite93",
+        "offset": 37324
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62230
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62557
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62671
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62690
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62791
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63072
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80273
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80298
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80312
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99158
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128596
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142889
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143151
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143186
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143227
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143409
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143434
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162333
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162368
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162409
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162591
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162616
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184744
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214238
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214290
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 223028
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 223146
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238906
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 260183
+      },
+      {
+        "path": "root/sprite440",
+        "offset": 262263
+      },
+      {
+        "path": "root/sprite440",
+        "offset": 262311
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273121
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273266
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273412
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273526
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273545
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273646
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273967
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274318
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291424
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291496
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291576
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291624
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291672
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291818
+      }
+    ],
+    "NativeSetCurrentDifficulty": [
+      {
+        "path": "root",
+        "offset": 10358
+      }
+    ],
+    "NativePopMenu": [
+      {
+        "path": "root",
+        "offset": 11857
+      },
+      {
+        "path": "root",
+        "offset": 11869
+      },
+      {
+        "path": "root/sprite93",
+        "offset": 37201
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62070
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80119
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99028
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129588
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142716
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162203
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184688
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190743
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214222
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214274
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214326
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214848
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214939
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222972
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238580
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 239266
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249244
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 257926
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263437
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272904
+      },
+      {
+        "path": "root/sprite493",
+        "offset": 284506
+      }
+    ],
+    "NativeSwitchMenu": [
+      {
+        "path": "root",
+        "offset": 11942
+      },
+      {
+        "path": "root",
+        "offset": 11954
+      }
+    ],
+    "NativePopAllMenus": [
+      {
+        "path": "root",
+        "offset": 12004
+      },
+      {
+        "path": "root",
+        "offset": 12016
+      }
+    ],
+    "NativePopAllAbove": [
+      {
+        "path": "root",
+        "offset": 12092
+      },
+      {
+        "path": "root",
+        "offset": 12104
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 260110
+      }
+    ],
+    "NativeGoToMainMenu": [
+      {
+        "path": "root",
+        "offset": 12201
+      },
+      {
+        "path": "root",
+        "offset": 12213
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280324
+      },
+      {
+        "path": "root/sprite493",
+        "offset": 284522
+      }
+    ],
+    "NativePushState": [
+      {
+        "path": "root",
+        "offset": 12291
+      },
+      {
+        "path": "root",
+        "offset": 12303
+      }
+    ],
+    "NativeGetStringFromSymbol": [
+      {
+        "path": "root",
+        "offset": 12457
+      },
+      {
+        "path": "root",
+        "offset": 12469
+      },
+      {
+        "path": "root/sprite93",
+        "offset": 36908
+      },
+      {
+        "path": "root/sprite93",
+        "offset": 36982
+      },
+      {
+        "path": "root/sprite93",
+        "offset": 37087
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61424
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61660
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61696
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61738
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61803
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61833
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61903
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 61939
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62295
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62371
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62842
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62890
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63137
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63355
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63530
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63689
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 64346
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 64417
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79271
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79307
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79337
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79367
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79438
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79474
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79504
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79534
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79843
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79992
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80028
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80564
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80739
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80928
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 81585
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 81656
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98130
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98166
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98196
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98493
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98685
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98721
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98792
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98828
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98858
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98908
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98943
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99371
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99528
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99681
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 100338
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 100409
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128336
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128390
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128491
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128545
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128719
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128749
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128824
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128854
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128888
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128924
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128960
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128996
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129032
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129062
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 141867
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 141923
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 141979
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142015
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142051
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142087
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142117
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142414
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142563
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142599
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142959
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143035
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143533
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143690
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143843
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 144500
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 144571
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161390
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161446
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161502
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161538
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161574
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161604
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161901
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162050
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162086
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162715
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162872
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 163025
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 163682
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 163753
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184151
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184181
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184211
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184241
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 189774
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 189804
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 189840
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 189876
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 189912
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190134
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190401
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190437
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190540
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190570
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190606
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190642
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190678
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190984
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 191141
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 191294
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 191951
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 192022
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214456
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214530
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214554
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214719
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222013
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222127
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222180
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222375
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222405
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222435
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222465
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 236615
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 236631
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 236770
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 236812
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 236854
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 236884
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 237032
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 237932
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238368
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238396
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238424
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 239350
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 248891
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 248921
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 248951
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 248981
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249017
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249053
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249089
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249125
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 257804
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 257840
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 257870
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263098
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263134
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263164
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263335
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263371
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263401
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272038
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272236
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272272
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272308
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272344
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272615
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272764
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272800
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273697
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273745
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274062
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274138
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274413
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274489
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274590
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274747
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274900
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 275557
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 275628
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280139
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280766
+      },
+      {
+        "path": "root/sprite488",
+        "offset": 282386
+      },
+      {
+        "path": "root/sprite488",
+        "offset": 282549
+      },
+      {
+        "path": "root/sprite493",
+        "offset": 284666
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290327
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290443
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290613
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290665
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290695
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290725
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290761
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290803
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290845
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290881
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290923
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 290965
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291229
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291970
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 292127
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 292280
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 292807
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 292878
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 293208
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 293384
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294463
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294783
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 295191
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 295262
+      }
+    ],
+    "NativeInvGetHasTwoHandedWeapon": [
+      {
+        "path": "root",
+        "offset": 13012
+      },
+      {
+        "path": "root",
+        "offset": 13039
+      }
+    ],
+    "NativeInvGetHasTwoHandedWeapon(": [
+      {
+        "path": "root",
+        "offset": 13024
+      }
+    ],
+    "NativeHUDGetIsFaeryUnlocked": [
+      {
+        "path": "root",
+        "offset": 13336
+      },
+      {
+        "path": "root",
+        "offset": 13374
+      }
+    ],
+    "NativeHUDGetIsFaeryUnlocked found! You can safely remove fscommand(\"GetIsFaeryUnlocked\", ": [
+      {
+        "path": "root",
+        "offset": 13348
+      }
+    ],
+    "NativeHUDGetIsFaeryUnlocked not found! using fscommand(\"GetIsFaeryUnlocked\", ": [
+      {
+        "path": "root",
+        "offset": 13395
+      }
+    ],
+    "NativeHUDGetActiveFaery": [
+      {
+        "path": "root",
+        "offset": 13494
+      },
+      {
+        "path": "root",
+        "offset": 13512
+      }
+    ],
+    "NativeHUDGetActiveFaery found! You can safely remove fscommand(\"GetActiveFaery\", \"\");!": [
+      {
+        "path": "root",
+        "offset": 13506
+      }
+    ],
+    "NativeHUDGetActiveFaery not found! using fscommand(\"GetActiveFaery\", \"\"); instead...": [
+      {
+        "path": "root",
+        "offset": 13531
+      }
+    ],
+    "NativeHUDSetActiveFaery": [
+      {
+        "path": "root",
+        "offset": 13649
+      },
+      {
+        "path": "root",
+        "offset": 13687
+      }
+    ],
+    "NativeHUDSetActiveFaery found! You can safely remove fscommand(\"SetActiveFaery\", ": [
+      {
+        "path": "root",
+        "offset": 13661
+      }
+    ],
+    "NativeHUDSetActiveFaery not found! using fscommand(\"SetActiveFaery\", ": [
+      {
+        "path": "root",
+        "offset": 13708
+      }
+    ],
+    "NativeLockCharacter": [
+      {
+        "path": "root",
+        "offset": 14382
+      },
+      {
+        "path": "root",
+        "offset": 14409
+      }
+    ],
+    "NativeLockCharacter found! You can safely remove fscommand(\"LockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14394
+      }
+    ],
+    "NativeLockCharacter not found. Using fscommand(\"LockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14428
+      }
+    ],
+    "NativeUnlockCharacter": [
+      {
+        "path": "root",
+        "offset": 14488
+      },
+      {
+        "path": "root",
+        "offset": 14515
+      }
+    ],
+    "NativeUnlockCharacter found! You can safely remove fscommand(\"UnlockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14500
+      }
+    ],
+    "NativeUnlockCharacter not found. Using fscommand(\"UnlockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14534
+      }
+    ],
+    "NativeStopDialog": [
+      {
+        "path": "root",
+        "offset": 14677
+      },
+      {
+        "path": "root",
+        "offset": 14689
+      }
+    ],
+    "NativeSkipScript": [
+      {
+        "path": "root",
+        "offset": 14755
+      },
+      {
+        "path": "root",
+        "offset": 14767
+      }
+    ],
+    "NativeUsePotion": [
+      {
+        "path": "root",
+        "offset": 14843
+      },
+      {
+        "path": "root",
+        "offset": 14855
+      }
+    ],
+    "NativeStatsAssignPoint": [
+      {
+        "path": "root",
+        "offset": 14969
+      },
+      {
+        "path": "root",
+        "offset": 15148
+      }
+    ],
+    "NativeStatsAssignPoint(": [
+      {
+        "path": "root",
+        "offset": 14981
+      },
+      {
+        "path": "root",
+        "offset": 15169
+      }
+    ],
+    "NativeInvAutoEquipSlot": [
+      {
+        "path": "root",
+        "offset": 15687
+      },
+      {
+        "path": "root",
+        "offset": 15753
+      }
+    ],
+    "NativeInvAutoEquipSlot(": [
+      {
+        "path": "root",
+        "offset": 15726
+      }
+    ],
+    "NativeEquipSkill": [
+      {
+        "path": "root",
+        "offset": 15950
+      },
+      {
+        "path": "root",
+        "offset": 16013
+      }
+    ],
+    "NativeEquipSkill(": [
+      {
+        "path": "root",
+        "offset": 15962
+      }
+    ],
+    "NativeGetSkillDetails": [
+      {
+        "path": "root",
+        "offset": 16172
+      }
+    ],
+    "NativePlaySoundFX": [
+      {
+        "path": "root",
+        "offset": 16389
+      },
+      {
+        "path": "root",
+        "offset": 16401
+      },
+      {
+        "path": "root/sprite93",
+        "offset": 37217
+      },
+      {
+        "path": "root/sprite93",
+        "offset": 37281
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62086
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62387
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62763
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62934
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63181
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63866
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63967
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80135
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80326
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80459
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 81105
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 81206
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99044
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99087
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99201
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99858
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99959
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128061
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 128157
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129604
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129647
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129815
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129871
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142732
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142834
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143090
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143368
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 144020
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 144121
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162219
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162272
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162550
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 163202
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 163303
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 183225
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184704
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190759
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 191471
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 191572
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214808
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 221084
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222534
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222988
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 223266
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 223520
+      },
+      {
+        "path": "root/sprite355",
+        "offset": 231123
+      },
+      {
+        "path": "root/sprite355",
+        "offset": 231196
+      },
+      {
+        "path": "root/sprite355",
+        "offset": 231261
+      },
+      {
+        "path": "root/sprite355",
+        "offset": 231449
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238596
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238636
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238804
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 239282
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249260
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249314
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249368
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249422
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 257942
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 257979
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 258028
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 258074
+      },
+      {
+        "path": "root/sprite440",
+        "offset": 262277
+      },
+      {
+        "path": "root/sprite440",
+        "offset": 262325
+      },
+      {
+        "path": "root/sprite440",
+        "offset": 262375
+      },
+      {
+        "path": "root/sprite442",
+        "offset": 263453
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272920
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272963
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273075
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273618
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273789
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273885
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274236
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 275077
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 275178
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280294
+      },
+      {
+        "path": "root/sprite493",
+        "offset": 284476
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291328
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291562
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291610
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291658
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291754
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291804
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 293575
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 293700
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 293743
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 293920
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294117
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294202
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294285
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294382
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294549
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294716
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 295482
+      }
+    ],
+    "NativePlayMusic": [
+      {
+        "path": "root",
+        "offset": 16469
+      },
+      {
+        "path": "root",
+        "offset": 16481
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272842
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280728
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291245
+      }
+    ],
+    "NativeStopMusic": [
+      {
+        "path": "root",
+        "offset": 16526
+      }
+    ],
+    "NativeEndLoading": [
+      {
+        "path": "root",
+        "offset": 16709
+      }
+    ],
+    "NativeConectionType": [
+      {
+        "path": "root/sprite176",
+        "offset": 61238
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62244
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62543
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62576
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62777
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63086
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80079
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80232
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98988
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129574
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142676
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162163
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249204
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273061
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273398
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273431
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273632
+      }
+    ],
+    "NativeGetParsedString": [
+      {
+        "path": "root/sprite176",
+        "offset": 61583
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 64312
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 79809
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 81551
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98459
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 100304
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142380
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 144466
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 161867
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 163648
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190324
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 191917
+      },
+      {
+        "path": "root/sprite355",
+        "offset": 231378
+      },
+      {
+        "path": "root/sprite355",
+        "offset": 231577
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 272581
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 275523
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 292773
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 295157
+      }
+    ],
+    "NativeEnableBluetooth": [
+      {
+        "path": "root/sprite176",
+        "offset": 62003
+      }
+    ],
+    "NativeMultiplayerBack": [
+      {
+        "path": "root/sprite176",
+        "offset": 62058
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80107
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99016
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129562
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142704
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162191
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184676
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190731
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214836
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222960
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238568
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 239254
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249232
+      }
+    ],
+    "NativeWiFiCheck": [
+      {
+        "path": "root/sprite176",
+        "offset": 62129
+      }
+    ],
+    "NativeAssignSaveSlotToPlayer": [
+      {
+        "path": "root/sprite176",
+        "offset": 62192
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62632
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62751
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63040
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80220
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80431
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238835
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 260071
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273000
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273213
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273487
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273606
+      }
+    ],
+    "NativeWiFiCheck is true": [
+      {
+        "path": "root/sprite176",
+        "offset": 62224
+      }
+    ],
+    "NativeWiFiCheck is false": [
+      {
+        "path": "root/sprite176",
+        "offset": 62263
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62810
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142927
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273665
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274030
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274381
+      }
+    ],
+    "NativeDoWeHaveInternet": [
+      {
+        "path": "root/sprite176",
+        "offset": 62430
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142848
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273285
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273899
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274250
+      }
+    ],
+    "NativeEnableGameCenter() returns: ": [
+      {
+        "path": "root/sprite176",
+        "offset": 62477
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273332
+      }
+    ],
+    "NativeEnableGameCenter": [
+      {
+        "path": "root/sprite176",
+        "offset": 62477
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62516
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273332
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273371
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273940
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274291
+      }
+    ],
+    "NativeEnableGameCenter is true": [
+      {
+        "path": "root/sprite176",
+        "offset": 62537
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273392
+      }
+    ],
+    "NativeEnableGameCenter is false": [
+      {
+        "path": "root/sprite176",
+        "offset": 62644
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273499
+      }
+    ],
+    "NativeGLXPlayerLoggedIn": [
+      {
+        "path": "root/sprite176",
+        "offset": 62650
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80246
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273505
+      }
+    ],
+    "NativeBluetoothCheck": [
+      {
+        "path": "root/sprite176",
+        "offset": 62977
+      }
+    ],
+    "NativeGetSaveSlotDetails": [
+      {
+        "path": "root/sprite176",
+        "offset": 64042
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 81281
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 100034
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 144196
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 163378
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 191647
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 275253
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 292443
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294887
+      }
+    ],
+    "NativeGCAutoMatch": [
+      {
+        "path": "root/sprite192",
+        "offset": 80443
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190841
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273245
+      }
+    ],
+    "NativeGCAchievements": [
+      {
+        "path": "root/sprite196",
+        "offset": 99133
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99247
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190883
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274343
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274362
+      }
+    ],
+    "NativeGCLeaderboards": [
+      {
+        "path": "root/sprite196",
+        "offset": 99272
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142908
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273992
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274011
+      }
+    ],
+    "NativeGLXPlayerSignin": [
+      {
+        "path": "root/sprite221",
+        "offset": 128582
+      }
+    ],
+    "NativeLoginInfos": [
+      {
+        "path": "root/sprite221",
+        "offset": 129098
+      }
+    ],
+    "NativeLoginInfos is true": [
+      {
+        "path": "root/sprite221",
+        "offset": 129117
+      }
+    ],
+    "NativeLoginInfos is false": [
+      {
+        "path": "root/sprite221",
+        "offset": 129358
+      }
+    ],
+    "NativeGLLive": [
+      {
+        "path": "root/sprite221",
+        "offset": 129829
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129885
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291712
+      }
+    ],
+    "NativeCreateMultiplayerLobby": [
+      {
+        "path": "root/sprite224",
+        "offset": 143165
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143200
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143241
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162347
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162382
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162423
+      }
+    ],
+    "NativeSendRoomSearchRequest": [
+      {
+        "path": "root/sprite224",
+        "offset": 143352
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162534
+      }
+    ],
+    "NativeInvitePlayer": [
+      {
+        "path": "root/sprite251",
+        "offset": 184277
+      }
+    ],
+    "NativeSendGLInvite": [
+      {
+        "path": "root/sprite251",
+        "offset": 184795
+      }
+    ],
+    "NativeGCInvite": [
+      {
+        "path": "root/sprite255",
+        "offset": 190799
+      }
+    ],
+    "NativeGetLoadingTipStrID": [
+      {
+        "path": "root/sprite288",
+        "offset": 214584
+      }
+    ],
+    "NativeGetStringFromID": [
+      {
+        "path": "root/sprite288",
+        "offset": 214603
+      }
+    ],
+    "NativeGCStopGameStarting": [
+      {
+        "path": "root/sprite288",
+        "offset": 214792
+      }
+    ],
+    "NativeGetMultiplayerGameRooms": [
+      {
+        "path": "root/sprite316",
+        "offset": 222607
+      }
+    ],
+    "NativeConnectToServer": [
+      {
+        "path": "root/sprite316",
+        "offset": 223085
+      }
+    ],
+    "Native returns this: ": [
+      {
+        "path": "root/sprite367",
+        "offset": 236631
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 237032
+      }
+    ],
+    "NativeAddToFriend": [
+      {
+        "path": "root/sprite367",
+        "offset": 237986
+      }
+    ],
+    "NativeGetMultiplayerQuestInfo": [
+      {
+        "path": "root/sprite367",
+        "offset": 238040
+      }
+    ],
+    "NativeGetMultiplayerRoomInfo": [
+      {
+        "path": "root/sprite367",
+        "offset": 238135
+      }
+    ],
+    "NativeStartMultiplayerGame": [
+      {
+        "path": "root/sprite367",
+        "offset": 238855
+      }
+    ],
+    "NativeKickPlayerOut": [
+      {
+        "path": "root/sprite367",
+        "offset": 239021
+      }
+    ],
+    "NativeAddFriend": [
+      {
+        "path": "root/sprite367",
+        "offset": 239058
+      }
+    ],
+    "NativeShowLeaderboard": [
+      {
+        "path": "root/sprite392",
+        "offset": 249161
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249300
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249354
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249408
+      }
+    ],
+    "NativeCreateSaveSlot": [
+      {
+        "path": "root/sprite428",
+        "offset": 260038
+      }
+    ],
+    "NativeStartFromGCInvite": [
+      {
+        "path": "root/sprite428",
+        "offset": 260160
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291354
+      }
+    ],
+    "NativeLaunchTwitter": [
+      {
+        "path": "root/sprite440",
+        "offset": 262359
+      }
+    ],
+    "NativeIsMultiplayerEnabled": [
+      {
+        "path": "root/sprite471",
+        "offset": 271865
+      }
+    ],
+    "NativeOnlineSanityCheck": [
+      {
+        "path": "root/sprite471",
+        "offset": 272862
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280308
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291265
+      }
+    ],
+    "NativeStartGame": [
+      {
+        "path": "root/sprite471",
+        "offset": 273020
+      }
+    ],
+    "NativeIsBluetoothWifiEnabled": [
+      {
+        "path": "root/sprite471",
+        "offset": 273150
+      }
+    ],
+    "NativeSaveSettings": [
+      {
+        "path": "root/sprite493",
+        "offset": 284490
+      }
+    ],
+    "NativeSetSaveSlotIDToMainMenu": [
+      {
+        "path": "root/sprite510",
+        "offset": 290477
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 293864
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294061
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294663
+      }
+    ],
+    "NativeHasPushNotification": [
+      {
+        "path": "root/sprite510",
+        "offset": 291038
+      }
+    ],
+    "NativeLaunchIGP": [
+      {
+        "path": "root/sprite510",
+        "offset": 291768
+      }
+    ],
+    "NativeHUDInteract": [
+      {
+        "path": "root/sprite510",
+        "offset": 294159
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294327
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 294424
+      }
+    ],
+    "NativeEraseSaveSlot": [
+      {
+        "path": "root/sprite510",
+        "offset": 294611
+      }
+    ]
+  },
+  "not_named_in_front_owner": {
+    "Native returns this: ": [
+      {
+        "path": "root/sprite367",
+        "offset": 236631
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 237032
+      }
+    ],
+    "NativeAddFriend": [
+      {
+        "path": "root/sprite367",
+        "offset": 239058
+      }
+    ],
+    "NativeAddToFriend": [
+      {
+        "path": "root/sprite367",
+        "offset": 237986
+      }
+    ],
+    "NativeAssignSaveSlotToPlayer": [
+      {
+        "path": "root/sprite176",
+        "offset": 62192
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62632
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62751
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63040
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80220
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80431
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238835
+      },
+      {
+        "path": "root/sprite428",
+        "offset": 260071
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273000
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273213
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273487
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273606
+      }
+    ],
+    "NativeBluetoothCheck": [
+      {
+        "path": "root/sprite176",
+        "offset": 62977
+      }
+    ],
+    "NativeConectionType": [
+      {
+        "path": "root/sprite176",
+        "offset": 61238
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62244
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62543
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62576
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62777
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 63086
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80079
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80232
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 98988
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129574
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142676
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162163
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249204
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273061
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273398
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273431
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273632
+      }
+    ],
+    "NativeConnectToServer": [
+      {
+        "path": "root/sprite316",
+        "offset": 223085
+      }
+    ],
+    "NativeCreateMultiplayerLobby": [
+      {
+        "path": "root/sprite224",
+        "offset": 143165
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143200
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 143241
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162347
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162382
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162423
+      }
+    ],
+    "NativeDoWeHaveInternet": [
+      {
+        "path": "root/sprite176",
+        "offset": 62430
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142848
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273285
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273899
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274250
+      }
+    ],
+    "NativeEnableBluetooth": [
+      {
+        "path": "root/sprite176",
+        "offset": 62003
+      }
+    ],
+    "NativeEnableGameCenter": [
+      {
+        "path": "root/sprite176",
+        "offset": 62477
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62516
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273332
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273371
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273940
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274291
+      }
+    ],
+    "NativeEnableGameCenter is false": [
+      {
+        "path": "root/sprite176",
+        "offset": 62644
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273499
+      }
+    ],
+    "NativeEnableGameCenter is true": [
+      {
+        "path": "root/sprite176",
+        "offset": 62537
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273392
+      }
+    ],
+    "NativeEnableGameCenter() returns: ": [
+      {
+        "path": "root/sprite176",
+        "offset": 62477
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273332
+      }
+    ],
+    "NativeEndLoading": [
+      {
+        "path": "root",
+        "offset": 16709
+      }
+    ],
+    "NativeEquipSkill": [
+      {
+        "path": "root",
+        "offset": 15950
+      },
+      {
+        "path": "root",
+        "offset": 16013
+      }
+    ],
+    "NativeEquipSkill(": [
+      {
+        "path": "root",
+        "offset": 15962
+      }
+    ],
+    "NativeGCAchievements": [
+      {
+        "path": "root/sprite196",
+        "offset": 99133
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99247
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190883
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274343
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274362
+      }
+    ],
+    "NativeGCAutoMatch": [
+      {
+        "path": "root/sprite192",
+        "offset": 80443
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190841
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273245
+      }
+    ],
+    "NativeGCInvite": [
+      {
+        "path": "root/sprite255",
+        "offset": 190799
+      }
+    ],
+    "NativeGCLeaderboards": [
+      {
+        "path": "root/sprite196",
+        "offset": 99272
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142908
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273992
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274011
+      }
+    ],
+    "NativeGCStopGameStarting": [
+      {
+        "path": "root/sprite288",
+        "offset": 214792
+      }
+    ],
+    "NativeGLLive": [
+      {
+        "path": "root/sprite221",
+        "offset": 129829
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129885
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291712
+      }
+    ],
+    "NativeGLXPlayerLoggedIn": [
+      {
+        "path": "root/sprite176",
+        "offset": 62650
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80246
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273505
+      }
+    ],
+    "NativeGLXPlayerSignin": [
+      {
+        "path": "root/sprite221",
+        "offset": 128582
+      }
+    ],
+    "NativeGetLoadingTipStrID": [
+      {
+        "path": "root/sprite288",
+        "offset": 214584
+      }
+    ],
+    "NativeGetMultiplayerGameRooms": [
+      {
+        "path": "root/sprite316",
+        "offset": 222607
+      }
+    ],
+    "NativeGetMultiplayerQuestInfo": [
+      {
+        "path": "root/sprite367",
+        "offset": 238040
+      }
+    ],
+    "NativeGetMultiplayerRoomInfo": [
+      {
+        "path": "root/sprite367",
+        "offset": 238135
+      }
+    ],
+    "NativeGetSkillDetails": [
+      {
+        "path": "root",
+        "offset": 16172
+      }
+    ],
+    "NativeGetStringFromID": [
+      {
+        "path": "root/sprite288",
+        "offset": 214603
+      }
+    ],
+    "NativeGoToMainMenu": [
+      {
+        "path": "root",
+        "offset": 12201
+      },
+      {
+        "path": "root",
+        "offset": 12213
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280324
+      },
+      {
+        "path": "root/sprite493",
+        "offset": 284522
+      }
+    ],
+    "NativeHUDGetActiveFaery": [
+      {
+        "path": "root",
+        "offset": 13494
+      },
+      {
+        "path": "root",
+        "offset": 13512
+      }
+    ],
+    "NativeHUDGetActiveFaery found! You can safely remove fscommand(\"GetActiveFaery\", \"\");!": [
+      {
+        "path": "root",
+        "offset": 13506
+      }
+    ],
+    "NativeHUDGetActiveFaery not found! using fscommand(\"GetActiveFaery\", \"\"); instead...": [
+      {
+        "path": "root",
+        "offset": 13531
+      }
+    ],
+    "NativeHUDGetIsFaeryUnlocked": [
+      {
+        "path": "root",
+        "offset": 13336
+      },
+      {
+        "path": "root",
+        "offset": 13374
+      }
+    ],
+    "NativeHUDGetIsFaeryUnlocked found! You can safely remove fscommand(\"GetIsFaeryUnlocked\", ": [
+      {
+        "path": "root",
+        "offset": 13348
+      }
+    ],
+    "NativeHUDGetIsFaeryUnlocked not found! using fscommand(\"GetIsFaeryUnlocked\", ": [
+      {
+        "path": "root",
+        "offset": 13395
+      }
+    ],
+    "NativeHUDSetActiveFaery": [
+      {
+        "path": "root",
+        "offset": 13649
+      },
+      {
+        "path": "root",
+        "offset": 13687
+      }
+    ],
+    "NativeHUDSetActiveFaery found! You can safely remove fscommand(\"SetActiveFaery\", ": [
+      {
+        "path": "root",
+        "offset": 13661
+      }
+    ],
+    "NativeHUDSetActiveFaery not found! using fscommand(\"SetActiveFaery\", ": [
+      {
+        "path": "root",
+        "offset": 13708
+      }
+    ],
+    "NativeHasPushNotification": [
+      {
+        "path": "root/sprite510",
+        "offset": 291038
+      }
+    ],
+    "NativeInvAutoEquipSlot": [
+      {
+        "path": "root",
+        "offset": 15687
+      },
+      {
+        "path": "root",
+        "offset": 15753
+      }
+    ],
+    "NativeInvAutoEquipSlot(": [
+      {
+        "path": "root",
+        "offset": 15726
+      }
+    ],
+    "NativeInvGetHasTwoHandedWeapon": [
+      {
+        "path": "root",
+        "offset": 13012
+      },
+      {
+        "path": "root",
+        "offset": 13039
+      }
+    ],
+    "NativeInvGetHasTwoHandedWeapon(": [
+      {
+        "path": "root",
+        "offset": 13024
+      }
+    ],
+    "NativeInvitePlayer": [
+      {
+        "path": "root/sprite251",
+        "offset": 184277
+      }
+    ],
+    "NativeIsBluetoothWifiEnabled": [
+      {
+        "path": "root/sprite471",
+        "offset": 273150
+      }
+    ],
+    "NativeKickPlayerOut": [
+      {
+        "path": "root/sprite367",
+        "offset": 239021
+      }
+    ],
+    "NativeLaunchIGP": [
+      {
+        "path": "root/sprite510",
+        "offset": 291768
+      }
+    ],
+    "NativeLaunchTwitter": [
+      {
+        "path": "root/sprite440",
+        "offset": 262359
+      }
+    ],
+    "NativeLockCharacter": [
+      {
+        "path": "root",
+        "offset": 14382
+      },
+      {
+        "path": "root",
+        "offset": 14409
+      }
+    ],
+    "NativeLockCharacter found! You can safely remove fscommand(\"LockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14394
+      }
+    ],
+    "NativeLockCharacter not found. Using fscommand(\"LockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14428
+      }
+    ],
+    "NativeLoginInfos": [
+      {
+        "path": "root/sprite221",
+        "offset": 129098
+      }
+    ],
+    "NativeLoginInfos is false": [
+      {
+        "path": "root/sprite221",
+        "offset": 129358
+      }
+    ],
+    "NativeLoginInfos is true": [
+      {
+        "path": "root/sprite221",
+        "offset": 129117
+      }
+    ],
+    "NativeMultiplayerBack": [
+      {
+        "path": "root/sprite176",
+        "offset": 62058
+      },
+      {
+        "path": "root/sprite192",
+        "offset": 80107
+      },
+      {
+        "path": "root/sprite196",
+        "offset": 99016
+      },
+      {
+        "path": "root/sprite221",
+        "offset": 129562
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142704
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162191
+      },
+      {
+        "path": "root/sprite251",
+        "offset": 184676
+      },
+      {
+        "path": "root/sprite255",
+        "offset": 190731
+      },
+      {
+        "path": "root/sprite288",
+        "offset": 214836
+      },
+      {
+        "path": "root/sprite316",
+        "offset": 222960
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 238568
+      },
+      {
+        "path": "root/sprite367",
+        "offset": 239254
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249232
+      }
+    ],
+    "NativeOnlineSanityCheck": [
+      {
+        "path": "root/sprite471",
+        "offset": 272862
+      },
+      {
+        "path": "root/sprite479",
+        "offset": 280308
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291265
+      }
+    ],
+    "NativePopAllMenus": [
+      {
+        "path": "root",
+        "offset": 12004
+      },
+      {
+        "path": "root",
+        "offset": 12016
+      }
+    ],
+    "NativePushState": [
+      {
+        "path": "root",
+        "offset": 12291
+      },
+      {
+        "path": "root",
+        "offset": 12303
+      }
+    ],
+    "NativeSendGLInvite": [
+      {
+        "path": "root/sprite251",
+        "offset": 184795
+      }
+    ],
+    "NativeSendRoomSearchRequest": [
+      {
+        "path": "root/sprite224",
+        "offset": 143352
+      },
+      {
+        "path": "root/sprite227",
+        "offset": 162534
+      }
+    ],
+    "NativeSetCurrentDifficulty": [
+      {
+        "path": "root",
+        "offset": 10358
+      }
+    ],
+    "NativeShowLeaderboard": [
+      {
+        "path": "root/sprite392",
+        "offset": 249161
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249300
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249354
+      },
+      {
+        "path": "root/sprite392",
+        "offset": 249408
+      }
+    ],
+    "NativeSkipScript": [
+      {
+        "path": "root",
+        "offset": 14755
+      },
+      {
+        "path": "root",
+        "offset": 14767
+      }
+    ],
+    "NativeStartFromGCInvite": [
+      {
+        "path": "root/sprite428",
+        "offset": 260160
+      },
+      {
+        "path": "root/sprite510",
+        "offset": 291354
+      }
+    ],
+    "NativeStartMultiplayerGame": [
+      {
+        "path": "root/sprite367",
+        "offset": 238855
+      }
+    ],
+    "NativeStatsAssignPoint": [
+      {
+        "path": "root",
+        "offset": 14969
+      },
+      {
+        "path": "root",
+        "offset": 15148
+      }
+    ],
+    "NativeStatsAssignPoint(": [
+      {
+        "path": "root",
+        "offset": 14981
+      },
+      {
+        "path": "root",
+        "offset": 15169
+      }
+    ],
+    "NativeStopDialog": [
+      {
+        "path": "root",
+        "offset": 14677
+      },
+      {
+        "path": "root",
+        "offset": 14689
+      }
+    ],
+    "NativeSwitchMenu": [
+      {
+        "path": "root",
+        "offset": 11942
+      },
+      {
+        "path": "root",
+        "offset": 11954
+      }
+    ],
+    "NativeUnlockCharacter": [
+      {
+        "path": "root",
+        "offset": 14488
+      },
+      {
+        "path": "root",
+        "offset": 14515
+      }
+    ],
+    "NativeUnlockCharacter found! You can safely remove fscommand(\"UnlockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14500
+      }
+    ],
+    "NativeUnlockCharacter not found. Using fscommand(\"UnlockCharacter\", ": [
+      {
+        "path": "root",
+        "offset": 14534
+      }
+    ],
+    "NativeUsePotion": [
+      {
+        "path": "root",
+        "offset": 14843
+      },
+      {
+        "path": "root",
+        "offset": 14855
+      }
+    ],
+    "NativeWiFiCheck": [
+      {
+        "path": "root/sprite176",
+        "offset": 62129
+      }
+    ],
+    "NativeWiFiCheck is false": [
+      {
+        "path": "root/sprite176",
+        "offset": 62263
+      },
+      {
+        "path": "root/sprite176",
+        "offset": 62810
+      },
+      {
+        "path": "root/sprite224",
+        "offset": 142927
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 273665
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274030
+      },
+      {
+        "path": "root/sprite471",
+        "offset": 274381
+      }
+    ],
+    "NativeWiFiCheck is true": [
+      {
+        "path": "root/sprite176",
+        "offset": 62224
+      }
+    ]
+  }
+}

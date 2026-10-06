@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "41812e27c329673b634bc3e83a16a8a3f099e872244d407b9e4e228b130e6642",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\gameplay_skybox_resources_v24.cpp",
+      "sha256": "40c52d9a6cfeccd34f597cd54112ec1ade20b8c7c81b5458020358d35cb86d31"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "0ab86803dd44c86921fc37431072658a4f4687613e32b1066508a7ac23c2a708"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "ed0e1c2750d3211bacb4d81a9fcd7c774041892c8ae847c8289c920435f2d7d6"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "d41bfcf62e2fff22ea25851c61544c49d8afc154bba0659c5ea25206cfa4ff90"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "ea3075f7c6de64099ca755632467d52cc9007fd414a589c1bdf2b9858b8f3b6d",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\gameplay_skybox_resources_v24.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-skybox-resources-v24\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-skybox-resources-v24\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-skybox-resources-v24\\gameplay-skybox-resources-v24.bin"
+  ],
+  "stdout": "skybox_swamp.bdae nodes=2 instances=1 materials=1 ignored=1\n mesh node=SkyBox-node controller=-1 vertices=24 primitives=1 bbox=-1.00002,-1.00001,-1..1.00002,1.00001,1\n material=orig_orig_03_-_Default effect= uri=#ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_swamp technique= diffuse=skybox_swamp.tga alpha=\nskybox_blood.bdae nodes=2 instances=1 materials=1 ignored=1\n mesh node=SkyBox-node controller=-1 vertices=24 primitives=1 bbox=-1.00002,-1.00001,-1..1.00002,1.00001,1\n material=orig_orig_03_-_Default effect= uri=#ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_blood technique= diffuse=skybox_blood.tga alpha=\nskybox_under.bdae nodes=2 instances=1 materials=1 ignored=1\n mesh node=SkyBox-node controller=-1 vertices=24 primitives=1 bbox=-0.589502,-1.36697,-0.836867..1.34845,0.692632,1.57907\n material=orig_orig_03_-_Default effect= uri=#ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_under technique= diffuse=skybox_uneder.tga alpha=\nskybox_darktemple.bdae nodes=2 instances=1 materials=1 ignored=1\n mesh node=SkyBox-node controller=-1 vertices=17 primitives=1 bbox=-1.00028,-1.00195,-1.00001..1.00028,1.00132,1.00003\n material=orig_orig_03_-_Default effect= uri=#ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_darktemple technique= diffuse=skybox_darktemple.tga alpha=\nskybox_wind.bdae nodes=2 instances=1 materials=1 ignored=1\n mesh node=SkyBox-node controller=-1 vertices=24 primitives=1 bbox=-1.00002,-1.00001,-1..1.00002,1.00001,1\n material=orig_orig_03_-_Default effect= uri=#ProfileCOMMON_orig_orig_03_-_Default-fx1302961876_skybox_wind technique= diffuse=skybox_wind.tga alpha=\nActual five skybox resource/scene/mesh metadata PASS\n",
+  "stderr": "",
+  "exit_code": 0
+}

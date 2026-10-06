@@ -1,0 +1,36 @@
+[
+  {
+    "name": "_ZN6glitch7collada18ISceneNodeAnimator10updateTimeEj",
+    "address": "0x667c48",
+    "size": 108,
+    "instructions": [
+      "00667c48 push {r4, r5, r6, lr}",
+      "00667c4c sub sp, sp, #8",
+      "00667c50 ldr r3, [r0]",
+      "00667c54 mov r5, r0",
+      "00667c58 mov r6, r1",
+      "00667c5c mov lr, pc",
+      "00667c60 ldr pc, [r3, #0x44]",
+      "00667c64 subs r4, r0, #0",
+      "00667c68 beq #0x667cac",
+      "00667c6c mov r1, r6",
+      "00667c70 ldm r4, {r3, r6}",
+      "00667c74 mov lr, pc",
+      "00667c78 ldr pc, [r3]",
+      "00667c7c ldr ip, [r5, #0x18]",
+      "00667c80 ldr r2, [r4, #4]",
+      "00667c84 cmp ip, #0",
+      "00667c88 beq #0x667cac",
+      "00667c8c ldr lr, [r4, #0x14]",
+      "00667c90 ldr r3, [r4, #0x10]",
+      "00667c94 mov r0, ip",
+      "00667c98 mov r1, r6",
+      "00667c9c ldr ip, [ip]",
+      "00667ca0 str lr, [sp]",
+      "00667ca4 mov lr, pc",
+      "00667ca8 ldr pc, [ip, #0x10]",
+      "00667cac add sp, sp, #8",
+      "00667cb0 pop {r4, r5, r6, pc}"
+    ]
+  }
+]

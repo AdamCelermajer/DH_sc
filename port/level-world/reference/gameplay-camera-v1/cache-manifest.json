@@ -1,0 +1,737 @@
+[
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/playercamera.bdae",
+    "size": 50048,
+    "sha256": "04650334d02a321262162d4c609589d45e9f4c342940788a0ed8aa3b97bbe028"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/cscam_gothicuscastle01.bdae",
+    "size": 26464,
+    "sha256": "2daaec8c880ffb015d248ea8a83d25b4077a065d019fdd60e65821c8e754d502"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/cscam_earthtemple.bdae",
+    "size": 522232,
+    "sha256": "4224a4ea6cb2bfd41640097e9154b0476ac19926780fd249cf4c889856622ffe"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/cameratests.bdae",
+    "size": 1244,
+    "sha256": "7c469d135ebc99943576c2b269bea6869d38d99231fa29e42433b58e1b5a8638"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/cscam_swamp_trollcave.bdae",
+    "size": 16908,
+    "sha256": "9f729990af44e576cea1e9bf7657854f4bdd8db35edbaac9ff9451181eed81bc"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/cscam_swamp_witchcave.bdae",
+    "size": 20140,
+    "sha256": "75d80ec363dd17f23239a6da827a4b7a59fbe01ef9c0aed4cd41c175f359b643"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/cscam_swamp01.bdae",
+    "size": 152384,
+    "sha256": "66d67c535f04a1a83979cf0d0c3450c1d4a7efea4271ff8f638548a7734901a2"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/minimapcamerashud.bdae",
+    "size": 1688,
+    "sha256": "3b9d641e28a34369115285a42913bba8488e4b68437ffa5b8e5a487a1ec76952"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/cscam_darkwood.bdae",
+    "size": 37308,
+    "sha256": "1b5cea36b7cad93309bf12a1b934b91793b0bb16b1b77dce2d2aac854992e5e6"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/minimapcameras.bdae",
+    "size": 2600,
+    "sha256": "a4f4e09f8e4f7ba862d60b1114f5c483fce13df8589e93ea72560daf5e8b7757"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene06_camera.bdae",
+    "size": 4160,
+    "sha256": "3a3b0de3ace8a3a7dc1c73525b8515a2c9333393ef49b8f8c91d591c42621604"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene03_camera.bdae",
+    "size": 6128,
+    "sha256": "a0c0cd72b752fffa1077cc873430168e2c4b17d7bf6b3b6616642b97467067c1"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene09_camera.bdae",
+    "size": 3524,
+    "sha256": "1b51d6f75d6d7923c3900e9c30efa6d0dd3770acbc6d46ad4cb5f34f7498e2cc"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene05_camera.bdae",
+    "size": 3720,
+    "sha256": "a2806f9ebd45f8b816208a52cbd7bcd9db450750467bc523ba0bd7a5358ae36a"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+    "size": 197936,
+    "sha256": "ca2719b927fa62dcc4bf63a0a7d485a7ca1352c5e9610a0d72deb1068b92fa4d"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene02_camera.bdae",
+    "size": 3828,
+    "sha256": "ca85971769c27d58a0aee9877a37bd9e8dd6d69dd59e153c3ec1ef98026be746"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene07_camera.bdae",
+    "size": 3320,
+    "sha256": "1ced3a809adb22e26b892b25a76df66e88d797887e87b26fa75f654fabad0bd7"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene12_camera.bdae",
+    "size": 4184,
+    "sha256": "cdd5030bba3ee3c3388cce73836ef8dc8b0cdabb7d721759030afe68b4a6e5cf"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+    "size": 200656,
+    "sha256": "82be527099ffb08436f5167cc78201b91c5ea38067ed9462dc138c2250e410dd"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene04_camera.bdae",
+    "size": 4124,
+    "sha256": "6cdfba8d8e13bd8689ee01c7ecac365cabba9cde9e6fc5f9e014626804b3d67d"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene01_camera.bdae",
+    "size": 4548,
+    "sha256": "02a01b927c775f3b6fbd82d510029621cb58f923db79f5bc58197bd6f702fc59"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene08_camera.bdae",
+    "size": 4172,
+    "sha256": "49194798c9ccf7c563068432c080c04cc9461de62944a66752f6a21fe5a6bd69"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_outro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene06_camera.bdae",
+    "size": 3680,
+    "sha256": "636ca2eb13ef6674d27008c76600e4dfd6af52a98d9ca326c1abe4b4053ea049"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/dark_queen2ndform_spawn_camera.bdae",
+    "size": 6400,
+    "sha256": "af493c0483d709433345c9bd3a37b689d1487320523877ca2860fca82ff21e8e"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene05_camera.bdae",
+    "size": 4840,
+    "sha256": "b3c7b5d962993ab5a2b2cc3ad391b006c3b6c36f2442fb85177337c22186ed5a"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene07_camera.bdae",
+    "size": 3680,
+    "sha256": "208f6868c2ab22a9221ed054c4730a077dd2b966427cf742ab12898af1143b03"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene03a_camera.bdae",
+    "size": 5256,
+    "sha256": "f8a3717894c44d685a89f75570b9bae3b651892ed4317d286d5f84983d739f52"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene02_camera.bdae",
+    "size": 3900,
+    "sha256": "80aa727153672941bcc383ea768070b8a1c1c4e8b8809337f83e9881b4dc63a8"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene01_camera.bdae",
+    "size": 3900,
+    "sha256": "dda806a78d773931aee6e088acadba38b35021594e4770d0837cbfbe250cb510"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene08_camera.bdae",
+    "size": 10052,
+    "sha256": "f77de3fb36824368efaca170e137f53c7eb6ef5407c9eaa673bac59f5a68d354"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene08_camera_priest_talk.bdae",
+    "size": 3716,
+    "sha256": "db290680d57abd85808b60af0118f7baf7f069c0b9d299925598725092aa0546"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene04_camera.bdae",
+    "size": 4712,
+    "sha256": "87542f01e92d590eafc6fc43d61912d63fb5cccbbc370d0a9524bcb2ae1c2216"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/dark_queen/cs_darkqueen_scene03b_camera.bdae",
+    "size": 9088,
+    "sha256": "ea24ad6677df8c2f82f3b3c992adaf8b466484078118ae0721a695c2ae87238b"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene06.bdae",
+    "size": 2860,
+    "sha256": "9f80a1449f8031bc0ef3cc65b5da635c934d7cf259f6fd9b4c77490df04d3ca2"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene07.bdae",
+    "size": 2856,
+    "sha256": "cb4b6fb0f36bfec61dca90f398857af16dfb451c53bd4f37df0e3adf51f9ec8b"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene01.bdae",
+    "size": 7264,
+    "sha256": "6184c46cb8abee19a1ba9c0dec4e69fbc4ff7caa0f6642d534acc916b3e8dff1"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene02.bdae",
+    "size": 4004,
+    "sha256": "a6248d2e6b46060750ae375aa4a7b4b8b2e30d494d5921a2a41134313b5ae0aa"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene03.bdae",
+    "size": 2860,
+    "sha256": "fa13cdafe3d6a51a648c87cd206cc89e955c3a84e7374dfe04e3e9bffb37654b"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene04.bdae",
+    "size": 2856,
+    "sha256": "7c7ac1eb133bbde70d07ba63c4408aef97eb43c26763372318de392d99671c83"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene05.bdae",
+    "size": 4560,
+    "sha256": "74d1013a0fa76de1d8b0e9a6e33da3b71146fed9440a9ff249688763f170abfa"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene10.bdae",
+    "size": 5520,
+    "sha256": "10f33dc462f62ecc4fca7a19e08bc99dd9730017dffa4650b6d6bbd270d686f4"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene06.bdae",
+    "size": 4900,
+    "sha256": "fab30f18e16cc00d937e6f21fe1da7e379690ef3c0b4a4d19a85713044f79089"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene07.bdae",
+    "size": 6156,
+    "sha256": "2f48961102b962e1ee45a25edf45bcb33f738b600908778c24689aad20fae935"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene11.bdae",
+    "size": 4180,
+    "sha256": "65c0f9fdbff3d7600d183e17fb3cb424fac0e79f4fabe0cabba18817c5f16b81"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene16.bdae",
+    "size": 3816,
+    "sha256": "030b205219692e2f39f57ec3dc72fe020c5bc4ccb8ef6711232ab2fcd76c33b0"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene01.bdae",
+    "size": 5428,
+    "sha256": "227116263c8f1e86fa8c612623094aed9a7000fe3758e03dd24cfe29bad8b4c1"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene17.bdae",
+    "size": 6988,
+    "sha256": "abf1aa3e8d0ae93c752885a041ea65f62cdd7fe1075b238f0603026c49247ba1"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene18.bdae",
+    "size": 3620,
+    "sha256": "378e05d9f2b11c2c3854c0c6bda339d08047ba907356f2b9c92b62ffe453fc7f"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene02.bdae",
+    "size": 6972,
+    "sha256": "f94ab5810faafd58f6e8560c8298544d6747b7534ba4bf93e39d101481d57549"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene14.bdae",
+    "size": 5188,
+    "sha256": "bae3cc757ca6efd2db0d27448c034dac1702c210793255303326c1257990f843"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene15.bdae",
+    "size": 5420,
+    "sha256": "32452f37f6d1f82852e3290a7d9501f74c658148c042c8694174e63cc127cf22"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene03.bdae",
+    "size": 8672,
+    "sha256": "2e0a5048e6a6f04458f1deeda8132628f87d486d607b3b03343f6f4d8cb54e6c"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene04.bdae",
+    "size": 5440,
+    "sha256": "9e2f0d5d3c3df1c5231ebe723088bf8e43a928fefeda84862d9540633359a58f"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene12.bdae",
+    "size": 4932,
+    "sha256": "0368af62df38984c114387d4d553c2db1882d189ce78bb53c08d6b64696892d7"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene08.bdae",
+    "size": 6116,
+    "sha256": "364a961c1a06b408dae0207802da434d850d454a2104c7455336eb5b1d3d587a"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene09.bdae",
+    "size": 4232,
+    "sha256": "6f19db27e2d3c99fde2d44a67de46704d4133b1b8a1f881231d1b23c66c73756"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene13.bdae",
+    "size": 4600,
+    "sha256": "351d8e1b260da29f4592837c324169f46f86c60c1157fa1ba1c7fa4929750ed8"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene05.bdae",
+    "size": 8504,
+    "sha256": "d4037eead51d1456c3624439c70080abb08182a525320f668ce02abc14ef73a4"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/cs_witch_intro_camera_scene04.bdae",
+    "size": 3024,
+    "sha256": "280878914f6f46dc5d945be7ba55330b46a13f8613516c7f5be942edc95ad370"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/cs_witch_intro_camera_scene05.bdae",
+    "size": 2972,
+    "sha256": "7b6ec5b8cf3936ec926c4d2ab5353b6a31df8bbd774ee5801a92f60a1536c69c"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/cs_witch_intro_camera_scene02.bdae",
+    "size": 3692,
+    "sha256": "6b91f187de945af2442e055e457759d7c4ff3d60079f28ded524f0881d9220eb"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/cs_witch_intro_camera_scene03.bdae",
+    "size": 4796,
+    "sha256": "c62065eb620223a2b66e2b3f0c00882627efba198db6998796f2698dd4c64804"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/cs_witch_intro_camera_scene01.bdae",
+    "size": 5652,
+    "sha256": "a309abeb7138e56fa9aaf476bf05959cc191a53210257720b609128263869dc0"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/cs_witch_intro_camera_scene06.bdae",
+    "size": 3396,
+    "sha256": "9e457d41463c59ff09531ff6e702b92a8870a4fd8ddc1558368382bbfa2c0a67"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/witch_intro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/cam_shake_horiz.bdae",
+    "size": 1464,
+    "sha256": "9fa611486a45eade5aeb34a134baea01f89bc0924e1a4fed1944a6ed86a3af69"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_0.bdae",
+    "size": 1200,
+    "sha256": "2c9cc5443ec8b654cedc0c94eea4820376ce0816928249543bc704911d94b169"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_minimap_idle.bdae",
+    "size": 1424,
+    "sha256": "d7a7183495888f8bf1e8584cd6900643db98c805591852753eb970f444770221"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_225.bdae",
+    "size": 1408,
+    "sha256": "445f0c6a829523dc41685755a5ecc7b941f5a801239d83b707970c50d5348468"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_cs_dialogue_in.bdae",
+    "size": 2848,
+    "sha256": "86d06ba33c0da5c4ae559645ca85063cc85e7c33526ab9d2c12a3770c54fe318"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_135.bdae",
+    "size": 1408,
+    "sha256": "96cff61ffb18bb0b71b66734776cbd83473e00057969517d651ae427c51156c3"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_idle.bdae",
+    "size": 1652,
+    "sha256": "8d674d409a0d08395fa42c8a0262e2dfea0f3073354102cdbfad3447305c88dc"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_270.bdae",
+    "size": 1416,
+    "sha256": "e17782aad4a8f77b8534c5ab18ce8b8ce789e412283d37d8fa0c422bf9c31a10"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_template.bdae",
+    "size": 7164,
+    "sha256": "86a80b182030000cfb48e959d1a11b6dd5f7b4206d536a85f33a1840c5136ead"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_180.bdae",
+    "size": 1436,
+    "sha256": "0ef214fd882c875659c33cb30ca16f70443bd46d9b415b13b8e7a20f9688fe23"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_315.bdae",
+    "size": 1408,
+    "sha256": "89556ab086e90791ecfcfae35466e825fc131bd76610c752f53e101308f601d7"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_cs_dialogue_out.bdae",
+    "size": 3048,
+    "sha256": "9603b07f3bd5e16e6f3b4bb2e9d4c904d59bcc935b4dc9bd7b3c2f018a2b3fee"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_45.bdae",
+    "size": 1408,
+    "sha256": "f35233063d319089c427a86b8b12f1d9d25bdcad989e04784d44ae313d19c5f3"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_crithit_90.bdae",
+    "size": 1448,
+    "sha256": "1589e19dc416da8de801864c8229cb420251edef7698caa8f689d75ddd908c3b"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/cs_madruk_end_scene06_camera.bdae",
+    "size": 5632,
+    "sha256": "d4e335627e16ea39c4d437ac278dd42e883ace091048c5aede67d3530c97b31d"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/cs_madruk_end_scene03_camera.bdae",
+    "size": 7988,
+    "sha256": "1ff584d6a940f4409ebec32ba6c2f94b0c4f2c60ad595cdd3ac3a5b01f04b642"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/cs_madruk_end_scene05_camera.bdae",
+    "size": 3692,
+    "sha256": "0009f8be1c56a72d8af73ce58488553dc109ef7cafeca39b7cc2c2f0ca305b86"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/cs_madruk_end_scene02_camera.bdae",
+    "size": 3692,
+    "sha256": "2cb8b56391632ffa867e3184b0b74bcc99a0c7080dd1130cf5064b4f8ae72d39"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/cs_madruk_end_scene07_camera.bdae",
+    "size": 14892,
+    "sha256": "ce380b430bbe92a21f4a50605245e6b2dcdcf9f10451dfbfe0173d637579b70d"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/cs_madruk_end_scene04_camera.bdae",
+    "size": 3692,
+    "sha256": "2351f8112e8ea9d511bc3a822f42caa8577d6e39db79a081d8f0dbc9cb61083f"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/cs_madruk_end_scene01_camera.bdae",
+    "size": 2972,
+    "sha256": "7f7d11b8fafdf28dc47e114acff2946b4e9e4cf44843e085c80f21fca53065e4"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_end/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+    "size": 3552,
+    "sha256": "7d168fd08f0ff3dbaa27df9d7a1a5dea665063fca85cf04fa1015627ea760874"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene10.bdae",
+    "size": 14636,
+    "sha256": "10771db1eade2b89d5f6d46e51498cc1166e0a2f425914f1e55613dcb62f743d"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene07.bdae",
+    "size": 6028,
+    "sha256": "eaeb707233c43f3c8ff3cb517ab42365a5f0ae5e1e71c87493fecb85d9bb04b7"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene01.bdae",
+    "size": 5444,
+    "sha256": "205e7b616dc4d87b8d79d16f565ae2c7428c247ddbb6d1f89d15a3a050b2df2a"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+    "size": 3704,
+    "sha256": "c460546ed2fe458c546b8106e9a71fbfece722c3437c44eeaa61e89a8dd8cc87"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+    "size": 4816,
+    "sha256": "4b66c0fa381c1ce72748e926507414786c850996fca8e35c80604a9017db6592"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+    "size": 4852,
+    "sha256": "f03feeb3392c204aabba7c01ecbb8b08339324708beccf2a7f59ef67221188bb"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene08.bdae",
+    "size": 4508,
+    "sha256": "9f8ab5653ad52859a67e8f6cb0111dbc5178d2590dc44a1e85525df54b6e40d7"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene09.bdae",
+    "size": 4172,
+    "sha256": "563078ff8059da835d244dfd6ba115c9e33d5c78ea12c6a65a2c9c27b85f0e84"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene05.bdae",
+    "size": 5072,
+    "sha256": "70428421b8b74bb0eed78d622f70b2e4b81b93f56f0b0899bd24f1b609a6c1c4"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene07_09.bdae",
+    "size": 3912,
+    "sha256": "33c568cc40e82f581b7d9e62a068c02925cd8c1c7d958558757ef56678d0f147"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene05_12.bdae",
+    "size": 3692,
+    "sha256": "a4298f0c976cc32e3fd14c055f99458236a25a2885167f82c7646f34743cb63a"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene03.bdae",
+    "size": 7320,
+    "sha256": "cada6051d5da333c352dbea27ee6ff19c6af50b946a77f675c7976ad5e1c631c"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene08_10_13.bdae",
+    "size": 3952,
+    "sha256": "9e606bc481a94038f74300879675334b3b03d2bff65a7e076fbd781076be9a03"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene02.bdae",
+    "size": 5016,
+    "sha256": "4e3137bfe0f9eb9894194dd5306bcb696b7491f923e4f2cd12a6ecf778d82344"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene01.bdae",
+    "size": 3908,
+    "sha256": "10a8fde62a89d2b961ce87eb2d1edddf6eb57ea6991c004f6a8f71eba3c85119"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene04_06.bdae",
+    "size": 3912,
+    "sha256": "a581dfcc975bc5706c09afea436aeacf56fb205f33fcb9d954f6e183de65f805"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene11.bdae",
+    "size": 3908,
+    "sha256": "642d675d9a36852d4632529d3b26c2b003838522a7a1c65cbf2136a1d73dad6e"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_king_intro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/cs_madruk_intro_scene07_camera.bdae",
+    "size": 3164,
+    "sha256": "fb721de192fb576addf29745a1242f1d92c3354a8d3297c95498c3fa0ef822ad"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/cs_madruk_intro_scene02_camera.bdae",
+    "size": 2856,
+    "sha256": "18e660db491de046c48cbb4ced8f257382c0c40a29bcad9b69f5cb00b062cda6"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/cs_madruk_intro_scene01_camera.bdae",
+    "size": 4492,
+    "sha256": "71f3c2f87e3ff0cc4432f9d729db7851bc4f26e6689988eae43b500d53428000"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/cs_madruk_intro_scene04_camera.bdae",
+    "size": 2856,
+    "sha256": "7f240948b24a6991912254af73c91830e2eb205d9f2c4502d59054419d9e66e1"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/cs_madruk_intro_scene03_camera.bdae",
+    "size": 2856,
+    "sha256": "6ef2a57a5e349bc842771ac926005ba4cf0ea4837b5c14f186e2e8ec50fab549"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/cs_madruk_intro_scene06_camera.bdae",
+    "size": 2856,
+    "sha256": "e5c71081f2b470ab374d1a334cbf140a0e50b2da43b9738cc0d9db1924c58a94"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/cs_madruk_intro_scene05_camera.bdae",
+    "size": 2856,
+    "sha256": "cb9601b3fa7d643ad67e76c67c8ad9318a5debd4719038699decf660c5f1482d"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/madruk_intro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene06_camera.bdae",
+    "size": 4432,
+    "sha256": "f5bb94bd812ba2ee72a53bfc5ecbbd43beadbb5719227587904fe01f274639f6"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene09_camera.bdae",
+    "size": 2988,
+    "sha256": "cc226407654d108d513583fd7d11990cfadedc34290ac00b9dc1a676edff1ff0"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene05_camera.bdae",
+    "size": 3196,
+    "sha256": "310733191f4a3b6b3f7462359aec03d27ff619b37e1819f4eadfb5bfa09b8f8c"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene10_camera.bdae",
+    "size": 3224,
+    "sha256": "c5c706160986a9cd47da19239400af5100e4b592c4c7548fe23fadc55a540236"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene08b_camera.bdae",
+    "size": 4144,
+    "sha256": "027d4864d07e7a9c8cab9d8d728f71c1d4d4fef80dee6563944effdc15f0e0bb"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene07_camera.bdae",
+    "size": 3460,
+    "sha256": "b27a89485800d0ac9431bb5c2749593b8a4dabdc293d01f2e8db400eed36a2a6"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene04_camera.bdae",
+    "size": 4600,
+    "sha256": "883a37c63f557369f10708f01f317df9c7530de6fd5c3a8994d49d36e35b7b3d"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene01_camera.bdae",
+    "size": 8080,
+    "sha256": "15dc21dd4e105226763673d9af5f07595aca8a822f07ffc2cf6d22bc921af211"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/earth_temple_intro/cs_earth_temple_intro_scene08a_camera.bdae",
+    "size": 4204,
+    "sha256": "d0641403fd4a4b518acb9f07fd1c7bb7db1519c4341058a2e7d03cf1f60174b2"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_moth_intro/",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_moth_intro/cs_moth_intro.bdae",
+    "size": 4276,
+    "sha256": "f667e6852e0ad202b13fc0de92b469ccf058dd1adb38b822142ab438ca93ab69"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_moth_intro/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/.nomedia",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

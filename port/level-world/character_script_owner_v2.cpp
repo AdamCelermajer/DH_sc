@@ -12,6 +12,7 @@ namespace dh2::character {
 struct ScriptOwnerV2::Impl {
  struct Session {
   std::uint32_t kind;
+  std::uint32_t source_ais_vptr=0,source_combat_results_callback=0;
   std::uint32_t callback_flags=0;
   std::uint32_t executing=0;
   ScriptConstructorFields72 fields{};
@@ -23,6 +24,10 @@ struct ScriptOwnerV2::Impl {
   std::set<std::string> loaded;
   explicit Session(std::uint32_t k,std::size_t limit,
    const ScriptNativeIntegerConfiguration32* native_integers):kind(k){
+   // Source constructor-installed primary vptrs, audited actual ELF table+b4.
+   // Kind is the real completed selector result, not actor type/name inference.
+   static constexpr std::uint32_t source_vptrs[]={0x966978,0x966b28,0x966cd8,0x966db0,0x966a50,0x966c00};
+   if(k>=6)throw Failure{-1};source_ais_vptr=source_vptrs[k];source_combat_results_callback=0x3dc9a8;
    if(dh2_character_script_constructor_fields(&fields,k))throw Failure{-1};
    vm=dh2_script_vm_create_empty(limit);if(!vm)throw Failure{-2};
    aliases=dh2_script_alias_create();if(!aliases){dh2_script_vm_destroy(vm);vm=nullptr;throw Failure{-2};}
@@ -203,6 +208,10 @@ bool ScriptOwnerV2::find(std::uintptr_t identity,ScriptSessionView& out) const n
 }
 bool ScriptOwnerV2::pending(ScriptSessionView& out) const noexcept{return find(impl_->state.pending,out);}
 bool ScriptOwnerV2::active(ScriptSessionView& out) const noexcept{return find(impl_->state.active,out);}
+bool ScriptOwnerV2::source_combat_results_callback(std::uint32_t& out)const noexcept{
+ const auto found=impl_->sessions.find(impl_->state.active);if(found==impl_->sessions.end())return false;
+ out=found->second->source_combat_results_callback;return true;
+}
 bool ScriptOwnerV2::integer_bindings(std::uintptr_t identity,const dh2_script_int_bindings*& out) const noexcept{
  out=nullptr;const auto i=impl_->sessions.find(identity);
  if(i==impl_->sessions.end()||!i->second->integers)return false;

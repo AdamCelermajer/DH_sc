@@ -1,0 +1,14 @@
+0039c760 000000dc t _GLOBAL__I_.._.._sources_Game_Objects_Triggers_TriggerZoneExitLevel.cpp
+00340ea0 00000024 W ObjectBase* GetNewInstance<TriggerZoneExitLevel>()
+0039c8f8 000000ac T TriggerZoneExitLevel::DeclareProperties()
+0039c33c 00000348 T TriggerZoneExitLevel::Update()
+0039c8c8 00000028 T TriggerZoneExitLevel::InitPost()
+0039c9a4 0000009c T TriggerZoneExitLevel::TriggerZoneExitLevel(ObjectBase::GO_IDS)
+0039ca40 0000009c T TriggerZoneExitLevel::TriggerZoneExitLevel(ObjectBase::GO_IDS)
+0039c6ec 0000001c T TriggerZoneExitLevel::~TriggerZoneExitLevel()
+0039c68c 00000058 T TriggerZoneExitLevel::~TriggerZoneExitLevel()
+0039c708 00000058 T TriggerZoneExitLevel::~TriggerZoneExitLevel()
+009653a0 00000104 D vtable for TriggerZoneExitLevel
+0039c6e4 00000008 T non-virtual thunk to TriggerZoneExitLevel::~TriggerZoneExitLevel()
+0039c684 00000008 T non-virtual thunk to TriggerZoneExitLevel::~TriggerZoneExitLevel()
+0039c8f0 00000008 T non-virtual thunk to TriggerZoneExitLevel::DeclareProperties()

@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "comparisons": 75,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "3146172ba1a881a81606ae6c42543c600f12b982228f2903c8ae32ff27a08ffd",
+  "player_info_network_constructor_and_copy_fixtures": true,
+  "canonical_world": false
+}

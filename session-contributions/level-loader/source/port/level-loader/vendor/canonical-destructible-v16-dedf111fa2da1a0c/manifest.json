@@ -1,0 +1,126 @@
+{
+  "scope": "actual GO_ID1 Destructible constructor/row/receiver and required World providers; not full live Swamp acceptance",
+  "supersedes": "V15 PropertyMap cpp checksum only",
+  "files": [
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.hpp",
+      "sha256": "187281d3343573c5a1dfa9fa498080e89c5a495278f7dbc620a601776099bc10"
+    },
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.cpp",
+      "sha256": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995"
+    },
+    {
+      "path": "port/level-world/destructible_container_data_v16.hpp",
+      "sha256": "18245e775fb0b0c9eda3b69d67578a0c3e9b248baff6260d0c94a26a3fea4b8c"
+    },
+    {
+      "path": "port/level-world/destructible_container_data_v16.cpp",
+      "sha256": "aefd5b7b80cb8c0a873a642118f3fecd250f65dc5b6aeb92ff7539b37a59011f"
+    },
+    {
+      "path": "port/level-world/destructible_container_data_connection_v16.hpp",
+      "sha256": "9d21ef7f6502c0aae342d025bf9e17181ef9e35eb27512b11cfef358495585e4"
+    },
+    {
+      "path": "port/level-world/canonical_destructible_declarations_v16.inc",
+      "sha256": "68ace578b73ea734f1f0d38275bc9e82b4c79842995953a4d84ed4370ffbe580"
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.cpp",
+      "sha256": "0b0de181f990e85e155052fa2893d6195019410b505a4bfa59b20515ad7fee7b"
+    },
+    {
+      "path": "port/level-world/tests/canonical_destructible_container_v16.cpp",
+      "sha256": "a3af3699ab9f9401ff5da9ae6beb060808bc8384e1c4a7d3ec80c23dd6bb0f28"
+    },
+    {
+      "path": "port/level-world/tests/destructible_data_fixture_v16.inc",
+      "sha256": "97edd7a3e978216ccde8b6632240424fd5de3cd055f5f3349edfcee70c00af19"
+    },
+    {
+      "path": "port/level-world/tests/destructible_dictionary_fixture_v16.inc",
+      "sha256": "59fbf9af72efadb258c1ea961523a2ffbce748d63fcbc99e7cd3cbd157bbac12"
+    },
+    {
+      "path": "port/level-world/tests/destructible_declarations_v16.inc",
+      "sha256": "8f13aae4f2cc19f0c728ac64c305bb000cc5170078546f7fead062deab15d2f3"
+    },
+    {
+      "path": "port/level-world/tests/destructible_container_v16_original.py",
+      "sha256": "09bb7b8601454a5b45d13c297ef40feb342acacaf5cc2980a949d948a3673b5a"
+    },
+    {
+      "path": "port/level-world/tests/destructible_data_v16_original.py",
+      "sha256": "0e1b85edd0099e4c358b70766a9b719487c611e72fea7082fd4868a370025242"
+    },
+    {
+      "path": "port/level-world/tests/destructible_lifecycle_v16_original.py",
+      "sha256": "fd79bc07954372e0761318ca6e2cb852de062c1f2c30889491f2e463d4bc6448"
+    },
+    {
+      "path": "port/level-world/reports/canonical-destructible-container-v16-handoff.md",
+      "sha256": "29ec00203d5268c557b1ae6a7c0eb834428cde0b1e4fe7652f55eae3c3a12dcc"
+    },
+    {
+      "path": "port/level-world/reports/canonical-destructible-v16-arm64-syntax.json",
+      "sha256": "ad3c8d01b6bbd458820c719713d7eac70fa4a1398927cdd9a911915360e83590"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/canonical-destructible-v16/receipt.json",
+      "sha256": "402df504cb114b4c86cc77986de958d7970f61db4b2467be56e8f06ee7aed4fb"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/cache-name-groups.json",
+      "sha256": "784acfd0517b30effb490655291bff5cc6e7a6654fe0810e709532ae3301f6f0"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/constructor-original.json",
+      "sha256": "e499f3dcf41bcfce0a110d4f249c3d488df803df0b35aeb38227e6a4def61e2b"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/destructible-group0-names.bin",
+      "sha256": "35454791fa9bc8b070d975774cfc19200343a4dfebfd058b45829674148e9758"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/destructible-group0-records.bin",
+      "sha256": "8e0dfef1c37bed0a724ff95cba05a7db6f4b2717e4c537e0a4e6b019dfc3012d"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/group-extraction-proof.json",
+      "sha256": "e5d009a6bc05013d7a5e4d814273fcbd83a4efec560f8756cfefb7b1b02e03ad"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/lifecycle-original.json",
+      "sha256": "9db371b95534ab7d7a81207f12da313788cff252b6a8dbf4078ba9693fac74af"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/literals.json",
+      "sha256": "2840a0b7b15bea60f55b8f45694d92b3c8fc37c53b529e3aa353d698cca2de4b"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/original.asm",
+      "sha256": "620016cc76a27ef0691a8fdf97bbe1a418884deacf2268945a2e8ef72cee3c89"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/property-declarations-original-v16.json",
+      "sha256": "489a6f4c3ab02a6a70edc716248c5d0b10ec81015975219cab9c7833f04dd5c4"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/rows-original-v16.bin",
+      "sha256": "a15f9568405211f7c08ad8b88c6d2e9d76d47275718847408eee8527f1581ea9"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/rows-original-v16.json",
+      "sha256": "59d953b65d7ce3b598be1b91f9ef3cbee407d52f57a76073f37ac15e54bb5cf0"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/swamp-declarations.json",
+      "sha256": "89537ff85403d5182901933fb8d8c0529631fec950e17f983ec37f75e718de48"
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v16/symbols.json",
+      "sha256": "bc41e0296846c52782e21c88657643a489d405d7a25781423ecbb273a98ad441"
+    }
+  ]
+}

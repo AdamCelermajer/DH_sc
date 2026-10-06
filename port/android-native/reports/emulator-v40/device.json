@@ -1,0 +1,14 @@
+{
+  "device_key_sha256": "04ab3fc382bfb33ea4fbc120f5172ecfc4aed71652e00977064492ca0f65a017",
+  "properties": {
+    "ro.product.manufacturer": "Google",
+    "ro.product.model": "sdk_gphone64_x86_64",
+    "ro.product.marketname": "",
+    "ro.build.version.release": "17",
+    "ro.build.version.sdk": "37",
+    "ro.product.cpu.abilist": "x86_64,arm64-v8a"
+  },
+  "size": "Physical size: 1080x2400",
+  "density": "Physical density: 420",
+  "existing_package": "package:/data/app/~~ovYvnqAlzRSKZQkw9Zzdug==/com.example.dh2-SpBIizZvJ1O9S97704Plmw==/base.apk"
+}

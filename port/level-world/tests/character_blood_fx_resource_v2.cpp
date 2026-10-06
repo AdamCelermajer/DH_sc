@@ -47,4 +47,22 @@ require(positive,"actual blood emits positive particles");bool done=false;requir
 const std::string table="port/game-data/reference/effects-tables";auto a=read(table+"/effects_pyarray.bin"),b=read(table+"/effects_pyarraynames.bin"),c=read(table+"/effects_pystructnames.bin"),d=read(table+"/effects_dictionary_pyarraynames.bin"),x=read(table+"/effects_dictionary_pyarray.bin");data::EffectsTables tables;require(tables.load(bytes(a),bytes(b),bytes(c),bytes(d),bytes(x),e),e);auto raw=read("port/android-native/app/src/main/assets/models/prince_modular.bdae");resources::BresView view{};require(dh2_bres_open(&view,raw.data(),raw.size())==resources::BresError::ok,"Actual prince");require(scene::load(view,live,e),e);Providers providers{".local-inputs/combat-hit-fx-v1",&live};unsigned manager_draws=0;
 for(int set:{79,80}){fx::CharacterMeshFxOwnerV2 manager(tables.borrow(),live,{&providers,Providers::asset},{&providers,Providers::service},factory.factory());require(manager.precache_libraries(e),e);const float pos[3]={17,29,41},rot[3]={.1f,.2f,.3f};std::uintptr_t id=0;require(manager.play_set(set,pos,rot,0,&id,e)&&id,e);for(int ms=0;ms<3000;ms+=16){require(manager.scene_frame(ms,16,e)&&manager.manager_frame(16,e),e);std::vector<skinning::VisualDrawPartV6> parts;require(manager.draw_parts(parts,e),e);manager_draws+=parts.size();}auto states=manager.views();require(states.size()==1&&states[0].pooled&&states[0].finished,"actual blood source completion/pool");auto reads=providers.reads;std::uintptr_t warm=0;require(manager.play_set(set,pos,rot,0,&warm,e)&&warm==id&&providers.reads==reads,"actual blood warm reuse");}
 require(manager_draws>0,"actual manager positive blood draw");
+// Metadata must come from the same resource/scene/FX, never inferred from the
+// draw-list ordinal. Exercise both simultaneously active authored families.
+{
+ fx::CharacterMeshFxOwnerV2 manager(tables.borrow(),live,{&providers,Providers::asset},{&providers,Providers::service},factory.factory());
+ require(manager.precache_libraries(e),e);const float pos[3]={113,227,331},rot[3]={.3f,.2f,.1f};std::uintptr_t first=0,second=0;
+ require(manager.play_set(79,pos,rot,0,&first,e)&&manager.play_set(80,pos,rot,0,&second,e),e);
+ bool positive=false;for(int ms=0;ms<400;ms+=16){require(manager.scene_frame(ms,16,e)&&manager.manager_frame(16,e),e);
+  std::vector<fx::CharacterParticleDrawSourceV3> sources;require(manager.particle_draw_sources_v3(sources,e),e);
+  for(const auto& s:sources){positive=true;require(s.fx_identity==first||s.fx_identity==second,"same active FX identity");
+   require(s.particle_identity&&s.resource_bytes&&s.image&&s.scene,"same retained source metadata");
+   require(s.image->bytes==s.resource_bytes->data()&&s.image->size==s.resource_bytes->size(),"BRES exact retained bytes");
+   require(s.emitter_node<s.scene->graph.size()&&s.material<s.scene->materials.size(),"actual source node/material indexes");
+   require(s.scene->materials[s.material].diffuse=="atlas_fx_particles_001.tga","actual texture path metadata");
+   require(s.part.geometry&&s.part.retention&&s.part.positions.size()%4==0,"same source baked geometry");
+   require(std::isfinite(s.emitter_world[12])&&std::isfinite(s.emitter_world[13])&&std::isfinite(s.emitter_world[14]),"actual transformed queue position");
+  }
+ }require(positive,"positive two-resource metadata");
+}
 for(auto& p:retained)require(p.geometry&&!p.geometry->positions.empty(),"snapshot survives resource destruction");std::cout<<"{\"validation\":\"PASS\",\"checks\":"<<checks<<",\"positive_frames\":"<<frames<<",\"vertices\":"<<vertices<<",\"gpu_submission\":false}"<<std::endl;return 0;}catch(const std::exception&e){std::cerr<<e.what()<<std::endl;return 1;}}

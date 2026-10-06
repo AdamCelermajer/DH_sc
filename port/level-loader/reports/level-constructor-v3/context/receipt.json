@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "stdout": "PASS same Level constructor lifetime 53",
+  "source_sha256": {
+    "port/level-loader/tests/canonical_level_constructor_v3.cpp": "f8d4bb17a1e5184b03e93cd16ff9cc033ee89d6cb8105e95d1395c94259933f4",
+    "port/level-loader/canonical_level_context_v1.cpp": "f6e8baab874f79bdecfc791cc8155cff2cb7f34348b1b176fc191dc66a0ac05f",
+    "port/level-loader/level_constructor_v3.cpp": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+    "port/level-world/event_manager_owner_v12.cpp": "b66a23fe43ce48e104cc0845431e541b4a757eee51baa6b18e5cdce81adeb459"
+  },
+  "headers": {
+    "port/level-loader/canonical_level_context_v1.hpp": "ae4c1981cdfe776c1d645ffd280e94edefbbc9ffce0f33c6b5e9f457b9b9f031",
+    "port/level-loader/level_constructor_v3.hpp": "12a5bcfbf4e28820ac46dea20b78b00dab67c74618561ae4ed24e6ddfe44f5c0",
+    "port/level-world/event_manager_owner_v12.hpp": "15a5e8206fb3c951fa7a1d3486ca0167cbf486a0d3cffa13d8d6db9f0b040b16"
+  },
+  "binary_sha256": {
+    "x86_64": "316b51969ccb6c959c7ab2b0ad1bbfb396236efd5551444c7f740f51308ecc12",
+    "arm64-v8a": "9ec2989a5ac0f0d8b72934ee3f22a4c30b900d5d486bcadb69e9cc32986af3dd"
+  },
+  "same_canonical_fields_and_GSLevel_slot": true,
+  "replay_refused": true,
+  "Level_and_script_save_fixture_leases_destroyed": true,
+  "explicit_deeper_fixtures": [
+    "Application service lifetime",
+    "LuaScript C1/load",
+    "Save storage/C1",
+    "immutable LevelList",
+    "GetOnline"
+  ],
+  "live_app_unchanged": true,
+  "gameplay_ready": false
+}

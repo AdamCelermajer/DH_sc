@@ -1,0 +1,128 @@
+[
+  {
+    "symbol": "_GLOBAL__I_.._.._sources_Utils_Point3D.cpp",
+    "address": "0x312e00",
+    "size": 156,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._.._sources_Game_Objects_Zones_CheckpointZone.cpp",
+    "address": "0x395a1c",
+    "size": 220,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._.._sources_Game_Objects_Spawns_SpawnPoint.cpp",
+    "address": "0x3ea470",
+    "size": 220,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._.._sources_Game_Controllers_v2PS3MoveController.cpp",
+    "address": "0x409aa8",
+    "size": 304,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._.._sources_Game_Lights_LightPoint.cpp",
+    "address": "0x40bee0",
+    "size": 220,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._.._sources_Game_Menus_NativeCommands.cpp",
+    "address": "0x440f40",
+    "size": 2168,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIfSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+    "address": "0x591d38",
+    "size": 1904,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIjSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+    "address": "0x5924a8",
+    "size": 2480,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIaSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+    "address": "0x592e58",
+    "size": 2480,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIhSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+    "address": "0x593808",
+    "size": 2480,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIsSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+    "address": "0x5941b8",
+    "size": 2480,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesItSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+    "address": "0x594b68",
+    "size": 2480,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIiSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+    "address": "0x595518",
+    "size": 2480,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_117calculateTangentsERNS_4core8vector3dIfEES5_S5_RKS4_S7_S7_RKNS2_8vector2dIfEESB_SB_",
+    "address": "0x59a620",
+    "size": 1032,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_114getAngleWeightERKNS_4core8vector3dIfEES6_S6_",
+    "address": "0x59aa28",
+    "size": 640,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5video12_GLOBAL__N_113readDDSHeaderEPNS_2io9IReadFileERNS1_23SDDSSurfaceFormatHeaderE",
+    "address": "0x6041cc",
+    "size": 96,
+    "section": ".text"
+  },
+  {
+    "symbol": "_ZN6glitch5scene12_GLOBAL__N_113mapMeshBufferERKN5boost13intrusive_ptrINS0_11CMeshBufferEEEPNS_5video13SVertexStream10SMapBufferINS_4core8vector3dIfEEEEPNSA_INSB_8vector2dIfEEEESF_PNSA_INS8_6SColorEEENS8_19E_BUFFER_MAP_ACCESSE",
+    "address": "0x6d71d8",
+    "size": 248,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._source_glitch_collada_CColladaAnimationTrackVector3d.cpp",
+    "address": "0x6e43b0",
+    "size": 112,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._source_glitch_scene_CParticlePointEmitter.cpp",
+    "address": "0x6fbe2c",
+    "size": 32,
+    "section": ".text"
+  },
+  {
+    "symbol": "_GLOBAL__I_.._.._src_Common_b2Math.cpp",
+    "address": "0x7e3b88",
+    "size": 116,
+    "section": ".text"
+  },
+  {
+    "symbol": "Vec3f_Origin",
+    "address": "0x99f854",
+    "size": 12,
+    "section": ".bss"
+  }
+]

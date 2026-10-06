@@ -35,6 +35,7 @@ bool CharacterMenuReloadActionV1::dispatch(const char* name,CharacterMenuCallV1&
  if(status!=1){
   error=status==-1?"Malformed retained Character reload graph":
    "Required Character reload service failed at phase "+std::to_string(result.phase);
+  if(graph_.failure_detail){const auto detail=graph_.failure_detail();if(!detail.empty())error+="; "+detail;}
   return false;
  }
  return true;

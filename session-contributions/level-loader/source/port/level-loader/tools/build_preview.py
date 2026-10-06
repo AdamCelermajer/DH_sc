@@ -17,14 +17,18 @@ assert len(maps)==16
 for row in procedural['levels']:
     states={str(run['seed']):run['status'] for run in row['runs']}
     issues=[str(run['seed'])+': '+run['status'].replace('_',' ') for run in row['runs'] if run['status']!='assembled']
+    backups=[str(run['seed']) for run in row['runs'] if run.get('result',{}).get('backup_used')]
+    repairs=[str(run['seed']) for run in row['runs'] if run.get('result',{}).get('reference_repairs',0)]
+    if backups:issues.append('original backup: '+', '.join(backups))
+    if repairs:issues.append('repaired references: '+', '.join(repairs))
     maps.append({'identity':row['identity'],'definition':row['definition'],'kind':'procedural',
-                 'label':row['identity']+' (generated'+('; '+', '.join(issues) if issues else '')+')',
+                 'label':row['identity']+' (procedural'+('; '+', '.join(issues) if issues else '')+')',
                  'preparation_by_seed':states})
 assert len(maps)==51 and len({row['identity'] for row in maps})==51
 catalog={'cache_sha256':report['cache_sha256'],
          'coverage_sha256':hashlib.sha256(coverage.read_bytes()).hexdigest(),
          'procedural_coverage_sha256':hashlib.sha256(procedural_coverage.read_bytes()).hexdigest(),
-         'scope':'Original fixed/generated map inspection; runtime mobs/chests pending; known seed failures explicit',
+         'scope':'Fixed/procedural map inspection; original backups and explicit reference repairs; runtime mobs/chests pending',
          'maps':maps}
 assets=root/'port/android-native/app/src/main/assets'
 assets.mkdir(parents=True,exist_ok=True)

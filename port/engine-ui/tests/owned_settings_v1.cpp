@@ -28,6 +28,13 @@ int main(int argc,char** argv){try{
  auto tr=file(text+"/common_text_pyarray.bin"),tn=file(text+"/common_text_pyarraynames.bin"),ts=file(text+"/common_text_pystructnames.bin");
  GameOptionTableV1 table;std::string e;check(table.load_design_cache(span(records),span(names),span(schema),e),e);auto backing=table.borrow();check(backing.rows().size()==16&&backing.records_offset()==240&&backing.names_offset()==56,"actual cache offsets");
  unsigned comparisons=0,checks=0,guards=0,failures=0,reentries=0;
+ {OwnedHudSettingsV1 direct(backing);check(direct.option_count()==0,"constructor must not initialize defaults");
+  direct.initialize_defaults();check(direct.option_count()==backing.rows().size()&&!direct.loaded()&&!direct.new_settings()&&direct.file_bytes().empty(),"whole direct _initSettings state");
+  for(unsigned i=0;i<backing.rows().size();++i)check(direct.option(backing.names()[i].c_str())==backing.rows()[i].default_value,"actual direct defaults");
+  check(direct.set_option("HUDStyle",2)&&direct.saved_option("HUDStyle")==2,"actual HUD2 option selection");
+  direct.initialize_defaults(true);check(direct.option_count()==0,"language-only init map clear");
+  for(auto byte:direct.tutorials())check(byte==1,"source tutorial initializer");checks+=34;
+ }
  for(unsigned c=0;c<owner_count;++c){
   auto blob=r.blob(r.word());unsigned args[5];for(auto& v:args)v=r.word();unsigned expected[16];for(auto& v:expected)v=r.word();auto tutorial=r.blob(14);unsigned loaded=r.word(),fresh=r.word(),hint=r.word(),orientation=r.word(),cursor=r.word(),count=r.word();std::vector<std::pair<unsigned,unsigned>> calls;for(unsigned i=0;i<count;++i){auto k=r.word(),v=r.word();calls.push_back({k,v});}
   Localization local;check(local.load(ls(tr),ls(tn),ls(ts),e),e);OwnedHudSettingsV1 owner(backing);Fixture fixture;fixture.found=args[0];fixture.platform=args[4];fixture.bytes=std::move(blob);
@@ -50,6 +57,7 @@ int main(int argc,char** argv){try{
  check(first.load(false,native_files,language,device,receipt,e)&&!receipt.found&&!first.loaded()&&first.option("VolumeMusic")==100&&first.language()==-1,"real missing file");++checks;
  Bytes raw(18,0);for(unsigned i=0;i<14;++i)raw[4+i]=i;{std::ofstream out(path,std::ios::binary);out.write(reinterpret_cast<const char*>(raw.data()),raw.size());check(bool(out),"real save fixture write");}
  check(first.load(false,native_files,language,device,receipt,e)&&receipt.found&&first.loaded()&&first.new_settings()&&first.language()==0&&local.pack()==0&&first.file_bytes()==raw,"real existing raw save");++checks;
+ first.initialize_defaults();check(first.loaded()&&first.new_settings()&&first.file_bytes()==raw&&first.language_hint()==-1&&!first.orientation()&&first.option("VolumeFX")==100,"direct init preserves file/load/new/platform fields");++checks;
  check(second.load(false,native_files,language,device,receipt,e)&&first.set_option("VolumeFX",17)&&second.option("VolumeFX")==100,"private maps");++checks;
  std::filesystem::remove(path);check(first.load(false,native_files,language,device,receipt,e)&&first.loaded()&&first.new_settings(),"source flags retained across missing reload");++checks;
  check(!table.load_design_cache(span(records),span(names),span(schema),e),"borrowed reload rejects");++guards;

@@ -1,0 +1,38 @@
+[
+  {
+    "table": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "offset": "0x19c",
+    "function": "0x35c3ac",
+    "name": "_ZTv0_n12_N6glitch5scene16CCameraSceneNodeD1Ev"
+  },
+  {
+    "table": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "offset": "0x1a0",
+    "function": "0x582280",
+    "name": "_ZTv0_n12_N6glitch5scene16CCameraSceneNodeD0Ev"
+  },
+  {
+    "table": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "offset": "0x1a4",
+    "function": "0x599788",
+    "name": "_ZTv0_n16_N6glitch5scene10ISceneNode8onDeleteEv"
+  },
+  {
+    "table": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "offset": "0x19c",
+    "function": "0x6e5a1c",
+    "name": "_ZTv0_n12_N6glitch7collada16CCameraSceneNodeD1Ev"
+  },
+  {
+    "table": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "offset": "0x1a0",
+    "function": "0x6e59fc",
+    "name": "_ZTv0_n12_N6glitch7collada16CCameraSceneNodeD0Ev"
+  },
+  {
+    "table": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "offset": "0x1a4",
+    "function": "0x599788",
+    "name": "_ZTv0_n16_N6glitch5scene10ISceneNode8onDeleteEv"
+  }
+]

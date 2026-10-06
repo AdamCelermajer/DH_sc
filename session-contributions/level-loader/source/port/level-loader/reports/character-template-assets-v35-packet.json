@@ -1,0 +1,11 @@
+{
+  "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\character-template-assets-v35-4bc16d0ffbce3834.zip",
+  "sha256": "a82afce4b37c33b9f98956e02dfc8cb606b97a32909a9f2fd71b4d5b175e08c2",
+  "payloads": 16,
+  "original_rows": 121,
+  "selector_gold_cases": 371,
+  "character_asset_references": 49,
+  "chests": 5,
+  "visual_qa_pending": true,
+  "full_loader_verified": false
+}

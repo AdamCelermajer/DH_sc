@@ -1,0 +1,72 @@
+{
+  "validation": "PASS",
+  "original_method": "0x352b74",
+  "query": "_colbox_",
+  "prefix_true": true,
+  "cases": [
+    {
+      "names": [
+        "root",
+        "mesh"
+      ],
+      "parents": [
+        -1,
+        0
+      ],
+      "selected": -1
+    },
+    {
+      "names": [
+        "root",
+        "prefix_colbox_wrong",
+        "_colbox_right"
+      ],
+      "parents": [
+        -1,
+        0,
+        0
+      ],
+      "selected": 2
+    },
+    {
+      "names": [
+        "root",
+        "_colbox_first",
+        "_colbox_second"
+      ],
+      "parents": [
+        -1,
+        0,
+        0
+      ],
+      "selected": 1
+    },
+    {
+      "names": [
+        "root",
+        "branch",
+        "_colbox_deep",
+        "_colbox_later"
+      ],
+      "parents": [
+        -1,
+        0,
+        1,
+        0
+      ],
+      "selected": 2
+    },
+    {
+      "names": [
+        "_colbox_root",
+        "child"
+      ],
+      "parents": [
+        -1,
+        0
+      ],
+      "selected": 0
+    }
+  ],
+  "scope": "Whole original depth-first first-match helper prefix search. Typed source node names and standard strncmp are explicit fixture services; no native scene-factory type/cast claim."
+}

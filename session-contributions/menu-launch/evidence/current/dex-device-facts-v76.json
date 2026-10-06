@@ -1,0 +1,29 @@
+{
+  "strings": {
+    "0x1e0": "HTC",
+    "0x5f4": "SHARP",
+    "0xd2e": "motorola",
+    "0x61d": "Sony Ericsson",
+    "0x2a9": "LGE",
+    "0x5ab": "PC36100",
+    "0x5f2": "SGH-T959",
+    "0x2a8": "LG-SU660",
+    "0x5f6": "SHW-M130L"
+  },
+  "comparison_method": [
+    "Ljava/lang/String;",
+    "equals"
+  ],
+  "fields": [
+    {
+      "class": "Landroid/os/Build;",
+      "name": "MANUFACTURER",
+      "type": "Ljava/lang/String;"
+    },
+    {
+      "class": "Landroid/os/Build;",
+      "name": "MODEL",
+      "type": "Ljava/lang/String;"
+    }
+  ]
+}

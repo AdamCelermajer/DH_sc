@@ -2,7 +2,7 @@ package com.example.dh2;
 final class NativeBridge {
     static { System.loadLibrary("dh2_native"); }
     static native String buildInfo();
-    static native String initialize(android.content.res.AssetManager assets);
+    static native String initialize(android.content.res.AssetManager assets,String manufacturer,String model);
     static native String loadTexture(byte[] encoded);
     static native String loadModel(byte[] encoded,android.content.res.AssetManager assets);
     static native String loadWorld(byte[] encoded,android.content.res.AssetManager assets,String filesDirectory);
@@ -11,6 +11,9 @@ final class NativeBridge {
     static native String consumeOriginalUiError();
     static native String consumeOriginalMenuSound();
     static native String consumeOriginalMenuAudio();
+    static native String consumeOriginalMenuBrowser();
+    static native int consumeOriginalMenuCatalog();
+    static native boolean consumeOriginalMenuExit();
     static native String debugOriginalMenuSound(String probe);
     static native String originalMenuTouch(float x,float y,int action);
     static native void moveAxis(float x,float y);

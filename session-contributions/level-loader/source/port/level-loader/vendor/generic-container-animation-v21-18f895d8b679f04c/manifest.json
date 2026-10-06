@@ -1,0 +1,156 @@
+{
+  "version": 21,
+  "scope": "Actual retained generic callback/Openable successor; downstream required providers remain explicit; no installed/live loot claim",
+  "files": [
+    {
+      "path": "port/level-world/generic_animation_callbacks_v21.hpp",
+      "sha256": "acc9e8bba1773f450cf33b4c3156782eea71c89ab218ea984d01262866cc9aee",
+      "bytes": 1713
+    },
+    {
+      "path": "port/level-world/generic_animation_callbacks_v21.cpp",
+      "sha256": "b8ab26f78de7ca8f9048791fdc043c2cff2a577632fd5756c5ece4b73627c991",
+      "bytes": 1123
+    },
+    {
+      "path": "port/level-world/base_index_animation_controller_v21.hpp",
+      "sha256": "c37ead41f879a08ae27cfff16a1a1b73863650c965313e9b17d5443f1e0b2789",
+      "bytes": 211
+    },
+    {
+      "path": "port/level-world/base_index_animation_controller_v21.cpp",
+      "sha256": "b424ee80875cca81baf938ec6c187f4bb6e96dafdc459a789f3cd9ad9de704a0",
+      "bytes": 1247
+    },
+    {
+      "path": "port/level-world/retained_generic_animator_v21.hpp",
+      "sha256": "0558fb838e38ff005c89c52a64779cc37e61e7127f31321d62a345243a980b58",
+      "bytes": 1007
+    },
+    {
+      "path": "port/level-world/retained_generic_animator_v21.cpp",
+      "sha256": "b7fac61ccf5bb4acde4c61c07bae992f8715fd5e483960f9e6aca2d0acb6b3ee",
+      "bytes": 2096
+    },
+    {
+      "path": "port/level-world/container_animation_connection_v21.hpp",
+      "sha256": "f312044102a9ddba2890668455d80c9e3a6f62fc133a5e7f3ae0c09409b01263",
+      "bytes": 817
+    },
+    {
+      "path": "port/level-world/container_animation_connection_v21.cpp",
+      "sha256": "199e491464deeceefa25162ce4064f414c4206a6740931e0ea948230e8b1a74d",
+      "bytes": 3778
+    },
+    {
+      "path": "port/level-world/canonical_openable_graph_v21.hpp",
+      "sha256": "424db821809d76ab7669f67bbb3c7c7624cf3a03bffc6666ce736dfdd0da10ed",
+      "bytes": 2622
+    },
+    {
+      "path": "port/level-world/canonical_openable_graph_v21.cpp",
+      "sha256": "57cb49cacedf05d7379d10e669c2d55f5cd58de4004817117731c7bfb2d6187b",
+      "bytes": 8396
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.hpp",
+      "sha256": "c4b48e35914c911873dfdfb0aab91306de36abfece8953c971b45a3116e43583",
+      "bytes": 6382
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.cpp",
+      "sha256": "a9ae0d500930bfc565740e3fdd021a1215d232fbef5c19f40fc8c60f9e2f40d5",
+      "bytes": 23310
+    },
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.hpp",
+      "sha256": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "bytes": 5507
+    },
+    {
+      "path": "port/level-world/tests/canonical_openable_graph_v21.cpp",
+      "sha256": "355f99bc0b4c3cbe513fbf6805255b7bca93a745e47d071968b7d8205c887b1e",
+      "bytes": 8374
+    },
+    {
+      "path": "port/level-world/reports/generic-container-animation-v21.md",
+      "sha256": "50659074d30296272e062eb58e442756a9ccfdec5110390337de9e7abfa0ad8a",
+      "bytes": 4169
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/canonical-openable-callback-v21/receipt.json",
+      "sha256": "ce1b8a7cee69f65d1b314e8a01c51efee0c504592c903f007bf3d12f71ecd4fd",
+      "bytes": 6190
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/animator-callbacks-source.json",
+      "sha256": "530cae46cb009c92bad9a8684085c7e7cc113e40668f72251c9658c6177d7144",
+      "bytes": 15811
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/animator-update-time-source.json",
+      "sha256": "d3ff1231d1e62a43266cf75be009a8c58a195b4952515b6167d3a04ae0d9073f",
+      "bytes": 1073
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/check-callback-original.json",
+      "sha256": "988563919312ab0c8c59c8a41e45cb0cf354ab41a124fed4354fdd2eda51d9b3",
+      "bytes": 1716
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/controller-ctor-original.json",
+      "sha256": "3c421820dbbdb6574fee9817014837d93af2115b9ebf94fa4cc73af3e36cb08c",
+      "bytes": 648
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/controller-vtables.json",
+      "sha256": "0155707ca3138a69ac8732585fa5e54e61c700e4373f80def36589cfdb435bb2",
+      "bytes": 7215
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/event-manager-ctor-source.json",
+      "sha256": "da4ae57a0b7c258ed7497dbdfdc06818e28037451651bd6f287d8288a79c657d",
+      "bytes": 2807
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/event-track-factory-source.json",
+      "sha256": "f7a0ba2897f67da34d7af8555a2e04a572a59d051ec5f20844a2ca4eb13bf5b7",
+      "bytes": 1587
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/generic-animator-source.json",
+      "sha256": "84cfaef2d3d21898f5bd876b35294472ae6562127187ee7fa6d2837e7d9a9830",
+      "bytes": 11675
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/index-controller-source.json",
+      "sha256": "ee00dd52c5f1c9ef55e24133b113d1a415049bf6232a7b844ee964fefab0867e",
+      "bytes": 7735
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/native-chest-assets.json",
+      "sha256": "473c467994bb025901f2d5d7f6a7c57089cf10f91e6bd66426f0a13d98414597",
+      "bytes": 524
+    },
+    {
+      "path": "port/level-world/reference/destructible-container-v21/simple-animator-frame-source.json",
+      "sha256": "12ed0e52e74034f461d19fda4db2fdafe0042593b087ca5f3a020b893bd332f9",
+      "bytes": 3197
+    },
+    {
+      "path": ".local-inputs/generic_callback_original_v21.py",
+      "sha256": "79d1c806dc5d01df125aedefe7982b68a693473114c2e89a5ceae2bd415ebc00",
+      "bytes": 1936
+    },
+    {
+      "path": ".local-inputs/generic_controller_ctor_original_v21.py",
+      "sha256": "f5cba7a4c1415fea5e7523209244998e24ecd6b82415cd2b4f8b77dd57248cf5",
+      "bytes": 1694
+    },
+    {
+      "path": ".local-inputs/run_openable_callback_v21.py",
+      "sha256": "caddc326070e49196605b56905d92eccb0f70689cfd87988f3d4e5ee7bf8cbf6",
+      "bytes": 1192
+    }
+  ]
+}

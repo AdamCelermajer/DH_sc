@@ -1,0 +1,2268 @@
+{
+  "movie_sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+  "root_placement": {
+    "tag": 26,
+    "length": 19,
+    "offset": 15838,
+    "depth": 0,
+    "frame": 0,
+    "placement_depth": 3,
+    "move": false,
+    "character_id": 31,
+    "matrix_twips": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      0,
+      1
+    ],
+    "instance_name": "HurtCorners"
+  },
+  "subtree": [
+    {
+      "tag": 39,
+      "length": 16,
+      "offset": 14882,
+      "depth": 0,
+      "frame": 0,
+      "id": 29,
+      "frames": 1,
+      "children": [
+        {
+          "tag": 26,
+          "length": 6,
+          "offset": 14888,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 28,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14896,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 14898,
+          "depth": 1,
+          "frame": 1
+        }
+      ]
+    },
+    {
+      "tag": 39,
+      "length": 284,
+      "offset": 14904,
+      "depth": 0,
+      "frame": 0,
+      "id": 30,
+      "frames": 22,
+      "children": [
+        {
+          "tag": 26,
+          "length": 6,
+          "offset": 14910,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 29,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14918,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 14920,
+          "depth": 1,
+          "frame": 1,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            251
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14931,
+          "depth": 1,
+          "frame": 1
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 14933,
+          "depth": 1,
+          "frame": 2,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            246
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14944,
+          "depth": 1,
+          "frame": 2
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 14946,
+          "depth": 1,
+          "frame": 3,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            241
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14957,
+          "depth": 1,
+          "frame": 3
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 14959,
+          "depth": 1,
+          "frame": 4,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            236
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14970,
+          "depth": 1,
+          "frame": 4
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 14972,
+          "depth": 1,
+          "frame": 5,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            231
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14983,
+          "depth": 1,
+          "frame": 5
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 14985,
+          "depth": 1,
+          "frame": 6,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            226
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 14996,
+          "depth": 1,
+          "frame": 6
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 14998,
+          "depth": 1,
+          "frame": 7,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            221
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15009,
+          "depth": 1,
+          "frame": 7
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15011,
+          "depth": 1,
+          "frame": 8,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            216
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15022,
+          "depth": 1,
+          "frame": 8
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15024,
+          "depth": 1,
+          "frame": 9,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            211
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15035,
+          "depth": 1,
+          "frame": 9
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15037,
+          "depth": 1,
+          "frame": 10,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            206
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15048,
+          "depth": 1,
+          "frame": 10
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15050,
+          "depth": 1,
+          "frame": 11,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            201
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15061,
+          "depth": 1,
+          "frame": 11
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15063,
+          "depth": 1,
+          "frame": 12,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            196
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15074,
+          "depth": 1,
+          "frame": 12
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15076,
+          "depth": 1,
+          "frame": 13,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            191
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15087,
+          "depth": 1,
+          "frame": 13
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15089,
+          "depth": 1,
+          "frame": 14,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            186
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15100,
+          "depth": 1,
+          "frame": 14
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15102,
+          "depth": 1,
+          "frame": 15,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            181
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15113,
+          "depth": 1,
+          "frame": 15
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15115,
+          "depth": 1,
+          "frame": 16,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            176
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15126,
+          "depth": 1,
+          "frame": 16
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15128,
+          "depth": 1,
+          "frame": 17,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            171
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15139,
+          "depth": 1,
+          "frame": 17
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15141,
+          "depth": 1,
+          "frame": 18,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            166
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15152,
+          "depth": 1,
+          "frame": 18
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15154,
+          "depth": 1,
+          "frame": 19,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            196
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15165,
+          "depth": 1,
+          "frame": 19
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15167,
+          "depth": 1,
+          "frame": 20,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            226
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15178,
+          "depth": 1,
+          "frame": 20
+        },
+        {
+          "tag": 26,
+          "length": 4,
+          "offset": 15180,
+          "depth": 1,
+          "frame": 21,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            256
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15186,
+          "depth": 1,
+          "frame": 21
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 15188,
+          "depth": 1,
+          "frame": 22
+        }
+      ]
+    },
+    {
+      "tag": 39,
+      "length": 638,
+      "offset": 15194,
+      "depth": 0,
+      "frame": 0,
+      "id": 31,
+      "frames": 103,
+      "children": [
+        {
+          "tag": 26,
+          "length": 6,
+          "offset": 15200,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 30,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15208,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15210,
+          "depth": 1,
+          "frame": 1
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15212,
+          "depth": 1,
+          "frame": 2
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15214,
+          "depth": 1,
+          "frame": 3
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15216,
+          "depth": 1,
+          "frame": 4
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15218,
+          "depth": 1,
+          "frame": 5
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15220,
+          "depth": 1,
+          "frame": 6
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15222,
+          "depth": 1,
+          "frame": 7
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15224,
+          "depth": 1,
+          "frame": 8
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15226,
+          "depth": 1,
+          "frame": 9
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15228,
+          "depth": 1,
+          "frame": 10
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15230,
+          "depth": 1,
+          "frame": 11
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15232,
+          "depth": 1,
+          "frame": 12,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            255
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15243,
+          "depth": 1,
+          "frame": 12
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15245,
+          "depth": 1,
+          "frame": 13
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15247,
+          "depth": 1,
+          "frame": 14,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            253
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15258,
+          "depth": 1,
+          "frame": 14
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15260,
+          "depth": 1,
+          "frame": 15,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            252
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15271,
+          "depth": 1,
+          "frame": 15
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15273,
+          "depth": 1,
+          "frame": 16,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            250
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15284,
+          "depth": 1,
+          "frame": 16
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15286,
+          "depth": 1,
+          "frame": 17,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            248
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15297,
+          "depth": 1,
+          "frame": 17
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15299,
+          "depth": 1,
+          "frame": 18,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            246
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15310,
+          "depth": 1,
+          "frame": 18
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15312,
+          "depth": 1,
+          "frame": 19,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            243
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15323,
+          "depth": 1,
+          "frame": 19
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15325,
+          "depth": 1,
+          "frame": 20,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            240
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15336,
+          "depth": 1,
+          "frame": 20
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15338,
+          "depth": 1,
+          "frame": 21,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            237
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15349,
+          "depth": 1,
+          "frame": 21
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15351,
+          "depth": 1,
+          "frame": 22,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            233
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15362,
+          "depth": 1,
+          "frame": 22
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15364,
+          "depth": 1,
+          "frame": 23,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            229
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15375,
+          "depth": 1,
+          "frame": 23
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15377,
+          "depth": 1,
+          "frame": 24,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            225
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15388,
+          "depth": 1,
+          "frame": 24
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15390,
+          "depth": 1,
+          "frame": 25,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            220
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15401,
+          "depth": 1,
+          "frame": 25
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15403,
+          "depth": 1,
+          "frame": 26,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            215
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15414,
+          "depth": 1,
+          "frame": 26
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15416,
+          "depth": 1,
+          "frame": 27,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            210
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15427,
+          "depth": 1,
+          "frame": 27
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15429,
+          "depth": 1,
+          "frame": 28,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            204
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15440,
+          "depth": 1,
+          "frame": 28
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15442,
+          "depth": 1,
+          "frame": 29,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            198
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15453,
+          "depth": 1,
+          "frame": 29
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15455,
+          "depth": 1,
+          "frame": 30,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            192
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15466,
+          "depth": 1,
+          "frame": 30
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15468,
+          "depth": 1,
+          "frame": 31,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            185
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15479,
+          "depth": 1,
+          "frame": 31
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15481,
+          "depth": 1,
+          "frame": 32,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            179
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15492,
+          "depth": 1,
+          "frame": 32
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15494,
+          "depth": 1,
+          "frame": 33,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            171
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15505,
+          "depth": 1,
+          "frame": 33
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15507,
+          "depth": 1,
+          "frame": 34,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            164
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15518,
+          "depth": 1,
+          "frame": 34
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15520,
+          "depth": 1,
+          "frame": 35,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            156
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15531,
+          "depth": 1,
+          "frame": 35
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15533,
+          "depth": 1,
+          "frame": 36,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            148
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15544,
+          "depth": 1,
+          "frame": 36
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15546,
+          "depth": 1,
+          "frame": 37,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            139
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15557,
+          "depth": 1,
+          "frame": 37
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15559,
+          "depth": 1,
+          "frame": 38,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            131
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15570,
+          "depth": 1,
+          "frame": 38
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15572,
+          "depth": 1,
+          "frame": 39,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            121
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15583,
+          "depth": 1,
+          "frame": 39
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15585,
+          "depth": 1,
+          "frame": 40,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            112
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15596,
+          "depth": 1,
+          "frame": 40
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15598,
+          "depth": 1,
+          "frame": 41,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            102
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15609,
+          "depth": 1,
+          "frame": 41
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15611,
+          "depth": 1,
+          "frame": 42,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            92
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15622,
+          "depth": 1,
+          "frame": 42
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15624,
+          "depth": 1,
+          "frame": 43,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            82
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15635,
+          "depth": 1,
+          "frame": 43
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15637,
+          "depth": 1,
+          "frame": 44,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            71
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15648,
+          "depth": 1,
+          "frame": 44
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15650,
+          "depth": 1,
+          "frame": 45,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            60
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15661,
+          "depth": 1,
+          "frame": 45
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15663,
+          "depth": 1,
+          "frame": 46,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            49
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15674,
+          "depth": 1,
+          "frame": 46
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15676,
+          "depth": 1,
+          "frame": 47,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            37
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15687,
+          "depth": 1,
+          "frame": 47
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15689,
+          "depth": 1,
+          "frame": 48,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            25
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15700,
+          "depth": 1,
+          "frame": 48
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15702,
+          "depth": 1,
+          "frame": 49,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            13
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15713,
+          "depth": 1,
+          "frame": 49
+        },
+        {
+          "tag": 26,
+          "length": 9,
+          "offset": 15715,
+          "depth": 1,
+          "frame": 50,
+          "placement_depth": 1,
+          "move": true,
+          "color_mult": [
+            256,
+            256,
+            256,
+            0
+          ],
+          "color_add": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15726,
+          "depth": 1,
+          "frame": 50
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15728,
+          "depth": 1,
+          "frame": 51
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15730,
+          "depth": 1,
+          "frame": 52
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15732,
+          "depth": 1,
+          "frame": 53
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15734,
+          "depth": 1,
+          "frame": 54
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15736,
+          "depth": 1,
+          "frame": 55
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15738,
+          "depth": 1,
+          "frame": 56
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15740,
+          "depth": 1,
+          "frame": 57
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15742,
+          "depth": 1,
+          "frame": 58
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15744,
+          "depth": 1,
+          "frame": 59
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15746,
+          "depth": 1,
+          "frame": 60
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15748,
+          "depth": 1,
+          "frame": 61
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15750,
+          "depth": 1,
+          "frame": 62
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15752,
+          "depth": 1,
+          "frame": 63
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15754,
+          "depth": 1,
+          "frame": 64
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15756,
+          "depth": 1,
+          "frame": 65
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15758,
+          "depth": 1,
+          "frame": 66
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15760,
+          "depth": 1,
+          "frame": 67
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15762,
+          "depth": 1,
+          "frame": 68
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15764,
+          "depth": 1,
+          "frame": 69
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15766,
+          "depth": 1,
+          "frame": 70
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15768,
+          "depth": 1,
+          "frame": 71
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15770,
+          "depth": 1,
+          "frame": 72
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15772,
+          "depth": 1,
+          "frame": 73
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15774,
+          "depth": 1,
+          "frame": 74
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15776,
+          "depth": 1,
+          "frame": 75
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15778,
+          "depth": 1,
+          "frame": 76
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15780,
+          "depth": 1,
+          "frame": 77
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15782,
+          "depth": 1,
+          "frame": 78
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15784,
+          "depth": 1,
+          "frame": 79
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15786,
+          "depth": 1,
+          "frame": 80
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15788,
+          "depth": 1,
+          "frame": 81
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15790,
+          "depth": 1,
+          "frame": 82
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15792,
+          "depth": 1,
+          "frame": 83
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15794,
+          "depth": 1,
+          "frame": 84
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15796,
+          "depth": 1,
+          "frame": 85
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15798,
+          "depth": 1,
+          "frame": 86
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15800,
+          "depth": 1,
+          "frame": 87
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15802,
+          "depth": 1,
+          "frame": 88
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15804,
+          "depth": 1,
+          "frame": 89
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15806,
+          "depth": 1,
+          "frame": 90
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15808,
+          "depth": 1,
+          "frame": 91
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15810,
+          "depth": 1,
+          "frame": 92
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15812,
+          "depth": 1,
+          "frame": 93
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15814,
+          "depth": 1,
+          "frame": 94
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15816,
+          "depth": 1,
+          "frame": 95
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15818,
+          "depth": 1,
+          "frame": 96
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15820,
+          "depth": 1,
+          "frame": 97
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15822,
+          "depth": 1,
+          "frame": 98
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15824,
+          "depth": 1,
+          "frame": 99
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15826,
+          "depth": 1,
+          "frame": 100
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15828,
+          "depth": 1,
+          "frame": 101
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 15830,
+          "depth": 1,
+          "frame": 102
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 15832,
+          "depth": 1,
+          "frame": 103
+        }
+      ]
+    }
+  ],
+  "shape": {
+    "tag": 2,
+    "length": 153,
+    "offset": 14723,
+    "depth": 0,
+    "frame": 0,
+    "character_id": 28,
+    "bounds_twips": [
+      -2,
+      9606,
+      -8,
+      6397
+    ]
+  },
+  "actions_present": false
+}

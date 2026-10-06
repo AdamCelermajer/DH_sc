@@ -1,0 +1,301 @@
+{
+  "validation": "PASS",
+  "original_method": "0x6463c8",
+  "cases": [
+    {
+      "opaque_mesh_mode": 0,
+      "actual_technique_flags": 0,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 0,
+      "actual_technique_flags": 0,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 0,
+      "actual_technique_flags": 65536,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 0,
+      "actual_technique_flags": 65536,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 0,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 0,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 4,
+      "actual_technique_flags": 0,
+      "node_flags": 1,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 4
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 4,
+      "actual_technique_flags": 0,
+      "node_flags": 2049,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 4
+        },
+        {
+          "source_slot_plus_one": 1,
+          "pass": 7
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 4,
+      "actual_technique_flags": 65536,
+      "node_flags": 1,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 4,
+      "actual_technique_flags": 65536,
+      "node_flags": 2049,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        },
+        {
+          "source_slot_plus_one": 1,
+          "pass": 7
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 4,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 1,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 4,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 2049,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        },
+        {
+          "source_slot_plus_one": 1,
+          "pass": 7
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 5,
+      "actual_technique_flags": 0,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 1
+    },
+    {
+      "opaque_mesh_mode": 5,
+      "actual_technique_flags": 0,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 1
+    },
+    {
+      "opaque_mesh_mode": 5,
+      "actual_technique_flags": 65536,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 1
+    },
+    {
+      "opaque_mesh_mode": 5,
+      "actual_technique_flags": 65536,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 1
+    },
+    {
+      "opaque_mesh_mode": 5,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 1
+    },
+    {
+      "opaque_mesh_mode": 5,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 1
+    },
+    {
+      "opaque_mesh_mode": 16,
+      "actual_technique_flags": 0,
+      "node_flags": 1,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 4
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 16,
+      "actual_technique_flags": 0,
+      "node_flags": 2049,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 4
+        },
+        {
+          "source_slot_plus_one": 1,
+          "pass": 7
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 16,
+      "actual_technique_flags": 65536,
+      "node_flags": 1,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 16,
+      "actual_technique_flags": 65536,
+      "node_flags": 2049,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        },
+        {
+          "source_slot_plus_one": 1,
+          "pass": 7
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 16,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 1,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 16,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 2049,
+      "register_calls": [
+        {
+          "source_slot_plus_one": 1,
+          "pass": 8
+        },
+        {
+          "source_slot_plus_one": 1,
+          "pass": 7
+        }
+      ],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 17,
+      "actual_technique_flags": 0,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 17,
+      "actual_technique_flags": 0,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 17,
+      "actual_technique_flags": 65536,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 17,
+      "actual_technique_flags": 65536,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 17,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 1,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    },
+    {
+      "opaque_mesh_mode": 17,
+      "actual_technique_flags": 4294967295,
+      "node_flags": 2049,
+      "register_calls": [],
+      "prepare_only_calls": 0
+    }
+  ],
+  "scope": "Whole original one-buffer collada mesh onRegister control-flow/pass-number projection. Mesh modes/buffer/catalog, technique selection and actual backend registration endpoints explicit fixtures. Real original technique flag memory is read by original code; no GPU readiness or opacity guessed from color."
+}

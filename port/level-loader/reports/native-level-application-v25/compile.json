@@ -1,0 +1,68 @@
+{
+  "scope": "Strict source and renderer connection compilation; not live gameplay acceptance",
+  "status": "PASS",
+  "results": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-none-linux-android24",
+        "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-isystem",
+        "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-c",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\original_ui_session.cpp",
+        "-o",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\reports\\native-level-application-v25\\original_ui_session-arm64-v8a.o"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-none-linux-android24",
+        "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-isystem",
+        "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-c",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\original_ui_session.cpp",
+        "-o",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\reports\\native-level-application-v25\\original_ui_session-x86_64.o"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "name": "_ZN11Application7InitPS3EPN6glitch7IDeviceE",
+    "addr": "0x322afc",
+    "size": 48
+  },
+  {
+    "name": "_ZN6glitch7IDevice17createGUIAndSceneEv",
+    "addr": "0x671554",
+    "size": 148
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver16screen2DevicePosIfEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERS6_SA_",
+    "addr": "0x5a9ac4",
+    "size": 272
+  },
+  {
+    "name": "_ZN11Application10InitIPhoneEPN6glitch7IDeviceEfffff",
+    "addr": "0x31f4f4",
+    "size": 16
+  },
+  {
+    "name": "_ZN11Application9InitWin32EPN6glitch7IDeviceE",
+    "addr": "0x32fab4",
+    "size": 428
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver13screen2DeviceIfEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERNS_4core4rectIS6_EE",
+    "addr": "0x5a9ddc",
+    "size": 260
+  },
+  {
+    "name": "_ZN24CBluetoothSocketAbstract21GetDeviceNameByPeerIdEj",
+    "addr": "0x824da8",
+    "size": 40
+  },
+  {
+    "name": "_ZN11Application4InitEPN6glitch7IDeviceE",
+    "addr": "0x323ae0",
+    "size": 228
+  },
+  {
+    "name": "NO_IGP",
+    "addr": "0x9f640d",
+    "size": 1
+  },
+  {
+    "name": "_ZN6glitch14createDeviceExERKNS_19SCreationParametersE",
+    "addr": "0x6a0748",
+    "size": 84
+  },
+  {
+    "name": "_ZN18CMatchingBluetooth27GenerateBluetoothDeviceNameE13tMatchingPeer",
+    "addr": "0x803cbc",
+    "size": 532
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriverC2EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE",
+    "addr": "0x5aaf1c",
+    "size": 988
+  },
+  {
+    "name": "_ZN7ADevice11getHostNameEPci",
+    "addr": "0x52ed70",
+    "size": 64
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver13screen2DeviceIiEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERNS_4core4rectIS6_EE",
+    "addr": "0x5a9ce8",
+    "size": 244
+  },
+  {
+    "name": "_ZN7ADevice15getOperatorNameEPc",
+    "addr": "0x52ee38",
+    "size": 56
+  },
+  {
+    "name": "_ZN7ADevice9mHostNameE",
+    "addr": "0x9f63a4",
+    "size": 4
+  },
+  {
+    "name": "HTC_DEVICES",
+    "addr": "0x9f6403",
+    "size": 1
+  },
+  {
+    "name": "_ZN6glitch16CAndroidOSDevice12createWindowEv",
+    "addr": "0x6a02b0",
+    "size": 8
+  },
+  {
+    "name": "_ZN7ADevice13mOperatorNameE",
+    "addr": "0x9f6394",
+    "size": 4
+  },
+  {
+    "name": "_ZN11InputDeviceC1ENS_4TypeE",
+    "addr": "0x34ca94",
+    "size": 48
+  },
+  {
+    "name": "_ZN18CMatchingBluetooth24ParseBluetoothDeviceNameESs",
+    "addr": "0x803920",
+    "size": 924
+  },
+  {
+    "name": "_ZN6glitch5video16createNullDriverEPNS_7IDeviceE",
+    "addr": "0x5b9b38",
+    "size": 40
+  },
+  {
+    "name": "_ZN11InputDeviceC2ENS_4TypeE",
+    "addr": "0x34ca64",
+    "size": 48
+  },
+  {
+    "name": "_ZN6glitch12createDeviceENS_5video13E_DRIVER_TYPEERKNS_4core11dimension2dIiEEjbbbPNS_14IEventReceiverE",
+    "addr": "0x5340ac",
+    "size": 204
+  },
+  {
+    "name": "_ZN7ADevice11getHostNameEPc",
+    "addr": "0x52edb0",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5video12IVideoDriver16screen2DevicePosIiEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERS6_SA_",
+    "addr": "0x5a97e4",
+    "size": 208
+  },
+  {
+    "name": "_ZN6Device7m_modelE",
+    "addr": "0x999758",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch16CAndroidOSDevice12initKeycodesEv",
+    "addr": "0x6a0340",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5video21createOpenGLES2DriverEPNS_7IDeviceE",
+    "addr": "0x5b5dac",
+    "size": 84
+  },
+  {
+    "name": "_ZN7ADevice4InitEP7_JNIEnvP7_jclass",
+    "addr": "0x52eee8",
+    "size": 496
+  },
+  {
+    "name": "SHARP_DEVICES",
+    "addr": "0x9f6404",
+    "size": 1
+  },
+  {
+    "name": "_ZN6glitch16CAndroidOSDevice12createDriverEv",
+    "addr": "0x6a0454",
+    "size": 152
+  },
+  {
+    "name": "_ZNK16CBluetoothSocket19GetRemoteDeviceNameEv",
+    "addr": "0x828fe0",
+    "size": 44
+  },
+  {
+    "name": "_ZN6Device8GetModelEv",
+    "addr": "0x38173c",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5video12IVideoDriverC1EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE",
+    "addr": "0x5ab2f8",
+    "size": 988
+  },
+  {
+    "name": "Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_Device_nativeInit",
+    "addr": "0x52f0d8",
+    "size": 4
+  }
+]

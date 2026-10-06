@@ -6,9 +6,11 @@
 #include "swf_viewport_connection.hpp"
 #include "hud_sprite_core.hpp"
 #include "swf_actionscript_connection.hpp"
+#include "swf_input_connection.hpp"
 
 namespace gameswf { struct font; struct glyph_provider; }
 namespace dh2::ui {
+class SwfFrameConnection;
 // Native upstream GameSWF facade. Coordinates are SWF twips, not pixels.
 struct SwfMatrix { float value[6]{1,0,0,0,1,0}; }; // row-major 2x3
 struct SwfColorTransform { float value[8]{1,0,1,0,1,0,1,0}; }; // RGBA [multiply,add]
@@ -77,17 +79,25 @@ class SwfMovie {
  // No GPU, font resolver, game globals or missing native functions are fabricated.
  bool load(const std::vector<std::string>& shared,const std::string& movie,const SwfServices&,std::string&);
  bool advance(float seconds,std::string&); // caller supplies seconds once
+ bool advance_frames(std::int32_t milliseconds,SwfFrameConnection&,std::string&);
  bool display(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::string&);
  bool display_clip(const char* path,std::string&); // brackets draw using current root viewport
  bool display_clip(const char* path,std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::string&);
  bool clip(const char* path,SwfClipInfo&,std::string&);
  bool set_number(const char* path,double,std::string&);
  bool set_visible(const char* path,bool,std::string&);
+ // PostLoad/RegisterState visibility stage only; does not fabricate native
+ // menu instances, run Create, or install stack/lifecycle ownership.
+ bool hide_menu_state_clips(std::vector<std::string>& names,std::string&);
  // Live connections retain the exact Impl graph and execute inside its core
  // Scope. Authored source bounds replace the inspection viewport setter.
  bool connect_viewport(const ViewportState64&,const SwfViewportDriver&,std::string&);
- bool update_viewport(FlashCamera40&,std::string&);
+  bool update_viewport(FlashCamera40&,std::string&);
+  bool set_source_bounds(const std::int32_t xywh[4],std::int32_t aspect_mode,std::string&);
  bool display_source_clip(const char* path,std::string&);
+ // Modern letterboxed panel policy: clip authored overscan to the movie stage,
+ // retaining the existing source projection and pointer conversion.
+ bool display_source_stage_clip_v5(const char* path,std::string&);
   bool screen_to_logical(float point[2],std::string&);
   bool source_display_rectangle(float rectangle[4],std::int32_t viewport[4],std::string&);
  bool hud_bind(const char* path,const char* verified_movie_sha256,SwfHudClip&,std::string&);
@@ -95,10 +105,30 @@ class SwfMovie {
  bool hud_play(const SwfHudClip&,std::int32_t,const HudSpriteCoreServices&,std::string&);
  // Execute a connected manager/input batch in one existing core Scope.
  bool action_script(void*,bool (*apply)(void*,SwfAsGraph&,std::string&),std::string&);
+ // Explicit synchronous menu-manager dispatch, including another renderer
+ // called from an authored/native callback. Restores the caller's providers
+ // and retains errors across same-renderer nesting. Ordinary facade calls
+ // continue to reject recursive entry.
+ bool menu_action_script(void*,bool (*apply)(void*,SwfAsGraph&,std::string&),std::string&);
+   // Real upstream character display hook, invoked after its authored children.
+  // Context must outlive this movie; the movie pins the character and hook.
+  bool menu_display_callback(const char* path,void* context,
+      bool (*draw)(void*,const SwfDraw&,std::string&),std::string&);
+  bool menu_input_context(const char* path,std::string&);
+ bool menu_input_behavior(std::uint32_t flags,std::string&);
+ bool connect_input(const char* context,std::shared_ptr<SwfInputHistory>,std::uint32_t flags,
+                    std::uint32_t& selection,const SwfViewportDriver&,const SwfInputCoreServices&,std::string&);
+ bool input_rectangle(const std::int32_t xywh[4],std::string&);
+ bool input_cursor(const SwfCursor16&,std::string&);
+ bool input_cancel(float x,float y,std::string&);
+ bool input_advance(std::int32_t milliseconds,std::string&);
+ bool input_raw_position(int& x,int& y,std::string&);
  gameswf::font* borrowed_font(std::int32_t resource_id) const; // invalidated by destruction/reload
  const std::vector<std::string>& diagnostics() const;
+ std::uintptr_t player_identity() const noexcept; // retained graph identity, no VM operation
  private: struct Impl;std::shared_ptr<Impl> impl_;
  std::shared_ptr<SwfViewportConnection> viewport_;
  std::shared_ptr<SwfAsGraph> action_script_;
+ std::shared_ptr<SwfInputConnection> input_;
 };
 } // namespace dh2::ui

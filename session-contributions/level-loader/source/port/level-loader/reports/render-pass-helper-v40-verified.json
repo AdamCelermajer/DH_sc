@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "scope": "Original scalar eligibility/helper search/material numeric pass kernels + checked required service seam; paired Visual-C1 suppression proposal syntax only",
+  "source_hashes": {
+    "render_eligibility_v40.hpp": "4b08d351a0392a2d73cffb8da470e605e39ba0d1064a5c8ac99ff6dffaa6420c",
+    "render_eligibility_v40.cpp": "ec216f5855c4e8c1ee297176fe83298add4b390f3196a524c8cd9aebfa62d829",
+    "tests\\render_eligibility_v40.cpp": "03f02eef7f73f4a39a520a9fd4650caac4b5971dbd81bada527f34812d66946e",
+    "reference\\render-pass-v40\\proposed\\retained_gameobject_visual_v1.hpp.proposed": "bbd53355bacb860dff618351551003f5d1c52a778778b7017a733479691b0879",
+    "reference\\render-pass-v40\\proposed\\retained_gameobject_visual_v1.cpp.proposed": "8b322900edcf8e46231ac5da1bb05cc161c05f70975493963dd5b093d3112ce5",
+    "reference\\render-pass-v40\\proposed\\visual-helper-source-v40.patch": "2dfbbc2f24e68cbf9bacbda5ffd2021e08a3866aad1140f767b8179bbbee0e1b"
+  },
+  "selected_v5_visual_baseline_hashes": {
+    "retained_gameobject_visual_v1.hpp": "c4b48e35914c911873dfdfb0aab91306de36abfece8953c971b45a3116e43583",
+    "retained_gameobject_visual_v1.cpp": "a9ae0d500930bfc565740e3fdd021a1215d232fbef5c19f40fc8c60f9e2f40d5"
+  },
+  "probe_sha256": "13b1e5bc703d787844401999f3a4d0745164bac33a18bbe382cb40700a009b6c",
+  "gold_sha256": "831a0d6500c27b4da501dc9836d9f4c17dc3bc4bef8443879918aeafd8cf91a1",
+  "original_registration_cases": 14,
+  "original_mesh_render_byte_cases": 5,
+  "original_helper_search_cases": 5,
+  "original_material_pass_cases": 30,
+  "actual_services_missing_and_order_verified": true,
+  "proposal_coherent_v5_syntax_check_passed": true,
+  "proposal_visual_C1_execution_verified": false,
+  "helper_white_box_runtime_fix_verified": false,
+  "real_mesh_mode_technique_flags_producers_required": true,
+  "original_pass_enrollment_verified": false,
+  "whole_level_init_verified": false,
+  "full_loader_verified": false,
+  "native_evidence": "PASS original_registration_cases=14 original_render_byte_cases=5 original_helper_search_cases=5 original_material_pass_cases=30 invalid_graph_preserves_out=1 whole_render_pass_enrollment=0"
+}

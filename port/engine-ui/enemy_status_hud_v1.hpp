@@ -25,7 +25,7 @@ class EnemyStatusHudV1 {
 public:
  explicit EnemyStatusHudV1(SwfMovie&,EnemyHudTextServicesV1);
  ~EnemyStatusHudV1();
- bool update(const EnemyHudWorldBorrowV1&,std::string&);
+  bool update(const EnemyHudWorldBorrowV1&,std::string&,std::int32_t hud_style=0);
  std::uintptr_t target()const{return target_;}
  int hp_frame()const{return hp_frame_;}
  bool visible()const{return visible_;}
@@ -41,7 +41,8 @@ private:
  SwfAsGraph* graph_{};
  std::string* error_{};
  std::string localized_,name_,level_;
- bool bound_{},visible_{};
+  bool bound_{},visible_{};
+  std::int32_t hud_style_{};
  std::uintptr_t world_{},target_{};
  int hp_frame_{};
  EnemyHudPresentationV2 presentation_{};

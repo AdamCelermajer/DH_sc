@@ -1,0 +1,95 @@
+{
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "address": 3751348,
+      "size": 220,
+      "sha256": "b2e7a850ec235757fe9b1406e0491006cc8ef1dda76927eb2e336374d93e26e7"
+    },
+    {
+      "symbol": "_ZN10GameObject16LoadVisualObjectEv",
+      "address": 3755696,
+      "size": 16,
+      "sha256": "32cbb9da2c5b59d89b66b4385c7ffe0713a134c49dfbbcd777c22c20450d6dbb"
+    },
+    {
+      "symbol": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+      "address": 4663820,
+      "size": 592,
+      "sha256": "009dcf6e02d189677a66323fc1b3319734ce8913147232978c3ec55b23cdd0f9"
+    },
+    {
+      "symbol": "_ZN10ObjectBase8InitPostEv",
+      "address": 3402764,
+      "size": 148,
+      "sha256": "5fc711caf4ffe1ad0b3cc5eeb2f7a39dcac43f4df5cc3bc34e0fe17beb8e1dcb"
+    },
+    {
+      "symbol": "_ZN12VisualObject12ApplyMeshBoxEv",
+      "address": 4655700,
+      "size": 48,
+      "sha256": "45cb14bb6756c027e7f755ed32f11d6fd6e2cedefae0e5f408b727d309c034b0"
+    },
+    {
+      "symbol": "_ZN12VisualObject11CalcMeshBoxEv",
+      "address": 4661532,
+      "size": 1516,
+      "sha256": "7e3a5f3fd2404835cfed194c08cd9ce79c7ed516ab920e1d0c55d74f278c543b"
+    },
+    {
+      "symbol": "_ZN12VisualObject9SetParentEP10GameObject",
+      "address": 4663644,
+      "size": 176,
+      "sha256": "20ea6fecd76ad763356d66b288b928bb818869781079854f65123c6f6844e57e"
+    },
+    {
+      "symbol": "_ZN12VisualObject4SyncEv",
+      "address": 3717748,
+      "size": 32,
+      "sha256": "1c944f85dfe5c75af54cc7396556092a85205db60f5fc94af509ac30c569264a"
+    },
+    {
+      "symbol": "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb",
+      "address": 3715344,
+      "size": 280,
+      "sha256": "0c55f8bb203ac3d1c126f9bdaf956b7ba42237aaa7d7d01e55f2079768d903cf"
+    },
+    {
+      "symbol": "_ZN10GameObject18UpdateAbsoluteAABBEv",
+      "address": 3713736,
+      "size": 152,
+      "sha256": "8bdb0944ef983e11a5d18d269aab552dea3f691fa7b03abcc0f56c1b75471297"
+    },
+    {
+      "symbol": "_ZN10GameObject9InitFinalEv",
+      "address": 3722568,
+      "size": 408,
+      "sha256": "aa5d1a5ae63edc18966d8a72ab08e4b817cda746b5eeebea741b4bca103fca06"
+    },
+    {
+      "symbol": "_ZN10GameObject15SetVisualObjectEP12VisualObject",
+      "address": 3752760,
+      "size": 64,
+      "sha256": "085bea151c568577ec7f7053d5b6f0666431bd9a00734a6132c909ebd7eb3000"
+    },
+    {
+      "symbol": "_ZN10GameObject15SetVisualObjectEPKcS1_b",
+      "address": 3755316,
+      "size": 380,
+      "sha256": "98f85e6f065b4c39e119f041fd54783f96da9890de5b1b5c200597e384e99c4c"
+    },
+    {
+      "symbol": "_ZN14AnimControllerC1EP13RootSceneNodeb",
+      "address": 4672816,
+      "size": 276,
+      "sha256": "e06e9efb50d28fa87d38809c3f48deb7ea81207890a1d8fda9208687303b7529"
+    },
+    {
+      "symbol": "_ZN10GameObject8InitPostEv",
+      "address": 3718748,
+      "size": 560,
+      "sha256": "9eaa0641dee36207e9fc9bc45063e7617f3395b58310d6c86338c0be54099073"
+    }
+  ]
+}

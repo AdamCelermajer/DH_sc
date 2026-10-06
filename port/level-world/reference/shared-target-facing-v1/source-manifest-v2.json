@@ -1,0 +1,11 @@
+{
+  "scope": "shared native target projection corrections and explicit source frame/AIS endpoint composition; not live acceptance",
+  "sources": {
+    "character_world_target_pose_v2.hpp": "1891afb5e2145430c13fdfe26b1067a41afacbecbc2a52be3040a957da33cfd4",
+    "character_world_target_frame_v2.hpp": "193a0f61d64caef1d2cbdfb7adbfd5cc3c0136765286e05539c0f4b6773718f8",
+    "character_world_target_frame_v2.cpp": "579748e4c68c46ef05b71a4b1cc57855bf4728752890e282668402a5b673219b",
+    "player_target_died_v2.hpp": "177cc83b244a1f570765cc1136af888f4043462e24b963070ec75160205a1b60",
+    "tests/character_world_target_pose_v2.cpp": "993cd2b54a74f07119dd99c988e39dfb630dab233bf439a777d62c5db99d09a8",
+    "tests/character_world_target_frame_v2.cpp": "5dccc33676b73fa14765a88ad2af77cdadc68b0f9cee36beb799fb48351ea866"
+  }
+}

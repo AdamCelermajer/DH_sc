@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/player_level_quicksave_v29.cpp",
+        "port/level-world/player_level_quicksave_v29.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/player_quicksave_v29_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_quicksave_v29_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS 16 checks; source local query before C1 guard; actual count remains0; positive save callbacks declared fixtures; checkpoint/online/gates/prefix/rebound-flag behavior\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/player_level_quicksave_v29.cpp",
+        "port/level-world/player_level_quicksave_v29.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/player_quicksave_v29_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_quicksave_v29_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS 16 checks; source local query before C1 guard; actual count remains0; positive save callbacks declared fixtures; checkpoint/online/gates/prefix/rebound-flag behavior\n",
+      "stderr": ""
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/level-world/tests/player_level_quicksave_v29.cpp",
+      "sha256": "61318d419cf5d49cc160b43a8e81a321d05d01b19cab89da09c307a2393eb245"
+    },
+    {
+      "path": "port/level-world/player_level_quicksave_v29.cpp",
+      "sha256": "603784db950f0e3e36952425a0761b41dcde3fd9f566ea2e0554a974296a8d0a"
+    },
+    {
+      "path": "port/level-world/player_manager_owner_v1.cpp",
+      "sha256": "75d0713553fe47494f675051b33a243c4841f01ba2baf44dff8c439ba3e640a1"
+    }
+  ]
+}

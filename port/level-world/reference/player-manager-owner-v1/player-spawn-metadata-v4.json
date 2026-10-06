@@ -1,0 +1,24 @@
+{
+  "function": "PlayerManager::_AddCharacter372220",
+  "rows": [
+    {
+      "field": "name_format",
+      "load": "0x37228c",
+      "literal": "0x372694",
+      "address": "0x8c17d0",
+      "value": "PlayerCharacter_%d"
+    },
+    {
+      "field": "template",
+      "load": "0x3722b8",
+      "literal": "0x372698",
+      "address": "0x8c04c0",
+      "value": "Character"
+    }
+  ],
+  "spawn_flags": {
+    "deferred": true,
+    "network": true
+  },
+  "name_argument": "actual internal input id at stack+8; not local/controller index or World handle"
+}

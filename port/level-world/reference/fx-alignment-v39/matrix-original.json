@@ -1,0 +1,8 @@
+{
+  "original_function": "Matrix4f::operator*35e998",
+  "cases": 160,
+  "defined_bytes_compared": 65,
+  "padding65_67": "not compared; native value-initialized",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "corpus_sha256": "3e9429622dc5dd0069061f4adb04ad8a5b30cf58f1e488d9de726ac8ba37fe3e"
+}

@@ -1,0 +1,152 @@
+{
+  "status": "PASS",
+  "scope": "Actual five authored controller resources: same scene palette/rest vertices, bitwise source software-skin output, outer applied once, per-receiver nonstatic positions. Actual DeathClaw scalar tracks37/38 write same registered spin model cells, cursor rewind, foreign storage rejection. Fixture camera/driver8/outer; no GPU/live actor acceptance.",
+  "apk_sha256": "6b0b5408e7bec23ef7c3a570b7b1a1e328cae302733159eb3de986872911d69e",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\authored_fx_skin_scalar_v6.cpp",
+      "sha256": "939d6ba56b6fa40be50cd52361c5ce268771c79d3d594fe615bd9e89c65307b1"
+    },
+    {
+      "path": "port\\level-world\\character_authored_resource_v6.cpp",
+      "sha256": "c907d6ea23c8caef2b461ac88728a07602188e664556d66b228a180b1120a468"
+    },
+    {
+      "path": "port\\level-world\\character_authored_resource_v5.cpp",
+      "sha256": "5bdf6a1bc7e1c98bbd5b7d601b917272872df3af6e2e1174ca54cdc50bd37403"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_transform_v5.cpp",
+      "sha256": "7051df9421c9d931c32a63d5def9d94fdd4543d38ce08cf5e172a447e387d933"
+    },
+    {
+      "path": "port\\level-world\\character_authored_fx_forces_v4.cpp",
+      "sha256": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e"
+    },
+    {
+      "path": "port\\level-world\\source_fx_node_matrix_v4.cpp",
+      "sha256": "284f99150768be7fed31847d071958715351ca475c3e5550b60ed221ad2c6edf"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_mesh_graph_v6.cpp",
+      "sha256": "a7fcc7ddd4e7ab6b11f19380f2e9fea5d73c875aa55fa71b117764a6b77b2c00"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_mesh_graph_v5.cpp",
+      "sha256": "07dae20bf62018262781d52d24b0522c009c3d9f9eb6364cda0f7ce5278dd105"
+    },
+    {
+      "path": "port\\engine-animation\\particle_cloud_runtime_v3.cpp",
+      "sha256": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba"
+    },
+    {
+      "path": "port\\engine-animation\\particle_scalar_animation_v6.cpp",
+      "sha256": "720148094772015729da8542c30af8ef5bd9821692ddc1347358d7b90161d4c2"
+    },
+    {
+      "path": "port\\engine-animation\\particle_deflector_v1.cpp",
+      "sha256": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff"
+    },
+    {
+      "path": "port\\engine-animation\\particle_force_scene_v2.cpp",
+      "sha256": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58"
+    },
+    {
+      "path": "port\\engine-animation\\particle_bound_forces_v4.cpp",
+      "sha256": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "9060eb98316cbcba0ea9627759e072bc8eb3c5355713bed6e909bc822deccf01"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "e930e56debbd8eff93914f44df62e825c529b45d840ef817ee513bc6658aa9b9"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "4c9a3ffeee979edce27ac91542653ee87ebd8f56ce486cf4b437b85e322d1fbb"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "8b1aca640aab6592fb7c034d2b1dbcd3bf96a22c8694b40dcbb1650582b9e023"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "376f8041956e02608e889d516aef06248282c0b6e6a0975ea96eee49abb60617"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "0c3f7c42a567741c6dff64c68ce7da94603870337ccd4bd64efeee564760fa04"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "948f30a336e0f0ea3c06b421f3fac09dcc4f0bf66c2a1993b3f9d65df05f0249",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\authored_fx_skin_scalar_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_authored_resource_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_authored_resource_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_transform_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_authored_fx_forces_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\source_fx_node_matrix_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_mesh_graph_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_mesh_graph_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_cloud_runtime_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_scalar_animation_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_deflector_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_force_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_bound_forces_v4.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-skin-scalar-v6\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-skin-scalar-v6\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-fx-skin-scalar-v6\\authored-fx-skin-scalar-v6.bin"
+  ],
+  "stdout": "PASS 5665 checks; moving_skin_resources 5; same_model_spin_tracks 2; GPU=false live=false\n",
+  "stderr": "",
+  "exit_code": 0
+}

@@ -1,0 +1,24 @@
+{
+  "validation": "UNAVAILABLE",
+  "reason": "WSL command did not return within45seconds; no WSL restart performed",
+  "command": [
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "port/engine-ui/authored_hud_options_bridge_v1.cpp",
+    "port/engine-ui/owned_hud_settings_v1.cpp",
+    "port/engine-ui/tests/authored_hud_options_bridge_v1.cpp",
+    "-L.local-inputs/character-menu-native-v1-host/snapshot",
+    "-ldh2_engine_ui",
+    "-ldh2_game_data",
+    "-o",
+    ".local-inputs/authored_hud_options_bridge_v1_host"
+  ],
+  "source_sha256": {
+    "port/engine-ui/authored_hud_options_bridge_v1.cpp": "982278a0cf37bec3ba52b64b54fb50f08144ba8609146f2f99cfe721988e5df0",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "b54a8ca7744b148d7d6cdf53bd36671784513c86a3d800590208296549a80529",
+    "port/engine-ui/tests/authored_hud_options_bridge_v1.cpp": "32cb98faca08e94d69c93307d548478917b566878e29861382eb1a3c5f696f65"
+  }
+}

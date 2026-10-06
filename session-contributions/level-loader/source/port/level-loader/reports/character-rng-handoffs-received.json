@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "incoming": [
+    {
+      "archive": "canonical-character-family-v4.zip",
+      "sha256": "55676da53b5e85b6adca268d7201199417aee766b7d861b112534c64a25bc1da",
+      "verified_entries": 176
+    },
+    {
+      "archive": "application-spawn-random-v4.zip",
+      "sha256": "bf3c54b2ebe48500342deac0084249e9a86dfa48c95972949f31db2f0fe2b7f6",
+      "verified_entries": 62
+    }
+  ],
+  "coherent_files": 553,
+  "changed_existing": [
+    "port/game-data/animation_scheduler.hpp",
+    "port/game-data/fresh_inventory_owned_v4.hpp",
+    "port/game-data/player_savegame_v1.hpp",
+    "port/level-world/actor_blended_playback.hpp",
+    "port/level-world/canonical_gameobject_base_owner_v1.cpp",
+    "port/level-world/canonical_gameobject_base_owner_v1.hpp",
+    "port/level-world/canonical_level_config_module_v1.cpp",
+    "port/level-world/canonical_property_map_v1.cpp",
+    "port/level-world/canonical_room_zone_v3.cpp",
+    "port/level-world/character_script_owner.hpp",
+    "port/level-world/character_script_owner_v2.hpp",
+    "port/level-world/character_script_session.hpp",
+    "port/level-world/character_script_session_v3.hpp"
+  ],
+  "overlay": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v4",
+  "full_loader_verified": false
+}

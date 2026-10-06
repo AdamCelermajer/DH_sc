@@ -44,8 +44,8 @@ bool VisualSkinResourcesV6::load(const std::vector<std::uint8_t>& bytes,std::str
  }catch(const std::exception& e){error=e.what();return false;}
 }
 struct VisualSkinOwnerV6::Impl {
- struct Runtime {std::uint32_t refs{1};const VisualModuleResourceV6* module{};std::string uri;std::vector<std::uint8_t> bytes;scene::Scene weapon;std::vector<VisualGeometryV6> geometry;std::int32_t parent{-1};};
- VisualSkinResourcesV6::Borrow resources;const scene::Scene* live;VisualAssetServicesV6 assets;std::vector<std::vector<VisualModuleV6>> modules;std::vector<VisualCategoryV6> categories;std::vector<VisualCellV6> cells;VisualSelectionV6 selection{};std::map<std::uintptr_t,std::shared_ptr<Runtime>> records;std::vector<std::pair<unsigned,std::uintptr_t>> draw_modules;bool dirty{},initialized{};std::string error;data::GearSkinServicesV5 debug{};VisualSkinOwnerV6* owner;
+ struct Runtime {std::uint32_t refs{1};const VisualModuleResourceV6* module{};std::string uri;std::vector<std::uint8_t> bytes;scene::Scene weapon;std::vector<VisualGeometryV6> geometry;std::int32_t parent{-1};SkinPoseCacheV32 pose;};
+ VisualSkinResourcesV6::Borrow resources;const scene::Scene* live;VisualAssetServicesV6 assets;std::vector<std::vector<VisualModuleV6>> modules;std::vector<VisualCategoryV6> categories;std::vector<VisualCellV6> cells;VisualSelectionV6 selection{};std::map<std::uintptr_t,std::shared_ptr<Runtime>> records;std::vector<std::pair<unsigned,std::uintptr_t>> draw_modules;std::vector<VisualDrawViewV32> views;bool dirty{},initialized{};std::string error;data::GearSkinServicesV5 debug{};VisualSkinOwnerV6* owner;
  Impl(VisualSkinResourcesV6::Borrow b,const scene::Scene& scene,VisualAssetServicesV6 a,VisualSkinOwnerV6* o):resources(std::move(b)),live(&scene),assets(a),owner(o){if(!resources)return;modules.resize(resources.categories().size());for(unsigned i=0;i<modules.size();++i)for(const auto& m:resources.categories()[i].modules)modules[i].push_back({m.uri.c_str(),reinterpret_cast<std::uintptr_t>(&m)});for(unsigned i=0;i<modules.size();++i){const auto& c=resources.categories()[i];categories.push_back({c.name.c_str(),c.default_uri.c_str(),modules[i].data(),std::uint32_t(modules[i].size()),0});cells.push_back({-1,0,0});}selection={categories.data(),cells.data(),std::uint32_t(cells.size()),0,{0,0},reinterpret_cast<std::uintptr_t>(live)};}
  bool graph()const{if(!resources||live->graph.size()!=resources.factory_scene().graph.size())return false;for(unsigned i=0;i<live->graph.size();++i)if(live->graph[i].id!=resources.factory_scene().graph[i].id||live->graph[i].sid!=resources.factory_scene().graph[i].sid||live->graph[i].parent!=resources.factory_scene().graph[i].parent)return false;return true;}
  std::uintptr_t add(std::unique_ptr<Runtime> r){auto id=reinterpret_cast<std::uintptr_t>(r.get());records.emplace(id,std::shared_ptr<Runtime>(std::move(r)));return id;}
@@ -77,5 +77,44 @@ void VisualSkinOwnerV6::clear_visibility_dirty()noexcept{impl_->dirty=false;}
 bool VisualSkinOwnerV6::draw_parts(std::vector<VisualDrawPartV6>& out,std::string& e)const{e.clear();auto& s=*impl_;if(!s.initialized||!s.graph()){e="V6 draw graph invalid";return false;}try{std::vector<VisualDrawPartV6> parts;for(auto entry:s.draw_modules){auto c=entry.first;const auto& record=*s.records.at(entry.second);auto& p=record.module->part;VisualDrawPartV6 d;d.retention=s.resources.storage_;d.geometry=&p.geometry;d.material_table=&s.resources.factory_scene().materials;d.materials=&p.materials;d.world=identity_matrix();d.skinned=true;d.category=c;d.module=s.cells[c].id;std::vector<Matrix> palette;if(!skinning::palette(p.skin,*s.live,palette,e)||!skinning::positions(p.skin,palette,p.geometry.positions,d.positions,e))return false;parts.push_back(std::move(d));}
   for(unsigned slot=0;slot<2;++slot){auto id=s.selection.weapons[slot];if(!id)continue;const auto& r=*s.records.at(id);if(r.parent<0)continue;for(unsigned i=0;i<r.weapon.instances.size();++i){auto& instance=r.weapon.instances[i];VisualDrawPartV6 d;d.retention=s.records.at(id);d.geometry=&r.geometry[i];d.material_table=&r.weapon.materials;d.materials=&instance.materials;d.positions=d.geometry->positions;d.world=scene::multiply(s.live->graph[r.parent].world,instance.world);for(float x:d.world)if(!std::isfinite(x))throw std::runtime_error("V6 weapon transform overflow");d.weapon_slot=slot?2:1;parts.push_back(std::move(d));}}
   out=std::move(parts);return true;}catch(const std::exception& x){e=x.what();return false;}}
+
+bool VisualSkinOwnerV6::draw_views(const std::vector<VisualDrawViewV32>*& out,std::string& e)const{
+ out=nullptr;e.clear();auto& s=*impl_;
+ if(!s.initialized||!s.graph()){e="V6 draw graph invalid";return false;}
+ try{
+  s.views.clear();
+  for(auto entry:s.draw_modules){
+   auto& record=*s.records.at(entry.second);const auto& p=record.module->part;
+   record.pose.bind(p.skin,p.geometry.positions);
+   if(!record.pose.sample(*s.live,e))return false;
+   VisualDrawViewV32 d;d.retention=s.resources.storage_;d.geometry=&p.geometry;
+   d.material_table=&s.resources.factory_scene().materials;d.materials=&p.materials;
+   d.positions=&record.pose.positions();d.world=identity_matrix();d.skinned=true;
+   d.positions_changed=record.pose.changed_last_call();d.pose_revision=record.pose.revision();
+   d.category=entry.first;d.module=s.cells[entry.first].id;s.views.push_back(std::move(d));
+  }
+  for(unsigned slot=0;slot<2;++slot){
+   auto id=s.selection.weapons[slot];if(!id)continue;
+   const auto& r=*s.records.at(id);if(r.parent<0)continue;
+   for(unsigned i=0;i<r.weapon.instances.size();++i){
+    const auto& instance=r.weapon.instances[i];VisualDrawViewV32 d;
+    d.retention=s.records.at(id);d.geometry=&r.geometry[i];d.material_table=&r.weapon.materials;
+    d.materials=&instance.materials;d.positions=&d.geometry->positions;
+    d.world=scene::multiply(s.live->graph[r.parent].world,instance.world);
+    for(float x:d.world)if(!std::isfinite(x))throw std::runtime_error("V6 weapon transform overflow");
+    d.weapon_slot=slot?2:1;s.views.push_back(std::move(d));
+   }
+  }
+  out=&s.views;return true;
+ }catch(const std::exception& x){e=x.what();return false;}
+}
+SkinPoseCountersV32 VisualSkinOwnerV6::pose_counters()const noexcept{
+ SkinPoseCountersV32 out;
+ for(const auto& entry:impl_->records){const auto& c=entry.second->pose.counters();
+  out.calls+=c.calls;out.hits+=c.hits;out.deformations+=c.deformations;
+  out.joint_checks+=c.joint_checks;out.vertices+=c.vertices;out.storage_growths+=c.storage_growths;
+ }
+ return out;
+}
 data::GearSkinServicesV5 VisualSkinOwnerV6::gear_services(data::GearSkinServicesV5 debug){impl_->debug=debug;return {impl_.get(),[](void* p,data::FreshInventoryOwnedV4& inv,const data::GearSkinRequestV5& q,std::int32_t& result,std::string& e){auto& s=*static_cast<Impl*>(p);using O=data::GearSkinOperationV5;if(q.operation==O::debug_load||q.operation==O::debug_query){if(!s.debug.invoke){e="V6 genuine Debug provider required";return false;}return s.debug.invoke(s.debug.context,inv,q,result,e);}if(q.visual!=s.owner->identity()){e="V6 visual identity mismatch";return false;}switch(q.operation){case O::category_id:result=s.owner->category_id(q.name);return true;case O::module_id:result=s.owner->module_id(q.category,q.name);return true;case O::set_modular:return s.owner->set_modular(q.category,q.module,e);case O::set_weapon:return s.owner->set_weapon(q.name,q.slot,q.mode,e);default:e="V6 unknown Skin operation";return false;}}};}
 }

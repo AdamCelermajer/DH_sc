@@ -87,6 +87,7 @@ android {
         // Native positional reads use an APK descriptor, without copying or
         // extracting the 433 MB archive at installation or startup.
         noCompress += "zip"
+        noCompress += listOf("wav","mp4")
         // Preserve the original cache's .nomedia entry as catalogued. Android's
         // default .* filter otherwise silently drops this verified asset.
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"

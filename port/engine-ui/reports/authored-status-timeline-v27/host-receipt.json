@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "receipts": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize=vptr",
+        "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+        "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+        "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+        "-DTU_CONFIG_LINK_TO_THREAD=0",
+        "-Iport/engine-ui/overlays/edit-text-v1",
+        "-Iport/engine-ui",
+        "-isystem",
+        "port/engine-ui/vendor/gameswf1714",
+        "port/engine-ui/tests/authored_status_timeline_v27.cpp",
+        "port/engine-ui/authored_status_timeline_v27.cpp",
+        "port/engine-ui/menu_status_messages_v26.cpp",
+        "port/engine-ui/menu_status_movie_v26.cpp",
+        "-L.local-inputs/status-host-build/ui",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_engine_ui",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-lz",
+        "-o",
+        ".local-inputs/authored_status_timeline_v27_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=.local-inputs/status-host-build/ui:/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        ".local-inputs/authored_status_timeline_v27_host",
+        ".local-inputs/ui-layout-discovery",
+        "port/android-native/app/src/main/assets/original-cache/data",
+        "port/android-native/app/src/main/assets/original-cache/data",
+        "port/android-native/app/src/main/assets/data/fonts_pycst.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\":\"PASS\",\"checks\":96,\"authored_frames\":48,\"advances\":78,\"first_stop_at\":39,\"second_stop_at\":78,\"source_stop_callbacks\":2,\"source_start_callbacks\":2,\"selected_current_hud\":true,\"external_platform_render_fixtures\":true}\n",
+      "stderr": "source localization: World Map\nsource localization: RESPAWN:\nsource localization: LEVEL UP\n"
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/engine-ui/tests/authored_status_timeline_v27.cpp",
+      "sha256": "70abbdf585d193d1cb2896fe755058b191f8b12d726f91277cf66c1daa16b476"
+    },
+    {
+      "path": "port/engine-ui/authored_status_timeline_v27.cpp",
+      "sha256": "bc93cf2d6aaad73e18fa3579a1308c485b3cda984960344db81ab1e553a1df29"
+    },
+    {
+      "path": "port/engine-ui/menu_status_messages_v26.cpp",
+      "sha256": "4fa43da687ac36848dcc654574b62f6f2d29a434a41c8defe38c8d595aecc749"
+    },
+    {
+      "path": "port/engine-ui/menu_status_movie_v26.cpp",
+      "sha256": "0a187e440eecd03ac53d62ef6290778cb115aadf44a9a716468f5f31e221b98c"
+    }
+  ]
+}

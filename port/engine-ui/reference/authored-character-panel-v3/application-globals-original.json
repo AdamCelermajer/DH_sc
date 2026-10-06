@@ -1,0 +1,77 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "globals": [
+    {
+      "symbol": "lastOpenMenuID",
+      "address": "0x9f63fc",
+      "size": 4,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00000000"
+    },
+    {
+      "symbol": "isInGameMenu",
+      "address": "0x9f6400",
+      "size": 1,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00"
+    },
+    {
+      "symbol": "isBackKeyPressed",
+      "address": "0x9f6401",
+      "size": 1,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00"
+    },
+    {
+      "symbol": "Back_key_Glive",
+      "address": "0x9a5c09",
+      "size": 1,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00"
+    },
+    {
+      "symbol": "Is_In_Multiplayer_Mode",
+      "address": "0x9a5b59",
+      "size": 1,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00"
+    },
+    {
+      "symbol": "Is_In_Multiplayer_IGM",
+      "address": "0x9a5b5a",
+      "size": 1,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00"
+    },
+    {
+      "symbol": "_ZN8MenuBase11s_igmOpenedE",
+      "address": "0x9a4863",
+      "size": 1,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00"
+    },
+    {
+      "symbol": "_ZN8MenuBase24m_isRolloverEventEnabledE",
+      "address": "0x9a487c",
+      "size": 1,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00"
+    },
+    {
+      "symbol": "m_bOpenIGM",
+      "address": "0x9f641c",
+      "size": 4,
+      "section": ".bss",
+      "section_type": "SHT_NOBITS",
+      "initial_bytes": "00000000"
+    }
+  ]
+}

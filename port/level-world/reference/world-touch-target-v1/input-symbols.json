@@ -1,0 +1,1162 @@
+[
+  {
+    "address": "0x33b668",
+    "size": 136,
+    "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenBase.cpp"
+  },
+  {
+    "address": "0x33cc88",
+    "size": 32,
+    "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenIPhone.cpp"
+  },
+  {
+    "address": "0x33d318",
+    "size": 32,
+    "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenPS3.cpp"
+  },
+  {
+    "address": "0x33d5b0",
+    "size": 32,
+    "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenWin32.cpp"
+  },
+  {
+    "address": "0x34d090",
+    "size": 32,
+    "symbol": "_GLOBAL__I_.._.._sources_Core_InputManager_generic_inputDevice.cpp"
+  },
+  {
+    "address": "0x34d8f0",
+    "size": 32,
+    "symbol": "_GLOBAL__I_.._.._sources_Core_InputManager_generic_inputManager.cpp"
+  },
+  {
+    "address": "0x34def4",
+    "size": 136,
+    "symbol": "_GLOBAL__I_.._.._sources_Core_InputManager_win32_inputManagerWin32.cpp"
+  },
+  {
+    "address": "0x51b784",
+    "size": 184,
+    "symbol": "_GLOBAL__I_.._.._sources_Modules_OnScreenKeyboard.cpp"
+  },
+  {
+    "address": "0x5482a8",
+    "size": 32,
+    "symbol": "_GLOBAL__I_.._source_glitch_gui_CGUIModalScreen.cpp"
+  },
+  {
+    "address": "0x7df654",
+    "size": 1980,
+    "symbol": "_ZL17CheckForIntersectP13GLUtesselatorP12ActiveRegion"
+  },
+  {
+    "address": "0x6ad02c",
+    "size": 420,
+    "symbol": "_ZN6glitch3gui15CGUIContextMenu9sendClickERKNS_4core10position2dIiEE"
+  },
+  {
+    "address": "0x40f0b4",
+    "size": 572,
+    "symbol": "_ZNK6glitch4core7plane3dIfE30getIntersectionWithLimitedLineERKNS0_8vector3dIfEES6_RS4_"
+  },
+  {
+    "address": "0x661200",
+    "size": 156,
+    "symbol": "_ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender35fillInputSynchronizationElapsedTimeEv"
+  },
+  {
+    "address": "0x3addc0",
+    "size": 8,
+    "symbol": "_ZThn884_N9Character10Ctrl_ClickERK7Point3DIfEb"
+  },
+  {
+    "address": "0x435a5c",
+    "size": 140,
+    "symbol": "_ZN12MenuWorldMap12InputHandler4dragEbii"
+  },
+  {
+    "address": "0x33cca8",
+    "size": 4,
+    "symbol": "_ZNK17TouchScreenIPhone18getTouchIDInRegionERKN6glitch4core4rectIfEE"
+  },
+  {
+    "address": "0x5482c8",
+    "size": 52,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreen11removeChildEPNS0_11IGUIElementE"
+  },
+  {
+    "address": "0x53bfb4",
+    "size": 64,
+    "symbol": "_ZN6glitch3gui18CGUIFileOpenDialog17sendSelectedEventEv"
+  },
+  {
+    "address": "0x7db5a4",
+    "size": 2804,
+    "symbol": "_Z18__gl_edgeIntersectP9GLUvertexS0_S0_S0_S0_"
+  },
+  {
+    "address": "0x613da8",
+    "size": 60,
+    "symbol": "_ZN6glitch7collada15animation_track12CInputReaderIsfLi1EEC1ERKNS0_18SAnimationAccessorE"
+  },
+  {
+    "address": "0x33aeb8",
+    "size": 4,
+    "symbol": "_ZN15TouchScreenBase10touchEndedERK7Point2DIsEl"
+  },
+  {
+    "address": "0x435d7c",
+    "size": 212,
+    "symbol": "_ZN12MenuWorldMap12InputHandler7onEventERKN6glitch6SEventE"
+  },
+  {
+    "address": "0x33d6d0",
+    "size": 68,
+    "symbol": "_ZN16TouchScreenWin32C2Ess"
+  },
+  {
+    "address": "0x33b334",
+    "size": 168,
+    "symbol": "_ZN15TouchScreenBase6updateEd"
+  },
+  {
+    "address": "0x33c3d8",
+    "size": 320,
+    "symbol": "_ZN15TouchScreenBaseC1Ess"
+  },
+  {
+    "address": "0x5a9ac4",
+    "size": 272,
+    "symbol": "_ZNK6glitch5video12IVideoDriver16screen2DevicePosIfEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERS6_SA_"
+  },
+  {
+    "address": "0x34dce4",
+    "size": 52,
+    "symbol": "_ZN17InputManagerWin32D2Ev"
+  },
+  {
+    "address": "0x33b0e8",
+    "size": 188,
+    "symbol": "_ZNK15TouchScreenBase18getTouchIDInRegionERKN6glitch4core4rectIfEE"
+  },
+  {
+    "address": "0x51b588",
+    "size": 76,
+    "symbol": "_ZN16OnScreenKeyboard15ReleaseKeyboardEv"
+  },
+  {
+    "address": "0x34d7b4",
+    "size": 108,
+    "symbol": "_ZN12InputManager24GetFirstConnectedGamepadEv"
+  },
+  {
+    "address": "0x408c68",
+    "size": 4,
+    "symbol": "_ZN17v2MixedController10Ctrl_ClickERK7Point3DIfEb"
+  },
+  {
+    "address": "0x5a8e3c",
+    "size": 180,
+    "symbol": "_ZN6glitch5video12IVideoDriver28setFramebufferScreenInternalERKNS_4core4rectIiEE"
+  },
+  {
+    "address": "0x33aebc",
+    "size": 368,
+    "symbol": "_ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE"
+  },
+  {
+    "address": "0x548bf4",
+    "size": 16,
+    "symbol": "_ZTv0_n24_N6glitch3gui15CGUIModalScreenD0Ev"
+  },
+  {
+    "address": "0x33d124",
+    "size": 208,
+    "symbol": "_ZN17TouchScreenIPhone10touchMovedEffdiffl"
+  },
+  {
+    "address": "0x7ac4bc",
+    "size": 1128,
+    "symbol": "_ZN8RenderFX11UpdateInputEii"
+  },
+  {
+    "address": "0x33d48c",
+    "size": 8,
+    "symbol": "_ZNK16TouchScreenWin3212getLeftBoundEv"
+  },
+  {
+    "address": "0x33d494",
+    "size": 8,
+    "symbol": "_ZNK16TouchScreenWin3213getRightBoundEv"
+  },
+  {
+    "address": "0x33a9a0",
+    "size": 4,
+    "symbol": "_ZN17EvTouchScreenMoveD1Ev"
+  },
+  {
+    "address": "0x33be08",
+    "size": 64,
+    "symbol": "_ZN15TouchScreenBaseD1Ev"
+  },
+  {
+    "address": "0x34db1c",
+    "size": 152,
+    "symbol": "_ZN12InputManager11GetReceiverEv"
+  },
+  {
+    "address": "0x33ac24",
+    "size": 260,
+    "symbol": "_ZN15TouchScreenBase10touchBeganERK7Point2DIsEl"
+  },
+  {
+    "address": "0x33d5d8",
+    "size": 72,
+    "symbol": "_ZN16TouchScreenWin32D1Ev"
+  },
+  {
+    "address": "0x548858",
+    "size": 68,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreenD1Ev"
+  },
+  {
+    "address": "0x542518",
+    "size": 80,
+    "symbol": "_ZN6glitch3gui11CGUIListBox11setSelectedEi"
+  },
+  {
+    "address": "0x661120",
+    "size": 92,
+    "symbol": "_ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender18fillInputTimeStartEv"
+  },
+  {
+    "address": "0x5488bc",
+    "size": 404,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreen4drawEv"
+  },
+  {
+    "address": "0x5a9ddc",
+    "size": 260,
+    "symbol": "_ZNK6glitch5video12IVideoDriver13screen2DeviceIfEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERNS_4core4rectIS6_EE"
+  },
+  {
+    "address": "0x33ae3c",
+    "size": 124,
+    "symbol": "_ZN15TouchScreenBase14touchCancelledERK7Point2DIsEl"
+  },
+  {
+    "address": "0x51b5f0",
+    "size": 404,
+    "symbol": "_ZN16OnScreenKeyboard9GetStringEPKcPcjS1_"
+  },
+  {
+    "address": "0x33c298",
+    "size": 320,
+    "symbol": "_ZN15TouchScreenBaseC2Ess"
+  },
+  {
+    "address": "0x33bea4",
+    "size": 136,
+    "symbol": "_ZNSaIN15TouchScreenBase12_QueuedEventEE11_M_allocateEjRj"
+  },
+  {
+    "address": "0x33ceb4",
+    "size": 208,
+    "symbol": "_ZN17TouchScreenIPhone10touchEndedEffdiffl"
+  },
+  {
+    "address": "0x33be64",
+    "size": 64,
+    "symbol": "_ZN15TouchScreenBaseD2Ev"
+  },
+  {
+    "address": "0x5b1c48",
+    "size": 460,
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE16createScreenShotEv"
+  },
+  {
+    "address": "0x34d92c",
+    "size": 356,
+    "symbol": "_ZN25InputManagerEventReceiver7onEventERKN6glitch6SEventE"
+  },
+  {
+    "address": "0x50ed8c",
+    "size": 296,
+    "symbol": "_Z24GetWorldPosFromScreenPosRK7Point2DIfER7Point3DIfEf"
+  },
+  {
+    "address": "0x6611f8",
+    "size": 8,
+    "symbol": "_ZThn36_N6glitch7collada37CSceneNodeAnimatorSynchronizedBlender35fillInputSynchronizationElapsedTimeEv"
+  },
+  {
+    "address": "0x33cce4",
+    "size": 28,
+    "symbol": "_ZN17TouchScreenIPhoneD0Ev"
+  },
+  {
+    "address": "0x33d338",
+    "size": 8,
+    "symbol": "_ZThn436_N14TouchScreenPS3D1Ev"
+  },
+  {
+    "address": "0x33d644",
+    "size": 72,
+    "symbol": "_ZN16TouchScreenWin32D2Ev"
+  },
+  {
+    "address": "0x34dab4",
+    "size": 104,
+    "symbol": "_ZN12InputManager7DestroyEv"
+  },
+  {
+    "address": "0x33d3f4",
+    "size": 76,
+    "symbol": "_ZN14TouchScreenPS3C1Ev"
+  },
+  {
+    "address": "0x5a9bd4",
+    "size": 276,
+    "symbol": "_ZNK6glitch5video12IVideoDriver16device2ScreenPosIfEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERS6_SA_"
+  },
+  {
+    "address": "0x412098",
+    "size": 200,
+    "symbol": "_ZNK8Dropable14IsIntersectingEP8Dragable"
+  },
+  {
+    "address": "0x33b470",
+    "size": 52,
+    "symbol": "_ZN18EvTouchScreenPressD0Ev"
+  },
+  {
+    "address": "0x33b2ec",
+    "size": 72,
+    "symbol": "_ZN15TouchScreenBase8hasTouchEv"
+  },
+  {
+    "address": "0x33b43c",
+    "size": 52,
+    "symbol": "_ZN17EvTouchScreenMoveD0Ev"
+  },
+  {
+    "address": "0x33ad28",
+    "size": 276,
+    "symbol": "_ZN15TouchScreenBase10touchMovedERK7Point2DIsEl"
+  },
+  {
+    "address": "0x541dc4",
+    "size": 8,
+    "symbol": "_ZNK6glitch3gui11CGUIListBox11getSelectedEv"
+  },
+  {
+    "address": "0x34dc5c",
+    "size": 52,
+    "symbol": "_ZN25InputManagerEventReceiverD0Ev"
+  },
+  {
+    "address": "0x33b21c",
+    "size": 160,
+    "symbol": "_ZNK15TouchScreenBase20getTouchDisplacementEl"
+  },
+  {
+    "address": "0x4372b4",
+    "size": 8,
+    "symbol": "_ZThn4_N12MenuWorldMap12InputHandler7onEventEPK6IEventPK12EventManager"
+  },
+  {
+    "address": "0x34d6fc",
+    "size": 64,
+    "symbol": "_ZN12InputManagerC1Eiii"
+  },
+  {
+    "address": "0x6aab14",
+    "size": 8,
+    "symbol": "_ZNK6glitch3gui12CGUIComboBox11getSelectedEv"
+  },
+  {
+    "address": "0x34d740",
+    "size": 4,
+    "symbol": "_ZN12InputManagerD1Ev"
+  },
+  {
+    "address": "0x662754",
+    "size": 8,
+    "symbol": "_ZThn88_N6glitch7collada33CSceneNodeAnimatorSynchronizedSet16fillInputTimeEndEv"
+  },
+  {
+    "address": "0x34d820",
+    "size": 208,
+    "symbol": "_ZN12InputManager11UpdateFrameEf"
+  },
+  {
+    "address": "0x51b444",
+    "size": 324,
+    "symbol": "_ZN16OnScreenKeyboard7onEventEPK6IEventPK12EventManager"
+  },
+  {
+    "address": "0x51b440",
+    "size": 4,
+    "symbol": "_ZN16OnScreenKeyboardD1Ev"
+  },
+  {
+    "address": "0x61444c",
+    "size": 60,
+    "symbol": "_ZN6glitch7collada15animation_track12CInputReaderIcfLi3EEC1ERKNS0_18SAnimationAccessorE"
+  },
+  {
+    "address": "0x43cdac",
+    "size": 144,
+    "symbol": "_Z33NativeChangeRolloverInputBehaviorRKN7gameswf7fn_callE"
+  },
+  {
+    "address": "0x662748",
+    "size": 8,
+    "symbol": "_ZThn88_N6glitch7collada33CSceneNodeAnimatorSynchronizedSet18fillInputTimeStartEv"
+  },
+  {
+    "address": "0x45389c",
+    "size": 216,
+    "symbol": "_ZN16MenuCharMenu_Map17GetMapScreenCoordERK7Point3DIfEffff"
+  },
+  {
+    "address": "0x548668",
+    "size": 232,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreenC1EPNS0_15IGUIEnvironmentEPNS0_11IGUIElementEi"
+  },
+  {
+    "address": "0x34dc90",
+    "size": 4,
+    "symbol": "_ZN17InputManagerWin3211UpdateFrameEf"
+  },
+  {
+    "address": "0x50cdb0",
+    "size": 336,
+    "symbol": "_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_23SFrustumBoxIntersector3EEEvjT_"
+  },
+  {
+    "address": "0x341260",
+    "size": 888,
+    "symbol": "_ZNK6glitch4core7plane3dIfE24getIntersectionWithPlaneERKS2_RNS0_8vector3dIfEES7_"
+  },
+  {
+    "address": "0x34d74c",
+    "size": 8,
+    "symbol": "_ZNK12InputManager15GetNumKeyboardsEv"
+  },
+  {
+    "address": "0x33d20c",
+    "size": 8,
+    "symbol": "_ZNK14TouchScreenPS314getBottomBoundEv"
+  },
+  {
+    "address": "0x6c42a8",
+    "size": 5068,
+    "symbol": "_ZN6glitch5scene22CSceneCollisionManager24testTriangleIntersectionEPNS1_14SCollisionDataERKNS_4core10triangle3dIfEE"
+  },
+  {
+    "address": "0x54889c",
+    "size": 16,
+    "symbol": "_ZTv0_n24_N6glitch3gui15CGUIModalScreenD1Ev"
+  },
+  {
+    "address": "0x6139d4",
+    "size": 60,
+    "symbol": "_ZN6glitch7collada15animation_track12CInputReaderIcfLi4EEC1ERKNS0_18SAnimationAccessorE"
+  },
+  {
+    "address": "0x548ba8",
+    "size": 76,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreenD0Ev"
+  },
+  {
+    "address": "0x33d204",
+    "size": 8,
+    "symbol": "_ZNK14TouchScreenPS311getTopBoundEv"
+  },
+  {
+    "address": "0x381758",
+    "size": 20,
+    "symbol": "_ZN6Device19GetScreenResolutionEv"
+  },
+  {
+    "address": "0x662768",
+    "size": 4,
+    "symbol": "_ZN6glitch7collada33CSceneNodeAnimatorSynchronizedSet35fillInputSynchronizationElapsedTimeEv"
+  },
+  {
+    "address": "0x34da90",
+    "size": 12,
+    "symbol": "_ZNK25InputManagerEventReceiver9IsKeyDownEN6glitch9EKEY_CODEE"
+  },
+  {
+    "address": "0x6dd884",
+    "size": 332,
+    "symbol": "_ZNK6glitch5video19CCommonGLDriverBase15fixUpScreenAreaERKNS_4core4rectIiEERiS7_S7_S7_bb"
+  },
+  {
+    "address": "0x525884",
+    "size": 192,
+    "symbol": "_ZN7PFWorld22TranslateScreenToWorldERK7Point2DIfER7Point3DIfE"
+  },
+  {
+    "address": "0x33d054",
+    "size": 208,
+    "symbol": "_ZN17TouchScreenIPhone10touchBeganEffdiffl"
+  },
+  {
+    "address": "0x661184",
+    "size": 116,
+    "symbol": "_ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender16fillInputTimeEndEv"
+  },
+  {
+    "address": "0x6aab1c",
+    "size": 152,
+    "symbol": "_ZN6glitch3gui12CGUIComboBox11setSelectedEi"
+  },
+  {
+    "address": "0x33b510",
+    "size": 176,
+    "symbol": "_ZN15TouchScreenBase13_PopFromQueueEv"
+  },
+  {
+    "address": "0x34dc94",
+    "size": 52,
+    "symbol": "_ZN17InputManagerWin32D1Ev"
+  },
+  {
+    "address": "0x33a99c",
+    "size": 4,
+    "symbol": "_ZN18EvTouchScreenPressD1Ev"
+  },
+  {
+    "address": "0x33a9bc",
+    "size": 284,
+    "symbol": "_ZN15TouchScreenBase11_AddToQueueENS_10TouchEventERK7Point2DIfEl"
+  },
+  {
+    "address": "0x439fa4",
+    "size": 68,
+    "symbol": "_Z19NativeScreenIsBlackRKN7gameswf7fn_callE"
+  },
+  {
+    "address": "0x5ac950",
+    "size": 740,
+    "symbol": "_ZN6glitch5video12IVideoDriver18drawFullScreenQuadEPKNS0_6SColorE"
+  },
+  {
+    "address": "0x5a9ce8",
+    "size": 244,
+    "symbol": "_ZNK6glitch5video12IVideoDriver13screen2DeviceIiEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERNS_4core4rectIS6_EE"
+  },
+  {
+    "address": "0x33b1a4",
+    "size": 60,
+    "symbol": "_ZN15TouchScreenBase13getTouchPointEl"
+  },
+  {
+    "address": "0x661118",
+    "size": 8,
+    "symbol": "_ZThn36_N6glitch7collada37CSceneNodeAnimatorSynchronizedBlender18fillInputTimeStartEv"
+  },
+  {
+    "address": "0x33d4a4",
+    "size": 8,
+    "symbol": "_ZNK16TouchScreenWin3214getBottomBoundEv"
+  },
+  {
+    "address": "0x5a8ef0",
+    "size": 152,
+    "symbol": "_ZN6glitch5video12IVideoDriver20setFramebufferScreenERKNS_4core4rectIiEE"
+  },
+  {
+    "address": "0x3415d8",
+    "size": 100,
+    "symbol": "_ZNK6glitch4core7plane3dIfE25getIntersectionWithPlanesERKS2_S4_RNS0_8vector3dIfEE"
+  },
+  {
+    "address": "0x548260",
+    "size": 64,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreen22updateAbsolutePositionEv"
+  },
+  {
+    "address": "0x33cdcc",
+    "size": 152,
+    "symbol": "_ZN17TouchScreenIPhoneC2Efffff"
+  },
+  {
+    "address": "0x40f714",
+    "size": 264,
+    "symbol": "_ZN10CameraBase14GetScreenCoordERK7Point3DIfER7Point2DIfE"
+  },
+  {
+    "address": "0x51b5d4",
+    "size": 28,
+    "symbol": "_ZN16OnScreenKeyboardD0Ev"
+  },
+  {
+    "address": "0x34d73c",
+    "size": 4,
+    "symbol": "_ZN12InputManagerD2Ev"
+  },
+  {
+    "address": "0x548c24",
+    "size": 16,
+    "symbol": "_ZTv0_n16_NK6glitch3gui15CGUIModalScreen19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE"
+  },
+  {
+    "address": "0x33ccac",
+    "size": 4,
+    "symbol": "_ZNK17TouchScreenIPhone15isRegionPressedERKN6glitch4core4rectIfEE"
+  },
+  {
+    "address": "0x5a9ee0",
+    "size": 244,
+    "symbol": "_ZNK6glitch5video12IVideoDriver13device2ScreenIiEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERNS_4core4rectIS6_EE"
+  },
+  {
+    "address": "0x5485c8",
+    "size": 160,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreenC2EPNS0_15IGUIEnvironmentEPNS0_11IGUIElementEi"
+  },
+  {
+    "address": "0x6c3ca4",
+    "size": 252,
+    "symbol": "_ZN6glitch5scene22CSceneCollisionManager35getSceneNodeFromScreenCoordinatesBBENS_4core10position2dIiEEib"
+  },
+  {
+    "address": "0x436d9c",
+    "size": 104,
+    "symbol": "_ZN12MenuWorldMap12InputHandlerD1Ev"
+  },
+  {
+    "address": "0x51b3f4",
+    "size": 36,
+    "symbol": "_ZN16OnScreenKeyboardC2Ev"
+  },
+  {
+    "address": "0x6c57d8",
+    "size": 488,
+    "symbol": "_ZN6glitch5scene22CSceneCollisionManager34getScreenCoordinatesFrom3DPositionENS_4core8vector3dIfEEPNS0_16ICameraSceneNodeE"
+  },
+  {
+    "address": "0x662750",
+    "size": 4,
+    "symbol": "_ZN6glitch7collada33CSceneNodeAnimatorSynchronizedSet18fillInputTimeStartEv"
+  },
+  {
+    "address": "0x33d440",
+    "size": 76,
+    "symbol": "_ZN14TouchScreenPS3C2Ev"
+  },
+  {
+    "address": "0x33b4d8",
+    "size": 56,
+    "symbol": "_ZN15TouchScreenBase5clearEv"
+  },
+  {
+    "address": "0x33d21c",
+    "size": 252,
+    "symbol": "_ZN14TouchScreenPS37onEventERKN6glitch6SEventE"
+  },
+  {
+    "address": "0x34dbb4",
+    "size": 168,
+    "symbol": "_ZN17InputManagerWin3210GetGamepadEi"
+  },
+  {
+    "address": "0x33d3ac",
+    "size": 72,
+    "symbol": "_ZN14TouchScreenPS3D2Ev"
+  },
+  {
+    "address": "0x435d74",
+    "size": 8,
+    "symbol": "_ZN12MenuWorldMap12InputHandler4zoomEf"
+  },
+  {
+    "address": "0x33ccb0",
+    "size": 52,
+    "symbol": "_ZN17TouchScreenIPhoneD1Ev"
+  },
+  {
+    "address": "0x34ca94",
+    "size": 48,
+    "symbol": "_ZN11InputDeviceC1ENS_4TypeE"
+  },
+  {
+    "address": "0x6c59c0",
+    "size": 896,
+    "symbol": "_ZN6glitch5scene22CSceneCollisionManager27getRayFromScreenCoordinatesENS_4core10position2dIiEEPNS0_16ICameraSceneNodeE"
+  },
+  {
+    "address": "0x5482a0",
+    "size": 4,
+    "symbol": "_ZNK6glitch3gui15CGUIModalScreen19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE"
+  },
+  {
+    "address": "0x548c04",
+    "size": 16,
+    "symbol": "_ZTv0_n12_N6glitch3gui15CGUIModalScreenD0Ev"
+  },
+  {
+    "address": "0x33c568",
+    "size": 1776,
+    "symbol": "_ZN15TouchScreenBase13ProcessEventsEv"
+  },
+  {
+    "address": "0x34ca64",
+    "size": 48,
+    "symbol": "_ZN11InputDeviceC2ENS_4TypeE"
+  },
+  {
+    "address": "0x34d75c",
+    "size": 88,
+    "symbol": "_ZN12InputManager24GetConnectedGamepadCountEv"
+  },
+  {
+    "address": "0x33b5c0",
+    "size": 168,
+    "symbol": "_ZNK15TouchScreenBase20_GetNextEventInQueueEv"
+  },
+  {
+    "address": "0x586188",
+    "size": 760,
+    "symbol": "_ZNK6glitch4core10triangle3dIfE30getIntersectionWithLineSegmentERKNS0_6line3dIfEEfRKNS0_8vector3dIfEERKNS0_8aabbox3dIfEERS8_"
+  },
+  {
+    "address": "0x6a86b4",
+    "size": 64,
+    "symbol": "_ZN6glitch3gui21CGUIColorSelectDialog17sendSelectedEventEv"
+  },
+  {
+    "address": "0x34dcc8",
+    "size": 28,
+    "symbol": "_ZN17InputManagerWin32D0Ev"
+  },
+  {
+    "address": "0x312b40",
+    "size": 44,
+    "symbol": "_ZN7Point2DIfE16lineIntersectionERKS0_S2_S2_S2_RS0_"
+  },
+  {
+    "address": "0x41b790",
+    "size": 216,
+    "symbol": "_ZN10HUDMinimap17GetMapScreenCoordERK7Point3DIfEffff"
+  },
+  {
+    "address": "0x33d68c",
+    "size": 68,
+    "symbol": "_ZN16TouchScreenWin32C1Ess"
+  },
+  {
+    "address": "0x7a7c98",
+    "size": 8,
+    "symbol": "_ZN8RenderFX16SetInputBehaviorEi"
+  },
+  {
+    "address": "0x51b43c",
+    "size": 4,
+    "symbol": "_ZN16OnScreenKeyboardD2Ev"
+  },
+  {
+    "address": "0x33abbc",
+    "size": 104,
+    "symbol": "_ZNK15TouchScreenBase12getDimensionER3RctIsE"
+  },
+  {
+    "address": "0x384ef0",
+    "size": 116,
+    "symbol": "_ZN6GSInit18ClearLoadingScreenEv"
+  },
+  {
+    "address": "0x51b418",
+    "size": 36,
+    "symbol": "_ZN16OnScreenKeyboardC1Ev"
+  },
+  {
+    "address": "0x408c60",
+    "size": 8,
+    "symbol": "_ZThn16_N17v2MixedController10Ctrl_ClickERK7Point3DIfEb"
+  },
+  {
+    "address": "0x33d1f4",
+    "size": 8,
+    "symbol": "_ZNK14TouchScreenPS312getLeftBoundEv"
+  },
+  {
+    "address": "0x66117c",
+    "size": 8,
+    "symbol": "_ZThn36_N6glitch7collada37CSceneNodeAnimatorSynchronizedBlender16fillInputTimeEndEv"
+  },
+  {
+    "address": "0x404d60",
+    "size": 4,
+    "symbol": "_ZN14v2Controllable10Ctrl_ClickERK7Point3DIfEb"
+  },
+  {
+    "address": "0x5a97e4",
+    "size": 208,
+    "symbol": "_ZNK6glitch5video12IVideoDriver16screen2DevicePosIiEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERS6_SA_"
+  },
+  {
+    "address": "0x33d4b4",
+    "size": 252,
+    "symbol": "_ZN16TouchScreenWin327onEventERKN6glitch6SEventE"
+  },
+  {
+    "address": "0x5369e0",
+    "size": 72,
+    "symbol": "_ZN6glitch3gui15CGUIEnvironment14addModalScreenEPNS0_11IGUIElementE"
+  },
+  {
+    "address": "0x50d49c",
+    "size": 640,
+    "symbol": "_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_22SFrustumBoxIntersectorEEEvjT_"
+  },
+  {
+    "address": "0x33d49c",
+    "size": 8,
+    "symbol": "_ZNK16TouchScreenWin3211getTopBoundEv"
+  },
+  {
+    "address": "0x34d744",
+    "size": 8,
+    "symbol": "_ZNK12InputManager12GetNumMousesEv"
+  },
+  {
+    "address": "0x548c14",
+    "size": 16,
+    "symbol": "_ZTv0_n20_N6glitch3gui15CGUIModalScreen21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE"
+  },
+  {
+    "address": "0x33cc7c",
+    "size": 12,
+    "symbol": "_ZNK17TouchScreenIPhone14getBottomBoundEv"
+  },
+  {
+    "address": "0x58615c",
+    "size": 44,
+    "symbol": "_ZNK6glitch4core10triangle3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_"
+  },
+  {
+    "address": "0x312848",
+    "size": 760,
+    "symbol": "_ZN7Point2DIfE16lineIntersectionERKS0_S2_S2_S2_RS0_RfS4_"
+  },
+  {
+    "address": "0x34daa8",
+    "size": 8,
+    "symbol": "_ZN17InputManagerWin3211GetKeyboardEi"
+  },
+  {
+    "address": "0x33be48",
+    "size": 28,
+    "symbol": "_ZN15TouchScreenBaseD0Ev"
+  },
+  {
+    "address": "0x613600",
+    "size": 60,
+    "symbol": "_ZN6glitch7collada15animation_track12CInputReaderIsfLi4EEC1ERKNS0_18SAnimationAccessorE"
+  },
+  {
+    "address": "0x33d628",
+    "size": 28,
+    "symbol": "_ZN16TouchScreenWin32D0Ev"
+  },
+  {
+    "address": "0x671438",
+    "size": 4,
+    "symbol": "_ZN6glitch7IDevice16setScreenCaptureEb"
+  },
+  {
+    "address": "0x5a98b4",
+    "size": 220,
+    "symbol": "_ZNK6glitch5video12IVideoDriver16device2ScreenPosIiEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERS6_SA_"
+  },
+  {
+    "address": "0x33cc70",
+    "size": 12,
+    "symbol": "_ZNK17TouchScreenIPhone11getTopBoundEv"
+  },
+  {
+    "address": "0x5aa114",
+    "size": 260,
+    "symbol": "_ZNK6glitch5video12IVideoDriver13device2ScreenIfEEN5boost9enable_ifINS1_26SIdValidScreenPosCoordTypeIT_EEvE4typeERNS_4core4rectIS6_EE"
+  },
+  {
+    "address": "0x436e48",
+    "size": 152,
+    "symbol": "_ZN12MenuWorldMap12InputHandlerD0Ev"
+  },
+  {
+    "address": "0x33b1e0",
+    "size": 60,
+    "symbol": "_ZN15TouchScreenBase18getFirstTouchPointEl"
+  },
+  {
+    "address": "0x33d390",
+    "size": 28,
+    "symbol": "_ZN14TouchScreenPS3D0Ev"
+  },
+  {
+    "address": "0x33d214",
+    "size": 8,
+    "symbol": "_ZThn436_N14TouchScreenPS37onEventERKN6glitch6SEventE"
+  },
+  {
+    "address": "0x436d94",
+    "size": 8,
+    "symbol": "_ZThn4_N12MenuWorldMap12InputHandlerD1Ev"
+  },
+  {
+    "address": "0x33cd34",
+    "size": 152,
+    "symbol": "_ZN17TouchScreenIPhoneC1Efffff"
+  },
+  {
+    "address": "0x613e20",
+    "size": 60,
+    "symbol": "_ZN6glitch7collada15animation_track12CInputReaderIsfLi3EEC1ERKNS0_18SAnimationAccessorE"
+  },
+  {
+    "address": "0x5482a4",
+    "size": 4,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreen21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE"
+  },
+  {
+    "address": "0x5b90b4",
+    "size": 12,
+    "symbol": "_ZN6glitch5video11CNullDriver16createScreenShotEv"
+  },
+  {
+    "address": "0x555328",
+    "size": 8,
+    "symbol": "_ZNK6glitch3gui9CGUITable11getSelectedEv"
+  },
+  {
+    "address": "0x33d4ac",
+    "size": 8,
+    "symbol": "_ZThn436_N16TouchScreenWin327onEventERKN6glitch6SEventE"
+  },
+  {
+    "address": "0x50e830",
+    "size": 116,
+    "symbol": "_Z24GetScreenPosFromWorldPosRKN6glitch4core8vector3dIfEERNS0_10position2dIiEE"
+  },
+  {
+    "address": "0x33b3dc",
+    "size": 92,
+    "symbol": "_ZN15TouchScreenBase5getIDEl"
+  },
+  {
+    "address": "0x51b3a4",
+    "size": 80,
+    "symbol": "_ZN16OnScreenKeyboard11ClearStringEv"
+  },
+  {
+    "address": "0x33d340",
+    "size": 72,
+    "symbol": "_ZN14TouchScreenPS3D1Ev"
+  },
+  {
+    "address": "0x33cf84",
+    "size": 208,
+    "symbol": "_ZN17TouchScreenIPhone14touchCancelledEffdiffl"
+  },
+  {
+    "address": "0x34de68",
+    "size": 140,
+    "symbol": "_ZN17InputManagerWin32C2Ev"
+  },
+  {
+    "address": "0x34dab0",
+    "size": 4,
+    "symbol": "_ZN25InputManagerEventReceiverD1Ev"
+  },
+  {
+    "address": "0x555330",
+    "size": 8,
+    "symbol": "_ZNK6glitch3gui9CGUITable17getSelectedColumnEv"
+  },
+  {
+    "address": "0x5488ac",
+    "size": 16,
+    "symbol": "_ZTv0_n12_N6glitch3gui15CGUIModalScreenD1Ev"
+  },
+  {
+    "address": "0x33d5d0",
+    "size": 8,
+    "symbol": "_ZThn436_N16TouchScreenWin32D1Ev"
+  },
+  {
+    "address": "0x50d2c0",
+    "size": 476,
+    "symbol": "_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_15SBoxIntersectorEEEvjT_"
+  },
+  {
+    "address": "0x5482fc",
+    "size": 44,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreen8addChildEPNS0_11IGUIElementE"
+  },
+  {
+    "address": "0x33cc58",
+    "size": 12,
+    "symbol": "_ZNK17TouchScreenIPhone12getLeftBoundEv"
+  },
+  {
+    "address": "0x33cd00",
+    "size": 52,
+    "symbol": "_ZN17TouchScreenIPhoneD2Ev"
+  },
+  {
+    "address": "0x585e80",
+    "size": 732,
+    "symbol": "_ZNK6glitch4core10triangle3dIfE30getIntersectionOfPlaneWithLineERKNS0_8vector3dIfEES6_RS4_"
+  },
+  {
+    "address": "0x33a9a4",
+    "size": 24,
+    "symbol": "_ZNK15TouchScreenBase13_IsQueueEmptyEv"
+  },
+  {
+    "address": "0x34dd18",
+    "size": 140,
+    "symbol": "_ZN17InputManagerWin32C1Ev"
+  },
+  {
+    "address": "0x33d1fc",
+    "size": 8,
+    "symbol": "_ZNK14TouchScreenPS313getRightBoundEv"
+  },
+  {
+    "address": "0x33b2bc",
+    "size": 48,
+    "symbol": "_ZNK15TouchScreenBase17getSwipeDirectionEl"
+  },
+  {
+    "address": "0x6ad4d4",
+    "size": 8,
+    "symbol": "_ZNK6glitch3gui15CGUIContextMenu15getSelectedItemEv"
+  },
+  {
+    "address": "0x33cc64",
+    "size": 12,
+    "symbol": "_ZNK17TouchScreenIPhone13getRightBoundEv"
+  },
+  {
+    "address": "0x33d388",
+    "size": 8,
+    "symbol": "_ZThn436_N14TouchScreenPS3D0Ev"
+  },
+  {
+    "address": "0x581f48",
+    "size": 8,
+    "symbol": "_ZNK6glitch5scene16CCameraSceneNode22isInputReceiverEnabledEv"
+  },
+  {
+    "address": "0x33d620",
+    "size": 8,
+    "symbol": "_ZThn436_N16TouchScreenWin32D0Ev"
+  },
+  {
+    "address": "0x33bd2c",
+    "size": 128,
+    "symbol": "_ZNK15TouchScreenBase14getTouchIDListEv"
+  },
+  {
+    "address": "0x581f40",
+    "size": 8,
+    "symbol": "_ZN6glitch5scene16CCameraSceneNode23setInputReceiverEnabledEb"
+  },
+  {
+    "address": "0x4051a8",
+    "size": 92,
+    "symbol": "_ZN12v2Controller9Cmd_ClickERK7Point3DIfEb"
+  },
+  {
+    "address": "0x50d198",
+    "size": 296,
+    "symbol": "_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_20SUniverseIntersectorEEEvjT_"
+  },
+  {
+    "address": "0x548a50",
+    "size": 344,
+    "symbol": "_ZN6glitch3gui15CGUIModalScreen7onEventERKNS_6SEventE"
+  },
+  {
+    "address": "0x662760",
+    "size": 8,
+    "symbol": "_ZThn88_N6glitch7collada33CSceneNodeAnimatorSynchronizedSet35fillInputSynchronizationElapsedTimeEv"
+  },
+  {
+    "address": "0x613de4",
+    "size": 60,
+    "symbol": "_ZN6glitch7collada15animation_track12CInputReaderIcfLi1EEC1ERKNS0_18SAnimationAccessorE"
+  },
+  {
+    "address": "0x34d6bc",
+    "size": 64,
+    "symbol": "_ZN12InputManagerC2Eiii"
+  },
+  {
+    "address": "0x436e40",
+    "size": 8,
+    "symbol": "_ZThn4_N12MenuWorldMap12InputHandlerD0Ev"
+  },
+  {
+    "address": "0x33aad8",
+    "size": 228,
+    "symbol": "_ZNK15TouchScreenBase12getDimensionEv"
+  },
+  {
+    "address": "0x66275c",
+    "size": 4,
+    "symbol": "_ZN6glitch7collada33CSceneNodeAnimatorSynchronizedSet16fillInputTimeEndEv"
+  },
+  {
+    "address": "0x34d754",
+    "size": 8,
+    "symbol": "_ZNK12InputManager14GetNumGamepadsEv"
+  },
+  {
+    "address": "0x34d910",
+    "size": 28,
+    "symbol": "_ZN12InputManagerD0Ev"
+  },
+  {
+    "address": "0x34da9c",
+    "size": 12,
+    "symbol": "_ZN17InputManagerWin328GetMouseEi"
+  },
+  {
+    "address": "0x4372bc",
+    "size": 1640,
+    "symbol": "_ZN12MenuWorldMap12InputHandler7onEventEPK6IEventPK12EventManager"
+  },
+  {
+    "address": "0x671444",
+    "size": 80,
+    "symbol": "_ZN6glitch7IDevice29setInputReceivingSceneManagerEPNS_5scene13CSceneManagerE"
+  },
+  {
+    "address": "0x33b02c",
+    "size": 188,
+    "symbol": "_ZNK15TouchScreenBase27getTouchIDInitiatedInRegionERKN6glitch4core4rectIfEE"
+  },
+  {
+    "address": "0x3addc8",
+    "size": 1704,
+    "symbol": "_ZN9Character10Ctrl_ClickERK7Point3DIfEb"
+  },
+  {
+    "address": "0x34dda4",
+    "size": 196,
+    "symbol": "_ZN12InputManager11GetInstanceEv"
+  },
+  {
+    "address": "0x34033c",
+    "size": 360,
+    "symbol": "_ZNK6glitch4core7plane3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_"
+  }
+]

@@ -1,0 +1,100 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "factory_cases": [
+    {
+      "poison": 0,
+      "fields": {
+        "sound378_empty": true,
+        "sound_id390": 4294967295,
+        "fade394": -1.0,
+        "fade398": -1.0,
+        "byte39c": 0,
+        "updatable85": 1,
+        "enabled374_unproduced": true
+      },
+      "declare_properties": "0x395718",
+      "calls": [
+        {
+          "allocation": 928
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "fields": {
+        "sound378_empty": true,
+        "sound_id390": 4294967295,
+        "fade394": -1.0,
+        "fade398": -1.0,
+        "byte39c": 0,
+        "updatable85": 1,
+        "enabled374_unproduced": true
+      },
+      "declare_properties": "0x395718",
+      "calls": [
+        {
+          "allocation": 928
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "fields": {
+        "sound378_empty": true,
+        "sound_id390": 4294967295,
+        "fade394": -1.0,
+        "fade398": -1.0,
+        "byte39c": 0,
+        "updatable85": 1,
+        "enabled374_unproduced": true
+      },
+      "declare_properties": "0x395718",
+      "calls": [
+        {
+          "allocation": 928
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "loop": {
+      "source_offset": 884,
+      "default": 1
+    },
+    "sound": {
+      "source_offset": 888,
+      "default": ""
+    },
+    "distMin": {
+      "source_offset": 916,
+      "default": 123.0
+    },
+    "distMax": {
+      "source_offset": 920,
+      "default": 456.0
+    }
+  },
+  "constant_queries": [
+    {
+      "group": "AudioConstants",
+      "key": "CameraReferenceDistance",
+      "fixture_value": 123
+    },
+    {
+      "group": "AudioConstants",
+      "key": "CameraMaxDistance",
+      "fixture_value": 456
+    }
+  ],
+  "scope": "Whole original SoundEmitter ctor/schema; inherited GameObject, allocator/string services intercepted; dynamic constant return values explicit fixtures, not production defaults."
+}

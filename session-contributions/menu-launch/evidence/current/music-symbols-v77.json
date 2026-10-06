@@ -1,0 +1,72 @@
+[
+  {
+    "name": "_ZN15VoxSoundManager21ShowPlayingMusicTitleEPc",
+    "addr": "0x36b120",
+    "size": 428
+  },
+  {
+    "name": "_ZN15VoxSoundManager12StopAllMusicEi",
+    "addr": "0x3698f0",
+    "size": 160
+  },
+  {
+    "name": "_ZN15VoxSoundManager9PlayMusicEibbi",
+    "addr": "0x36bd78",
+    "size": 668
+  },
+  {
+    "name": "_ZN15VoxSoundManager14IsMusicPlayingEv",
+    "addr": "0x369804",
+    "size": 236
+  },
+  {
+    "name": "_ZN15VoxSoundManager14CrossfadeMusicEii",
+    "addr": "0x36baa0",
+    "size": 404
+  },
+  {
+    "name": "_ZN15VoxSoundManager9StopMusicEi",
+    "addr": "0x36a1a0",
+    "size": 120
+  },
+  {
+    "name": "_ZN15VoxSoundManager13SetMusicStateEPKc",
+    "addr": "0x369514",
+    "size": 224
+  },
+  {
+    "name": "_Z16NativePauseMusicRKN7gameswf7fn_callE",
+    "addr": "0x43ad04",
+    "size": 40
+  },
+  {
+    "name": "_Z15NativeStopMusicRKN7gameswf7fn_callE",
+    "addr": "0x43ad2c",
+    "size": 44
+  },
+  {
+    "name": "_Z15NativePlayMusicRKN7gameswf7fn_callE",
+    "addr": "0x43ad84",
+    "size": 140
+  },
+  {
+    "name": "_ZN15VoxSoundManager11ResumeMusicEi",
+    "addr": "0x36c164",
+    "size": 192
+  },
+  {
+    "name": "_ZN15VoxSoundManager10PauseMusicEv",
+    "addr": "0x36a784",
+    "size": 60
+  },
+  {
+    "name": "_ZN15VoxSoundManager12RestartMusicEi",
+    "addr": "0x36c224",
+    "size": 192
+  },
+  {
+    "name": "_ZN15VoxSoundManager18SetInSafeZoneMusicEb",
+    "addr": "0x36c014",
+    "size": 336
+  }
+]

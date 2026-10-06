@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "strict_compile": {
+    "arm64-v8a": [
+      "full source pass decoder",
+      "GLES2 draw include",
+      "sound selection"
+    ],
+    "x86_64": [
+      "full source pass decoder",
+      "GLES2 draw include",
+      "sound selection"
+    ]
+  },
+  "flags": [
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsyntax-only"
+  ],
+  "source_hashes": {
+    "port/scene-materials/blood_render_pass_v3.hpp": "ef0fd4ce0239c9ba18b4842d51271028ec6e7731675d0fdac601a944bf90c55c",
+    "port/scene-materials/blood_render_pass_v3.cpp": "c485048ba315ee65fac71169ca8de9f573f9d608e7cefe149c03d65998921b45",
+    "port/android-native/app/src/main/cpp/renderer_blood_draw_v3.inc": "3814b697aab1fce7e56693d5bdb978ff05e861d9ef454d01dbab87e3432b67be",
+    "port/android-native/app/src/main/cpp/renderer_blood_draw_v3_handoff.md": "6944a0332a774b629268dd21bcdec02b726e02f7ac3f89838f4a594d25fc7aba",
+    "port/level-world/character_combat_sound_v1.hpp": "73a686daebea0f9d619be3bde0f8bba9a2b349757c7dadd3eee09dca4a108a53",
+    "port/level-world/character_combat_sound_v1.cpp": "02b74c6d8840a78a1fdf2b2c96ec1ff4e601aeeead9f84c748aa7cb46e1638e3"
+  },
+  "differentials": {
+    "pass32": 2002,
+    "sound_both_overloads": 1536
+  },
+  "sanitized_actual_resource_host": {
+    "O1": 2023,
+    "O2": 2023
+  },
+  "scope": "Source renderpass conversion and actual bundled BRES default pass decode; GLES2 draw contract compiles against both ABI headers; whole sound selection/request emission matches original source. No full native build/install/liveGL/pixel/audio playback acceptance. Source texture descriptor/setup and whole SceneManager transparent queue must be borrowed from actual owners before positive draw acceptance."
+}

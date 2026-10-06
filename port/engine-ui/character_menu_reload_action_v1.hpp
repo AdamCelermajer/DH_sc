@@ -11,6 +11,9 @@ struct CharacterMenuReloadActionGraphV1 {
  std::function<bool(double,std::int32_t&,std::string&)> player_index;
  // Complete source reload services over THAT selected Character's graph.
  MenuReloadServices16V1 reload{};
+ // Callback diagnostic from the same synchronous source invocation. Does not
+ // alter the coordinator's mutation prefix or phase result.
+ std::function<std::string()> failure_detail;
 };
 class CharacterMenuReloadActionV1 {
  CharacterMenuReloadActionGraphV1 graph_;

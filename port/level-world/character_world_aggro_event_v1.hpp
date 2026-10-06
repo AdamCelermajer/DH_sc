@@ -13,4 +13,8 @@ struct WorldAggroEventServicesV1 {
 };
 int world_aggro_event_v1(AIEventState64&,std::uintptr_t attacker,DebugSwitches*,
  const DebugFileServices24*,const WorldAggroEventServicesV1&,std::string&);
+// Whole CharAI::OnDeAggro3d2014: same debug prefix, then freshly selected
+// AIS virtual+3c. The inherited Default body3dbea8 is literal bx lr.
+int world_deaggro_event_v2(AIEventState64&,std::uintptr_t other,DebugSwitches*,
+ const DebugFileServices24*,const WorldAggroEventServicesV1&,std::string&);
 }

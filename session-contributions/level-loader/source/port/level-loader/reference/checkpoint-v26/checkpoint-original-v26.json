@@ -1,0 +1,108 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "factory_cases": [
+    {
+      "poison": 0,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 1,
+        "trigger381": 1,
+        "static84": 1,
+        "colzone384": 0,
+        "empty388": true,
+        "word38c": 0,
+        "begin390": 904,
+        "end394": 904,
+        "word398": 0
+      },
+      "calls": [
+        {
+          "allocation": 928
+        },
+        {
+          "base_GO_ID": 12
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 1,
+        "trigger381": 1,
+        "static84": 1,
+        "colzone384": 0,
+        "empty388": true,
+        "word38c": 0,
+        "begin390": 904,
+        "end394": 904,
+        "word398": 0
+      },
+      "calls": [
+        {
+          "allocation": 928
+        },
+        {
+          "base_GO_ID": 12
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 1,
+        "trigger381": 1,
+        "static84": 1,
+        "colzone384": 0,
+        "empty388": true,
+        "word38c": 0,
+        "begin390": 904,
+        "end394": 904,
+        "word398": 0
+      },
+      "calls": [
+        {
+          "allocation": 928
+        },
+        {
+          "base_GO_ID": 12
+        }
+      ]
+    }
+  ],
+  "zone_properties": [
+    {
+      "inherited_GameObject_declarations": true
+    },
+    {
+      "allocation": 44
+    },
+    {
+      "property_name": "dimensions"
+    },
+    {
+      "added_property": "dimensions",
+      "absolute_source_offset": 884,
+      "defaults": [
+        200.0,
+        200.0,
+        200.0
+      ]
+    }
+  ],
+  "scope": "Whole Checkpoint factory\u2192CheckpointC1\u2192ZoneC2 stores; inherited GameObject C1/DeclareProperties and allocator/CString services explicit interceptions. Zone property virtual and actual dimension default proved. Activation/save/lifecycle unported."
+}

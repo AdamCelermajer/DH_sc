@@ -1,4 +1,8 @@
 #include "../../swf_movie.hpp"
+#include "../../swf_frame_connection.hpp"
+#include <cstring>
+#include <functional>
+#include <mutex>
 #include "../../swf_source_movie_v1.hpp"
 #include "../../swf_source_startup_v1.hpp"
 #include "../../swf_text_font_platform_v1.hpp"
@@ -37,7 +41,22 @@ struct SwfMovie::Impl:gameswf::render_handler {
  gameswf::gc_ptr<gameswf::root> root;std::vector<gameswf::gc_ptr<gameswf::root>> shared;
  std::vector<gameswf::gc_ptr<gameswf::sprite_instance>> hud_pins;
  std::vector<std::string> messages;std::string failure;SwfDraw state{};
+ struct DisplayHook {
+  Impl* owner{};gameswf::gc_ptr<gameswf::character> character;
+  void* context{};bool (*draw)(void*,const SwfDraw&,std::string&){};
+  static void display(void* raw){auto& h=*static_cast<DisplayHook*>(raw);
+   if(active!=h.owner){h.owner->fail("Display callback outside retained movie scope");return;}
+   try{gameswf::rect r;h.character->get_bound(&r);
+    if(auto* p=h.character->get_parent())p->get_world_matrix().transform(&r);
+    SwfDraw pane;pane.kind=SwfDraw::bitmap_quad;rect(pane.rect,r);
+    std::string e;if(!h.draw||!h.draw(h.context,pane,e))h.owner->fail(e);
+   }catch(const std::exception& e){h.owner->fail(e.what());}
+  }
+ };
+ std::vector<std::unique_ptr<DisplayHook>> display_hooks;
  static Impl* active;
+ static std::recursive_mutex scope_gate;
+ unsigned scope_depth=0;
  struct AsContext {
   std::weak_ptr<Impl> graph;
   std::shared_ptr<void> provider_owner;
@@ -48,6 +67,8 @@ struct SwfMovie::Impl:gameswf::render_handler {
   static void failure(void* ptr,const std::string& error){auto& c=*static_cast<AsContext*>(ptr);if(auto p=c.graph.lock())p->fail(error);}
  };
  ~Impl(){
+   for(auto& hook:display_hooks)hook->character->set_display_callback(nullptr,nullptr);
+   display_hooks.clear();
   if(player){
    // Quiescent native owner teardown. Upstream's tracked heap omits functions
    // created by DefineFunction, so retain the entire reachable AS graph first.
@@ -73,9 +94,28 @@ struct SwfMovie::Impl:gameswf::render_handler {
   }
  }
  struct Scope {
-  Impl*p;bool entered;gameswf::glyph_provider* previous_glyphs{};
-  Scope(Impl*i):p(i),entered(i&&active==nullptr){if(entered){active=p;p->failure.clear();previous_glyphs=gameswf::get_glyph_provider();gameswf::set_glyph_provider(p->service.glyphs);gameswf::set_render_handler(p);gameswf::register_file_opener_callback(open);gameswf::register_log_callback(log);gameswf::register_bitmap_substitution_callback(substitute);}}
-  ~Scope(){if(entered){gameswf::set_glyph_provider(previous_glyphs);gameswf::register_bitmap_substitution_callback(nullptr);gameswf::set_render_handler(nullptr);active=nullptr;}}
+  std::unique_lock<std::recursive_mutex> gate;
+  Impl*p;bool entered;Impl* previous_active{};
+  gameswf::glyph_provider* previous_glyphs{};
+  gameswf::render_handler* previous_renderer{};
+  Scope(Impl*i,bool menu_dispatch=false):gate(scope_gate,std::try_to_lock),p(i),
+   entered(i&&gate.owns_lock()&&(!active||menu_dispatch)){
+   if(entered){
+    previous_active=active;previous_glyphs=gameswf::get_glyph_provider();
+    previous_renderer=gameswf::get_render_handler();
+    active=p;if(p->scope_depth++==0)p->failure.clear();
+    gameswf::set_glyph_provider(p->service.glyphs);gameswf::set_render_handler(p);
+    // These callbacks dispatch through active, so they remain the same
+    // trampolines throughout a nested renderer chain.
+    gameswf::register_file_opener_callback(open);gameswf::register_log_callback(log);
+    gameswf::register_bitmap_substitution_callback(substitute);
+   }
+  }
+  ~Scope(){if(entered){
+   --p->scope_depth;active=previous_active;
+   gameswf::set_glyph_provider(previous_glyphs);gameswf::set_render_handler(previous_renderer);
+   gameswf::register_bitmap_substitution_callback(previous_active?substitute:nullptr);
+  }}
  };
  void fail(const std::string&s){if(failure.empty())failure=s.empty()?"Required SWF provider rejected delivery":s;}
  bool finish(std::string&e){if(!failure.empty()){e=failure;return false;}e.clear();return true;}
@@ -127,6 +167,7 @@ struct SwfMovie::Impl:gameswf::render_handler {
  gameswf::character*find(const char*path){if(!root||!path)return nullptr;auto*o=root->get_root_movie()->find_target(gameswf::as_value(path));return o&&o->is(gameswf::character::m_class_id)?static_cast<gameswf::character*>(o):nullptr;}
 };
 SwfMovie::Impl*SwfMovie::Impl::active=nullptr;
+std::recursive_mutex SwfMovie::Impl::scope_gate;
 #include "../../swf_movie_combat_flash_v1.inc"
 SwfMovie::SwfMovie():impl_(new Impl){}SwfMovie::~SwfMovie()=default;
 SwfMovie::SwfMovie(SwfMovie&&)noexcept=default;SwfMovie&SwfMovie::operator=(SwfMovie&&)noexcept=default;
@@ -148,7 +189,7 @@ bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movi
  for(const auto&file:shared){auto r=p->player->load_file(file.c_str());if(!r){e="SWF shared movie rejected: "+file;return false;}r->advance(0);p->shared.push_back(r);}
  p->root=p->player->load_file(movie.c_str());if(!p->root){e="SWF movie rejected: "+movie;return false;}
  if(!as->attach_root(p->root.get_ptr(),e)||!p->finish(e))return false;
- action_script_.reset();viewport_.reset();impl_=std::move(p);action_script_=std::move(as);return true;
+ input_.reset();action_script_.reset();viewport_.reset();impl_=std::move(p);action_script_=std::move(as);return true;
 }
 bool SwfMovie::advance(float seconds,std::string&e){auto owner=impl_;if(!owner||!owner->root||!std::isfinite(seconds)||seconds<0){e="Invalid SWF advance";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->advance(seconds);return owner->finish(e);}
 bool SwfMovie::display(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::string&e){auto owner=impl_;if(!owner||!owner->root||w<=0||h<=0){e="Invalid SWF viewport";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->set_display_viewport(x,y,w,h);owner->root->display();return owner->finish(e);}
@@ -157,6 +198,26 @@ bool SwfMovie::display_clip(const char*path,std::int32_t x,std::int32_t y,std::i
 bool SwfMovie::clip(const char*path,SwfClipInfo&out,std::string&e){auto owner=impl_;Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}auto*c=owner->find(path);if(!c){e="SWF clip not found";return false;}SwfClipInfo r;r.id=c->get_id();r.depth=c->get_depth();r.frame=c->get_current_frame();r.frames=c->get_frame_count();r.visible=c->get_visible();r.local=matrix(c->get_matrix());r.world=matrix(c->get_world_matrix());out=r;return owner->finish(e);}
 bool SwfMovie::set_number(const char*path,double n,std::string&e){auto owner=impl_;Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}if(!owner->root||!path){e="Invalid SWF variable path";return false;}auto*env=owner->root->get_root_movie()->get_environment();if(!env){e="SWF environment missing";return false;}const ::array<gameswf::with_stack_entry> with;env->set_variable(path,gameswf::as_value(n),with);return owner->finish(e);}
 bool SwfMovie::set_visible(const char*path,bool v,std::string&e){auto owner=impl_;Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}auto*c=owner->find(path);if(!c){e="SWF clip not found";return false;}c->set_visible(v);return owner->finish(e);}
+bool SwfMovie::hide_menu_state_clips(std::vector<std::string>& names,std::string&e){
+ auto owner=impl_;Impl::Scope scope(owner.get());
+ if(!scope.entered){e="SWF core busy";return false;}
+ if(!owner->root){e="Required menu state graph unavailable";return false;}
+ std::vector<gameswf::character*> clips;
+ // MenuManager::PostLoad finds all names containing menu_ with mask=0;
+ // RegisterState hides each real character before state activation.
+ std::function<void(gameswf::character*)> collect=[&](gameswf::character*c){
+  if(std::strstr(c->get_name().c_str(),"menu_"))clips.push_back(c);
+  if(c->is(gameswf::sprite_instance::m_class_id)){
+   auto*s=static_cast<gameswf::sprite_instance*>(c);
+   for(int i=0;i<s->m_display_list.size();++i)collect(s->m_display_list.get_character(i));
+  }
+ };
+ collect(owner->root->get_root_movie());
+ std::vector<std::string> result;
+ for(auto*c:clips){result.emplace_back(c->get_name().c_str());c->set_visible(false);}
+ if(!owner->finish(e))return false;
+ names=std::move(result);return true;
+}
 bool SwfMovie::connect_viewport(const ViewportState64& seed,const SwfViewportDriver& driver,std::string&e){
  auto owner=impl_;if(!owner||!owner->root){e="SWF movie not loaded";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
@@ -169,6 +230,11 @@ bool SwfMovie::update_viewport(FlashCamera40& camera,std::string&e){
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
  return connection->camera_update(camera,e)&&owner->finish(e);
 }
+bool SwfMovie::set_source_bounds(const std::int32_t xywh[4],std::int32_t aspect_mode,std::string&e){
+ auto owner=impl_;auto connection=viewport_;if(!owner||!connection){e="Required source viewport connection unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ return connection->set_bounds(xywh,aspect_mode,e)&&owner->finish(e);
+}
 bool SwfMovie::display_source_clip(const char* path,std::string&e){
  auto owner=impl_;auto connection=viewport_;if(!owner||!connection){e="Required source viewport connection unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
@@ -178,6 +244,7 @@ bool SwfMovie::display_source_clip(const char* path,std::string&e){
  owner->begin_display(owner->root->m_background_color,v[0],v[1],v[2],v[3],rectangle[0],rectangle[1],rectangle[2],rectangle[3]);
  clip->display();owner->end_display();return owner->finish(e);
 }
+#include "../../swf_movie_stage_clip_v5.inc"
 bool SwfMovie::screen_to_logical(float point[2],std::string&e){
  auto owner=impl_;auto connection=viewport_;if(!owner||!connection){e="Required source viewport connection unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
@@ -211,7 +278,82 @@ bool SwfMovie::action_script(void* context,bool (*apply)(void*,SwfAsGraph&,std::
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
  try{return apply(context,*as,e)&&owner->finish(e);}catch(const std::exception& exception){e=exception.what();return false;}
 }
+bool SwfMovie::connect_input(const char* path,std::shared_ptr<SwfInputHistory> history,std::uint32_t flags,
+ std::uint32_t& selection,const SwfViewportDriver& driver,const SwfInputCoreServices& services,std::string& e){
+ auto owner=impl_;if(!owner||!owner->root||!viewport_||input_){e="Input connection requires a retained viewport and fresh owner";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ auto* context=owner->find(path);if(!context){e="Source input context clip absent";return false;}
+ auto input=std::make_shared<SwfInputConnection>();
+ if(!input->bind({owner,owner->root.get_ptr()},viewport_->state(),driver,std::move(history),context,flags,selection,services,e))return false;
+ input_=std::move(input);return owner->finish(e);
+}
+bool SwfMovie::advance_frames(std::int32_t milliseconds,SwfFrameConnection& frames,std::string& e){
+ auto owner=impl_;if(!owner||!owner->root||milliseconds<0){e="Required retained source frame/time unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ try{return frames.advance(owner->root.get_ptr(),float(milliseconds)*.001f,false,e)&&owner->finish(e);}
+ catch(const std::exception& exception){e=exception.what();return false;}
+}
+bool SwfMovie::menu_action_script(void* context,bool (*apply)(void*,SwfAsGraph&,std::string&),std::string& e){
+ auto owner=impl_;auto as=action_script_;if(!owner||!owner->root||!as||!apply){e="Required retained menu AS movie/batch unavailable";return false;}
+ Impl::Scope scope(owner.get(),true);if(!scope.entered){e="SWF core busy";return false;}
+ try{return apply(context,*as,e)&&owner->finish(e);}catch(const std::exception& exception){e=exception.what();return false;}
+}
+bool SwfMovie::input_rectangle(const std::int32_t xywh[4],std::string& e){
+ auto owner=impl_;auto input=input_;if(!owner||!input){e="Source input owner unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ return input->viewport_rectangle(xywh,e)&&owner->finish(e);
+}
+bool SwfMovie::menu_display_callback(const char* path,void* context,
+ bool (*draw)(void*,const SwfDraw&,std::string&),std::string& e){
+ auto owner=impl_;Impl::Scope scope(owner.get(),true);
+ if(!scope.entered){e="SWF core busy";return false;}
+ auto* character=owner->find(path);if(!character){e="Display callback character absent";return false;}
+ for(auto& h:owner->display_hooks)if(h->character.get_ptr()==character){
+  h->context=context;h->draw=draw;return owner->finish(e);
+ }
+ auto h=std::make_unique<Impl::DisplayHook>();h->owner=owner.get();h->character=character;
+ h->context=context;h->draw=draw;character->set_display_callback(Impl::DisplayHook::display,h.get());
+ owner->display_hooks.push_back(std::move(h));return owner->finish(e);
+}
+bool SwfMovie::menu_input_context(const char* path,std::string& e){
+ auto owner=impl_;auto input=input_;if(!owner||!input){e="Source input owner unavailable";return false;}
+ Impl::Scope scope(owner.get(),true);if(!scope.entered){e="SWF core busy";return false;}
+ auto* context=owner->find(path);if(!context){e="Source input context clip absent";return false;}
+ return input->set_context(context,e)&&owner->finish(e);
+}
+bool SwfMovie::menu_input_behavior(std::uint32_t flags,std::string& e){
+ auto owner=impl_;auto input=input_;if(!owner||!input){e="Source input owner unavailable";return false;}
+ Impl::Scope scope(owner.get(),true);if(!scope.entered){e="SWF core busy";return false;}
+ return input->set_flags(flags,e)&&owner->finish(e);
+}
+bool SwfMovie::input_cursor(const SwfCursor16& cursor,std::string& e){
+ auto owner=impl_;auto input=input_;if(!owner||!input){e="Source input owner unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ try{return input->cursor(cursor,0,e)&&owner->finish(e);}catch(const std::exception& x){e=x.what();return false;}
+}
+bool SwfMovie::input_advance(std::int32_t ms,std::string& e){
+ auto owner=impl_;auto input=input_;if(!owner||!input||ms<0){e="Source input owner/time unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ try{return input->update(ms,false,e)&&owner->finish(e);}catch(const std::exception& x){e=x.what();return false;}
+}
+bool SwfMovie::input_cancel(float x,float y,std::string& e){
+ auto owner=impl_;auto input=input_;if(!owner||!input){e="Source input owner unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ if(!input->enable(false,0,e))return false;
+ const bool cleared=input->cursor({x,y,0.f,0},0,e)&&input->reset_focus(0,e);
+ std::string restore;const bool enabled=input->enable(true,0,restore);
+ if(!cleared)return false;if(!enabled){e=restore;return false;}
+ return owner->finish(e);
+}
+bool SwfMovie::input_raw_position(int& x,int& y,std::string& e){
+ // Called synchronously by the bound native event receiver inside this
+ // movie's existing Scope. Entering a second facade Scope would be reentry.
+ if(Impl::active!=impl_.get()||!input_){e="Raw cursor read outside retained input scope";return false;}
+ float xy[2]{};std::int32_t index=0;if(!input_->raw_cursor(xy,index,e))return false;
+ x=static_cast<int>(xy[0]);y=static_cast<int>(xy[1]);return true;
+}
 gameswf::font*SwfMovie::borrowed_font(std::int32_t id)const{return impl_&&impl_->root?impl_->root->m_def->get_font(id):nullptr;}
 const std::vector<std::string>&SwfMovie::diagnostics()const{return impl_->messages;}
+std::uintptr_t SwfMovie::player_identity()const noexcept{auto owner=impl_;return owner?reinterpret_cast<std::uintptr_t>(owner->player.get_ptr()):0;}
 } // namespace dh2::ui
 

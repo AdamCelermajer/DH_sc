@@ -1,0 +1,31 @@
+{
+  "status": "PASS controlled erase/cancel file effects and menu refresh; confirmation text clipped, assignment unconnected",
+  "apk_sha256": "3d1ca146e219b88a1e2a5c6f50cf55072f37bd63cb4760cca60559cf0ed79076",
+  "surfaces": [
+    {
+      "override": "1080x1920",
+      "cancel_keeps_all_files": true,
+      "confirmed_removes_base_backup_level": true,
+      "adjacent_backup_retained": true
+    },
+    {
+      "override": "1080x2400",
+      "cancel_keeps_all_files": true,
+      "confirmed_removes_base_backup_level": true,
+      "adjacent_backup_retained": true
+    },
+    {
+      "override": "1968x2184",
+      "cancel_keeps_all_files": true,
+      "confirmed_removes_base_backup_level": true,
+      "adjacent_backup_retained": true
+    }
+  ],
+  "restored_campaign_files": true,
+  "visual_review": "All three erased screens reviewed: removed Warrior replaced by surviving backup-only Rogue, Act 1 correct, confirmation dismissed",
+  "known_missing": [
+    "Confirmation text clipped horizontally",
+    "NativeSetSaveSlotIDToMainMenu and gameplay assignment/start remain unconnected",
+    "Canonical Game/Online and QEST unavailable; occupied screenshots require controlled offline fixture"
+  ]
+}

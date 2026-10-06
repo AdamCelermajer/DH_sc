@@ -4,7 +4,7 @@ if(NOT TARGET dh2_engine_animation)
  add_subdirectory(../engine-animation "${CMAKE_CURRENT_BINARY_DIR}/engine-animation")
 endif()
 add_library(dh2_engine_skinning SHARED skinning.cpp
- visual_skin_selection_v6.cpp visual_skin_owner_v6.cpp)
+ visual_skin_selection_v6.cpp visual_skin_owner_v6.cpp skin_pose_cache_v32.cpp)
 set_source_files_properties(visual_skin_selection_v6.cpp visual_skin_owner_v6.cpp
  PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
 target_compile_features(dh2_engine_skinning PUBLIC cxx_std_17)

@@ -1,0 +1,305 @@
+data/3d/animateddecors/candle_flame.bdae	
+data/3d/animateddecors/castle/biblio_throneroom.bdae	
+data/3d/animateddecors/castle/chandelier_castle.bdae	
+data/3d/animateddecors/castle/lustre_castle.bdae	
+data/3d/animateddecors/crypt/crypt_candle1.bdae	
+data/3d/animateddecors/crypt/crypt_candle1_small.bdae	
+data/3d/animateddecors/crypt/crypt_candle2.bdae	
+data/3d/animateddecors/crypt/crypt_candle_big.bdae	
+data/3d/animateddecors/crypt/crypt_candles.bdae	
+data/3d/animateddecors/crypt/crypt_candles2_small.bdae	
+data/3d/animateddecors/crypt/crypt_candlestand.bdae	
+data/3d/animateddecors/crypt/crypt_candlestand_big.bdae	
+data/3d/animateddecors/crypt/crypt_cryptwater.bdae	
+data/3d/animateddecors/crypt/crypt_flame.bdae	
+data/3d/animateddecors/cs_cage_swamp_intro_part2_03.bdae	
+data/3d/animateddecors/cs_swamp_intro_cage.bdae	
+data/3d/animateddecors/cs_wallbreak_death_cutscene.bdae	
+data/3d/animateddecors/darktemple/block_levitan.bdae	
+data/3d/animateddecors/darktemple/bossroom_effect.bdae	
+data/3d/animateddecors/darktemple/dalle_levitan.bdae	
+data/3d/animateddecors/darktemple/smog_visage.bdae	
+data/3d/animateddecors/darkwood/smog_hellgate.bdae	
+data/3d/animateddecors/earth_temple/earth_temple_level_entry.bdae	
+data/3d/animateddecors/firetemple/cloud.bdae	
+data/3d/animateddecors/firetemple/fire02.bdae	
+data/3d/animateddecors/firetemple/fire03.bdae	
+data/3d/animateddecors/fog/fog_desertr.bdae	
+data/3d/animateddecors/fog/fog_desertr2.bdae	
+data/3d/animateddecors/fog/fog_infected_village.bdae	
+data/3d/animateddecors/fog/sable_desert.bdae	
+data/3d/animateddecors/icycavern_rayolight.bdae	
+data/3d/animateddecors/icyhub/icyhub_rayolight.bdae	
+data/3d/animateddecors/icyhub/wood.bdae	
+data/3d/animateddecors/swamp_cave_entrance_troll.bdae	
+data/3d/animateddecors/swamp_cave_watercaustics.bdae	
+data/3d/animateddecors/swamp_caveentrance_effect.bdae	
+data/3d/animateddecors/swamp_rayolight_dust.bdae	
+data/3d/animateddecors/swamp_tikitorches.bdae	
+data/3d/animateddecors/swamp_waterbulbulle.bdae	
+data/3d/animateddecors/swamp_watercaustics.bdae	
+data/3d/animateddecors/void_maze/void_maze_animations.bdae	
+data/3d/animateddecors/water_temple_watercaustics.bdae	
+data/3d/characters/faeries/faeries_02_celeste.bdae	
+data/3d/characters/invisible_man/invisible_man.bdae	
+data/3d/characters/lizardman/lizardman.bdae	
+data/3d/characters/lizardman/lizardman_big.bdae	
+data/3d/characters/moth/moth.bdae	
+data/3d/characters/npcs/edward_with_weapon.bdae	
+data/3d/characters/npcs/priest_good.bdae	
+data/3d/characters/npcs/prisoner.bdae	
+data/3d/characters/swampking/swampking.bdae	
+data/3d/characters/troll/troll_swamp.bdae	
+data/3d/gameobjects/go_chest_swamp.bdae	
+data/3d/modules/castle/castle.bdae	_module_corner_ne
+data/3d/modules/castle/castle.bdae	_module_corner_se
+data/3d/modules/castle/castle.bdae	_module_corner_wn
+data/3d/modules/castle/castle.bdae	_module_corner_ws
+data/3d/modules/castle/castle.bdae	_module_deadend_n
+data/3d/modules/castle/castle.bdae	_module_deadend_w
+data/3d/modules/castle/castle.bdae	_module_entrance_ns
+data/3d/modules/castle/castle.bdae	_module_kingroom_s
+data/3d/modules/castle/castle.bdae	_module_objectiveroom_s
+data/3d/modules/castle/castle.bdae	_module_straighta_ns
+data/3d/modules/castle/castle.bdae	_module_straightb_ew
+data/3d/modules/castle/castle.bdae	_module_t_new
+data/3d/modules/castle/ending.bdae	_module_kingroom_t
+data/3d/modules/crypt/crypt.bdae	_module_boss_room
+data/3d/modules/crypt/crypt.bdae	_module_cemetery_entrance
+data/3d/modules/crypt/crypt.bdae	_module_corner_ne
+data/3d/modules/crypt/crypt.bdae	_module_corner_nw
+data/3d/modules/crypt/crypt.bdae	_module_corner_se
+data/3d/modules/crypt/crypt.bdae	_module_corner_sw
+data/3d/modules/crypt/crypt.bdae	_module_deadend_e
+data/3d/modules/crypt/crypt.bdae	_module_deadend_n
+data/3d/modules/crypt/crypt.bdae	_module_deadend_w
+data/3d/modules/crypt/crypt.bdae	_module_entrance_n
+data/3d/modules/crypt/crypt.bdae	_module_entrance_s
+data/3d/modules/crypt/crypt.bdae	_module_kings_chamber_s
+data/3d/modules/crypt/crypt.bdae	_module_straight_a_ew
+data/3d/modules/crypt/crypt.bdae	_module_straight_b_ew
+data/3d/modules/crypt/crypt.bdae	_module_straight_b_ns
+data/3d/modules/crypt/crypt.bdae	_module_straight_c_ew
+data/3d/modules/crypt/crypt.bdae	_module_straight_c_ns
+data/3d/modules/crypt/crypt.bdae	_module_straight_d_ew
+data/3d/modules/crypt/crypt.bdae	_module_straight_ns
+data/3d/modules/crypt/crypt.bdae	_module_t_nse
+data/3d/modules/crypt/crypt.bdae	_module_t_sew
+data/3d/modules/darktemple/darktemple.bdae	_module_01
+data/3d/modules/darktemple/darktemple.bdae	_module_02
+data/3d/modules/darktemple/darktemple.bdae	_module_03
+data/3d/modules/darktemple/darktemple.bdae	_module_04
+data/3d/modules/darktemple/darktemple.bdae	_module_05
+data/3d/modules/darktemple/darktemple.bdae	_module_06
+data/3d/modules/darktemple/darktemple.bdae	_module_07
+data/3d/modules/darktemple/darktemple.bdae	_module_08
+data/3d/modules/darktemple/darktemple_bossroom.bdae	_module_bossfinal
+data/3d/modules/darkwood/darkwood2.bdae	_module_01
+data/3d/modules/darkwood/darkwood2.bdae	_module_02
+data/3d/modules/darkwood/darkwood2.bdae	_module_03
+data/3d/modules/darkwood/darkwood2.bdae	_module_04
+data/3d/modules/darkwood/darkwood2.bdae	_module_05
+data/3d/modules/darkwood/darkwood2.bdae	_module_06
+data/3d/modules/darkwood/darkwood2.bdae	_module_07
+data/3d/modules/darkwood/darkwood2.bdae	_module_08
+data/3d/modules/darkwood/darkwood2.bdae	_module_09
+data/3d/modules/darkwood/darkwood2.bdae	_module_10
+data/3d/modules/darkwood/darkwood2.bdae	_module_11
+data/3d/modules/darkwood/darkwood2.bdae	_module_12
+data/3d/modules/darkwood/darkwood2.bdae	_module_13
+data/3d/modules/darkwood/darkwood2.bdae	_module_14
+data/3d/modules/darkwood/darkwood2.bdae	_module_15
+data/3d/modules/darkwood/darkwood2.bdae	_module_16
+data/3d/modules/darkwood/darkwood2.bdae	_module_17
+data/3d/modules/darkwood/darkwood2.bdae	_module_19
+data/3d/modules/darkwood/darkwood2.bdae	_module_20
+data/3d/modules/darkwood/darkwood2.bdae	_module_21
+data/3d/modules/darkwood/darkwood2.bdae	_module_23
+data/3d/modules/darkwood/darkwood2.bdae	_module_27
+data/3d/modules/darkwood/darkwood2.bdae	_module_28
+data/3d/modules/darkwood/darkwood2.bdae	_module_29
+data/3d/modules/desert_cave/room_cave.bdae	_module_corner_dsrtcave_ne_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_corner_dsrtcave_se_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_corner_dsrtcave_wn_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_corner_dsrtcave_ws_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_deadend_dsrtcave_e_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_deadend_dsrtcave_n_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_deadend_dsrtcave_s_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_deadend_dsrtcave_w_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_obj01_dsrtcave_e_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_obj02_dsrtcave_ws_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_obj03_dsrtcave_ns_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_obj05_dsrtcave_n_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_straight_dsrtcave_we_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_t_dsrtcave_nse_00
+data/3d/modules/desert_cave/room_cave.bdae	_module_t_dsrtcave_nsw_00
+data/3d/modules/earth_temple/earth_temple.bdae	_module_corner_earthtemp_ne_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_corner_earthtemp_nw_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_corner_earthtemp_se_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_corner_earthtemp_sw_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_deadend_earthtemp_e_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_deadend_earthtemp_n_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_deadend_earthtemp_s_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_deadend_earthtemp_w_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_entry_earthtemp_w_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_midboss_earthtemp_ns_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_objboss_earthtemp_s_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_straight_earthtemp_ew_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_straight_earthtemp_ns_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_t_earthtemp_new_
+data/3d/modules/earth_temple/earth_temple.bdae	_module_t_earthtemp_nsw_
+data/3d/modules/firetemple/firetemple.bdae	_module_T_firetemple_nse_00
+data/3d/modules/firetemple/firetemple.bdae	_module_T_firetemple_nse_01
+data/3d/modules/firetemple/firetemple.bdae	_module_T_firetemple_nsw_00
+data/3d/modules/firetemple/firetemple.bdae	_module_boss_firetemple_s_00
+data/3d/modules/firetemple/firetemple.bdae	_module_corner_firetemple_ne_00
+data/3d/modules/firetemple/firetemple.bdae	_module_corner_firetemple_nw_00
+data/3d/modules/firetemple/firetemple.bdae	_module_corner_firetemple_se_00
+data/3d/modules/firetemple/firetemple.bdae	_module_corner_firetemple_sw_00
+data/3d/modules/firetemple/firetemple.bdae	_module_entrance_firetemple_en_00
+data/3d/modules/firetemple/firetemple.bdae	_module_fallentowerrepeat_firetemple_ns_00
+data/3d/modules/firetemple/firetemple.bdae	_module_fallentowertop_firetemple_ns_00
+data/3d/modules/firetemple/firetemple.bdae	_module_towerknockdown_firetemple_ns_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_bossroom_icycavern_w_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_corner_icycavern_ne_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_corner_icycavern_nw_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_corner_icycavern_se_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_corner_icycavern_sw_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_deadend_icycavern_w_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_entrance_icycavern_e_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_monument_icycavern_we
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_straight_icycavern_ns_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_straight_icycavern_we_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_t_icycavern_nse_00
+data/3d/modules/icy_cavern/icy_cavern.bdae	_module_t_icycavern_nsw_00
+data/3d/modules/icy_hub/icy_hub2.bdae	_module_
+data/3d/modules/icy_hub/icy_hub2.bdae	_module_01
+data/3d/modules/icy_hub/icy_hub2.bdae	_module_02
+data/3d/modules/icy_hub/icy_hub2.bdae	_module_03
+data/3d/modules/icy_hub/icy_hub2.bdae	_module_04
+data/3d/modules/icy_hub/icy_hub2.bdae	_module_05
+data/3d/modules/icy_hub/icy_hub2.bdae	_module_06
+data/3d/modules/infectedvillage/infectedvillage.bdae	_module_infectedvillage_01
+data/3d/modules/infectedvillage/infectedvillage.bdae	_module_infectedvillage_02
+data/3d/modules/lighthousse/lighthouse.bdae	_module_bossroom
+data/3d/modules/lighthousse/lighthouse.bdae	_module_close_01
+data/3d/modules/lighthousse/lighthouse.bdae	_module_close_02
+data/3d/modules/lighthousse/lighthouse.bdae	_module_close_03
+data/3d/modules/lighthousse/lighthouse.bdae	_module_open_01
+data/3d/modules/lighthousse/lighthouse.bdae	_module_open_02
+data/3d/modules/lighthousse/lighthouse.bdae	_module_open_03
+data/3d/modules/lighthousse/lighthouse.bdae	_module_startroom
+data/3d/modules/machineroom/machineroom.bdae	_module_plane_machineroom_00
+data/3d/modules/machineroom/machineroom.bdae	_module_plane_machineroom_01
+data/3d/modules/machineroom/machineroom.bdae	_module_plane_machineroom_02
+data/3d/modules/machineroom/machineroom.bdae	_module_plane_machineroom_03
+data/3d/modules/machineroom/machineroom.bdae	_module_plane_machineroom_04
+data/3d/modules/red_desert/red_desert.bdae	_module_01
+data/3d/modules/red_desert/red_desert.bdae	_module_02
+data/3d/modules/red_desert/red_desert.bdae	_module_03
+data/3d/modules/red_desert/red_desert.bdae	_module_04
+data/3d/modules/red_desert/red_desert.bdae	_module_05
+data/3d/modules/red_desert/red_desert.bdae	_module_06
+data/3d/modules/root_den/root_den_rooms.bdae	_module_corner_rootden_ne_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_corner_rootden_nw_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_corner_rootden_se_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_corner_rootden_sw_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_deadend_rootden_e_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_deadend_rootden_n_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_deadend_rootden_s_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_deadend_rootden_w_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_objboss_rootden_w_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_objcross_rootden_nesw_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_objentry_rootden_e_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_straight_rootden_ew_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_straight_rootden_ns_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_t_rootden_esw_
+data/3d/modules/root_den/root_den_rooms.bdae	_module_t_rootden_wne_
+data/3d/modules/swamp/swamp.bdae	_module_bossroom_ruins_ns_
+data/3d/modules/swamp/swamp.bdae	_module_corner_brdwalk_ne_00
+data/3d/modules/swamp/swamp.bdae	_module_corner_brdwalk_se_00
+data/3d/modules/swamp/swamp.bdae	_module_corner_ruin_se_00
+data/3d/modules/swamp/swamp.bdae	_module_corner_ruin_wn_00
+data/3d/modules/swamp/swamp.bdae	_module_corner_ruin_ws_00
+data/3d/modules/swamp/swamp.bdae	_module_deadend_brdwalk_w_00
+data/3d/modules/swamp/swamp.bdae	_module_merchantcamp_ruins_swe_00
+data/3d/modules/swamp/swamp.bdae	_module_obj_1of4_brdwalk_nse_00
+data/3d/modules/swamp/swamp.bdae	_module_obj_2of4_brdwalk_sw_00
+data/3d/modules/swamp/swamp.bdae	_module_obj_3of4_brdwalk_sw_00
+data/3d/modules/swamp/swamp.bdae	_module_obj_4of4_brdwalk_sw_00
+data/3d/modules/swamp/swamp.bdae	_module_straight_brdwalk_ns_00
+data/3d/modules/swamp/swamp.bdae	_module_straight_brdwalk_we_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_bossroom_swpcave_w_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_corner_swpcave_ne_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_corner_swpcave_nw_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_corner_swpcave_se_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_corner_swpcave_sw_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_deadend_swpcave_n_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_deadend_swpcave_s_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_deadend_swpcave_w_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_straight_swpcave_ns_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_straight_swpcave_we_00
+data/3d/modules/swamp/swamp_cave.bdae	_module_t_swpcave_nse_00
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_01
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_02
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_03
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_04
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_05
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_06
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_07
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_08
+data/3d/modules/underworldhub/underworldhub.bdae	_module_under_09
+data/3d/modules/void_maze/void_maze.bdae	_module_assassin_voidmaze_s_00
+data/3d/modules/void_maze/void_maze.bdae	_module_corner_voidmaze_ne_00
+data/3d/modules/void_maze/void_maze.bdae	_module_corner_voidmaze_nw_00
+data/3d/modules/void_maze/void_maze.bdae	_module_corner_voidmaze_se_00
+data/3d/modules/void_maze/void_maze.bdae	_module_corner_voidmaze_sw_00
+data/3d/modules/void_maze/void_maze.bdae	_module_deadend_voidmaze_e_00
+data/3d/modules/void_maze/void_maze.bdae	_module_deadend_voidmaze_n_00
+data/3d/modules/void_maze/void_maze.bdae	_module_deadend_voidmaze_s_00
+data/3d/modules/void_maze/void_maze.bdae	_module_deadend_voidmaze_w_00
+data/3d/modules/void_maze/void_maze.bdae	_module_island_voidmaze_00
+data/3d/modules/void_maze/void_maze.bdae	_module_straight_voidmaze_ns_00
+data/3d/modules/void_maze/void_maze.bdae	_module_straight_voidmaze_we_00
+data/3d/modules/void_maze/void_maze.bdae	_module_t_voidmaze_nse_00
+data/3d/modules/void_maze/void_maze.bdae	_module_t_voidmaze_nsw_00
+data/3d/modules/void_maze/void_maze.bdae	_module_x_voidmaze_nswe_00
+data/3d/modules/water_temple/water_temple.bdae	_module_T_watertemp_nsw_00
+data/3d/modules/water_temple/water_temple.bdae	_module_T_watertemp_wse_00
+data/3d/modules/water_temple/water_temple.bdae	_module_corner_watertemp_ne_00
+data/3d/modules/water_temple/water_temple.bdae	_module_corner_watertemp_se_00
+data/3d/modules/water_temple/water_temple.bdae	_module_corner_watertemp_sw_00
+data/3d/modules/water_temple/water_temple.bdae	_module_corner_watertemp_wn_00
+data/3d/modules/water_temple/water_temple.bdae	_module_deadend_watertemp_e_00
+data/3d/modules/water_temple/water_temple.bdae	_module_deadend_watertemp_n_00
+data/3d/modules/water_temple/water_temple.bdae	_module_deadend_watertemp_s_00
+data/3d/modules/water_temple/water_temple.bdae	_module_deadend_watertemp_w_00
+data/3d/modules/water_temple/water_temple.bdae	_module_objend_watertemp_s_00
+data/3d/modules/water_temple/water_temple.bdae	_module_objmid_watertemp_ns_00
+data/3d/modules/water_temple/water_temple.bdae	_module_objstart_watertemp_s_00
+data/3d/modules/water_temple/water_temple.bdae	_module_straight_watertemp_ew_00
+data/3d/modules/water_temple/water_temple.bdae	_module_straight_watertemp_ns_00
+data/3d/modules/wind_temple/wind_temple.bdae	_module_corner_windtemp_ne_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_corner_windtemp_nw_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_corner_windtemp_se_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_corner_windtemp_sw_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_deadend_windtemp_e_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_deadend_windtemp_n_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_deadend_windtemp_s_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_deadend_windtemp_w_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_entry_windtemp_n_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_midboss_windtemp_ws_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_objboss_windtemp_e_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_straight_windtemp_ew_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_straight_windtemp_ns_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_t_windtemp_esw_
+data/3d/modules/wind_temple/wind_temple.bdae	_module_t_windtemp_wne_
+data/3d/props/common/prop_barrel.bdae	
+data/3d/props/earth_temple/earth_temple_deadend.bdae	
+data/3d/props/earth_temple/earth_temple_exit.bdae	
+data/3d/props/swamp/prop_swamp_corpses.bdae	
+data/3d/skybox/skybox_blood.bdae	
+data/3d/skybox/skybox_darktemple.bdae	
+data/3d/skybox/skybox_swamp.bdae	
+data/3d/skybox/skybox_under.bdae	
+data/3d/skybox/skybox_wind.bdae	

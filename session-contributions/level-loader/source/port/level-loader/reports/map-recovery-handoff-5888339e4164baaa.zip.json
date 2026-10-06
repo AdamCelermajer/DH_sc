@@ -1,0 +1,10 @@
+{
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\map-recovery-handoff-5888339e4164baaa.zip",
+  "archive_sha256": "d83a37a11b3833f03d45cb89a63f18f2765f92b5cb973e4516facc6728075a87",
+  "checkpoint_sha256": "5888339e4164baaa1c19e6094b3b92fb28feb75247bc926ea7baa3de9823efaa",
+  "apk_sha256": "ef7048fcdecf30e0ce2422551639f27d1d61938843ff2c1cc46c4da29789a7e2",
+  "files": 200,
+  "native_cases_before_static_decor": 344,
+  "android_frames": 86,
+  "full_loader_verified": false
+}

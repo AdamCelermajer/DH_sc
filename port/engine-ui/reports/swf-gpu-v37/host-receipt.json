@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "scope": "Host GL call/state contract with explicit mock GL/shader transport; no actual GLES pixels, source AS/menu or FPS claim",
+  "stdout": "PASS host GL call/state contract (not pixels): normal-zero, line-zero,1000 warm deferred draws, transparent masks, non-normal passes, required validation/errors, scene/stencil/resource boundaries, context cache reset; checks=1085\n",
+  "stderr": "",
+  "exit_code": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "command": [
+    "wsl.exe",
+    "--cd",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc",
+    "g++",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-O2",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-gpu-v37-host-headers",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "port/engine-ui/tests/swf_gpu_submission_contract_v37.cpp",
+    "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+    "port/engine-ui/swf_vertex_cache_v36.cpp",
+    "port/engine-ui/swf_grid_snap_v1.cpp",
+    "port/scene-materials/swf_texture.cpp",
+    "-o",
+    ".local-inputs/swf_gpu_submission_contract_v37_test"
+  ],
+  "sources": [
+    {
+      "path": "port/engine-ui/tests/swf_gpu_submission_contract_v37.cpp",
+      "sha256": "dab670a56adb8c56634f4f3b48afff74e5c005dea1e2ffc4fe3d3cd0dbe9ccb1"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "sha256": "10c7fcd0997f5294db92177153930c2a95173947649a2c71248ca5edbf016457"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.cpp",
+      "sha256": "23dbc3a073659037c1a0e25486c46db3b683d31bc4bd42e13cec2203a78a97cc"
+    },
+    {
+      "path": "port/engine-ui/swf_grid_snap_v1.cpp",
+      "sha256": "cd53012b3c1d88c7951f708ecf19802b3ddb2058b63c411a31e57376a1adfb00"
+    },
+    {
+      "path": "port/scene-materials/swf_texture.cpp",
+      "sha256": "5e5fb0a1c31c7a79d212db678a4df71be84f40bdb1e3ecde192a009599801b85"
+    }
+  ],
+  "binary_sha256": "3bb55a6cb20de206794508ccb484a33e625d4413e80bc56d3fe8eae7eac16f4e"
+}

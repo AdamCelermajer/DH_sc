@@ -1,0 +1,17 @@
+00395634 000000dc t _GLOBAL__I_.._.._sources_Game_Objects_SoundEmitter.cpp
+00340ccc 00000024 W ObjectBase* GetNewInstance<SoundEmitter>()
+00395718 00000228 T SoundEmitter::DeclareProperties()
+003951c0 00000218 T SoundEmitter::Update()
+00395144 0000007c T SoundEmitter::InitPost()
+0039551c 0000008c T SoundEmitter::SoundEmitter(ObjectBase::GO_IDS)
+003955a8 0000008c T SoundEmitter::SoundEmitter(ObjectBase::GO_IDS)
+00395474 0000001c T SoundEmitter::~SoundEmitter()
+003953e0 0000008c T SoundEmitter::~SoundEmitter()
+00395490 0000008c T SoundEmitter::~SoundEmitter()
+00394ecc 00000008 W SoundEmitter::IsUpdatable() const
+00394ec0 00000004 W SoundEmitter::Draw() const
+00394ec4 00000008 W SoundEmitter::IsZonable() const
+009648b0 000000f4 D vtable for SoundEmitter
+0039546c 00000008 T non-virtual thunk to SoundEmitter::~SoundEmitter()
+003953d8 00000008 T non-virtual thunk to SoundEmitter::~SoundEmitter()
+00395710 00000008 T non-virtual thunk to SoundEmitter::DeclareProperties()

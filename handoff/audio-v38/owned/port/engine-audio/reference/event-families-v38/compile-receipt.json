@@ -1,0 +1,30 @@
+{
+  "scope": "Owned headers only; host source oracle, no APK",
+  "oracle_flags": [
+    "--target=aarch64-linux-android23",
+    "-std=c++17",
+    "-O2",
+    "-fPIC",
+    "-shared",
+    "-fno-exceptions",
+    "-fno-rtti",
+    "-nostdlib++",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wl,--unresolved-symbols=ignore-all"
+  ],
+  "strict_targets": [
+    "aarch64-linux-android23",
+    "x86_64-linux-android23"
+  ],
+  "compiler": "NDK29.0.14206865 clang++",
+  "status": "PASS",
+  "strict_flags": [
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsyntax-only"
+  ]
+}

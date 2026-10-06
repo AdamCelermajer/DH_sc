@@ -1,0 +1,14 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "source": "authored_fx_alignment_v39.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "authored_fx_alignment_v39.cpp",
+    "exit": 0,
+    "stderr": ""
+  }
+]

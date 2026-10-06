@@ -1,0 +1,578 @@
+{
+  "validation": "PASS",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entry": "0x3a49f0",
+  "literal_address": "0x8c3170",
+  "literal": "PlayerCharacter",
+  "function_sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a",
+  "cases": [
+    {
+      "type": -1,
+      "archetype": "",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "PlayerCharacterKnight",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "xPlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "playercharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "NPC_PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "PlayerCharacter PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "PlayerCharacte",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": -1,
+      "archetype": "PlayerCharacter\u0000ignored",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "",
+      "result": false,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "PlayerCharacter",
+      "result": true,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "PlayerCharacterKnight",
+      "result": true,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "xPlayerCharacter",
+      "result": false,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "playercharacter",
+      "result": false,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "NPC_PlayerCharacter",
+      "result": false,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "PlayerCharacter PlayerCharacter",
+      "result": true,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "PlayerCharacte",
+      "result": false,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 0,
+      "archetype": "PlayerCharacter\u0000ignored",
+      "result": true,
+      "strstr_calls": 1,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "PlayerCharacter",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "PlayerCharacterKnight",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "xPlayerCharacter",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "playercharacter",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "NPC_PlayerCharacter",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "PlayerCharacter PlayerCharacter",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "PlayerCharacte",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 1,
+      "archetype": "PlayerCharacter\u0000ignored",
+      "result": true,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "PlayerCharacterKnight",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "xPlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "playercharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "NPC_PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "PlayerCharacter PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "PlayerCharacte",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2,
+      "archetype": "PlayerCharacter\u0000ignored",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "PlayerCharacterKnight",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "xPlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "playercharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "NPC_PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "PlayerCharacter PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "PlayerCharacte",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 3,
+      "archetype": "PlayerCharacter\u0000ignored",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "PlayerCharacterKnight",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "xPlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "playercharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "NPC_PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "PlayerCharacter PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "PlayerCharacte",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 4,
+      "archetype": "PlayerCharacter\u0000ignored",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "PlayerCharacterKnight",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "xPlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "playercharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "NPC_PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "PlayerCharacter PlayerCharacter",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "PlayerCharacte",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    },
+    {
+      "type": 2147483647,
+      "archetype": "PlayerCharacter\u0000ignored",
+      "result": false,
+      "strstr_calls": 0,
+      "calls": [
+        "GetCharType fixture"
+      ]
+    }
+  ],
+  "scope": "Whole original IsPlayer body; actual GetCharType is fixture result, original imported strstr modeled with exact C-string first-match semantics. No main-world type/provider integration claimed."
+}

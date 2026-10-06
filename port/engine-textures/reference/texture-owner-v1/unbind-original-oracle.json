@@ -1,0 +1,265 @@
+{
+  "cases": [
+    {
+      "auto": false,
+      "mips": 1,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": false,
+      "mips": 1,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": false,
+      "mips": 10,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": false,
+      "mips": 10,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": false,
+      "mips": 32,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": false,
+      "mips": 32,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": false,
+      "mips": 33,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295,
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": false,
+      "mips": 33,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 0,
+      "pending": [
+        4294967295,
+        4294967295
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 1,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 1,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 10,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 10,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 32,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 32,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 33,
+      "dirty_before": 0,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1,
+        0
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    },
+    {
+      "auto": true,
+      "mips": 33,
+      "dirty_before": 8189,
+      "dirty_after": 8189,
+      "flags_after": 2,
+      "pending": [
+        1,
+        0
+      ],
+      "events": [
+        [
+          "delete",
+          77
+        ]
+      ]
+    }
+  ],
+  "scope": "16 whole original ARM unbindImpl5b28dc 2D cases; actual GL delete boundary fixture"
+}

@@ -1,0 +1,78 @@
+{
+  "validation": "PASS",
+  "original_entry": "0x6594a0",
+  "cases": [
+    {
+      "directory_fixture": "data/3d/gameobjects",
+      "actual_authored_uri": "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+      "actual_original_calls": [
+        {
+          "path": "data/3d/gameobjects/q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+          "optional_identity": ""
+        },
+        {
+          "path": "q:/data/iphone/3d/textures/atlas_dh2_game_objects_001.tga",
+          "optional_identity": ""
+        }
+      ]
+    },
+    {
+      "directory_fixture": "data/3d/modules/swamp",
+      "actual_authored_uri": "q:/data/iphone/3d/textures/env_swamp.tga",
+      "actual_original_calls": [
+        {
+          "path": "data/3d/modules/swamp/q:/data/iphone/3d/textures/env_swamp.tga",
+          "optional_identity": ""
+        },
+        {
+          "path": "q:/data/iphone/3d/textures/env_swamp.tga",
+          "optional_identity": ""
+        }
+      ]
+    },
+    {
+      "directory_fixture": "data/3d/modules/crypt",
+      "actual_authored_uri": "q:/data/iphone/3d/textures/env_crypt.tga",
+      "actual_original_calls": [
+        {
+          "path": "data/3d/modules/crypt/q:/data/iphone/3d/textures/env_crypt.tga",
+          "optional_identity": ""
+        },
+        {
+          "path": "q:/data/iphone/3d/textures/env_crypt.tga",
+          "optional_identity": ""
+        }
+      ]
+    },
+    {
+      "directory_fixture": "data/3d/modules/swamp",
+      "actual_authored_uri": "data/3d/environments/textures/example.tga",
+      "actual_original_calls": [
+        {
+          "path": "data/3d/modules/swamp/data/3d/environments/textures/example.tga",
+          "optional_identity": ""
+        },
+        {
+          "path": "data/3d/environments/textures/example.tga",
+          "optional_identity": ""
+        }
+      ]
+    },
+    {
+      "directory_fixture": "data/3d/modules/swamp",
+      "actual_authored_uri": "../../Desktop/example.tga",
+      "actual_original_calls": [
+        {
+          "path": "data/3d/modules/swamp/../../Desktop/example.tga",
+          "optional_identity": ""
+        },
+        {
+          "path": "../../Desktop/example.tga",
+          "optional_identity": ""
+        }
+      ]
+    }
+  ],
+  "comparisons": 5,
+  "scope": "Original factory path ordering/string operands with explicit string allocation/append and unavailable texture manager endpoint; no filesystem mount or GPU proof"
+}

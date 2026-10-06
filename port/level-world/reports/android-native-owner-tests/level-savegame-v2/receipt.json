@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "scope": "Whole source Savegame framing/jobs and LevelSavegame OBJS writer/reader; golden original callbacks declared fixtures, complete native file-cache-job roundtrip using explicit memory storage fixture; not live Android disk/actor SG acceptance",
+  "apk_sha256": "11c8219e13e55e24dc3668c45821fb29b03627d6e5810b8a10e340bd86764908",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\level_savegame_backend_v2_native.cpp",
+      "sha256": "27d641f41325233534b37f17a17c876be4339b388bc05c30ec89f2c1fb5e30fb"
+    },
+    {
+      "path": "port\\level-world\\level_savegame_cache_v1.cpp",
+      "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9"
+    },
+    {
+      "path": "port\\level-world\\savegame_stream_v2.cpp",
+      "sha256": "38ec4dd1251e0759986e2a63459c17cb8a0a805d31cf921fddcd2ffb286d0bc7"
+    },
+    {
+      "path": "port\\level-world\\savegame_jobs_owner_v2.cpp",
+      "sha256": "b32ab2529bbb4d42647327c85b1d3a8d421995965eb27795751cd121c9500372"
+    },
+    {
+      "path": "port\\level-world\\level_savegame_objects_v2.cpp",
+      "sha256": "26fb0d7f719827d71b9cd893c9b69552ce2e545723315508e2b9b47872198ffe"
+    },
+    {
+      "path": "port\\level-world\\level_savegame_writer_v2.cpp",
+      "sha256": "77e1a65512e13da92103e768c5bd7f3d53299affc80ffeeaf3131ff77fca23cb"
+    },
+    {
+      "path": "port\\level-world\\savegame_file_gate_v2.cpp",
+      "sha256": "a2c92a2642fc59a66abd22a5a16db7dbc623aea0c9c9838660a3c09663226dda"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "2a8b8fdc9fcc69dfbe26d6b62a5c3b91f0db2fa132e4018f28e882172470d322"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "7cb0b14b5473dcade388ca1e5b3112cd8b2d7d82da10767b8ac8763a671b9664"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "bb51f89ebf10b4a58784251e3de79df563ec9f871912caef691af9176bcbdfe4"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "7d0b7ffa5406798d16c375bb205371d91ce2c655ca925ef60b57801804d55e4f"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "e2e71a859120c1395c464c29baf2db45793ef28e0a909fdb11c016153e2a5b02"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "92fd82e4aaa3bdc1fe502a694e5e266f87e5e8e65a071a3cdb8d270e6c2978c9",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\level_savegame_backend_v2_native.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_cache_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\savegame_stream_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\savegame_jobs_owner_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_objects_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_writer_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\savegame_file_gate_v2.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\level-savegame-v2\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\level-savegame-v2\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\level-savegame-v2\\level-savegame-v2.bin"
+  ],
+  "stdout": "LevelSavegame V2 original8 writer+32 objects / complete cache-job roundtrip PASS 449 checks\n",
+  "stderr": "",
+  "exit_code": 0
+}

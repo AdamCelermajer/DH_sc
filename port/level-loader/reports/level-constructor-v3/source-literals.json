@@ -1,0 +1,43 @@
+{
+  "script_name": {
+    "address": "0x8c66f0",
+    "symbol": null,
+    "text": "data/scripts/"
+  },
+  "load_first": {
+    "address": "0x8c6700",
+    "symbol": null,
+    "text": "level/combat_formulas"
+  },
+  "load_second": {
+    "address": "0x8c6718",
+    "symbol": null,
+    "text": "level/death_scripts"
+  },
+  "counter": {
+    "address": "0x9a30e8",
+    "symbol": "_ZL19s_dbgLevelLoadCount",
+    "text": null
+  },
+  "level_rows_size": {
+    "got": "0x996358",
+    "address": "0x9a65e4",
+    "symbol": "_ZN6Arrays9LevelList4sizeE"
+  },
+  "level_rows": {
+    "got": "0x99530c",
+    "address": "0x9a65e8",
+    "symbol": "_ZN6Arrays9LevelList7membersE"
+  },
+  "reset_global": {
+    "got": "0x9972c4",
+    "address": "0x9a26d0",
+    "symbol": "_ZN6Module10s_moduleIdE"
+  },
+  "menu_manager": {
+    "got": "0x99828c",
+    "address": "0x99f72c",
+    "symbol": "_ZN9SingletonI11ApplicationE6s_instE"
+  },
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

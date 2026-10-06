@@ -1,0 +1,124 @@
+{
+  "validation": "PASS",
+  "scope": "Actual LevelC1 prefix module fields; string/Lua/EventManager calls are declared fixture boundaries.",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entry": "0x3f3128",
+  "cutoff_before": "0x3f32d8",
+  "direct_stores": {
+    "module_offset160": [
+      "0x3f3228",
+      "0x3f3230",
+      "0x3f3234"
+    ],
+    "object_module_id18c": "0x3f32d4"
+  },
+  "helpers_declared_as_fixtures": {
+    "3375196": "EventManager constructor",
+    "3655044": "LuaScript constructor",
+    "3227884": "std::string constructor",
+    "3213792": "std::string assign",
+    "3650932": "LuaScript Load"
+  },
+  "cases": [
+    {
+      "poison_byte": 0,
+      "argument": 0,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    },
+    {
+      "poison_byte": 0,
+      "argument": 3735928559,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    },
+    {
+      "poison_byte": 90,
+      "argument": 0,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    },
+    {
+      "poison_byte": 90,
+      "argument": 3735928559,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    },
+    {
+      "poison_byte": 165,
+      "argument": 0,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    },
+    {
+      "poison_byte": 165,
+      "argument": 3735928559,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    },
+    {
+      "poison_byte": 255,
+      "argument": 0,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    },
+    {
+      "poison_byte": 255,
+      "argument": 3735928559,
+      "fields": {
+        "module_offset160": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "object_module_id18c": -1
+      }
+    }
+  ],
+  "oracle_sha256": "f430588d0892baab6eaee07682d709d3f77df40c45192b4ebc32fadf9bd01413",
+  "cpu_helper_sha256": "04b7a600e9bfed2285ef273b9365780c5c86870b9350d796756673eeb1b41f4c",
+  "full_level_constructor_verified": false,
+  "gameplay_verified": false
+}

@@ -1,0 +1,9 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entry": "0x3a59ac",
+  "size": 312,
+  "function_sha256": "c17b6b9ee8943802d089fd8c928f391574e0a8134a4c2c8d32b741d6827ce680",
+  "cases": 288,
+  "gold_sha256": "bfff8f23967e2cdd7ecccafaae5f7663525e397a66a538f88e9076938a3a380c",
+  "scope": "Whole original Revive control flow/direct cue/dead/remote/network stores and live App query reload. Event/vitals/physical/IsPlayer/floor/position/skills are explicit observer/helper fixtures; their complete bodies are not claimed."
+}

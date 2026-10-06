@@ -1,0 +1,3 @@
+/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/character-spawn-fields-v42/character_spawn_fields_v42_test.cpp:11:69: error: ‘loader’ is not a namespace-name
+   11 | using namespace dh2;using namespace dh2::world;using namespace dh2::loader;
+      |                                                                     ^~~~~~

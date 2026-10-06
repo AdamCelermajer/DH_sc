@@ -40,9 +40,39 @@ public final class MainActivity extends Activity {
     private LinearLayout developerPanel;
     private TextView loadError;
     private BroadcastReceiver debugAttackReceiver;
+    private void openOriginalMenuBrowser(String url){
+        // Original DungeonHunter2.openBrowser: ACTION_VIEW + Uri.parse(url).
+        if(url==null||url.length()==0)return;
+        try{
+            startActivity(new Intent(Intent.ACTION_VIEW,android.net.Uri.parse(url)));
+            Log.i("DH2Front","Original menu browser dispatched | "+url);
+        }catch(android.content.ActivityNotFoundException e){
+            Log.w("DH2Front","Original menu browser unavailable",e);
+            show("No browser is available to open this link.");
+        }
+    }
     @Override public void onCreate(Bundle state) {
         setTheme(android.R.style.Theme_Material_NoActionBar);super.onCreate(state);
-        if(state==null&&getIntent().getBooleanExtra("cinematic",false)){startActivity(new Intent(this,CinematicActivity.class));finish();return;}
+        // A normal app launch plays the recovered original intro. Explicit
+        // resource/front-screen entry points remain available to the engine
+        // owner and emulator checks; returning from the intro specifies main.
+        final Intent launch=getIntent();
+        // Android may create a duplicate launcher entry above an existing
+        // task (including a loading screen or playing cinematic). Resume
+        // that task rather than redirecting the duplicate into a fresh intro.
+        if(!isTaskRoot()&&Intent.ACTION_MAIN.equals(launch.getAction())&&
+            launch.hasCategory(Intent.CATEGORY_LAUNCHER)){
+            Log.i("DH2Front","Existing front task retained on launcher reentry");
+            finish();return;
+        }
+        final boolean explicitEntry=launch.hasExtra("front_screen")||launch.hasExtra("texture")||
+            launch.hasExtra("model")||launch.hasExtra("world")||launch.getBooleanExtra("original_hud",false)||
+            launch.getBooleanExtra("developer",false);
+        final boolean showIntro=launch.getBooleanExtra("cinematic",!explicitEntry);
+        if(state==null&&showIntro){
+            Log.i("DH2Front","Normal launch intro | explicit_entry="+explicitEntry);
+            startActivity(new Intent(this,CinematicActivity.class));finish();return;
+        }
         frontAudio=new FrontAudio(this);
         developerOpen=state!=null?state.getBoolean("developerOpen",false):getIntent().getBooleanExtra("developer",false);
         boolean inspection=getIntent().hasExtra("texture")||getIntent().hasExtra("model")||getIntent().getBooleanExtra("original_hud",false);
@@ -115,7 +145,7 @@ public final class MainActivity extends Activity {
         });
         surface.setRenderer(new GLSurfaceView.Renderer(){
             @Override public void onSurfaceCreated(GL10 gl,EGLConfig config){
-                Log.i("DH2Native",NativeBridge.initialize(getAssets()));loadedAsset=null;ready=true;
+                Log.i("DH2Native",NativeBridge.initialize(getAssets(),android.os.Build.MANUFACTURER,android.os.Build.MODEL));loadedAsset=null;ready=true;
                 NativeBridge.enemyAi(enemyAi);
                 if(assets.length>0)loadSelected();else show("No bundled asset fixtures");
             }
@@ -129,6 +159,25 @@ public final class MainActivity extends Activity {
                 String sound;
                 while((sound=NativeBridge.consumeOriginalMenuSound())!=null){
                     final String file=sound;runOnUiThread(()->frontAudio.effect(file));
+                }
+                String browserUrl;
+                while((browserUrl=NativeBridge.consumeOriginalMenuBrowser())!=null){
+                    final String url=browserUrl;runOnUiThread(()->openOriginalMenuBrowser(url));
+                }
+                int catalogLanguage;
+                while((catalogLanguage=NativeBridge.consumeOriginalMenuCatalog())>=0){
+                    final int language=catalogLanguage;
+                    runOnUiThread(()->{
+                        startActivity(new Intent(MainActivity.this,OriginalCatalogActivity.class).putExtra("language",language));
+                        Log.i("DH2Front","Original More Games dispatched | language="+language);
+                    });
+                }
+                if(NativeBridge.consumeOriginalMenuExit()){
+                    runOnUiThread(()->{
+                        frontAudio.stop();
+                        Log.i("DH2Front","Authored Exit confirmed | front audio released | task finishing");
+                        finishAndRemoveTask();
+                    });
                 }
                 String error=NativeBridge.consumeOriginalUiError();
                 if(error!=null){Log.e("DH2Native","Original UI display failed: "+error);show("Original HUD failed: "+error);}
@@ -217,7 +266,7 @@ public final class MainActivity extends Activity {
         runOnUiThread(()->{movement.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);attack.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);});
         if(name.equals("ui/original-main-menu")||name.equals("ui/original-loading")){
             String report=NativeBridge.loadOriginalFrontScreen(getFilesDir().getAbsolutePath(),name.equals("ui/original-loading")?"loading":"main");
-            if(!report.contains("failed")){loadedAsset=name;runOnUiThread(()->{if(name.equals("ui/original-main-menu"))frontAudio.title();else frontAudio.stop();});}
+            if(!report.contains("failed")){loadedAsset=name;runOnUiThread(()->{if(!name.equals("ui/original-main-menu"))frontAudio.stop();});}
             baseReport=name+"\n"+report;Log.i("DH2Native",baseReport);show(baseReport);surface.requestRender();return;
         }
         if(name.equals("ui/original-health-panel")){

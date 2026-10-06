@@ -1,0 +1,37 @@
+--------- beginning of main
+I/libprocessgroup(32528): Created cgroup /sys/fs/cgroup/apps/uid_10235/pid_32528
+I/Zygote  (32528): Process 32528 created for com.example.dh2
+I/com.example.dh2(32528): Late-enabling -Xcheck:jni
+I/com.example.dh2(32528): Using generational CollectorTypeCMC GC.
+W/com.example.dh2(32528): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2(32528): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader(32528): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter(32528): Compat change id reported: 333566037; UID 10235; state: ENABLED
+D/nativeloader(32528): Configuring clns-9 for other apk /data/app/~~64Tajxpy2dBsVAOJxcZZRw==/com.example.dh2-iF3bQUL44fc-kDpWvaCnPg==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~64Tajxpy2dBsVAOJxcZZRw==/com.example.dh2-iF3bQUL44fc-kDpWvaCnPg==/lib/x86_64:/data/app/~~64Tajxpy2dBsVAOJxcZZRw==/com.example.dh2-iF3bQUL44fc-kDpWvaCnPg==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+V/GraphicsEnvironment(32528): Currently set values for:
+V/GraphicsEnvironment(32528):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment(32528):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment(32528): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment(32528): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment(32528): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter(32528): Compat change id reported: 407952621; UID 10235; state: ENABLED
+D/CompatChangeReporter(32528): Compat change id reported: 419020719; UID 10235; state: ENABLED
+D/CompatChangeReporter(32528): Compat change id reported: 458413887; UID 10235; state: ENABLED
+--------- beginning of system
+I/DisplayManager(32528): Choreographer implicitly registered for the refresh rate.
+D/DesktopExperienceFlags(32528): Toggle override initialized to: false
+I/GFXSTREAM(32528): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM(32528): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    (32528): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    (32528): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/nativeloader(32528): Load /data/app/~~64Tajxpy2dBsVAOJxcZZRw==/com.example.dh2-iF3bQUL44fc-kDpWvaCnPg==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~64Tajxpy2dBsVAOJxcZZRw==/com.example.dh2-iF3bQUL44fc-kDpWvaCnPg==/base.apk!classes3.dex): ok
+D/CompatChangeReporter(32528): Compat change id reported: 418924588; UID 10235; state: ENABLED
+W/HWUI    (32528): Unknown dataspace 0
+D/InsetsController(32528): Setting requestedVisibleTypes to 496 (was 503)
+D/WindowOnBackDispatcher(32528): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@3e3811d
+D/VRI[MainActivity](32528): WindowInsets changed: 2400x1080 statusBars:[0,63,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,63,0,84] 
+I/HWUI    (32528): Using FreeType backend (prop=Auto)
+W/libc    (32528): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/Surface (32528): Creating surface for consumer unnamed-32528-0 with slotExpansion=1 for 64 slots
+I/Surface (32528): Creating surface for consumer VRI[MainActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+D/VRI[MainActivity](32528): WindowInsets changed: statusBars:null navigationBars:null 

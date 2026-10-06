@@ -1,0 +1,114 @@
+{
+  "validation": "PASS",
+  "scope": "Native executable source-composition checks; no APK installation or runtime world publication",
+  "serial": "emulator-5590",
+  "avd": "DH2_Loader_API37",
+  "cases": [
+    {
+      "probe": "dh2_loader_connected_source_probe",
+      "probe_sha256": "2119c360fd76d5c4630a18087858b7158657a193d5ee9023c1ece1da71a54355",
+      "result": {
+        "validation": "PASS",
+        "composition_checks": 12,
+        "first_failure": {
+          "uri": "data/scene/001_swamp.mlx",
+          "element": 1,
+          "type": "LevelConfig",
+          "factory_address": 3411112,
+          "factory_prefix": "empty",
+          "registered_count": 0
+        },
+        "module_count": 9,
+        "declaration_count": 205,
+        "additional_required_classes": [
+          {
+            "type": "CheckpointZone",
+            "occurrences": 4,
+            "factory_address": 3411756
+          },
+          {
+            "type": "Decor",
+            "occurrences": 10,
+            "factory_address": 3412220
+          },
+          {
+            "type": "DestructibleContainer",
+            "occurrences": 9,
+            "factory_address": 3411292
+          },
+          {
+            "type": "Door",
+            "occurrences": 4,
+            "factory_address": 3409956
+          },
+          {
+            "type": "Dummy",
+            "occurrences": 41,
+            "factory_address": 3412132
+          },
+          {
+            "type": "LevelConfig",
+            "occurrences": 1,
+            "factory_address": 3411112
+          },
+          {
+            "type": "Module",
+            "occurrences": 9,
+            "factory_address": 3411864
+          },
+          {
+            "type": "QuestMoveInZone",
+            "occurrences": 1,
+            "factory_address": 3411792
+          },
+          {
+            "type": "SoundEmitter",
+            "occurrences": 1,
+            "factory_address": 3411148
+          },
+          {
+            "type": "SpawnPoint",
+            "occurrences": 11,
+            "factory_address": 3411472
+          },
+          {
+            "type": "TriggerObject",
+            "occurrences": 1,
+            "factory_address": 3411724
+          },
+          {
+            "type": "TriggerZone",
+            "occurrences": 18,
+            "factory_address": 3411652
+          },
+          {
+            "type": "TriggerZoneExitLevel",
+            "occurrences": 3,
+            "factory_address": 3411616
+          }
+        ],
+        "live_runtime_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "probe": "dh2_loader_canonical_source_adapter_probe",
+      "probe_sha256": "9602cce7d09ec678cb9eb25080aeb8e5c76e3540edf31f3c5d67fa692080ee29",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": {
+    "dh2_loader_connected_source_probe": "cf2552e20101ebd270d1789ea035c309f2957e40516f8547f4939f5142a1d972",
+    "loader/dh2_loader_canonical_source_adapter_probe": "545d4310e06051984d198a4d9ab12ba5beaff0d603bf24b1623789284cd54461"
+  },
+  "unchanged_map_apk_sha256": "ef7048fcdecf30e0ce2422551639f27d1d61938843ff2c1cc46c4da29789a7e2",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "host_receipt_sha256": "9aa9b0e5fa9dc247175acb0394b71331fbdd91b8608e8f487774c42e500e9fc4",
+  "full_loader_verified": false
+}

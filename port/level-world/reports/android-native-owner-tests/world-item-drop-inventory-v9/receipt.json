@@ -1,0 +1,127 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "6b0b5408e7bec23ef7c3a570b7b1a1e328cae302733159eb3de986872911d69e",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\world_item_drop_inventory_v9.cpp",
+      "sha256": "9bb6286c01a18936a7bb3d616b246e6007a5819e1bfe7ef9c52c563045e64e04"
+    },
+    {
+      "path": "port\\level-world\\fresh_inventory_loot_source_v9.cpp",
+      "sha256": "c7677a19f2faabdf9ef5c9cc06d60465fed4bfff702bb9a574be537e5907c0d3"
+    },
+    {
+      "path": "port\\level-world\\character_loot_item_source_v9.cpp",
+      "sha256": "2410ec4dadfa9b4983fcc1e7ac7701a8e9dd48b0121dc127c596034d02067005"
+    },
+    {
+      "path": "port\\level-world\\world_item_init_again_source_v9.cpp",
+      "sha256": "573f57ce90ed8e75355d9bbaa2714c893906695dd7c13ded390b001ec4bfe8be"
+    },
+    {
+      "path": "port\\level-world\\world_item_drop_inventory_v9.cpp",
+      "sha256": "a4255b3a5f4124d7153aeb783e4aa349a865e3bfaa9b96ffa769659b382eb326"
+    },
+    {
+      "path": "port\\game-data\\fresh_inventory_owned_v4.cpp",
+      "sha256": "43e192d49a134cd5b6c4edee26246a444f2123a52f9d24be658bbd0a4590a8fa"
+    },
+    {
+      "path": "port\\level-world\\world_loot_item_runtime_v1.cpp",
+      "sha256": "17713015272e7fa41991e90bc3ea1769009f9d01509e375d1de47cd3a2d8086d"
+    },
+    {
+      "path": "port\\level-world\\character_loot_drop_award_v8.cpp",
+      "sha256": "5243bbc549cbc88a5ee3f843123e9b08006ad9920f6a85a4a168b3dc113b7dee"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "9060eb98316cbcba0ea9627759e072bc8eb3c5355713bed6e909bc822deccf01"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "e930e56debbd8eff93914f44df62e825c529b45d840ef817ee513bc6658aa9b9"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "4c9a3ffeee979edce27ac91542653ee87ebd8f56ce486cf4b437b85e322d1fbb"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "8b1aca640aab6592fb7c034d2b1dbcd3bf96a22c8694b40dcbb1650582b9e023"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "376f8041956e02608e889d516aef06248282c0b6e6a0975ea96eee49abb60617"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "0c3f7c42a567741c6dff64c68ce7da94603870337ccd4bd64efeee564760fa04"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "a218afd5bb430b4b8cfafcc1bfc88c5b4e315f396660f36f2904ab6cd25623d6",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\world_item_drop_inventory_v9.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\fresh_inventory_loot_source_v9.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_loot_item_source_v9.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_init_again_source_v9.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_drop_inventory_v9.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\fresh_inventory_owned_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_loot_item_runtime_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_loot_drop_award_v8.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\world-item-drop-inventory-v9\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\world-item-drop-inventory-v9\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\world-item-drop-inventory-v9\\world-item-drop-inventory-v9.bin"
+  ],
+  "stdout": "PASS SAME145 manager Fresh NULL inventory source transfer (no clone), original DropInventory order/5000 lock/friendly678, actual item identity and audio failure mutation prefix; factory/visual/audio/body/scatter/PlayerInfo declared fixtures checks=176\n",
+  "stderr": "",
+  "exit_code": 0
+}

@@ -5,8 +5,15 @@ if(NOT TARGET dh2_scene_materials)
 endif()
 add_library(dh2_engine_animation SHARED animation.cpp events.cpp event_track.cpp animation_blend.cpp animation_registration.cpp component_applicator.cpp angle_interpreter.cpp)
 target_sources(dh2_engine_animation PRIVATE material_color.cpp)
+target_sources(dh2_engine_animation PRIVATE particle_box_v2.cpp particle_cloud_runtime_v2.cpp particle_resource_init_v2.cpp material_color_v3.cpp)
+target_sources(dh2_engine_animation PRIVATE particle_cloud_runtime_v3.cpp
+ particle_deflector_v1.cpp particle_force_scene_v2.cpp particle_bound_forces_v4.cpp)
 target_sources(dh2_engine_animation PRIVATE particle_parameter.cpp)
+target_sources(dh2_engine_animation PRIVATE particle_scalar_animation_v6.cpp)
 target_sources(dh2_engine_animation PRIVATE particle_factory.cpp)
+target_sources(dh2_engine_animation PRIVATE particle_random_v1.cpp particle_resource_init_v1.cpp
+ particle_force_scene_v1.cpp particle_scene_color_v1.cpp particle_cloud_models_v1.cpp
+ particle_cloud_runtime_v1.cpp particle_billboard_v1.cpp)
 target_sources(dh2_engine_animation PRIVATE particle_emission.cpp)
 target_compile_features(dh2_engine_animation PUBLIC cxx_std_17)
 target_include_directories(dh2_engine_animation PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")

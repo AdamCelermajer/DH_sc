@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "c438fd7476ddfedb1129638b64c93a6e49361a8a945186ac1bb45329bddbcea3",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\canonical_retained_actor_adoption_v3.cpp",
+      "sha256": "42a0d4bcb9c5eb96a22b05ef6fe5141598f499a5562cfbbb0cb4ac486419f85c"
+    },
+    {
+      "path": "port\\level-world\\retained_character_actor_v1.cpp",
+      "sha256": "68e467c7c73a140bf5bbe4cc30def2edeab067e04cccbbb59d14c55460424401"
+    },
+    {
+      "path": "port\\level-world\\canonical_existing_actor_publication_v3.cpp",
+      "sha256": "bd66ecf06b641411a830cabcde4601c1829f4500b83326018a1290d2b05e6d38"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_manager_v1.cpp",
+      "sha256": "c7ddf9772d2c1d4238e618fec12562bda6656e2904e40b13c36d144ccb26bc42"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "c1ba3ccb21daf91acb96f9901ac73ffee2011b922ec7093a7194b129fb98f7e2"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "f7b792df6a638fbec5ed616cd5b0dc07137ca3d621e043a6d87ac93f0fd10905"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "dc1eb115670672154fcfc8f856b70f85fa39755ead72c7c889225122cf6dad45"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "d9c1336e8173b647235215da0f7a1d122df6cb1073a849892815c74099cdaee8"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "e1f1d1d6f4b0c540cdf8d85a8c3cda248be005afe5a6039a9e59828ed0186830"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "348a0162cc0f614ba148e66daf7ccaa2ef0e4487320c37d6c3ff788246695845"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "54f2c18c9b2fefc11831f65e5a66818cca0c89019a1191202bb855b3e2d2533e",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\canonical_retained_actor_adoption_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\retained_character_actor_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_existing_actor_publication_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_manager_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-retained-actor-adoption-v3\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-retained-actor-adoption-v3\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-retained-actor-adoption-v3\\canonical-retained-actor-adoption-v3.bin"
+  ],
+  "stdout": "Canonical existing retained Character adoption PASS same identity/Handle/property/life/name/room, preflight and single source allocation/publication; script VM lifecycle not claimed\n",
+  "stderr": "",
+  "exit_code": 0
+}

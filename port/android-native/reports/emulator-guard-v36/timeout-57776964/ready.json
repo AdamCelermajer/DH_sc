@@ -1,0 +1,10 @@
+{
+  "verified": true,
+  "job_name": "Local\\DH2-Emulator-2e44bb57-8d87-40c4-89c3-4751ddb7d0ed",
+  "launcher_pid": 7860,
+  "launcher_create_time": 134357570919855886,
+  "target_pid": 14232,
+  "target_create_time": 134357570920588248,
+  "watchdog_pid": 11864,
+  "manifest_sha256": "5a54c1d02dbe2e192a2ed92e4c8eb23daabb9f6874169d2e76cb25f14132bfe3"
+}

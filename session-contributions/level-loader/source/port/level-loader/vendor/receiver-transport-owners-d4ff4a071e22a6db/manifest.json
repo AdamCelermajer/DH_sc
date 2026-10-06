@@ -1,0 +1,45 @@
+{
+  "scope": "Immutable current root canonical owner APIs/implementations for standalone generic transport verification only; no class construction providers",
+  "files": {
+    "canonical_class_receiver_bindings_v1.hpp": {
+      "sha256": "bb8b1fb01df649723f670aaca953e6ddfa459eb8e1f5a267d1eda8a27953f233",
+      "bytes": 3252
+    },
+    "canonical_level_config_module_declarations_v1.inc": {
+      "sha256": "b9e57f13e0eda8695274db43b3be31959a9d8f0525e742e58b4b0e0f254010ce",
+      "bytes": 3423
+    },
+    "canonical_object_factory_v1.cpp": {
+      "sha256": "84eb8a2eb9aa8909f8d3f9918ec0fde83d92e434d69a4ce64978a8259bb08463",
+      "bytes": 4510
+    },
+    "canonical_object_factory_v1.hpp": {
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439",
+      "bytes": 2610
+    },
+    "canonical_object_manager_v1.cpp": {
+      "sha256": "3b778d37287bdbbf0c5c4c8e1d26f449e5fa25011e85e8f64b877629b552e154",
+      "bytes": 5052
+    },
+    "canonical_object_manager_v1.hpp": {
+      "sha256": "cb6884a7430126cacb51607312f128a2da96750e2e86e542a8683e3fa8879272",
+      "bytes": 3255
+    },
+    "canonical_property_declarations_v1.inc": {
+      "sha256": "5525db00248e259892e569d240352ef154cbc9cc807f65022d6759d9211224a3",
+      "bytes": 5991
+    },
+    "canonical_property_map_v1.cpp": {
+      "sha256": "da849d2cb3dc7a2ac67707136e2751b662636ed2a8929612792f91cc85e96c20",
+      "bytes": 8856
+    },
+    "canonical_property_map_v1.hpp": {
+      "sha256": "bfacc2040fc34fabd86eb93863eb5cf6182f78c39d4518f17b8bc00757ea6ad8",
+      "bytes": 3311
+    },
+    "character_target_providers.hpp": {
+      "sha256": "2b6042a6a05c8b5be3f80738e7e308316832048271b875c018c2d9dbcdba7aa1",
+      "bytes": 2375
+    }
+  }
+}

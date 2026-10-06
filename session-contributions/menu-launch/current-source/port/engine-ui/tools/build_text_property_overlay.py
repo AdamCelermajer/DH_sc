@@ -72,13 +72,11 @@ mask_end='''		// turn off mask
 assert text.count(mask_start)==1 and text.count(mask_end)==1
 text=text.replace(mask_start,'''
         // Original edit_text_character::display 0x792928..0x792a6c draws
-        // normal, non-border glyph records without the stock field rectangle
-        // mask. Reconstructed HTML records can extend beyond a single-line
-        // authoring rectangle (Help/Credits); retain ancestor authored masks.
-        // Unconnected stock/plain and border paths keep their existing policy.
-        as_value source_html;
-        const bool stock_clip = m_def->m_border ||
-            !as_object::get_member("__dh2_original_html", &source_html) || !source_html.to_bool();
+        // normal glyph records without the stock field rectangle mask. That
+        // path does not branch on plain vs HTML text. Plain confirmation text
+        // can extend beyond its authoring rectangle too; ancestor masks stay
+        // active. Keep the unproven stock border path's existing policy.
+        const bool stock_clip = m_def->m_border;
         if (stock_clip) {
             render::begin_submit_mask();
             render::fill_style_color(0, m_background_color);

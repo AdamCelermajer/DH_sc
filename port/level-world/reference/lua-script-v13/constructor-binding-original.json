@@ -1,0 +1,210 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "deferred": 0,
+      "owned_state": 34603008,
+      "binding_count": 33,
+      "libraries": [
+        "0x31b010",
+        "0x31b000",
+        "0x31aff8",
+        "0x31b008"
+      ]
+    },
+    {
+      "deferred": 1,
+      "owned_state": 34607104,
+      "binding_count": 0,
+      "libraries": []
+    },
+    {
+      "deferred": 0,
+      "owned_state": 34611200,
+      "binding_count": 33,
+      "libraries": [
+        "0x31b010",
+        "0x31b000",
+        "0x31aff8",
+        "0x31b008"
+      ]
+    },
+    {
+      "deferred": 1,
+      "owned_state": 34615296,
+      "binding_count": 0,
+      "libraries": []
+    }
+  ],
+  "bindings": [
+    {
+      "name": "Include",
+      "callback": "0x37efe4",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "Trace",
+      "callback": "0x37ee80",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "SetInt",
+      "callback": "0x37de5c",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetInt",
+      "callback": "0x37ec14",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "AddToVFTable",
+      "callback": "0x37ec70",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "PushVFTable",
+      "callback": "0x37be00",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "PopVFTable",
+      "callback": "0x37dc44",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "ToFixed",
+      "callback": "0x37ebc4",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "FromFixed",
+      "callback": "0x37ee84",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "MulFixed",
+      "callback": "0x37e1a4",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "DivFixed",
+      "callback": "0x37e068",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "Rand",
+      "callback": "0x37df30",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "RandF",
+      "callback": "0x37e2d8",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "BitNot",
+      "callback": "0x37f814",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "BitAnd",
+      "callback": "0x37e9ec",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "BitOr",
+      "callback": "0x37e814",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "BitXOr",
+      "callback": "0x37f750",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetPyCst",
+      "callback": "0x37f354",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetPyStruct",
+      "callback": "0x37f4a8",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetPyOID",
+      "callback": "0x37f5fc",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "CallPyScript",
+      "callback": "0x37ef3c",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetNumPlayers",
+      "callback": "0x37cbd8",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetHostPlayer",
+      "callback": "0x37ca60",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetHostPlayerLevel",
+      "callback": "0x37cc00",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetHostPlayerDifficulty",
+      "callback": "0x37cb8c",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetCurrentLevelRange",
+      "callback": "0x37f1f0",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetGameObjectsByType",
+      "callback": "0x37f03c",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "SetGameType",
+      "callback": "0x37f878",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "GetGameScript",
+      "callback": "0x37c934",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "OnTargetDied",
+      "callback": "0x37ddc8",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "PlayMusic",
+      "callback": "0x37e420",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "PlaySound",
+      "callback": "0x37e578",
+      "receiver": "0x2010000"
+    },
+    {
+      "name": "StopSound",
+      "callback": "0x37e730",
+      "receiver": "0x2010000"
+    }
+  ],
+  "private_states": 4,
+  "closed_states": 4,
+  "source_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Whole LuaScript C1(bool0/1), embedded InstanceC1 stores and LuaScriptD1/InstanceD1 ownership/empty teardown. Actual library calls/binder deliveries/newstate/Lua close/inline reserve are explicit primitive receiver fixtures; no shared global interpreter inferred."
+}

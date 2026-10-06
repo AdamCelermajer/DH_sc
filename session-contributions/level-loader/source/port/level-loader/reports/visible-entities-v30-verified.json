@@ -1,0 +1,34 @@
+{
+  "scope": "Partial authored SWAMP asset rendering inspection; not whole level lifecycle/gameplay acceptance",
+  "build": "assembleDebug PASS for x86_64 and arm64-v8a",
+  "apk_sha256": "6c62a15fdea0e51aab4660d329886b111392ca1ada92b285cf3ccdb8f1423dad",
+  "manifest_sha256": "3830531e5c46d95f11d966be6f4cd09d5aad0ef7aeeda3d323249f52d6ba71d6",
+  "avd": "DH2_Loader_API37",
+  "serial": "emulator-5590",
+  "adb_port": 5039,
+  "app": "local.dh2.loader",
+  "rendered_characters": 19,
+  "rendered_chests": 5,
+  "blocked_visuals": 13,
+  "constructed_prefix": 105,
+  "next_constructor": "QuestMoveInZone",
+  "visual_qa": {
+    "chest": "Textured original chest, authored placement, no white collision occlusion",
+    "troll": "Textured original troll and nearby lizardmen in static inspection poses, no white collision occlusion"
+  },
+  "screenshots": {
+    "visible-entities-v30-chest.png": "4a6728d1eab3f34186d9b4ec9dbb84913549d04a793642a5496a31d14a42a1a0",
+    "visible-entities-v30-troll.png": "32de25d11c95fc970169befa5cd5fcdcf600af260dd142988a0f16324f69f904"
+  },
+  "source_sha256": {
+    "port/level-loader/tests/canonical_module_graph_source_probe.cpp": "3eef296794b1fb79c667352d0fc490c7844f9e317e4366cf3e0ed6f652a584af",
+    "port/level-loader/tests/canonical_preview_entity_export_v30.cpp": "a0ffa65ed729c14afed387a2c599f895f90546b335776ffc4eb2277d5d9fe2d4",
+    "port/level-loader/tests/canonical_preview_entity_export_v30.inc": "a179a8de401c37cd3e377ae3e9bd20d47c8d3c2d70d225fb2b4a29c1c76a90df",
+    "port/level-loader/android/loader_preview.cpp": "769d68e0d16ff165b45a1658f954bc08a0de2835561703e15b8116e5352c2f92",
+    "port/level-loader/android/visible_entity_renderer_v30.inc": "8e26f1ca03edc2c52b23604c88c9f102205362b3af0879e3bc7de45beeb018c6",
+    "port/android-native/app/src/main/java/com/example/dh2/LoaderPreviewActivity.java": "a9d3c66fb0626e46949d85828a0bbabf7c964105a55b381bff2151b7d9af9137",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "f9bcdbec828c7bb3f2f01c28f609b59a3123ee6f70829c817bdbbf61ae9c68bf"
+  },
+  "full_loader_verified": false,
+  "shared_checkout_modified": false
+}

@@ -1,0 +1,65 @@
+{
+  "validation": "PASS",
+  "scope": "Observe current fixed/generated map frames after cached traversal integration.\n\nThis bounded regression does not instantiate objects, resolve conditions or\ntest campaign saves. Every device command targets and checks the private AVD.\n",
+  "serial": "emulator-5590",
+  "avd": "DH2_Loader_API37",
+  "app_id": "local.dh2.loader",
+  "apk_sha256": "ef7048fcdecf30e0ce2422551639f27d1d61938843ff2c1cc46c4da29789a7e2",
+  "audit_source_sha256": "8fcce67177ba07e06e5aeda9a656eaf5d984b040fd0fce8db4061cd3ae0d4ee9",
+  "steps": [
+    {
+      "identity": "DARKWOOD",
+      "definition": "003_darkwood.mlx",
+      "seed": 0,
+      "status": "DARKWOOD | 24 modules | 931 mesh instances | 944 draws | 6 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 5",
+      "frame_log": "10-05 14:18:09.683 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=sources\r\n10-05 14:18:09.716 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=map\r\n10-05 14:18:10.105 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=declarations\r\n10-05 14:18:10.110 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=publish_source\r\n10-05 14:18:10.115 10749 10770 I DH2Loader: STATIC_DECOR_INSPECTION identity=DARKWOOD sources=8 skipped=5 runtime_objects=0 animation=0\r\n10-05 14:18:12.506 10749 10770 I DH2Loader: DARKWOOD | 24 modules | 931 mesh instances | 944 draws | 6 textures\r\n10-05 14:18:12.506 10749 10770 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 5\r\n10-05 14:18:12.515 10749 10770 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=931 draws=944 triangles=40158 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=8 decor_skipped=5\r\n",
+      "screenshot": "loader-recovery-darkwood.png"
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "seed": 0,
+      "status": "SWAMP_02 seed 0 | 11 modules | 648 mesh instances | 670 draws | 9 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 37 | Static authored decor: 63 | Decor providers pending: 2",
+      "frame_log": "10-05 14:18:17.826 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=procedural_sources\r\n10-05 14:18:17.829 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=blocks\r\n10-05 14:18:17.829 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=connections\r\n10-05 14:18:17.830 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=lists\r\n10-05 14:18:17.830 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=rules\r\n10-05 14:18:17.830 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=layout\r\n10-05 14:18:17.831 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=modules\r\n10-05 14:18:17.833 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=sources\r\n10-05 14:18:17.841 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=map\r\n10-05 14:18:17.926 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=declarations\r\n10-05 14:18:17.927 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=publish_source\r\n10-05 14:18:18.080 10833 10858 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_02 sources=63 skipped=2 runtime_objects=0 animation=0\r\n10-05 14:18:21.019 10833 10858 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 648 mesh instances | 670 draws | 9 textures\r\n10-05 14:18:21.019 10833 10858 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 37 | Static authored decor: 63 | Decor providers pending: 2\r\n10-05 14:18:21.027 10833 10858 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=648 draws=670 triangles=27911 textures=9 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=63 decor_meshes=151 decor_skipped=2\r\n",
+      "screenshot": "loader-recovery-swamp_02.png"
+    },
+    {
+      "identity": "SWAMP",
+      "definition": "001_swamp.mlx",
+      "seed": 0,
+      "status": "SWAMP | 9 modules | 464 mesh instances | 480 draws | 8 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 23 | Static authored decor: 31 | Decor providers pending: 10",
+      "frame_log": "10-05 14:18:26.241 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources\r\n10-05 14:18:26.249 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=map\r\n10-05 14:18:26.581 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=declarations\r\n10-05 14:18:26.581 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=publish_source\r\n10-05 14:18:26.607 10923 10943 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP sources=31 skipped=6 runtime_objects=0 animation=0\r\n10-05 14:18:29.236 10923 10943 I DH2Loader: SWAMP | 9 modules | 464 mesh instances | 480 draws | 8 textures\r\n10-05 14:18:29.236 10923 10943 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 23 | Static authored decor: 31 | Decor providers pending: 10\r\n10-05 14:18:29.251 10923 10943 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10\r\n",
+      "screenshot": "loader-recovery-swamp.png"
+    },
+    {
+      "case": "missing_definition",
+      "previous_map_pixels_unchanged": true,
+      "compared_rect": [
+        0,
+        143,
+        2400,
+        765
+      ],
+      "frame_log": "10-05 14:18:40.647 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources\r\n10-05 14:18:40.657 10923 10943 I DH2Loader: Preparation failed; previous map retained: sources: Missing authored XML: missing-loader-test.mlx\r\n10-05 14:18:40.657 10923 10943 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10\r\n",
+      "screenshot": "loader-recovery-swamp-failed-retained.png"
+    },
+    {
+      "case": "module_focus",
+      "status": "Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending",
+      "screenshot": "loader-recovery-swamp-module0.png"
+    }
+  ],
+  "screenshots": {
+    "loader-recovery-darkwood.png": "97760e86bf150f85e0fc7cc21d42108cbed0ade011074faf46466e60414efcb8",
+    "loader-recovery-swamp-failed-retained.png": "54e125bbe5d9bd62b3fcf2c3545f33de3d0f748cd986b9e28b0c396b4d7a2a61",
+    "loader-recovery-swamp-module0.png": "36d858986f2298e01b919a674ea2e005e8a4a7072ec0ef28c20a3cdb97c740b7",
+    "loader-recovery-swamp-reloaded.png": "cb7d27f3b150147dd40bdeecd3976cf9924dd57a5d231a1afbb3aa0b5bfd16f7",
+    "loader-recovery-swamp.png": "cb7d27f3b150147dd40bdeecd3976cf9924dd57a5d231a1afbb3aa0b5bfd16f7",
+    "loader-recovery-swamp_02.png": "1b7e5620f315928532af4ae05317b9c426dc553d30e13165a083359e5bad0694"
+  },
+  "preparation_stages_verified": true,
+  "logcat_sha256": "8b50c8bcd74127492048a2f577911d1012d219cca548f2d959a5e9fd77fb4a8b",
+  "runtime_objects_verified": false,
+  "mob_and_chest_rendering_verified": false,
+  "full_loader_verified": false
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "path": "port\\level-world\\reference\\gameplay-camera-v1\\cache\\cameratests.bdae",
+    "cameras": [
+      {
+        "id": "PlayerCamera_Default-camera",
+        "kind": 0,
+        "horizontal_fov_or_mag": 45.0,
+        "aspect": 1.5,
+        "near": 600.0,
+        "far": 3800.0,
+        "target_node": "#PlayerCamera_Default.Target-node"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "Root_Camera-node",
+        "name": "Root_Camera",
+        "parent": null,
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quaternion": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "instances": []
+      },
+      {
+        "id": "PlayerCamera_Default-node",
+        "name": "PlayerCamera_Default",
+        "parent": "Root_Camera-node",
+        "position": [
+          1380.0,
+          -1380.0,
+          2450.0
+        ],
+        "quaternion": [
+          -0.3048992455005646,
+          -0.1262935847043991,
+          -0.3612430989742279,
+          0.8721180558204651
+        ],
+        "instances": [
+          {
+            "tag": 1,
+            "external": 0,
+            "uri": "#PlayerCamera_Default-camera"
+          }
+        ]
+      },
+      {
+        "id": "upvector-node",
+        "name": "upvector",
+        "parent": "PlayerCamera_Default-node",
+        "position": [
+          0.0,
+          652.5780029296875,
+          -0.0004879999905824661
+        ],
+        "quaternion": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "instances": []
+      },
+      {
+        "id": "PlayerCamera_Default.Target-node",
+        "name": "PlayerCamera_Default_Target",
+        "parent": "Root_Camera-node",
+        "position": [
+          -4.099999932805076e-05,
+          0.0,
+          0.0
+        ],
+        "quaternion": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "instances": []
+      }
+    ]
+  },
+  {
+    "path": "port\\level-world\\reference\\gameplay-camera-v1\\cache\\playercamera.bdae",
+    "cameras": [
+      {
+        "id": "PlayerCamera_Default-camera",
+        "kind": 0,
+        "horizontal_fov_or_mag": 45.0,
+        "aspect": 1.5,
+        "near": 600.0,
+        "far": 3800.0,
+        "target_node": "#PlayerCamera_Default.Target-node"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "Root_Camera-node",
+        "name": "Root_Camera",
+        "parent": null,
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quaternion": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "instances": []
+      },
+      {
+        "id": "PlayerCamera_Default-node",
+        "name": "PlayerCamera_Default",
+        "parent": "Root_Camera-node",
+        "position": [
+          1380.0,
+          -1180.4599609375,
+          2551.550048828125
+        ],
+        "quaternion": [
+          -0.27646806836128235,
+          -0.12732210755348206,
+          -0.3984556794166565,
+          0.8652095794677734
+        ],
+        "instances": [
+          {
+            "tag": 1,
+            "external": 0,
+            "uri": "#PlayerCamera_Default-camera"
+          }
+        ]
+      },
+      {
+        "id": "upvector-node",
+        "name": "upvector",
+        "parent": "PlayerCamera_Default-node",
+        "position": [
+          1.1000000085914508e-05,
+          652.5780029296875,
+          -0.00024399999529123306
+        ],
+        "quaternion": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "instances": []
+      },
+      {
+        "id": "PlayerCamera_Default.Target-node",
+        "name": "PlayerCamera_Default_Target",
+        "parent": "Root_Camera-node",
+        "position": [
+          -4.099999932805076e-05,
+          0.046507999300956726,
+          0.040038999170064926
+        ],
+        "quaternion": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "instances": []
+      }
+    ]
+  }
+]

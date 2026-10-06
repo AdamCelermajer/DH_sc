@@ -1,0 +1,208 @@
+{
+  "scope": "Read-only shared root renderer takeover-site and observed capability snapshot; no root edits/GPU execution",
+  "root_sites": [
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_app.cpp",
+      "file_sha256": "68423a8a7b7b0de2abda7a76e6bf245e0709e0406380f54ac213daf520b62794",
+      "anchor": "worlds/crypt01.dwld",
+      "lines": [
+        186
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_app.cpp",
+      "file_sha256": "68423a8a7b7b0de2abda7a76e6bf245e0709e0406380f54ac213daf520b62794",
+      "anchor": "data/scene/x07_crypt_backup.mlx",
+      "lines": [
+        198
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "\"GOTHICUS_CRYPT_01\"",
+      "lines": [
+        341
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "crypt01-actor-initialization.bin",
+      "lines": [
+        850
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "const std::map<std::string,std::string> tags{{\"Crypt_Skeleton\"",
+      "lines": [
+        871
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "std::string load_world(",
+      "lines": [
+        2462
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "read(assets,\"crypt.bdae\",\"worlds\")",
+      "lines": [
+        2471
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "read(assets,\"crypt01.dact\",\"worlds\")",
+      "lines": [
+        2514
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "for(const auto& object:object_records)",
+      "lines": [
+        2543
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "actor.identity=0x100000002ull",
+      "lines": [
+        2549
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "for(const auto& primitive:group.resource.primitives)",
+      "lines": [
+        2597
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "if(batch.material.id!=p.material)",
+      "lines": [
+        2610
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "object_groups=std::move(candidate_groups)",
+      "lines": [
+        2629
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "construct_native_level_c1_v25(assets,selected_mlx_uri",
+      "lines": [
+        2733
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "initialize_npc_navigation_v1();",
+      "lines": [
+        2735
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "glDrawElements(GL_TRIANGLES",
+      "lines": [
+        2822
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "for(auto& group:object_groups)",
+      "lines": [
+        907,
+        914,
+        1251,
+        1274,
+        1347,
+        1365,
+        1572,
+        1976,
+        2052,
+        2201,
+        2632,
+        2674,
+        2681,
+        2747,
+        2840
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "DACT placement again",
+      "lines": [
+        2889
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "GLuint upload(",
+      "lines": [
+        942
+      ]
+    },
+    {
+      "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "file_sha256": "6994e68612566df218a5fd210452e2c6246fb1474e90b2d627cd8a4239625ae8",
+      "anchor": "void create_program(",
+      "lines": [
+        759
+      ]
+    }
+  ],
+  "support_sha256": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\renderer_native_level_c1_v25.inc": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\renderer_canonical_world_v4.inc": "03c30150c4a8354a6ee28d047db5b296c519b2e1780c4ba70134d252bb5496e1",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\renderer_effect_program_connection_v4.inc": "5d72ceb4002fd8b7a791ba2ba3ffd0262bebb66a1ad76b614265d0b81efcea58",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\original_cache_assets_v1.hpp": "d1c63fb57e022926f6a5953cc3bff0af4ec4c75b63fb924ca3a64e3ee8c5773e",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\renderer_effect_submission_v34.hpp": "48183c5ba032ae1663118f26a2487315a3d4a6f122fef9cbb908e9d840f4a7b6"
+  },
+  "observed_model_draw_sink": {
+    "topology": "GL_TRIANGLES only",
+    "index_type": "GL_UNSIGNED_SHORT only",
+    "vertex_layout": "packed float3 position/float2 UV/float4 color",
+    "skinning": "CPU positions already world-space for retained actor branch",
+    "texture_upload": "decoded RGBA glTexImage2D, linear/repeat, name-keyed cache"
+  },
+  "generic_kernel_source_inputs": {
+    "modules": "actual retained ModuleDrawFrameV1 resource pins/cached worlds/material slot sequence",
+    "actors": "V37 checked synchronous Visual borrow + V38 actual primitive/skin/material inputs"
+  },
+  "root_pipeline_needed": {
+    "actual_mesh_mode_and_selected_technique_flags": true,
+    "real_current_GSLevel_and_camera_frame": true,
+    "actual_render_queue_pass_enrollment": true,
+    "actual_program_attribute_texture_material_bindings": true,
+    "stable_resource_and_GL_generation_keys": true,
+    "canonical_registry_actor_behaviors": true
+  },
+  "no_dirty_library_run": true,
+  "shared_source_edited": false,
+  "runtime_backend_proof": false
+}

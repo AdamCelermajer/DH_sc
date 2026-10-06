@@ -1,0 +1,37 @@
+--- a/port/level-world/canonical_object_manager_v1.hpp
++++ b/port/level-world/canonical_object_manager_v1.hpp
+@@ -39,7 +39,7 @@
+  std::map<std::int32_t,Entry> entries_;
+  std::vector<std::uintptr_t> characters_,modules_;
+  std::vector<std::uintptr_t> pending_; // Original ctor-empty ObjectManager+34 list.
+- std::uint32_t next_key_{},count_{},frame_{}; // explicit ctor stores +4c/+50/+78
++ std::uint32_t next_key_{},count_{},frame_{},init_phase7c_{}; // explicit ctor stores +4c/+50/+78
+  CanonicalObjectManagerServicesV1 services_;
+  bool required(bool,const char*,std::string&);
+ public:
+@@ -64,6 +64,25 @@
+  // source GetObjectByName(create=true) twice or allocating a map node.
+  bool published_name_conflict_v4(const char*,std::int32_t,bool&,std::string&)const;
+  void begin_frame(std::uint32_t v)noexcept{frame_=v;}
++ // Source C1 field7c zero store34a4f8. This SAME manager owns InitPost phase;
++ // scheduler stores only modern cursors, never another phase/registry.
++ using SourceActorBorrowV38=CanonicalObjectBorrowV1;
++ std::uint32_t& source_init_phase7c_v38()noexcept{return init_phase7c_;}
++ // Original map header+1c node count includes the real reserved null key0,
++ // names allocated before publication and operator[]-inserted null entries.
++ std::uint32_t source_map_size1c_v38()const noexcept{return std::uint32_t(entries_.size());}
++ bool source_ordered_begin_v38(std::int32_t& key,const CanonicalObjectBorrowV1*& actor)const noexcept{
++  const auto i=entries_.begin();if(i==entries_.end()){actor=nullptr;return false;}
++  key=i->first;actor=i->second.actor.identity?&i->second.actor:nullptr;return true;
++ }
++ bool source_ordered_next_v38(std::int32_t previous,std::int32_t& key,const CanonicalObjectBorrowV1*& actor)const noexcept{
++  const auto i=entries_.upper_bound(previous);if(i==entries_.end()){actor=nullptr;return false;}
++  key=i->first;actor=i->second.actor.identity?&i->second.actor:nullptr;return true;
++ }
++ bool source_ordered_entry_v38(std::int32_t key,const CanonicalObjectBorrowV1*& actor)const noexcept{
++  const auto i=entries_.find(key);if(i==entries_.end()){actor=nullptr;return false;}
++  actor=i->second.actor.identity?&i->second.actor:nullptr;return true;
++ }
+  std::uint32_t source_count50()const noexcept{return count_;}
+  std::uint32_t source_next_key4c()const noexcept{return next_key_;}
+  const std::vector<std::uintptr_t>& characters()const noexcept{return characters_;}

@@ -66,7 +66,7 @@ public:
   if(dh2_bres_open(&image_,bytes_->data(),bytes_->size())!=resources::BresError::ok)throw std::runtime_error("Blood FX BRES");
   if(word(image_.root_offset+0x78)!=1||word(image_.root_offset+0x80)||word(image_.root_offset+0x90))throw std::runtime_error("Required particle resource family");
   if(!decode_particle_emitter(bytes_,0,input_,error))return false;
-  if(input_.name!="IrrPCloud01-emitter")throw std::runtime_error("Required authored particle resource domain");
+  if(input_.name!="IrrPCloud01-emitter")throw std::runtime_error("Required authored particle resource domain: "+input_.name);
   if(!scene::load_particle_scene_v1(image_,scene_,error))return false;
   unsigned found=0;auto vs=word(image_.root_offset+156);auto nodes=word(vs+12);
   // Both source blood resources consist of two actual authored root nodes.
@@ -112,6 +112,14 @@ public:
  // SAME vector begin/end divided by100; it does not disable generation.
  bool completed(bool& out,std::string&)const override{out=emission_&&emission_->particles().empty();return ready_;}
  bool draw_parts(std::vector<skinning::VisualDrawPartV6>& out,std::string& error)const override{if(!ready_||!draw_){error="Blood source render backing";return false;}if(draw_->geometry.positions.empty()){out.clear();return true;}skinning::VisualDrawPartV6 part;part.retention=draw_;part.geometry=&draw_->geometry;part.material_table=&draw_->materials;part.materials=&draw_->binding;part.positions=draw_->geometry.positions;part.world={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};out={std::move(part)};return true;}
+ bool draw_sources_v3(std::vector<CharacterParticleDrawSourceV3>& out,std::string& error)const override{
+  std::vector<skinning::VisualDrawPartV6> parts;if(!draw_parts(parts,error))return false;
+  std::vector<CharacterParticleDrawSourceV3> result;for(auto& part:parts){
+   CharacterParticleDrawSourceV3 s;s.resource_bytes=bytes_;s.image=&image_;s.scene=&scene_;
+   s.emitter_node=emitter_node_;s.material=material_;s.emitter_world=emitter_world_;
+   s.particle_identity=reinterpret_cast<std::uintptr_t>(this);s.part=std::move(part);result.push_back(std::move(s));
+  }out=std::move(result);return true;
+ }
 };
 }
 bool CharacterBloodFxFactoryV2::create(void* p,std::shared_ptr<const std::vector<std::uint8_t>> bytes,const scene::Scene&,std::shared_ptr<CharacterParticleFxResourceV2>& out,std::string& error){out.reset();if(!p||!bytes){error="Blood factory source borrow";return false;}auto r=std::make_shared<BloodResource>(std::move(bytes),static_cast<CharacterBloodFxFactoryV2*>(p)->services_);if(!r->initialize(error))return false;out=std::move(r);return true;}

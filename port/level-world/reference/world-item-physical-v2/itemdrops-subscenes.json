@@ -1,0 +1,1191 @@
+{
+  "asset_sha256": "c4d783a23a158b4e52687d8ed718c584ee5ad90a325e0111c8da95ae86937610",
+  "visual_scene_count": 1,
+  "first_scene_id": "itemdrops.max",
+  "nodes": [
+    {
+      "offset": 95964,
+      "id": "root_itemdrop_BattleAxe-node",
+      "name": "root_itemdrop_BattleAxe",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 98044,
+      "id": "dummy_itemdrop_BattleAxe-node",
+      "name": "dummy_itemdrop_BattleAxe",
+      "parent": "root_itemdrop_BattleAxe-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 98124,
+      "id": "itemdrop_BattleAxe_skinned_batch-node",
+      "name": "itemdrop_BattleAxe_skinned_batch",
+      "parent": "dummy_itemdrop_BattleAxe-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 98204,
+      "id": "glow_BattleAxe-node",
+      "name": "glow_BattleAxe",
+      "parent": "itemdrop_BattleAxe_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 98284,
+      "id": "glow_BattleAxe-node_PIVOT",
+      "name": "glow_BattleAxe_PIVOT",
+      "parent": "glow_BattleAxe-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96044,
+      "id": "root_itemdrop_Boot_Cloth-node",
+      "name": "root_itemdrop_Boot_Cloth",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 99828,
+      "id": "dummy_itemdrop_Boot_Cloth-node",
+      "name": "dummy_itemdrop_Boot_Cloth",
+      "parent": "root_itemdrop_Boot_Cloth-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 99908,
+      "id": "itemdrop_Boot_Cloth_skinned_batch-node",
+      "name": "itemdrop_Boot_Cloth_skinned_batch",
+      "parent": "dummy_itemdrop_Boot_Cloth-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 99988,
+      "id": "glow_Boot_Cloth-node",
+      "name": "glow_Boot_Cloth",
+      "parent": "itemdrop_Boot_Cloth_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 100068,
+      "id": "glow_Boot_Cloth-node_PIVOT",
+      "name": "glow_Boot_Cloth_PIVOT",
+      "parent": "glow_Boot_Cloth-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96124,
+      "id": "root_itemdrop_Boot_Leather-node",
+      "name": "root_itemdrop_Boot_Leather",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 101704,
+      "id": "dummy_itemdrop_Boot_Leather-node",
+      "name": "dummy_itemdrop_Boot_Leather",
+      "parent": "root_itemdrop_Boot_Leather-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 101784,
+      "id": "itemdrop_Boot_Leather_skinned_batch-node",
+      "name": "itemdrop_Boot_Leather_skinned_batch",
+      "parent": "dummy_itemdrop_Boot_Leather-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 101864,
+      "id": "glow_Boot_Leather-node",
+      "name": "glow_Boot_Leather",
+      "parent": "itemdrop_Boot_Leather_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 101944,
+      "id": "glow_Boot_Leather-node_PIVOT",
+      "name": "glow_Boot_Leather_PIVOT",
+      "parent": "glow_Boot_Leather-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96204,
+      "id": "root_itemdrop_Boot_Plate-node",
+      "name": "root_itemdrop_Boot_Plate",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 103580,
+      "id": "dummy_itemdrop_Boot_Plate-node",
+      "name": "dummy_itemdrop_Boot_Plate",
+      "parent": "root_itemdrop_Boot_Plate-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 103660,
+      "id": "itemdrop_Boot_Plate_skinned_batch-node",
+      "name": "itemdrop_Boot_Plate_skinned_batch",
+      "parent": "dummy_itemdrop_Boot_Plate-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 103740,
+      "id": "glow_Boot_Plate-node",
+      "name": "glow_Boot_Plate",
+      "parent": "itemdrop_Boot_Plate_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 103820,
+      "id": "glow_Boot_Plate-node_PIVOT",
+      "name": "glow_Boot_Plate_PIVOT",
+      "parent": "glow_Boot_Plate-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96284,
+      "id": "root_itemdrop_Chest-node",
+      "name": "root_itemdrop_Chest",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 105364,
+      "id": "dummy_itemdrop_Chest-node",
+      "name": "dummy_itemdrop_Chest",
+      "parent": "root_itemdrop_Chest-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 105444,
+      "id": "itemdrop_Chest_skinned_batch-node",
+      "name": "itemdrop_Chest_skinned_batch",
+      "parent": "dummy_itemdrop_Chest-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 105524,
+      "id": "glow_Chest-node",
+      "name": "glow_Chest",
+      "parent": "itemdrop_Chest_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 105604,
+      "id": "glow_Chest-node_PIVOT",
+      "name": "glow_Chest_PIVOT",
+      "parent": "glow_Chest-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96364,
+      "id": "root_itemdrop_Chest_Cloth-node",
+      "name": "root_itemdrop_Chest_Cloth",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 107148,
+      "id": "dummy_itemdrop_Chest_Cloth-node",
+      "name": "dummy_itemdrop_Chest_Cloth",
+      "parent": "root_itemdrop_Chest_Cloth-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 107228,
+      "id": "itemdrop_Chest_Cloth_skinned_batch-node",
+      "name": "itemdrop_Chest_Cloth_skinned_batch",
+      "parent": "dummy_itemdrop_Chest_Cloth-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 107308,
+      "id": "glow_Chest_Cloth-node",
+      "name": "glow_Chest_Cloth",
+      "parent": "itemdrop_Chest_Cloth_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 107388,
+      "id": "glow_Chest_Cloth-node_PIVOT",
+      "name": "glow_Chest_Cloth_PIVOT",
+      "parent": "glow_Chest_Cloth-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96444,
+      "id": "root_itemdrop_Chest_Leather-node",
+      "name": "root_itemdrop_Chest_Leather",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 108932,
+      "id": "dummy_itemdrop_Chest_Leather-node",
+      "name": "dummy_itemdrop_Chest_Leather",
+      "parent": "root_itemdrop_Chest_Leather-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 109012,
+      "id": "itemdrop_Chest_Leather_skinned_batch-node",
+      "name": "itemdrop_Chest_Leather_skinned_batch",
+      "parent": "dummy_itemdrop_Chest_Leather-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 109092,
+      "id": "glow_Chest_Leather-node",
+      "name": "glow_Chest_Leather",
+      "parent": "itemdrop_Chest_Leather_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 109172,
+      "id": "glow_Chest_Leather-node_PIVOT",
+      "name": "glow_Chest_Leather_PIVOT",
+      "parent": "glow_Chest_Leather-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96524,
+      "id": "root_itemdrop_Dagger-node",
+      "name": "root_itemdrop_Dagger",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 110716,
+      "id": "dummy_itemdrop_Dagger-node",
+      "name": "dummy_itemdrop_Dagger",
+      "parent": "root_itemdrop_Dagger-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 110796,
+      "id": "itemdrop_Dagger_skinned_batch-node",
+      "name": "itemdrop_Dagger_skinned_batch",
+      "parent": "dummy_itemdrop_Dagger-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 110876,
+      "id": "glow_Dagger-node",
+      "name": "glow_Dagger",
+      "parent": "itemdrop_Dagger_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 110956,
+      "id": "glow_Dagger-node_PIVOT",
+      "name": "glow_Dagger_PIVOT",
+      "parent": "glow_Dagger-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96604,
+      "id": "root_itemdrop_Glove_Cloth-node",
+      "name": "root_itemdrop_Glove_Cloth",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 112500,
+      "id": "dummy_itemdrop_Glove_Cloth-node",
+      "name": "dummy_itemdrop_Glove_Cloth",
+      "parent": "root_itemdrop_Glove_Cloth-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 112580,
+      "id": "itemdrop_Glove_Cloth_skinned_batch-node",
+      "name": "itemdrop_Glove_Cloth_skinned_batch",
+      "parent": "dummy_itemdrop_Glove_Cloth-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 112660,
+      "id": "glow_Glove_Cloth-node",
+      "name": "glow_Glove_Cloth",
+      "parent": "itemdrop_Glove_Cloth_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 112740,
+      "id": "glow_Glove_Cloth-node_PIVOT",
+      "name": "glow_Glove_Cloth_PIVOT",
+      "parent": "glow_Glove_Cloth-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96684,
+      "id": "root_itemdrop_Glove_Leather-node",
+      "name": "root_itemdrop_Glove_Leather",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 114284,
+      "id": "dummy_itemdrop_Glove_Leather-node",
+      "name": "dummy_itemdrop_Glove_Leather",
+      "parent": "root_itemdrop_Glove_Leather-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 114364,
+      "id": "itemdrop_Glove_Leather_skinned_batch-node",
+      "name": "itemdrop_Glove_Leather_skinned_batch",
+      "parent": "dummy_itemdrop_Glove_Leather-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 114444,
+      "id": "glow_Glove_Leather-node",
+      "name": "glow_Glove_Leather",
+      "parent": "itemdrop_Glove_Leather_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 114524,
+      "id": "glow_Glove_Leather-node_PIVOT",
+      "name": "glow_Glove_Leather_PIVOT",
+      "parent": "glow_Glove_Leather-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96764,
+      "id": "root_itemdrop_Glove_Plate-node",
+      "name": "root_itemdrop_Glove_Plate",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 116068,
+      "id": "dummy_itemdrop_Glove_Plate-node",
+      "name": "dummy_itemdrop_Glove_Plate",
+      "parent": "root_itemdrop_Glove_Plate-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 116148,
+      "id": "itemdrop_Glove_Plate_skinned_batch-node",
+      "name": "itemdrop_Glove_Plate_skinned_batch",
+      "parent": "dummy_itemdrop_Glove_Plate-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 116228,
+      "id": "glow_Glove_Plate-node",
+      "name": "glow_Glove_Plate",
+      "parent": "itemdrop_Glove_Plate_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 116308,
+      "id": "glow_Glove_Plate-node_PIVOT",
+      "name": "glow_Glove_Plate_PIVOT",
+      "parent": "glow_Glove_Plate-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96844,
+      "id": "root_itemdrop_Gold_01-node",
+      "name": "root_itemdrop_Gold_01",
+      "parent": null,
+      "instances": 0,
+      "children": 9
+    },
+    {
+      "offset": 117852,
+      "id": "JEROME_itemdrop_Gold_A_01-node",
+      "name": "JEROME_itemdrop_Gold_A_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 117932,
+      "id": "JEROME_itemdrop_Gold_B_01-node",
+      "name": "JEROME_itemdrop_Gold_B_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 118012,
+      "id": "JEROME_itemdrop_Gold_C_01-node",
+      "name": "JEROME_itemdrop_Gold_C_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 118092,
+      "id": "JEROME_itemdrop_Gold_D_01-node",
+      "name": "JEROME_itemdrop_Gold_D_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 118172,
+      "id": "JEROME_itemdrop_Gold_E_01-node",
+      "name": "JEROME_itemdrop_Gold_E_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 118252,
+      "id": "JEROME_itemdrop_Gold_F_01-node",
+      "name": "JEROME_itemdrop_Gold_F_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 118332,
+      "id": "dummy_itemdrop_Gold_01-node",
+      "name": "dummy_itemdrop_Gold_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 118412,
+      "id": "glow_Gold_01-node",
+      "name": "glow_Gold_01",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 118572,
+      "id": "glow_Gold_01-node_PIVOT",
+      "name": "glow_Gold_01_PIVOT",
+      "parent": "glow_Gold_01-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 118492,
+      "id": "itemdrop_Gold_01_skinned_batch-node",
+      "name": "itemdrop_Gold_01_skinned_batch",
+      "parent": "root_itemdrop_Gold_01-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 96924,
+      "id": "root_itemdrop_Gold_02-node",
+      "name": "root_itemdrop_Gold_02",
+      "parent": null,
+      "instances": 0,
+      "children": 9
+    },
+    {
+      "offset": 118900,
+      "id": "JEROME_itemdrop_Gold_A_02-node",
+      "name": "JEROME_itemdrop_Gold_A_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 118980,
+      "id": "JEROME_itemdrop_Gold_B_02-node",
+      "name": "JEROME_itemdrop_Gold_B_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 119060,
+      "id": "JEROME_itemdrop_Gold_C_02-node",
+      "name": "JEROME_itemdrop_Gold_C_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 119140,
+      "id": "JEROME_itemdrop_Gold_D_02-node",
+      "name": "JEROME_itemdrop_Gold_D_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 119220,
+      "id": "JEROME_itemdrop_Gold_E_02-node",
+      "name": "JEROME_itemdrop_Gold_E_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 119300,
+      "id": "JEROME_itemdrop_Gold_F_02-node",
+      "name": "JEROME_itemdrop_Gold_F_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 119380,
+      "id": "dummy_itemdrop_Gold_02-node",
+      "name": "dummy_itemdrop_Gold_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 119460,
+      "id": "glow_Gold_02-node",
+      "name": "glow_Gold_02",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 119620,
+      "id": "glow_Gold_02-node_PIVOT",
+      "name": "glow_Gold_02_PIVOT",
+      "parent": "glow_Gold_02-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 119540,
+      "id": "itemdrop_Gold_02_skinned_batch-node",
+      "name": "itemdrop_Gold_02_skinned_batch",
+      "parent": "root_itemdrop_Gold_02-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97004,
+      "id": "root_itemdrop_Gold_03-node",
+      "name": "root_itemdrop_Gold_03",
+      "parent": null,
+      "instances": 0,
+      "children": 9
+    },
+    {
+      "offset": 119948,
+      "id": "JEROME_itemdrop_Gold_A_03-node",
+      "name": "JEROME_itemdrop_Gold_A_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 120028,
+      "id": "JEROME_itemdrop_Gold_B_03-node",
+      "name": "JEROME_itemdrop_Gold_B_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 120108,
+      "id": "JEROME_itemdrop_Gold_C_03-node",
+      "name": "JEROME_itemdrop_Gold_C_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 120188,
+      "id": "JEROME_itemdrop_Gold_D_03-node",
+      "name": "JEROME_itemdrop_Gold_D_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 120268,
+      "id": "JEROME_itemdrop_Gold_E_03-node",
+      "name": "JEROME_itemdrop_Gold_E_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 120348,
+      "id": "JEROME_itemdrop_Gold_F_03-node",
+      "name": "JEROME_itemdrop_Gold_F_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 120428,
+      "id": "dummy_itemdrop_Gold_03-node",
+      "name": "dummy_itemdrop_Gold_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 0
+    },
+    {
+      "offset": 120508,
+      "id": "glow_Gold_03-node",
+      "name": "glow_Gold_03",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 120668,
+      "id": "glow_Gold_03-node_PIVOT",
+      "name": "glow_Gold_03_PIVOT",
+      "parent": "glow_Gold_03-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 120588,
+      "id": "itemdrop_Gold_03_skinned_batch-node",
+      "name": "itemdrop_Gold_03_skinned_batch",
+      "parent": "root_itemdrop_Gold_03-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97084,
+      "id": "root_itemdrop_Longsword-node",
+      "name": "root_itemdrop_Longsword",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 120996,
+      "id": "dummy_itemdrop_Longsword-node",
+      "name": "dummy_itemdrop_Longsword",
+      "parent": "root_itemdrop_Longsword-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 121076,
+      "id": "itemdrop_Longsword_skinned_batch-node",
+      "name": "itemdrop_Longsword_skinned_batch",
+      "parent": "dummy_itemdrop_Longsword-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 121156,
+      "id": "glow_Longsword-node",
+      "name": "glow_Longsword",
+      "parent": "itemdrop_Longsword_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 121236,
+      "id": "glow_Longsword-node_PIVOT",
+      "name": "glow_Longsword_PIVOT",
+      "parent": "glow_Longsword-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97164,
+      "id": "root_itemdrop_Potion-node",
+      "name": "root_itemdrop_Potion",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 122780,
+      "id": "dummy_itemdrop_Potion-node",
+      "name": "dummy_itemdrop_Potion",
+      "parent": "root_itemdrop_Potion-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 122860,
+      "id": "itemdrop_Potion_skinned_batch-node",
+      "name": "itemdrop_Potion_skinned_batch",
+      "parent": "dummy_itemdrop_Potion-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 122940,
+      "id": "glow_Potion-node",
+      "name": "glow_Potion",
+      "parent": "itemdrop_Potion_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 123020,
+      "id": "glow_Potion-node_PIVOT",
+      "name": "glow_Potion_PIVOT",
+      "parent": "glow_Potion-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97244,
+      "id": "root_itemdrop_Quarterstaff-node",
+      "name": "root_itemdrop_Quarterstaff",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 124564,
+      "id": "dummy_itemdrop_Quarterstaff-node",
+      "name": "dummy_itemdrop_Quarterstaff",
+      "parent": "root_itemdrop_Quarterstaff-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 124644,
+      "id": "itemdrop_Quarterstaff_skinned_batch-node",
+      "name": "itemdrop_Quarterstaff_skinned_batch",
+      "parent": "dummy_itemdrop_Quarterstaff-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 124724,
+      "id": "glow_Quarterstaff-node",
+      "name": "glow_Quarterstaff",
+      "parent": "itemdrop_Quarterstaff_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 124804,
+      "id": "glow_Quarterstaff-node_PIVOT",
+      "name": "glow_Quarterstaff_PIVOT",
+      "parent": "glow_Quarterstaff-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97324,
+      "id": "root_itemdrop_Ring-node",
+      "name": "root_itemdrop_Ring",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 126348,
+      "id": "dummy_itemdrop_Ring-node",
+      "name": "dummy_itemdrop_Ring",
+      "parent": "root_itemdrop_Ring-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 126428,
+      "id": "itemdrop_Ring_skinned_batch-node",
+      "name": "itemdrop_Ring_skinned_batch",
+      "parent": "dummy_itemdrop_Ring-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 126508,
+      "id": "glow_Ring-node",
+      "name": "glow_Ring",
+      "parent": "itemdrop_Ring_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 126588,
+      "id": "glow_Ring-node_PIVOT",
+      "name": "glow_Ring_PIVOT",
+      "parent": "glow_Ring-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97404,
+      "id": "root_itemdrop_Shield-node",
+      "name": "root_itemdrop_Shield",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 128132,
+      "id": "dummy_itemdrop_Shield-node",
+      "name": "dummy_itemdrop_Shield",
+      "parent": "root_itemdrop_Shield-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 128212,
+      "id": "itemdrop_Shield_skinned_batch-node",
+      "name": "itemdrop_Shield_skinned_batch",
+      "parent": "dummy_itemdrop_Shield-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 128292,
+      "id": "glow_Shield-node",
+      "name": "glow_Shield",
+      "parent": "itemdrop_Shield_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 128372,
+      "id": "glow_Shield-node_PIVOT",
+      "name": "glow_Shield_PIVOT",
+      "parent": "glow_Shield-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97484,
+      "id": "root_itemdrop_TwoHandsAxe-node",
+      "name": "root_itemdrop_TwoHandsAxe",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 129916,
+      "id": "dummy_itemdrop_TwoHandsAxe-node",
+      "name": "dummy_itemdrop_TwoHandsAxe",
+      "parent": "root_itemdrop_TwoHandsAxe-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 129996,
+      "id": "itemdrop_TwoHandsAxe_skinned_batch-node",
+      "name": "itemdrop_TwoHandsAxe_skinned_batch",
+      "parent": "dummy_itemdrop_TwoHandsAxe-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 130076,
+      "id": "glow_TwoHandsAxe-node",
+      "name": "glow_TwoHandsAxe",
+      "parent": "itemdrop_TwoHandsAxe_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 130156,
+      "id": "glow_TwoHandsAxe-node_PIVOT",
+      "name": "glow_TwoHandsAxe_PIVOT",
+      "parent": "glow_TwoHandsAxe-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97564,
+      "id": "root_itemdrop_TwoHandsMace-node",
+      "name": "root_itemdrop_TwoHandsMace",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 131700,
+      "id": "dummy_itemdrop_TwoHandsMace-node",
+      "name": "dummy_itemdrop_TwoHandsMace",
+      "parent": "root_itemdrop_TwoHandsMace-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 131780,
+      "id": "itemdrop_TwoHandsMace_skinned_batch-node",
+      "name": "itemdrop_TwoHandsMace_skinned_batch",
+      "parent": "dummy_itemdrop_TwoHandsMace-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 131860,
+      "id": "glow_TwoHandsMace-node",
+      "name": "glow_TwoHandsMace",
+      "parent": "itemdrop_TwoHandsMace_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 131940,
+      "id": "glow_TwoHandsMace-node_PIVOT",
+      "name": "glow_TwoHandsMace_PIVOT",
+      "parent": "glow_TwoHandsMace-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97644,
+      "id": "root_itemdrop_TwoHandsSword-node",
+      "name": "root_itemdrop_TwoHandsSword",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 133484,
+      "id": "dummy_itemdrop_TwoHandsSword-node",
+      "name": "dummy_itemdrop_TwoHandsSword",
+      "parent": "root_itemdrop_TwoHandsSword-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 133564,
+      "id": "itemdrop_TwoHandsSword_skinned_batch-node",
+      "name": "itemdrop_TwoHandsSword_skinned_batch",
+      "parent": "dummy_itemdrop_TwoHandsSword-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 133644,
+      "id": "glow_TwoHandsSword-node",
+      "name": "glow_TwoHandsSword",
+      "parent": "itemdrop_TwoHandsSword_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 133724,
+      "id": "glow_TwoHandsSword-node_PIVOT",
+      "name": "glow_TwoHandsSword_PIVOT",
+      "parent": "glow_TwoHandsSword-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97724,
+      "id": "root_itemdrop_Wand-node",
+      "name": "root_itemdrop_Wand",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 135268,
+      "id": "dummy_itemdrop_Wand-node",
+      "name": "dummy_itemdrop_Wand",
+      "parent": "root_itemdrop_Wand-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 135348,
+      "id": "itemdrop_Wand_skinned_batch-node",
+      "name": "itemdrop_Wand_skinned_batch",
+      "parent": "dummy_itemdrop_Wand-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 135428,
+      "id": "glow_Wand-node",
+      "name": "glow_Wand",
+      "parent": "itemdrop_Wand_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 135508,
+      "id": "glow_Wand-node_PIVOT",
+      "name": "glow_Wand_PIVOT",
+      "parent": "glow_Wand-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97804,
+      "id": "root_itemdrop_Warhammer-node",
+      "name": "root_itemdrop_Warhammer",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 137052,
+      "id": "dummy_itemdrop_Warhammer-node",
+      "name": "dummy_itemdrop_Warhammer",
+      "parent": "root_itemdrop_Warhammer-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 137132,
+      "id": "itemdrop_Warhammer_skinned_batch-node",
+      "name": "itemdrop_Warhammer_skinned_batch",
+      "parent": "dummy_itemdrop_Warhammer-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 137212,
+      "id": "glow_Warhammer-node",
+      "name": "glow_Warhammer",
+      "parent": "itemdrop_Warhammer_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 137292,
+      "id": "glow_Warhammer-node_PIVOT",
+      "name": "glow_Warhammer_PIVOT",
+      "parent": "glow_Warhammer-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97884,
+      "id": "root_itemdrop_bag-node",
+      "name": "root_itemdrop_bag",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 138836,
+      "id": "dummy_itemdrop_bag-node",
+      "name": "dummy_itemdrop_bag",
+      "parent": "root_itemdrop_bag-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 138916,
+      "id": "itemdrop_bag_skinned_batch-node",
+      "name": "itemdrop_bag_skinned_batch",
+      "parent": "dummy_itemdrop_bag-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 138996,
+      "id": "glow_bag-node",
+      "name": "glow_bag",
+      "parent": "itemdrop_bag_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 139076,
+      "id": "glow_bag-node_PIVOT",
+      "name": "glow_bag_PIVOT",
+      "parent": "glow_bag-node",
+      "instances": 1,
+      "children": 0
+    },
+    {
+      "offset": 97964,
+      "id": "root_itemdrop_sword-node",
+      "name": "root_itemdrop_sword",
+      "parent": null,
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 140620,
+      "id": "dummy_itemdrop_sword-node",
+      "name": "dummy_itemdrop_sword",
+      "parent": "root_itemdrop_sword-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 140700,
+      "id": "itemdrop_sword_skinned_batch-node",
+      "name": "itemdrop_sword_skinned_batch",
+      "parent": "dummy_itemdrop_sword-node",
+      "instances": 1,
+      "children": 1
+    },
+    {
+      "offset": 140780,
+      "id": "glow_sword-node",
+      "name": "glow_sword",
+      "parent": "itemdrop_sword_skinned_batch-node",
+      "instances": 0,
+      "children": 1
+    },
+    {
+      "offset": 140860,
+      "id": "glow_sword-node_PIVOT",
+      "name": "glow_sword_PIVOT",
+      "parent": "glow_sword-node",
+      "instances": 1,
+      "children": 0
+    }
+  ]
+}

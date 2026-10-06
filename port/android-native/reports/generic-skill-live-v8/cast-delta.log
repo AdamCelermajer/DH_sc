@@ -1,0 +1,73 @@
+I/DH2Native(13095): Source NPC animation selected | _prim_Monster | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native(13095): Actor clip completed | _prim_tmp_cultist07 | state Attack | completions 1 | active 1 | next clip 1178 | layers 2
+I/DH2Native(13095): Authored HUD pointer | down 0 | control 4 | source character 353 | screen 1635.0 670.0
+V/DH2Native(13095): Native transition profile | phase 7 | state 3 | event c355
+V/DH2Native(13095): Native transition profile | phase 8 | state 3 | event c355
+I/DH2Native(13095): Character state event | state 6 | event 1e | prior 0 | flags 6341
+I/DH2Native(13095): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native(13095): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native(13095): Source skill step selection | clip 1234 | engine 62 | range 0 1666 | do_skill 700 | events 1 | bank range 0 1666 | unbound 0 | step FX 164 | anchored 1
+I/DH2Native(13095): Character animation selected | state 6 | flags 6341 | sequence 347 | clip 1234 | actor state service
+I/DH2Native(13095): Character state event | state 6 | event 1d | prior 3 | flags 6341
+I/DH2Native(13095): Player source state | previous 3 | current 6 | event 0xc355 | flags 6341 | root 347 | clip 1234 | position -1222.5175 -611.8522 76.4121 | Step 4569
+I/DH2Native(13095): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 4672 | same retained World/Gear/SkillV6
+I/DH2Native(13095): Authored gameplay control | NativeHUDSkill | Skill activated
+I/DH2Native(13095): Actual effect image decoded to native RGBA | 27 -> 14
+I/DH2Native(13095): Actual effect image decoded to native RGBA | 26 -> 14
+I/DH2Native(13095): Actual effect image decoded to native RGBA | 26 -> 14
+I/DH2Native(13095): Actor animation event | _prim_tmp_cultist07 | state Attack | clip 1178 | name attack_mainhand | lag ms 17 | time ms 117 | count 1
+I/DH2Native(13095): Actor combat action | _prim_tmp_cultist07 | state Attack | clip 1178 | name attack_mainhand | kind 1 | sequence 0 | attack step 0 | offhand 0 | capability 0 | projectile -1 | native target request
+I/DH2Native(13095): Combat aggression | owner 4294967297 | target 4294967302 | amount bits 00000000 | delta bits 00000000 | outgoing 0 | incoming 0 | requests 0 | callback services pending
+I/DH2Native(13095): Prince damage received | attacker _prim_tmp_cultist07 | attempt 1 | result 10047 -1 0 0 0 0 24 2271925 -1 -1 | HP 42265 32218 | dead 0 | combo 1 | RNG 9988867 9 | statuses 8 | low health armed 1 | cue 0 | checksum 0627d9569f4953e5
+I/DH2Native(13095): Player status services pending | requests 8
+I/DH2Native(13095): Source effect live draw | node 000076dbc501cad0 | material Standard_9 | vertices 4 | indices 6 | same source program/reflection/material/texture/queue
+I/DH2Native(13095): Source effect live draw | node 000076dbc501b210 | material asde | vertices 4 | indices 6 | same source program/reflection/material/texture/queue
+I/DH2Native(13095): Source effect live draw | node 000076dbc5019690 | material swoosh_MH | vertices 48 | indices 132 | same source program/reflection/material/texture/queue
+I/DH2Native(13095): Connected player HUD submitted | viewport 2400 1080 | character 0x76d99a380748 | HP 32218 42265 | MP 4672 6976 | XP 0 25600 | frames 75 65 0 75 75 | dirty 11 | retained movie 0x76daa5379db0 | original timeline and viewport
+I/DH2Native(13095): Source combat text queued | style anim_sct_crit | number 39 | text  | color ffffff00 | position -1222.5175 -611.8522 377.7507
+I/DH2Native(13095): Source combat text submitted | active 1 | native glyph quads 2 | application dt 71 | load phase 0 | debug disabled 0 | first glyph twips 4715.3330 1675.0037 | extent 210.0043 300.0061 | ARGB ffffff00
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist07 | state 3 | sequence 596 | clip 1195 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist08 | state 3 | sequence 596 | clip 1194 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist05 | state 3 | sequence 613 | clip 1259 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist06 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC animation selected | _prim_Monster02 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native(13095): Blended character event | event 0x28 | clip 1234 | slot 1 | phase 1 | lag 65
+I/DH2Native(13095): Source skill authored delivery | clip 1234 | text do_skill | lag 65 | source FSM 6
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist07 | state 11 | sequence 597 | clip 1192 | same retained FSM/CPU actor
+I/DH2Native(13095): Actual effect image decoded to native RGBA | 27 -> 14
+I/DH2Native(13095): Source effect live draw | node 000076db65231448 | material fx_particles_alpha_001 | vertices 40 | indices 60 | same source program/reflection/material/texture/queue
+I/DH2Native(13095): Source effect live draw | node 000076db6517d6b8 | material fx_particles_alpha_002 | vertices 24 | indices 36 | same source program/reflection/material/texture/queue
+I/DH2Native(13095): Source combat text queued | style anim_sct_block | number 0 | text Block | color ffff7f00 | position -1234.4301 -369.6380 548.4370
+I/DH2Native(13095): Source combat text queued | style anim_sct_normaldamage | number 10 | text  | color ffffffff | position -1234.4301 -369.6380 548.4370
+I/DH2Native(13095): Source combat text submitted | active 3 | native glyph quads 9 | application dt 114 | load phase 0 | debug disabled 0 | first glyph twips 4691.2500 710.0000 | extent 210.0000 300.0000 | ARGB ffffff00
+I/DH2Native(13095): Source NPC animation selected | _prim_Monster05 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native(13095): Source combat text submitted | active 2 | native glyph quads 7 | application dt 232 | load phase 0 | debug disabled 0 | first glyph twips 4390.5000 -833.0000 | extent 160.0000 220.0000 | ARGB ffff7f00
+I/DH2Native(13095): Source combat text submitted | active 1 | native glyph quads 2 | application dt 104 | load phase 0 | debug disabled 0 | first glyph twips 4657.5000 -1694.0000 | extent 100.0000 200.0000 | ARGB ffffffff
+I/DH2Native(13095): Connected player HUD submitted | viewport 2400 1080 | character 0x76d99a380748 | HP 32571 42265 | MP 4991 6976 | XP 0 25600 | frames 76 70 0 76 76 | dirty 11 | retained movie 0x76daa5379db0 | original timeline and viewport
+I/DH2Native(13095): Blended character event | event 0x27 | clip 1234 | slot 1 | phase 4 | lag 0
+I/DH2Native(13095): Blended character event | event 0x25 | clip 1234 | slot 1 | phase 4 | lag 0
+I/DH2Native(13095): Blended character event | event 0x22 | clip 1234 | slot 1 | phase 3 | lag 0
+I/DH2Native(13095): Character sequence closed | state 6 | event 0x22 | clip 1234 | Step 4579 | post Step animator | position -1222.5157 -611.8863 76.3949
+V/DH2Native(13095): Native transition profile | phase 7 | state 6 | event 22
+V/DH2Native(13095): Native transition profile | phase 8 | state 6 | event 22
+I/DH2Native(13095): Character state event | state 6 | event 1f | prior 0 | flags 6341
+I/DH2Native(13095): Character animation selected | state 3 | flags 2380 | sequence 262 | clip 1234 | actor state service
+I/DH2Native(13095): Character state event | state 3 | event 1d | prior 6 | flags 2380
+I/DH2Native(13095): Player source state | previous 6 | current 3 | event 0x22 | flags 2380 | root 262 | clip 1234 | position -1222.5157 -611.8863 76.3949 | Step 4579
+I/DH2Native(13095): Blended character event | event 0x24 | clip 1234 | slot 1 | phase 5 | lag 0
+I/DH2Native(13095): Blended character event | event 0x26 | clip 1234 | slot 1 | phase 5 | lag 0
+I/DH2Native(13095): Source NPC animation selected | _prim_Monster | state 3 | sequence 613 | clip 1259 | same retained FSM/CPU actor
+I/DH2Native(13095): Source combat text submitted | active 0 | native glyph quads 0 | application dt 130 | load phase 0 | debug disabled 0 | first glyph twips 4657.5000 -2139.0000 | extent 100.0000 200.0000 | ARGB ffffffff
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist06 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC animation selected | _prim_Monster02 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist05 | state 3 | sequence 613 | clip 1259 | same retained FSM/CPU actor
+I/DH2Native(13095): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 76
+I/DH2Native(13095): Source NPC animation selected | _prim_Monster05 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC animation selected | _prim_tmp_cultist07 | state 3 | sequence 596 | clip 1192 | same retained FSM/CPU actor
+I/DH2Native(13095): Source NPC sequence closed | _prim_tmp_cultist07 | state 3 | clip 1192 | actual external OnEndOfAnim then FSM | gate 1288
+I/DH2Native(13095): Actor clip completed | _prim_tmp_cultist07 | state Attack | completions 2 | active 1 | next clip 1179 | layers 2
+I/DH2Native(13095): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native(13095): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native(13095): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native(13095): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native(13095): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0

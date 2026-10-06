@@ -6,6 +6,7 @@
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "../game-data/combat.hpp"
 #include <memory>
+namespace dh2::ui {struct CharacterMenuItemActionsGraphV1;}
 
 namespace dh2::player {
 enum class EquipmentWorldQueryV1 : std::uint32_t {
@@ -66,9 +67,32 @@ public:
  bool refresh_effects(std::string&);
  // Original RemoveOnePotion on the retained inventory; no replacement owner.
  bool remove_one_potion(std::string&);
+ // Loot/pickup calls mutate the SAME inventory using its composed source
+ // effects. Failed notifications preserve reached storage/gold prefixes;
+ // incoming becoming null records actual consumption, even on failure.
+ bool loot_add_item_v8(std::unique_ptr<data::ItemInstanceV1>& incoming,
+                       bool force,bool convert_gold,std::int32_t& index,std::string&);
+ bool loot_add_gold_v8(std::int32_t amount,std::string&);
+ bool loot_inventory_full_v10(bool& full,std::string&);
+ const data::InventoryGatheringIdsV11* gathering_ids_v11()const noexcept;
+ bool register_gathering_id_v11(std::int32_t,std::string&);
+ bool unregister_gathering_id_v11(std::int32_t,
+  const data::InventoryGatheringAssertServicesV11&,std::string&);
+ bool check_item_requirements_v1(std::string&);
+ // Supplemental authored item actions borrow the SAME retained inventory,
+ // effects and source Skin. World/achievement endpoints remain caller-owned.
+ bool bind_menu_item_actions_v4(ui::CharacterMenuItemActionsGraphV1&,std::string&);
+ // Borrow the exact immutable cache/text providers and caller-owned RNG used
+ // by this Player's inventory. No alternate mutable inventory is exposed.
+ bool loot_sources_v8(data::LootTablesV2::Borrow&,
+                      data::ItemPowerTablesV5::Borrow&,
+                      data::ItemTextServicesV5&,data::LootRandom8V2*&,
+                      std::string&)const;
  void project_potion_capacity(std::int8_t)noexcept;
  bool swap_inventory_for_initial_slots(std::string&);
  bool draw_parts(std::vector<skinning::VisualDrawPartV6>&,std::string&)const;
+ bool draw_views(const std::vector<skinning::VisualDrawViewV32>*&,std::string&)const;
+ skinning::SkinPoseCountersV32 pose_counters()const noexcept;
  bool stance_facts(bool is_player,std::int32_t source_count,
                    character::StanceFacts16&,std::string&)const;
  // Supplies source category word37, raw HasTwoHander(true), offhand type22

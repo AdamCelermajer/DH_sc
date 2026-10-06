@@ -1,9 +1,14 @@
 # Concrete loader / canonical owner decision request
 
-Status: main session accepted the retained source/candidate/object borrow shape
-as the integration direction on 2026-10-05. The composing generic factory and
-required providers are unavailable. A callable shared ABI is not implemented;
-this file does not implement a second gameplay world.
+Status: the first partial callable canonical handoff was received and verified
+on 2026-10-05. `CanonicalSourceBindingV1` now adapts retained original XML and
+actual module context to `CanonicalSourceObjectRequestV1`; its bound attempt
+delegates the original factory/Add/property prefix to the canonical manager.
+See CANONICAL-SOURCE-ADAPTER-HANDOFF.md for the implemented types and current
+normal/sanitizer/Android fixture receipts. Class/property/visual/condition,
+cleanup and restoration providers remain incomplete. The proposed payload and
+operation checklist below records the earlier decision boundary, not a second
+gameplay world or a declaration that the live level is ready.
 
 ## Main-session decision received
 
@@ -159,3 +164,15 @@ container meshes at their class-resolved placements in the loader's own
 SWAMP_02 generation, failure retention and saved-state revisit. Main owns
 gameplay execution; menu passes assignment/start requests to main and consumes
 loader progress/error presentation data.
+
+## Connected snapshot composition status
+
+The immutable connected-owner archive 1b96f4edb021619d and include supplement 78ca667143cef823 are verified. CanonicalCachedFileV1 composes cached XML with the canonical factory and retains failures/cleanup prefixes. Executed original SWAMP stops at missing LevelConfig construction before registration; Module and the other 11 additional source class kinds remain required. PropertyMap/class lifecycle/visual subsystem implementations now exist in the snapshot, while production allocation, outer SceneManager/PF/conditions, cleanup, restoration and commit must still be composed. See CANONICAL-CACHED-FILE-HANDOFF.md and reports/SWAMP-CONNECTED-CLASS-GAPS.md. Earlier provider observations above are historical context.
+
+## Same retained Level fields and current GSLevel global
+
+CanonicalLevelContextV1 now supplies the one game-Level identity, shared config/music fields and original constructor word150 through the exact KillLevel16 view. CanonicalGSLevelGlobalSlotV1 borrows the authoritative retained GSLevel::s_level global without automatic publication. See CANONICAL-LEVEL-CONTEXT-HANDOFF.md for interface mapping, constructor-prefix scope, ownership and verification. Full Level constructor/initialization, runtime wiring and SWAMP acceptance remain pending.
+
+## SAME Level Module load fields
+
+The retained Level now also owns original module_offset160 and object_module_id18c. module_load_fields() exposes the same storage for the main owner ModuleLevelLoadBorrowV1. The18-check follow-up includes original constructor field evidence and actual root Module load method verification with declared file/Random/class fixtures. See CANONICAL-LEVEL-MODULE-FIELDS-HANDOFF.md; complete ModuleInitPost and SWAMP acceptance are still pending. Rebuild changed receiver consumers; older frozen13-check binaries belong to the earlier layout.

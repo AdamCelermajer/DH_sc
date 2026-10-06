@@ -1,0 +1,377 @@
+[
+  {
+    "address": "0x5d8fa0",
+    "size": 124,
+    "symbol": "_ZN6glitch5video24CMaterialRendererManagerC2EPNS0_12IVideoDriverE",
+    "stores": [
+      "005d8fe8: str r5, [r3, #0x10]\n005d8fec: str r3, [r3, #8]\n005d8ff0: str r3, [r3, #0xc]\n005d8ff4: strh r2, [r4, #0x94]\n005d8ff8: str r5, [r4, #0x88]\n005d8ffc: str r5, [r4, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x5d3124",
+    "size": 1448,
+    "symbol": "_ZN6glitch5video17CMaterialRendererC1EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "stores": [
+      "005d34b8: ldr r1, [sp, #0x88]\n005d34bc: ldr r2, [sp, #0x14]\n005d34c0: cmp r8, #0\n005d34c4: add r1, r1, r2\n005d34c8: str r1, [sp, #0x88]\n005d34cc: beq #0x5d34d8"
+    ]
+  },
+  {
+    "address": "0x6d7808",
+    "size": 3092,
+    "symbol": "_ZN6glitch5scene16createSphereMeshEjPNS_5video12IVideoDriverEfjj",
+    "stores": [
+      "006d7bfc: str r4, [sp, #0x98]\n006d7c00: str r4, [sp, #0x8c]\n006d7c04: str r4, [sp, #0x90]\n006d7c08: str r4, [sp, #0x84]\n006d7c0c: str r4, [sp, #0x88]\n006d7c10: str ip, [sp, #4]",
+      "006d81f0: bic r3, r3, #0x1f\n006d81f4: orr r3, r2, r3\n006d81f8: strb r3, [r4, #0x13]\n006d81fc: mov r3, #0\n006d8200: str r3, [sp, #0x88]\n006d8204: str r3, [sp, #0x84]"
+    ]
+  },
+  {
+    "address": "0x3587a0",
+    "size": 2832,
+    "symbol": "_ZN12SceneManager12_renderListsEPN6glitch5video12IVideoDriverE",
+    "stores": [
+      "003588e8: mov r0, #0\n003588ec: mov r1, #0\n003588f0: cmp ip, r2\n003588f4: str r3, [sp, #0x84]\n003588f8: strd r0, r1, [sp, #0x88]\n003588fc: asr r6, r6, #4",
+      "00358e60: ldr r3, [sp, #0x4c]\n00358e64: str r3, [r1, #0x10]\n00358e68: ldr r3, [r4, #0x88]\n00358e6c: add r3, r3, #0x14\n00358e70: str r3, [r4, #0x88]\n00358e74: add r0, r6, #8",
+      "00359120: str ip, [r4, #0xa8]\n00359124: str r1, [r4, #0xac]\n00359128: str r2, [r4, #0xb0]\n0035912c: bne #0x3591bc\n00359130: str r3, [r4, #0x88]\n00359134: sub r0, r0, #0xc"
+    ]
+  },
+  {
+    "address": "0x6df9c4",
+    "size": 12,
+    "symbol": "_ZN6glitch5video18CGLSLShaderHandlerC1Ev",
+    "stores": [
+      "006df9c4: mov r2, #0\n006df9c8: str r2, [r0]"
+    ]
+  },
+  {
+    "address": "0x6d841c",
+    "size": 2200,
+    "symbol": "_ZN6glitch5scene19createHillPlaneMeshEjPNS_5video12IVideoDriverERKNS_4core11dimension2dIfEERKNS5_IjEERKN5boost13intrusive_ptrINS1_9CMaterialEEERKNSD_INS1_27CMaterialVertexAttributeMapEEEfS8_S8_",
+    "stores": [
+      "006d8574: add r1, sp, #0x84\n006d8578: ldr r2, [sp, #0x54]\n006d857c: mov r3, r4\n006d8580: str r4, [sp, #0x84]\n006d8584: str r4, [sp, #0x88]\n006d8588: str r4, [sp, #0x74]",
+      "006d8844: bic r3, r3, #0x1f\n006d8848: orr r3, r2, r3\n006d884c: strb r3, [r4, #0x13]\n006d8850: mov r3, #0\n006d8854: str r3, [sp, #0x88]\n006d8858: str r3, [sp, #0x84]"
+    ]
+  },
+  {
+    "address": "0x54d104",
+    "size": 1800,
+    "symbol": "_ZN6glitch3gui8CGUISkinC1ENS0_14EGUI_SKIN_TYPEEPNS_5video12IVideoDriverE",
+    "stores": [
+      "0054d50c: str r0, [r4, #0x80]\n0054d510: mov r0, #0xe2\n0054d514: str r0, [r4, #0x84]\n0054d518: mov r0, #0xe3\n0054d51c: str r0, [r4, #0x88]\n0054d520: mov r0, #0xe4"
+    ]
+  },
+  {
+    "address": "0x6dcac0",
+    "size": 292,
+    "symbol": "_ZN6glitch5video19CCommonGLDriverBase18SShadowRenderStateC1Ev",
+    "stores": [
+      "006dcbc8: str r2, [r0, #0x78]\n006dcbcc: str r2, [r0, #0x7c]\n006dcbd0: str r2, [r0, #0x80]\n006dcbd4: str r2, [r0, #0x84]\n006dcbd8: str r2, [r0, #0x88]\n006dcbdc: pop {r4, r5, r6}"
+    ]
+  },
+  {
+    "address": "0x6e0a3c",
+    "size": 296,
+    "symbol": "_ZN6glitch5video18ICodeShaderManager20initAdditionalConfigEPKc",
+    "stores": [
+      "006e0a3c: push {r4, r5, r6, r7, r8, lr}\n006e0a40: ldr r3, [r0, #0x80]"
+    ]
+  },
+  {
+    "address": "0x5a90b0",
+    "size": 68,
+    "symbol": "_ZN6glitch5video12IVideoDriver9setOptionEjb",
+    "stores": [
+      "005a90b8: bne #0x5a90e4\n005a90bc: ldr r2, [r0, #0x88]\n005a90c0: tst r1, #0x100\n005a90c4: bic r1, r2, r1\n005a90c8: str r1, [r0, #0x88]\n005a90cc: bne #0x5a90d4",
+      "005a90dc: ldr pc, [r3, #0x1fc]\n005a90e0: pop {r4, pc}\n005a90e4: ldr r2, [r0, #0x88]\n005a90e8: orr r1, r2, r1\n005a90ec: str r1, [r0, #0x88]\n005a90f0: pop {r4, pc}"
+    ]
+  },
+  {
+    "address": "0x321164",
+    "size": 6080,
+    "symbol": "_ZN11Application13_CheckGamepadEv",
+    "stores": [
+      "00321da8: str r3, [sp, #0x78]\n00321dac: mov r3, #0x29\n00321db0: str r3, [sp, #0x80]\n00321db4: mov r3, #0\n00321db8: str r3, [sp, #0x88]\n00321dbc: mov r3, #0x3f800000"
+    ]
+  },
+  {
+    "address": "0x58d908",
+    "size": 1096,
+    "symbol": "_ZN6glitch5scene13CSceneManagerC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE",
+    "stores": [
+      "0058da40: str r5, [r4, #0x78]\n0058da44: str r5, [r4, #0x7c]\n0058da48: str r5, [r4, #0x80]\n0058da4c: str r5, [r4, #0x84]\n0058da50: str r5, [r4, #0x88]\n0058da54: str r5, [r4, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x8913b8",
+    "size": 260,
+    "symbol": "_ZN3vox29DriverCallbackSourceInterfaceC1EPvS1_j",
+    "stores": [
+      "00891448: str r2, [r4, #0x78]\n0089144c: str r2, [r4, #0x7c]\n00891450: str r2, [r4, #0x80]\n00891454: str r2, [r4, #0x84]\n00891458: str r2, [r4, #0x88]\n0089145c: ldm r7, {r0, r1, r2, r3}"
+    ]
+  },
+  {
+    "address": "0x642e58",
+    "size": 4176,
+    "symbol": "_ZN6glitch7collada33CGlitchNewParticleSystemSceneNode18initParticleSystemEPNS_5video12IVideoDriverEb",
+    "stores": [
+      "00643828: str r2, [r3, #0xc]\n0064382c: add sp, sp, #0xd4\n00643830: pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}\n00643834: add r3, sp, #0x88\n00643838: str lr, [sp, #0x88]\n0064383c: add r0, sp, #0xa8"
+    ]
+  },
+  {
+    "address": "0x6d72d0",
+    "size": 1336,
+    "symbol": "_ZN6glitch5scene15createPlaneMeshEjPNS_5video12IVideoDriverEfRKNS1_6SColorE",
+    "stores": [
+      "006d7714: str r0, [r5, #0x18]\n006d7718: str r0, [r5, #0x38]\n006d771c: str r2, [r5, #0x8c]\n006d7720: str r1, [r5, #0x78]\n006d7724: str r3, [r5, #0x88]\n006d7728: str r3, [r5, #0x14]"
+    ]
+  },
+  {
+    "address": "0x320da4",
+    "size": 104,
+    "symbol": "_ZN11Application9ComputeDtEv",
+    "stores": [
+      "00320da4: push {r4, r5, r6, lr}\n00320da8: mov r4, r0\n00320dac: bl #0x60b0cc\n00320db0: ldr r3, [r4, #0x88]\n00320db4: str r0, [r4, #0x88]\n00320db8: rsb r0, r3, r0"
+    ]
+  },
+  {
+    "address": "0x8914bc",
+    "size": 260,
+    "symbol": "_ZN3vox29DriverCallbackSourceInterfaceC2EPvS1_j",
+    "stores": [
+      "0089154c: str r2, [r4, #0x78]\n00891550: str r2, [r4, #0x7c]\n00891554: str r2, [r4, #0x80]\n00891558: str r2, [r4, #0x84]\n0089155c: str r2, [r4, #0x88]\n00891560: ldm r7, {r0, r1, r2, r3}"
+    ]
+  },
+  {
+    "address": "0x5aaf1c",
+    "size": 988,
+    "symbol": "_ZN6glitch5video12IVideoDriverC2EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE",
+    "stores": [
+      "005aafec: str sl, [r4, #0x48]\n005aaff0: str r5, [r4, #0x4c]\n005aaff4: bl #0x6da980\n005aaff8: mov r3, #0x10\n005aaffc: str r3, [r4, #0x88]\n005ab000: mov r3, #0x400"
+    ]
+  },
+  {
+    "address": "0x32d79c",
+    "size": 484,
+    "symbol": "_ZN11ApplicationC1Ev",
+    "stores": [
+      "0032d834: str r5, [r4, #0x74]\n0032d838: strb r5, [r4, #0x78]\n0032d83c: strb r5, [r4, #0x79]\n0032d840: strb r5, [r4, #0x7a]\n0032d844: str r5, [r4, #0x88]\n0032d848: strb r5, [r4, #0xa4]"
+    ]
+  },
+  {
+    "address": "0x6664f0",
+    "size": 1288,
+    "symbol": "_ZN6glitch7collada12CSkinnedMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+    "stores": [
+      "006665f0: str r1, [r4, #0x7c]\n006665f4: str r1, [r4, #0x80]\n006665f8: str r1, [r4, #0x98]\n006665fc: str r1, [r4, #0x84]\n00666600: str r1, [r4, #0x88]\n00666604: str r1, [r4, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x58ddd0",
+    "size": 1040,
+    "symbol": "_ZN6glitch5scene13CSceneManagerC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE",
+    "stores": [
+      "0058dee4: str r7, [r4, #0x78]\n0058dee8: str r7, [r4, #0x7c]\n0058deec: str r7, [r4, #0x80]\n0058def0: str r7, [r4, #0x84]\n0058def4: str r7, [r4, #0x88]\n0058def8: str r7, [r4, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x358008",
+    "size": 1556,
+    "symbol": "_ZN12SceneManager17renderCustomListsEPN6glitch5video12IVideoDriverE",
+    "stores": [
+      "00358404: ldr r2, [sp, #0x2c]\n00358408: str r2, [r3, #0x10]\n0035840c: ldr r3, [r4, #0x88]\n00358410: add r3, r3, #0x14\n00358414: str r3, [r4, #0x88]\n00358418: add r0, r8, #8"
+    ]
+  },
+  {
+    "address": "0x8665cc",
+    "size": 588,
+    "symbol": "_ZN3vox10EmitterObjC2ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE",
+    "stores": [
+      "00866668: strb r0, [r4, #0x6c]\n0086666c: str r2, [r4, #0x78]\n00866670: str r2, [r4, #0x80]\n00866674: str r2, [r4, #0x84]\n00866678: strb r0, [r4, #0x88]\n0086667c: str r5, [r4, #0x28]"
+    ]
+  },
+  {
+    "address": "0x665fe8",
+    "size": 1288,
+    "symbol": "_ZN6glitch7collada12CSkinnedMeshC2ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+    "stores": [
+      "006660e8: str r1, [r4, #0x7c]\n006660ec: str r1, [r4, #0x80]\n006660f0: str r1, [r4, #0x98]\n006660f4: str r1, [r4, #0x84]\n006660f8: str r1, [r4, #0x88]\n006660fc: str r1, [r4, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x590660",
+    "size": 2144,
+    "symbol": "_ZN6glitch5scene13CSceneManager11renderListsEPNS_5video12IVideoDriverE",
+    "stores": [
+      "00590c10: ldr r2, [sp, #0x34]\n00590c14: str r2, [r3, #0x10]\n00590c18: ldr r3, [r4, #0x88]\n00590c1c: add r3, r3, #0x14\n00590c20: str r3, [r4, #0x88]\n00590c24: ldr r7, [sp, #0x2c]"
+    ]
+  },
+  {
+    "address": "0x57db94",
+    "size": 2448,
+    "symbol": "_ZN6glitch5scene10CBatchMesh4loadEPNS_2io9IReadFileEPNS_5video12IVideoDriverEPNS2_11IFileSystemEPNS_7collada14CRootSceneNodeEPNSA_15CColladaFactoryE",
+    "stores": [
+      "0057dc34: bl #0x578624\n0057dc38: mov r2, #0xbf000000\n0057dc3c: add r2, r2, #0x800000\n0057dc40: mov r3, #0x3f800000\n0057dc44: str r2, [sp, #0x88]\n0057dc48: str r2, [sp, #0x80]",
+      "0057dcf8: add r4, r4, #0x28\n0057dcfc: str ip, [sp, #0x98]\n0057dd00: str r1, [sp, #0x84]\n0057dd04: ldr r1, [sp, #0xd0]\n0057dd08: str r1, [sp, #0x88]\n0057dd0c: ldr r1, [sp, #0xd4]"
+    ]
+  },
+  {
+    "address": "0x866380",
+    "size": 588,
+    "symbol": "_ZN3vox10EmitterObjC1ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE",
+    "stores": [
+      "0086641c: strb r0, [r4, #0x6c]\n00866420: str r2, [r4, #0x78]\n00866424: str r2, [r4, #0x80]\n00866428: str r2, [r4, #0x84]\n0086642c: strb r0, [r4, #0x88]\n00866430: str r5, [r4, #0x28]"
+    ]
+  },
+  {
+    "address": "0x32d980",
+    "size": 484,
+    "symbol": "_ZN11ApplicationC2Ev",
+    "stores": [
+      "0032da18: str r5, [r4, #0x74]\n0032da1c: strb r5, [r4, #0x78]\n0032da20: strb r5, [r4, #0x79]\n0032da24: strb r5, [r4, #0x7a]\n0032da28: str r5, [r4, #0x88]\n0032da2c: strb r5, [r4, #0xa4]"
+    ]
+  },
+  {
+    "address": "0x59b2a4",
+    "size": 1944,
+    "symbol": "_ZN6glitch5scene14createMeshCopyERKN5boost13intrusive_ptrINS0_5IMeshEEEPNS_5video12IVideoDriverEjj",
+    "stores": [
+      "0059b61c: str r3, [sp, #0x84]\n0059b620: mov r1, r8\n0059b624: mov r3, #0\n0059b628: ldr r2, [sp, #0x30]\n0059b62c: strh ip, [sp, #0x88]\n0059b630: str r4, [sp, #0x80]"
+    ]
+  },
+  {
+    "address": "0x5ae5f0",
+    "size": 2476,
+    "symbol": "_ZN6glitch5video12IVideoDriver31initImplementationDependentDataEv",
+    "stores": [
+      "005aeb6c: mov r5, r0\n005aeb70: str ip, [sp, #4]\n005aeb74: bl #0x6b8cb4\n005aeb78: cmp r5, #0\n005aeb7c: str r5, [sp, #0x88]\n005aeb80: ldrne r3, [r5, #4]"
+    ]
+  },
+  {
+    "address": "0x5b78b8",
+    "size": 4628,
+    "symbol": "_ZN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE40commitCurrentMaterialAutomaticParametersEPKNS0_11CGLSLShaderEPKNS0_14CVertexStreamsEPKh",
+    "stores": [
+      "005b7a88: str r2, [sp, #0x80]\n005b7a8c: add r2, sp, #0x4b0\n005b7a90: add r3, r3, #0xc\n005b7a94: add r2, r2, #0xc\n005b7a98: str r3, [sp, #0x88]\n005b7a9c: str r2, [sp, #0x90]"
+    ]
+  },
+  {
+    "address": "0x59c970",
+    "size": 4780,
+    "symbol": "_ZN6glitch5scene22createMeshWithTangentsERKN5boost13intrusive_ptrINS0_5IMeshEEEPNS_5video12IVideoDriverEbbb",
+    "stores": [
+      "0059c990: mov ip, #0x1100000\n0059c994: str ip, [sp]\n0059c998: mov sb, r1\n0059c99c: str r5, [sp, #0x90]\n0059c9a0: str r6, [sp, #0x88]\n0059c9a4: bl #0x59b2a4"
+    ]
+  },
+  {
+    "address": "0x656450",
+    "size": 3688,
+    "symbol": "_ZN6glitch7collada24CParticleSystemSceneNode18initParticleSystemEPNS_5video12IVideoDriverEb",
+    "stores": [
+      "00656ac8: add r0, sp, #0x84\n00656acc: mov lr, #0\n00656ad0: add r2, sp, #0x88\n00656ad4: str lr, [sp, #0x70]\n00656ad8: str ip, [sp, #0x88]\n00656adc: bl #0x63aa74"
+    ]
+  },
+  {
+    "address": "0x5d8f24",
+    "size": 124,
+    "symbol": "_ZN6glitch5video24CMaterialRendererManagerC1EPNS0_12IVideoDriverE",
+    "stores": [
+      "005d8f6c: str r5, [r3, #0x10]\n005d8f70: str r3, [r3, #8]\n005d8f74: str r3, [r3, #0xc]\n005d8f78: strh r2, [r4, #0x94]\n005d8f7c: str r5, [r4, #0x88]\n005d8f80: str r5, [r4, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x6357a0",
+    "size": 2632,
+    "symbol": "_ZN6glitch7collada32createMaterialRendererForProfileINS0_18SProfileNullTraitsEEEN5boost13intrusive_ptrINS_5video17CMaterialRendererEEERKNS0_16CColladaDatabaseEPNS5_12IVideoDriverEPKcRKNS0_11SEffectListEPNS0_14CRootSceneNodeE",
+    "stores": [
+      "00635898: ldr r1, [sp, #0x40]\n0063589c: mov r2, #1\n006358a0: bl #0x5ddaec\n006358a4: cmp r0, #0\n006358a8: str r0, [sp, #0x88]\n006358ac: beq #0x635ce0"
+    ]
+  },
+  {
+    "address": "0x86c5ec",
+    "size": 1052,
+    "symbol": "_ZN3vox10EmitterObjC1ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE",
+    "stores": [
+      "0086c68c: strb r0, [r4, #0x6c]\n0086c690: str r2, [r4, #0x78]\n0086c694: str r2, [r4, #0x80]\n0086c698: str r2, [r4, #0x84]\n0086c69c: strb r0, [r4, #0x88]\n0086c6a0: strb r5, [r4, #0x1c]"
+    ]
+  },
+  {
+    "address": "0x5d36cc",
+    "size": 1448,
+    "symbol": "_ZN6glitch5video17CMaterialRendererC2EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "stores": [
+      "005d3a60: ldr r1, [sp, #0x88]\n005d3a64: ldr r2, [sp, #0x14]\n005d3a68: cmp r8, #0\n005d3a6c: add r1, r1, r2\n005d3a70: str r1, [sp, #0x88]\n005d3a74: beq #0x5d3a80"
+    ]
+  },
+  {
+    "address": "0x8909e8",
+    "size": 272,
+    "symbol": "_ZN3vox29DriverCallbackSourceInterface14Set3DParameterEiPv",
+    "stores": [
+      "00890a58: b #0x893478\n00890a5c: ldr r3, [r7]\n00890a60: str r3, [r4, #0x84]\n00890a64: ldr r3, [r7, #4]\n00890a68: str r3, [r4, #0x88]\n00890a6c: ldr r3, [r7, #8]"
+    ]
+  },
+  {
+    "address": "0x6a2cdc",
+    "size": 3080,
+    "symbol": "_ZN6glitch4core21createQuantizedBufferERKN5boost13intrusive_ptrIKNS_5scene11CMeshBufferEEEbbPNS_5video12IVideoDriverE",
+    "stores": [
+      "006a30e0: str ip, [sp, #0x3c]\n006a30e4: b #0x6a3278\n006a30e8: ldr lr, [sp, #0x2c]\n006a30ec: mov ip, #0\n006a30f0: str ip, [sp, #0x88]\n006a30f4: str ip, [sp, #0x8c]",
+      "006a3328: ldr ip, [sp, #0x2c]\n006a332c: mov r0, #0\n006a3330: str r0, [sp, #0x74]\n006a3334: str r0, [sp, #0x78]\n006a3338: str r0, [sp, #0x88]\n006a333c: str r0, [sp, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x86ce1c",
+    "size": 1052,
+    "symbol": "_ZN3vox10EmitterObjC2ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE",
+    "stores": [
+      "0086cebc: strb r0, [r4, #0x6c]\n0086cec0: str r2, [r4, #0x78]\n0086cec4: str r2, [r4, #0x80]\n0086cec8: str r2, [r4, #0x84]\n0086cecc: strb r0, [r4, #0x88]\n0086ced0: strb r5, [r4, #0x1c]"
+    ]
+  },
+  {
+    "address": "0x6df9b8",
+    "size": 12,
+    "symbol": "_ZN6glitch5video18CGLSLShaderHandlerC2Ev",
+    "stores": [
+      "006df9b8: mov r2, #0\n006df9bc: str r2, [r0]"
+    ]
+  },
+  {
+    "address": "0x54d80c",
+    "size": 1740,
+    "symbol": "_ZN6glitch3gui8CGUISkinC2ENS0_14EGUI_SKIN_TYPEEPNS_5video12IVideoDriverE",
+    "stores": [
+      "0054dbe8: str r0, [r4, #0x80]\n0054dbec: mov r0, #0xe2\n0054dbf0: str r0, [r4, #0x84]\n0054dbf4: mov r0, #0xe3\n0054dbf8: str r0, [r4, #0x88]\n0054dbfc: mov r0, #0xe4"
+    ]
+  },
+  {
+    "address": "0x893108",
+    "size": 860,
+    "symbol": "_ZN3vox29DriverCallbackSourceInterface4InitEv",
+    "stores": [
+      "008931b0: str r3, [r4, #0x78]\n008931b4: str r3, [r4, #0x7c]\n008931b8: str r3, [r4, #0x80]\n008931bc: str r3, [r4, #0x84]\n008931c0: str r3, [r4, #0x88]\n008931c4: str r3, [r4, #0x8c]"
+    ]
+  },
+  {
+    "address": "0x6cebc8",
+    "size": 2460,
+    "symbol": "_ZN6glitch5scene16CSkyBoxSceneNodeC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i",
+    "stores": [
+      "006cefb0: mov r3, #6\n006cefb4: str r3, [sp, #0x84]\n006cefb8: add r2, sp, #0x7c\n006cefbc: mov r3, #0x14\n006cefc0: strh lr, [sp, #0x88]\n006cefc4: strh r3, [sp, #0x8a]"
+    ]
+  },
+  {
+    "address": "0x6cf564",
+    "size": 2508,
+    "symbol": "_ZN6glitch5scene16CSkyBoxSceneNodeC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i",
+    "stores": [
+      "006cf970: mov r3, #6\n006cf974: str r3, [sp, #0x84]\n006cf978: add r2, sp, #0x7c\n006cf97c: mov r3, #0x14\n006cf980: strh lr, [sp, #0x88]\n006cf984: strh r3, [sp, #0x8a]"
+    ]
+  },
+  {
+    "address": "0x5ab2f8",
+    "size": 988,
+    "symbol": "_ZN6glitch5video12IVideoDriverC1EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE",
+    "stores": [
+      "005ab3c8: str sl, [r4, #0x48]\n005ab3cc: str r5, [r4, #0x4c]\n005ab3d0: bl #0x6da980\n005ab3d4: mov r3, #0x10\n005ab3d8: str r3, [r4, #0x88]\n005ab3dc: mov r3, #0x400"
+    ]
+  }
+]

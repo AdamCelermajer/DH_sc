@@ -25,6 +25,8 @@ public final class LoaderPreviewActivity extends Activity {
     private static native void draw();
     private static native void orbit(float dx, float dy, float zoom);
     private static native String focus(int module);
+    private static native String focusObject(int object);
+    private int object = -1;
     private static native String reload(String identity, String definition, int seed);
     private GLSurfaceView view;
     private TextView status;
@@ -113,6 +115,7 @@ public final class LoaderPreviewActivity extends Activity {
         LinearLayout controls = new LinearLayout(this);
         button(controls,"Whole map",v -> {module=-1;queue(() -> show(focus(-1)));});
         button(controls,"Next module",v -> {final int chosen=++module;queue(() -> show(focus(chosen)));});
+        button(controls,"Next object",v -> {final int chosen=++object;queue(() -> show(focusObject(chosen)));});
         button(controls,"Reload",v -> queue(() -> show(reload(identity,definition,seed))));
         layout.addView(controls);
         LinearLayout zoom = new LinearLayout(this);

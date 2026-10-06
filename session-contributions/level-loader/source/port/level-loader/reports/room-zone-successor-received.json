@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "fdaf3e2db1ae74e302b1f3095dbd827da370f4d31930b50354d35084bd591416",
+  "verified_entries": 141,
+  "selected_cpp_sha256": "95adca9fed8078497a22c7f4f710b62a79bad1e4e8bf55cfb88fdee43aa4778b",
+  "policy": "explicit modern same-base RoomZone byte87=0; not original constructor zero initialization",
+  "header_graph_unchanged": true,
+  "full_loader_verified": false
+}

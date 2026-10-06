@@ -28,7 +28,7 @@ struct Snapshot {
    case O::property_int:{std::int32_t v;if(!b.properties||dh2_property_resolve(b.properties,int(q->index),&v))return 0;r->value=v>>8;return 1;}
    case O::low_health_constant:{auto* design=b.design.design();return design&&design->lookup&&design->lookup(design->context,0,"CharacterDesign","LowHealthPercentage",&r->value)==0;}
    case O::potions:r->value=b.gear&&b.gear->inventory()?b.gear->inventory()->num_potions():0;return 1;
-   case O::saved_dpad:r->value=1;return 1; // this Activity delivers its actual visible movement pad
+    case O::saved_dpad:if(!b.settings)return 0;r->value=b.settings->saved_option("DPad");return 1;
    case O::write_member:if(q->index>=17)return 0;s.out[q->index]=q->value;return 1;
    case O::divide_zero:return 0;
   }return 0;

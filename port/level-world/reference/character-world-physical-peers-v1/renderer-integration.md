@@ -94,3 +94,35 @@ hashes are recorded without claiming current source attribution. Original
 constructor/default store oracle is bounded, with whole allocator/XML/asset
 factory explicitly outside its claim. Player missing AIS delivery is tested
 as required; it is not called a completed player initialization.
+
+## Renderer insertion order and player relay
+
+After the existing canonical player/NPC registration in the player-skills
+bootstrap, register the 84 decor base actors before allocating any bodies.
+Construct one peer index over that existing World. Retain each decor receiver
+and its base registration beside its existing ObjectActor; retain the player
+receiver beside prince_body. Replace the old BodyOwner callbacks before
+NativeWorld Step can deliver a heterogeneous contact. Register the actual
+ground body with an explicit null source owner rather than a guessed player.
+Initialize each retained NPC graph only after its machine/session/controller,
+animation SceneBinding, actual floor and source object properties exist.
+Call initialize_renderer_npc_physical_v2 with those borrows; retain the graph
+even when initialization returns a required-provider failure, so its reached
+body/PF prefix remains destructible. Close it before releasing any borrower.
+
+Player WorldPhysicalCharacterBorrowV1.raise_event must call the same retained
+PlayerSkillsRuntime.events through dh2_character_ai_event, with payload.value
+set to the canonical peer identity and event equal to the supplied 37..3c.
+The AI service must support collision routing (feature mask 3, as in the NPC
+adapter) and forward ai_event_state_event to the actual same prince FSM.
+The CharAI virtual relay slots bc/c0/c4/c8 are respectively 3d0dec/3d0e10/
+3d0e34/3d0e58. Selected inherited AISDefault methods are 3dbf08 (Begin:
+increment shared collision counter then OnCollided), 3dbfa0 (Persist:
+OnCollided), 3dbf40 (End: decrement shared counter), and 3dbf68 (Result:
+whole bx lr). Any different selected AIS target requires its actual override.
+OnCollided requires the same player target/controller/AIS fields, application
+frame/dt, World classification/relationship and actual CancelSneaking when
+the source player-enemy branch reaches it. The existing renderer event_service
+only accepts its literal 20/8c/98 slots and timer/cast branches; it does not
+currently implement this required collision receiver. Do not declare player
+contact delivery complete until that same-AIS adapter is connected.

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "source_sha256": {
+    "menu_avatar_preview_v1.cpp": "8c4f4dfbb4a29b0fdc59bf897483b5bca32b456602385037178e68439de193b2",
+    "tests\\menu_avatar_preview_v1.cpp": "97ce14b911affbc15b35e7e594a8fe1c523b56b2ada9d765cefe681d0b3bb123"
+  },
+  "scope": "Source/native ordering and state publication only; canonical preview actor/equipment/camera producers remain unavailable."
+}

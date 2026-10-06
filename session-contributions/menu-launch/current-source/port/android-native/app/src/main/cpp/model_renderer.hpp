@@ -12,6 +12,8 @@ std::string load(const std::uint8_t*,std::size_t,AAssetManager*);
 // Original main-menu swamp and CreateAvatarCamera values; no orbit controls.
 std::string load_menu_background(AAssetManager*);
 void draw_menu_background(int width,int height);
+// Explicit front-only base-class body preview, not a gameplay Character.
+bool select_menu_persona(int class_index,AAssetManager*,std::string&);
 bool class_scene_active();
 bool class_scene_input_enabled();
 std::string load_class_scene(AAssetManager*);

@@ -1,0 +1,26 @@
+[
+  {
+    "vtable": "_ZTV10GameObject",
+    "slot": "80",
+    "address": "0x3883a8",
+    "symbol": [
+      "_ZNK10GameObject10IsAnimatedEv"
+    ],
+    "body": [
+      "003883a8: mov r0, #0",
+      "003883ac: bx lr"
+    ]
+  },
+  {
+    "vtable": "_ZTV6Module",
+    "slot": "80",
+    "address": "0x3883a8",
+    "symbol": [
+      "_ZNK10GameObject10IsAnimatedEv"
+    ],
+    "body": [
+      "003883a8: mov r0, #0",
+      "003883ac: bx lr"
+    ]
+  }
+]

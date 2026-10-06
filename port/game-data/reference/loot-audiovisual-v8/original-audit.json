@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "original_rows": 29,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "622bdd8e6c9c2fdcfca86ea16e82dd274ef750da68bbf34dc3b7f042b02ec4f3",
+  "input_sha256": {
+    "loot_audiovisual_pyarray.bin": "f9a6e2c45bad836955d63290d51d2ec811a5003b7fa2c82df907fae5aa44084d",
+    "loot_audiovisual_pyarraynames.bin": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
+    "loot_audiovisual_pycst.bin": "ff1b4a1a5faee0ee2d8cac9bf5113db0eff1a991632b120c4335e8b1b7dc1b34",
+    "loot_audiovisual_pystructnames.bin": "86984964c123debae476a20a8c6d0c54fab46bd905d09ee82849b062ab4a3248"
+  },
+  "scope": "Whole original ItemAudioVisualTable4ba648 reader on genuine29-row cache."
+}

@@ -1,0 +1,95 @@
+{
+  "scope": "Source virtual Save10/Load14 and retained connection; typed lifecycle services remain required. No live restore acceptance.",
+  "files": [
+    {
+      "path": "port/level-world/character_save_restore_v3.cpp",
+      "sha256": "926f76d626b435ba4dbaee2e10a4278c15311f7c51fb8d3cdec586d47072c63e",
+      "bytes": 9882
+    },
+    {
+      "path": "port/level-world/character_save_restore_v3.hpp",
+      "sha256": "faa6774adf7cba970747d8a78619aab58ff1273b93ac41a375b014b885b70a98",
+      "bytes": 3127
+    },
+    {
+      "path": "port/level-world/object_save_restore_v3.cpp",
+      "sha256": "d86486ee311f54f406f15fbc6da49f385eba422d87b9cea3fb8f70486adc2801",
+      "bytes": 2633
+    },
+    {
+      "path": "port/level-world/object_save_restore_v3.hpp",
+      "sha256": "8337fc0f16edbeb9de5f09f640acfe759df95c846c0a28913c90b83feb268e27",
+      "bytes": 1181
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/character-load-gold.hpp",
+      "sha256": "00efd0474c370e1b56df592d7597628c6a69eb1eff37b1393390eb850b998540",
+      "bytes": 156446
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/character-load-gold.json",
+      "sha256": "ff809d7717cbedcb5b75e2d278a28b15b3b3cfb1efe891217976569a83578d6a",
+      "bytes": 155993
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/character-save-gold.hpp",
+      "sha256": "cbbd313fa07ee218bf580ad634f02de2ca4fea90afc2057cfb7c75de2dca32df",
+      "bytes": 20000
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/character-save-gold.json",
+      "sha256": "04cd71ecdaf4c5b28e2e62e4747e1c579aea6a9d6d3cd7ed4208f0c5ded14874",
+      "bytes": 17524
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/helpers-original.asm",
+      "sha256": "aa8504d82333b43d3f9a6b1a1d72ed729c04c49c1bd9abc3037faaaa2d86fc3c",
+      "bytes": 17455
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/integration.md",
+      "sha256": "0bdb9ad48f37b7e20ac143064af13c466239904686c54e521a833c013deeccd4",
+      "bytes": 3812
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/metadata-constructor-original.json",
+      "sha256": "b7e84b3e3dc8be2005fdd572bd6e5350397218f5f8d926f207b166540ce26ad7",
+      "bytes": 761
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/original-functions.asm",
+      "sha256": "64ffcf8be83901326eee33eefe23a7f7d2a2acf1baec1d0a00be42bfc648a169",
+      "bytes": 10109
+    },
+    {
+      "path": "port/level-world/reference/object-save-restore-v3/original-functions.json",
+      "sha256": "69f13effb42f1cb529aa5e5b3090bb04cc905e09c240c9a2f4bd53797b3e475f",
+      "bytes": 1356
+    },
+    {
+      "path": "port/level-world/retained_character_save_connection_v3.cpp",
+      "sha256": "11280e7ca3b02a8ae35c1ba116587d27a3e28be4bd08767399c6d4bc61fe56e5",
+      "bytes": 4423
+    },
+    {
+      "path": "port/level-world/retained_character_save_connection_v3.hpp",
+      "sha256": "23736e91a43f481dcc00db1c0f8b3d1f9fe92a3a69d75aaf77d0e6d045841f06",
+      "bytes": 1642
+    },
+    {
+      "path": "port/level-world/tests/object_save_restore_v3_native.cpp",
+      "sha256": "246f0af434b78c359fb1644aefe9789bd9da0dd417bc10a85cba668ef8bb2037",
+      "bytes": 8528
+    },
+    {
+      "path": "port/level-world/tools/produce_character_save_metadata_v3.py",
+      "sha256": "ba0bfa4e5be6d3b9193949f192e539ebc51e02cd08411906c462c8eb7d233219",
+      "bytes": 1463
+    },
+    {
+      "path": "port/level-world/tools/produce_object_save_restore_v3.py",
+      "sha256": "9e99ee3735dcfc085849c877f9d9acf10fb90e0bbb04be314f6dc48669c23346",
+      "bytes": 6940
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "scope": "Required textual C include dependencies of script_runtime_return_v3.c; NEVER compile these as additional TUs",
+  "base_archive_sha256": "2557c11982b26239d55801503a44252e009c6040d12be3b460c8cbd47a7b4263",
+  "files": [
+    {
+      "path": "port/script-runtime/script_runtime_return_v1.c",
+      "sha256": "ec7454cbab2ac29b4dc89e6bb759bb92dc7735f7341597322bfcdeb6416bb75f",
+      "bytes": 3682
+    },
+    {
+      "path": "port/script-runtime/script_runtime.c",
+      "sha256": "571f4009dfac62b4251d9e4555f6b3cf343166a29d8f65ab92d5bc9d55391b9b",
+      "bytes": 31235
+    }
+  ]
+}

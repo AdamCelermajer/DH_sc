@@ -1,0 +1,171 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "15a7612782b25b595cbb1bf847ca94b1e0e487f5976bccddd2584e2079f54691",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\module_static_scene_bounds_v3.cpp",
+      "sha256": "939887ae464b108c62c344379e5676c2fe41071a8e925e3a837cbc6fd068404b"
+    },
+    {
+      "path": "port\\level-world\\module_static_scene_v2.cpp",
+      "sha256": "8015e0184c1d445d090a1767b1ebba4d76dd18d2cf431ab5ca0a0d609d1448ac"
+    },
+    {
+      "path": "port\\level-world\\module_selected_scene_v2.cpp",
+      "sha256": "cb03c8c01cb87c2a2eb2f0a2342e3e6393208ae2ab08ed7968bcb15c3d727dc1"
+    },
+    {
+      "path": "port\\level-world\\module_floor_append_v2.cpp",
+      "sha256": "98785b8aa345fa95307f2a55094166da89b2ca449d43234d79f050558b5f29d2"
+    },
+    {
+      "path": "port\\level-world\\user_properties_v2.cpp",
+      "sha256": "9a5e7ef71b5e16aa9510cdd5f32eae1aede513ef67c721793800873187b66aa4"
+    },
+    {
+      "path": "port\\level-world\\decor_scene.cpp",
+      "sha256": "cc8ffcfd1105191c051eb2c32e1adacc0a9598daf0a0a1a3831df34d00dd2f69"
+    },
+    {
+      "path": "port\\level-world\\decor_body_config.cpp",
+      "sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa"
+    },
+    {
+      "path": "port\\level-world\\floor_source.cpp",
+      "sha256": "d5b1975107ad31a889cf0d37c25bd13bebf01969bf41b412a74bae64d1d4b706"
+    },
+    {
+      "path": "port\\level-world\\octree.cpp",
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a"
+    },
+    {
+      "path": "port\\level-world\\collision.cpp",
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378"
+    },
+    {
+      "path": "port\\scene-materials\\scene.cpp",
+      "sha256": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556"
+    },
+    {
+      "path": "port\\engine-math\\math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    },
+    {
+      "path": "port\\asset-payloads\\payloads.cpp",
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d"
+    },
+    {
+      "path": "port\\engine-resources\\resources.cpp",
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+    },
+    {
+      "path": "port\\level-world\\module_floor_graph_v3.cpp",
+      "sha256": "64ad81b4752ed54023e4b6e5530f74ee3cdfadc571d070f92b4bf72b2457a125"
+    },
+    {
+      "path": "port\\level-world\\floors.cpp",
+      "sha256": "02c8357c2300d7f19bdc08a7bb156c350fff9c32e14e026f0ef94b68aa03d1a4"
+    },
+    {
+      "path": "port\\level-world\\selector.cpp",
+      "sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5"
+    },
+    {
+      "path": "port\\level-world\\navigation.cpp",
+      "sha256": "cc20d5df2f8b6b1501754b33ea16e5aacd3c35d916880ca868343994c12fdc91"
+    },
+    {
+      "path": "port\\level-world\\navigation_search.cpp",
+      "sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0"
+    },
+    {
+      "path": "port\\level-world\\navigation_world.cpp",
+      "sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d"
+    },
+    {
+      "path": "port\\level-world\\navigation_path.cpp",
+      "sha256": "4200d57fe3224e9bf423cdca11b34d22a080c868f57b1c7d68416a735b10ca36"
+    },
+    {
+      "path": "port\\level-world\\navigation_motion.cpp",
+      "sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f"
+    },
+    {
+      "path": "port\\level-world\\module_pf_room_v3.cpp",
+      "sha256": "c9b09d7ba5d540b4ef53a7aaa70f6d75b91d9c74ccc91dc42de8db105b67efd8"
+    },
+    {
+      "path": "port\\level-world\\module_floor_clone_v3.cpp",
+      "sha256": "64887cd5bbdbaead86112bb78046eb5d366a7cfc280e789b818dac378b4bde28"
+    },
+    {
+      "path": "port\\level-world\\scene_manager_map_owner_v2.cpp",
+      "sha256": "5a139980a8f6025df7d0d20bdebbb5b07194f42f0e8d0a1ed2e7f931ca719aa4"
+    },
+    {
+      "path": "port\\level-world\\gameobject_scene_root_registry_v1.cpp",
+      "sha256": "de48dd5e63ee3d238c7c2efee597d6b197fc41a6dffe603c9c250f20fb65c544"
+    },
+    {
+      "path": "port\\level-world\\module_static_scene_bounds_v3.cpp",
+      "sha256": "3ea9e9011cf0e0ccdf133a67a259efcccc2f28b3863df2c32caa4a2bf3998962"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\module_static_scene_bounds_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_static_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_selected_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_floor_append_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\user_properties_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\decor_scene.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\decor_body_config.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\floor_source.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\octree.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\collision.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\scene.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-math\\math.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\payloads.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-resources\\resources.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_floor_graph_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\floors.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\selector.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_search.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_world.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_path.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_motion.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_pf_room_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_floor_clone_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\scene_manager_map_owner_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameobject_scene_root_registry_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_static_scene_bounds_v3.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\module-static-scene-bounds-v3\\module-static-scene-bounds-v3.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "Actual SWAMP ctor world-bounds + cached queries + PFRoom PASS 9 rooms 16 floors 19 exits\n",
+  "stderr": ""
+}

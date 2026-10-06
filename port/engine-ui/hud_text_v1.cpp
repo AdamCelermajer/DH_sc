@@ -1,4 +1,5 @@
 #include "hud_text_v1.hpp"
+#include "localization_parse_ex_v1.hpp"
 #include <cstring>
 #include <stdexcept>
 #include <utility>
@@ -71,12 +72,47 @@ bool HudTextV1::native_string(const std::string& symbol,const LocalizationServic
  out=std::move(next);return true;
 }
 const std::string& HudTextV1::sheet_name(std::uint32_t p,std::uint32_t s)const{if(!ready_||p>8||s>36)throw std::out_of_range("Localization sheet");return sheets_[p][s].name;}
+bool HudTextV1::parsed_string_v4(const std::string& symbol,const std::vector<LocalizationArgumentV1>& args,
+ const HudTextEnvironmentV1& env,std::string& output,std::string& error){
+ error.clear();const auto split=symbol.find('_');
+ if(!ready_||busy_||!text_ok(symbol)||split==std::string::npos)return fail(error,"Parsed HUD symbol outside bounds");
+ const auto& svc=env.localization;if(!svc.debug)return fail(error,"Required actual parsed StringManager Debug");
+ std::string localized="notfound";
+ {
+  Busy guard(busy_);if(!svc.debug(svc.context,"isTracingStringManager",error))return false;
+  const unsigned pack=pack_==-1?0:static_cast<unsigned>(pack_);bool found=false;
+  for(unsigned sheet=0;sheet<37&&!found;++sheet){
+   if(!prefix_equal(symbol,sheets_[pack][sheet].name,split))continue;
+   std::string candidate;if(!index(sheet,0,8,svc,candidate,error))return false;
+   for(unsigned i=0;i<sheets_[8][sheet].strings.size();++i){
+    if(i&&!index(sheet,i,8,svc,candidate,error))return false;
+    if(candidate.size()!=symbol.size()||!prefix_equal(candidate,symbol,candidate.size()))continue;
+    if(!index(sheet,i,pack_,svc,localized,error)||!svc.debug(svc.context,"isTracingStringManager",error))return false;
+    found=true;break;
+   }
+  }
+ }
+ std::vector<HudTextVariantV1> values;values.reserve(args.size());
+ for(const auto& arg:args)values.push_back({arg.number,0,arg.has_text?arg.text.c_str():nullptr});
+ std::string next;bool changed=false;
+ if(!parse_ex(localized.c_str(),values.data(),values.size(),env,next,changed,error))return false;
+ output=std::move(next);return true;
+}
 const std::string& HudTextV1::sheet_filename(std::uint32_t p,std::uint32_t s)const{if(!ready_||p>8||s>36)throw std::out_of_range("Localization sheet");return sheets_[p][s].filename;}
 std::size_t HudTextV1::loaded_sheets()const{std::size_t count=0;for(const auto& p:sheets_)for(const auto& s:p)count+=s.loaded;return count;}
 
 bool HudTextV1::integer_string(std::int32_t number,const LocalizationServices& svc,std::string& out,bool& is_null,std::string& e){
  e.clear();if(!ready_||busy_)return fail(e,"HUD integer localization owner unavailable");
  if(number<0){is_null=true;return true;}Busy guard(busy_);if(!id(static_cast<std::uint32_t>(number),svc,out,e))return false;is_null=false;return true;
+}
+bool HudTextV1::source_string_index_v1(std::uint32_t sheet,std::uint32_t number,std::int32_t p,const LocalizationServices& svc,std::string& out,std::string& e){
+ e.clear();if(!ready_||busy_)return fail(e,"Source StringManager cache unavailable");
+ Busy guard(busy_);return index(sheet,number,p,svc,out,e);
+}
+bool HudTextV1::source_string_count_v1(std::uint32_t sheet,std::int32_t p,std::int32_t& out,std::string& e)const{
+ e.clear();if(!ready_||busy_||p<0||p>8||sheet>36)return fail(e,"Source StringManager count outside bounds");
+ // getNumberOfStrings507550 reads its signed16 field without loading a file.
+ out=static_cast<std::int32_t>(sheets_[static_cast<unsigned>(p)][sheet].strings.size());return true;
 }
 bool HudTextV1::parse_ex(const char* input,const HudTextVariantV1* values,std::size_t count,const HudTextEnvironmentV1& env,std::string& out,bool& changed,std::string& e){
  e.clear();if(!ready_||busy_)return fail(e,"HUD formatting owner unavailable");Busy guard(busy_);

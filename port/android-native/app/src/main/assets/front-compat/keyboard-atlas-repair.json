@@ -1,0 +1,244 @@
+{
+  "scope": "Keyboard and Exit icon atlas compatibility repair; original Android mapping unresolved",
+  "original_sha256": "c114c7d39b7fe0351a93a515c78f9457dda715d78aed6e3bcc3f4895120de421",
+  "generic_sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+  "patched_sha256": "f01cbeec730848d57aed8923b51ed2c927403687122e870878d713a1d389d430",
+  "shapes": [
+    {
+      "shape": 70,
+      "bounds_twips": [
+        -108,
+        745,
+        -126,
+        743
+      ],
+      "source": "dqmenus.swf shape 73",
+      "atlas_pixel_bounds": [
+        655.7,
+        712.9,
+        968.6,
+        1024.0
+      ],
+      "fill_count": 1,
+      "slicing": null
+    },
+    {
+      "shape": 72,
+      "bounds_twips": [
+        -147,
+        705,
+        -129,
+        832
+      ],
+      "source": "dqmenus.swf shape 75",
+      "atlas_pixel_bounds": [
+        734.7,
+        804.35,
+        966.8,
+        1024.0
+      ],
+      "fill_count": 1,
+      "slicing": null
+    },
+    {
+      "shape": 75,
+      "bounds_twips": [
+        -1255,
+        225,
+        -819,
+        81
+      ],
+      "source": "dqmenus.swf shape 78",
+      "atlas_pixel_bounds": [
+        637.0,
+        732.05,
+        831.05,
+        897.05
+      ],
+      "fill_count": 1,
+      "slicing": null
+    },
+    {
+      "shape": 77,
+      "bounds_twips": [
+        163,
+        1661,
+        -103,
+        867
+      ],
+      "source": "dqmenus.swf shape 80",
+      "atlas_pixel_bounds": [
+        935.9,
+        1024.0,
+        821.55,
+        877.5
+      ],
+      "fill_count": 1,
+      "slicing": null
+    },
+    {
+      "shape": 80,
+      "bounds_twips": [
+        348,
+        4519,
+        49,
+        844
+      ],
+      "source": "Identified original atlas artwork: Space blank key",
+      "atlas_pixel_bounds": [
+        868,
+        917,
+        981,
+        1020
+      ],
+      "fill_count": 3,
+      "slicing": {
+        "mode": "three-slice capsule",
+        "x_cuts_twips": [
+          348,
+          827,
+          4040,
+          4519
+        ],
+        "u_cuts_pixels": [
+          868,
+          891.5,
+          893.5,
+          917
+        ],
+        "matrices": [
+          {
+            "scale": [
+              20.382978723404257,
+              20.384615384615383
+            ],
+            "shift": [
+              -17344.425531914894,
+              -19948.30769230769
+            ]
+          },
+          {
+            "scale": [
+              1606.5,
+              20.384615384615383
+            ],
+            "shift": [
+              -1431367.75,
+              -19948.30769230769
+            ]
+          },
+          {
+            "scale": [
+              20.382978723404257,
+              20.384615384615383
+            ],
+            "shift": [
+              -14172.191489361703,
+              -19948.30769230769
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "shape": 82,
+      "bounds_twips": [
+        127,
+        4732,
+        -130,
+        931
+      ],
+      "source": "Identified original atlas artwork: Space glow",
+      "atlas_pixel_bounds": [
+        951,
+        1010,
+        978,
+        1024
+      ],
+      "fill_count": 3,
+      "slicing": {
+        "mode": "three-slice capsule",
+        "x_cuts_twips": [
+          127,
+          784,
+          4075,
+          4732
+        ],
+        "u_cuts_pixels": [
+          951,
+          979.5,
+          981.5,
+          1010
+        ],
+        "matrices": [
+          {
+            "scale": [
+              23.05263157894737,
+              23.065217391304348
+            ],
+            "shift": [
+              -21796.05263157895,
+              -22687.782608695652
+            ]
+          },
+          {
+            "scale": [
+              1645.5,
+              23.065217391304348
+            ],
+            "shift": [
+              -1610983.25,
+              -22687.782608695652
+            ]
+          },
+          {
+            "scale": [
+              23.05263157894737,
+              23.065217391304348
+            ],
+            "shift": [
+              -18551.157894736843,
+              -22687.782608695652
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "shape": 85,
+      "bounds_twips": [
+        -1255,
+        225,
+        -819,
+        81
+      ],
+      "source": "Identified original atlas artwork: Shift up-arrow",
+      "atlas_pixel_bounds": [
+        303,
+        374,
+        963,
+        1006
+      ],
+      "fill_count": 4,
+      "slicing": null
+    },
+    {
+      "shape": 507,
+      "bounds_twips": [
+        64,
+        570,
+        -13,
+        493
+      ],
+      "source": "dqmenus.swf shape 494",
+      "atlas_pixel_bounds": [
+        656.7600832238436,
+        694.1603487873645,
+        774.6161317331845,
+        812.1661046444813
+      ],
+      "fill_count": 1,
+      "slicing": null
+    }
+  ]
+}

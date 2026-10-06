@@ -14,23 +14,44 @@ struct Reader {
 };
 }
 OwnedHudSettingsV1::OwnedHudSettingsV1(GameOptionTableV1::Borrow table):table_(std::move(table)){if(!table_)throw std::invalid_argument("Owned settings need actual GameOption backing");}
+void OwnedHudSettingsV1::initialize_defaults(bool language_only){
+ options_.clear();
+ if(!language_only)for(std::size_t i=0;i<table_.rows().size();++i)options_[table_.names()[i].c_str()]={i,table_.rows()[i].default_value};
+ tutorials_.fill(1);
+}
 bool OwnedHudSettingsV1::has_option(const char* key)const{return key&&options_.find(key)!=options_.end();}
 std::int32_t OwnedHudSettingsV1::option(const char* key)const{if(!key)return -1;auto i=options_.find(key);return i==options_.end()?-1:i->second.current;}
+std::int32_t OwnedHudSettingsV1::option_max(const char* key)const{
+ const auto* row=descriptor(key);if(!row)return -1;
+ return signedword(std::uint32_t(row->maximum)-(row->type==2?1u:0u));
+}
+std::int32_t OwnedHudSettingsV1::option_string(const char* key)const{
+ const auto* row=descriptor(key);if(!row)return -1;
+ return signedword(std::uint32_t(row->value_string)+std::uint32_t(option(key)));
+}
 std::int32_t OwnedHudSettingsV1::saved_option(const char* key)const{return has_option(key)?option(key):0;}
 bool OwnedHudSettingsV1::set_option(const char* key,std::int32_t value){if(!key)return false;auto i=options_.find(key);if(i==options_.end())return false;i->second.current=value;return true;}
+std::vector<std::uint8_t> OwnedHudSettingsV1::serialized()const{
+ std::vector<std::uint8_t> bytes;
+ auto word=[&](std::uint32_t value){for(unsigned i=0;i<4;++i)bytes.push_back(std::uint8_t(value>>(i*8)));};
+ word(static_cast<std::uint32_t>(options_.size()));
+ // The original red-black option map writes its ordered key traversal.
+ for(const auto& item:options_){word(static_cast<std::uint32_t>(item.first.size()));bytes.insert(bytes.end(),item.first.begin(),item.first.end());word(std::uint32_t(item.second.current));}
+ bytes.insert(bytes.end(),tutorials_.begin(),tutorials_.end());return bytes;
+}
 const GameOptionRow32V1* OwnedHudSettingsV1::descriptor(const char* key)const{if(!key)return nullptr;auto i=options_.find(key);return i==options_.end()?nullptr:&table_.rows()[i->second.descriptor];}
 std::int32_t OwnedHudSettingsV1::language()const{return !has_option("Language")?language_hint_:option("Language")==-1?-1:option("Language");}
 bool OwnedHudSettingsV1::set_language(std::int32_t language,const SettingsLanguageServicesV1& services,std::string& error){
  error.clear();set_option("Language",language);
- if(!services.refresh_scene||!services.text)return fail(error,"Required settings language scene/TextManager backend missing");
+ if(!services.refresh_scene||(!services.text&&!services.switch_text_pack_v4))return fail(error,"Required settings language scene/TextManager backend missing");
  if(!services.refresh_scene(services.context,*this,language,error))return false;
- return services.text->switch_pack(language,true,error);
+ return services.switch_text_pack_v4?services.switch_text_pack_v4(services.text_context,language,true,error):services.text->switch_pack(language,true,error);
 }
 bool OwnedHudSettingsV1::load(bool language_only,const SettingsFileServicesV1& files,const SettingsLanguageServicesV1& language_services,const SettingsDeviceFactsV1& device,SettingsLoadReceiptV1& receipt,std::string& error){
  error.clear();if(!files.open_read||!files.close_read||!device_valid(device))return fail(error,"Malformed settings file/device services");
  // Source deletes the previous buffer, clears option nodes, then sets tutorial
  // bytes. Existing load/new flags are deliberately not reset by _initSettings.
- file_.clear();options_.clear();if(!language_only)for(std::size_t i=0;i<table_.rows().size();++i)options_[table_.names()[i].c_str()]={i,table_.rows()[i].default_value};tutorials_.fill(1);
+ file_.clear();initialize_defaults(language_only);
  bool found=false;std::uintptr_t lease=0;std::vector<std::uint8_t> buffer;
  if(!files.open_read(files.context,"dh2_settings.savegame",found,buffer,lease,error)){
   if(lease){std::string close_error;files.close_read(files.context,lease,close_error);}return false;

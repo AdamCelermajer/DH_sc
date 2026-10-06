@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "scope": "actual packaged FIRE material atlas, isolated EGL/GLES V5 upload/mipmap/draw/readback/unbind/contextloss and renderer GLstate restore; not whole gameFX acceptance",
+  "binary_sha256": "58fe1ab56699d98cc6e9c9b9405872f54572a213779ea61a69c7936e1c8068e1",
+  "sources": [
+    {
+      "path": "port/engine-textures/tests/renderer_effect_texture_v5_gles_test.cpp",
+      "sha256": "3f935652cd23ec39478d17095f9c8903c2f49a9c14bf46fff0000c91d4a073db"
+    },
+    {
+      "path": "port/engine-textures/blood_texture_image_v1.cpp",
+      "sha256": "eb26bbb9fef7880265eb6eedc6521187a40a2fe6dbe3874e3f41001e44ac12fb"
+    },
+    {
+      "path": "port/engine-textures/texture_owner_v1.cpp",
+      "sha256": "e88d255184c05432ead7130aacded3ae79ae6d80e0f4e4935684ffbe38e19812"
+    },
+    {
+      "path": "port/engine-textures/texture_driver_fields_v1.cpp",
+      "sha256": "2209fd3f3fae3c170e56e6aae2318c107f74ab520d4cef922b4d8a4c2f720f51"
+    },
+    {
+      "path": "port/engine-textures/texture_binding_owner_v1.cpp",
+      "sha256": "6a9dc09420f9675048d04909ebae9545ed2a7e7abb2e032d22a503523dd61419"
+    },
+    {
+      "path": "port/engine-textures/texture_mipmap_v1.cpp",
+      "sha256": "8bbdb7a4e31fb3553aca77ec7df01ac557ccaa3f8aa35b7b92a87cb35e0bbbac"
+    },
+    {
+      "path": "port/engine-textures/texture_unbind_v1.cpp",
+      "sha256": "1c0cc3e01ea24e9f68718dca2cdbf95c5fd87dce94c901ca6cf3b271abbae5d9"
+    },
+    {
+      "path": "port/engine-textures/textures.cpp",
+      "sha256": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb"
+    },
+    {
+      "path": "port/engine-textures/pvrtc.cpp",
+      "sha256": "dd88a34faff7b5741da77be72a49c0668e75f5aa57c146a3ea7c51817228d575"
+    },
+    {
+      "path": "port/engine-resources/resources.cpp",
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+    },
+    {
+      "path": "port/scene-materials/particle_scene_v1.cpp",
+      "sha256": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc"
+    },
+    {
+      "path": "port/scene-materials/scene.cpp",
+      "sha256": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d"
+    },
+    {
+      "path": "port/engine-math/math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    }
+  ],
+  "adapter_sha256": "c4fbb7857648208b31cad17b804fa1f1ed0f0d413c3fa349b75403cab13b7c16",
+  "exit_code": 0,
+  "stdout": "GLES context 0 renderer Android Emulator OpenGL ES Translator (Google SwiftShader)\nActual FIRE atlas draw 0/0 varied=2213 mipdraw=158 format=14 size=64\nActual FIRE atlas draw 0/1 varied=2213 mipdraw=158 format=14 size=64\nActual FIRE atlas draw 0/2 varied=2213 mipdraw=158 format=14 size=64\nGLES context 1 renderer Android Emulator OpenGL ES Translator (Google SwiftShader)\nActual FIRE atlas draw 1/0 varied=2213 mipdraw=158 format=14 size=64\nActual FIRE atlas draw 1/1 varied=2213 mipdraw=158 format=14 size=64\nActual FIRE atlas draw 1/2 varied=2213 mipdraw=158 format=14 size=64\nGLES context 2 renderer Android Emulator OpenGL ES Translator (Google SwiftShader)\nActual FIRE atlas draw 2/0 varied=2213 mipdraw=158 format=14 size=64\nActual FIRE atlas draw 2/1 varied=2213 mipdraw=158 format=14 size=64\nActual FIRE atlas draw 2/2 varied=2213 mipdraw=158 format=14 size=64\nPASS 57 actual packaged atlas GLES V5 lifecycle checks\n",
+  "stderr": ""
+}

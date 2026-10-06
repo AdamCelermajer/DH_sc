@@ -1,0 +1,133 @@
+{
+  "status": "PASS",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/player_manager_boot_v25_host.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "port/level-world/player_manager_combat_runtime_v2.cpp",
+        "port/level-world/player_network_local_owner_v4.cpp",
+        "port/level-world/player_manager_loot_queries_v8.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/player_manager_boot_v25_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_manager_boot_v25_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":23,\"surface_owner_transfers\":3,\"actual_registered_player_count\":1,\"actual_bound_character_count\":0,\"no_constructor_replay_and_no_world_cycle\":true,\"scope\":\"actual PM/Matching owners; declared offline renderer shell; AddCharacter positive continuation not claimed\"}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/player_manager_boot_v25_host.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "port/level-world/player_manager_combat_runtime_v2.cpp",
+        "port/level-world/player_network_local_owner_v4.cpp",
+        "port/level-world/player_manager_loot_queries_v8.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/player_manager_boot_v25_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_manager_boot_v25_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":23,\"surface_owner_transfers\":3,\"actual_registered_player_count\":1,\"actual_bound_character_count\":0,\"no_constructor_replay_and_no_world_cycle\":true,\"scope\":\"actual PM/Matching owners; declared offline renderer shell; AddCharacter positive continuation not claimed\"}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/level-world/tests/player_manager_boot_v25_host.cpp",
+      "sha256": "fb7728a3860aa20719a07c1d700391896476e691371f7b7510e4823d6220313f"
+    },
+    {
+      "path": "port/level-world/player_manager_owner_v1.cpp",
+      "sha256": "75d0713553fe47494f675051b33a243c4841f01ba2baf44dff8c439ba3e640a1"
+    },
+    {
+      "path": "port/level-world/player_manager_combat_runtime_v2.cpp",
+      "sha256": "cf4030bb1136fb57a686d8b99a3d8b9702c521d7d6f6ace0b644cd1d07e8b56b"
+    },
+    {
+      "path": "port/level-world/player_network_local_owner_v4.cpp",
+      "sha256": "fe6854d9b73e8f71ad8c02f2a16fc5533e6eeb2b5b2af684bbacd1b11c9961f5"
+    },
+    {
+      "path": "port/level-world/player_manager_loot_queries_v8.cpp",
+      "sha256": "d6fe09b299b016510d6a3517dad46bcc6529b9d197106513e598ad2b7873d988"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_player_manager_boot_v25.inc",
+      "sha256": "f13056346bfcf7230e8f8b1d08f95ff77cc82fbcc9d3c29ab321ca2937f625a0"
+    }
+  ]
+}

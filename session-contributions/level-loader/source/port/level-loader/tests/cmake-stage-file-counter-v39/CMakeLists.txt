@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.22)
+project(dh2_file_counter_v39 LANGUAGES CXX)
+add_executable(dh2_file_counter_v39 ../stage_loader_v39_file_counter_probe.cpp)
+target_include_directories(dh2_file_counter_v39 PRIVATE ../..)
+target_compile_features(dh2_file_counter_v39 PRIVATE cxx_std_17)
+target_compile_options(dh2_file_counter_v39 PRIVATE -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer)
+target_link_options(dh2_file_counter_v39 PRIVATE -fsanitize=address,undefined)

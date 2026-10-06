@@ -58,11 +58,12 @@ bool EnemyStatusHudV1::apply(void* p,SwfAsGraph& graph,std::string& error){
   if(!self.core_.bind(static_cast<gameswf::character*>(root),sha,{&self,notify,sound,pause},error))return false;
   self.core_.required_operations(&self,text_operation);
   HudManagerResponse response;
-  HudManagerRequest root_query{HudManagerOperation::root_lookup,0,0,0,0,0,"_root.menu_HUD_0",nullptr,{0,0,0},0};
-  if(self.core_.dispatch(root_query,response,error)!=1||!response.identity){error="Enemy HUD authored style0 root unavailable";return false;}
+   const auto menu="_root.menu_HUD_"+std::to_string(self.hud_style_);
+   HudManagerRequest root_query{HudManagerOperation::root_lookup,0,0,0,0,0,menu.c_str(),nullptr,{0,0,0},0};
+   if(self.core_.dispatch(root_query,response,error)!=1||!response.identity){error="Enemy HUD selected authored root unavailable";return false;}
   const auto base=response.identity;
   for(unsigned i=19;i<=22;++i){
-   HudManagerRequest init{HudManagerOperation::cache_initialize,i,0,0,base,self.state_.render_fx,hud_manager_cache_path(i,0),nullptr,{0,0,0},0};
+    HudManagerRequest init{HudManagerOperation::cache_initialize,i,0,0,base,self.state_.render_fx,hud_manager_cache_path(i,self.hud_style_),nullptr,{0,0,0},0};
    if(self.core_.dispatch(init,response,error)!=1)return false;
   }
   self.bound_=true;
@@ -74,9 +75,11 @@ bool EnemyStatusHudV1::apply(void* p,SwfAsGraph& graph,std::string& error){
  if(self.borrow_->presentation.target){SwfAsValue value;gameswf::as_object* object{};if(!graph.root_value(value,error)||!graph.borrow_object(value,object,error)||!object||!object->is(gameswf::sprite_instance::m_class_id)){error="Required live enemy viewport root";return false;}const auto* root=static_cast<gameswf::sprite_instance*>(object)->get_root();if(!root){error="Required live enemy viewport";return false;}self.viewport_pixels_[0]=float(root->m_viewport_x0);self.viewport_pixels_[1]=float(root->m_viewport_y0);self.viewport_pixels_[2]=float(root->m_viewport_x0)+float(root->m_viewport_width);self.viewport_pixels_[3]=float(root->m_viewport_y0)+float(root->m_viewport_height);}
  return true;
 }
-bool EnemyStatusHudV1::update(const EnemyHudWorldBorrowV1& borrow,std::string& error){
+bool EnemyStatusHudV1::update(const EnemyHudWorldBorrowV1& borrow,std::string& error,std::int32_t hud_style){
  if(!borrow.world||!borrow.player||!borrow.services.invoke){error="Enemy HUD requires retained world/player/services";return false;}
- if(borrow_){error="Enemy HUD synchronous borrow reentered";return false;}
+  if(borrow_){error="Enemy HUD synchronous borrow reentered";return false;}
+  if(hud_style<0||hud_style>3){error="Enemy HUD requires actual authored HUDStyle";return false;}
+  if(hud_style_!=hud_style){bound_=false;state_.cached_target=nullptr;target_=0;hud_style_=hud_style;}
  if(world_!=borrow.world){
   // The source manager's initialization clears its previous target. Do not
   // dereference a character projection from a world that has been released.

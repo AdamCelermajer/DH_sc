@@ -1,0 +1,14 @@
+{
+  "port/level-world/canonical_level_config_module_v1.cpp": "87f7aefe8ec3256ff92e1b0444c23ca7c6948335dac18d91acd84417058ed8ec",
+  "port/level-world/tests/canonical_level_config_v1.cpp": "1fb48a404745def5faeecd8f29636e0ccdeb845f7cf26c536bb293f995e14a4b",
+  "port/level-world/tools/probe_level_config_across_rooms_v4.py": "fd93e7367011402b6be107a23d21c0e2191e8781800ceb904f47e0a79e19cf33",
+  "port/level-world/reports/level-config-across-rooms-v4.md": "f1000a9a0ea3c172c18c25918fb52c9e929d02d229a1574919c13a3958775242",
+  ".local-inputs/capture_level_across_v4.py": "f196554b71ac105fab78aef578bbe9f616c05ee394b4d4bb6954d6b0fb4ed1c4",
+  ".local-inputs/inspect_level_alloc_v4.py": "00060ade5b9e2e2169c5c965d0dd8dde44cee12d3ba28c841175e0219c03d5f3",
+  ".local-inputs/run_level_across_native_v4.py": "f009e54f11b52b4c2a9f3b139f91c031477ef524653c849dce17b870c84d7a35",
+  "port/level-world/reference/level-config-across-rooms-v4/constructor-original-proof.json": "3b51282226047c36f5a160c8965af42e5d307ed59c1e6cbc83f5b328987f9720",
+  "port/level-world/reference/level-config-across-rooms-v4/original.asm": "2e0154a54ac066872fae6c501676b11c32e81f55f3ef6dd8b050156db2de74f3",
+  "port/level-world/reference/level-config-across-rooms-v4/symbols.json": "6d7669351f3aa3d849e470f29d57c1e98eb5ad891903f69ee14d173b10f3838a",
+  "port/level-world/reports/android-native-owner-tests/canonical-level-config-across-v4/receipt.json": "d4b18993a7ca4495804ff40f191ae981511c938d18d69c85873958df0c5cf2b7",
+  "port/level-world/reports/android-native-owner-tests/canonical-level-config-across-v4/compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

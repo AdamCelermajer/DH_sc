@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "kind": "Decor",
+      "go_id": 20,
+      "slots": {
+        "0x18": "0x3899d0",
+        "0x1c": "0x388a98",
+        "0x58": "0x38cd48"
+      },
+      "allocation": 888,
+      "static84": 1
+    },
+    {
+      "kind": "Decor",
+      "go_id": 20,
+      "slots": {
+        "0x18": "0x3899d0",
+        "0x1c": "0x388a98",
+        "0x58": "0x38cd48"
+      },
+      "allocation": 888,
+      "static84": 1
+    },
+    {
+      "kind": "Decor",
+      "go_id": 20,
+      "slots": {
+        "0x18": "0x3899d0",
+        "0x1c": "0x388a98",
+        "0x58": "0x38cd48"
+      },
+      "allocation": 888,
+      "static84": 1
+    },
+    {
+      "kind": "SpawnPoint",
+      "go_id": 13,
+      "slots": {
+        "0x18": "0x3ea554",
+        "0x1c": "0x3ea28c",
+        "0x58": "0x38cd48"
+      },
+      "allocation": 916,
+      "static84": 0
+    },
+    {
+      "kind": "SpawnPoint",
+      "go_id": 13,
+      "slots": {
+        "0x18": "0x3ea554",
+        "0x1c": "0x3ea28c",
+        "0x58": "0x38cd48"
+      },
+      "allocation": 916,
+      "static84": 0
+    },
+    {
+      "kind": "SpawnPoint",
+      "go_id": 13,
+      "slots": {
+        "0x18": "0x3ea554",
+        "0x1c": "0x3ea28c",
+        "0x58": "0x38cd48"
+      },
+      "allocation": 916,
+      "static84": 0
+    }
+  ],
+  "scope": "Whole original class factory/base constructor graph; poisoned allocation. Imported allocation/free, single-thread mutex, unsigned division and inline CString reserve are explicit primitive fixtures."
+}

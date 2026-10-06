@@ -10,6 +10,21 @@
 #undef CharacterSkillOwnerV3
 #undef CharacterPlayerSkillsV3
 namespace dh2::character::skills {
+std::shared_ptr<data::PlayerSavegameV1> CharacterPlayerSkillsV6::native_saved_owner()const noexcept{return impl_->saved;}
+int CharacterPlayerSkillsV6::native_initialize_skill_instances(){
+ if(!ready())return -2;auto& t=*impl_;t.error.clear();
+ const int code=t.owner->configure();
+ if(code!=1)t.error=t.owner->error()+"; "+t.service->error();
+ return code;
+}
+int CharacterPlayerSkillsV6::native_skill_animation_event(std::uint32_t* result){
+ auto& t=*impl_;if(!result)return -1;if(!t.ready||t.failed||!t.init.gameplay.skill_owner)return -2;
+ t.error.clear();SkillAIContextV3 state{t.init.gameplay.skill_owner,const_cast<State40*>(&t.owner->state()),&t.skill_ai,t.session->owner().lifecycle().load_step,0};
+ const SkillAIServices16V3 services{&t,Impl::skill_service};
+ const auto code=dh2_character_skill_ai_v3(result,&state,skill_ai_event_v3,0,&services);
+ if(code&&t.error.empty())t.error="Required source AI_Event skill callback at current index "+std::to_string(t.skill_ai.current);
+ return code;
+}
 BuffOwner* CharacterPlayerSkillsV6::native_buffs()noexcept{return impl_->buffs;}
 const data::PlayerSavegameV1* CharacterPlayerSkillsV6::native_savegame()const noexcept{return impl_->saved.get();}
 int CharacterPlayerSkillsV6::native_reload_skills(const SkillSaveReloadServicesV6* services){
