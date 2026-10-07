@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10PlayerInfo17SetCharacterLevelEi",
+      "elf_address": "0x370e48",
+      "size": 168,
+      "sha256": "8f7da2a903e351f20a16438937583cb58b6fb219bd4677c48fd9b1b0808ce506"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "elf_address": "0x37280c",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce"
+    },
+    {
+      "original_symbol": "_ZNK9Character8GetLevelEv",
+      "elf_address": "0x3bd120",
+      "size": 16,
+      "sha256": "25e1ded8b96fbf69bc67e3cdb848c1663f70bda098570256216638df94f39bdf"
+    }
+  ]
+}

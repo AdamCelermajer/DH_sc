@@ -1,0 +1,14 @@
+{
+  "device_key_sha256": "c2425112f3d79ad0baf35f10f2e8958f51b86fb97be8158f66bd84710bcc8a19",
+  "properties": {
+    "ro.product.manufacturer": "Xiaomi",
+    "ro.product.model": "2602EPTC0G",
+    "ro.product.marketname": "Xiaomi 17T Pro",
+    "ro.build.version.release": "16",
+    "ro.build.version.sdk": "36",
+    "ro.product.cpu.abilist": "arm64-v8a"
+  },
+  "size": "Physical size: 1280x2772",
+  "density": "Physical density: 520",
+  "existing_package": "package:/data/app/~~wdja3Xi8__dwx0MQN1euvA==/com.example.dh2-ksPZowWdQUJdq8HBuIy04w==/base.apk"
+}

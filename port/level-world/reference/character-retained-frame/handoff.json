@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "report": "port/level-world/reports/character-retained-frame-source-discovery.json",
+  "report_sha256": "9e39157691def8c2744251d1e43d2504b06f42ae22c1b8ad539569b8e76244a5",
+  "notes": "port/level-world/reference/character-retained-frame/NOTES.md",
+  "notes_sha256": "d14a7bfec784b57264d94032d8e4f8a5e3245ebf27613563b98aadff1777761d",
+  "production_changed": false,
+  "proof": {
+    "original_cases": 41,
+    "native_cases": 0
+  }
+}

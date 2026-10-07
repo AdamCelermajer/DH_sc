@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9AISPlayer7InitVCBEv",
+      "elf_address": "0x3dd884",
+      "size": 60,
+      "sha256": "1aaa9782e59485904111dc5d003caca509d511727deab98475926def81aa8fbe"
+    }
+  ]
+}

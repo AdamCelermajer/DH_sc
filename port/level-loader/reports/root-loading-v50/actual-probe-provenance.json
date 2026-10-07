@@ -1,0 +1,6 @@
+{
+  "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\native_gslevel_loading_v49.cpp",
+  "source_sha256": "e6a710f7ecda190e49c1378cc2def197401f5eb4b923f686e5c6d1f40b74deb5",
+  "generated_probe_sha256": "4f39ef116707e1e44217b34dc0bf96e4387acd5d6cdae8789fb71e31cb538742",
+  "scope": "Only actual cache/Arrays/C1/GS construction setup reused; root facade assertions are new. Transport callbacks remain explicit fixtures."
+}

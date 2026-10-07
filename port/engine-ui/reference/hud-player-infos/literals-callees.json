@@ -1,0 +1,1332 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "function": "0x44e5cc",
+      "strings": [
+        {
+          "load": "0x44e7b8",
+          "add": "0x44e7c4",
+          "literal": "0x44f224",
+          "address": "0x8ccad8",
+          "text": "PlayerActive"
+        },
+        {
+          "load": "0x44e824",
+          "add": "0x44e830",
+          "literal": "0x44f228",
+          "address": "0x8cc070",
+          "text": "LEVEL"
+        },
+        {
+          "load": "0x44e8b8",
+          "add": "0x44e8c4",
+          "literal": "0x44f22c",
+          "address": "0x8ccae8",
+          "text": "HP_PCT"
+        },
+        {
+          "load": "0x44e95c",
+          "add": "0x44e96c",
+          "literal": "0x44f234",
+          "address": "0x8ccaf0",
+          "text": "HP_LOWPCT"
+        },
+        {
+          "load": "0x44e980",
+          "add": "0x44e98c",
+          "literal": "0x44f238",
+          "address": "0x8c1758",
+          "text": "CharacterDesign"
+        },
+        {
+          "load": "0x44e994",
+          "add": "0x44e998",
+          "literal": "0x44f23c",
+          "address": "0x8ccb00",
+          "text": "LowHealthPercentage"
+        },
+        {
+          "load": "0x44ea04",
+          "add": "0x44ea10",
+          "literal": "0x44f240",
+          "address": "0x8ccb18",
+          "text": "MP_PCT"
+        },
+        {
+          "load": "0x44eaa4",
+          "add": "0x44eab0",
+          "literal": "0x44f244",
+          "address": "0x8ccb20",
+          "text": "XP_PCT"
+        },
+        {
+          "load": "0x44eb44",
+          "add": "0x44eb50",
+          "literal": "0x44f248",
+          "address": "0x8ccb28",
+          "text": "SPELL_PCT"
+        },
+        {
+          "load": "0x44ebdc",
+          "add": "0x44ebe8",
+          "literal": "0x44f24c",
+          "address": "0x8ccb38",
+          "text": "SPELL_MP"
+        },
+        {
+          "load": "0x44ec44",
+          "add": "0x44ec50",
+          "literal": "0x44f250",
+          "address": "0x8ccb48",
+          "text": "SKILL1_PCT"
+        },
+        {
+          "load": "0x44ecd4",
+          "add": "0x44ece0",
+          "literal": "0x44f254",
+          "address": "0x8ccb58",
+          "text": "SKILL1_MP"
+        },
+        {
+          "load": "0x44ed34",
+          "add": "0x44ed40",
+          "literal": "0x44f258",
+          "address": "0x8ccb68",
+          "text": "SKILL2_PCT"
+        },
+        {
+          "load": "0x44edc4",
+          "add": "0x44edd0",
+          "literal": "0x44f25c",
+          "address": "0x8ccb78",
+          "text": "SKILL2_MP"
+        },
+        {
+          "load": "0x44ee24",
+          "add": "0x44ee30",
+          "literal": "0x44f260",
+          "address": "0x8ccb88",
+          "text": "SKILL3_PCT"
+        },
+        {
+          "load": "0x44eeb0",
+          "add": "0x44eebc",
+          "literal": "0x44f264",
+          "address": "0x8ccb98",
+          "text": "SKILL3_MP"
+        },
+        {
+          "load": "0x44ef0c",
+          "add": "0x44ef18",
+          "literal": "0x44f268",
+          "address": "0x8ccba8",
+          "text": "NB_POTIONS"
+        },
+        {
+          "load": "0x44ef8c",
+          "add": "0x44ef98",
+          "literal": "0x44f26c",
+          "address": "0x8ccbb8",
+          "text": "AVAIL_POINTS"
+        },
+        {
+          "load": "0x44effc",
+          "add": "0x44f008",
+          "literal": "0x44f270",
+          "address": "0x8ccbc8",
+          "text": "TouchToMove"
+        },
+        {
+          "load": "0x44f01c",
+          "add": "0x44f028",
+          "literal": "0x44f274",
+          "address": "0x8bec48",
+          "text": "DPad"
+        },
+        {
+          "load": "0x44f080",
+          "add": "0x44f08c",
+          "literal": "0x44f278",
+          "address": "0x8ccad8",
+          "text": "PlayerActive"
+        }
+      ]
+    },
+    {
+      "function": "0x41e064",
+      "strings": [
+        {
+          "load": "0x41e0bc",
+          "add": "0x41e0c8",
+          "literal": "0x41ebd8",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41e284",
+          "add": "0x41e28c",
+          "literal": "0x41ebdc",
+          "address": "0x8c1600",
+          "text": "HUDStyle"
+        },
+        {
+          "load": "0x41e4b0",
+          "add": "0x41e4bc",
+          "literal": "0x41ebe0",
+          "address": "0x8c8900",
+          "text": "Show"
+        },
+        {
+          "load": "0x41e4dc",
+          "add": "0x41e4e8",
+          "literal": "0x41ebe8",
+          "address": "0x8c8e80",
+          "text": "ShowMonstersNamesAndNetID"
+        },
+        {
+          "load": "0x41e518",
+          "add": "0x41e524",
+          "literal": "0x41ebec",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41e6a4",
+          "add": "0x41e6b4",
+          "literal": "0x41ebf0",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41e710",
+          "add": "0x41e71c",
+          "literal": "0x41ebf4",
+          "address": "0x8c8e68",
+          "text": "AlliesBarDisplay"
+        },
+        {
+          "load": "0x41eb40",
+          "add": "0x41eb4c",
+          "literal": "0x41ebf8",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41ebac",
+          "add": "0x41ebbc",
+          "literal": "0x41ebfc",
+          "address": "0x8c88f8",
+          "text": "Hide"
+        }
+      ]
+    }
+  ],
+  "callees": [
+    {
+      "caller": "0x44e644",
+      "target": "0x439cb4",
+      "symbol": "_ZN7gameswf7cast_toINS_9as_objectEEEPT_PNS_19as_object_interfaceE"
+    },
+    {
+      "caller": "0x44e660",
+      "target": "0x797a54",
+      "symbol": "_ZNK7gameswf8as_value9to_numberEv"
+    },
+    {
+      "caller": "0x44e664",
+      "target": "0x30ea24",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44e680",
+      "target": "0x43c388",
+      "symbol": "_Z19NativeGetPlayerCharib"
+    },
+    {
+      "caller": "0x44e6b8",
+      "target": "0x3bbe68",
+      "symbol": "_ZN9Character17SG_GetSkillInSlotEi"
+    },
+    {
+      "caller": "0x44e6c8",
+      "target": "0x3bbe68",
+      "symbol": "_ZN9Character17SG_GetSkillInSlotEi"
+    },
+    {
+      "caller": "0x44e6d8",
+      "target": "0x3bbe68",
+      "symbol": "_ZN9Character17SG_GetSkillInSlotEi"
+    },
+    {
+      "caller": "0x44e700",
+      "target": "0x3d8358",
+      "symbol": "_ZNK6CharAI16AI_IsSkillUsableEj"
+    },
+    {
+      "caller": "0x44e710",
+      "target": "0x3bbed0",
+      "symbol": "_ZNK9Character16SG_GetSkillLevelEj"
+    },
+    {
+      "caller": "0x44e724",
+      "target": "0x3d7e88",
+      "symbol": "_ZNK6CharAI12AI_SkillInfoEjjRf"
+    },
+    {
+      "caller": "0x44e740",
+      "target": "0x3d8358",
+      "symbol": "_ZNK6CharAI16AI_IsSkillUsableEj"
+    },
+    {
+      "caller": "0x44e750",
+      "target": "0x3bbed0",
+      "symbol": "_ZNK9Character16SG_GetSkillLevelEj"
+    },
+    {
+      "caller": "0x44e764",
+      "target": "0x3d7e88",
+      "symbol": "_ZNK6CharAI12AI_SkillInfoEjjRf"
+    },
+    {
+      "caller": "0x44e780",
+      "target": "0x3d8358",
+      "symbol": "_ZNK6CharAI16AI_IsSkillUsableEj"
+    },
+    {
+      "caller": "0x44e790",
+      "target": "0x3bbed0",
+      "symbol": "_ZNK9Character16SG_GetSkillLevelEj"
+    },
+    {
+      "caller": "0x44e7a4",
+      "target": "0x3d7e88",
+      "symbol": "_ZNK6CharAI12AI_SkillInfoEjjRf"
+    },
+    {
+      "caller": "0x44e7b0",
+      "target": "0x3d7da8",
+      "symbol": "_ZNK6CharAI12AI_SpellInfoERf"
+    },
+    {
+      "caller": "0x44e7d4",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44e804",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44e83c",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44e84c",
+      "target": "0x3df6e0",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+    },
+    {
+      "caller": "0x44e860",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44e8a0",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44e8d0",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44e8f0",
+      "target": "0x30e2a4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44e904",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44e940",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44e978",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44e99c",
+      "target": "0x4c4bdc",
+      "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "caller": "0x44e9b0",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44e9ec",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44ea1c",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ea3c",
+      "target": "0x30e2a4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ea50",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ea8c",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44eabc",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44eadc",
+      "target": "0x30e2a4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44eaf0",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44eb2c",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44eb5c",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44eb6c",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44eb70",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44eb84",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ebc4",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44ebf4",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ebfc",
+      "target": "0x3d80b4",
+      "symbol": "_ZNK6CharAI16AI_IsSpellUsableEv"
+    },
+    {
+      "caller": "0x44ec30",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44ec5c",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ec6c",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ec70",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ec84",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ecc0",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44ecec",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ed20",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44ed4c",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ed5c",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ed60",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ed74",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44edb0",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44eddc",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ee10",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44ee3c",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ee4c",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ee50",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ee64",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44eea0",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44eec8",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44eefc",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44ef24",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44ef2c",
+      "target": "0x3fc690",
+      "symbol": "_ZNK13ItemInventory13GetNumPotionsEv"
+    },
+    {
+      "caller": "0x44ef40",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x44ef7c",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44efa4",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44efb4",
+      "target": "0x3df6e0",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+    },
+    {
+      "caller": "0x44efec",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44f014",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44f02c",
+      "target": "0x320e44",
+      "symbol": "_ZN11Application14GetSavedOptionEPKc"
+    },
+    {
+      "caller": "0x44f060",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44f078",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f09c",
+      "target": "0x413a7c",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc"
+    },
+    {
+      "caller": "0x44f0c8",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x44f0e0",
+      "target": "0x797250",
+      "symbol": "_ZN7gameswf8as_value13set_as_objectEPNS_9as_objectE"
+    },
+    {
+      "caller": "0x44f0fc",
+      "target": "0x797960",
+      "symbol": "_ZNK7gameswf8as_value7to_boolEv"
+    },
+    {
+      "caller": "0x44f110",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f120",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f130",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f140",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f150",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f160",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f170",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f180",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f190",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f1a0",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f1b0",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f1c0",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f1d0",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f1e0",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f1f0",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f200",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f210",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x44f218",
+      "target": "0x30e310",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e0a4",
+      "target": "0x36e478",
+      "symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+    },
+    {
+      "caller": "0x41e0b8",
+      "target": "0x3fc690",
+      "symbol": "_ZNK13ItemInventory13GetNumPotionsEv"
+    },
+    {
+      "caller": "0x41e0d0",
+      "target": "0x30eae4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e0dc",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e0f0",
+      "target": "0x7a92e0",
+      "symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41e10c",
+      "target": "0x30e2a4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e128",
+      "target": "0x30e2a4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e148",
+      "target": "0x30e2a4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e160",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e17c",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e188",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e1a4",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e1b0",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e1c4",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e1d0",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e1e4",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e1f0",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e204",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e20c",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e220",
+      "target": "0x3df6e0",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+    },
+    {
+      "caller": "0x41e248",
+      "target": "0x3bbe68",
+      "symbol": "_ZN9Character17SG_GetSkillInSlotEi"
+    },
+    {
+      "caller": "0x41e268",
+      "target": "0x3da3d0",
+      "symbol": "_ZN17CharAISkillScript11GetCooldownEv"
+    },
+    {
+      "caller": "0x41e290",
+      "target": "0x320e44",
+      "symbol": "_ZN11Application14GetSavedOptionEPKc"
+    },
+    {
+      "caller": "0x41e2c4",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e2d8",
+      "target": "0x41ddec",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc.clone.1"
+    },
+    {
+      "caller": "0x41e300",
+      "target": "0x797a54",
+      "symbol": "_ZNK7gameswf8as_value9to_numberEv"
+    },
+    {
+      "caller": "0x41e304",
+      "target": "0x30ea24",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e328",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e348",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e34c",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e364",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e370",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x41e398",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e3a8",
+      "target": "0x3da3d0",
+      "symbol": "_ZN17CharAISkillScript11GetCooldownEv"
+    },
+    {
+      "caller": "0x41e3b4",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e3b8",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e3d0",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e3d4",
+      "target": "0x7fd794",
+      "symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "0x41e408",
+      "target": "0x3d5450",
+      "symbol": "_ZN6CharAI23AI_GetTargetAsCharacterEv"
+    },
+    {
+      "caller": "0x41e418",
+      "target": "0x3d5450",
+      "symbol": "_ZN6CharAI23AI_GetTargetAsCharacterEv"
+    },
+    {
+      "caller": "0x41e41c",
+      "target": "0x3a3064",
+      "symbol": "_ZNK9Character9IsMonsterEv"
+    },
+    {
+      "caller": "0x41e464",
+      "target": "0x508edc",
+      "symbol": "_ZNK13StringManager9getStringEi"
+    },
+    {
+      "caller": "0x41e470",
+      "target": "0x3a3158",
+      "symbol": "_ZNK9Character6IsBossEv"
+    },
+    {
+      "caller": "0x41e498",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e4ac",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e4c4",
+      "target": "0x7ab924",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41e4d8",
+      "target": "0x337888",
+      "symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "0x41e4f4",
+      "target": "0x3116e8",
+      "symbol": "_ZNSs19_M_range_initializeEPKcS0_"
+    },
+    {
+      "caller": "0x41e500",
+      "target": "0x337a88",
+      "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "0x41e50c",
+      "target": "0x3139ac",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "0x41e528",
+      "target": "0x30eae4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e534",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e548",
+      "target": "0x7a92e0",
+      "symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41e554",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e568",
+      "target": "0x7a92e0",
+      "symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41e570",
+      "target": "0x3bd2dc",
+      "symbol": "_ZNK9Character12GetHPPercentEv"
+    },
+    {
+      "caller": "0x41e584",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e598",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e59c",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e5bc",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41e60c",
+      "target": "0x3a3064",
+      "symbol": "_ZNK9Character9IsMonsterEv"
+    },
+    {
+      "caller": "0x41e628",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "caller": "0x41e638",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e64c",
+      "target": "0x7a92e0",
+      "symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41e658",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e66c",
+      "target": "0x7a92e0",
+      "symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41e688",
+      "target": "0x36e478",
+      "symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+    },
+    {
+      "caller": "0x41e6bc",
+      "target": "0x30eae4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e6cc",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e6e0",
+      "target": "0x7a92e0",
+      "symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41e700",
+      "target": "0x36d7a8",
+      "symbol": "_ZN13PlayerManager13GetNumPlayersEv"
+    },
+    {
+      "caller": "0x41e758",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41e770",
+      "target": "0x31167c",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "0x41e7d8",
+      "target": "0x3116e8",
+      "symbol": "_ZNSs19_M_range_initializeEPKcS0_"
+    },
+    {
+      "caller": "0x41e7f0",
+      "target": "0x507c0c",
+      "symbol": "_ZN13StringManager14formatForMultiESsb"
+    },
+    {
+      "caller": "0x41e804",
+      "target": "0x797350",
+      "symbol": "_ZN7gameswf8as_value10set_stringEPKc"
+    },
+    {
+      "caller": "0x41e80c",
+      "target": "0x3139ac",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "0x41e814",
+      "target": "0x3139ac",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "0x41e828",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e84c",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e874",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e898",
+      "target": "0x30ed30",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e8b8",
+      "target": "0x7a7ca0",
+      "symbol": "_ZNK8RenderFX12GetFlashRootEv"
+    },
+    {
+      "caller": "0x41e8d4",
+      "target": "0x7abe0c",
+      "symbol": "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi"
+    },
+    {
+      "caller": "0x41e8e4",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "caller": "0x41e8f4",
+      "target": "0x3139ac",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "0x41e928",
+      "target": "0x36e744",
+      "symbol": "_ZN13PlayerManager9GetPlayerEib"
+    },
+    {
+      "caller": "0x41e964",
+      "target": "0x3bd2dc",
+      "symbol": "_ZNK9Character12GetHPPercentEv"
+    },
+    {
+      "caller": "0x41e970",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e974",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41e998",
+      "target": "0x3116e8",
+      "symbol": "_ZNSs19_M_range_initializeEPKcS0_"
+    },
+    {
+      "caller": "0x41e9a8",
+      "target": "0x3109e0",
+      "symbol": "_ZNSs9_M_assignEPKcS0_"
+    },
+    {
+      "caller": "0x41e9c0",
+      "target": "0x3139ac",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "0x41ea14",
+      "target": "0x30eba4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41ea30",
+      "target": "0x50e830",
+      "symbol": "_Z24GetScreenPosFromWorldPosRKN6glitch4core8vector3dIfEERNS0_10position2dIiEE"
+    },
+    {
+      "caller": "0x41ea38",
+      "target": "0x7a7cac",
+      "symbol": "_ZNK8RenderFX7GetRootEv"
+    },
+    {
+      "caller": "0x41ea3c",
+      "target": "0x416538",
+      "symbol": "_ZN12GameSWFUtils17GetInvPixelScaleXEPN7gameswf4rootE"
+    },
+    {
+      "caller": "0x41ea48",
+      "target": "0x7a7cac",
+      "symbol": "_ZNK8RenderFX7GetRootEv"
+    },
+    {
+      "caller": "0x41ea4c",
+      "target": "0x416578",
+      "symbol": "_ZN12GameSWFUtils17GetInvPixelScaleYEPN7gameswf4rootE"
+    },
+    {
+      "caller": "0x41ea5c",
+      "target": "0x30e964",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41ea68",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41ea6c",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41ea78",
+      "target": "0x30e964",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41ea88",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41ea8c",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41eaa0",
+      "target": "0x7aa3f0",
+      "symbol": "_ZN8RenderFX11SetPositionEPN7gameswf9characterEii"
+    },
+    {
+      "caller": "0x41eac0",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41ead4",
+      "target": "0x30ed6c",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41ead8",
+      "target": "0x30e4cc",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41eaf4",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41eb08",
+      "target": "0x3d5450",
+      "symbol": "_ZN6CharAI23AI_GetTargetAsCharacterEv"
+    },
+    {
+      "caller": "0x41eb24",
+      "target": "0x3139ac",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "0x41eb30",
+      "target": "0x3bd120",
+      "symbol": "_ZNK9Character8GetLevelEv"
+    },
+    {
+      "caller": "0x41eb50",
+      "target": "0x30eae4",
+      "symbol": "?"
+    },
+    {
+      "caller": "0x41eb74",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41eb88",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41eb9c",
+      "target": "0x7a7d34",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib"
+    },
+    {
+      "caller": "0x41eba8",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "caller": "0x41ebc0",
+      "target": "0x7ab924",
+      "symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEPKcb"
+    },
+    {
+      "caller": "0x41ebc8",
+      "target": "0x30e310",
+      "symbol": "?"
+    }
+  ]
+}

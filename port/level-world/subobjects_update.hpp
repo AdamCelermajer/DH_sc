@@ -30,6 +30,8 @@ enum Event : std::uint32_t {
 // Setter/visual events observe payloads; remaining callbacks receive nullptr.
 using Service=std::uint32_t (*)(void*,std::uint32_t,float*);
 struct Services {void* context;Service invoke;};
+struct AuxiliaryBranchV69 {std::uint32_t type{},mode{};const float* position_c{};};
+struct AuxiliaryBranchServicesV69 {void* context{};int(*borrow)(void*,AuxiliaryBranchV69*){};};
 struct Request {State* state;physical::BodyState* body;physical::TransformRequest* transform;const Policy* policy;const Services* services;};
 struct Result {std::uint32_t at_destination,accepted_physics_position;};
 static_assert(sizeof(State)==128&&sizeof(Policy)==52&&sizeof(Services)==16&&sizeof(Request)==40&&sizeof(Result)==8);
@@ -38,4 +40,5 @@ extern "C" {
 // 0 completed; 1 malformed pointer/overlap/reserved/flag, rejected before any
 // callback or mutation. IEEE values intentionally follow original comparisons.
 int dh2_subobjects_update(dh2::subobjects::Result*,const dh2::subobjects::Request*);
+int dh2_subobjects_update_source_v69(dh2::subobjects::Result*,const dh2::subobjects::Request*,const dh2::subobjects::AuxiliaryBranchServicesV69*);
 }

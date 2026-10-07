@@ -1,0 +1,70 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_revive_owner_v1.cpp",
+        "port/level-world/tests/character_revive_owner_v1.cpp",
+        "-o",
+        ".local-inputs/character_revive_owner_v1_host_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_revive_owner_v1_host_O1",
+        "port/level-world/reference/character-revive-owner-v1/original-fixtures.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"original_cases\":288,\"checks\":6528,\"scope\":\"whole source Revive orchestration/stores with explicit original helper boundaries\"}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_revive_owner_v1.cpp",
+        "port/level-world/tests/character_revive_owner_v1.cpp",
+        "-o",
+        ".local-inputs/character_revive_owner_v1_host_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_revive_owner_v1_host_O2",
+        "port/level-world/reference/character-revive-owner-v1/original-fixtures.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"original_cases\":288,\"checks\":6528,\"scope\":\"whole source Revive orchestration/stores with explicit original helper boundaries\"}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_revive_owner_v1.cpp": "0f28471b42cb20c2c01563708966553601e38ea8ccf205cba26afb1cd8f029e3",
+    "port/level-world/tests/character_revive_owner_v1.cpp": "9e883ac8ddda6161f7df582b8215b417dbc0e6770a3959c97f733f163b456142"
+  },
+  "gold_sha256": "bfff8f23967e2cdd7ecccafaae5f7663525e397a66a538f88e9076938a3a380c",
+  "original_receipt": "reference/character-revive-owner-v1/original.json",
+  "scope": "Native replay of 288 whole original ARM Revive cases with exact store and ordered helper-entry parity, plus failure at every mandatory source request. Helper implementations explicit observer fixtures; not full visual/physical/skills/HP backend proof."
+}

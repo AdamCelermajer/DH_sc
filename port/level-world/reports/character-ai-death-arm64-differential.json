@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "scope": "Actual OnDied/AI_SetDead, target-clear/sync and timer-stop instructions.\n\nGroup, selected AIS, native SM_SetDeadState, bulk aggro and skill/spell bodies\nare required labelled oracle services. No fake full death/backend acceptance.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "957a813faf0e74eb371c8af167a209cd803aab059cb9b9973299df6d04d36116",
+  "source_sha256": {
+    "port/level-world/character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+    "port/level-world/character_ai_death.cpp": "14206766ea488707cef90c45e864e732f5999f160742ba2100d5b48878daeb6c",
+    "port/level-world/character_ai_death.hpp": "ac58296442ef14808c56146a721e5c0ce1593be6c9b102b8a10b2fdc820dc1ba",
+    "port/level-world/character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+    "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665",
+    "port/level-world/character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+    "port\\level-world\\tests\\character_ai_death_differential.py": "0e62a647fc773a9b05462e016a33365bb2cce5eadd800b5fd6a3bce240f92002"
+  },
+  "comparisons": 1600,
+  "synchronous_reentry_cases": 20,
+  "ordered_requests": 17819,
+  "atomic_guards": 8,
+  "mismatches": 0,
+  "gold_sha256": "28adf6f64701250877c02f9baa85551735274f13ccc9c4d0ec313aa1f32456d3",
+  "full_group_state_aggro_skill_spell_bodies": false,
+  "packaged_APK": false,
+  "elapsed_seconds": 4.58
+}

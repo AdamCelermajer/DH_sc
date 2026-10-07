@@ -1,0 +1,37 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf24standard_method_map_initEv",
+      "elf_address": "0x76f5c0",
+      "size": 8944,
+      "sha256": "c037a5f01f5fb57b57e70a79b186caba96484e6fb3c65503d9a3afeba2614c5c",
+      "calls": {
+        "0x76cb04": "_ZN7gameswf23new_standard_method_mapENS_14builtin_objectE",
+        "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+        "0x7972a0": "_ZN7gameswf8as_value17set_as_c_functionEPFvRKNS_7fn_callEE",
+        "0x76a130": "_ZN7gameswf4hashINS_10tu_stringiENS_8as_valueENS_20stringi_hash_functorIS1_EEE3addERKS1_RKS2_",
+        "0x797124": "_ZN7gameswf8as_value9drop_refsEv",
+        "0x769540": "_ZN7gameswf8as_valueC1ERKS0_S2_",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf14get_textformatERKNS_7fn_callE",
+      "elf_address": "0x791d48",
+      "size": 2948,
+      "sha256": "cc0dbec0e009216f2015575f6f42570993a5ea5a2b2ebcff72489ce70cd97f27",
+      "calls": {
+        "0x7a68b8": "_ZN7gameswf25as_global_textformat_ctorERKNS_7fn_callE",
+        "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+        "0x797124": "_ZN7gameswf8as_value9drop_refsEv",
+        "0x75c2cc": "_ZN7gameswf22permanent_string_cache3getERKNS_9tu_stringE",
+        "0x7972d8": "_ZN7gameswf8as_value13set_tu_stringERKNS_9tu_stringE",
+        "0x43e364": "_ZNK7gameswf7fn_call10get_playerEv",
+        "0x41fed8": "_ZN7gameswf9tu_stringD1Ev",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj",
+        "0x41fe84": "_ZN7gameswf15smart_ptr_proxyaSEPNS_10weak_proxyE"
+      }
+    }
+  ]
+}

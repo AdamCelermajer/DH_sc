@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "optimization": "O2",
+  "sanitizers": "ASan+UBSan",
+  "runs": [
+    {
+      "corpus": "genuine",
+      "validation": "PASS",
+      "comparisons": 2013,
+      "ordered_services": 11534,
+      "word_checks": 196622,
+      "ai_rows": 76,
+      "native_guards": 10,
+      "provider_failure_checks": 14,
+      "mismatches": 0
+    },
+    {
+      "corpus": "positive",
+      "validation": "PASS",
+      "comparisons": 234,
+      "ordered_services": 1918,
+      "word_checks": 32092,
+      "ai_rows": 76,
+      "native_guards": 10,
+      "provider_failure_checks": 14,
+      "mismatches": 0
+    }
+  ],
+  "strict_targets": [
+    "aarch64-linux-android23",
+    "x86_64-linux-android23"
+  ],
+  "strict_flags": [
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ],
+  "scope": "Full generic target-event successor. Original observers own debug, AI row, source position, Play3D, active endpoint. Native guards/provider failures preserve reached prefixes; original undefined/provider-failure parity not claimed. No device/audio readiness created."
+}

@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "original_gold_cases": 4925,
+  "atomic_guards": 16,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-animation/particle_parameter.hpp": "0a09d7a4264e07ab25991fa458e68f29b1473a313ae4716c689fd3c50843b0c6",
+    "port/engine-animation/particle_parameter.cpp": "6ce02670d379a7103936049226972314ec9edbad0e4581cc50b4ccc174219e38",
+    "port/engine-animation/tests/particle_parameter.cpp": "9f5e6e80b8345e3eef2353f77ffbd7dd10ed16d84ea251a689e0f4ed2b09ac86",
+    "port/engine-animation/tests/particle_parameter_host.py": "936ee1adee67df234343d80487dd18c722188e6667e6be68aecc2f19461e92bc"
+  },
+  "library_sha256": "27499574e4dfa6a90ef36986dbde02b39cf4e9d8eede2c9997a42002aca84bfa",
+  "executable_sha256": "80d6760178627be28f57dae13c5a1a6d59f7359b12853be20fa9bb5be1fab288",
+  "reference_sha256": "d58dbcc6b055ab1b33060a164ab957c8504d67b45fa625b38036367b8e90ce86",
+  "original_instruction_report_sha256": "2bd02e71a4637adb22e36e99d6a76defedd17968038a190c4127e5f7929b8ef6",
+  "isolated_particle_parameter_dso_executed": true,
+  "main_world_library_executed": false,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation"
+  ],
+  "scope": "Original-derived float-key/contribution/resolved-pointer gold replay through genuine isolated particle-parameter DSO. No particle registry/factory/emission, Scene/GPU or complete FX playback claim."
+}

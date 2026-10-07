@@ -1,0 +1,109 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN10GameObject17SetPhysicalObjectEP14PhysicalObjectb",
+      "address": "0x394bf8",
+      "bytes": 316
+    },
+    {
+      "symbol": "_ZN11COnlineImplC1Ev",
+      "address": "0x825000",
+      "bytes": 52
+    },
+    {
+      "symbol": "_ZN11AISExternal11OnInitFinalEv",
+      "address": "0x3dce44",
+      "bytes": 16
+    },
+    {
+      "symbol": "_ZN14PhysicalObjectC1EP13PhysicalWorldP10GameObjectbbbbstti",
+      "address": "0x46ef68",
+      "bytes": 904
+    },
+    {
+      "symbol": "_ZN7COnline11GetInstanceEv",
+      "address": "0x7fd744",
+      "bytes": 80
+    },
+    {
+      "symbol": "_ZN6CharAI11OnInitFinalEv",
+      "address": "0x3d0ba4",
+      "bytes": 36
+    },
+    {
+      "symbol": "_ZN12VisualObject12ApplyMeshBoxEv",
+      "address": "0x470a54",
+      "bytes": 48
+    },
+    {
+      "symbol": "_ZN12VisualObject11CalcMeshBoxEv",
+      "address": "0x47211c",
+      "bytes": 1516
+    },
+    {
+      "symbol": "_ZN9Character9InitFinalEv",
+      "address": "0x3b4978",
+      "bytes": 588
+    },
+    {
+      "symbol": "_ZN14PhysicalObjectC2EP13PhysicalWorldP10GameObjectbbbbstti",
+      "address": "0x46f2f0",
+      "bytes": 904
+    },
+    {
+      "symbol": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "address": "0x38c130",
+      "bytes": 616
+    },
+    {
+      "symbol": "_ZN10GameObject21CheckSpawnProbabilityEv",
+      "address": "0x38bd64",
+      "bytes": 248
+    },
+    {
+      "symbol": "_ZN10GameObject9InitFinalEv",
+      "address": "0x38cd48",
+      "bytes": 408
+    },
+    {
+      "symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "address": "0x3aa1b4",
+      "bytes": 1448
+    },
+    {
+      "symbol": "_ZN7COnlineC2Ev",
+      "address": "0x7fd838",
+      "bytes": 160
+    },
+    {
+      "symbol": "_Z9GetOnlinev",
+      "address": "0x7fd794",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZN10GameObject8InitPostEv",
+      "address": "0x38be5c",
+      "bytes": 560
+    }
+  ],
+  "debug_keys": [
+    "MP_NoCollisions",
+    "MP_NoPhysics"
+  ],
+  "common_Random": {
+    "seed": "99f89c",
+    "syncedSeed": "99f8a0",
+    "counters": "99f8a4"
+  },
+  "actual_light_catalog": [
+    "PlayerLight",
+    "SceneLight",
+    "CameraLight",
+    "MonsterLight"
+  ],
+  "target_node": "target_node",
+  "on_init_final": "OnInitFinal",
+  "full_Character_InitPost": false,
+  "full_NPC_AI": false
+}

@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject12GetLookAtVecER7Point3DIfE",
+      "elf_address": "0x393ae4",
+      "size": 56,
+      "sha256": "1e5b3d921d7d5f82cfa2557bfbbfdcdb3248b93a8530e9f9e92ea03c82817066"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+      "elf_address": "0x37baf8",
+      "size": 88,
+      "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value11getUserDataEv",
+      "elf_address": "0x31b5a0",
+      "size": 32,
+      "sha256": "d4a7df181f8af768787ede9a55eb13588a1bd0ed23f69d4964cf67c8655802fe"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushBooleanEb",
+      "elf_address": "0x37c7e4",
+      "size": 104,
+      "sha256": "abfadde1b5e401d9598088abb959b85b585ca7f401fbcab038ae164c597ac779"
+    }
+  ]
+}

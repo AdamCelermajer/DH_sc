@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14CharProperties13PROPS_DelBuffEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3e101c",
+      "size": 544,
+      "sha256": "bbbabb6e4920599ed2344065b505772abe40bafd4fd804ece2ea60b9d5cccbc5"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript10OnPreSkillEv",
+      "elf_address": "0x3da8b8",
+      "size": 292,
+      "sha256": "3972de55702fb6ccf8952ea66409b1080471254f0f746ee11906b9530e4dac28"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14AI_CancelSkillEj",
+      "elf_address": "0x3d84e0",
+      "size": 244,
+      "sha256": "b304aa5ca13b9b51caf272960f8e93cfcad7b3fd364762b80130a6c50f6f0924"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_ActiveEv",
+      "elf_address": "0x3db16c",
+      "size": 284,
+      "sha256": "4c031fb529fe75640f145f3d93c80a0bc46faf5b41bbd71ca30660f5fdb84e6e"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsSneakingEv",
+      "elf_address": "0x3bc690",
+      "size": 40,
+      "sha256": "a676ab62253174c6e16ef64e181800290d6dd78d8b8b3e0c34054651dbfb76bb"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    }
+  ]
+}

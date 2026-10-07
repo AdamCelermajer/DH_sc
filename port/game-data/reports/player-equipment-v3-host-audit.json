@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_cases": 1200,
+    "ordered_requests": 1229,
+    "nested_readonly_services": 1229,
+    "guards": 22,
+    "checks": 78977,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/game-data/player_equipment_v3.hpp": "0a9dfa53dbc7ed85005856dafb43c638ede082c870115fcea1824afd8cabf2d4",
+    "port/game-data/player_equipment_v3.cpp": "f75ff7a3541420aa4ed546cdda2d2e5b65b2a721255a582c458008b3ea00b2a7",
+    "port/game-data/tests/player_equipment_v3.cpp": "1946207ce1df5bd698a9f4d9ba660a6c276b3de9b628d3400032cb7c64562593"
+  },
+  "script_sha256": "923bad4524804ce4fb14909c2e63434cd91fec42b0087579284cdf39b9ad9468",
+  "executable_sha256": "5432ca10e43323e8c0c992314f2e2a78c4190f44e22ca9bd92604cc544c062e1",
+  "gold_sha256": "8e7b4cf1e7b9ef96e0ab11f9d98555795843a5a4a5899b7406e8533118b6fb37",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "commands": [
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer port/game-data/player_equipment_v3.cpp port/game-data/tests/player_equipment_v3.cpp -o .local-inputs/player-equipment-v3/host-audit",
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 .local-inputs/player-equipment-v3/host-audit port/game-data/reference/player-equipment-v3/fixtures.bin"
+  ],
+  "scope": "Exact borrowed source equipment graph and ordered native providers. Storage/effect providers are explicit controlled fixtures; no live equipment visuals, campaign or complete property recalculation claim."
+}

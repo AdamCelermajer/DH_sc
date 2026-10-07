@@ -1,0 +1,185 @@
+{
+  "format": "CPO1",
+  "version": 1,
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "descriptor_sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_properties": {
+    "visible": {
+      "offset": "0x80",
+      "default": 1
+    },
+    "static": {
+      "offset": "0x84",
+      "default": 0
+    }
+  },
+  "producer_sha256": "319334b6bf3a7f61f1a657c04d7f76cfb602f504007d0a8a9fdb3b863b18e4fc",
+  "binary_sha256": "0e309cabd95c9883bc17b9e57cc06d7cde9eeba9763cfa34a1ca55f418971327",
+  "sources": [
+    {
+      "room": 0,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    {
+      "room": 3,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    {
+      "room": 7,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    }
+  ],
+  "records": [
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist01",
+      "character": "Crypt_Skeleton",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist03",
+      "character": "Crypt_Skeleton",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist05",
+      "character": "CryptSlime",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist06",
+      "character": "CryptSlime",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist07",
+      "character": "Crypt_Skeleton",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist08",
+      "character": "Crypt_Skeleton",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster",
+      "character": "CryptSlime",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster02",
+      "character": "CryptSlime_RE",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster05",
+      "character": "CryptSlime",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 7,
+      "name": "_prim_Monster_Ghost05",
+      "character": "Crypt_Ghost",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    },
+    {
+      "room": 7,
+      "name": "_prim_Monster_Ghost06",
+      "character": "Crypt_Ghost",
+      "authored": {
+        "visible": null,
+        "static": null
+      },
+      "resolved": {
+        "visible": 1,
+        "static": 0
+      }
+    }
+  ],
+  "full_XML_factory": false
+}

@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "cases": 6144,
+  "positive_amount_cases": 2048,
+  "ordered_services": 301980,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "64f3eb4504108369a248aa67108a82d5f9867f0b382b607801335a3241973092",
+  "gold_sha256": "3718e798c1d4d7d30d2499465b12533c3be2e5b26702a7ef2e0933fd3f941ce0",
+  "scope": "Original F_ApplyResult order, genuine leech and positive native HitFor bodies.\nPolicy, reactions, cancellation, text, sound, AI and player lookup are declared\nfixture services. This proof does not claim populated-target gameplay.\n",
+  "full_target_application": false
+}

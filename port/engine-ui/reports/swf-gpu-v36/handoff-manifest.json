@@ -1,0 +1,67 @@
+{
+  "scope": "Frozen bounded exact geometry cache, conversion scratch, lazy empty display and UI timing first system; original source calls/animation/input preserved, no batching or resolution reduction",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.hpp",
+      "sha256": "2e36d2d34d571e9b5a076f27be2fe6050121b6c6451422ca712ee3b1a74a009f"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "sha256": "eb68041367d717e408e5878d5439342c6e9988344f64ed0d63fb6a6ebd1513a2"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "sha256": "cb10f80b5666619c1aa64a02023642a053a2f35fee0609955e2d868a73c3f0c0"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.hpp",
+      "sha256": "ea8e59d32f4fb53a532391f277c395829737ca61ae0a7e0294b5ad1dca1fbe53"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.cpp",
+      "sha256": "23dbc3a073659037c1a0e25486c46db3b683d31bc4bd42e13cec2203a78a97cc"
+    },
+    {
+      "path": "port/engine-ui/tests/swf_vertex_cache_v36.cpp",
+      "sha256": "59914fd22648a8142df90a371a64dd7b1a26aafb95effb95b7e44c613fa29854"
+    },
+    {
+      "path": "port/engine-ui/tests/swf_gpu_lazy_v36.cpp",
+      "sha256": "8549970916a43c0ccab4275212fb092c3be495163c9d10cd0146fb566911e149"
+    },
+    {
+      "path": ".local-inputs/run_swf_gpu_lazy_v36.py",
+      "sha256": "8e15b5aaa68c3e0ae15d1562ea0a43e6a9de7edfc3e10a1c773886842167f0c4"
+    },
+    {
+      "path": ".local-inputs/compile_swf_gpu_v36.py",
+      "sha256": "3e88323732db6130d84b184b7301062acea1ffa8d10b16774f57fe993aaf8d7d"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v36/compile.json",
+      "sha256": "d581cf6e785cbcf2da9014fa775ba547b2e1961e073c5dc22eda9267655dc1f3"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v36/pixel-receipt.json",
+      "sha256": "0e42e9e5851fd21e46cd755ae328d8b6b8fab94878743e7e21e3d4efb98dfeb6"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v36/README.md",
+      "sha256": "218d114b104e86f05ef5042ff168603de6065786d649d2c23117a975109b96d7"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-v36/cache-receipt.json",
+      "sha256": "2aa9e73b120c72ea37b319dd86d5f3aef1096e580fc9516b5437984a1685c689"
+    }
+  ],
+  "required_shared_hooks": [
+    "engine-ui CMake compiles swf_vertex_cache_v36.cpp",
+    "root frame_perf_v35.hpp defines ui_update/ui_geometry/ui_submit"
+  ],
+  "proofs": {
+    "strict_ABI_compiles": 6,
+    "sanitized_cache_checks": 1049,
+    "isolated_actual_GLES2_pixel_checks": 276
+  },
+  "live_combined_performance_acceptance": "parent pending"
+}

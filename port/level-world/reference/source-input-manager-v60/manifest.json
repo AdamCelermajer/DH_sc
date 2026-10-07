@@ -1,0 +1,40 @@
+{
+  "binary_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Constructor/query source, not event/update or gameplay acceptance",
+  "captures": {
+    "input-device-mouse-keyboard-c1": {
+      "start": "0x34ca64",
+      "end_exclusive": "0x34cd0c",
+      "sha256": "4bf6e33c2b7f4e7c55c81f2f57f4f3ea7fbb44204fa91e9b54170ac5122f93fe"
+    },
+    "gamepad-c1": {
+      "start": "0x34ce88",
+      "end_exclusive": "0x34d004",
+      "sha256": "3a9e37271590eef21b01314403db76f466b7baecc03cefd89533ebfb13ea766f"
+    },
+    "input-manager-c1-count": {
+      "start": "0x34d6bc",
+      "end_exclusive": "0x34d75c",
+      "sha256": "bf738d1f5789335658b57b09a242fc6f667b878b9ee633c56a6e62f0895126b1"
+    },
+    "get-gamepad": {
+      "start": "0x34dbb4",
+      "end_exclusive": "0x34dc5c",
+      "sha256": "33f47d37acba76059dd9215c387d412d9babf4102754845ebe0057fcf997b33e"
+    },
+    "singleton-and-platform-c1": {
+      "start": "0x34dd18",
+      "end_exclusive": "0x34def4",
+      "sha256": "e6b0305f6e6a0bafce27b01b7fcac4918ac19a8e030e883f4d1aaa1eeaa9f4c3"
+    }
+  },
+  "gamepad_vector": {
+    "got": "0x9989c4",
+    "target": "0x99f854",
+    "value": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

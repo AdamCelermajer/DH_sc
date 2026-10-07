@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 62,
+    "ordered_requests": 898,
+    "nested_reentry_cases": 2,
+    "native_atomic_guards": 3,
+    "required_failure_prefixes": 29,
+    "cleanup_keeps_slots": true,
+    "checks": 5750,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "findings": 0
+  },
+  "source_sha256": {
+    "port/level-world/character_skills.hpp": "553db42a288878ad476338ce33aa3d3bfdf7afca8c6f45ba99e952b4d0cb36b5",
+    "port/level-world/character_skills.cpp": "a47efd05f847648469c043dbb7d18f6e5cbbf70b32289bc85bd1af0ab8d3b3eb",
+    "port/level-world/tests/character_skills.cpp": "3c875b99911cf630398be005fabed1276a425a4ee7d4980c8a47f733ed9f48ce"
+  },
+  "executable_sha256": "f53ad2d780796b1632c7b6e1a667d564c412818716898d41af487d1ad112619e",
+  "input_sha256": {
+    "port/level-world/reference/character-skills/skill-fixtures.bin": "70c3518fb71af72a3338e449621b73f5fdf32a973c43b640a49978097c8997c4"
+  },
+  "runner_sha256": "3e0aaf3f2a477f76b9911db5fbbb51a40ac161ce2ad1119a54dca0648b41707b",
+  "command": [
+    "wsl.exe",
+    "--",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+    "UBSAN_OPTIONS=halt_on_error=1",
+    ".local-inputs/character-skills/skills-audit",
+    "port/level-world/reference/character-skills/skill-fixtures.bin"
+  ],
+  "scope": "Original-bound setup/update ordered-service corpus, nested reentry, cleanup and required failure prefixes under sanitizers."
+}

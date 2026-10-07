@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/swf_source_movie_v1.hpp": "c47dfc3094520bf7416bc9752aed7fc609a8241c98bb8bfe2e33471de7d749fa",
+    "port/engine-ui/swf_source_movie_v1.cpp": "47be34b92dafe789392d2a3cf42245980d70aefa7031f108e4bb625c8d8b3e9e",
+    "port/engine-ui/swf_input_session_v2.hpp": "bcdb4954571ced6dcdb33f9b811d0cc2ff1cae229de83ed62e0faa2568a4ea4f",
+    "port/engine-ui/swf_input_session_v2.cpp": "224957bf4c7b926aca4e5c6c98dd04e46800b0077331acd121aef2b552bf89f5",
+    "port/engine-ui/gameswf_loader_lifetime_overlay_v1.cmake": "f0853f629307df918c75920a8de39070ac1ee3b4793037104dd74c6d53c51a9e",
+    "port/engine-ui/overlays/loader-lifetime-v1/gameswf_impl.cpp": "8ab8c66adbc7f36dd035a13e1d5ebfc44f80fbeb9875dffd696c0fe1bb70ce0d",
+    "port/engine-ui/tests/swf_source_session_v2.cpp": "5b5a08e8b9dbbfb2f3a3705de0174e2d427c58d588d442a54e6b3f15c2c247d9",
+    "port/engine-ui/tools/swf_input_session_host_v2.py": "8d9aea6473bdd14d06d039ce6f15314bb6e7bcfc52c520f3798654a9875db566",
+    "port/engine-ui/tools/swf_source_session_android_compile.py": "240a9487b106521eb15922e8257c13a5cf4a7345536cac1eb4d8ba07e71fb9b0",
+    "port/engine-ui/reference/swf-source-session-v2/NOTES.md": "7452eef6f927dc5d630bbc7f530398adfae15b75b347367c01a6eb3cf8be229e",
+    "port/android-native/app/src/main/cpp/original_ui_input_session_v1.hpp": "cdbbdd28bbb7813995408e8474c27ae77252f9fe312188a618d0293f369fa094",
+    "port/android-native/app/src/main/cpp/original_ui_input_session_v1.cpp": "c32994b1e816553b7543c0c64b55905f21ade2e34451dd3ed781a9eca71b5fc1"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/swf-source-session-v2-host-audit-final.json": "f7ecb28c0ef3eac23d6cf28423a4b06e1596b5349b5ecd7a94ff2c9d7583de18",
+    "port/engine-ui/reports/swf-source-session-v2-android-compile.json": "942459f0fae4ea3fc2390169f3af4c0961a95f24450b2ef1f34293996dbba22a",
+    "port/engine-ui/reference/swf-source-session-v2/loader-baseline.json": "b6b2a6742e7703f49da0474948a00f90b47130cacb745fa12859c1777220a0e3"
+  },
+  "prior_freezes": [
+    {
+      "path": "port/engine-ui/reference/swf-input-session-v1/freeze-manifest.json",
+      "sha256": "1c26539e5c9c5d66fce6ef634b4bfc00f1be6dc7a0df1389012b9d612807d52f",
+      "source_and_proofs_unchanged": true
+    },
+    {
+      "path": "port/engine-ui/reference/swf-native-input-frame-v1/freeze-manifest.json",
+      "sha256": "5bc8544505a2ea255b83eb0179dd6dcec501bd5905aa26127178eede2477ca0c",
+      "source_and_proofs_unchanged": true
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_host_library_sha256": "31cea169a109e2b142b7a20276477ca0bba9564f5c809fa22561992db5d60bdc",
+  "source_session_checks": 59,
+  "session_regression_checks": 122,
+  "original_derived_gold_comparisons": 10800,
+  "sanitizer_findings": 0,
+  "modern_loader_lifetime_correction": true,
+  "whole_original_application_parity": false,
+  "authored_HUD_or_GPU_acceptance": false,
+  "Android_objects": 8,
+  "central_or_APK_integrated": false
+}

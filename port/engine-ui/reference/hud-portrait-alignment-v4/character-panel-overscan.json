@@ -1,0 +1,57 @@
+[
+  {
+    "path": "_root.menu_CharacterSheetNew.#3",
+    "id": 268,
+    "bounds": [
+      -976.0,
+      4229.0,
+      552.0,
+      6442.0
+    ],
+    "offset": 62260
+  },
+  {
+    "path": "_root.menu_CharacterSheetNew.Energy.btn_train_energy.hitzone.#1",
+    "id": 217,
+    "bounds": [
+      -649.422607421875,
+      2282.8729645442218,
+      5277.713317871094,
+      6268.2803371641785
+    ],
+    "offset": 36884
+  },
+  {
+    "path": "_root.menu_CharacterSheetNew.Endurance.btn_train_endurance.hitzone.#1",
+    "id": 217,
+    "bounds": [
+      -636.422607421875,
+      2295.8729645442218,
+      4348.713317871094,
+      5339.2803371641785
+    ],
+    "offset": 36884
+  },
+  {
+    "path": "_root.menu_CharacterSheetNew.Dexterity.btn_train_dexterity.hitzone.#1",
+    "id": 217,
+    "bounds": [
+      -632.556640625,
+      2300.113803997636,
+      3478.753143310547,
+      4469.125143502839
+    ],
+    "offset": 36884
+  },
+  {
+    "path": "_root.menu_CharacterSheetNew.Strength.btn_train_strength.hitzone.#1",
+    "id": 217,
+    "bounds": [
+      -617.422607421875,
+      2314.8729645442218,
+      2569.710662841797,
+      3560.290683408268
+    ],
+    "offset": 36884
+  }
+]

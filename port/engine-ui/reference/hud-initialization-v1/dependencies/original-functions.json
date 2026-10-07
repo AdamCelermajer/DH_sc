@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character13SG_GetSkillIdEj",
+      "elf_address": "0x3bbeec",
+      "size": 28,
+      "sha256": "18c16cc94f8c3fd046b77e0ee512af3ec6fdd3861d64ae22890a7c925bcc6762"
+    },
+    {
+      "original_symbol": "_ZN9Character15SG_GetSkillSlotEj",
+      "elf_address": "0x3bbe84",
+      "size": 28,
+      "sha256": "e998bf673f0bf4b0b70f41425aed516763e47f2553aca3bd38c37a55dfd7b5e9"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    {
+      "original_symbol": "_ZN9Character28SG_GetGameDifficultyUnlockedEv",
+      "elf_address": "0x3bb918",
+      "size": 24,
+      "sha256": "1b4b732e246e1477559b4c109d50de257de1d41c01aaa9374f4aa993e09c0770"
+    },
+    {
+      "original_symbol": "_ZN9Character17CanIncrementSkillEi",
+      "elf_address": "0x3bc9ec",
+      "size": 100,
+      "sha256": "777b6351507f132ee1d1f220c90f4dffd6c6712ab75d83784e2bffed4f180b33"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_GetFaerieLevelEji",
+      "elf_address": "0x3bbc18",
+      "size": 64,
+      "sha256": "0ff287e841e223bb44b130794581c6c6b6c45560d5332e360b0c6fd9128d2b7f"
+    },
+    {
+      "original_symbol": "_ZNK9Character21SG_GetCurrentFaerieIdEi",
+      "elf_address": "0x3bb98c",
+      "size": 76,
+      "sha256": "d229aba4d734ad8f8f8432b087de47591bd30b6fb92fb7681197040450fe481b"
+    },
+    {
+      "original_symbol": "_Z19NativeGetPlayerCharib",
+      "elf_address": "0x43c388",
+      "size": 124,
+      "sha256": "4d5cf455d3821b750fb164f707334fb002e13e845b426b207618f11720385197"
+    }
+  ]
+}

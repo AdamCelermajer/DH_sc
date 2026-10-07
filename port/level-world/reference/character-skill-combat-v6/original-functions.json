@@ -1,0 +1,419 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN17PlayerStatManager13DecrementStatE9EStatTypei",
+      "address": "0x3790f8",
+      "size": 12,
+      "sha256": "7add8b7f3d841e3701050c210900032cdd94f393dd8afecb3fc19afa8bb33733"
+    },
+    {
+      "symbol": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+      "address": "0x379ac4",
+      "size": 596,
+      "sha256": "cfc34bc1b0abeeaff76a8aa058be805fa92a6cc0176ebdcc4a445b2731bcf14f"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager18ResetAllStatValuesEi",
+      "address": "0x37912c",
+      "size": 48,
+      "sha256": "a9d5e5965606e31e2f40a7ce1284b693ace48ada0ca87ecb0c74b5ad34e6c0e7"
+    },
+    {
+      "symbol": "_ZNK6CharAI11AI_GetAggroEP9Character",
+      "address": "0x3d4ac8",
+      "size": 252,
+      "sha256": "98c26116c098862a859a801d8a16bae8ff814a525b4a2972068f2283b4511fa9"
+    },
+    {
+      "symbol": "_ZN14PlayerSavegame11_InitSkillsEv",
+      "address": "0x469764",
+      "size": 288,
+      "sha256": "54a5e8724a4e86337703b0fec90e189ab9ac7ae87e93484fd9987472a38ae6cf"
+    },
+    {
+      "symbol": "_ZSt10__pop_heapIPSt4pairIiiES1_N17PlayerStatManager9_StatCompEiEvT_S5_S5_T0_T1_PT2_",
+      "address": "0x379304",
+      "size": 80,
+      "sha256": "757e96389cf5c0180c18dca42bcf293441b512d49e435ba4316f33835924eb4e"
+    },
+    {
+      "symbol": "_ZN14PlayerSavegame15SG_ReloadSkillsEv",
+      "address": "0x467324",
+      "size": 56,
+      "sha256": "6b51c1ecaa4d600e434539a48058e0d6dabc523f786bcc89ed63a4fd531aed35"
+    },
+    {
+      "symbol": "_ZNK6CharAI16AI_GetAggroEntryEiRP9CharacterRf",
+      "address": "0x3d72d0",
+      "size": 220,
+      "sha256": "93790af7d9cfcc2742780ddeda50f55e49bb620e696a233ba4e6d40d861f69eb"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManagerC1Ev",
+      "address": "0x3790a8",
+      "size": 36,
+      "sha256": "f418b4a5925e26836e9eec16490bc15200a0eedadcfa2f1a18205b1e678c67cf"
+    },
+    {
+      "symbol": "_ZNSt4priv16__introsort_loopIPSt4pairIiiES2_iN17PlayerStatManager9_StatCompEEEvT_S6_PT0_T1_T2_",
+      "address": "0x37942c",
+      "size": 316,
+      "sha256": "b81f847b9f5a81f6a8b269afb910d3c5a68ea5c4cd62559702252cdc57cb3679"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager17ApplyPlayersBonusEv",
+      "address": "0x3790dc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZN9Character8_RegenMPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x3b7774",
+      "size": 120,
+      "sha256": "c9471247f9e1074bdf6fd6811d43ff582c36e58da85b9b737e07116415945367"
+    },
+    {
+      "symbol": "_ZN17CharAISkillScriptD0Ev",
+      "address": "0x3cc448",
+      "size": 60,
+      "sha256": "4f58eb598adf40b04eac727d1a3a44cfed00f8d8067fdaaf293e07b2a0099762"
+    },
+    {
+      "symbol": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+      "address": "0x3b2638",
+      "size": 2096,
+      "sha256": "825bf38a123d73fde3febee5b40a1189b041bfad6782deb37518d628f4d59eb7"
+    },
+    {
+      "symbol": "_ZN9AISPlayer7OnAggroEP9Character",
+      "address": "0x3ddb70",
+      "size": 728,
+      "sha256": "22418d74c084800661c0c0c60b38170e257341b5b6fc83322b7e6ba70d871e8d"
+    },
+    {
+      "symbol": "_ZSt13__adjust_heapIPSt4pairIiiEiS1_N17PlayerStatManager9_StatCompEEvT_T0_S6_T1_T2_",
+      "address": "0x3791d4",
+      "size": 188,
+      "sha256": "636f09d2c85a222456f3dc16395ff4ee0a8a36d2d9302af18d10b714158f3514"
+    },
+    {
+      "symbol": "_ZN9Character6HitForEjP10GameObject",
+      "address": "0x3a8bc4",
+      "size": 1704,
+      "sha256": "b01deb99cff30fee694bd246951f00f863c82a3c0135b3302290a475443f8230"
+    },
+    {
+      "symbol": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+      "address": "0x3796c4",
+      "size": 352,
+      "sha256": "882eaf639bce9d58677d3db65223f7d838c8471679095efc7f0b6470cbc07c57"
+    },
+    {
+      "symbol": "_ZSt11__push_heapIPSt4pairIiiEiS1_N17PlayerStatManager9_StatCompEEvT_T0_S6_T1_T2_",
+      "address": "0x37915c",
+      "size": 120,
+      "sha256": "bdcf732d5917fcc843716238179e295e2faa57ec13f7187281b41b714152ea21"
+    },
+    {
+      "symbol": "_ZN9Character8_RegenHPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x3b77ec",
+      "size": 120,
+      "sha256": "dff42db82452d8e0d9e37f8b8a1b6f57c1fa1a3f574815cb073ab3d617647409"
+    },
+    {
+      "symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "address": "0x3b10b4",
+      "size": 3388,
+      "sha256": "ee29784fc33effd4a01e9098593d2348dbfaf35bb9d0568a121d89c52aefd1da"
+    },
+    {
+      "symbol": "_ZN9AISPlayer9OnDeAggroEP9Character",
+      "address": "0x3dde48",
+      "size": 668,
+      "sha256": "8554251f270065a0124698415e87d5b5febab7afff7fbd353e4df238f63f02a3"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager12SetStatValueE9EStatTypeiib",
+      "address": "0x379104",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager12DecreaseStatE9EStatTypeii",
+      "address": "0x3790e4",
+      "size": 8,
+      "sha256": "ad52dc1d77c25ecd225324213034f41762e07def454e171bc4cba99291770893"
+    },
+    {
+      "symbol": "_ZN10AISDefault7OnAggroEP9Character",
+      "address": "0x3dbea4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_Z20PushProfilingContextPKc",
+      "address": "0x3136b4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZN9Character14CancelSneakingEv",
+      "address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4"
+    },
+    {
+      "symbol": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+      "address": "0x379d18",
+      "size": 228,
+      "sha256": "2e346547d00bb244d7434ab9b5109787aa462d93a1437ed8097ce4c8fb14fcfa"
+    },
+    {
+      "symbol": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+      "address": "0x3b2e68",
+      "size": 412,
+      "sha256": "0ded4194cea08229fa585499bf76158b97d41c49f2887a6965053e7c7441e7ae"
+    },
+    {
+      "symbol": "_ZN10AISDefault9OnDeAggroEP9Character",
+      "address": "0x3dbea8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManagerD1Ev",
+      "address": "0x3790d0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZNK17PlayerStatManager9GetLeaderE9EStatType",
+      "address": "0x379dfc",
+      "size": 20,
+      "sha256": "23a576c075c3e567b713e0102f3fbc0739f40e50d3cd691659e0f3d740efa025"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager12IncreaseStatE9EStatTypeii",
+      "address": "0x3790e0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZNK17PlayerStatManager6InvokeERKSs",
+      "address": "0x379568",
+      "size": 68,
+      "sha256": "ea58d0de7540802d82da80fa59fb185c6d83e0d14b6a7a434812c065daa561a4"
+    },
+    {
+      "symbol": "_ZNK6CharAI16AI_GetAggroCountEv",
+      "address": "0x3d4a10",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "symbol": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+      "address": "0x3b31a4",
+      "size": 452,
+      "sha256": "3bf9a1c0351fb6257b37b3146923ee921fdef407b9a58e1cc24d4d81920e1a47"
+    },
+    {
+      "symbol": "_ZN9Character7RegenMPEi",
+      "address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a"
+    },
+    {
+      "symbol": "_ZN6CharAI15AI_ReloadSkillsEv",
+      "address": "0x3d8cfc",
+      "size": 116,
+      "sha256": "25f3c2b5f8fcb270b67a84212515d1c75aa1c46400f008a7d6f3629297b27eb0"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager14ResetStatValueE9EStatTypei",
+      "address": "0x379108",
+      "size": 36,
+      "sha256": "95fa94492da6f94b6deefa2cd7ea8df3bdbb0c401e8371512d674ba0a83d125b"
+    },
+    {
+      "symbol": "_Z19PopProfilingContextPKc",
+      "address": "0x3136b8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManagerD0Ev",
+      "address": "0x3795ac",
+      "size": 28,
+      "sha256": "c271b5f0ef202f56b4801db7a72c59e76066f0cd24841a83a1b3725fc265c77b"
+    },
+    {
+      "symbol": "_ZSt11__make_heapIPSt4pairIiiEN17PlayerStatManager9_StatCompES1_iEvT_S5_T0_PT1_PT2_",
+      "address": "0x379290",
+      "size": 116,
+      "sha256": "9934f6f367642b848f9a368d8f55725154c621d5b9a942909e612fa07a413d11"
+    },
+    {
+      "symbol": "_ZN3sfc6script3lua9ArgumentsD1Ev",
+      "address": "0x319228",
+      "size": 56,
+      "sha256": "b2161d9478508698d32ed1a10ec04f7f3fac21c378911d12f99e3756b6151744"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager5ResetEv",
+      "address": "0x3790d4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei",
+      "address": "0x379824",
+      "size": 300,
+      "sha256": "110c3983087c604a8901ffa186e0acb4c61048dc5ed48505573dfb05ca40eaa6"
+    },
+    {
+      "symbol": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+      "address": "0x3d79ec",
+      "size": 636,
+      "sha256": "5544900c5708b0fb85538781b6f7cd4b04f4ff808a3fdff0127e643c0f357d83"
+    },
+    {
+      "symbol": "_ZN13TrophyManager12UnlockTrophyEi",
+      "address": "0x3813b8",
+      "size": 272,
+      "sha256": "91c7e3d9598fd6f223d534bb6243bc317e9f6b74b07554f6a526a32fa9cc1432"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManagerD2Ev",
+      "address": "0x3790cc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZN9Character15SG_ReloadSkillsEv",
+      "address": "0x3bbe2c",
+      "size": 20,
+      "sha256": "28d444566143d319b1f0e6ef7682a201995243fce836496b2b15f720e92f7339"
+    },
+    {
+      "symbol": "_Z16CF_SetCombatantsP9CharacterS0_ibb",
+      "address": "0x3b059c",
+      "size": 128,
+      "sha256": "f109dc90a61b935c8ff9fa82e13106afd3ae5ee39837d65a725354379b04d572"
+    },
+    {
+      "symbol": "_ZNSt4priv14__partial_sortIPSt4pairIiiES2_N17PlayerStatManager9_StatCompEEEvT_S6_S6_PT0_T1_",
+      "address": "0x379354",
+      "size": 216,
+      "sha256": "e762250245af8422d17fbf5dac005caf6cd958a38ed8504a187855e392f7b403"
+    },
+    {
+      "symbol": "_ZNK9Character37GetEffectiveThreatPerDamageToFriendlyEv",
+      "address": "0x3bd3e4",
+      "size": 40,
+      "sha256": "516c3553c2a4619d826dcb00a36de8eca6d57330f90d42b438b44656ad8cf762"
+    },
+    {
+      "symbol": "_ZN6CharAI9OnDeAggroEP9Character",
+      "address": "0x3d2014",
+      "size": 180,
+      "sha256": "fc26e32d20ebe2196ff1b625d4e2105dc0e427c3bbe209f3214cbbb79b33f42d"
+    },
+    {
+      "symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+      "address": "0x3cde2c",
+      "size": 336,
+      "sha256": "e755548faab63d7cf4f2cb9b89529661532ef7752e67019871d075623daa2959"
+    },
+    {
+      "symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+      "address": "0x3b01b8",
+      "size": 996,
+      "sha256": "58bf82b8bbf6a48801f75838ba3f32d0769508e8317699ae9a62f39db88359a9"
+    },
+    {
+      "symbol": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x3b9fbc",
+      "size": 732,
+      "sha256": "8a93fc61690ba0ccf374a033abf426308dfa11bf63c07ae9552a3d2f14237da5"
+    },
+    {
+      "symbol": "_ZN6CharAI15UpdateAllSkillsEv",
+      "address": "0x3d8894",
+      "size": 180,
+      "sha256": "7c3efb393b1c872b2992c91f04214cbf333d09330a5fd26d84e14c1b0fef58c3"
+    },
+    {
+      "symbol": "_ZNK17PlayerStatManager18GetNumLeadingStatsEi",
+      "address": "0x379e10",
+      "size": 88,
+      "sha256": "4f1d689263c1d33b5c5025a9fade8e170f8a6a1a40c6f160e526c83fab0992fd"
+    },
+    {
+      "symbol": "_ZN6CharAI7OnAggroEP9Character",
+      "address": "0x3d20c8",
+      "size": 180,
+      "sha256": "1fb0365ed11e544a1575d64bd84a5f6866c45b00e10c1741ad007e9d29812f3b"
+    },
+    {
+      "symbol": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+      "address": "0x31d194",
+      "size": 1004,
+      "sha256": "fd6a93c402d6e1a31c85d29b4dcc5a1f851304d3f96384320b109d753fa4dd35"
+    },
+    {
+      "symbol": "_ZNK9Character10IsSneakingEv",
+      "address": "0x3bc690",
+      "size": 40,
+      "sha256": "a676ab62253174c6e16ef64e181800290d6dd78d8b8b3e0c34054651dbfb76bb"
+    },
+    {
+      "symbol": "_ZN6CharAI18SetSkillsAndSpellsEv",
+      "address": "0x3ce044",
+      "size": 1916,
+      "sha256": "ca650d7059d273436362d2d10ba973fbbc0fe1dfd632b86857e982470593ded2"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager6UpdateEv",
+      "address": "0x3790d8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager13IncrementStatE9EStatTypei",
+      "address": "0x3790ec",
+      "size": 12,
+      "sha256": "daf5376138c7b7bb8440e602dd7224925f45cd0e73d9a88052daec69b41a26a5"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+      "address": "0x3795c8",
+      "size": 252,
+      "sha256": "8a1199344c958c043e0c7597c385de2dcd235ceb6b76be105f47094a185c45da"
+    },
+    {
+      "symbol": "_ZNK9Character27GetEffectiveThreatPerDamageEv",
+      "address": "0x3bd394",
+      "size": 40,
+      "sha256": "0fdea6b457655923c2347fadb4eea38ed16039ba7fb5c15ad262e2ecbc759381"
+    },
+    {
+      "symbol": "_ZN17PlayerStatManagerC2Ev",
+      "address": "0x379084",
+      "size": 36,
+      "sha256": "213c70a71d65b57661bffaccc3fbf688eb932970067caf660a0c9603e6956f8d"
+    },
+    {
+      "symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+      "address": "0x3d7c68",
+      "size": 308,
+      "sha256": "710b6a40b61b134ddc8b165a38ac5bd0784dd1b2915ec4fce53d2e1bb4825193"
+    },
+    {
+      "symbol": "_ZN9Character7RegenHPEi",
+      "address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "literal": "0x44ca48",
+    "slot": "0x999398",
+    "value": "0x99fbb4",
+    "symbols": [
+      {
+        "name": "_ZN9SingletonI18MenuMessageManagerI19CharMenuTutorialMsgLi1EEE6s_instE",
+        "size": 44
+      }
+    ],
+    "section": ".bss"
+  },
+  {
+    "literal": "0x442888",
+    "slot": "0x999398",
+    "value": "0x99fbb4",
+    "symbols": [
+      {
+        "name": "_ZN9SingletonI18MenuMessageManagerI19CharMenuTutorialMsgLi1EEE6s_instE",
+        "size": 44
+      }
+    ],
+    "section": ".bss"
+  },
+  {
+    "literal": "0x44288c",
+    "slot": "0x997010",
+    "value": "0x9a54b4",
+    "symbols": [
+      {
+        "name": "_ZN19CharMenuTutorialMsg14s_SkipFuncNameE",
+        "size": 4
+      }
+    ],
+    "section": ".bss"
+  }
+]

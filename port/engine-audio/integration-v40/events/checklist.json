@@ -1,0 +1,93 @@
+{
+  "categories": [
+    {
+      "category": "attack_swoosh_and_skill_step",
+      "patch": "01-active-transport",
+      "status": "staged_checked",
+      "prerequisite": "actual root runtime + source event clock/gates + output acceptance",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "player_attack_cast_sfx",
+      "patch": "02-player-named-prefix",
+      "status": "staged_checked",
+      "prerequisite": "root runtime publication; source-proved prefix only, full melee/cast remains separate",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "retained_npc_sfx",
+      "patch": "01-active-transport",
+      "status": "staged_checked",
+      "prerequisite": "actual NPC subject and retained event clock; no diagnostic-scheduler substitution",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "common_skill_combat_sound",
+      "patch": "01-active-transport",
+      "status": "staged_checked",
+      "prerequisite": "common actual result owner and its source row/RNG/state prefix",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "target_spotted",
+      "patch": "01-active-transport",
+      "status": "staged_checked",
+      "prerequisite": "correct generic V38 request, actual gates/clock",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "npc_ordinary_and_diagnostic_attack_walk_dead",
+      "patch": null,
+      "status": "required_missing_owner",
+      "prerequisite": "one SAME retained source CharAnimator/AI/target/inventory/FX/clock authority",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "full_melee_impact_tail",
+      "patch": null,
+      "status": "required_missing_owner",
+      "prerequisite": "genuine CharacterWorldMeleeAttackV1/selected AIS + actual Character408 separate from AI40/OOI14a4",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "item_drop_pickup",
+      "patch": "03-prerequisite-item-sites",
+      "status": "held_for_gameplay_prerequisites",
+      "prerequisite": "sole145/WorldLoot lifecycle/physical/inventory/quests/UI/trophy/FX/currentLevel ownership",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "chest_destructible",
+      "patch": "04-prerequisite-container-site",
+      "status": "held_for_gameplay_prerequisites",
+      "prerequisite": "canonical actual factory/receiver/condition/timeline/quest/opened/loot/Lua/complete emission callback and absent exact sample",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    },
+    {
+      "category": "projectile_impact",
+      "patch": null,
+      "status": "required_missing_owner",
+      "prerequisite": "actual ranged/projectile create/update/collision/impact type/Point3D/time authority",
+      "applied_to_shared_source": false,
+      "audible_acceptance": false
+    }
+  ],
+  "preload": {
+    "api": "load_actual_xml_uid",
+    "argument": "proved original XML UID only",
+    "source_ordinal_conversion": "requires original producer proof",
+    "event_precache": "required unless original enumeration proved; no RNG select"
+  },
+  "clock": "positive actual source-event monotonic timestamp, actual scheduler lag resolved by root scope",
+  "production_transport": "audio_session_transport_v40 -> owning AudioNativeSessionV40.submit_actual_play",
+  "direct_runtime_transport": "controlled independent fixtures only; bypasses session close acceptance"
+}

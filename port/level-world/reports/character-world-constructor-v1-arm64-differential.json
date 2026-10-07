@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "constructor_cases": 8,
+  "cf_setter_cases": 675,
+  "mismatches": 0,
+  "whole_fsm_constructor_instructions": true,
+  "character_ctor_store_fragments_with_source_register_values": true,
+  "whole_cf_setter_instructions_with_explicit_property19_service": true,
+  "cf_previous_context_bytes_poisoned": true,
+  "source_push_death_byte": "Character+53b = FSM+3f, zeroed by C1/C2 word+3c",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "57718a0017c50caf5905ee1dc4363d692fa905182112eba265a6296a3ff5d8df"
+}

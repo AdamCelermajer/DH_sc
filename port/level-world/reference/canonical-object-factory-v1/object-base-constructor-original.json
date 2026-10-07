@@ -1,0 +1,181 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entry": "0x33f15c",
+  "cases": [
+    {
+      "source_type": 0,
+      "fields": {
+        "0x80": 165,
+        "0x81": 0,
+        "0x83": 165,
+        "0x84": 0,
+        "0x85": 0,
+        "0x86": 0,
+        "0x87": 165,
+        "0x88": 0,
+        "0x89": 0,
+        "0x8a": 1,
+        "0xf0": 0,
+        "0xf1": 0
+      },
+      "shared_handle": [
+        0,
+        17825792,
+        4294967295
+      ],
+      "calls": [
+        {
+          "address": "0x31167c",
+          "argument": "0x1100008"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100030"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100048"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100068"
+        },
+        {
+          "address": "0x33ed7c",
+          "argument": "0x110008c"
+        },
+        {
+          "address": "0x33ed7c",
+          "argument": "0x11000b0"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x11000d4"
+        },
+        {
+          "address": "0x310570",
+          "argument": "0xc"
+        }
+      ]
+    },
+    {
+      "source_type": 7,
+      "fields": {
+        "0x80": 165,
+        "0x81": 0,
+        "0x83": 165,
+        "0x84": 0,
+        "0x85": 0,
+        "0x86": 0,
+        "0x87": 165,
+        "0x88": 0,
+        "0x89": 0,
+        "0x8a": 1,
+        "0xf0": 0,
+        "0xf1": 0
+      },
+      "shared_handle": [
+        0,
+        17825792,
+        4294967295
+      ],
+      "calls": [
+        {
+          "address": "0x31167c",
+          "argument": "0x1100008"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100030"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100048"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100068"
+        },
+        {
+          "address": "0x33ed7c",
+          "argument": "0x110008c"
+        },
+        {
+          "address": "0x33ed7c",
+          "argument": "0x11000b0"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x11000d4"
+        },
+        {
+          "address": "0x310570",
+          "argument": "0xc"
+        }
+      ]
+    },
+    {
+      "source_type": 20,
+      "fields": {
+        "0x80": 165,
+        "0x81": 0,
+        "0x83": 165,
+        "0x84": 0,
+        "0x85": 0,
+        "0x86": 0,
+        "0x87": 165,
+        "0x88": 0,
+        "0x89": 0,
+        "0x8a": 1,
+        "0xf0": 0,
+        "0xf1": 0
+      },
+      "shared_handle": [
+        0,
+        17825792,
+        4294967295
+      ],
+      "calls": [
+        {
+          "address": "0x31167c",
+          "argument": "0x1100008"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100030"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100048"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x1100068"
+        },
+        {
+          "address": "0x33ed7c",
+          "argument": "0x110008c"
+        },
+        {
+          "address": "0x33ed7c",
+          "argument": "0x11000b0"
+        },
+        {
+          "address": "0x31167c",
+          "argument": "0x11000d4"
+        },
+        {
+          "address": "0x310570",
+          "argument": "0xc"
+        }
+      ]
+    }
+  ],
+  "fixture_services": [
+    "CString reserve31167c retaining constructor inline pointer",
+    "Condition constructor33ed7c (condition fields excluded)",
+    "operator new310570 returns retained 12-byte allocation"
+  ],
+  "actual_source_leaf": "ObjectHandle constructor33f50c executed",
+  "production_factory_verified": false
+}

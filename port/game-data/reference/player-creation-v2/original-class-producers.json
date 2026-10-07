@@ -1,0 +1,1199 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_class_owner_gold_sha256": "2f2c7b8e970758889f83e0ef140df20447fd45b655b8f9381dc53566f936fda7",
+  "class_owner_report_sha256": "1803696c230c33a00837097a203a237329e60dbf7dc8c0f06e4b955081f3d13c",
+  "script_sha256": "8f4ce5dc225fe8fbfc11b12270d13f40df15c8d82cb9da3d563cb7578d15aa60",
+  "scope": "Execute source cached property int and actual SkillList/Skill selection.\nReuses hash-verified complete original class-recalc owner snapshots. It does\nnot relabel the snapshot fixture as a whole menu/campaign InitPost execution.\n",
+  "rows": [
+    {
+      "character": "KnightPlayerBase",
+      "row": 263,
+      "resolved_raw": {
+        "9": 165,
+        "19": 256,
+        "28": 14,
+        "29": 1,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 14,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 7,
+          "name": "BashDown",
+          "minimum_level": 0,
+          "script": "prince_warrior_bashdown"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 51,
+          "name": "GroundSlam",
+          "minimum_level": 3,
+          "script": "prince_warrior_ground_slam"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 13,
+          "name": "Charge",
+          "minimum_level": 6,
+          "script": "prince_warrior_charge"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 86,
+          "name": "PotionAddict",
+          "minimum_level": 9,
+          "script": "prince_warrior_potion_addict"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 53,
+          "name": "Hardiness",
+          "minimum_level": 0,
+          "script": "prince_warrior_hardiness"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 44,
+          "name": "FastMetabolism",
+          "minimum_level": 3,
+          "script": "prince_warrior_fast_metabolism"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 59,
+          "name": "Leadership",
+          "minimum_level": 6,
+          "script": "prince_warrior_leadership"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 15,
+          "name": "CombatMaster",
+          "minimum_level": 9,
+          "script": "prince_warrior_combat_master"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        }
+      ]
+    },
+    {
+      "character": "KnightPlayerBase_Berserker",
+      "row": 264,
+      "resolved_raw": {
+        "9": -1,
+        "19": 256,
+        "28": 15,
+        "29": 1,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 15,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 7,
+          "name": "BashDown",
+          "minimum_level": 0,
+          "script": "prince_warrior_bashdown"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 51,
+          "name": "GroundSlam",
+          "minimum_level": 3,
+          "script": "prince_warrior_ground_slam"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 13,
+          "name": "Charge",
+          "minimum_level": 6,
+          "script": "prince_warrior_charge"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 86,
+          "name": "PotionAddict",
+          "minimum_level": 9,
+          "script": "prince_warrior_potion_addict"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 53,
+          "name": "Hardiness",
+          "minimum_level": 0,
+          "script": "prince_warrior_hardiness"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 44,
+          "name": "FastMetabolism",
+          "minimum_level": 3,
+          "script": "prince_warrior_fast_metabolism"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 59,
+          "name": "Leadership",
+          "minimum_level": 6,
+          "script": "prince_warrior_leadership"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 15,
+          "name": "CombatMaster",
+          "minimum_level": 9,
+          "script": "prince_warrior_combat_master"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 116,
+          "name": "WhirlingDrift",
+          "minimum_level": 12,
+          "script": "prince_berseeker_whirling_drift"
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 55,
+          "name": "Intimidation",
+          "minimum_level": 15,
+          "script": "prince_berseeker_warcry"
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 8,
+          "name": "Berserk",
+          "minimum_level": 18,
+          "script": "prince_berseeker_berserk"
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 91,
+          "name": "Ravager",
+          "minimum_level": 21,
+          "script": "prince_berseeker_ravager"
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 105,
+          "name": "Survival",
+          "minimum_level": 12,
+          "script": "prince_berseeker_survival"
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 58,
+          "name": "KillingStreak",
+          "minimum_level": 15,
+          "script": "prince_berseeker_killing_streak"
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 112,
+          "name": "Toughness",
+          "minimum_level": 18,
+          "script": "prince_berseeker_toughness"
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 57,
+          "name": "KillingFrenzy",
+          "minimum_level": 21,
+          "script": "prince_berseeker_killing_frenzy"
+        }
+      ]
+    },
+    {
+      "character": "KnightPlayerBase_Paladin",
+      "row": 265,
+      "resolved_raw": {
+        "9": -1,
+        "19": 256,
+        "28": 16,
+        "29": 1,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 16,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 7,
+          "name": "BashDown",
+          "minimum_level": 0,
+          "script": "prince_warrior_bashdown"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 51,
+          "name": "GroundSlam",
+          "minimum_level": 3,
+          "script": "prince_warrior_ground_slam"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 13,
+          "name": "Charge",
+          "minimum_level": 6,
+          "script": "prince_warrior_charge"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 86,
+          "name": "PotionAddict",
+          "minimum_level": 9,
+          "script": "prince_warrior_potion_addict"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 53,
+          "name": "Hardiness",
+          "minimum_level": 0,
+          "script": "prince_warrior_hardiness"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 44,
+          "name": "FastMetabolism",
+          "minimum_level": 3,
+          "script": "prince_warrior_fast_metabolism"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 59,
+          "name": "Leadership",
+          "minimum_level": 6,
+          "script": "prince_warrior_leadership"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 15,
+          "name": "CombatMaster",
+          "minimum_level": 9,
+          "script": "prince_warrior_combat_master"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 80,
+          "name": "OffensiveAura",
+          "minimum_level": 12,
+          "script": "prince_paladin_offensive_aura"
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 88,
+          "name": "PurifyingAura",
+          "minimum_level": 15,
+          "script": "prince_paladin_purifying_aura"
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 52,
+          "name": "GuardingAura",
+          "minimum_level": 18,
+          "script": "prince_paladin_guarding_aura"
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 28,
+          "name": "DivineJudgement",
+          "minimum_level": 21,
+          "script": "prince_paladin_divine_judgement"
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 100,
+          "name": "Shield",
+          "minimum_level": 12,
+          "script": "prince_paladin_shield"
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 39,
+          "name": "EnergyBalance",
+          "minimum_level": 15,
+          "script": "prince_paladin_energy_balance"
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 18,
+          "name": "Conversion",
+          "minimum_level": 18,
+          "script": "prince_paladin_conversion"
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 54,
+          "name": "HolyWeapon",
+          "minimum_level": 21,
+          "script": "prince_paladin_holy_weapon"
+        }
+      ]
+    },
+    {
+      "character": "MagePlayerBase",
+      "row": 290,
+      "resolved_raw": {
+        "9": 174,
+        "19": 256,
+        "28": 21,
+        "29": 2,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 21,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 14,
+          "name": "ColdRay",
+          "minimum_level": 0,
+          "script": "prince_mage_coldray"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 104,
+          "name": "StoneEscape",
+          "minimum_level": 3,
+          "script": "prince_mage_stone_escape"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 19,
+          "name": "Cyclone",
+          "minimum_level": 6,
+          "script": "prince_mage_cyclone"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 12,
+          "name": "ChainLightning",
+          "minimum_level": 9,
+          "script": "prince_mage_chain_lightning"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 103,
+          "name": "StaffMaster",
+          "minimum_level": 0,
+          "script": "prince_mage_staffmaster"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 72,
+          "name": "MagisShielding",
+          "minimum_level": 3,
+          "script": "prince_mage_magi_shielding"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 36,
+          "name": "ElementalMastery",
+          "minimum_level": 6,
+          "script": "prince_mage_elemental_mastery"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 42,
+          "name": "FaeryBlood",
+          "minimum_level": 9,
+          "script": "prince_mage_faeryblood"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        }
+      ]
+    },
+    {
+      "character": "MagePlayerBase_Illusionist",
+      "row": 291,
+      "resolved_raw": {
+        "9": -1,
+        "19": 256,
+        "28": 22,
+        "29": 2,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 22,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 14,
+          "name": "ColdRay",
+          "minimum_level": 0,
+          "script": "prince_mage_coldray"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 104,
+          "name": "StoneEscape",
+          "minimum_level": 3,
+          "script": "prince_mage_stone_escape"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 19,
+          "name": "Cyclone",
+          "minimum_level": 6,
+          "script": "prince_mage_cyclone"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 12,
+          "name": "ChainLightning",
+          "minimum_level": 9,
+          "script": "prince_mage_chain_lightning"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 103,
+          "name": "StaffMaster",
+          "minimum_level": 0,
+          "script": "prince_mage_staffmaster"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 72,
+          "name": "MagisShielding",
+          "minimum_level": 3,
+          "script": "prince_mage_magi_shielding"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 36,
+          "name": "ElementalMastery",
+          "minimum_level": 6,
+          "script": "prince_mage_elemental_mastery"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 42,
+          "name": "FaeryBlood",
+          "minimum_level": 9,
+          "script": "prince_mage_faeryblood"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 30,
+          "name": "Eclipse",
+          "minimum_level": 12,
+          "script": "prince_illusionist_eclipse"
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 110,
+          "name": "Terror",
+          "minimum_level": 15,
+          "script": "prince_illusionist_terror"
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 45,
+          "name": "Figments",
+          "minimum_level": 18,
+          "script": "prince_illusionist_figments"
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 111,
+          "name": "TimeControl",
+          "minimum_level": 21,
+          "script": "prince_illusionist_timecontrol"
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 73,
+          "name": "Mesmerize",
+          "minimum_level": 12,
+          "script": "prince_illusionist_mesmerize"
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 74,
+          "name": "Mirror",
+          "minimum_level": 15,
+          "script": "prince_illusionist_mirror"
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 27,
+          "name": "Disciples",
+          "minimum_level": 18,
+          "script": "prince_illusionist_disciples"
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 82,
+          "name": "Petrify",
+          "minimum_level": 21,
+          "script": "prince_illusionist_petrify"
+        }
+      ]
+    },
+    {
+      "character": "MagePlayerBase_Necromancer",
+      "row": 292,
+      "resolved_raw": {
+        "9": -1,
+        "19": 256,
+        "28": 23,
+        "29": 2,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 23,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 14,
+          "name": "ColdRay",
+          "minimum_level": 0,
+          "script": "prince_mage_coldray"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 104,
+          "name": "StoneEscape",
+          "minimum_level": 3,
+          "script": "prince_mage_stone_escape"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 19,
+          "name": "Cyclone",
+          "minimum_level": 6,
+          "script": "prince_mage_cyclone"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 12,
+          "name": "ChainLightning",
+          "minimum_level": 9,
+          "script": "prince_mage_chain_lightning"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 103,
+          "name": "StaffMaster",
+          "minimum_level": 0,
+          "script": "prince_mage_staffmaster"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 72,
+          "name": "MagisShielding",
+          "minimum_level": 3,
+          "script": "prince_mage_magi_shielding"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 36,
+          "name": "ElementalMastery",
+          "minimum_level": 6,
+          "script": "prince_mage_elemental_mastery"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 42,
+          "name": "FaeryBlood",
+          "minimum_level": 9,
+          "script": "prince_mage_faeryblood"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 93,
+          "name": "Rise",
+          "minimum_level": 12,
+          "script": "prince_necromancer_rise"
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 47,
+          "name": "FireSkullRain",
+          "minimum_level": 15,
+          "script": "prince_necromancer_fireskullrain"
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 81,
+          "name": "Pestilence",
+          "minimum_level": 18,
+          "script": "prince_necromancer_pestilence"
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 26,
+          "name": "DeathClaw",
+          "minimum_level": 21,
+          "script": "prince_necromancer_deathclaw"
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 60,
+          "name": "Leecher",
+          "minimum_level": 12,
+          "script": "prince_necromancer_leecher"
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 125,
+          "name": "Wrath",
+          "minimum_level": 15,
+          "script": "prince_necromancer_wrath"
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 11,
+          "name": "CarrionEater",
+          "minimum_level": 18,
+          "script": "prince_necromancer_carrioneater"
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 89,
+          "name": "Putrid",
+          "minimum_level": 21,
+          "script": "prince_necromancer_putrid"
+        }
+      ]
+    },
+    {
+      "character": "RoguePlayerBase",
+      "row": 325,
+      "resolved_raw": {
+        "9": 213,
+        "19": 256,
+        "28": 27,
+        "29": 3,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 27,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 56,
+          "name": "JumpKick",
+          "minimum_level": 0,
+          "script": "prince_rogue_jump_kick"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 114,
+          "name": "ViciousStrike",
+          "minimum_level": 3,
+          "script": "prince_rogue_vicious_strike"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 90,
+          "name": "Quickness",
+          "minimum_level": 6,
+          "script": "prince_rogue_quickness"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 97,
+          "name": "Roundhouse",
+          "minimum_level": 9,
+          "script": "prince_rogue_roundhouse"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 2,
+          "name": "Ambidextrous",
+          "minimum_level": 0,
+          "script": "prince_rogue_ambidextrous"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 1,
+          "name": "Acrobat",
+          "minimum_level": 3,
+          "script": "prince_rogue_acrobat"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 16,
+          "name": "ComboMaster",
+          "minimum_level": 6,
+          "script": "prince_rogue_combomaster"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 46,
+          "name": "FindWeakness",
+          "minimum_level": 9,
+          "script": "prince_rogue_findweakness"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 102,
+          "name": "SpecializationSkill",
+          "minimum_level": 12,
+          "script": ""
+        }
+      ]
+    },
+    {
+      "character": "RoguePlayerBase_Archer",
+      "row": 326,
+      "resolved_raw": {
+        "9": -1,
+        "19": 256,
+        "28": 28,
+        "29": 3,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 28,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 56,
+          "name": "JumpKick",
+          "minimum_level": 0,
+          "script": "prince_rogue_jump_kick"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 114,
+          "name": "ViciousStrike",
+          "minimum_level": 3,
+          "script": "prince_rogue_vicious_strike"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 90,
+          "name": "Quickness",
+          "minimum_level": 6,
+          "script": "prince_rogue_quickness"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 97,
+          "name": "Roundhouse",
+          "minimum_level": 9,
+          "script": "prince_rogue_roundhouse"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 2,
+          "name": "Ambidextrous",
+          "minimum_level": 0,
+          "script": "prince_rogue_ambidextrous"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 1,
+          "name": "Acrobat",
+          "minimum_level": 3,
+          "script": "prince_rogue_acrobat"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 16,
+          "name": "ComboMaster",
+          "minimum_level": 6,
+          "script": "prince_rogue_combomaster"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 46,
+          "name": "FindWeakness",
+          "minimum_level": 9,
+          "script": "prince_rogue_findweakness"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 115,
+          "name": "Volley",
+          "minimum_level": 12,
+          "script": "prince_archer_volley"
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 83,
+          "name": "PinShot",
+          "minimum_level": 15,
+          "script": "prince_archer_pin_shot"
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 75,
+          "name": "MultiHitArrow",
+          "minimum_level": 18,
+          "script": "prince_archer_multihit"
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 41,
+          "name": "ExplodingArrows",
+          "minimum_level": 21,
+          "script": "prince_archer_exploding_arrows"
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 10,
+          "name": "BowMastery",
+          "minimum_level": 12,
+          "script": "prince_archer_bowmastery"
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 84,
+          "name": "PoisonArrows",
+          "minimum_level": 15,
+          "script": "prince_archer_poison_arrows"
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 101,
+          "name": "SideStep",
+          "minimum_level": 18,
+          "script": "prince_archer_sidestep"
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 87,
+          "name": "Precision",
+          "minimum_level": 21,
+          "script": "prince_archer_precision"
+        }
+      ]
+    },
+    {
+      "character": "RoguePlayerBase_Assassin",
+      "row": 327,
+      "resolved_raw": {
+        "9": -1,
+        "19": 256,
+        "28": 29,
+        "29": 3,
+        "157": 256,
+        "194": 3072
+      },
+      "original_cached_GetInt": {
+        "19": 1,
+        "157": 1,
+        "194": 12
+      },
+      "original_GetCharSkillListId": 29,
+      "original_selected_skills": [
+        {
+          "saved_row": 0,
+          "dictionary_id": 56,
+          "name": "JumpKick",
+          "minimum_level": 0,
+          "script": "prince_rogue_jump_kick"
+        },
+        {
+          "saved_row": 1,
+          "dictionary_id": 114,
+          "name": "ViciousStrike",
+          "minimum_level": 3,
+          "script": "prince_rogue_vicious_strike"
+        },
+        {
+          "saved_row": 2,
+          "dictionary_id": 90,
+          "name": "Quickness",
+          "minimum_level": 6,
+          "script": "prince_rogue_quickness"
+        },
+        {
+          "saved_row": 3,
+          "dictionary_id": 97,
+          "name": "Roundhouse",
+          "minimum_level": 9,
+          "script": "prince_rogue_roundhouse"
+        },
+        {
+          "saved_row": 4,
+          "dictionary_id": 2,
+          "name": "Ambidextrous",
+          "minimum_level": 0,
+          "script": "prince_rogue_ambidextrous"
+        },
+        {
+          "saved_row": 5,
+          "dictionary_id": 1,
+          "name": "Acrobat",
+          "minimum_level": 3,
+          "script": "prince_rogue_acrobat"
+        },
+        {
+          "saved_row": 6,
+          "dictionary_id": 16,
+          "name": "ComboMaster",
+          "minimum_level": 6,
+          "script": "prince_rogue_combomaster"
+        },
+        {
+          "saved_row": 7,
+          "dictionary_id": 46,
+          "name": "FindWeakness",
+          "minimum_level": 9,
+          "script": "prince_rogue_findweakness"
+        },
+        {
+          "saved_row": 8,
+          "dictionary_id": 50,
+          "name": "GrapplingHook",
+          "minimum_level": 12,
+          "script": "prince_assassin_grapling_hook"
+        },
+        {
+          "saved_row": 9,
+          "dictionary_id": 9,
+          "name": "Blindness",
+          "minimum_level": 15,
+          "script": "prince_assassin_blindness"
+        },
+        {
+          "saved_row": 10,
+          "dictionary_id": 85,
+          "name": "PoisonSting",
+          "minimum_level": 18,
+          "script": "prince_assassin_poison_sting"
+        },
+        {
+          "saved_row": 11,
+          "dictionary_id": 5,
+          "name": "Assassination",
+          "minimum_level": 21,
+          "script": "prince_assassin_assassination"
+        },
+        {
+          "saved_row": 12,
+          "dictionary_id": 4,
+          "name": "Assassinate",
+          "minimum_level": 12,
+          "script": "prince_assassin_assassinate"
+        },
+        {
+          "saved_row": 13,
+          "dictionary_id": 113,
+          "name": "TreasureHunter",
+          "minimum_level": 15,
+          "script": "prince_assassin_treasure_hunter"
+        },
+        {
+          "saved_row": 14,
+          "dictionary_id": 17,
+          "name": "Contaminate",
+          "minimum_level": 18,
+          "script": "prince_assassin_contaminate"
+        },
+        {
+          "saved_row": 15,
+          "dictionary_id": 126,
+          "name": "blade_defect",
+          "minimum_level": 21,
+          "script": "prince_assassin_blade_deflect"
+        }
+      ]
+    }
+  ],
+  "whole_menu_campaign_initialized": false
+}

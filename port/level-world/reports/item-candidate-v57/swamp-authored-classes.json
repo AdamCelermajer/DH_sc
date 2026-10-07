@@ -1,0 +1,253 @@
+{
+  "source_only_read": true,
+  "test_or_build_launched": false,
+  "bytes_read": 81400,
+  "files": [
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "bytes": 9232,
+      "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31",
+      "class_counts": {
+        "Character": 7,
+        "SpawnPoint": 1,
+        "DestructibleContainer": 1,
+        "OpenableContainer": 2,
+        "TriggerZone": 5,
+        "Dummy": 11
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "bytes": 2843,
+      "sha256": "09d6d38f0a79f7c2655141cf965008a9330ec9b444d78542adb3d0b3d681baa9",
+      "class_counts": {
+        "AnimatedDecor": 6
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "bytes": 8900,
+      "sha256": "2ec6ce7053701e9903e4e41f7496f317b7ccf0257a10543797c51919f02a5c41",
+      "class_counts": {
+        "TriggerZone": 2,
+        "Character": 10,
+        "Dummy": 5,
+        "DestructibleContainer": 2
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "bytes": 3947,
+      "sha256": "348ef39d30b8915a0b8c72093b8f5ed56bac5ac839f44c0b2ac0d3875f883244",
+      "class_counts": {
+        "AnimatedDecor": 5,
+        "Decor": 4
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "bytes": 5824,
+      "sha256": "cbc2c661b6eb393a024b8ecbf03a6ada2f7950fb35a5dfbf116ed8c444db69c2",
+      "class_counts": {
+        "Character": 6,
+        "DestructibleContainer": 1,
+        "OpenableContainer": 1,
+        "TriggerZone": 3,
+        "Dummy": 1,
+        "CheckpointZone": 1
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "bytes": 1931,
+      "sha256": "19bdcfeb32789a324fe7d87d127680b865bca5643f63d2b9c5e5cd90baea3160",
+      "class_counts": {
+        "AnimatedDecor": 3,
+        "Decor": 1
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "bytes": 5383,
+      "sha256": "ab9614639a09446b5a8520abd703450a1e43dde9a6fc11ca0002646534ea820d",
+      "class_counts": {
+        "Character": 6,
+        "DestructibleContainer": 1,
+        "OpenableContainer": 1,
+        "TriggerZone": 1,
+        "Dummy": 2
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "bytes": 1071,
+      "sha256": "967301df19a3ea818015c4da69b99a795d840fd9855de9f65d2fe8bb0f051628",
+      "class_counts": {
+        "AnimatedDecor": 1,
+        "Decor": 1
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "bytes": 8739,
+      "sha256": "e1083daa8f12d618fb00b8d489ddfcb6317ffe2e72a4915a56645245d28a13cf",
+      "class_counts": {
+        "Door": 3,
+        "QuestMoveInZone": 1,
+        "Dummy": 7,
+        "TriggerObject": 1,
+        "SpawnPoint": 1,
+        "DestructibleContainer": 1,
+        "OpenableContainer": 1,
+        "TriggerZone": 4,
+        "Character": 4,
+        "TriggerZoneExitLevel": 1,
+        "CheckpointZone": 2
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "bytes": 4211,
+      "sha256": "22dc4cc9a7dcc0495f32d979ff2ef9d0080be6801d4d991295621b44129c5231",
+      "class_counts": {
+        "AnimatedDecor": 7,
+        "Decor": 2
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "bytes": 4923,
+      "sha256": "927606bb1ac5683c6b6050f1b20955a889e0c480e400326c07da4de93ed19200",
+      "class_counts": {
+        "TriggerZone": 1,
+        "Character": 6,
+        "DestructibleContainer": 2
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/corner_brdwalk_se_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/corner_brdwalk_se_00.mvp",
+      "bytes": 1101,
+      "sha256": "11c95945c97393e604d79ad2706d6190ac492f703bf85ffc9e1f8dc352a6bd11",
+      "class_counts": {
+        "AnimatedDecor": 2
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "bytes": 4054,
+      "sha256": "152b6a3f3d8cb0df8306aca6bbb6975597e829770e7e98ce581eeaca8412b6a7",
+      "class_counts": {
+        "Character": 2,
+        "SpawnPoint": 4,
+        "DestructibleContainer": 1,
+        "TriggerZoneExitLevel": 1,
+        "SoundEmitter": 1
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "bytes": 3514,
+      "sha256": "aeea232d27977b58615291d42d68120b7bf9c21858227510eab193d382492d18",
+      "class_counts": {
+        "AnimatedDecor": 6,
+        "Decor": 1
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "bytes": 9181,
+      "sha256": "b14672f175a742b36ae477391cdd41cd2d140eba877defffb6abea2673f1d7a4",
+      "class_counts": {
+        "Character": 5,
+        "Door": 1,
+        "SpawnPoint": 5,
+        "TriggerZoneExitLevel": 1,
+        "TriggerZone": 2,
+        "Dummy": 14,
+        "CheckpointZone": 1
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/bossroom_ruins_ns_.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/bossroom_ruins_ns_.mvp",
+      "bytes": 2237,
+      "sha256": "bf689f385902d12730ab38fd730d448ecc105254bbcc0c2e7a7fbb0c92ce3797",
+      "class_counts": {
+        "AnimatedDecor": 4
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "bytes": 2417,
+      "sha256": "303921023dfe9ad6bad75aba97ae2e18a5248be5089e2e79653a934282b8036c",
+      "class_counts": {
+        "Dummy": 1,
+        "Character": 4
+      },
+      "skipped_no_gametype": 0
+    },
+    {
+      "source": "data/iphone/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "bytes": 1892,
+      "sha256": "f017049000a9b65c184e48a58aa9bcc1d71f365c597e5a1cc66ccb75fe7ca339",
+      "class_counts": {
+        "AnimatedDecor": 3,
+        "Decor": 1
+      },
+      "skipped_no_gametype": 0
+    }
+  ],
+  "factory_count": 195,
+  "skipped_no_gametype": 0,
+  "class_counts": {
+    "TriggerZone": 18,
+    "TriggerZoneExitLevel": 3,
+    "TriggerObject": 1,
+    "Door": 4,
+    "OpenableContainer": 5,
+    "CheckpointZone": 4,
+    "Character": 50,
+    "SpawnPoint": 11,
+    "AnimatedDecor": 37,
+    "Dummy": 41,
+    "SoundEmitter": 1,
+    "Decor": 10,
+    "QuestMoveInZone": 1,
+    "DestructibleContainer": 9
+  },
+  "authored_item_count": 0,
+  "source_preCache145_produced": false
+}

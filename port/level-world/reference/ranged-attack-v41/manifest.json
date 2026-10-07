@@ -1,0 +1,87 @@
+[
+  {
+    "path": "port/level-world/character_ranged_attack_v41.cpp",
+    "sha256": "160a34405033aca0d6ee0dfd93701204bb5b50a692566d7fdacd8bb1ea0b5ebf",
+    "bytes": 3758
+  },
+  {
+    "path": "port/level-world/character_ranged_attack_v41.hpp",
+    "sha256": "3d3a45bb4dce53a3c09c925ad660eeefd82f7b996f107f428f23ff2eb5dff550",
+    "bytes": 1170
+  },
+  {
+    "path": "port/level-world/character_world_ranged_attack_v41.cpp",
+    "sha256": "7ee50492002fcd3f30bfe6db709a7b9e891ec26908fcd68798f36197b9bdb098",
+    "bytes": 7803
+  },
+  {
+    "path": "port/level-world/character_world_ranged_attack_v41.hpp",
+    "sha256": "8c1bcf265b0d7427ce6832a570c35bc95bfd799a28119bdeb0d2ee52bd67da9b",
+    "bytes": 2185
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/handoff.md",
+    "sha256": "a686d42b82cc6dd5bce3700001262870974fa5a10a5483773bd16a618e74ef19",
+    "bytes": 4475
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/literals.json",
+    "sha256": "b10dac95a93aba3333dd0aa5b255e69c62c47899d365509072238b22a2de40c3",
+    "bytes": 683
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/ranged-original.bin",
+    "sha256": "347b698ff6d4b75a2488bf07e7dc300a8aab2f4a495baf72df00188ac7dc0f61",
+    "bytes": 29124
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/ranged-original.json",
+    "sha256": "ab3a364e1d8682bf5839fc2b86993cad17f42850b7aee70018bb896200185481",
+    "bytes": 504
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/source.asm",
+    "sha256": "0d323dd841dd0978ea350fb16161b20314946c0dabcce93c0cf19f001eae3887",
+    "bytes": 40534
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/source.json",
+    "sha256": "0406fa035e58809b38755695a05a0d4f050ae1c8e377506868046d8b18eb7feb",
+    "bytes": 59249
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/symbols.json",
+    "sha256": "668c88d31bfa7cda378651dec55837661d0dcb120796c50010baca335ecec859",
+    "bytes": 21315
+  },
+  {
+    "path": "port/level-world/reports/ranged-v41-host.json",
+    "sha256": "f40052b9e34a6836439694c401a25b47ca22b9aa2b12137a43655c2e89b09b84",
+    "bytes": 447
+  },
+  {
+    "path": "port/level-world/reports/ranged-v41-strict.json",
+    "sha256": "1e61b2ade4c6f0a0a0b7ea6ef796c916274c4910745d37c4fc41bbd41995519e",
+    "bytes": 720
+  },
+  {
+    "path": "port/level-world/target_frontal_sort_v41.cpp",
+    "sha256": "96dca71a4eb9c846675c194e62fd62644a55619cedd85c01aa151f6862c718e3",
+    "bytes": 486
+  },
+  {
+    "path": "port/level-world/target_frontal_sort_v41.hpp",
+    "sha256": "1d62c93ee74387cb1db9de46ce0465d9cca751881eb3177c71b9372babf740d3",
+    "bytes": 319
+  },
+  {
+    "path": "port/level-world/tests/character_ranged_attack_v41.cpp",
+    "sha256": "e1839a99eed1976d293b5ecbb3984af110777f1b1ca60c70cae3c38bf5f64932",
+    "bytes": 3746
+  },
+  {
+    "path": "port/level-world/tools/capture_ranged_attack_v41.py",
+    "sha256": "d688ffcfcc0f2bf144e083cf0145fe092ff9810007b77ef83d849b77f5493fa3",
+    "bytes": 5024
+  }
+]

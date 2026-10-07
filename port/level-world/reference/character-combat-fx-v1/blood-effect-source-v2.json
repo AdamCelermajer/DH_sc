@@ -1,0 +1,147 @@
+{
+  "bloodsplat.bdae": {
+    "sha256": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b",
+    "effect_name": "ProfileCOMMON_fx_particles_alpha-fx1302961714_bloodsplat",
+    "profile": "ProfileCOMMON_fx_particles_alpha",
+    "defaults": {
+      "diffuse-sampler-matrix": [
+        0.125,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.125,
+        0.0,
+        0.0,
+        0.25,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "transparent-sampler-matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "ambient-color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "diffuse-color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "specular-color": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emission-color": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "bloodsplat_hero.bdae": {
+    "sha256": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25",
+    "effect_name": "ProfileCOMMON_fx_particles_alpha-fx1302961714_bloodsplat_hero",
+    "profile": "ProfileCOMMON_fx_particles_alpha",
+    "defaults": {
+      "diffuse-sampler-matrix": [
+        0.125,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.125,
+        0.0,
+        0.0,
+        0.125,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "transparent-sampler-matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "ambient-color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "diffuse-color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "specular-color": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emission-color": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "ProfileCOMMON_emul_VS.glsl": {
+    "sha256": "9607ac878bdf2cd09344c0b704388fe2c8d94bb813634181d3354e4516a4e7d4"
+  },
+  "ProfileCOMMON_emul_FS.glsl": {
+    "sha256": "9557110c9ce8373cf8b26d380e579961a15109c96d18cbde1e42d30b244b8aee"
+  },
+  "source_equations": {
+    "VS": "vTexCoord0=(TextureMatrix0*vec4(TexCoord0,1,0)).xy; vColor0=Color0*DiffuseColor",
+    "FS": "color=vColor0; TEXTURED:color*=texture2D(Sampler0,vTexCoord0); no separate transparent sampler read",
+    "native_projection": "Bake source atlas UV into retained vertices, keep native material matrix identity; preserve actual diffuse image0 RGBA and source DiffuseColor."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "status": "UNCHANGED_SOURCE_CONTRACT",
+  "native_file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+  "timing_block": "  if(world_mode){const auto now=std::chrono::steady_clock::now();\n    const auto now_ms=std::uint32_t(std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count());\n    const auto previous_ms=std::uint32_t(std::chrono::duration_cast<std::chrono::milliseconds>(last_frame.time_since_epoch()).count());\n    const unsigned dt_ms=now_ms-previous_ms;last_frame=now;\n    // The original Application skips updates after a real-time gap >2000ms.\n    // Its normal dt is unsigned milliseconds, with one world Step and no cap.\n    if(dt_ms<=2000){dh2::perf::Scope perf_actor(dh2::perf::Phase::actor);if(!native_actor_ready)throw std::runtime_error(\"Native actor runtime is not initialized\");advance_native_actor(dt_ms);frame_dt=character_panel_open?0.f:float(dt_ms)*.001f;current_application_dt=dt_ms;current_application_tick=!frozen&&!character_panel_open;}\n",
+  "sha256": "b3d4606e2bc49882be7e0c3ee8e19d8840cbb701a7b76518c85b9cc0aeb901b6",
+  "NativeBridge.draw_calls": 1,
+  "changes_to_native": false,
+  "changes_to_egl": false,
+  "simulation_dt_from_choreographer": false
+}

@@ -1,0 +1,99 @@
+[
+  {
+    "symbol": "_ZN14PlayerSavegame16__LoadPropertiesEP11IStreamBasePv",
+    "address": "0x4693cc",
+    "nearby": [
+      "004693b8 strne r2, [r3, #4]",
+      "004693bc ldr r3, [sp, #0xc]",
+      "004693c0 cmp r3, r7",
+      "004693c4 bgt #0x469388",
+      "004693c8 mov r0, r4",
+      "004693cc add r1, r6, #0x194",
+      "004693d0 bl #0x33e040"
+    ]
+  },
+  {
+    "symbol": "_ZN14PlayerSavegameC2Ejib",
+    "address": "0x465774",
+    "nearby": [
+      "00465760 add r5, r5, #8",
+      "00465764 cmp r5, #0x18",
+      "00465768 str r3, [r1, #4]",
+      "0046576c bne #0x465758",
+      "00465770 mov r1, r3",
+      "00465774 strb r3, [r4, #0x194]",
+      "00465778 mov r2, r1"
+    ]
+  },
+  {
+    "symbol": "_ZN14PlayerSavegameC1Ejib",
+    "address": "0x465664",
+    "nearby": [
+      "00465650 add r5, r5, #8",
+      "00465654 cmp r5, #0x18",
+      "00465658 str r3, [r1, #4]",
+      "0046565c bne #0x465648",
+      "00465660 mov r1, r3",
+      "00465664 strb r3, [r4, #0x194]",
+      "00465668 mov r2, r1"
+    ]
+  },
+  {
+    "symbol": "_ZN14PlayerSavegameC2Ev",
+    "address": "0x465cfc",
+    "nearby": [
+      "00465ce8 add r3, r3, #8",
+      "00465cec cmp r3, #0x18",
+      "00465cf0 str r2, [r0, #4]",
+      "00465cf4 bne #0x465ce0",
+      "00465cf8 mov r5, r2",
+      "00465cfc strb r2, [r4, #0x194]",
+      "00465d00 add r8, r4, #0x88"
+    ]
+  },
+  {
+    "symbol": "_ZN14PlayerSavegameC1Ev",
+    "address": "0x465b9c",
+    "nearby": [
+      "00465b88 add r3, r3, #8",
+      "00465b8c cmp r3, #0x18",
+      "00465b90 str r2, [r0, #4]",
+      "00465b94 bne #0x465b80",
+      "00465b98 mov r5, r2",
+      "00465b9c strb r2, [r4, #0x194]",
+      "00465ba0 add r8, r4, #0x88"
+    ]
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17SG_SaveCheckpointEv",
+    "address": "0x466188",
+    "nearby": [
+      "00466184 push {r4, r5, r6, r7, r8, sl, lr}",
+      "00466188 ldr r4, [pc, #0x194]",
+      "0046618c ldr r6, [pc, #0x194]"
+    ]
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17SG_SaveCheckpointEv",
+    "address": "0x46618c",
+    "nearby": [
+      "00466184 push {r4, r5, r6, r7, r8, sl, lr}",
+      "00466188 ldr r4, [pc, #0x194]",
+      "0046618c ldr r6, [pc, #0x194]",
+      "00466190 ldr r2, [r0, #8]"
+    ]
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16__SavePropertiesEP11IStreamBasePv",
+    "address": "0x468a64",
+    "nearby": [
+      "00468a50 bl #0x38b808",
+      "00468a54 ldr r3, [sp, #0xc]",
+      "00468a58 cmp r3, r5",
+      "00468a5c bgt #0x468a34",
+      "00468a60 mov r0, r4",
+      "00468a64 add r1, r6, #0x194",
+      "00468a68 bl #0x33e138"
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "97a2728c2b60d255bfc6bbe3ef6ead206d951f5512c4bf0a047ccfd31070fbee",
+  "original_reader_record_comparisons": 208,
+  "original_reader_list_comparisons": 100,
+  "native_table_boundary_checks": 33,
+  "actual_faeries": 16,
+  "actual_lists": 4,
+  "mismatches": 0,
+  "gold_sha256": "9e2f8709603a85f4267e22b4efbdab50923b2a69f1601348d5422a1a5a63356b",
+  "source_sha256": {
+    "port/game-data/faery_tables.hpp": "b1c8cd5f5ac736f10e7ae09765bb0e567098d32ef74338ec5c0fca64c8cd779c",
+    "port/game-data/faery_tables.cpp": "ac646932288e65764ba7f66fe352966de734c56f6737df5f7bc18b47d91b1a79",
+    "port/game-data/tests/faery_tables_differential.py": "6660c45b5a91d8c8f7422dfdaf0e9c877ad97924b228b34e5cd1b609966a53b6"
+  },
+  "capture_sha256": "3b5a5bcbf9b34d39485ec46436c394f563c0f2de74f1bb71b5b96c6e0f4e046a",
+  "actual_original_table_report_sha256": "4ff3bac2d53033f668fe52a267f6bf5a0df1e131f066b98dca394eee40e72ffb",
+  "input_sha256": {
+    "faeries_pyarray.bin": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+    "faeries_pyarraynames.bin": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+    "faeries_pystructnames.bin": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b"
+  },
+  "scope": "Actual Faery/FaeryList ARM32 readers against optimized native ARM64 decoders.\nStream and allocator are explicit services. Payload bytes and all scalar words\nare exact; original vtable/script pointers normalize to native owned backing.\n Table boundary cases use individually proved serialized record/list widths; full actual source tables executed in separately bound faery-original-probe.json."
+}

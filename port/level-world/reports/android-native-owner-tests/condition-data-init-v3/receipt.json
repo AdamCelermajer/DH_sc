@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "2418b117ea5e9f61a7fa02a342fc46f12ac530c15111d99512af1b35c996f497",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\condition_data_init_v3.cpp",
+      "sha256": "1cc17bd61d7e6c5f5f5cf9c0316a8bf619267cadd3a9e7a3b01aef2e88577f6d"
+    },
+    {
+      "path": "port\\level-world\\game_object_relative_box_v3.cpp",
+      "sha256": "55c6fccf4b005f81022721fd3a710e1744849cda0c9ff0176dc9f6f77fcaeb58"
+    },
+    {
+      "path": "port\\level-world\\canonical_gameobject_base_owner_v1.cpp",
+      "sha256": "8a6d987f66971b028273a0203d8e339e74f5925eeb9e3e1a25ebad235e1605cc"
+    },
+    {
+      "path": "port\\level-world\\navigation_objects.cpp",
+      "sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9"
+    },
+    {
+      "path": "port\\level-world\\navigation_world.cpp",
+      "sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d"
+    },
+    {
+      "path": "port\\level-world\\selector.cpp",
+      "sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5"
+    },
+    {
+      "path": "port\\level-world\\octree.cpp",
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a"
+    },
+    {
+      "path": "port\\level-world\\collision.cpp",
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378"
+    },
+    {
+      "path": "port\\level-world\\navigation_motion.cpp",
+      "sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f"
+    },
+    {
+      "path": "port\\level-world\\navigation_search.cpp",
+      "sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0"
+    },
+    {
+      "path": "port\\level-world\\condition_data_init_v3.cpp",
+      "sha256": "c6dd07c84e01052583a4ad8fcd4f27a6ddd8b7204548d31b0d01fdca0e028a29"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\condition_data_init_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\game_object_relative_box_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_gameobject_base_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_objects.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_world.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\selector.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\octree.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\collision.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_motion.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\navigation_search.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\condition_data_init_v3.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\condition-data-init-v3\\condition-data-init-v3.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "ConditionData original ctor/Init/Clear same-field and failure-prefix PASS 20 checks\n",
+  "stderr": ""
+}

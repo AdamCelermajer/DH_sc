@@ -1,0 +1,37 @@
+{
+  "validation": "PASS",
+  "scope": "Live same-player MP regeneration, repeated skill availability, and idle soak.\n\nRun after the character panel and no-target skill smoke on emulator-5554.\nNo save edits, faery unlocks, target injection, or successful damage claims.\n",
+  "apk_sha256": "1117c63829a8fa61b3fa03688aa3343b0e4bd2780b6dd711e2da23d4a1bde832",
+  "installed_apk_sha256": "1117c63829a8fa61b3fa03688aa3343b0e4bd2780b6dd711e2da23d4a1bde832",
+  "pid": "26990",
+  "mana_after_skill": 4672,
+  "observed_mana_progression": [
+    [
+      4672,
+      6976
+    ],
+    [
+      4991,
+      6976
+    ],
+    [
+      5732,
+      6976
+    ],
+    [
+      6473,
+      6976
+    ],
+    [
+      6976,
+      6976
+    ]
+  ],
+  "repeat_no_target_skill_accepted": true,
+  "same_process_soak_seconds": 120,
+  "unlocked_faery_cast_tested": false,
+  "enemy_target_hud_positive_tested": false,
+  "skill_damage_verified": false,
+  "physical_arm64_tested": false,
+  "full_game_playable": false
+}

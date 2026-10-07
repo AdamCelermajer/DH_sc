@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "scope": "Current O2 owner constructor/catalogue helpers with original external factory and ordered stage evidence; class host proof separate.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_external_constructor_evidence_sha256": "93f471391ba5c61e38e75f6fb618953f2a527dba5502da3ef12daa5e9f439f8b",
+  "original_stage_order_evidence_sha256": "e1ebb8012c056b4f951b0e4793414d933d45b3d7d03242635b79ec149ffd4c4e",
+  "original_stage_order_cases": 12,
+  "optimized_arm64_library_sha256": "0ebe4e233c3c9c0ed07bb76e0f9728a3552d1350a4123d33f8b0452059173779",
+  "comparisons": 304,
+  "native_atomic_rejections": 4,
+  "mismatches": 0,
+  "legacy_gold_sha256": "d915ddba84c15b936748537fe3f77b3a64a43155f7a1a157810174dffe028b12",
+  "source_sha256": {
+    "port\\level-world\\character_script_owner.hpp": "c260e05061e7439ff01b7f42369fee74babaac840dc46243ae927f2540bc7b61",
+    "port\\level-world\\character_script_owner.cpp": "ca6af2f03a1825fa9962a8150a4bc38db66a251bde756a304bc7daabdb61dc1b",
+    "port\\level-world\\character_script_owner_bindings.inc": "0a428c0126d314d664a4af687619e0ce22de1ed6c9d1a56b1fb056fc0f814f14",
+    "port\\level-world\\tests\\character_script_owner_external_differential.py": "21099de7a28e25f56020f804e3c836d3777629def23d3e0895bee0827f8d1a98",
+    "port\\level-world\\tools\\build_character_script_owner_oracle.ps1": "763abf18f657271ba09b43162f71e2caf398bbf30c3cd2a5794d8c5271ba541d"
+  },
+  "full_owner_class_executed_this_arm64_probe": false
+}

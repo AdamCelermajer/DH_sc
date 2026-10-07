@@ -1,0 +1,26 @@
+{
+  "approved_narrow_global_hooks": true,
+  "runtime_tested": false,
+  "paths": [
+    {
+      "path": "port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+      "before_sha256": "a529874e8823de096a0c4efb352f528421e3d1f0928fd3b5e5c945d56d2f80f8",
+      "after_sha256": "08faec72516f6548f4706190061d9ce9264e9825fef42ab44a8cee2ffad8a48d"
+    },
+    {
+      "path": "port\\android-native\\app\\src\\main\\cpp\\renderer_player_cast_v2.inc",
+      "before_sha256": "35030e35453f865e44bb2efe4044385307c46bfcde4fa7ca965cac14bc096e66",
+      "after_sha256": "7a133f8eeda38fc534cdea59af87ca2b6e47200cc9d6be0fca031516676e0acc"
+    },
+    {
+      "path": "port\\android-native\\app\\src\\main\\cpp\\renderer_item_graph_v4.inc",
+      "before_sha256": "c46e09db056490dc5ca990dc72ac82a00ca2762b169d8f1aab0c6d6bb87c9737",
+      "after_sha256": "733ba992e7d517a9a9a0ed43895a025e0d47d2bfe5758001ac469681a6f0ab1e"
+    },
+    {
+      "path": "port\\level-world\\CMakeLists.txt",
+      "before_sha256": "debaad4881c9371586dd0f22726499986cbfc9f3e047d84418eb36714df04db1",
+      "after_sha256": "c2781067a11cb062ac70124fe329cb9c7fb88aec2a79cb881b647c10e5315611"
+    }
+  ]
+}

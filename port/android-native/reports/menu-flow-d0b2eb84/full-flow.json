@@ -1,0 +1,10 @@
+{
+  "pid": "5511",
+  "apk_sha256": "d0b2eb8468a68f2c7c1566487fab5d619833a613b647b6826f35f23feb96e1a6",
+  "menu_play_crypt": true,
+  "errors": [],
+  "character_menu_events": [
+    "I/DH2Native( 5511): Original character menu opened | actual stats/skills/inventory artwork | same live player"
+  ],
+  "scope": "Normal menu -> selection -> explicit Crypt development destination -> one portrait tap; no campaign/saved-armor/later-tab acceptance."
+}

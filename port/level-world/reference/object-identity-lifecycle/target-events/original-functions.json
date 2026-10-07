@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI12OnTargetDiedEv",
+      "elf_address": "0x3d1f60",
+      "size": 180,
+      "sha256": "6da8d908e16d3107681420588e4b3b1016fd743c20b08cd1457dc53bf8e8c791"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal18OnTargetOutOfSightEv",
+      "elf_address": "0x3dce14",
+      "size": 16,
+      "sha256": "7632d3bd6ffeb527621586908f566e2e63f481a57e4d72425354a65f6f688779"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal15OnTargetInSightEv",
+      "elf_address": "0x3dce04",
+      "size": 16,
+      "sha256": "65dd6ec44ba57428b4349e1edc383faba8ad767e5e0c9c92829cf3e545874dc8"
+    },
+    {
+      "original_symbol": "_ZN9Character5CleanEv",
+      "elf_address": "0x3a66f8",
+      "size": 292,
+      "sha256": "7693b4533f8ab22e1cc44d28e95c2eb000eeccd048ebc72dd1225becf9254c4e"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal21OnTargetInRangedRangeEv",
+      "elf_address": "0x3dcdcc",
+      "size": 28,
+      "sha256": "37bcf285df468aa1a96f6d127af5ed79ce91d92ef3fc4f499547ad6270c3363e"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14OnEnemySpottedEP9Character",
+      "elf_address": "0x3d14b4",
+      "size": 480,
+      "sha256": "62c6f8a1f642e082b96bdb6d4667d3bf6ad25e524ddd41aa3da2f4864a5172d3"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal14OnEnemySpottedEP9Character",
+      "elf_address": "0x3dd2f4",
+      "size": 80,
+      "sha256": "e6b68fac312e60dab7dddc4197346a003290bee760caff9dab9bde32ea2e2115"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal18OnTargetOutOfRangeEv",
+      "elf_address": "0x3dcde8",
+      "size": 28,
+      "sha256": "5751234e5efec051adc24d4613a982cfa444f7dc5ff526e71c7ace1e130d961a"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal20OnTargetInMeleeRangeEv",
+      "elf_address": "0x3dcd94",
+      "size": 28,
+      "sha256": "90c8a218fcf3663c87b7418d6eaa9042fa2ee1386a4d285ea11f16824eb41a3f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal12OnTargetDiedEv",
+      "elf_address": "0x3dce24",
+      "size": 16,
+      "sha256": "70cb6654610d181dc9d22fe67d39600603271d7cd7b4859d808364dc3959bec2"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal20OnTargetInCloseRangeEv",
+      "elf_address": "0x3dcdb0",
+      "size": 28,
+      "sha256": "8b04f2e533a0fe094b832fb85f1afa1a35542864afa30650926383e9508dfa92"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN5Level15_LoadCharStatesEv",
+      "elf_address": "0x3eff98",
+      "size": 128,
+      "sha256": "81c5d94fc88d610cefd462d248923217433ba719c13a97d4459449eb0ea16dc3"
+    },
+    {
+      "original_symbol": "_Z11GetNewStateI8CSAttackEP9CharStatev",
+      "elf_address": "0x3c04e0",
+      "size": 28,
+      "sha256": "67cb1318cfffb38428f434afbbdc4e01f217de63f2a11c465425bc530960fd48"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine9_HasStateEi",
+      "elf_address": "0x3c0084",
+      "size": 92,
+      "sha256": "c7513ad60b2da6dd60a37cef8c0624154c66b675983f71b296487b2adae3e504"
+    },
+    {
+      "original_symbol": "_Z11GetNewStateI8CSLimbusEP9CharStatev",
+      "elf_address": "0x3c0454",
+      "size": 28,
+      "sha256": "92571ba16b8f2efb9c87f377a7f07f663f493df6196f7ae949a16ac4b2c78962"
+    },
+    {
+      "original_symbol": "_Z11GetNewStateI6CSMoveEP9CharStatev",
+      "elf_address": "0x3c04c4",
+      "size": 28,
+      "sha256": "fe23face8d55e66950caa70372019335e677ca5902358196862c4d2ecb1c9512"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    },
+    {
+      "original_symbol": "_Z11GetNewStateI6CSDeadEP9CharStatev",
+      "elf_address": "0x3c05a4",
+      "size": 28,
+      "sha256": "21ed0a64f1858c6c586011094b5c7b98fdf89a0b3276ba6f08077e8f6ef2baf5"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3a9340",
+      "size": 1448,
+      "sha256": "ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb"
+    },
+    {
+      "original_symbol": "_Z11GetNewStateI6CSIdleEP9CharStatev",
+      "elf_address": "0x3c04a8",
+      "size": 28,
+      "sha256": "bd55859663b2978f4b901d03a3ecd2f5926d2177d92cdbf62657e80230ff1dfb"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "scope": "Read-only current renderer/source anchors; not a compiler or APK capture",
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "74c0a8b454d4cb8b26e8421ce475a320746197abfc3abd6b44c3e0caa47f9694",
+    "port/level-world/objects.hpp": "530f0686b0c189119aa7f44bd9c796543116cb6c500857ced69aa55e966bde05",
+    "port/level-world/objects.cpp": "0468f80973f478b4e141b0e16ef732b2692211df1db4d7d0fd2c46b61baf548b",
+    "port/level-world/tools/prepare_actors.py": "5b695c9ac0f0a9e2f66f513722e8f392cba52ca4c972edeec3939b8c48a8ad03",
+    "port/level-world/character_spawn_owner_extensions.hpp": "9c021c1f99272e01da5c60dfee37361aa9425d3d353c022dd9df36f63a1f75e4",
+    "port/level-world/character_spawn_owner_extensions.cpp": "b6f9112035e4c27e5a4f0a9bf02d1890c4ac5ba9be23912c5f3d08ad3c7e2a48",
+    "port/level-world/character_spawn_body.hpp": "f61c44da6e3756ae1c2e68557401cf320f0a9b076a7e2590210d49e38cccbc80",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_script_session.hpp": "8a461a5af720c89d72f5b2bf226b3c627b5121488519773613430d1ca8b8f432"
+  },
+  "reference_sha256": {
+    "capture_probe.py": "da174604220291eb495db7a37182f66cf1c6a2d98929e899de914df9ae0413fc",
+    "crypt-authoring.json": "d92e6b9972a832246331b50b5ecc47eb8e715ce7d2eb4ff229a5abaf42c0c5df",
+    "default-probes.json": "0c13c23ff6c685c02c4515c4a71ef5ba8cde4742758165f943bdb765f00546d4",
+    "NOTES.md": "8fd41f6f2e161b3e1b4b898b02034938f838cc8bce0f8aa18ab0afe7cfde2514",
+    "original-functions.asm": "6937566d2467abb5c2d11ea1214c3bc2b8cce1980ca805e6c468d7a737e3f1aa",
+    "original-functions.json": "dbff29cffe8c865eed384a0907722dee9ecf6dd272096ebcbab3cbee544cc2e7"
+  }
+}

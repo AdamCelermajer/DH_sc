@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "original_cases": 128,
+  "actual_loot_tables": 339,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "7b51317df228b690b415abccb2a014ba675ffa66e6da7d38434f307336ed0222",
+  "scope": "Whole original _AddLootTable against actual cache, explicit Debug/counts.\nNo item creation/death/application visual or RNG constructor claim.\n"
+}

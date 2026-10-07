@@ -1,0 +1,20 @@
+{
+  "rows": [
+    {
+      "optimization": "O1",
+      "checks": 335,
+      "original_cases": 320,
+      "scope": "Actual original attack receiver event and held-dispatch contrasts; source outer-prefix/native required callback fixtures. No live UI integration or original controller execution claim."
+    },
+    {
+      "optimization": "O2",
+      "checks": 335,
+      "original_cases": 320,
+      "scope": "Actual original attack receiver event and held-dispatch contrasts; source outer-prefix/native required callback fixtures. No live UI integration or original controller execution claim."
+    }
+  ],
+  "sources": {
+    "port/engine-ui/tests/hud_attack_control_v46.cpp": "618d577ea0533ecf265d31564d92a18702381fd43c2b8417c46ca997d69a91bf",
+    "port/engine-ui/hud_attack_control_v46.cpp": "d442c05703234fe324d414a2943a4aa19fef046de8bed0079b3c0cc0844c6745"
+  }
+}

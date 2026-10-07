@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "tests": 8,
+  "failures": 0,
+  "errors": 0,
+  "watchdog_sha256": "6bfa25f98ca82729878e50313af0af2c54c7f33cf9c38346b8146aab093b93ba",
+  "test_sha256": "eeeaf197123a2f8e1fa82b85879056609bf6cb12632d6ce33072ab8e6a81477e",
+  "membership_metric_pass_bound": 3,
+  "membership_query_bound": 5,
+  "exit_drain_planned_wait_bound_seconds": 0.15,
+  "injected_API_only": true
+}

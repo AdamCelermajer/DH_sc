@@ -1,0 +1,49 @@
+{
+  "validation": "PASS",
+  "comparisons": 6,
+  "scope": "actual original AddCharacter prefix until Spawn call; GetPlayerInfo and printf are explicit service/libc projections; no whole AddCharacter success",
+  "rows": [
+    {
+      "internal": 0,
+      "template": "Character",
+      "name": "PlayerCharacter_0",
+      "first_bool": 1,
+      "second_bool": 1
+    },
+    {
+      "internal": 1,
+      "template": "Character",
+      "name": "PlayerCharacter_1",
+      "first_bool": 1,
+      "second_bool": 1
+    },
+    {
+      "internal": -1,
+      "template": "Character",
+      "name": "PlayerCharacter_-1",
+      "first_bool": 1,
+      "second_bool": 1
+    },
+    {
+      "internal": 17,
+      "template": "Character",
+      "name": "PlayerCharacter_17",
+      "first_bool": 1,
+      "second_bool": 1
+    },
+    {
+      "internal": -2147483648,
+      "template": "Character",
+      "name": "PlayerCharacter_-2147483648",
+      "first_bool": 1,
+      "second_bool": 1
+    },
+    {
+      "internal": 2147483647,
+      "template": "Character",
+      "name": "PlayerCharacter_2147483647",
+      "first_bool": 1,
+      "second_bool": 1
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "address": "0x9f6409",
+  "byte": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Original static initializer only; actual later source setter must publish into manager, not inferred from this byte."
+}

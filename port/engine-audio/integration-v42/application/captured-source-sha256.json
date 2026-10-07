@@ -1,0 +1,20 @@
+{
+  "port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java": "18cf83efc729de3174bd96eca3dbce306b8295315cc57c54f4509731bb032019",
+  "port/android-native/app/src/main/java/com/example/dh2/CharacterPanel.java": "15924937c2a9d80419140979135976c3eaf301ee05037e74401311be9b84964a",
+  "port/android-native/app/src/main/java/com/example/dh2/CinematicActivity.java": "60964f1101c3da30afdea48dfe79f3359db70dc2702c5cb924e5dcbd48d1b508",
+  "port/android-native/app/src/main/java/com/example/dh2/FaeryPressLifecycleV1.java": "71c08c6e901a24c1c5480d761b966eb5b4930a977d12f7b0f991d0a99752dfc6",
+  "port/android-native/app/src/main/java/com/example/dh2/FrameBoundaryV42.java": "d30224c36b1b9c180db050dc035c13699d8674b6ada911962dc30956fd8292ae",
+  "port/android-native/app/src/main/java/com/example/dh2/FramePacingControllerV44.java": "8de3b90c0724cccf8375bf0036c874307d0a480e604dbec1f00c628e871ee39a",
+  "port/android-native/app/src/main/java/com/example/dh2/FramePacingReportV46.java": "0d7e7a5cd6e2dca4fb64ef1b270ad7267b0090c69d597c95f76ad1dea4557d33",
+  "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java": "81af14c0257ae75170c9852d6aa948a2d311e54c71bcc25575149f5cae486eaf",
+  "port/android-native/app/src/main/java/com/example/dh2/GameplayHud.java": "29c4cabc058649a30b6bce712b6a1320cfed9ea6dbce7e498ef4af7904aaae40",
+  "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "096bb9418d2d3c7adcd46a3be8568d3d7d1418c11b8ca525869f301a7d92ccfa",
+  "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java": "fd8b60c622e5c2fc957fcda22ca04b06b671fcb6ff61842d1eb1a63ca1f67490",
+  "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogActivity.java": "1a146c9b3fb06bc955ece482628bde211e079307a7f5d3d7595c9859a0a5bbda",
+  "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogUrl.java": "7c44a3bd6b8daafb0cd1be3e21334729bfa7e7267a47b44a6bad577c131f541f",
+  "port/android-native/app/src/main/java/com/example/dh2/StartupStagesV41.java": "ec1ef61bf8028dc310947a2c07cad0bc8883a596cb3281eb5bb5c4ba77b8655c",
+  "port/android-native/app/src/main/java/com/example/dh2/VsyncSurfaceViewV44.java": "ddedd27c1f4ad9a70c67c084431dd5c92884d9cf997c1832d1b962a23ad49990",
+  "port/android-native/app/src/main/cpp/native_app.cpp": "8759c5079c72f9d0492f5a53cf54cd52b40d7f0f4bcfd50cc667fc51bc5c8209",
+  "port/android-native/app/src/main/cpp/audio_output_v34.cpp": "5509e63c652ae4c06faedf642b40310861bee111f24a8740f6d394d9bb59da91",
+  "port/android-native/app/src/main/cpp/audio_output_v34.hpp": "557f55fd5e9c8d2422810888d110370bc1efa6086813030dfcc60f58781cc05f"
+}

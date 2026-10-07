@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character6UpdateEv",
+      "elf_address": "0x3abe98",
+      "size": 3776,
+      "sha256": "b74b4f3405a8456ce440b642e97f1b0c028c29e9e74abaa1be0aaf1534e1f8c2"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator6UpdateEv",
+      "elf_address": "0x3caf3c",
+      "size": 948,
+      "sha256": "a3ea6cd907c75e5ee0c8a915294b4d21f94efabb644f125c2009d401481eeebe"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0e80",
+      "size": 16,
+      "sha256": "cb75a2633d2bc15c4a0aaf7d11871fbefc2462a50bd63d2a31a4dc0f8ba2c757"
+    },
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "original_symbol": "_Z20PushProfilingContextPKc",
+      "elf_address": "0x3136b4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine6UpdateEv",
+      "elf_address": "0x3c628c",
+      "size": 264,
+      "sha256": "abfd28dd44b37cb6e711de13ac7a010767efbfd6faec0c925773240f77e45614"
+    },
+    {
+      "original_symbol": "_Z19PopProfilingContextPKc",
+      "elf_address": "0x3136b8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10GameObject6UpdateEv",
+      "elf_address": "0x38cbe8",
+      "size": 352,
+      "sha256": "b5206fb49b4a8562124ee6ae3f1e5a82b047a9b93ce63b979be9d1fad5f4d316"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0b78",
+      "size": 776,
+      "sha256": "f012ce3658bdf43d2d800a989c6259cd3019899a085df27429ce3d915b036f75"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld6updateEv",
+      "elf_address": "0x34bd08",
+      "size": 104,
+      "sha256": "61c621d1c749fbda062569f8abeacba0abd1dc822e28ad2d3174825703be9a39"
+    }
+  ]
+}

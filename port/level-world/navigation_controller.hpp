@@ -12,6 +12,8 @@ struct ControllerWorkspace {
  AvoidanceActor* actors;std::uint32_t actor_capacity,reserved1;
  std::uint32_t* floors;std::uint32_t floor_capacity,reserved2;
 };
+// Source Debug is queried only when boundary validation is reached.
+struct ControllerSourceServicesV69 {void* context{};int(*skip_boundary)(void*,std::uint32_t*){};};
 struct ControllerRequest {
  PathController* controller;PathObject* path;NavigationObject* object;
  const CollisionWorld* geometry;const Graph* graph;const AvoidanceScene* scene;
@@ -33,4 +35,5 @@ int dh2_nav_is_at_destination(const dh2::navigation::PathController*,const dh2::
 // Stop's physical backend is an explicit request; applying velocity/body
 // resets and UpdateSubObjects/root motion are separate, pending work.
 int dh2_nav_update_path(dh2::navigation::ControllerResult*,const dh2::navigation::ControllerRequest*);
+int dh2_nav_update_path_source_v69(dh2::navigation::ControllerResult*,const dh2::navigation::ControllerRequest*,const dh2::navigation::ControllerSourceServicesV69*);
 }

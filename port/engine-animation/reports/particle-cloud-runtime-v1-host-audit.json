@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "runs": [
+    {
+      "optimization": "-O1",
+      "validation": "PASS",
+      "gold_checks": 2202,
+      "actual_blood_frames": 402,
+      "nonempty_baked_frames": 124,
+      "peak_particles": 7,
+      "sanitizer_findings": 0,
+      "executable_sha256": "af2f2e3635c326c384ec2ab9ee65ad3a04d8dc3e67370142fa0127a208dc6723"
+    },
+    {
+      "optimization": "-O2",
+      "validation": "PASS",
+      "gold_checks": 2202,
+      "actual_blood_frames": 402,
+      "nonempty_baked_frames": 124,
+      "peak_particles": 7,
+      "sanitizer_findings": 0,
+      "executable_sha256": "13a8cdad700eab7b3d2528da8543c57baca4916dae40b79576f4263bf89c053a"
+    }
+  ],
+  "scope": "Original ARM gold replay plus actual authored blood BirthRate cache, same generation vector/model storage/source seed, real force scene binding and CPU color/bounds/sort/spun billboard vertices. Camera is an explicit host fixture; no live renderer/GPU/manager claim.",
+  "host_corner_float_tolerance_ulp": 4,
+  "source_sha256": {
+    "port/engine-animation/particle_cloud_models_v1.cpp": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747",
+    "port/engine-animation/particle_cloud_runtime_v1.cpp": "76a3accf7a3998d9bcfe0b6317549a2390e0a4fc3cd40331aea38a12293b854e",
+    "port/engine-animation/particle_billboard_v1.cpp": "665a84f44d7a8692d585210151107d63aba702c354553ba510f43e8d6f3f8054",
+    "port/engine-animation/particle_random_v1.cpp": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/particle_emission.cpp": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035",
+    "port/engine-animation/particle_parameter.cpp": "6ce02670d379a7103936049226972314ec9edbad0e4581cc50b4ccc174219e38",
+    "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
+    "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",
+    "port/engine-animation/tests/particle_cloud_models_v1.cpp": "96fa595848aa23ceca904962694c84f0e4d3b22f246ea712589e81df3892d821",
+    "port/engine-animation/tests/particle_billboard_v1.cpp": "c42cfb23a2f674143ca62f609c2e64e14a2f380fdd0e07459acc5068d7d20212",
+    "port/engine-animation/tests/particle_cloud_runtime_v1_host.cpp": "714c72971f9b16f7ddc27c1024ca2939fcecbc415d0fe39a218c135edb3e6bd7",
+    "port/engine-animation/tests/particle_cloud_graph_v1.cpp": "50e0912af939b3d11f29ae5aead7b69ed49f9245c103b10222452cc3743a5ec2",
+    "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+  }
+}

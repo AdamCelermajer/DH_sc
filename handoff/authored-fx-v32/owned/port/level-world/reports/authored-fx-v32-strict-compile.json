@@ -1,0 +1,52 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "file": "port/level-world/character_authored_resource_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "arm64-v8a",
+    "file": "port/level-world/authored_fx_mesh_graph_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "arm64-v8a",
+    "file": "port/level-world/authored_fx_nonrender_geometry_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "arm64-v8a",
+    "file": "port/engine-animation/particle_resource_init_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "arm64-v8a",
+    "file": "port/engine-animation/particle_billboard_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "x86_64",
+    "file": "port/level-world/character_authored_resource_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "x86_64",
+    "file": "port/level-world/authored_fx_mesh_graph_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "x86_64",
+    "file": "port/level-world/authored_fx_nonrender_geometry_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "x86_64",
+    "file": "port/engine-animation/particle_resource_init_v32.cpp",
+    "exit_code": 0
+  },
+  {
+    "abi": "x86_64",
+    "file": "port/engine-animation/particle_billboard_v32.cpp",
+    "exit_code": 0
+  }
+]

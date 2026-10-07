@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf4root7advanceEfb",
+      "elf_address": "0x775304",
+      "size": 624,
+      "sha256": "9f4e147953aba243af29ac54273c8ce71d5b75c3dab2114a1066d35145d8cefe"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX8SetFocusEPN7gameswf9characterEi",
+      "elf_address": "0x7ac228",
+      "size": 488,
+      "sha256": "472a3687ace847828b29dd5c37918b4e945541e49f3e366cd98d55494e4320ea"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX9SendEventERNS_5EventE",
+      "elf_address": "0x7abf34",
+      "size": 756,
+      "sha256": "229be180c4fc6653cda0a4a38ef915cdca0f96607da5f0a971b7ca679efe1ec0"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10ResetFocusEi",
+      "elf_address": "0x7ac410",
+      "size": 52,
+      "sha256": "f0834c21d4fb8f53ebec78a4f1dfa4a2abaf46a7fcfbad545b4fb6d92d7eadb7"
+    }
+  ]
+}

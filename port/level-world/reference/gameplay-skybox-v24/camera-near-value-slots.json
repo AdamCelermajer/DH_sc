@@ -1,0 +1,79 @@
+[
+  {
+    "vtable": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x10",
+    "callee": "0x583534",
+    "symbol": "_ZN6glitch5scene16CCameraSceneNode19onRegisterSceneNodeEv"
+  },
+  {
+    "vtable": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0xb8",
+    "callee": "0x597c60",
+    "symbol": "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb"
+  },
+  {
+    "vtable": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x38",
+    "callee": "0x35a8e0",
+    "symbol": "_ZNK6glitch5scene10ISceneNode25getAbsoluteTransformationEv"
+  },
+  {
+    "vtable": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x11c",
+    "callee": "0x58202c",
+    "symbol": "_ZNK6glitch5scene16CCameraSceneNode12getNearValueEv"
+  },
+  {
+    "vtable": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x120",
+    "callee": "0x582034",
+    "symbol": "_ZNK6glitch5scene16CCameraSceneNode11getFarValueEv"
+  },
+  {
+    "vtable": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x10",
+    "callee": "0x6e5238",
+    "symbol": "_ZN6glitch7collada16CCameraSceneNode19onRegisterSceneNodeEv"
+  },
+  {
+    "vtable": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0xb8",
+    "callee": "0x597c60",
+    "symbol": "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb"
+  },
+  {
+    "vtable": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x38",
+    "callee": "0x35a8e0",
+    "symbol": "_ZNK6glitch5scene10ISceneNode25getAbsoluteTransformationEv"
+  },
+  {
+    "vtable": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x11c",
+    "callee": "0x58202c",
+    "symbol": "_ZNK6glitch5scene16CCameraSceneNode12getNearValueEv"
+  },
+  {
+    "vtable": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "address_point": "0x1c",
+    "slot": "0x120",
+    "callee": "0x582034",
+    "symbol": "_ZNK6glitch5scene16CCameraSceneNode11getFarValueEv"
+  },
+  {
+    "vtable": "_ZTV11CameraLevel",
+    "address_point": "0x8",
+    "slot": "0x10",
+    "callee": "0x410390",
+    "symbol": "_ZN11CameraLevel6UpdateEv"
+  }
+]

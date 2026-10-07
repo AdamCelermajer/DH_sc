@@ -1,0 +1,132 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "11c8219e13e55e24dc3668c45821fb29b03627d6e5810b8a10e340bd86764908",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\gameplay_camera_runtime_v11.cpp",
+      "sha256": "88b72a760154fbca777b59c0f616865a29e48e3ed693d41bdd54776e6ed41edd"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_runtime_v11.cpp",
+      "sha256": "76b42553a6b161f4f112d6ca4124ac7ca4e73b4d4f2ad0a4e4b5578a366b5d35"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_animator_v10.cpp",
+      "sha256": "59548569eac77359c803206431339b5130de37dcc198a0ea5f9df201da0855c1"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_scene_v3.cpp",
+      "sha256": "814985fb95a349360c25be971c72599eab36d1cd783957c205dbb6daec555815"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_level_v4.cpp",
+      "sha256": "9de312c04408171d4ef0c8276c2c1725ffe19dbff093513ef33d4d110bb78fd8"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_target_v2.cpp",
+      "sha256": "1e85243bd75022c782ae29628c990c22bf7fca41d07cb730426681704b60c2f9"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_damping_v1.cpp",
+      "sha256": "84e5de5d02ef505a7b8d8b494862e6e1d8970e68ce5d15880a3caa1d08d592b2"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_design_v5.cpp",
+      "sha256": "3e7eb90792270903cdc433f06a9528e47599dd676deb3292cceb232cb75346bd"
+    },
+    {
+      "path": "port\\level-world\\gameplay_camera_matrix_v8.cpp",
+      "sha256": "393cba426de1b48ac2b9f83cc6f6d8c8d5b1e5dc917fc7cdeb48efb78dcb7d00"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "2a8b8fdc9fcc69dfbe26d6b62a5c3b91f0db2fa132e4018f28e882172470d322"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "7cb0b14b5473dcade388ca1e5b3112cd8b2d7d82da10767b8ac8763a671b9664"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "bb51f89ebf10b4a58784251e3de79df563ec9f871912caef691af9176bcbdfe4"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "7d0b7ffa5406798d16c375bb205371d91ce2c655ca925ef60b57801804d55e4f"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "e2e71a859120c1395c464c29baf2db45793ef28e0a909fdb11c016153e2a5b02"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "97d0afa7a78d477fcd480656bcbfb2ed7b876bebdcba2552b4446d11bf3c1ade",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\gameplay_camera_runtime_v11.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_runtime_v11.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_animator_v10.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_scene_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_level_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_target_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_damping_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_design_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_camera_matrix_v8.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-camera-runtime-v11\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-camera-runtime-v11\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-camera-runtime-v11\\gameplay-camera-runtime-v11.bin"
+  ],
+  "stdout": "Source camera eye 1480 -1180 2750 distance 3132.3\nCamera actual-cache full load/frame/view/release and failure-prefix PASS; World/SceneManager services declared fixtures\n",
+  "stderr": "",
+  "exit_code": 0
+}

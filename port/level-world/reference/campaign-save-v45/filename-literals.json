@@ -1,0 +1,37 @@
+[
+  {
+    "symbol": "_ZN14PlayerSavegame20SG_GetFilenamePrefixEv",
+    "string": "dh2_",
+    "address": "0x8be560"
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame33SG_GetCheckpointFilenameExtensionEv",
+    "string": ".checkpoint",
+    "address": "0x8cd1c0"
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame23SG_GetFilenameExtensionEv",
+    "string": ".savegame",
+    "address": "0x8c0788"
+  },
+  {
+    "branch": "checkpoint0",
+    "string": "_single",
+    "address": "0x8cd170"
+  },
+  {
+    "branch": "normal",
+    "string": "",
+    "address": "0x8cb810"
+  },
+  {
+    "branch": "checkpoint1",
+    "string": "_multi",
+    "address": "0x8cd178"
+  },
+  {
+    "branch": "format",
+    "string": "%s%03u%s%s",
+    "address": "0x8cd1d0"
+  }
+]

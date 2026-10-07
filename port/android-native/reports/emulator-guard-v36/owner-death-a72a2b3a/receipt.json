@@ -1,0 +1,89 @@
+{
+  "schema": "dh2-emulator-watchdog-v36",
+  "status": "terminated_by_guard",
+  "verified": true,
+  "limits": {
+    "soft_job_bytes": 5368709120,
+    "aggregate_qemu_bytes": 12884901888,
+    "min_commit_headroom_bytes": 17179869184,
+    "min_physical_available_bytes": 6442450944,
+    "timeout_seconds": 10.0
+  },
+  "termination_attempted": true,
+  "termination_succeeded": true,
+  "watchdog_pid": 10352,
+  "job_name": "Local\\DH2-Emulator-611c7f0d-0df6-4c7e-83c1-cf6e2d3f6250",
+  "manifest_sha256": "e278083f389a9bc79e9e301a28ed4279aed7ad40d41ddb0b2b230978bb24d599",
+  "launcher_pid": 32384,
+  "target_pid": 23952,
+  "armed": true,
+  "elapsed_seconds": 0.14099999999984902,
+  "last_snapshot": {
+    "wall_time_utc": "2026-10-06T10:44:53Z",
+    "elapsed_seconds": 0.14099999999984902,
+    "expected_owner": {
+      "pid": 32384,
+      "create_time_filetime": 134357570933064750
+    },
+    "complete": true,
+    "errors": [],
+    "job_members": [
+      {
+        "pid": 23952,
+        "parent_pid": 7860,
+        "image": "python.exe",
+        "create_time_filetime": 134357570933085067,
+        "private_bytes": 5738496,
+        "working_set_bytes": 10440704,
+        "handles": 90,
+        "alive": true
+      },
+      {
+        "pid": 16980,
+        "parent_pid": 23952,
+        "image": "conhost.exe",
+        "create_time_filetime": 134357570934687056,
+        "private_bytes": 1282048,
+        "working_set_bytes": 7938048,
+        "handles": 98,
+        "alive": true
+      }
+    ],
+    "qemu": [],
+    "owned_process_tree": [],
+    "job_process_ids": [
+      23952,
+      16980
+    ],
+    "manifest_unchanged": true,
+    "system": {
+      "commit_total_bytes": 21212626944,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 18630565888,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 148996,
+      "processes": 364
+    },
+    "owner": null,
+    "gone_enumerated_pids": [
+      32384
+    ],
+    "decision": {
+      "action": "terminate",
+      "reasons": [
+        "launcher_missing_or_exited"
+      ],
+      "observations": {
+        "owned_private_bytes": 7020544,
+        "aggregate_qemu_private_bytes": 0,
+        "commit_headroom_bytes": 79541313536,
+        "physical_available_bytes": 18630565888,
+        "job_process_count": 2,
+        "qemu_process_count": 0,
+        "owned_handles": 188,
+        "elapsed_seconds": 0.14099999999984902
+      }
+    }
+  }
+}

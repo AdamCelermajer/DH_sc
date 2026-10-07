@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "authored_rows": 69,
+  "source_field_comparisons": 621,
+  "source_queries": 207,
+  "allocator_fixture_calls": 77,
+  "debug_observer_calls": 138,
+  "reference_sha256": "6bf40a3ea5dcca733d0114af7390e57bfe97836f6926d291f6da93cfbd558813",
+  "full_achievement_callback": false
+}

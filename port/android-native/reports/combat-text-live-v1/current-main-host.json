@@ -1,0 +1,22 @@
+{
+  "enemy_status_hud_v1_audit": {
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"checks\":11,\"actual_droid_display_list\":true,\"source_enemy_body_reused\":true,\"gameplay_and_localization_are_fixtures\":true,\"live_GPU\":false}\n",
+    "stderr_prefix": ""
+  },
+  "hud_manager_core_audit": {
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"whole_manager_updates\":38,\"authored_hud_styles\":2,\"ordered_services\":1874,\"weak_cache_gets\":437,\"source_frame_calls\":203,\"visibility_calls\":53,\"plain_text_calls\":41,\"notify_deliveries\":377,\"enemy_labels\":2,\"allies_callbacks\":4,\"position_provider_fixtures\":2,\"ownership_failure_guards\":7,\"startup_settings_fixture\":1,\"startup_multiplayer_fixture\":1}\n",
+    "stderr_prefix": ""
+  },
+  "hud_manager_audit": {
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"cases\":650,\"ordered_services\":22584,\"failure_guards\":3494}\n",
+    "stderr_prefix": ""
+  },
+  "combat_flash_swf_v1_audit": {
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"actual_styles\":20,\"real_glyph_quads\":9,\"source_projection_fixture\":true,\"actual_clone\":true,\"expired_and_reused\":true}\n",
+    "stderr_prefix": "source localization: World Map\n"
+  }
+}

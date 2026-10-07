@@ -1,0 +1,10 @@
+{
+  "validation": "FAIL",
+  "scope": "All eleven actual retained NPC source injuries, CPU poses and original animator/AI/external VM/FSM closure. Developer command invokes SetInjure; it is not proof of completed real skill hit FX/application.",
+  "pid": "4995",
+  "full_skill_damage_verified": false,
+  "full_enemy_ai_verified": false,
+  "physical_arm64_tested": false,
+  "apk_sha256": "34cf995ce539340ac31e7317fadae6dfa330915472114e08e27a6707424aae01",
+  "installed_apk_sha256": "34cf995ce539340ac31e7317fadae6dfa330915472114e08e27a6707424aae01"
+}

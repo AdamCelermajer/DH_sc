@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "function": "CheckCallback36440c",
+  "cases": 10,
+  "records": [
+    {
+      "pending": 0,
+      "callback": false,
+      "after": 0,
+      "calls": []
+    },
+    {
+      "pending": 0,
+      "callback": true,
+      "after": 0,
+      "calls": []
+    },
+    {
+      "pending": 1,
+      "callback": false,
+      "after": 1,
+      "calls": []
+    },
+    {
+      "pending": 1,
+      "callback": true,
+      "after": 0,
+      "calls": [
+        [
+          33558624,
+          33562624,
+          1
+        ]
+      ]
+    },
+    {
+      "pending": 2,
+      "callback": false,
+      "after": 2,
+      "calls": []
+    },
+    {
+      "pending": 2,
+      "callback": true,
+      "after": 0,
+      "calls": [
+        [
+          33558624,
+          33562624,
+          2
+        ]
+      ]
+    },
+    {
+      "pending": 128,
+      "callback": false,
+      "after": 128,
+      "calls": []
+    },
+    {
+      "pending": 128,
+      "callback": true,
+      "after": 0,
+      "calls": [
+        [
+          33558624,
+          33562624,
+          128
+        ]
+      ]
+    },
+    {
+      "pending": 255,
+      "callback": false,
+      "after": 255,
+      "calls": []
+    },
+    {
+      "pending": 255,
+      "callback": true,
+      "after": 0,
+      "calls": [
+        [
+          33558624,
+          33562624,
+          255
+        ]
+      ]
+    }
+  ],
+  "scope": "Whole original pending/null/callback ordering; callback body is an observer with explicit reentrant pending mutation. No container/event/visual success claimed."
+}

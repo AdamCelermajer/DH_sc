@@ -1,0 +1,47 @@
+[
+  {
+    "name": "_ZNK6glitch5scene5CMesh11getMaterialEj",
+    "address": "0x6bbbb8",
+    "size": 88
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRendererC1EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "address": "0x5d3124",
+    "size": 1448
+  },
+  {
+    "name": "_ZNK6glitch7collada5CMesh11getMaterialEj",
+    "address": "0x644ac8",
+    "size": 92
+  },
+  {
+    "name": "_ZNK6glitch5scene5CMesh14getBoundingBoxEv",
+    "address": "0x6bbc68",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch7collada5CMesh14getBoundingBoxEv",
+    "address": "0x644b80",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5scene5CMesh13getMeshBufferEj",
+    "address": "0x6bbb60",
+    "size": 88
+  },
+  {
+    "name": "_ZNK6glitch7collada5CMesh13getMeshBufferEj",
+    "address": "0x644a6c",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5video17CMaterialRendererC2EPNS0_12IVideoDriverEtPKcRKNS0_6detail25material_renderer_manager14STechniqueListEttPKPKNS0_19SShaderParameterDefEjtPKt",
+    "address": "0x5d36cc",
+    "size": 1448
+  },
+  {
+    "name": "_ZTVN6glitch7collada5CMeshE",
+    "address": "0x97f060",
+    "size": 80
+  }
+]

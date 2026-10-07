@@ -1,0 +1,11 @@
+# Whole authored HUD skill refresh V5
+
+Cause: `activate` already invokes root DisplayRightHud -> selected HUD.onPush -> setSkillsButtons. The old explicit refresh invoked only setSkillsButtons again. NativeSkillGetEquipedSkillsIDs4425a0 appends three rows via799134; setSkillsButtons31207 reuses CurUsedSkillsIDs. Thus repeated calls leave stale rows at indices0..2, append new rows beyond the three authored buttons, and keep the old icon despite correctly updated Save mappings.
+
+Fix: AuthoredGameplayHudV1::refresh_skills now invokes the actual complete selected HUD.onPush31fb4. That authored lifecycle clears real Grey overlays, replays the source button timelines, creates a fresh genuine AS Array at3207b, then reaches the original setSkillsButtons call at3214b. The real cached AS controls visibility and selects the real btimg icon label. No native array rewriting, manual icon placement, fake empty provider or separate Save is introduced.
+
+The actual dqhud_droid SWF regression uses true Array.push semantics (the old V1 fixture incorrectly used indexed overwrite and could not reveal this failure). It first reproduces the broken tail: Array length3→6 and stale first button. It then executes whole onPush and tests repeated rows0 moving across slots2,2,1,0,2: every call returns length3, exactly the assigned authored button is visible, and its real cached bash_down label selects sprite245 frame10. Empty slots use the actual authored hiding branch. Player/details/texture/font providers are explicitly fixture boundaries; this is real AS/graph execution, not full production player delivery.
+
+ASAN/UBSAN PASS58 checks at both O1 and O2, report authored-hud-skill-refresh-v5.json. Actual SWF SHA a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238. Strict ARM64 helper syntax PASS. No app installation/input was performed in this lane; root must check the existing saved mapping[-1,-1,0] on the next live build.
+
+Source bodies remain in the frozen hud-initialization/character-menu-native captures; actual AS offsets are reproduced by the cached SWF host fixture. Historical V1 tests/reports/manifests are unchanged. Only the owned HUD helper production method changes; no new TU/CMake/root session modification is required.

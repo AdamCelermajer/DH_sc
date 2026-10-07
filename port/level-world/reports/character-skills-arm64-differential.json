@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "comparisons": 62,
+  "ordered_requests": 898,
+  "mismatches": 0,
+  "library_sha256": "fe60bd398f9acd4f55d6ea2f14f10cbb27440a6380d83e09e09e14a42800a2c3",
+  "original_gold_sha256": "365e0675be61b48e9478b36c65f045858ae162998f787a66d275217ff0e7e27e",
+  "source_sha256": {
+    "port/level-world/character_skills.hpp": "553db42a288878ad476338ce33aa3d3bfdf7afca8c6f45ba99e952b4d0cb36b5",
+    "port/level-world/character_skills.cpp": "a47efd05f847648469c043dbb7d18f6e5cbbf70b32289bc85bd1af0ab8d3b3eb",
+    "port/level-world/tests/character_skills_differential.py": "3caff1cd0f65e7e18047e21aed2ceaa3b745d9630f0e3ec89855b052fb06c82b"
+  },
+  "scope": "Saved original instruction service/mutation corpus vs optimized ARM64 skill kernels. Original dependencies are explicit synchronous Debug/STL/Lua/table/allocation services. Native core executes full setup/update ordering and 64-bit identities; owned facade and real VM are separate host proof."
+}

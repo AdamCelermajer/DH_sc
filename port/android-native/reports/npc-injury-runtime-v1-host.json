@@ -1,0 +1,85 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/character_world_skill_combat_v6.cpp",
+        "port/level-world/character_world_runtime_v1.cpp",
+        "port/level-world/character_world_target_owner_v1.cpp",
+        "port/level-world/character_world_ai_relationship_v1.cpp",
+        "port/level-world/character_world_handle_v1.cpp",
+        "port/level-world/character_skill_target_queries_v6.cpp",
+        "port/level-world/character_skill_application_v6.cpp",
+        "port/level-world/character_hit_v6.cpp",
+        "port/level-world/character_skill_attack_v6.cpp",
+        "port/level-world/character_combat_result_v6.cpp",
+        "port/level-world/character_world_skill_execution_v6.cpp",
+        "port/level-world/character_world_aggro_event_v1.cpp",
+        "port/level-world/trophy_manager_owner_v1.cpp",
+        "port/level-world/character_skill_native_v6.cpp",
+        "port/level-world/character_skill_readonly_v6.cpp",
+        "port/level-world/character_skill_combat_v6.cpp",
+        "port/level-world/character_skill_mana_v5.cpp",
+        "port/level-world/character_target_search_v5.cpp",
+        "port/level-world/tests/npc_injury_runtime_v1_host.cpp",
+        "port/level-world/npc_injury_runtime_v1.cpp",
+        "port/level-world/player_injure_state_v7.cpp",
+        "port/level-world/character_cancel_sneaking.cpp",
+        "port/level-world/character_script_session.cpp",
+        "port/level-world/character_animation_instance.cpp",
+        "port/level-world/character_world_npc_state_owner_v1.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/npc_injury_runtime_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/npc_injury_runtime_v1_host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":2329,\"actual_Crypt_sessions\":11,\"native_injury_animation_end_to_Idle\":11,\"actual_CPU_animation\":true,\"controller_heading_fixture\":true,\"NPC_state_notification_fixture\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/npc_injury_runtime_v1.cpp": "54d9f271468b0888d9fdb98a1ab79998968da387102e421a836c5b075150249a",
+    "port/level-world/player_injure_state_v7.cpp": "a5821f0323be61892e2995a7b2873d1bd10f211da4bf42b27c8da4499ffed2dd",
+    "port/level-world/character_cancel_sneaking.cpp": "f3bc02c718a29739d8afc71aa5b8040714de1c84b23b3b84a1d8c474bdcdcf54",
+    "port/level-world/character_script_session.cpp": "f4583104c71ff90ffc75d34e04e5a9294f61ff690a88a8f5089b067f7be60b46",
+    "port/level-world/character_animation_instance.cpp": "0f6dcb6d4c6cbcee389bce5437eaa0b925febffb521a05ee6f875182b45d285f",
+    "port/level-world/character_world_npc_state_owner_v1.cpp": "b63faf89e423df34c46dbf929a7945d940c436eb94b0d32096315c8cded5b018",
+    "port/level-world/tests/npc_injury_runtime_v1_host.cpp": "dec82d80bbdd5d2a9901021f6efe3358874ecee8da1c37eed97f02de6039b72c"
+  },
+  "scope": "Actual cache/MonsterSession/FSM/injury CPU animation; named no-equipment stance and controller/state notification fixtures; current adapter with historical private dependency DSOs",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ]
+}

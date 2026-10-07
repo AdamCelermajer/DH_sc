@@ -1,0 +1,2375 @@
+{
+  "scope": "Independent source/CPU/AAudio implementation; no shared build integration or device/audible acceptance; explicit source binding and rapid-native-reversal boundaries",
+  "production_tus": [
+    "port/engine-audio/audio_sample_v34.cpp",
+    "port/engine-audio/audio_catalog_v34.cpp",
+    "port/engine-audio/audio_bank_v34.cpp",
+    "port/engine-audio/audio_spatial_v34.cpp",
+    "port/engine-audio/audio_native_envelope_v34.cpp",
+    "port/engine-audio/audio_mixer_v34.cpp",
+    "port/level-world/vox_audio_bridge_v34.cpp",
+    "port/android-native/app/src/main/cpp/audio_output_v34.cpp"
+  ],
+  "owned": [
+    {
+      "path": "port/android-native/app/src/main/cpp/audio_output_v34.cpp",
+      "frozen": "owned/port/android-native/app/src/main/cpp/audio_output_v34.cpp",
+      "sha256": "5509e63c652ae4c06faedf642b40310861bee111f24a8740f6d394d9bb59da91"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/audio_output_v34.hpp",
+      "frozen": "owned/port/android-native/app/src/main/cpp/audio_output_v34.hpp",
+      "sha256": "557f55fd5e9c8d2422810888d110370bc1efa6086813030dfcc60f58781cc05f"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java",
+      "frozen": "owned/port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java",
+      "sha256": "18cf83efc729de3174bd96eca3dbce306b8295315cc57c54f4509731bb032019"
+    },
+    {
+      "path": "port/engine-audio/audio_bank_v34.cpp",
+      "frozen": "owned/port/engine-audio/audio_bank_v34.cpp",
+      "sha256": "0b045772219c8f8b76404614dd46412f6cb9d7e984bcc176edbea8436684226a"
+    },
+    {
+      "path": "port/engine-audio/audio_bank_v34.hpp",
+      "frozen": "owned/port/engine-audio/audio_bank_v34.hpp",
+      "sha256": "376d0e168f1a6ef2db2ca4ad3913ce14394a73a335ca7f81e7d51bd048b3c4e0"
+    },
+    {
+      "path": "port/engine-audio/audio_catalog_v34.cpp",
+      "frozen": "owned/port/engine-audio/audio_catalog_v34.cpp",
+      "sha256": "7cf74934301d2d8b5cf4bdefd8d86c31a9078edd333b9889f22afd5c4fe1b5c0"
+    },
+    {
+      "path": "port/engine-audio/audio_catalog_v34.hpp",
+      "frozen": "owned/port/engine-audio/audio_catalog_v34.hpp",
+      "sha256": "cb1892fbd9088780707f428d07fb8c8c1ab916931862257bc5ea724a8f50f428"
+    },
+    {
+      "path": "port/engine-audio/audio_mixer_v34.cpp",
+      "frozen": "owned/port/engine-audio/audio_mixer_v34.cpp",
+      "sha256": "bb441a7f22bfa54a8612ade20dff97831999114ad3e26f54e5ac1ff71db39660"
+    },
+    {
+      "path": "port/engine-audio/audio_mixer_v34.hpp",
+      "frozen": "owned/port/engine-audio/audio_mixer_v34.hpp",
+      "sha256": "9d0f92b4a7287ad9957642579fc4383e11483b65d38bdd54dc3b594d7fba57c7"
+    },
+    {
+      "path": "port/engine-audio/audio_native_envelope_v34.cpp",
+      "frozen": "owned/port/engine-audio/audio_native_envelope_v34.cpp",
+      "sha256": "9c62269d40d01521f91e4c74111d38d6dbba913f671d7fc4216c1fc18e87e31a"
+    },
+    {
+      "path": "port/engine-audio/audio_native_envelope_v34.hpp",
+      "frozen": "owned/port/engine-audio/audio_native_envelope_v34.hpp",
+      "sha256": "bd4330a3ca10099b941e2ac65b81783eac94e63fb4d4c32c337c37688e61914e"
+    },
+    {
+      "path": "port/engine-audio/audio_sample_v34.cpp",
+      "frozen": "owned/port/engine-audio/audio_sample_v34.cpp",
+      "sha256": "7a31d0493ae300a23be3b269badc20c47d617d88ddd364f43b622a8d4636fd32"
+    },
+    {
+      "path": "port/engine-audio/audio_sample_v34.hpp",
+      "frozen": "owned/port/engine-audio/audio_sample_v34.hpp",
+      "sha256": "fbc6cccd2b4c197fb1122c428e322bcf9803721eca7707a0341bdc5f8c8e26ac"
+    },
+    {
+      "path": "port/engine-audio/audio_spatial_v34.cpp",
+      "frozen": "owned/port/engine-audio/audio_spatial_v34.cpp",
+      "sha256": "9bf555424502a015694af03c217d156fa2404e8d8a9b39f2d30f2c75e42982f9"
+    },
+    {
+      "path": "port/engine-audio/audio_spatial_v34.hpp",
+      "frozen": "owned/port/engine-audio/audio_spatial_v34.hpp",
+      "sha256": "0260968fcc40ea69fc3fe8a914c53c535e8918f519e98f0f56755146d8cd28a2"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-envelope-gold.bin",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-envelope-gold.bin",
+      "sha256": "29c43428c5a11b543958b3096a5256f5a3e664db3fd8fed3053c33cee79222d8"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-event-gold.bin",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-event-gold.bin",
+      "sha256": "68324ad0b71dce497da7fbb31939e9f39fa95cd46843254760053c4f54eb62e0"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-handoff.md",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-handoff.md",
+      "sha256": "328ea9c26da4dcdbbdabcfc1db4e70da2be3658589a4726390fd5c2586d21898"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-host.json",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-host.json",
+      "sha256": "8717d0944e7609674425f83bf13ee0e0c520973273f63dc87794f9bb4bef54e6"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-ima-gold.bin",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-ima-gold.bin",
+      "sha256": "35a93ac7a0d1cf226ea2952e85bb273d5b7ff763180f37b9344448424ecc8819"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-original-proof.json",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-original-proof.json",
+      "sha256": "e4697bbce47935b0a6ba5caaa1cab0f815f62d00b1467b1611ae0447b2202dc0"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-spatial-gold.bin",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-spatial-gold.bin",
+      "sha256": "165d0a8c7cd9dcdaf9d853f2cecf42a8620411452a69533134480c49a4dc970d"
+    },
+    {
+      "path": "port/engine-audio/reports/audio-v34-strict-compile.json",
+      "frozen": "owned/port/engine-audio/reports/audio-v34-strict-compile.json",
+      "sha256": "ac6930a342bd9126c7fdd116debb9d242dfed3001e478f216d24360984446a91"
+    },
+    {
+      "path": "port/engine-audio/tests/audio_ima_v34_oracle.cpp",
+      "frozen": "owned/port/engine-audio/tests/audio_ima_v34_oracle.cpp",
+      "sha256": "520de912407698d092767cbf8597c647e800b3b0c144af895cf781feb38cf3ac"
+    },
+    {
+      "path": "port/engine-audio/tests/audio_v34_host.cpp",
+      "frozen": "owned/port/engine-audio/tests/audio_v34_host.cpp",
+      "sha256": "0498bccaaff9b79b53c063b625956d211e48620ebdd00c9b94120a14719cb08b"
+    },
+    {
+      "path": "port/engine-audio/tools/compile_audio_v34.py",
+      "frozen": "owned/port/engine-audio/tools/compile_audio_v34.py",
+      "sha256": "e2475cc45b390e2c5a753f9a1856507408f7081066a5abe317a155394fe96a77"
+    },
+    {
+      "path": "port/engine-audio/tools/freeze_audio_v34.py",
+      "frozen": "owned/port/engine-audio/tools/freeze_audio_v34.py",
+      "sha256": "534791e22bb1497c9098e7a85d7c9d272f82e84f8d497175ffdc293eb801a00b"
+    },
+    {
+      "path": "port/engine-audio/tools/prove_audio_v34_original.py",
+      "frozen": "owned/port/engine-audio/tools/prove_audio_v34_original.py",
+      "sha256": "30b6706082e3d171071ebfe1fe7301d2589341220cb13ae155cf73b433e30a2f"
+    },
+    {
+      "path": "port/engine-audio/tools/run_audio_v34_host.py",
+      "frozen": "owned/port/engine-audio/tools/run_audio_v34_host.py",
+      "sha256": "59fdc5dd2a6d244fd2afc0acacd6fef9a5a8fec8ed4b8667c57b8d88f938c4a3"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/distance-gain.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/distance-gain.asm",
+      "sha256": "aa367791dd1bb8a29b094006228648b44ac9faa228c7973934ba4f8c04a53c95"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/doppler-pitch.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/doppler-pitch.asm",
+      "sha256": "572d56c7d50c9db9b570adfb24a0e22d0b3880412b5f88798fc6ddb2a890a711"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/mix-segment.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/mix-segment.asm",
+      "sha256": "124f8bb35c7f87f3919aa1fa540ab8d2783aefcbf8ea33e4776f626c830bda63"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/native-ima-decode.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/native-ima-decode.asm",
+      "sha256": "ee590e34088276a9bba7a61dd4b34edce35592a96ebea6ae5a3e4539a9c328a7"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/native-parse.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/native-parse.asm",
+      "sha256": "050ffb2cd3e98ba4b5a235d715d9affbf0fb557759eb9bfc02326cc1a2a4ff6b"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/routing-census.json",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/routing-census.json",
+      "sha256": "2df52f7fc34d3ba6f7a04a354b27de566b2b74e7735def048d8bec553d2687e8"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/sounds.xml",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/sounds.xml",
+      "sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/sounds_he.xml",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/sounds_he.xml",
+      "sha256": "7e3d82d91f923db02c331cea89c4036f9f7df479ad39af3a6cf40407a581c9d7"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/stereo-panning.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/stereo-panning.asm",
+      "sha256": "bbfe46a7fcd7eca30a65197297ec33f6c926b70029fe451bce493b2d6c8173c6"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/update-current-segment.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/update-current-segment.asm",
+      "sha256": "89c8bd3633258bd0b11ed317d75243a986bd4889d5037d2d03a2924d2fc314ad"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/update-old-segment.asm",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/update-old-segment.asm",
+      "sha256": "f1a74067f3fd647bb617bcbe6f76cba51c59f9d26a3f6e2a3985d8240c313da1"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/vxn-chunks.txt",
+      "frozen": "owned/port/level-world/reference/audio-source-v34/vxn-chunks.txt",
+      "sha256": "cf14c678f1906373f47e883a53612dc4d01326b2e5836db1999190f4d5ad2696"
+    },
+    {
+      "path": "port/level-world/tools/audit_audio_source_v34.py",
+      "frozen": "owned/port/level-world/tools/audit_audio_source_v34.py",
+      "sha256": "efb44b1f2fedbc7010a8da7a049445616000909b3365884ca3325b7b20b1de5a"
+    },
+    {
+      "path": "port/level-world/vox_audio_bridge_v34.cpp",
+      "frozen": "owned/port/level-world/vox_audio_bridge_v34.cpp",
+      "sha256": "226f7d6f400590235ee7a8e5891c64683270d5e79b5ee1526a51124e14954534"
+    },
+    {
+      "path": "port/level-world/vox_audio_bridge_v34.hpp",
+      "frozen": "owned/port/level-world/vox_audio_bridge_v34.hpp",
+      "sha256": "ddf37959bb81eef322be159a1354f20eb6b9e2cc24bb40eb1def37fc6c2545c8"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "port/engine-animation/tests/animation_blend_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/animation_blend_differential.py",
+      "sha256": "d989bde7ea51d0f1e2e105bfe794e45066cf97c94a2efaf927d9558959aec42d"
+    },
+    {
+      "path": "port/engine-animation/tests/compiled_transforms_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/compiled_transforms_differential.py",
+      "sha256": "a06f353a638183af8f15e1869d6c1fad7f1b84e2e06864c05bcf4ebec23776f9"
+    },
+    {
+      "path": "port/engine-animation/tests/particle_cloud_models_v1_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/particle_cloud_models_v1_differential.py",
+      "sha256": "303c64219c12b960aaf6bed8f21c4126644754d9674074ceb9faf7719caa94bb"
+    },
+    {
+      "path": "port/engine-animation/tests/particle_factory_differential.py",
+      "frozen": "dependency-snapshot/port/engine-animation/tests/particle_factory_differential.py",
+      "sha256": "b4debf9cf8c43ceacdc1be4a320524f8bdaee5db425ee7ed767072cea77faaf8"
+    },
+    {
+      "path": "port/engine-resources/tests/cpu.py",
+      "frozen": "dependency-snapshot/port/engine-resources/tests/cpu.py",
+      "sha256": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a"
+    },
+    {
+      "path": "port/game-data/combat.hpp",
+      "frozen": "dependency-snapshot/port/game-data/combat.hpp",
+      "sha256": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958"
+    },
+    {
+      "path": "port/game-data/combat_result.hpp",
+      "frozen": "dependency-snapshot/port/game-data/combat_result.hpp",
+      "sha256": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120"
+    },
+    {
+      "path": "port/level-world/character_combat_sound_v1.hpp",
+      "frozen": "dependency-snapshot/port/level-world/character_combat_sound_v1.hpp",
+      "sha256": "73a686daebea0f9d619be3bde0f8bba9a2b349757c7dadd3eee09dca4a108a53"
+    },
+    {
+      "path": "port/level-world/vox_play3d_owner_v2.cpp",
+      "frozen": "dependency-snapshot/port/level-world/vox_play3d_owner_v2.cpp",
+      "sha256": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc"
+    },
+    {
+      "path": "port/level-world/vox_play3d_owner_v2.hpp",
+      "frozen": "dependency-snapshot/port/level-world/vox_play3d_owner_v2.hpp",
+      "sha256": "a073edeec74610b44afbae5eaa8571d6ddf173ec4f50543c700b60da58d47a8b"
+    }
+  ],
+  "assets": [
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_pld_comdemnation.wav",
+      "uri": "data/sounds/sfx_skill_warrior_pld_comdemnation.wav",
+      "bytes": 138042,
+      "sha256": "3b9b8f688d194bec8df86068fdb3f6f1c21979c90494b4d0cc047aed827d07b3"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_stone_2.wav",
+      "uri": "data/sounds/sfx_fs_walk_stone_2.wav",
+      "bytes": 31956,
+      "sha256": "41da98302cc6e74fc85ca92c08d6ea5f702b3cda94e3da5972a4831c6be24e0a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_arc_venom_shot.wav",
+      "uri": "data/sounds/sfx_skill_rogue_arc_venom_shot.wav",
+      "bytes": 90246,
+      "sha256": "4a7d77f2207a54d9b9b7669e1843752db6c1f42cc8419ec62a8525773878e8a6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_object_2_22.wav",
+      "uri": "data/sounds/sfx_impact_arrow_object_2_22.wav",
+      "bytes": 49446,
+      "sha256": "d721264c452dcd2285c328dba6d95186da6256e600a4a7b315fdc28b4dc2b290"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_flesh_1.wav",
+      "uri": "data/sounds/sfx_impact_arrow_flesh_1.wav",
+      "bytes": 39120,
+      "sha256": "368efaac9624606689bf177b23657365ddf2ea712c55527bcdd8568acf1c3969"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_desert_pinwheel.wav",
+      "uri": "data/sounds/sfx_skill_rogue_desert_pinwheel.wav",
+      "bytes": 144240,
+      "sha256": "400d08ffb7fd92c26fc0f7b82c566678dd8b120cfc5bdb2fc6d980f05a3a3cb3"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_gothicus_edward_1.wav",
+      "uri": "data/sounds/sfx_cutscene_gothicus_edward_1.wav",
+      "bytes": 539212,
+      "sha256": "f9c8a44b0146f024a25eafc6e36835f7f224e469699512705150b3e4f2253431"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_character_hurt_3_22.wav",
+      "uri": "data/sounds/sfx_character_hurt_3_22.wav",
+      "bytes": 16512,
+      "sha256": "c6e54595cf340990687127263774818adcedd978fc7cfc06567a941c94c8ab6d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_medium_2_22.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_medium_2_22.wav",
+      "bytes": 36204,
+      "sha256": "1e3b8a8bc88018237b5555ab793e70ad75a9a54b284b0b78e5536f3a763bce25"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_sword_1_22.wav",
+      "uri": "data/sounds/sfx_swoosh_sword_1_22.wav",
+      "bytes": 15836,
+      "sha256": "b4119576a8bd3f6536698b7d0b1f50a1ae2459182f3f55e15c9ad3bf79b1e779"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_menu_shop_nodeal.wav",
+      "uri": "data/sounds/sfx_menu_shop_nodeal.wav",
+      "bytes": 16152,
+      "sha256": "f812e3f6f9664a6c84a776410fa938dde62fc73a1cb539a06b0fbda526e5a0e7"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_dagger_1_22.wav",
+      "uri": "data/sounds/sfx_swoosh_dagger_1_22.wav",
+      "bytes": 13696,
+      "sha256": "6280cb748779ef312e59a9fab6f156cbbf3ae2c2cf59cdd24d1041c715454ec9"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_flesh_1_22.wav",
+      "uri": "data/sounds/sfx_impact_arrow_flesh_1_22.wav",
+      "bytes": 26970,
+      "sha256": "76cbc535530a09283b4485b6094263a1490bc6c27521d529bd50b74093384519"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_vicious_strike.wav",
+      "uri": "data/sounds/sfx_skill_rogue_vicious_strike.wav",
+      "bytes": 145758,
+      "sha256": "daf2ebe9dbe5a56681cb711a66537dac1bf24804cf9e0c9503115bbf72f48108"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_object_1.wav",
+      "uri": "data/sounds/sfx_impact_arrow_object_1.wav",
+      "bytes": 68944,
+      "sha256": "47cad8f9823100b166f5392b65af1447995dfff213a9dad160b16a6980067893"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_critical hit_1.wav",
+      "uri": "data/sounds/sfx_critical hit_1.wav",
+      "bytes": 85080,
+      "sha256": "c9176cd83804b26c250f94ddf53bfba6b1f0393d8892a8cae8eb76ef5afc86e1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_swamp_intro_faerie.wav",
+      "uri": "data/sounds/sfx_cutscene_swamp_intro_faerie.wav",
+      "bytes": 744956,
+      "sha256": "e9be91ab616fb53101c0feeec4846ed5d153e158c988d2640928069a44d9c298"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_stone_3.wav",
+      "uri": "data/sounds/sfx_fs_walk_stone_3.wav",
+      "bytes": 31468,
+      "sha256": "ef9d71558757ada5e293b0e968c2a699e0c463e5e8f00a1f9efeaec1b96436ab"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_swamp_sfx_water.vxn",
+      "uri": "data/sounds/m_level_swamp_sfx_water.vxn",
+      "bytes": 12278272,
+      "sha256": "d386f78bbf031117d2b99e458ca5b2ff88e6252b1b4ea349883b3159587b7172"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_menu_shop_deal.wav",
+      "uri": "data/sounds/sfx_menu_shop_deal.wav",
+      "bytes": 48002,
+      "sha256": "b128d3adb405b7e9b95e0606ea36dcbaad9a0c6473a076401d85612ea4d4be1a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_stone_1.wav",
+      "uri": "data/sounds/sfx_fs_walk_stone_1.wav",
+      "bytes": 31728,
+      "sha256": "e92fa6b395dc90af785fdbd7162149daf71848e969f5ab16d69f853161bf8220"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_metal_3_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_metal_3_22.wav",
+      "bytes": 22078,
+      "sha256": "938c93336e09a400885fa792b122104f0ec2ac4428bb76075440e5f9f34ab1f2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_flesh_2.wav",
+      "uri": "data/sounds/sfx_impact_arrow_flesh_2.wav",
+      "bytes": 32204,
+      "sha256": "97ab97f71435b2febe17a228066f83627862bafa950e71f157c6872d1607ba92"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_flesh_3.wav",
+      "uri": "data/sounds/sfx_impact_arrow_flesh_3.wav",
+      "bytes": 47182,
+      "sha256": "5986389d7d434315003423cc6070a095c1bdbe76a5ab450ee6330bef5141ced5"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_ilu_hold_time.wav",
+      "uri": "data/sounds/sfx_skill_mage_ilu_hold_time.wav",
+      "bytes": 338284,
+      "sha256": "c486e54de0b79f1c90ca75f5d83ae02fb71b0e42e7ce0733cfcf2cf6fe1355ea"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_npc_priest_hurt_3_22.wav",
+      "uri": "data/sounds/sfx_npc_priest_hurt_3_22.wav",
+      "bytes": 14790,
+      "sha256": "304ac6818cea1482ef9cf8f2a177d8dc2156136a01951541d85b7ece2dba1991"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_menu_confirm.wav",
+      "uri": "data/sounds/sfx_menu_confirm.wav",
+      "bytes": 248108,
+      "sha256": "b8bd71d85b23c9a6f24b4650d98fc533b5a6e11034bbfb6277294fc1c9705ae5"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_gothicus_edward_2.wav",
+      "uri": "data/sounds/sfx_cutscene_gothicus_edward_2.wav",
+      "bytes": 208156,
+      "sha256": "dc85628250a0a5422673e9d374f306f235fcb69eb30d6c0e301de338811f7de0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_3_22.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_3_22.wav",
+      "bytes": 27376,
+      "sha256": "87fb94bc9b5d4a6189f8cd2433fbc70f8f8875089952d9529847b25c675ec498"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_dark_queen.wav",
+      "uri": "data/sounds/m_boss_dark_queen.wav",
+      "bytes": 2481300,
+      "sha256": "5d14957b70217b83bd8762b00ea08333da5001591a148bea8c4882492dbc3126"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_1_22.wav",
+      "uri": "data/sounds/sfx_impact_metal_1_22.wav",
+      "bytes": 12486,
+      "sha256": "b400ae498c6e4a56d25d36eb796dae8d35ba81a9a52881fe19d20f0f3e933e1c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_water_4.wav",
+      "uri": "data/sounds/sfx_fs_walk_water_4.wav",
+      "bytes": 67922,
+      "sha256": "c4729b49adabae3232b985ce966676a1de5c51e9bf9201b4f78a6d9d2277790c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_object_2.wav",
+      "uri": "data/sounds/sfx_impact_arrow_object_2.wav",
+      "bytes": 71736,
+      "sha256": "49ee16475071a412b51a2c000341e210f46ec9b76cfa422e9931aa7e800c0f73"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_moth.wav",
+      "uri": "data/sounds/sfx_cutscene_moth.wav",
+      "bytes": 374376,
+      "sha256": "47d1460f473d1b7da29a9ea4f4aab598cda900980b6e1b7e8dbf06c338da4258"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_3.wav",
+      "uri": "data/sounds/sfx_impact_metal_3.wav",
+      "bytes": 20174,
+      "sha256": "2ec5965acca61fcdf01cfb3bbc6883701594341b7970a8aa13cb0fa220ac7ce1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_menu_select.wav",
+      "uri": "data/sounds/sfx_menu_select.wav",
+      "bytes": 10784,
+      "sha256": "8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_npc_priest_hurt_2.wav",
+      "uri": "data/sounds/sfx_npc_priest_hurt_2.wav",
+      "bytes": 24182,
+      "sha256": "a7124a552b3052b49723acb58763b835a1a9f69c7764e2f2689548fcf3150dbc"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_friend_left_game.wav",
+      "uri": "data/sounds/sfx_friend_left_game.wav",
+      "bytes": 1436176,
+      "sha256": "a273a419948e795a62ae24c2905c5cd2dece2eefbddd5311f1a6dcdc1b884657"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_stone_4.wav",
+      "uri": "data/sounds/sfx_fs_walk_stone_4.wav",
+      "bytes": 31420,
+      "sha256": "af43ca97b97b797e1cd0b52d4be829e47b2997dba621525bf19d9fa2ab42dfe2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_arc_maim_shot.wav",
+      "uri": "data/sounds/sfx_skill_rogue_arc_maim_shot.wav",
+      "bytes": 77316,
+      "sha256": "2b07aa5bba8fdfd664324ee64f18791159447f21ab8ad80267e494bc45520074"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_metal_1_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_metal_1_22.wav",
+      "bytes": 21868,
+      "sha256": "88fa9b116677a7f0f1fcee8e2033d3d86418b43830c66f1332aa7807e099d625"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_ilu_hold_time_hit.wav",
+      "uri": "data/sounds/sfx_skill_mage_ilu_hold_time_hit.wav",
+      "bytes": 377508,
+      "sha256": "33b2a22d202dba2744d6148211c8bbecea243ccd3d533fc22e798ce3b0d8d4f1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mage_staff_elemental_ice.wav",
+      "uri": "data/sounds/sfx_mage_staff_elemental_ice.wav",
+      "bytes": 140672,
+      "sha256": "57fec44b685df57e5921afb882a6ae35d77b53738733109ef456c7e593c154de"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_nec_raise.wav",
+      "uri": "data/sounds/sfx_skill_mage_nec_raise.wav",
+      "bytes": 410202,
+      "sha256": "b109cdc31a07c5074dde7b85b68cfa2272dfa52e3fde82d88bdae6f87d82dfe8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_water_1.wav",
+      "uri": "data/sounds/sfx_fs_walk_water_1.wav",
+      "bytes": 67922,
+      "sha256": "068b80b408f3adfc42f35ca95493cfbfb3633e66e76dbc3849167780a79ed7d8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_bandit_lair_river_loop.wav",
+      "uri": "data/sounds/sfx_bandit_lair_river_loop.wav",
+      "bytes": 430126,
+      "sha256": "cc0fab328aa6b797e97fed37984e0227ff60fcd4303a8a10b3d76b449c287324"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_1_22.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_1_22.wav",
+      "bytes": 31970,
+      "sha256": "827f61710a732353b0a358782a3d0d6f1d98803fea6316ed37e6930b8940d5a7"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_3_22.wav",
+      "uri": "data/sounds/sfx_impact_metal_3_22.wav",
+      "bytes": 13916,
+      "sha256": "332c48c82f8824b384f9ddee924668a9db0f4c2d4485ebe909eb37e3f9b4b8d6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_medium_1.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_medium_1.wav",
+      "bytes": 55136,
+      "sha256": "3563991b945869f0daa4f779ace6c7d66f6f921a503a4dbbb7ccd19707fd166e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_thunder_braid_add_2.wav",
+      "uri": "data/sounds/sfx_skill_mage_thunder_braid_add_2.wav",
+      "bytes": 134726,
+      "sha256": "02427ca8c9712fb9753e8299c2d18be7e35da1fc3b4a6da0895b90ab9c8ab175"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_pld_spiritual_sight.wav",
+      "uri": "data/sounds/sfx_skill_warrior_pld_spiritual_sight.wav",
+      "bytes": 140546,
+      "sha256": "93fffbfb7ec71ab86c1e6e887d27a138c656a1928f4950c8d4078f3b0ec78905"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_npc_priest_hurt_3.wav",
+      "uri": "data/sounds/sfx_npc_priest_hurt_3.wav",
+      "bytes": 21442,
+      "sha256": "6223f76206b486b94706ebe6bc6d1a6a5d63b43dad42a8ed4cb5bd3eb0560c86"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_elemental_fire.wav",
+      "uri": "data/sounds/sfx_impact_elemental_fire.wav",
+      "bytes": 90444,
+      "sha256": "68901c2a9957a2587211562009b517da6f45c50eec0efd637856231429c4d306"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_2.wav",
+      "uri": "data/sounds/sfx_impact_metal_2.wav",
+      "bytes": 29904,
+      "sha256": "27adeda94f89b2945163017025f742e795a6dcef8f6d48074861072bcf8234f2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_assassin.wav",
+      "uri": "data/sounds/m_boss_assassin.wav",
+      "bytes": 2218132,
+      "sha256": "af9056bc398f882d3283365b63e18b66454df37cc111c8cc72ac4582540ba8ea"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_bsk_annihilating_spin.wav",
+      "uri": "data/sounds/sfx_skill_warrior_bsk_annihilating_spin.wav",
+      "bytes": 152484,
+      "sha256": "b6a6929a5811982067400abf90414ee6939cb2c2873237651659e5249609804c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_npc_priest_hurt_1.wav",
+      "uri": "data/sounds/sfx_npc_priest_hurt_1.wav",
+      "bytes": 28824,
+      "sha256": "65f020e30b8eb363a671e5193cef6020bfb1f71a093dbd4818b44972743e5976"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_hell_king_step3_loop.wav",
+      "uri": "data/sounds/m_boss_hell_king_step3_loop.wav",
+      "bytes": 2453652,
+      "sha256": "f91b4a754e14c6895ed6164206b604b6e4c7366e4e081a1021240e70425a2775"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_hell_king_step2_loop.wav",
+      "uri": "data/sounds/m_boss_hell_king_step2_loop.wav",
+      "bytes": 1148052,
+      "sha256": "c63b5e93117a6aed2089d3301e3ab5c01a7e5891dfdc4fb18ddf0286f89c92bd"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_medium_3.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_medium_3.wav",
+      "bytes": 64776,
+      "sha256": "57dd615ee2e53213bff26231272e2fd1defcda6f82fe0c6cc610079f2d94765c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_shield_rush.wav",
+      "uri": "data/sounds/sfx_skill_warrior_shield_rush.wav",
+      "bytes": 89434,
+      "sha256": "121efb84f631292615d6c28fe7aff40c0228afbdce9e01315adb8a84069d53d7"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_heel_strike.wav",
+      "uri": "data/sounds/sfx_skill_rogue_heel_strike.wav",
+      "bytes": 172388,
+      "sha256": "a7bfd930df3ac89d8b5ceb2ed1d0c9e37322c7826e06f8090c347d76a0446f5a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_water_3.wav",
+      "uri": "data/sounds/sfx_fs_walk_water_3.wav",
+      "bytes": 67922,
+      "sha256": "493318be6dfb155448e7b06ff0306fb55fa9952d2bb3acf3a3046fe28083bc97"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_thunder_braid_loop.wav",
+      "uri": "data/sounds/sfx_skill_mage_thunder_braid_loop.wav",
+      "bytes": 307058,
+      "sha256": "1f477a109b1de58d52697b6fef28d801663847ad00db73bcf963740ff7a46233"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_red_desert_sfx_red_desert.vxn",
+      "uri": "data/sounds/m_level_red_desert_sfx_red_desert.vxn",
+      "bytes": 8946176,
+      "sha256": "76916ba242d32969211ef7db2912fdaf77046a623f659d6a4bd5dbe99a7ee3c2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_water_2.wav",
+      "uri": "data/sounds/sfx_fs_walk_water_2.wav",
+      "bytes": 67922,
+      "sha256": "e5c5f41f0ac9cb582908c0b4222d49646350855fea6fe28489a29f148251603a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_character_death.wav",
+      "uri": "data/sounds/sfx_character_death.wav",
+      "bytes": 81226,
+      "sha256": "1641d0b221c888f619780c652c2e8364f9938175f6939870a3cdf91f3d8fbb42"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_medium_2.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_medium_2.wav",
+      "bytes": 52520,
+      "sha256": "73a343567efbf621c9f310f6d0b5c0f4f06a5e17a1a50e74e0596d78bdaa2d81"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_water_small.wav",
+      "uri": "data/sounds/sfx_faerie_water_small.wav",
+      "bytes": 144892,
+      "sha256": "caf95d73c1f48ba375f74d28aa24fdd96445a1fd36c9526b4febc30357793e63"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_earth_troll_die.wav",
+      "uri": "data/sounds/sfx_cutscene_earth_troll_die.wav",
+      "bytes": 1406044,
+      "sha256": "99a6520185ec487ff07201da14902c72ed79958ae9c474db4709001fead9147a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_thunder_braid_add_1.wav",
+      "uri": "data/sounds/sfx_skill_mage_thunder_braid_add_1.wav",
+      "bytes": 134726,
+      "sha256": "38ed3e34f4e071a2772cfd720f892a135ca791101292ae8081056c11516eb96b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_water_big.wav",
+      "uri": "data/sounds/sfx_faerie_water_big.wav",
+      "bytes": 277086,
+      "sha256": "7334b03e327f520b4d2d91426d352eba344918ef44207bbaee2e97fc0b4bc5e8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_pld_crusade.wav",
+      "uri": "data/sounds/sfx_skill_warrior_pld_crusade.wav",
+      "bytes": 172184,
+      "sha256": "3bfb95e0a86bb827b843fb7b84a7a12679c01c9ff946362f4d393dc62f19020c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_1.wav",
+      "uri": "data/sounds/sfx_impact_metal_1.wav",
+      "bytes": 18100,
+      "sha256": "4a30e1295e254a5aa477b71937c5790f40d46f3a5ff5df6346b4d86f782e216e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_southroad_waterfall_loop_1.wav",
+      "uri": "data/sounds/sfx_southroad_waterfall_loop_1.wav",
+      "bytes": 136020,
+      "sha256": "e9cb089f5675b10c98aec4695ce057296fedfb30d1a3d193a36b0fed64068f92"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wet_floor_2.wav",
+      "uri": "data/sounds/sfx_fs_walk_wet_floor_2.wav",
+      "bytes": 32070,
+      "sha256": "5214f1188db30fff77fb132a0c2b5557b0854b3c2a15117ff37442cdcf9cb384"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wood_2.wav",
+      "uri": "data/sounds/sfx_fs_walk_wood_2.wav",
+      "bytes": 32306,
+      "sha256": "cc881893c0ec0d28d34a9d3b04b47b516715d871020a802c7df8fc7df4984597"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_water_medium.wav",
+      "uri": "data/sounds/sfx_faerie_water_medium.wav",
+      "bytes": 158312,
+      "sha256": "36cd8bb66933b21104cc24b52f7d7e1420e9eaad1d5476fb82d263894bef627c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_swamp_king_die.wav",
+      "uri": "data/sounds/sfx_cutscene_swamp_king_die.wav",
+      "bytes": 289496,
+      "sha256": "3322eb1bb020e2449c986f888736690e1d9772392774f4083973cff0881328f6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_fire_medium.wav",
+      "uri": "data/sounds/sfx_faerie_fire_medium.wav",
+      "bytes": 161454,
+      "sha256": "635fc9f570ee210ad01d899e1009243fd5b22fd44275199c5298af9c4e5d4cb8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_headsplitter.wav",
+      "uri": "data/sounds/sfx_skill_warrior_headsplitter.wav",
+      "bytes": 131034,
+      "sha256": "0b064bb4781ba1a64274ac2eb162ab7bc18f21fea3b70f185bd668560961de25"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_block_1_22.wav",
+      "uri": "data/sounds/sfx_impact_block_1_22.wav",
+      "bytes": 26938,
+      "sha256": "27f926e2c9497c309b1b42734db0f65fe6f6540b8245babc89c389aabe1a061e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_energy_source_loop.wav",
+      "uri": "data/sounds/sfx_energy_source_loop.wav",
+      "bytes": 525616,
+      "sha256": "5dea009cdb86befe60cd7610f1f57dbdd42518be4ff75200607c468cea455402"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_unnamed_one_fire_loop.wav",
+      "uri": "data/sounds/sfx_unnamed_one_fire_loop.wav",
+      "bytes": 554033,
+      "sha256": "a52662cebc995c655540bc91a7f08807637e0eb089db82d874825434af8badca"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_dagger_1.wav",
+      "uri": "data/sounds/sfx_swoosh_dagger_1.wav",
+      "bytes": 19854,
+      "sha256": "db50bb97e237ef2acb905959cef90c0395b8d0ca0ad62bf9e714c34cf0b8ec77"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_lightning_small.wav",
+      "uri": "data/sounds/sfx_faerie_lightning_small.wav",
+      "bytes": 269420,
+      "sha256": "3857916c1a006a09bb1cd017327970a8ca10cb1c7a1e04d31f53ab6b1e8efa9f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_wind.wav",
+      "uri": "data/sounds/sfx_faerie_wind.wav",
+      "bytes": 214572,
+      "sha256": "64b72c3f91d56e7b62c480b9b5ac056dc10e68ec90295689a323be9ca163aed0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_act_completed.wav",
+      "uri": "data/sounds/sfx_act_completed.wav",
+      "bytes": 933140,
+      "sha256": "1aa5d8b13f0f48d77caba3c5f3d02ef6cc2abba6a1bdd67effdd660ea4c4f7b0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_character_hurt_1.wav",
+      "uri": "data/sounds/sfx_character_hurt_1.wav",
+      "bytes": 32044,
+      "sha256": "4386cbbc01d12cfb87324ac012652f6e28f2552f6eed0f798d470bd8f2851156"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_arc_rain_of_arrows.wav",
+      "uri": "data/sounds/sfx_skill_rogue_arc_rain_of_arrows.wav",
+      "bytes": 69400,
+      "sha256": "6cfa00a1ab5381888f8c96dc62da16d0b36eda88dc9c4acd73d643ead3e95762"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_ass_assassinate.wav",
+      "uri": "data/sounds/sfx_skill_rogue_ass_assassinate.wav",
+      "bytes": 203168,
+      "sha256": "09e3f0bbf999ec36bc10c17ab10529492829923fb02c0700ddc567ac67c87b71"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wood_3.wav",
+      "uri": "data/sounds/sfx_fs_walk_wood_3.wav",
+      "bytes": 32288,
+      "sha256": "3525ede59327f4b7e0f5080403664d74ab99d67ab35b8b423fdbd5b5609e5385"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wet_floor_3.wav",
+      "uri": "data/sounds/sfx_fs_walk_wet_floor_3.wav",
+      "bytes": 32094,
+      "sha256": "5995b2e92b461e0c0632d8a2bc88deb6a850374c05f0c3c4317a1fec06854edc"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wet_floor_1.wav",
+      "uri": "data/sounds/sfx_fs_walk_wet_floor_1.wav",
+      "bytes": 32094,
+      "sha256": "7ec3b0ccb9b2619950455e25d8734f68eb81a7e73019484de647a9fa2add9691"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_southroad_waterfall_loop_2.wav",
+      "uri": "data/sounds/sfx_southroad_waterfall_loop_2.wav",
+      "bytes": 136020,
+      "sha256": "43b5765d7eb998404df9d676f6eaadbdb7b865e8c03854c28bef3396f78ba856"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mc_shoot_arrow.wav",
+      "uri": "data/sounds/sfx_mc_shoot_arrow.wav",
+      "bytes": 49146,
+      "sha256": "3adde0fb0212ab482e8e9ee6ce02760465510274adad0558e2f0edb6fc336346"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_safe_zone_01_sfx_red_desert.wav",
+      "uri": "data/sounds/m_safe_zone_01_sfx_red_desert.wav",
+      "bytes": 3591228,
+      "sha256": "e37503f6320af6a275039ab028a1ae40255f5bf73e03f0d21c6de7b3ddf7098e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wood_1.wav",
+      "uri": "data/sounds/sfx_fs_walk_wood_1.wav",
+      "bytes": 31828,
+      "sha256": "1dc6ae96e8abcaf144febe285454dc1adda53948ce94c3933fc92cc190b08295"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_ilu_nightmare.wav",
+      "uri": "data/sounds/sfx_skill_mage_ilu_nightmare.wav",
+      "bytes": 205128,
+      "sha256": "87b4ce3d0c3f22174bd418a7dda8f30b5c271ba94278e5bbff2786812190a310"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_character_hurt_3.wav",
+      "uri": "data/sounds/sfx_character_hurt_3.wav",
+      "bytes": 23942,
+      "sha256": "268a3f95047a361a2d9206703a8eb89f0106a96b86f05e60d88599859f92a6df"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_friend_death.wav",
+      "uri": "data/sounds/sfx_friend_death.wav",
+      "bytes": 1036480,
+      "sha256": "6da88031ba69fcef2991ddc345559a9e227ea834b5ef44a67a7871f338b6042d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_icy_cliff_sfx_ice_hub.vxn",
+      "uri": "data/sounds/m_level_icy_cliff_sfx_ice_hub.vxn",
+      "bytes": 10463744,
+      "sha256": "b4e64c5a565ca357b1786f7a8ff138be87f4a3b5051f2feda888db096f47b6f0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sounds_he.xml",
+      "uri": "data/sounds/sounds_he.xml",
+      "bytes": 102414,
+      "sha256": "7e3d82d91f923db02c331cea89c4036f9f7df479ad39af3a6cf40407a581c9d7"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wood_1_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_wood_1_22.wav",
+      "bytes": 21946,
+      "sha256": "9c420a99d69283570928ad700d3d79f22673e8af8e4056071f266310cf04c409"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_dagger_2.wav",
+      "uri": "data/sounds/sfx_swoosh_dagger_2.wav",
+      "bytes": 16334,
+      "sha256": "810594c7f08298d46208ea0b0539852b2e96c4ae48bf708aca52742861988d2d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_arc_pierce_shot.wav",
+      "uri": "data/sounds/sfx_skill_rogue_arc_pierce_shot.wav",
+      "bytes": 74748,
+      "sha256": "4ce818fd5f7ef79e2147ffcfcf7960b1ce8fd1d3605fe078f239615144c1128f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_metal_4.wav",
+      "uri": "data/sounds/sfx_fs_walk_metal_4.wav",
+      "bytes": 32150,
+      "sha256": "6b0bed9e554f9711d2969f59094a95f6079f09e5456729ab42dd8b064f143a4c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_character_hurt_2.wav",
+      "uri": "data/sounds/sfx_character_hurt_2.wav",
+      "bytes": 19312,
+      "sha256": "0c0e53e14cb146d634dffe5f4fc1b90a64efbadf289e243c2b3ced05143c95f9"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wet_floor_4.wav",
+      "uri": "data/sounds/sfx_fs_walk_wet_floor_4.wav",
+      "bytes": 32100,
+      "sha256": "1e56d2cc64c1bb082e4011a00bcfbe3ceccb53a090a4949444daad85ba1a800f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fire_loop.wav",
+      "uri": "data/sounds/sfx_fire_loop.wav",
+      "bytes": 598330,
+      "sha256": "93cd8e1624b83f6f289ba89ef2619efce743febe176b1977a6c8ffea4a300cba"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_elemental_wind.wav",
+      "uri": "data/sounds/sfx_impact_elemental_wind.wav",
+      "bytes": 85100,
+      "sha256": "113ef9de8905f0fe71d5e879452ed322d472adeda3d8552a66afcddc81fa22d2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wood_4.wav",
+      "uri": "data/sounds/sfx_fs_walk_wood_4.wav",
+      "bytes": 32432,
+      "sha256": "238c784d44c0a2776f8b2eacfe67e950a66cc9229d6896a20ab4bf01e9a30bac"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_grass_1_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_grass_1_22.wav",
+      "bytes": 27224,
+      "sha256": "cef98914733302bd1df6d0f78204421361a0627cc6ec0b94068f208df967fd9c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_earth_quake.wav",
+      "uri": "data/sounds/sfx_cutscene_earth_quake.wav",
+      "bytes": 381656,
+      "sha256": "ba270d600c956903c1c96e52be62254139b582f30a1945910d7c4c098a5f00dd"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_earthstrike.wav",
+      "uri": "data/sounds/sfx_skill_warrior_earthstrike.wav",
+      "bytes": 258622,
+      "sha256": "b15c2277664d70a130c0c898df2e854f58cc61ac654c8f5e38f5dc82e7bb0c6b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_glowing_rene.wav",
+      "uri": "data/sounds/sfx_cutscene_glowing_rene.wav",
+      "bytes": 277208,
+      "sha256": "ee9b4a55f5662a3303b97cce4a99cad0d0784949c303a1de50f2967eaa0968b9"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_unnamed_one_vortex_fire_loop.wav",
+      "uri": "data/sounds/sfx_unnamed_one_vortex_fire_loop.wav",
+      "bytes": 735788,
+      "sha256": "b46bfef42ee9d29e3eda34c16a1463e63de509da7543a1c3e62e05be43f481f9"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_thunder_braid.wav",
+      "uri": "data/sounds/sfx_skill_mage_thunder_braid.wav",
+      "bytes": 99650,
+      "sha256": "4165d796291c231eb4bc492d0ebe769b641c3b4c1e508d403a9ce924f1608448"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_forbidden_seal_2.wav",
+      "uri": "data/sounds/sfx_cutscene_forbidden_seal_2.wav",
+      "bytes": 1539620,
+      "sha256": "e666db70f9c745f5f70a526b9f2422714d8720db9e7e00d863acfaa6296a47a5"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_ilu_terror.wav",
+      "uri": "data/sounds/sfx_skill_mage_ilu_terror.wav",
+      "bytes": 188774,
+      "sha256": "56fe69c5f86c803255f789f5bb52423380fd3f7e9d61f96416c194637e6709d7"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_metal_1.wav",
+      "uri": "data/sounds/sfx_fs_walk_metal_1.wav",
+      "bytes": 31716,
+      "sha256": "635002e3b1f05884bbf9761691f7defdf7b0c288d4c570d65eadd16d4814f244"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_soldier_enter.wav",
+      "uri": "data/sounds/sfx_cutscene_soldier_enter.wav",
+      "bytes": 212356,
+      "sha256": "3f7517fabf69fe6b7d95bd6552d97add119f3d14310abd65a8c758556205b6ee"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_water_2_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_water_2_22.wav",
+      "bytes": 46816,
+      "sha256": "e30e446dd69f2dec602906e22f82d68991d58b9477528a528cf58d023e20e207"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_quest_panel_up.wav",
+      "uri": "data/sounds/sfx_quest_panel_up.wav",
+      "bytes": 266624,
+      "sha256": "8589707f643a711663c8d02978562c2388c27f36d1f5ecc3df4cf550591d309b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_bsk_crippling_strike.wav",
+      "uri": "data/sounds/sfx_skill_warrior_bsk_crippling_strike.wav",
+      "bytes": 157824,
+      "sha256": "185f8fcc6acacc56983287be0463d6bf8ef395f6d450311e54d816d9d3b14da3"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_doppelganger_statue_explode.wav",
+      "uri": "data/sounds/sfx_skill_mage_doppelganger_statue_explode.wav",
+      "bytes": 103492,
+      "sha256": "4876b7dbfc637267b9a5b9b910a8cd11a18edb8a93bee1d663abb6b726059ff6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_menu_back.wav",
+      "uri": "data/sounds/sfx_menu_back.wav",
+      "bytes": 254588,
+      "sha256": "5de393048fc8c60f0d687d430bb4aa7bf49a317a3f2fe3cbf351e51b2ddc82e5"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_cathedral_sfx_catacomb.vxn",
+      "uri": "data/sounds/m_level_cathedral_sfx_catacomb.vxn",
+      "bytes": 10281472,
+      "sha256": "6c0236d19b66011d986a7fd31a332257d8f689ceea69e049abf90376d33ed909"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_staff_1_22.wav",
+      "uri": "data/sounds/sfx_swoosh_staff_1_22.wav",
+      "bytes": 34270,
+      "sha256": "058299151488cb2ec71dcda0d486ba5aa015b41b525beb69ec0ea1d87cf2cc66"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_steam_loop.wav",
+      "uri": "data/sounds/sfx_steam_loop.wav",
+      "bytes": 351036,
+      "sha256": "e8e754238d0c2e68732666ee7b6ef2774997146002e98caaafc6feabbab8267e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_monster.wav",
+      "uri": "data/sounds/m_boss_monster.wav",
+      "bytes": 1985684,
+      "sha256": "2a0e1a58a6e129233591f069ec94ec259f1bf726932fb0b1ebf9a0226c200cde"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_fire_temple_1.wav",
+      "uri": "data/sounds/sfx_cutscene_fire_temple_1.wav",
+      "bytes": 510288,
+      "sha256": "fb543d8cdecd886e8488bd793c4421077ef1cd9b0f874ee4b32b230d15b1725f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",
+      "uri": "data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",
+      "bytes": 277092,
+      "sha256": "f903b17aeaa66680de99cf9964a34d93dd0f424322360abc3e70c57b06db727a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_quest_complete.wav",
+      "uri": "data/sounds/sfx_quest_complete.wav",
+      "bytes": 800776,
+      "sha256": "94c8b0ca8a7d3072ac9cb4e537f5347008319c995f432cc8733c8237b891c190"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_metal_3.wav",
+      "uri": "data/sounds/sfx_fs_walk_metal_3.wav",
+      "bytes": 32018,
+      "sha256": "c87afedb734514e638fd36d0ffcd4b7aee294d22de3d66fba3d657a6a0333e37"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wet_floor_2_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_wet_floor_2_22.wav",
+      "bytes": 22112,
+      "sha256": "65fe353e94f712d9aa2d64e57d66bbcf749e12935b73375b8919bfa7ebf2bdba"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_forbidden_seal_1.wav",
+      "uri": "data/sounds/sfx_cutscene_forbidden_seal_1.wav",
+      "bytes": 909524,
+      "sha256": "c8d0e3f8553a00f35c4be446d1f2080b88f29e71887e334680231bfcb06d3596"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_magical_shrine_loop.wav",
+      "uri": "data/sounds/sfx_magical_shrine_loop.wav",
+      "bytes": 540840,
+      "sha256": "55477911b56327a450811cd3526a4117f80af896c8ac743d8906e7c5f097bf86"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_metal_2.wav",
+      "uri": "data/sounds/sfx_fs_walk_metal_2.wav",
+      "bytes": 33310,
+      "sha256": "3e871780dd84c550ea2ff32ba2a071f62ee92b03b8b5268126e9d62a3738ab69"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_menu_spending.wav",
+      "uri": "data/sounds/sfx_menu_spending.wav",
+      "bytes": 36426,
+      "sha256": "8535ff7019e1b23cfe356c215457d5ff126db3fe67e4af3cd6376444028b2c7b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_pld_alastor_blessing.wav",
+      "uri": "data/sounds/sfx_skill_warrior_pld_alastor_blessing.wav",
+      "bytes": 205928,
+      "sha256": "0956f46069e99284119c43eefa44716e08d1b16067cc13ed59e423c7ef381659"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_final_loop.wav",
+      "uri": "data/sounds/sfx_cutscene_final_loop.wav",
+      "bytes": 870836,
+      "sha256": "78072c6a54da642593ce530a6170ff2cf5d6aeb7193b161adc8c793cdcff5ea9"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_safe_zone_01_sfx_swamp.wav",
+      "uri": "data/sounds/m_safe_zone_01_sfx_swamp.wav",
+      "bytes": 3591228,
+      "sha256": "9f2dc2ae2df224b4f40434a468f189b12e4cc22da146912f332a5483afdc75fb"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_lightning_medium.wav",
+      "uri": "data/sounds/sfx_faerie_lightning_medium.wav",
+      "bytes": 269420,
+      "sha256": "bef5a848bf96b0ae04d0aa3748b1c5534fc44a6f2e5f5756572264e63a2a04a0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_elemental_earth.wav",
+      "uri": "data/sounds/sfx_impact_elemental_earth.wav",
+      "bytes": 58250,
+      "sha256": "79ab3e108ebe5e8feaba0713dc239397c8940cb8f48945b4b10ac2874455df2b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_final_outro.wav",
+      "uri": "data/sounds/sfx_cutscene_final_outro.wav",
+      "bytes": 1028412,
+      "sha256": "8ad00012eda5be318458a41ffe1bcfb46ee100ac8b5bb4f2bbe4908012c9fcd2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_darkwood_sfx_void_maze.vxn",
+      "uri": "data/sounds/m_level_darkwood_sfx_void_maze.vxn",
+      "bytes": 11692544,
+      "sha256": "416ea9cb2dd9d4cbe865dd62a76e01b46ec94c24fca5e49dd09b2733dea2b2cc"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_southroad_river_loop.wav",
+      "uri": "data/sounds/sfx_southroad_river_loop.wav",
+      "bytes": 407574,
+      "sha256": "f18bb9da9ebd931aad79bd48168e7f9a8d4763055411c96d96defe5a1f39321a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_npc_priest_hurt_2_22.wav",
+      "uri": "data/sounds/sfx_npc_priest_hurt_2_22.wav",
+      "bytes": 16678,
+      "sha256": "3b75b7622a611e802c7683b8c805eb8c0ce2bac684b56da7b2e53019378d91f1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_hell_king_step1_loop.wav",
+      "uri": "data/sounds/m_boss_hell_king_step1_loop.wav",
+      "bytes": 1890452,
+      "sha256": "f7cd6da2c31835b254b2a36ca6b5685b7ff0a946b151e4c9f84cb41c5513372b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_wind_temple_2.wav",
+      "uri": "data/sounds/sfx_cutscene_wind_temple_2.wav",
+      "bytes": 904172,
+      "sha256": "f9a4b58dab6c1d1ce498206272c41dd75d0e2f4650530aa0a9dcc87929894e59"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_escape_castle.wav",
+      "uri": "data/sounds/sfx_cutscene_escape_castle.wav",
+      "bytes": 91930,
+      "sha256": "c4a3580e2084ca0f16c9cdbbf0541a611dd25f66295074575d49cbf88d00c737"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_water_temple_2.wav",
+      "uri": "data/sounds/sfx_cutscene_water_temple_2.wav",
+      "bytes": 231456,
+      "sha256": "05b61ce927e4f2d3a29b86ca768e7ad9a9146b9b855b4adc8273123853d02746"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_doppelganger.wav",
+      "uri": "data/sounds/sfx_skill_mage_doppelganger.wav",
+      "bytes": 128472,
+      "sha256": "0e9955ccc7d8bfad67ff74942586c8e267f18c189ad832c86dff7bf41c848db8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_forbidden_seal_1.wav.wav",
+      "uri": "data/sounds/sfx_cutscene_forbidden_seal_1.wav.wav",
+      "bytes": 1524320,
+      "sha256": "ed4fcb008ae8dbfc9e00b9920c6f62d79fb1e778b838f09be2dbc6693e1728f5"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_passive_skill_activate_4.wav",
+      "uri": "data/sounds/sfx_passive_skill_activate_4.wav",
+      "bytes": 175426,
+      "sha256": "4e515cf89875a6e7c907da432709075bd041ba08571f2989a59cfb70f8cdf45e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_forbidden_seal_cast_loop.wav",
+      "uri": "data/sounds/sfx_cutscene_forbidden_seal_cast_loop.wav",
+      "bytes": 1337760,
+      "sha256": "be027b596e00a3156f688dd7a95a2247679f90088e93d62e0e169014c15c53dc"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_swamp_sfx_swamp.vxn",
+      "uri": "data/sounds/m_level_swamp_sfx_swamp.vxn",
+      "bytes": 12278272,
+      "sha256": "980137ac5b032e5cee50e3f8e6940d31dbd5e0fd0d70346a5167d3c00567e0a8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_darkwood_sfx_darkwood.vxn",
+      "uri": "data/sounds/m_level_darkwood_sfx_darkwood.vxn",
+      "bytes": 11692544,
+      "sha256": "6e5cd6dba229f351bc3d23a65d5575637523a8d768607ab91b6c86cf7f4c78e0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_wind_temple_3.wav",
+      "uri": "data/sounds/sfx_cutscene_wind_temple_3.wav",
+      "bytes": 501868,
+      "sha256": "86fafb7dd277e264c49618397ba5bb5bcce2a6b1c11b3e13e775410bf4b689e0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_nec_pestilence_breath.wav",
+      "uri": "data/sounds/sfx_skill_mage_nec_pestilence_breath.wav",
+      "bytes": 157570,
+      "sha256": "0707c3ed5e8607fc7d5fa357dc52cdbe94fe21c81740e140ec40f3054d0eedff"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_sword_1.wav",
+      "uri": "data/sounds/sfx_swoosh_sword_1.wav",
+      "bytes": 22962,
+      "sha256": "1bbb6dc1042c0558ee0168aea9c424e93bc6ad0f818213773e2aa9512fbe69dc"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_swamp_intro_rene_thunder.wav",
+      "uri": "data/sounds/sfx_cutscene_swamp_intro_rene_thunder.wav",
+      "bytes": 736652,
+      "sha256": "df8c34d863faff3698051447e7962bf7334bd9da7b819d22cfd180e017316770"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_final_intro.wav",
+      "uri": "data/sounds/sfx_cutscene_final_intro.wav",
+      "bytes": 627160,
+      "sha256": "61353354b7ccd511295356f5ef468ca527af7206421fdbcddb665025c8a5cb4d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_hell_sfx_dark.vxn",
+      "uri": "data/sounds/m_level_hell_sfx_dark.vxn",
+      "bytes": 8397312,
+      "sha256": "7f6a40dfd6dbcd9b0f2e6f1e970744bef99272259275605070db0ec8f800bf6c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_character_hurt_2_22.wav",
+      "uri": "data/sounds/sfx_character_hurt_2_22.wav",
+      "bytes": 13322,
+      "sha256": "720a93e29f372d1938ec8b7ab5fd8485086a312beb0f5b57532ee2c214f0154d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_red_desert_sfx_fire.vxn",
+      "uri": "data/sounds/m_level_red_desert_sfx_fire.vxn",
+      "bytes": 8946176,
+      "sha256": "ac3dd427a125fb57d05dc1b1a775f8318ff53759e059e69b48ed85afb955afb4"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_ass_throw_knife.wav",
+      "uri": "data/sounds/sfx_skill_rogue_ass_throw_knife.wav",
+      "bytes": 44338,
+      "sha256": "a2e065d2b2e3fdb1df29d3f7da72fe03ff372ff47a3b281a92c7af2ea5756b27"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_icy_cliff_sfx_wind.vxn",
+      "uri": "data/sounds/m_level_icy_cliff_sfx_wind.vxn",
+      "bytes": 10463744,
+      "sha256": "b084d32bc17a1cc76d80c6f820a68e4ba4e32a1e2a935eb406473cf983639a06"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_wind_temple_1.wav",
+      "uri": "data/sounds/sfx_cutscene_wind_temple_1.wav",
+      "bytes": 466536,
+      "sha256": "afbfcca26f5fd9d955be6cb6ff96e9b22676582dfbc1ce183009111d2abc54fc"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_water_temple_1.wav",
+      "uri": "data/sounds/sfx_cutscene_water_temple_1.wav",
+      "bytes": 806872,
+      "sha256": "06d008464f54e1a041157c26a7b4555a24f816d1aca5cd1716d3710fb39bcbdf"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_level_up.wav",
+      "uri": "data/sounds/sfx_level_up.wav",
+      "bytes": 439048,
+      "sha256": "d91f8320d32f1aae3d1947cd8fa14ce8ac94a230ef17a63480a26258b20e9032"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_fire_big.wav",
+      "uri": "data/sounds/sfx_faerie_fire_big.wav",
+      "bytes": 259736,
+      "sha256": "e23f41ceeb683a9181403869748ef1bd59e8635bc668186d1ecc9fff26cf8a6c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_grass_4_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_grass_4_22.wav",
+      "bytes": 26412,
+      "sha256": "4a876b12f80ab22a9efe4abf988a20b2265479be6b30cc86f27ac6edf0fd2d2c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_ass_concealing_cloud.wav",
+      "uri": "data/sounds/sfx_skill_rogue_ass_concealing_cloud.wav",
+      "bytes": 169264,
+      "sha256": "7fa9e87a3a252cb648a586915716883e9395a9a343f9fdedabbb779f3962fea2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_well_scream_loop.wav",
+      "uri": "data/sounds/sfx_well_scream_loop.wav",
+      "bytes": 854868,
+      "sha256": "d79e11d64d53c43049eb67b874daa53f3a4360b46a03eee1c19e02c8bbe8b880"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cultist_group_chant_loop.wav",
+      "uri": "data/sounds/sfx_cultist_group_chant_loop.wav",
+      "bytes": 398644,
+      "sha256": "b17770b614799bfb72faa061585aae64dccdfb4be3a45b2e72ba3abc5c46e091"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_sword_2.wav",
+      "uri": "data/sounds/sfx_swoosh_sword_2.wav",
+      "bytes": 17722,
+      "sha256": "142f725a9519b52e6f957d9b3e7c22c0d4c133ed553206ff5cb21423523e19e6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_safe_zone_02_sfx_ice_hub.wav",
+      "uri": "data/sounds/m_safe_zone_02_sfx_ice_hub.wav",
+      "bytes": 3697724,
+      "sha256": "a048fe2d22748c036698a956166ad42f3d69422f5176d2ee8f65c88059620d15"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_earth_troll_spawn.wav",
+      "uri": "data/sounds/sfx_cutscene_earth_troll_spawn.wav",
+      "bytes": 310744,
+      "sha256": "3cff1c0c1efd30c9d065fa50f307a960ab17827e34c6df7a3b862771d3c8bb53"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mage_staff_elemental_earth.wav",
+      "uri": "data/sounds/sfx_mage_staff_elemental_earth.wav",
+      "bytes": 122032,
+      "sha256": "6a141f680109df6a54d87b40990ede377f28de700ae5b2551a3c9ec36f97b080"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_quest_new.wav",
+      "uri": "data/sounds/sfx_quest_new.wav",
+      "bytes": 671072,
+      "sha256": "7d1fd3ea46ff7d570addd1c7adf4aa415e6db14e2305312137cb21f915bc44b6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_fire_small.wav",
+      "uri": "data/sounds/sfx_faerie_fire_small.wav",
+      "bytes": 154024,
+      "sha256": "eb0839f09b886b3a4486d7ac55b55d2d2339aefb484c71d862a3b25adba42862"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_safe_zone_01_sfx_dark_temple.wav",
+      "uri": "data/sounds/m_safe_zone_01_sfx_dark_temple.wav",
+      "bytes": 3591228,
+      "sha256": "87ded0b7638e34dd94b2e2d27ece24c48dc9ab8c8e426eeb2f62888285d38a17"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_elemental_thunder.wav",
+      "uri": "data/sounds/sfx_impact_elemental_thunder.wav",
+      "bytes": 53498,
+      "sha256": "8c1b7965f9a536b1adfb0ac0d58639eacd169fe4f2171ca2f2665e67760df693"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_ilu_eclipse.wav",
+      "uri": "data/sounds/sfx_skill_mage_ilu_eclipse.wav",
+      "bytes": 306688,
+      "sha256": "81db3d6b3f88e8fd4bc56ad0c92daad76bda77a35b56f8100e1e2d874054e55b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_assassin_die.wav",
+      "uri": "data/sounds/sfx_cutscene_assassin_die.wav",
+      "bytes": 63104,
+      "sha256": "9afc918ac9588169b82596fc099f92668ccbab14d415bb1d71cb6111ff8874a1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_gothicus_no_ambiance.vxn",
+      "uri": "data/sounds/m_level_gothicus_no_ambiance.vxn",
+      "bytes": 9515520,
+      "sha256": "d87bd34a575f9043d96ef3fe24d062222ea3650d90136a108b830f26702ec1a5"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_staff_1.wav",
+      "uri": "data/sounds/sfx_swoosh_staff_1.wav",
+      "bytes": 49714,
+      "sha256": "050349c78e6f0a2541978e1b701d74065ca4cbf55b5795a62d90adfdbbf5b67f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_flesh_2_22.wav",
+      "uri": "data/sounds/sfx_impact_arrow_flesh_2_22.wav",
+      "bytes": 22206,
+      "sha256": "835e73b86a1b7340f0fb21b228378c17ca4ae32fb6c41079c37e44e21d9532f4"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_dagger_2_22.wav",
+      "uri": "data/sounds/sfx_swoosh_dagger_2_22.wav",
+      "bytes": 11270,
+      "sha256": "fe9ff4cdc7c65ea1edcb595a575bb63a2af68f2689953e2ecc4a5bf644dc51b8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_sword_2_22.wav",
+      "uri": "data/sounds/sfx_swoosh_sword_2_22.wav",
+      "bytes": 12226,
+      "sha256": "ba296cc0e8a6d2406137eb184b083567765c3435fa0b2a31edef2171f209e7b5"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_medium_1_22.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_medium_1_22.wav",
+      "bytes": 38006,
+      "sha256": "64159c7f14d5520bebfcaee49fa73dbd0866415b6a343ef1e2edce32a42470a6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mage_staff_elemental_wind.wav",
+      "uri": "data/sounds/sfx_mage_staff_elemental_wind.wav",
+      "bytes": 92178,
+      "sha256": "d7352ecaee5f09d94b881beab87b48fc2f8a2748917c6e38d40fe32f4f90d210"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_passive_skill_activate_2.wav",
+      "uri": "data/sounds/sfx_passive_skill_activate_2.wav",
+      "bytes": 107460,
+      "sha256": "7fcc7f30a65b6a4c304791a7fa01fbab6899033a0902588f5463b6be831daa5f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_passive_skill_activate_3.wav",
+      "uri": "data/sounds/sfx_passive_skill_activate_3.wav",
+      "bytes": 166560,
+      "sha256": "538e76a82875e99cbb72e2338215a6fa4d47b3cc59010317a8a6fc218df0ffba"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_swamp_intro_cave_troll_2.wav",
+      "uri": "data/sounds/sfx_cutscene_swamp_intro_cave_troll_2.wav",
+      "bytes": 359840,
+      "sha256": "2c5a4458c3951d369f545cee80296451409050fd7f015e495109dd1aba62c470"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_arrow_object_1_22.wav",
+      "uri": "data/sounds/sfx_impact_arrow_object_1_22.wav",
+      "bytes": 47522,
+      "sha256": "6dcbecb8b28b2ca154dc0920ca01bf7b383c2bed95a110e085e1e95c4d8a693c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_title.vxn",
+      "uri": "data/sounds/m_title.vxn",
+      "bytes": 3837292,
+      "sha256": "6dcd53d955ab1c923ea0bb951ce9c5d21dbf086d64d43314002ebfe2c2cd6f4f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mage_staff_elemental_thunder.wav",
+      "uri": "data/sounds/sfx_mage_staff_elemental_thunder.wav",
+      "bytes": 89472,
+      "sha256": "bf9f1a92bc7dc06ea8b47c032d2b714f71dce7e5e4551b933005b64ff73c3648"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_catacomb_wind_loop.wav",
+      "uri": "data/sounds/sfx_catacomb_wind_loop.wav",
+      "bytes": 217734,
+      "sha256": "4a5ef7713c61d024ee72453df7970b97ebfcb911a563bf996ad5be063e99a4ec"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_world_map.wav",
+      "uri": "data/sounds/m_world_map.wav",
+      "bytes": 1037460,
+      "sha256": "8207b2d63b5a099b6736f1bd282d71ad119398e690dc402d9ff1df60f50584f0"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_menu_tab.wav",
+      "uri": "data/sounds/sfx_menu_tab.wav",
+      "bytes": 59534,
+      "sha256": "07aadc9a76daf36ea170f537a5f7875fc878f543e65bc54b5cbe50ceeaa08449"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_unnamed_one_vortex_loop.wav",
+      "uri": "data/sounds/sfx_unnamed_one_vortex_loop.wav",
+      "bytes": 770641,
+      "sha256": "bf3f9e260fc44be788b49f393a3ba81ea07abf514c5dd78d337ff0078936425c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_stormslave.wav",
+      "uri": "data/sounds/sfx_skill_mage_stormslave.wav",
+      "bytes": 322744,
+      "sha256": "a9ad487b10e878af8d35d985649ec28e61040927b92de0c9969f2907d2d9c844"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_nec_reaperstorm.wav",
+      "uri": "data/sounds/sfx_skill_mage_nec_reaperstorm.wav",
+      "bytes": 288514,
+      "sha256": "15934f809ce603630dea224140a09b519257819dc5e90b8af8a9fe161c790250"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_staff_2.wav",
+      "uri": "data/sounds/sfx_swoosh_staff_2.wav",
+      "bytes": 50146,
+      "sha256": "da271acefc85c3676660317f12b262f203eb3d31f222b1cf5ef9857cf5b51d61"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_lose.wav",
+      "uri": "data/sounds/m_lose.wav",
+      "bytes": 516244,
+      "sha256": "179041d7240131cc23431ec8c50de8250e7f5b0b9322cf040c2ab86e071434ae"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_nec_harrowing_grasp.wav",
+      "uri": "data/sounds/sfx_skill_mage_nec_harrowing_grasp.wav",
+      "bytes": 282422,
+      "sha256": "6cd1afc2d6141f262d8f0ca5fd33c012857fb58fb97bcd73c0827453a7fa6d83"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_arc_burst_shot.wav",
+      "uri": "data/sounds/sfx_skill_rogue_arc_burst_shot.wav",
+      "bytes": 110944,
+      "sha256": "67b65a6fb519bb37a30259341fc51d6fa2d0cd1f8c1fe5faf7364c83a6bde8c6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_passive_skill_activate_1.wav",
+      "uri": "data/sounds/sfx_passive_skill_activate_1.wav",
+      "bytes": 99260,
+      "sha256": "008dbebd0db3f04df9e630a407b0bee96f1d7f5a78db04399b2843beb971b8ad"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_swamp_intro_cave_troll_1.wav",
+      "uri": "data/sounds/sfx_cutscene_swamp_intro_cave_troll_1.wav",
+      "bytes": 807936,
+      "sha256": "ac85e1ac37f5ec1be42d5acd70dc352702cf02fd63003825e81e17f3e652fd44"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_bsk_bloodmoon_howl.wav",
+      "uri": "data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl.wav",
+      "bytes": 222956,
+      "sha256": "057514610f2a2c14caa4f5361d1888bd173d48209d75dc85e08a906d8f8b484d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_tutorial_popup.wav",
+      "uri": "data/sounds/sfx_tutorial_popup.wav",
+      "bytes": 387912,
+      "sha256": "e405f2e8d062d9d35354a071bb83dfa023b994cbe37528f9c62e52331f2b7ae1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_hell_king_step3_intro.wav",
+      "uri": "data/sounds/m_boss_hell_king_step3_intro.wav",
+      "bytes": 193684,
+      "sha256": "63e8e4932047e5b941d6ba2b4320d246ec962b7a186620969370a7686c72524d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_icy_cliff_sfx_ice_cavern.vxn",
+      "uri": "data/sounds/m_level_icy_cliff_sfx_ice_cavern.vxn",
+      "bytes": 10463744,
+      "sha256": "f118b767cc5ea67f06a47a87286e51a820080adf809422ada99ad9c4c7a65550"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_magic_portal_loop.wav",
+      "uri": "data/sounds/sfx_magic_portal_loop.wav",
+      "bytes": 729004,
+      "sha256": "09e6ec65faca6ad304edc01a988b0c9978436a379b10218f050a302ef6f9f5b3"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_darkwood_sfx_root_den.vxn",
+      "uri": "data/sounds/m_level_darkwood_sfx_root_den.vxn",
+      "bytes": 11692544,
+      "sha256": "dd978b178529fd307432a6d89917b6c904e065667b22da9b0c43391e734a5171"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_water_1_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_water_1_22.wav",
+      "bytes": 46816,
+      "sha256": "108eaffc57d8399f79cadb564f01c6636d4b0c273c54dc9012541131f7090dd9"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_red_desert_no_ambiance.vxn",
+      "uri": "data/sounds/m_level_red_desert_no_ambiance.vxn",
+      "bytes": 8946176,
+      "sha256": "5579450bc6305a5c90bddc388eb8d94363ffbe65673130c70c2bd21523a0eb41"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_stone_3_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_stone_3_22.wav",
+      "bytes": 21698,
+      "sha256": "77263fbf946a3308c6ef62d641773cdb07cfd8cdf0bf127da01adc3f2bdaeca6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mc_shoot_arrow_22.wav",
+      "uri": "data/sounds/sfx_mc_shoot_arrow_22.wav",
+      "bytes": 33880,
+      "sha256": "0a134645fd5261f44a8826fe4615e5262568c6998ca7cfff7dd73a8fc4bb3afb"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_elemental_ice.wav",
+      "uri": "data/sounds/sfx_impact_elemental_ice.wav",
+      "bytes": 102206,
+      "sha256": "ef8b0bb2da08c1ec36e15eab6fc600e570de07587f6b9ac248184d4a0947f495"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_lightning_big.wav",
+      "uri": "data/sounds/sfx_faerie_lightning_big.wav",
+      "bytes": 306424,
+      "sha256": "7f519551a907ebfc8aed3b872605ca5f2f163138623165ef92c56815f72f2936"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_friend_low_hp.wav",
+      "uri": "data/sounds/sfx_friend_low_hp.wav",
+      "bytes": 720764,
+      "sha256": "6320358e08671fb907f815cb0bcf2fc7d9c016d709a06adf3024723900428374"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_swamp_sfx_witch.vxn",
+      "uri": "data/sounds/m_level_swamp_sfx_witch.vxn",
+      "bytes": 12278272,
+      "sha256": "c3530cfea409d0cd855ffa070a49e9496bcb175dfd4a1c400f8437d6c43a0c0f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_block_1.wav",
+      "uri": "data/sounds/sfx_impact_block_1.wav",
+      "bytes": 39072,
+      "sha256": "1270caa9bc4a025e13bc78cf586939c6d26c873db69f8f711f6afbac4f34071d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_pld_condemnation.wav",
+      "uri": "data/sounds/sfx_skill_warrior_pld_condemnation.wav",
+      "bytes": 289938,
+      "sha256": "8510a5465f3edfeaa077f81e706f35feb85bc4e4e964d5962debf2d57a3513d1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_faerie_earth.wav",
+      "uri": "data/sounds/sfx_faerie_earth.wav",
+      "bytes": 99610,
+      "sha256": "0647897cfc32689dca8ce5887247e8b5982973061d13e9d2be1c673cc801f215"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_burst_shot.wav",
+      "uri": "data/sounds/sfx_impact_burst_shot.wav",
+      "bytes": 190262,
+      "sha256": "846738bb074272dc3a41e68e56ba81167d6a5be42187619a42292f113a6f5b11"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",
+      "uri": "data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",
+      "bytes": 227786,
+      "sha256": "46b0fea07f74d26ec9f7774c093de35adb374706fd51b3fa18bd494925815dc7"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cave_mouth_loop.wav",
+      "uri": "data/sounds/sfx_cave_mouth_loop.wav",
+      "bytes": 487098,
+      "sha256": "bc5a96e08b80c08eef07281140af714d263ccddf4055c4944175b33359de33be"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_grass_4.wav",
+      "uri": "data/sounds/sfx_fs_walk_grass_4.wav",
+      "bytes": 38308,
+      "sha256": "35ccfdf4e3b9dfb3b03348d80f245b27624bf7b8ae2a7fbc355c1b69fbc00e0b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_mage_cold_ray.wav",
+      "uri": "data/sounds/sfx_skill_mage_cold_ray.wav",
+      "bytes": 123628,
+      "sha256": "793b004983d9b98332de5764ad518a4a4424ca8d815ce0c38d602471e48781c3"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_ruins.wav",
+      "uri": "data/sounds/sfx_cutscene_ruins.wav",
+      "bytes": 626072,
+      "sha256": "0408d1d57df65479c5f7121933ffb76cf26c06af468c34ed40204ff35cb21563"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sounds.xml",
+      "uri": "data/sounds/sounds.xml",
+      "bytes": 102135,
+      "sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_block_2.wav",
+      "uri": "data/sounds/sfx_impact_block_2.wav",
+      "bytes": 54662,
+      "sha256": "3113d073786a0b9e76464e41a8e024cf850dde1632f181a32ba3dbbf2474e272"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wet_floor_1_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_wet_floor_1_22.wav",
+      "bytes": 22130,
+      "sha256": "b69cfee15495b7f8d0999147a97d187755eafd370e1aefa0b43573b9a6f723e3"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mage_staff_elemental_thunder_22.wav",
+      "uri": "data/sounds/sfx_mage_staff_elemental_thunder_22.wav",
+      "bytes": 61612,
+      "sha256": "f7434f4c64989f2da899686203b65cee75e2dfefacc7bee7bf25010c732db62c"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_swoosh_staff_2_22.wav",
+      "uri": "data/sounds/sfx_swoosh_staff_2_22.wav",
+      "bytes": 34568,
+      "sha256": "b0e13d122e9e3a700f7c0366d82333f927fb4221ea467895c7355f34c249650a"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_featherfoot.wav",
+      "uri": "data/sounds/sfx_skill_rogue_featherfoot.wav",
+      "bytes": 122646,
+      "sha256": "50cb1bb58ec703982135197d4708ca3ec615c84cdb25efb2f6578ed6396a9082"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_intro_intense.wav",
+      "uri": "data/sounds/m_boss_intro_intense.wav",
+      "bytes": 1160340,
+      "sha256": "e88e33dde9ebbdc503998913a149be16b185f6fe43b1ddec44817d2dc5b092a4"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_grass_1.wav",
+      "uri": "data/sounds/sfx_fs_walk_grass_1.wav",
+      "bytes": 39488,
+      "sha256": "839c3ba8e5534907fcb6945248c6dd3330b30802430667e72fcebe49b4acada1"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_tap_dialog.wav",
+      "uri": "data/sounds/sfx_tap_dialog.wav",
+      "bytes": 72184,
+      "sha256": "058d7895f569bc7e15e5284fab80c5f1caf89d8bcd93c786c2a908619d2ab31e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mage_staff_elemental_fire.wav",
+      "uri": "data/sounds/sfx_mage_staff_elemental_fire.wav",
+      "bytes": 80106,
+      "sha256": "573cc45750d1c9c66e0bb15f97e0f85ba05d34da7023090e617bea43cab4d92f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_mc_low_hp.wav",
+      "uri": "data/sounds/sfx_mc_low_hp.wav",
+      "bytes": 591504,
+      "sha256": "eb67a255d7adc1dd9ed3761a435bd1fe5999f0c0fa5770858c150bb9494ffdc3"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_block_2_22.wav",
+      "uri": "data/sounds/sfx_impact_block_2_22.wav",
+      "bytes": 37680,
+      "sha256": "449be38288027cd1daa1cc5964f3e9730d4f73325750d4538bc9cf42d96be9ff"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_level_darkwood_sfx_infected.vxn",
+      "uri": "data/sounds/m_level_darkwood_sfx_infected.vxn",
+      "bytes": 11692544,
+      "sha256": "7622729d3ee831b3be4c221c29ee76e22fea1e9bb977737d30e1d43cb74ac1ee"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_1.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_1.wav",
+      "bytes": 46374,
+      "sha256": "e2d405158532a3cfb16962ad0cb6a04bb2523517f255c90917b69defd4ccccd8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_cutscene_witch_spawn.wav",
+      "uri": "data/sounds/sfx_cutscene_witch_spawn.wav",
+      "bytes": 367148,
+      "sha256": "2845e738b7fda1a53369009327779097143c4a56b85a601fd778f23f0b8bd25e"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_skill_rogue_ass_plague_edge.wav",
+      "uri": "data/sounds/sfx_skill_rogue_ass_plague_edge.wav",
+      "bytes": 203632,
+      "sha256": "618460a1b752e4e86cc9b7d2f5d484fda7b43c4549a5e3104f0313d5bf45220d"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_orb_loop.wav",
+      "uri": "data/sounds/sfx_orb_loop.wav",
+      "bytes": 374200,
+      "sha256": "6fc9b76c0624f6ee6dc04db303482e3c2de9c98a6d0cb7d8e00e27043c94d5c8"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_grass_2.wav",
+      "uri": "data/sounds/sfx_fs_walk_grass_2.wav",
+      "bytes": 46660,
+      "sha256": "7c3f8e9e65dda487dc164b543c22173c388fb54cdfdf49452dc83263fe100890"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_stone_1_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_stone_1_22.wav",
+      "bytes": 21878,
+      "sha256": "162cdf3edb72f76925d2d07e7add669b6597b67dd157c60101200a263a5e39ea"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_magical_wall_loop.wav",
+      "uri": "data/sounds/sfx_magical_wall_loop.wav",
+      "bytes": 539906,
+      "sha256": "f20904018f2b268f0b86b2e438ed9dd55655ae065f821515a1b5c21bcde955d2"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_3.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_3.wav",
+      "bytes": 39708,
+      "sha256": "eb0a245ef37248cba40fe031e5cad22336d31c10bc356285f32131a558d2ecab"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/.nomedia",
+      "uri": "data/sounds/.nomedia",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_wood_2_22.wav",
+      "uri": "data/sounds/sfx_fs_walk_wood_2_22.wav",
+      "bytes": 22276,
+      "sha256": "f525d1ce2c1ca1a6cbd279eb83c1d721c22bc475d8da439b89337102b85de475"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_impact_metal_flesh_2.wav",
+      "uri": "data/sounds/sfx_impact_metal_flesh_2.wav",
+      "bytes": 50912,
+      "sha256": "52797fc5d38a2874ab94ab78dc0448276a470ab164708070a6706fc8b118055b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_telepoint_loop.wav",
+      "uri": "data/sounds/sfx_telepoint_loop.wav",
+      "bytes": 471656,
+      "sha256": "8e73343bb8a1d97e10d9b43468f4fd9b744af282de7235aaa83d81f745dcd20b"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_fs_walk_grass_3.wav",
+      "uri": "data/sounds/sfx_fs_walk_grass_3.wav",
+      "bytes": 44600,
+      "sha256": "e372d18cc97d179cfa23f7b379d4a201007a3f2b5f12cf9a7ba0f82e1160ed3f"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/sfx_friend_revive.wav",
+      "uri": "data/sounds/sfx_friend_revive.wav",
+      "bytes": 1523216,
+      "sha256": "711cd53688d9c4ef3f8f45459a3675825665fd484ec3fd470bfac098e712a1d6"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_boss_hell_king_step2_intro.wav",
+      "uri": "data/sounds/m_boss_hell_king_step2_intro.wav",
+      "bytes": 194708,
+      "sha256": "a3b53acdf4a99b6f6fb64f5c21e94c7342529287c7fd099da927e9636d6a5c30"
+    },
+    {
+      "path": ".local-inputs/audio-v34/cache/m_safe_zone_02_sfx_darkwood.wav",
+      "uri": "data/sounds/m_safe_zone_02_sfx_darkwood.wav",
+      "bytes": 3697724,
+      "sha256": "6aca58d20e77f6625cf6917b397be65e4ba39211f1c0742f05b30345319ecb65"
+    }
+  ],
+  "original": {
+    "path": ".local-inputs/libDungeonHunter2.so",
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+  },
+  "validation": {
+    "audio-v34-host.json": {
+      "scope": "Actual original cache 261 stream cursor/codec/XML, decoded positive CPU output, timing/pause/pin/bank policy. No Android/audible acceptance.",
+      "results": [
+        {
+          "optimization": "O1",
+          "exit_code": 0,
+          "stdout": "PASS 12594 checks; PCM=228 IMA=16 VoxN=17; positive CPU output=true; Android audible=false\n",
+          "stderr": ""
+        },
+        {
+          "optimization": "O2",
+          "exit_code": 0,
+          "stdout": "PASS 12594 checks; PCM=228 IMA=16 VoxN=17; positive CPU output=true; Android audible=false\n",
+          "stderr": ""
+        }
+      ],
+      "sources": {
+        "port/engine-audio/tests/audio_v34_host.cpp": "0498bccaaff9b79b53c063b625956d211e48620ebdd00c9b94120a14719cb08b",
+        "port/engine-audio/tests/audio_ima_v34_oracle.cpp": "520de912407698d092767cbf8597c647e800b3b0c144af895cf781feb38cf3ac",
+        "port/level-world/vox_audio_bridge_v34.cpp": "226f7d6f400590235ee7a8e5891c64683270d5e79b5ee1526a51124e14954534",
+        "port/level-world/vox_play3d_owner_v2.cpp": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc",
+        "port/engine-audio/audio_sample_v34.cpp": "7a31d0493ae300a23be3b269badc20c47d617d88ddd364f43b622a8d4636fd32",
+        "port/engine-audio/audio_mixer_v34.cpp": "bb441a7f22bfa54a8612ade20dff97831999114ad3e26f54e5ac1ff71db39660",
+        "port/engine-audio/audio_catalog_v34.cpp": "7cf74934301d2d8b5cf4bdefd8d86c31a9078edd333b9889f22afd5c4fe1b5c0",
+        "port/engine-audio/audio_bank_v34.cpp": "0b045772219c8f8b76404614dd46412f6cb9d7e984bcc176edbea8436684226a",
+        "port/engine-audio/audio_spatial_v34.cpp": "9bf555424502a015694af03c217d156fa2404e8d8a9b39f2d30f2c75e42982f9",
+        "port/engine-audio/audio_native_envelope_v34.cpp": "9c62269d40d01521f91e4c74111d38d6dbba913f671d7fc4216c1fc18e87e31a"
+      }
+    },
+    "audio-v34-original-proof.json": {
+      "validation": "PASS",
+      "original_instructions_executed": true,
+      "compiled_arm64_instructions_executed": true,
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "ima_blocks": 136,
+      "corpus": [
+        {
+          "file": "m_level_cathedral_sfx_catacomb.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_darkwood_sfx_darkwood.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_darkwood_sfx_infected.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_darkwood_sfx_root_den.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_darkwood_sfx_void_maze.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_gothicus_no_ambiance.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_hell_sfx_dark.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_icy_cliff_sfx_ice_cavern.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_icy_cliff_sfx_ice_hub.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_icy_cliff_sfx_wind.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_red_desert_no_ambiance.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_red_desert_sfx_fire.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_red_desert_sfx_red_desert.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_swamp_sfx_swamp.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_swamp_sfx_water.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_level_swamp_sfx_witch.vxn",
+          "segments": 2,
+          "comparisons": 8
+        },
+        {
+          "file": "m_title.vxn",
+          "segments": 2,
+          "comparisons": 8
+        }
+      ],
+      "source_event_sequences": [
+        {
+          "kind": 0,
+          "history_limit": 0,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            39,
+            40,
+            41,
+            41,
+            39,
+            40,
+            40,
+            41,
+            39,
+            39,
+            40,
+            41,
+            41,
+            39,
+            40,
+            40,
+            41,
+            39,
+            39,
+            40,
+            41,
+            41,
+            39
+          ]
+        },
+        {
+          "kind": 0,
+          "history_limit": 1,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            41,
+            39,
+            40,
+            39,
+            41,
+            39,
+            40,
+            39,
+            41,
+            39,
+            40,
+            39,
+            41,
+            39,
+            40,
+            39,
+            41,
+            39,
+            40,
+            39,
+            41,
+            39,
+            40
+          ]
+        },
+        {
+          "kind": 0,
+          "history_limit": 2,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40
+          ]
+        },
+        {
+          "kind": 0,
+          "history_limit": 3,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40,
+            39,
+            41,
+            40
+          ]
+        },
+        {
+          "kind": 1,
+          "history_limit": 0,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41
+          ]
+        },
+        {
+          "kind": 1,
+          "history_limit": 1,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41
+          ]
+        },
+        {
+          "kind": 1,
+          "history_limit": 2,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41
+          ]
+        },
+        {
+          "kind": 1,
+          "history_limit": 3,
+          "source": [
+            39,
+            40,
+            41
+          ],
+          "trace": [
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41,
+            39,
+            40,
+            41
+          ]
+        }
+      ],
+      "scope": "Original native IMA blocks over actual first/middle/tail segments; explicit stream read/seek callbacks. Whole source event selector with explicit same rand/allocator boundary. No Android/audible acceptance.",
+      "source_spatial_comparisons": 420,
+      "source_native_envelope_comparisons": 240
+    },
+    "audio-v34-strict-compile.json": {
+      "native": [
+        {
+          "abi": "arm64-v8a",
+          "file": "port/engine-audio/audio_sample_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "arm64-v8a",
+          "file": "port/engine-audio/audio_mixer_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "arm64-v8a",
+          "file": "port/engine-audio/audio_catalog_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "arm64-v8a",
+          "file": "port/engine-audio/audio_bank_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "arm64-v8a",
+          "file": "port/engine-audio/audio_spatial_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "arm64-v8a",
+          "file": "port/engine-audio/audio_native_envelope_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "arm64-v8a",
+          "file": "port/android-native/app/src/main/cpp/audio_output_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "arm64-v8a",
+          "file": "port/level-world/vox_audio_bridge_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/engine-audio/audio_sample_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/engine-audio/audio_mixer_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/engine-audio/audio_catalog_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/engine-audio/audio_bank_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/engine-audio/audio_spatial_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/engine-audio/audio_native_envelope_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/android-native/app/src/main/cpp/audio_output_v34.cpp",
+          "exit_code": 0
+        },
+        {
+          "abi": "x86_64",
+          "file": "port/level-world/vox_audio_bridge_v34.cpp",
+          "exit_code": 0
+        }
+      ],
+      "java": {
+        "source": "port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java",
+        "exit_code": 0
+      }
+    }
+  }
+}

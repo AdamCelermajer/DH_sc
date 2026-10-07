@@ -1,0 +1,14 @@
+[
+  {
+    "optimization": "O1",
+    "exit": 0,
+    "stdout": "Character kill fresh/observed/replay preservation PASS 10 checks; retained actor wiring strict compiled separately\n",
+    "stderr": ""
+  },
+  {
+    "optimization": "O2",
+    "exit": 0,
+    "stdout": "Character kill fresh/observed/replay preservation PASS 10 checks; retained actor wiring strict compiled separately\n",
+    "stderr": ""
+  }
+]

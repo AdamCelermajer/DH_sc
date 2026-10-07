@@ -1,0 +1,32 @@
+{
+  "stdout": "PASS named-animation=11 original=8 failures=3",
+  "optimization": "O2",
+  "status": "PASS",
+  "source_sha256": {
+    "port/engine-audio/audio_named_animation_sound_v38.hpp": "2c36c8a2c8ad88db59e216dc9d19cd432d9dbb7c530cc6195d47f13d1269c376",
+    "port/engine-audio/reference/source-bindings-v38/sdd_dungeon_hunter_2_iphone_pyarraynames.bin": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d",
+    "port/engine-audio/audio_world_producer_v38.hpp": "c5953e13772c379c85552df765d4a5d0cbd7848a1980a297ed72992c18279a06",
+    "port/engine-audio/reference/event-families-v38/named-animation-gold.bin": "802843b2d790639473368c80c6b2a9006d918cefbe776474390f244551e8045b",
+    "port/level-world/character_melee_animation_event_v1.hpp": "de99f2c5cac2e077742e132014baf38ff987c5a653c93c70c68ca63211271363",
+    "port/engine-audio/reference/event-families-v38/named-animation-original-proof.json": "07ea81409fe0c89aa7a4981acf325ecdf6cc60b57a3591b0ebb780e5d6d0cc0d",
+    "port/engine-audio/audio_source_bindings_v38.cpp": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6",
+    "port/engine-audio/audio_source_bindings_v38.hpp": "aaa03aa7462ae98a8286d67bfa6c5e2f70bab1d16823f1ad82b1877f6522606d",
+    "port/engine-audio/reference/event-families-v38/named-animation-host.cpp": "35525a1e503720ad5dbfb6fcd240d95a5651eaa115ca98ad3321a74fe6af77ae",
+    "port/engine-audio/reference/source-bindings-v38/sdd_dungeon_hunter_2_iphone_pyarray.bin": "fb02b0ce7bc6d3e5ac38d1c72ed07006a00f68de04ec8d3568b652a9dfc33784",
+    "port/level-world/character_melee_animation_event_v1.cpp": "eb05c4876a86ce8c6fbd15786aae05fae8bb6a6efb9eee9be3e3bb86404f78b3"
+  },
+  "sanitizers": "ASan+UBSan",
+  "scope": "Whole native melee-event dispatcher and new named sound leaf; explicit same actor/manager/position/play observers; source only no playback",
+  "strict_android_targets": [
+    "aarch64-linux-android23",
+    "x86_64-linux-android23"
+  ],
+  "strict_flags": [
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsyntax-only"
+  ],
+  "exit_code": 0
+}

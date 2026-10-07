@@ -1,0 +1,36 @@
+{
+  "scope": "Actual38 supported authored cache resources sampled through retained V6 scenes/models/skin to the SAME production V7 GPU-upload packet.1888 mesh and279 particle packets;334179 backing/position/index/color-absence/atomic rejection checks. No GLES submission or live authored Use/damage acceptance.",
+  "linked_fixture_apk_sha256": "73c23b11c16bb0b9253c9a0076e047f103248456be7b7a38755c4510ebc0b83b",
+  "sources": [
+    {
+      "path": "port/level-world/authored_fx_geometry_packet_v7.hpp",
+      "sha256": "3a065ec7c23de743bfd5dfac6082c0c2868b01b31c47c1056880e795337ddfd5"
+    },
+    {
+      "path": "port/level-world/authored_fx_geometry_packet_v7.cpp",
+      "sha256": "e4d3d4f5c0e595cb39fcba1440b63d7675d3e66b16c65f6943ea23e38f37c779"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_geometry_packet_v7.cpp",
+      "sha256": "2411558d489f81cd426c270985738acee2291e78d76b6829e0bc3891c9b7b046"
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v6.cpp",
+      "sha256": "488c560b87fcfe15bb32c08b9e799f4e3a462a73a0ad749223879a6247273caf"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
+      "sha256": "11bc246c2235a3804fc86073707220ccbbdf594a284159d14f0a442db68a8cbf"
+    }
+  ],
+  "source_primitive_map_address": "0x8eb338",
+  "source_primitive_map": [
+    6,
+    4,
+    3,
+    1,
+    2
+  ],
+  "live_regression_failure_apk_sha256": "a4b5ae41ff45c73485d10a98adde3a0c1a0d32f923c1790f260e2dc0efc576f9",
+  "live_acceptance_after_fix": false
+}

@@ -1,0 +1,9 @@
+{
+  "global_mutation": false,
+  "model_before_sha256": "a529874e8823de096a0c4efb352f528421e3d1f0928fd3b5e5c945d56d2f80f8",
+  "model_staged_sha256": "930aae581fe863664cf1eb8f0c09501dabdfdf498a1dcbe844d6cb0e29076095",
+  "event_before_sha256": "35030e35453f865e44bb2efe4044385307c46bfcde4fa7ca965cac14bc096e66",
+  "event_staged_sha256": "7a133f8eeda38fc534cdea59af87ca2b6e47200cc9d6be0fca031516676e0acc",
+  "item_before_sha256": "c46e09db056490dc5ca990dc72ac82a00ca2762b169d8f1aab0c6d6bb87c9737",
+  "item_staged_sha256": "733ba992e7d517a9a9a0ed43895a025e0d47d2bfe5758001ac469681a6f0ab1e"
+}

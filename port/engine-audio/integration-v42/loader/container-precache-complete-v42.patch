@@ -1,0 +1,23 @@
+--- a/port/level-world/openable_container_owner_v1.hpp
++++ b/port/level-world/openable_container_owner_v1.hpp
+@@ -55,6 +55,8 @@
+     std::function<bool(std::uintptr_t,std::int32_t,bool&,std::string&)> remove_key;
+     std::function<bool(std::int32_t,std::uintptr_t,std::int32_t,bool,std::string&)> drop_loot_table;
+     std::function<bool(const char*,std::uintptr_t,const char*,std::string&)> script_call;
++    // Complete original manager-before-GetSound precache prefix.
++    std::function<bool(std::string&)> precache_complete_source_v42;
+ };
+ class OpenableContainerOwnerV1 {
+ public:
+--- a/port/level-world/openable_container_owner_v1.cpp
++++ b/port/level-world/openable_container_owner_v1.cpp
+@@ -78,8 +78,7 @@
+                         if(played&&!set_state(2,e))return false;}}
+                 if(!call(s_.apply_mesh_box,"ApplyMeshBox",e))return false;
+             }
+-            bool sound=false;if(!call(s_.has_sound_manager,"SoundManager pointer",e,sound))return false;
+-            if(sound){OpenableContainerRowV1 current;if(!row(current,e)||!call(s_.load_sound,"LoadSound",e,current.sound))return false;}
++            if(!call(s_.precache_complete_source_v42,"complete captured-manager LoadSound prefix",e))return false;
+             if(!call(s_.load_object_script,"object script load",e,id==-1?nullptr:r.script.c_str(),"data/scripts/objects/"))return false;
+         }
+     }

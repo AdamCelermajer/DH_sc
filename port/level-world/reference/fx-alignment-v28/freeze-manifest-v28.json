@@ -1,0 +1,75 @@
+{
+  "version": 28,
+  "status": "FROZEN_SOURCE_ORIGINAL_DIFFERENTIAL_STRICT_PASS_LIVE_PENDING",
+  "source_entries": [
+    {
+      "path": "port/level-world/source_fx_node_matrix_v4.cpp",
+      "sha256": "e5649ef21d3d25c1f8e55054d87973cc5fac1ad11248be30268f6d9406804501"
+    },
+    {
+      "path": "port/level-world/character_fx_anchor_rotation_v28.hpp",
+      "sha256": "d4a3ff468b09258105927e2f4c19704f0e404bfd7de4510bcce6fecb2df2896d"
+    },
+    {
+      "path": "port/level-world/character_fx_anchor_rotation_v28.cpp",
+      "sha256": "54c906126db0ec452e86784d1a8cbf519ec884346dc9e0bfbb8705c00d53811b"
+    },
+    {
+      "path": "port/level-world/character_mesh_fx_owner_v4.hpp",
+      "sha256": "433e33c68588289a31fc54457bc803b65710e0abd0f1dd994d507946c47a5782"
+    },
+    {
+      "path": "port/level-world/character_mesh_fx_owner_v4.cpp",
+      "sha256": "21116a21eb77455703ce63641d0d15eb1c54661e6f8612a693a8d7a0aa17f084"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_fx_anchor_v4.inc",
+      "sha256": "5de61acd48aed88321129ea040211a659a3beb978a3efaaa818ffe48013438db"
+    },
+    {
+      "path": "port/level-world/tests/fx_visual_outer_v28_original.py",
+      "sha256": "78d6d5214a6c1945002acb1a00454f9e364eefeea0d0170114caf9e16e981a3e"
+    },
+    {
+      "path": "port/level-world/reference/fx-alignment-v28/rotation-source.asm",
+      "sha256": "d4783e8960bd3d8abea7c9b6014c314b4a2a209d2f5cf8473d772cf52de1cb4a"
+    },
+    {
+      "path": "port/level-world/reference/fx-alignment-v28/rotation-source.json",
+      "sha256": "f510595feada895e3c6f2d8a9721061567323c6e681a1eee81f747885e26e7c9"
+    },
+    {
+      "path": "port/level-world/reference/fx-alignment-v28/visual-outer-original.json",
+      "sha256": "07cd534b19a80ddea7f2a683699dbcd846c9f4413592c57a3b4ef3896b58c70d"
+    },
+    {
+      "path": "port/level-world/reference/fx-alignment-v28/runtime-integration.md",
+      "sha256": "87c9044f0e7b65bd7e1c6b56701a442afd1e6ff1dcfa53fa25adb102ee17948f"
+    },
+    {
+      "path": ".local-inputs/build_fx_visual_outer_v28.py",
+      "sha256": "a5c90da4b6a8926ab1c569c9b6b3ad53f91321ff8afc9dc1125685407fadc384"
+    },
+    {
+      "path": ".local-inputs/fx_visual_outer_v28_oracle.cpp",
+      "sha256": "fd7fd248f7b43690e1b9e1e951110ba2d222fe6fcc384079e68a3b097c5a0ce9"
+    },
+    {
+      "path": ".local-inputs/compile_fx_alignment_v28.py",
+      "sha256": "446ecf1e4571da2cdb865c7c8f245e4ee59cdc6063c51c0d383c7831963a5f63"
+    },
+    {
+      "path": ".local-inputs/compile_renderer_fx_alignment_v28.py",
+      "sha256": "7c4930ea1729a43150d7399ec9031d39ff73d0bb57d65ed79064c3405432d806"
+    }
+  ],
+  "original_outer_cases": 192,
+  "original_anchor_rotation_cases": 192,
+  "strict_abi_checks": 6,
+  "complete_renderer_syntax_checks": 2,
+  "only_new_production_tu": "port/level-world/character_fx_anchor_rotation_v28.cpp",
+  "remaining_resource_families": 7,
+  "prior_supported_resource_families": 38,
+  "live_post_fix_accepted": false,
+  "mixed_owner_note": "Mesh owner full files contain root-owned additive target-marker methods; this lane changed existing transform/play_set warm-scaling only"
+}

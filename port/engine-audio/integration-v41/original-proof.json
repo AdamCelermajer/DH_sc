@@ -1,0 +1,183 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "initial_global_instance": 0,
+  "load_cases": [
+    {
+      "disabled": 0,
+      "raw_uid": -1,
+      "slot_loaded": false,
+      "observations": []
+    },
+    {
+      "disabled": 0,
+      "raw_uid": -1,
+      "slot_loaded": true,
+      "observations": []
+    },
+    {
+      "disabled": 0,
+      "raw_uid": 0,
+      "slot_loaded": false,
+      "observations": [
+        [
+          "bank_info",
+          33558628,
+          0
+        ],
+        [
+          "unloaded_slot_reached",
+          0
+        ]
+      ]
+    },
+    {
+      "disabled": 0,
+      "raw_uid": 0,
+      "slot_loaded": true,
+      "observations": [
+        [
+          "bank_info",
+          33558628,
+          0
+        ]
+      ]
+    },
+    {
+      "disabled": 0,
+      "raw_uid": 33,
+      "slot_loaded": false,
+      "observations": [
+        [
+          "bank_info",
+          33558628,
+          33
+        ],
+        [
+          "unloaded_slot_reached",
+          33
+        ]
+      ]
+    },
+    {
+      "disabled": 0,
+      "raw_uid": 33,
+      "slot_loaded": true,
+      "observations": [
+        [
+          "bank_info",
+          33558628,
+          33
+        ]
+      ]
+    },
+    {
+      "disabled": 0,
+      "raw_uid": 34,
+      "slot_loaded": false,
+      "observations": []
+    },
+    {
+      "disabled": 0,
+      "raw_uid": 34,
+      "slot_loaded": true,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": -1,
+      "slot_loaded": false,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": -1,
+      "slot_loaded": true,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": 0,
+      "slot_loaded": false,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": 0,
+      "slot_loaded": true,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": 33,
+      "slot_loaded": false,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": 33,
+      "slot_loaded": true,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": 34,
+      "slot_loaded": false,
+      "observations": []
+    },
+    {
+      "disabled": 1,
+      "raw_uid": 34,
+      "slot_loaded": true,
+      "observations": []
+    }
+  ],
+  "recheck_after_bank_info": true,
+  "construction": [
+    {
+      "present": false,
+      "calls": [
+        [
+          "allocate",
+          196,
+          4
+        ],
+        [
+          "constructor",
+          33558528,
+          0
+        ]
+      ],
+      "published": 33558528
+    },
+    {
+      "present": true,
+      "calls": [],
+      "published": 33558528
+    }
+  ],
+  "deletion": [
+    {
+      "present": false,
+      "calls": [],
+      "global_after": 0
+    },
+    {
+      "present": true,
+      "calls": [
+        [
+          "destroy",
+          33558528
+        ],
+        [
+          "free",
+          33558528
+        ]
+      ],
+      "global_after": 33558528
+    }
+  ],
+  "scope": "Original LoadSound gates/bank lookup/cache-slot prefix; loaded and early-return paths whole. Unloaded construction tail skipped to original epilogue. Create/Delete whole with observed allocation/constructor/destructor/free leaves. No real backend or World readiness.",
+  "disabled_global": "0x9f6409",
+  "checks": 21
+}

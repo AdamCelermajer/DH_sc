@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "comparisons": 960,
+  "ordered_service_comparisons": 8225,
+  "boundary_order_counts": {
+    "21,20": 260,
+    "20": 320,
+    "20,21": 160,
+    "": 220
+  },
+  "actual_boundary_nested_pushes": 74,
+  "source_ignored_signatures": 220,
+  "source_result_preservation": 960,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "9e7437b05b7018fa0a31576945f4aeac247d43f9dcd1cb4386b3b9455eb8ddea",
+  "gold_sha256": "f3dcbb30dca42ccc778eb36aae7060884385545981559461c659273d74298c4b",
+  "source_sha256": {
+    "port/engine-ui/menu_stack_actions_v1.hpp": "10bc7c2d35b4068cdebe6693afe60dc752ed55fd5ab779d9a85d67aad6162b5f",
+    "port/engine-ui/menu_stack_actions_v1.cpp": "09c9e5bc849d3dd4f1e70de97e75170e378a59ad9b27254499c5f04a5316c30d",
+    "port/engine-ui/menu_stack_v1.hpp": "d9431517cf43674052381f0ee8c4ffe3b8217d4b1c51861defd61ee1e6b41adc",
+    "port/engine-ui/menu_stack_v1.cpp": "8c68bb6f8ebcb0c5bc33bc1373e656d9d14165521fbf922337e3766d6c7c8f2d",
+    "port/engine-ui/menu_stack_owner_v1.hpp": "8b81d17b88112a2d091733cf15d6ca0afe2ef136dbd8b61f954212440f0d31b8",
+    "port/engine-ui/menu_stack_owner_v1.cpp": "42b3a02d26340db4daa50e9e7ce143be4d74437e323f7c14a53ea6788e607e64",
+    "port/engine-ui/tests/menu_stack_v1_differential.py": "044adebd0ea5c01b3ff8d18f58dc14c1bf21d791616b017075264607c0715a2c",
+    "port/engine-ui/tests/menu_stack_actions_v1_differential.py": "37da2892f5b64d17bf67e85a9e4f9137290098ac2a277158878d0d6b4cfca68e",
+    "port/engine-ui/character_menu_queries_owner_v1.hpp": "a01c6b5407f785c4c339daa7195f5bcdc141329febe3d92f2ff8d4ed59fe3e8b"
+  },
+  "scope": "Whole original menu entry wrappers + stack versus native O2 action composition.\nAS to_xstring and singleton acquisition are explicit synchronous services.\n",
+  "as_conversion_algorithm_reconstructed": false
+}

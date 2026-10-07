@@ -1,0 +1,10 @@
+{
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fields": {
+    "template13ca": -1,
+    "killer144c": 0,
+    "master14d4": 0,
+    "suppress14e4": 0
+  },
+  "scope": "Actual original CharacterC1 four field-store blocks execute with source-proven r8=0/r6=-1; no whole Character constructor or initialized-adoption reset claim."
+}

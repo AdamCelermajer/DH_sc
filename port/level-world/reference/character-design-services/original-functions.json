@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches13_loadSwitchesEP11IFileStream",
+      "elf_address": "0x3374e4",
+      "size": 932,
+      "sha256": "4b934bce6a21a2152962d7b056b6656062cb181c923eeca57ab3783810e20f34"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9SetSwitchERKSsb",
+      "elf_address": "0x337ddc",
+      "size": 236,
+      "sha256": "1653c8daee8e1628a83fb5836064799d57507147e05c372e831c39a8883bece3"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitchesC2Ev",
+      "elf_address": "0x335f94",
+      "size": 56,
+      "sha256": "a464b492a141b0921b85dc23c1afc195df57c318f0df2719493adbc6869d4ef6"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9SetModuleERKSsb",
+      "elf_address": "0x337404",
+      "size": 224,
+      "sha256": "f423aaa6e7a37fdb0707422982a6b0e1b5c10de5b0256a89fb28a1ab8105d159"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetModuleERKSs",
+      "elf_address": "0x337ec8",
+      "size": 200,
+      "sha256": "a5b4e8cd4d1c5af8414595520c032a7f6a9cab3b356fcf317a12dfd61955f4e4"
+    }
+  ]
+}

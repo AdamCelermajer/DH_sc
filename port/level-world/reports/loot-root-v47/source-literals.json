@@ -1,0 +1,144 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "name": "_ZNK9Character11GetCharTypeEv",
+      "address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69"
+    },
+    {
+      "name": "_ZN9Character11Ctrl_UseOOIEP10GameObject",
+      "address": "0x3ad690",
+      "size": 88,
+      "sha256": "843dd467091cdad369a67aa548b636a1fefc6c5a9dff932df6418b7053c33124"
+    },
+    {
+      "name": "_ZN18MenuMessageManagerI19CharMenuTutorialMsgLi1EED0Ev",
+      "address": "0x329ec4",
+      "size": 84,
+      "sha256": "44639c33310eb2a7e17c0d78bb583156b827526fd28bf474504de548756b65dc"
+    },
+    {
+      "name": "_ZN18MenuMessageManagerI11TutorialMsgLi1EED1Ev",
+      "address": "0x329a54",
+      "size": 144,
+      "sha256": "fa128112bb8b643e9ac7e62a66c60963ec4be15ab2492de288474a3dcb3fd9c8"
+    },
+    {
+      "name": "_ZN18MenuMessageManagerI19CharMenuTutorialMsgLi1EED1Ev",
+      "address": "0x329e78",
+      "size": 76,
+      "sha256": "95104e163029aff96ad3907fda460ea71bd4a4814c5e252a57123fbcc909002e"
+    },
+    {
+      "name": "_ZN10ItemObject8InteractEP10GameObject",
+      "address": "0x3ed144",
+      "size": 2416,
+      "sha256": "63e8f23a2999e7e9be6d259101529742a18bdd61a564267b71e5663d99b0a9ef"
+    },
+    {
+      "name": "_ZN9Character20SG_GetGameDifficultyEv",
+      "address": "0x3bb8e4",
+      "size": 52,
+      "sha256": "475f73d6d8adba8fb9ebe720a801b3e5d876576722256937790b9a463aef03bb"
+    },
+    {
+      "name": "_ZN12v2Controller10Cmd_UseOOIEP10GameObject",
+      "address": "0x4057fc",
+      "size": 344,
+      "sha256": "c4c232812b8ee6c03077739e5d2f3f8b050ac72c089d60d354a73a9a9cd86b95"
+    },
+    {
+      "name": "_ZN18MenuMessageManagerI11TutorialMsgLi1EED0Ev",
+      "address": "0x329ae4",
+      "size": 152,
+      "sha256": "bc3179b7b883a5f7b31e915d81f17b8f06d188f6fb002cf4e49e2455bb6f9963"
+    },
+    {
+      "name": "_ZN15SavegameManager15__saveTutorialsEP11IStreamBasePv",
+      "address": "0x46c798",
+      "size": 32,
+      "sha256": "56ab429b1e31205e6326bcd4e4f1c6837ddf25121288b1cd3d12d3bd5f7d6502"
+    },
+    {
+      "name": "_ZN9Character6UseOOIEv",
+      "address": "0x3ad614",
+      "size": 116,
+      "sha256": "c0896b7d878d77b4aec560a4ba6449c73dde19bedba3d689c433c254faf2ed0a"
+    },
+    {
+      "name": "_ZNK9Character8IsPlayerEv",
+      "address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    {
+      "name": "_ZN10GameObject7_IsDeadERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x38ea48",
+      "size": 44,
+      "sha256": "58dba36765437a88de918b0e9919bf2a47c253bbd036f14e9a9a0c59adcf878b"
+    },
+    {
+      "name": "_ZN9Character11ForceUseOOIEP10GameObject",
+      "address": "0x3ad5ac",
+      "size": 104,
+      "sha256": "a24f0f8ee5035e68722b165922974c522628ae5522f4d7a13cb393e1b7d620c6"
+    },
+    {
+      "name": "_ZNK10GameObject6IsDeadEv",
+      "address": "0x3400ac",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "name": "_ZN15SavegameManager15__loadTutorialsEP11IStreamBasePv",
+      "address": "0x46c778",
+      "size": 32,
+      "sha256": "7b004aa0752a061ba4a0a6e44d93e31ae570ad8ca7919f9e785249bfba69af41"
+    },
+    {
+      "name": "_ZN10GameObject12_IsCharacterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x38ea1c",
+      "size": 44,
+      "sha256": "d992c29884e259c580f13a4f050721fcae9158f303c4e7ebc52702f229e478df"
+    },
+    {
+      "name": "_ZN18MenuMessageManagerI11TutorialMsgLi1EE21FlushEnqueuedMessagesEi.clone.26",
+      "address": "0x3f2274",
+      "size": 144,
+      "sha256": "cf93505060efe85accaedaf9586fed4ba67b1b1f5b8531cbfa14a10c931b9ea6"
+    },
+    {
+      "name": "_ZNK18MenuMessageManagerI19CharMenuTutorialMsgLi1EE6InvokeEPKci.clone.50",
+      "address": "0x442734",
+      "size": 260,
+      "sha256": "f4c52b825ec53d0db30316c035ff86fd3d3715c19f64c4aa76cf2478d1b4ad64"
+    },
+    {
+      "name": "_ZNK18MenuMessageManagerI11TutorialMsgLi1EE6InvokeEPKci.clone.49",
+      "address": "0x442a14",
+      "size": 260,
+      "sha256": "e89a466823c1b72aa8daa30aadf5759c35fc2d496f2c2301dfa0bb92f2f10dac"
+    },
+    {
+      "name": "_ZNK18MenuMessageManagerI11TutorialMsgLi1EE6InvokeEPKci.clone.27",
+      "address": "0x45a030",
+      "size": 204,
+      "sha256": "afa3718d979cd049a92aedc6ff19b6a4ecf66229ff5913a48b7b73f4043f5aba"
+    },
+    {
+      "name": "_ZNK18MenuMessageManagerI19CharMenuTutorialMsgLi1EE6InvokeEPKci.clone.31",
+      "address": "0x45a0fc",
+      "size": 204,
+      "sha256": "662418c03b2e0f508efc57cad4d0bcaf33f1bf3700d94b2d3c7b179ebc6d10e3"
+    },
+    {
+      "name": "_ZN18MenuMessageManagerI11TutorialMsgLi1EE19SkipEnqueuedMessageEib.clone.30",
+      "address": "0x46026c",
+      "size": 204,
+      "sha256": "6f233e41b223024e546f00ab821f2b542962aca3b5cf869fe50927212b19a85f"
+    }
+  ],
+  "update_path_debug_literal": "DisableWallAvoidance\u0000"
+}

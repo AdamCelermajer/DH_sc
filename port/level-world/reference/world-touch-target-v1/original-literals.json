@@ -1,0 +1,61 @@
+{
+  "literals": [
+    {
+      "name": "selected_debug",
+      "address": "0x8c37c0",
+      "value": "isTracingChar_CTRL"
+    },
+    {
+      "name": "no_target_option",
+      "address": "0x8bf1d0",
+      "value": "UseClickToMove"
+    },
+    {
+      "name": "move_debug",
+      "address": "0x8c37c0",
+      "value": "isTracingChar_CTRL"
+    },
+    {
+      "name": "object_selected_debug",
+      "address": "0x8c37c0",
+      "value": "isTracingChar_CTRL"
+    },
+    {
+      "name": "special_type",
+      "address": "0x8c04b8",
+      "value": "Block"
+    },
+    {
+      "name": "using_dpad_option",
+      "address": "0x8bec48",
+      "value": "DPad"
+    }
+  ],
+  "plt": [
+    {
+      "address": "0x30e2f8",
+      "symbol": "__aeabi_fcmpgt",
+      "got": "0x994c74"
+    },
+    {
+      "address": "0x30e31c",
+      "symbol": "strcmp",
+      "got": "0x994c80"
+    },
+    {
+      "address": "0x30e4b4",
+      "symbol": "__aeabi_fcmpge",
+      "got": "0x994d08"
+    },
+    {
+      "address": "0x30e6e8",
+      "symbol": "strcasecmp",
+      "got": "0x994dc4"
+    },
+    {
+      "address": "0x30e9ac",
+      "symbol": "__aeabi_fcmple",
+      "got": "0x994eb0"
+    }
+  ]
+}

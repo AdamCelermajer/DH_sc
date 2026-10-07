@@ -1,0 +1,67 @@
+{
+  "native": [
+    {
+      "abi": "arm64-v8a",
+      "target": "--target=aarch64-none-linux-android24",
+      "source": "port/engine-audio/integration-v42/application/native_audio_application_v42.cpp",
+      "status": "PASS"
+    },
+    {
+      "abi": "arm64-v8a",
+      "target": "--target=aarch64-none-linux-android24",
+      "source": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/cpp/native_app.cpp",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "target": "--target=x86_64-none-linux-android24",
+      "source": "port/engine-audio/integration-v42/application/native_audio_application_v42.cpp",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "target": "--target=x86_64-none-linux-android24",
+      "source": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/cpp/native_app.cpp",
+      "status": "PASS"
+    }
+  ],
+  "patch_checks": [
+    {
+      "file": "native-application.patch",
+      "status": "PASS"
+    },
+    {
+      "file": "application-java-v42.patch",
+      "status": "PASS"
+    }
+  ],
+  "staged_java": "PASS; existing deprecated/restricted SDK warnings excluded",
+  "source_sha256": {
+    "port/engine-audio/integration-v42/application/application-java-v42.patch": "5feb7ae5af8650ebc7366e7319cd653aa578961ff7fdf6bad30f31bc9dbccdd8",
+    "port/engine-audio/integration-v42/application/application-java.patch": "e3aa812361dc58c995ce7823c652e78473d151739468b06d73ce4f96f9641960",
+    "port/engine-audio/integration-v42/application/application_audio_serial_v42.hpp": "ec1b1f0b37559da53f2fde5264358401cb15533c99560bc111bedfc841167cd3",
+    "port/engine-audio/integration-v42/application/AudioApplicationLifecycleV42.java": "c4456c84b50048fe4393d36cb4084ac5469ddc5cf93331e6f4b246bb727caa72",
+    "port/engine-audio/integration-v42/application/AudioFocusPolicyV40.java": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769",
+    "port/engine-audio/integration-v42/application/disabled_bootstrap_v42.hpp": "1852aedfe917d3261e4484c378f6d12db005120c56fd63bfd785ee0b04511fd7",
+    "port/engine-audio/integration-v42/application/native-application.patch": "3d394522c84108e834aff49657752b57a50dcf243601a589d219e833d8ed4358",
+    "port/engine-audio/integration-v42/application/native_audio_application_v42.cpp": "9d3317577bf132a37e0a6b4cded24176e5818874036d3475f14fe587cf63a62d",
+    "port/engine-audio/integration-v42/application/native_audio_application_v42.hpp": "938c3ef5f81929051f578656ee6eae843d0749b1757b97d1e8d80ad2029f1645",
+    "port/engine-audio/integration-v42/application/prepare_hooks.py": "630d26d031b07b4e5a8838c32bcc5b6613e0270356cb855d825ed22c8922bbd9",
+    "port/engine-audio/integration-v42/application/prepare_java.py": "35d3b88876d93c29f8043f033068dcc35cce7e0f934d32d3260386ee22054e5e",
+    "port/engine-audio/integration-v42/application/serial-fixture.cpp": "8ad8e06db47e83a730394455ea5a02a12f747d1abd659320408abde340f5d588",
+    "port/engine-audio/integration-v42/application/SharedAudioFocusV40.java": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a",
+    "port/engine-audio/integration-v42/application/validate_hooks.py": "48b1daf41c030e65965e45ab73c7464f647700fce19df2f024004cc1301d7ede",
+    "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/AudioApplicationLifecycleV42.java": "c4456c84b50048fe4393d36cb4084ac5469ddc5cf93331e6f4b246bb727caa72",
+    "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/AudioFocusPolicyV40.java": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769",
+    "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/FrontAudio.java": "862daacb09306153cdadeaec83fa20699420ac0a10d4460767e9e0edfff7b466",
+    "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/MainActivity.java": "fc04d7969ff14002ab8da4940ef445b381f00956181b4a1a85c5648e02b671ee",
+    "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/NativeBridge.java": "39ccdbde57212291b9a05a0d2328a683b8ac2dc4512310b41ee25e41327534f9",
+    "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/SharedAudioFocusV40.java": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a",
+    "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/cpp/model_renderer.hpp": "9ecf110fb76e72dedd5669c99e9717be6ed8354e48c20633e0e4303480e5b503",
+    "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/cpp/native_app.cpp": "93fe3c70c921c8f744b83a4db1a29e46463658ffb74ed4207d4e91e65de9292d",
+    "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java": "862daacb09306153cdadeaec83fa20699420ac0a10d4460767e9e0edfff7b466",
+    "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "9e68266500a38ed27d0f4b3df16552b6e5a4125e5be5f54e414ab540eab9185c",
+    "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java": "986762a3f308e78cfa234dc0c2ec6a58bd15e34bf74609a2345317ae88273692"
+  },
+  "scope": "Compilation and patch applicability only; no application APK/link/runtime/device. Parent backend host tests cover exact source pack/precache. GS/RNG/source-command provider seam remains required."
+}

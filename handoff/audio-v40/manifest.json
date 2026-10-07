@@ -1,0 +1,1098 @@
+{
+  "version": 40,
+  "scope": "Independent helpers, source/CPU proofs and captured prospective integration patches; not applied/shared build/device/audible acceptance",
+  "owned": [
+    {
+      "path": "port/engine-audio/audio_clock_v40.cpp",
+      "bytes": 1975,
+      "sha256": "02f7e96ad26e8f3dfb49b50195d6a08efbaf256f037b638b6dd796d6f5e63b71"
+    },
+    {
+      "path": "port/engine-audio/audio_clock_v40.hpp",
+      "bytes": 884,
+      "sha256": "66a3cd763f0e85546fc998de39308870561c26daf2dbc58b7a554c7fb1801d96"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v40.cpp",
+      "bytes": 8486,
+      "sha256": "6bed25a433331c723ebe5c99af02b073836a3966a2b28d6d1045260a1b883225"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v40.hpp",
+      "bytes": 3271,
+      "sha256": "e76ef00051e442abb61a9972e0bf41564abd80ef312aece440c9ef7eef7843bc"
+    },
+    {
+      "path": "port/engine-audio/audio_source_command_v40.cpp",
+      "bytes": 1154,
+      "sha256": "be2dc7d524f9040142699585e924fc99fd445dedd0b330d7944b864ae863f496"
+    },
+    {
+      "path": "port/engine-audio/audio_source_command_v40.hpp",
+      "bytes": 1075,
+      "sha256": "c5f3dde066e7a1a87f71708de3b0e69d47684d87835773f4cdd3a4095721e08d"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_authored_event_services_v40.hpp",
+      "bytes": 2856,
+      "sha256": "f5289e74aba3745e328a21e3b5d5cc809e5ab8f23548f54c5f51def821773729"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_producer_transport_v40.hpp",
+      "bytes": 1442,
+      "sha256": "0109ab18b25d8b363b983d1b53b31b78d116a051594950ff27513c71b1e66e64"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_runtime_transport_v40.hpp",
+      "bytes": 772,
+      "sha256": "d592a7dccab99147ecaf7c3a0bd9055119203d5b8ef5381c4274ae1bceca78f3"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_session_transport_v40.hpp",
+      "bytes": 803,
+      "sha256": "7ea9fd807e2944598535e120fa699e2ead0d171f7dadd878a027a0330cdd1168"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_source_emission_v40.hpp",
+      "bytes": 2172,
+      "sha256": "129e7df25461456bb9ffc6f3d710da95d394d0caf5d791b520053f7db6e2c19d"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/checklist.json",
+      "bytes": 3834,
+      "sha256": "2f2b357ad59573c3c3b7ee8cad86e0898c3f47e018f18b3ac6211ec66c5e2f8c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/handoff.md",
+      "bytes": 12497,
+      "sha256": "433899fe122acb49907f2b3a768cadec2179df382138de230910ecded4950adf"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/host-receipt.json",
+      "bytes": 4294,
+      "sha256": "fc5adaf7dfa5c8321d486fd47f6207d964d054582aff0a50f533e1bd74176829"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/manifest.json",
+      "bytes": 15931,
+      "sha256": "9001dc4162a05e7242eed1f985aae23cc815f8b5d1a7526f680b2259672e36b2"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/patch-verification.json",
+      "bytes": 4486,
+      "sha256": "347b57dcc83af7f628b2bfc9caf8578207ae01061049de63ef17986d6fc11fe3"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/patches/01-active-transport.patch",
+      "bytes": 7299,
+      "sha256": "c98ddbb8f7a31756b99a890ade735319a2750c0e4ad97c7235bde8ce3be133ad"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/patches/02-player-named-prefix.patch",
+      "bytes": 2683,
+      "sha256": "983d0bf052232858e7621954942c7e4e00b84908ad8e73c37fb65e53c72d34e7"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/patches/03-prerequisite-item-sites.patch",
+      "bytes": 4939,
+      "sha256": "81929bf512b34c8d71accce3d600925426a0ac64252ae91055dcbfcae0386773"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/patches/04-prerequisite-container-site.patch",
+      "bytes": 5337,
+      "sha256": "8785c681c31dde26253405ff2e56de2e1446c962e67c09d2ed3838e9341bb2a1"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/producer_transport_host.cpp",
+      "bytes": 5439,
+      "sha256": "1aa61665d350488eb25a7170b26cd2168893b10c56d4a77bd2ea97711964f536"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 259218,
+      "sha256": "150f06f4548b524d8832d2ae4edad7a7ef15325aef51ce5c0cf3859fde205804"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 2399,
+      "sha256": "255d208a00d682965cc49415e970389fcee2b2286f0db2f47f6e61196b4efefe"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 2869,
+      "sha256": "552dc44556bdd216208bebf32a1918175e7a1a1cfa6d2b4ba91857344cc7c8b3"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 14418,
+      "sha256": "e6b88a62f150c978256ab63560dad26bbba1ff1fe6fc07852203143f7472d76c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/canonical_destructible_container_v16.cpp",
+      "bytes": 10739,
+      "sha256": "9ffefa3a7c1c89facdffec612fc5f05f28be306f69fef36f1a5e48b2ede278ff"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/canonical_destructible_container_v16.hpp",
+      "bytes": 5614,
+      "sha256": "5a685488837ca22c0b302bd636261eb47a9f577534d511700d17362fa5186e51"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/openable_container_owner_v1.cpp",
+      "bytes": 9240,
+      "sha256": "9a4d7b63b4e3186f8ddd874b1e72a77a1f5a838f5d724fa532807b0090b7a781"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/openable_container_owner_v1.hpp",
+      "bytes": 3971,
+      "sha256": "6f13fa03dce718b57ad9f3b80c816503bbd977def0e71110a1d8a89c84ed1124"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/world_item_graph_v3.cpp",
+      "bytes": 5695,
+      "sha256": "4db908678921b97a5a9b0c49fb779d9f7429aef416f65a4897f9f81365f42b00"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/world_item_graph_v3.hpp",
+      "bytes": 2635,
+      "sha256": "245bdcd0fcab3c0faeb3c232ad74ffcdeb10c97b4f2cb3e5e3a2215e9aca88d8"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/world_loot_pickup_v23.cpp",
+      "bytes": 6676,
+      "sha256": "ad78c086b24d8e5b5667a4093bc16fa1d6f105a4479b5c442d23981acd1f2938"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/prospective/port/level-world/world_loot_pickup_v23.hpp",
+      "bytes": 2654,
+      "sha256": "20a7d398834ab139e436a0d19f174b9b236b6f3adaf100dd1dd96bfe483926bd"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/renderer_player_named_prefix_v40.inc",
+      "bytes": 1849,
+      "sha256": "27077c55f6b217de648bed9aee70c3321e2712ac7e3fe7b2f5f3538c65d8b8d5"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/seal_receipts_v40.py",
+      "bytes": 2471,
+      "sha256": "11b1445a729df639d2d74d808a0d803d2c9426af40cafe26e189bb0d9efd8ec3"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 258088,
+      "sha256": "f5e18dc288f614f7aaf0ce8dfff34da15acf0f2613d16edb3135a532396a5d62"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 3137,
+      "sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 3806,
+      "sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 15367,
+      "sha256": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/canonical_destructible_container_v16.cpp",
+      "bytes": 10764,
+      "sha256": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/canonical_destructible_container_v16.hpp",
+      "bytes": 5507,
+      "sha256": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/openable_container_owner_v1.cpp",
+      "bytes": 9214,
+      "sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/openable_container_owner_v1.hpp",
+      "bytes": 3857,
+      "sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/world_item_graph_v3.cpp",
+      "bytes": 5342,
+      "sha256": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/world_item_graph_v3.hpp",
+      "bytes": 2385,
+      "sha256": "54eccdd1fc64b0b0450607a05e32f34b81cf99d259268eceb8b2e5bc3b75bb76"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/world_loot_pickup_v23.cpp",
+      "bytes": 6325,
+      "sha256": "e77f2501eb9a864172840ac03bbad2cca8eccc3c678986f4b36de08423e8b14c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/source-snapshot/port/level-world/world_loot_pickup_v23.hpp",
+      "bytes": 2404,
+      "sha256": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/stage_patches_v40.py",
+      "bytes": 12792,
+      "sha256": "a120419d944c563e05b46122d5d40da6b98b5e51bcba136195f3b48888b01a2c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/staged-contract.json",
+      "bytes": 10252,
+      "sha256": "e1c454135b7dce127bfaa603f99719b85bff04f48076f0eaa02a717aaa071421"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/staged-syntax-receipt.json",
+      "bytes": 2716,
+      "sha256": "874987a757c0d88aee32581a64873859d4dc1dbbf19df0367b941b695da84696"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 259186,
+      "sha256": "16a7c081113d0c489086a08399efe13e75b85c23de1c6a85c32fb706bfbcad7a"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 2425,
+      "sha256": "48b1bee7d53a417966ccdda002e36bdedd234b0d16c1de3ba67acf24bab84125"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 2901,
+      "sha256": "e0ab945a0bb0914da817eb291137d4b26ed1ce51cc3616bf9ff547649d37766f"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 14591,
+      "sha256": "6328c30664df9e9e53180fb9a4f492976a5a9a1266bd8a168f56a1439403da99"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/canonical_destructible_container_v16.cpp",
+      "bytes": 10799,
+      "sha256": "808a5018bd7b18faa4622e373e587047233ace0212b3ce875decc3c294da234e"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/canonical_destructible_container_v16.hpp",
+      "bytes": 5681,
+      "sha256": "446848af00a5b1b04faf5d738a382c013e5f48d04ad94c1aa419bb40e1fc513b"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/openable_container_owner_v1.cpp",
+      "bytes": 9383,
+      "sha256": "aa8a69dcb8a79f50c6aaaae3772f42a12ab477d81f2b297d8f1e6e0b899fb70c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/openable_container_owner_v1.hpp",
+      "bytes": 4051,
+      "sha256": "67621e81317c3d07c78d627d45f65165f8908ff161e09a9ea23030133dc93e0a"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/world_item_graph_v3.cpp",
+      "bytes": 5760,
+      "sha256": "2d0b0a0e9dd781c3108364197666245be4b094dd34a5aaaf08e0f5c27b9658ff"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/world_item_graph_v3.hpp",
+      "bytes": 2686,
+      "sha256": "8580a5f1d2630be99d47d2d29be7270479532709188355f4667d7f2b4301bc13"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/world_loot_pickup_v23.cpp",
+      "bytes": 6723,
+      "sha256": "35d334cd5e1a4d62b750e5d476cc384db4b83040463e650abc25da2ec44f09c9"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify-tree/port/level-world/world_loot_pickup_v23.hpp",
+      "bytes": 2705,
+      "sha256": "ad0550d29538c404a776a2fa4a3429e7cca177801cea1877faa2b74bf1131c9b"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify_live_base_v40.py",
+      "bytes": 675,
+      "sha256": "7150ce1d6aac4fde716a7e3f82a298daa590e36db7a3a97400672fc8038183c7"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify_patches_v40.py",
+      "bytes": 2076,
+      "sha256": "e6cfddb5e2b914c2b50480683d593f7a70d78991d90c3d20d48fb69a3062aa44"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/verify_staged_syntax_v40.py",
+      "bytes": 1704,
+      "sha256": "c7879206ff4fda2c34b87494fc49b0e17a1586b22da66f7233e32d6a5f3c37e6"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/application-java.patch",
+      "bytes": 9649,
+      "sha256": "6bc2531cd8e445970853b72d376c8d88561e37543475fa018c99a7d4b84e5b73"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_control_v40.cpp",
+      "bytes": 1197,
+      "sha256": "523446f9cf9f0c81acbb1206c7dc2b4fb26f33c41c52f2002711b7bec524967a"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_control_v40.hpp",
+      "bytes": 1100,
+      "sha256": "e818d6d7f6038e449c5c360a6bde2fdcbf9284812b6e7044b61b7cb14f8e53f0"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.cpp",
+      "bytes": 2294,
+      "sha256": "67ea34a45610592d807c30b65ecfbbb3eb3915ae250c4b397a1c379973962512"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.hpp",
+      "bytes": 1101,
+      "sha256": "6a59c6be965abdf11f94bd5083bc9fea650924451d5231360cbf302c00dc2ebf"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_lifecycle_jni_v40.cpp",
+      "bytes": 675,
+      "sha256": "7369906d2ff8cda748235990ff60993214ba17736cb743fb5de5ee6519b002ce"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_native_session_v40.cpp",
+      "bytes": 10550,
+      "sha256": "f10e9f74fcf2d9e12ab3eed71faf9188f6aa79a818da7c494a8a250a2af47a95"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_native_session_v40.hpp",
+      "bytes": 3382,
+      "sha256": "2869ff35607812641710b4ad82ba7778e137dc5faf472e53552207b259bc9814"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_output_v40.cpp",
+      "bytes": 7278,
+      "sha256": "6e6c4b594b705871bb80d889833f4db97b1fcebd9cf5aba393a6acb94084606a"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_output_v40.hpp",
+      "bytes": 3038,
+      "sha256": "dd92da706abf09e230a1da7bc0ce09455cf25c75497cfd80032cf7874df5c230"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/AudioFocusPolicyV40.java",
+      "bytes": 2686,
+      "sha256": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/AudioFocusPolicyV40Test.java",
+      "bytes": 2661,
+      "sha256": "b6ec4603c5b594e519d0566e3b3ac6d4444176abc2cafa53c33bebd17b9850ba"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/captured-source-sha256.json",
+      "bytes": 2501,
+      "sha256": "ff8bd8ad8b822dab8257852411e0c38779db9c234a46126c48ff21b563691d5c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/compile-validation.json",
+      "bytes": 4422,
+      "sha256": "10a3d97e0915d407684cc686b07ac478ce5d0baeedea4f807b0c8d6741c7a453"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/gate-fixture.cpp",
+      "bytes": 2251,
+      "sha256": "a93d5f82b928fe62dfbd8f2838bdc27546a65960320c8e87788c7911681e37f1"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/host-validation.json",
+      "bytes": 795,
+      "sha256": "a1fbb33a0dc04dc6c8b3998299c50429d39556ec88f2635461c385991c91c4e2"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/prepare_packet.py",
+      "bytes": 6038,
+      "sha256": "2da1271bc8095ae105cf4f31db9349f94eb36f9cef8b9bc1266694b9ee7e12c6"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/README.md",
+      "bytes": 12815,
+      "sha256": "3531cd3c8fbcccaa2eaefb1852b9ea2077afd09c06be4136aec82c23f8f4e7db"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/run-gate-host.ps1",
+      "bytes": 1352,
+      "sha256": "deb795d714b3ccac95c18f84cdb7d089f152bd511256eb55133f02501ae8ee82"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/run-session-host.py",
+      "bytes": 2281,
+      "sha256": "9a81cfd692dd9a00d5ac0af0de4eec22494bf0e8c5606a6947971d949e608423"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/session-fixture.cpp",
+      "bytes": 8751,
+      "sha256": "858687a78eb836bddcc7c6259ce210734588a8fa7ff0cc6f209b055a3988ad2c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/session-host-validation.json",
+      "bytes": 4141,
+      "sha256": "2fa62e684379fba8de26709943edc9bb691e1b9a8f93ed8cbece9324abe22679"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/SharedAudioFocusV40.java",
+      "bytes": 2950,
+      "sha256": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/staged/java/com/example/dh2/AudioFocusPolicyV40.java",
+      "bytes": 2686,
+      "sha256": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/staged/java/com/example/dh2/FrontAudio.java",
+      "bytes": 10319,
+      "sha256": "862daacb09306153cdadeaec83fa20699420ac0a10d4460767e9e0edfff7b466"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/staged/java/com/example/dh2/MainActivity.java",
+      "bytes": 39449,
+      "sha256": "da75817bc2ee05ff5e9d380dbd440a1d1aa36d0929eb62323adae41f5e53e0ab"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/staged/java/com/example/dh2/NativeBridge.java",
+      "bytes": 2786,
+      "sha256": "35a5d23d1ca45df7fa8f4fe21cd6bc7eda088b6c0353dc2f4186444f5b7f3f85"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/staged/java/com/example/dh2/SharedAudioFocusV40.java",
+      "bytes": 2950,
+      "sha256": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/validate_packet.py",
+      "bytes": 2950,
+      "sha256": "1a2e382c417e4becf0aae036cad062512f0a06394be64734d2f4ab6f7a0f25bb"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/README.md",
+      "bytes": 6600,
+      "sha256": "b5c3599a929146fd91a5f3a26ba4f31544ba1fb04ef7b5107433175d746ad5d6"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/compile-validation.json",
+      "bytes": 897,
+      "sha256": "202d69b4592186a96573f62fbb2e471dce580c0a61bc1d5a8a0375c6ec1ebdb2"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/compile_helper.py",
+      "bytes": 1346,
+      "sha256": "de5f5b8ea87a509ca02f614f53297da506e6abac04eababe73b9a6670ef4376e"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/default_source_fields_v40.hpp",
+      "bytes": 1508,
+      "sha256": "93a9a2e164f5ab18d4931b6fbb87abf5504ac699fabe50e9d89943658cdc1884"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/driver-init-prefix.asm",
+      "bytes": 1701,
+      "sha256": "c74367d5f05f50e803988d82a87f713e6dc17945feabdf2f74d0b293382189a6"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/driver-set-general.asm",
+      "bytes": 1331,
+      "sha256": "f3f06b5ddf589ddca92cb501bad9ef90093e6cc9752c8bf953fe5aea7a5dbd8c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/emitter-constructor.asm",
+      "bytes": 4215,
+      "sha256": "ccb0093e937f6eaf7352aa3515a4fe95ee8d8c004fe1c637acf051e3ff287d0c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/emitter-reset3d.asm",
+      "bytes": 1371,
+      "sha256": "aae9a8af0df8d22812317c54973a5ca346d73a3f0f63e5520c42908bbb085571"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/engine-set-general-integer.asm",
+      "bytes": 369,
+      "sha256": "28c570fd2e8011aeb766d890e80bf8d6006ce40ce7e8488bc523c039f5016e28"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/helper-fixture.cpp",
+      "bytes": 1742,
+      "sha256": "f0053a0353a3894f425abea74bebcd1eef0419223f7b126c8d9a779bb338913e"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/manager-initialize-prefix.asm",
+      "bytes": 1575,
+      "sha256": "d2e1100aea5e7e9a4dac7144241b6c8b8470358909ce36b3c9c829ae17e64cfc"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/NOTES.md",
+      "bytes": 3422,
+      "sha256": "d99ef9a0c7febf954a6b457026dd89612a2cafd1414650afd2cba510f9821e9c"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/original-driver-init-prefix.bin",
+      "bytes": 80,
+      "sha256": "930711fcba8c835cda9bc49d0f1134aa655c154a6d2a122a910396bbf68f4fd4"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/original-emitter-prefix.bin",
+      "bytes": 1448,
+      "sha256": "6906b7d181e6b28f4b0f70eaa8bde84a3b1191900c87562f619a00c0f561bfef"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/proof.json",
+      "bytes": 1848,
+      "sha256": "b7f31a62f7d447f3283a0489283cda11a44a2e87ebecdc120b5f2ace98bd7023"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/default-source-fields/prove_defaults.py",
+      "bytes": 6404,
+      "sha256": "a05627d66c1872fd88d1a0a16726aea6c0c09259c75aa90b14fa7fe084f88014"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/host.json",
+      "bytes": 2129,
+      "sha256": "05d7c9e64e73fe5e16616d1f371e6f3c9e4ee80825b489afe9845565f3861fce"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/runtime/strict-compile.json",
+      "bytes": 1425,
+      "sha256": "94650d063e904265358d3bfca6264dc6ae530383f47dc6ad5bf164c3594a844b"
+    },
+    {
+      "path": "port/engine-audio/tests/audio_gameplay_runtime_v40_host.cpp",
+      "bytes": 10325,
+      "sha256": "6d9d107b3445f0f8cbf7a976606e0f6242e812a2e102cd4792943326f6b244ab"
+    },
+    {
+      "path": "port/engine-audio/tools/compile_audio_gameplay_v40.py",
+      "bytes": 1473,
+      "sha256": "69d73bd2e1f4610e6c348cdaff9c5dd63aa643f21f536fc21253c804114b3d4d"
+    },
+    {
+      "path": "port/engine-audio/tools/freeze_audio_v40.py",
+      "bytes": 2056,
+      "sha256": "3a2223f46c191ae7190d2f87446283c0624d01cd0c4664d56720d911c4708897"
+    },
+    {
+      "path": "port/engine-audio/tools/run_audio_gameplay_v40_host.py",
+      "bytes": 1791,
+      "sha256": "18d57be58892c432213140526683b9c1c6387f1803e07979da5b46d529ef60bc"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "port/asset-payloads/payloads.hpp",
+      "bytes": 4261,
+      "sha256": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee"
+    },
+    {
+      "path": "port/engine-audio/audio_bank_v34.hpp",
+      "bytes": 1659,
+      "sha256": "376d0e168f1a6ef2db2ca4ad3913ce14394a73a335ca7f81e7d51bd048b3c4e0"
+    },
+    {
+      "path": "port/engine-audio/audio_catalog_v34.hpp",
+      "bytes": 1755,
+      "sha256": "cb1892fbd9088780707f428d07fb8c8c1ab916931862257bc5ea724a8f50f428"
+    },
+    {
+      "path": "port/engine-audio/audio_listener_rows_v38.hpp",
+      "bytes": 859,
+      "sha256": "1e3584b23ab1015859b3519bb6c2031d0c53c8da18d3e44e57182751dc32bc62"
+    },
+    {
+      "path": "port/engine-audio/audio_mixer_v34.hpp",
+      "bytes": 3444,
+      "sha256": "9d0f92b4a7287ad9957642579fc4383e11483b65d38bdd54dc3b594d7fba57c7"
+    },
+    {
+      "path": "port/engine-audio/audio_named_animation_sound_v38.hpp",
+      "bytes": 2127,
+      "sha256": "2c36c8a2c8ad88db59e216dc9d19cd432d9dbb7c530cc6195d47f13d1269c376"
+    },
+    {
+      "path": "port/engine-audio/audio_native_envelope_v34.hpp",
+      "bytes": 561,
+      "sha256": "bd4330a3ca10099b941e2ac65b81783eac94e63fb4d4c32c337c37688e61914e"
+    },
+    {
+      "path": "port/engine-audio/audio_sample_v34.hpp",
+      "bytes": 1850,
+      "sha256": "fbc6cccd2b4c197fb1122c428e322bcf9803721eca7707a0341bdc5f8c8e26ac"
+    },
+    {
+      "path": "port/engine-audio/audio_source_bindings_v38.hpp",
+      "bytes": 1102,
+      "sha256": "aaa03aa7462ae98a8286d67bfa6c5e2f70bab1d16823f1ad82b1877f6522606d"
+    },
+    {
+      "path": "port/engine-audio/audio_spatial_v34.hpp",
+      "bytes": 802,
+      "sha256": "0260968fcc40ea69fc3fe8a914c53c535e8918f519e98f0f56755146d8cd28a2"
+    },
+    {
+      "path": "port/engine-audio/audio_world_producer_v38.hpp",
+      "bytes": 959,
+      "sha256": "c5953e13772c379c85552df765d4a5d0cbd7848a1980a297ed72992c18279a06"
+    },
+    {
+      "path": "port/engine-audio/vox_source_fields_v38.hpp",
+      "bytes": 950,
+      "sha256": "c7bc0db58b828fbefa3953bf56d7179778b40a52e8af71770889706b8d64501a"
+    },
+    {
+      "path": "port/engine-resources/resources.hpp",
+      "bytes": 6630,
+      "sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230"
+    },
+    {
+      "path": "port/game-data/aggro.hpp",
+      "bytes": 1983,
+      "sha256": "a4624693ae19a5ab6f058f4137d535a9b3ad41a5129faa5c0eb1a82850a1f703"
+    },
+    {
+      "path": "port/game-data/ai.hpp",
+      "bytes": 2153,
+      "sha256": "e74238d1609df42c9086c0bdbad0b0e3a863d8081dba7260cc33fa67e512bf70"
+    },
+    {
+      "path": "port/game-data/animation_tables.hpp",
+      "bytes": 2164,
+      "sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d"
+    },
+    {
+      "path": "port/game-data/class_tables.hpp",
+      "bytes": 1801,
+      "sha256": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7"
+    },
+    {
+      "path": "port/game-data/combat.hpp",
+      "bytes": 1242,
+      "sha256": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958"
+    },
+    {
+      "path": "port/game-data/combat_application.hpp",
+      "bytes": 2252,
+      "sha256": "f32e8d69188beecc3f84551fd61c2d55e61d515a1b43df540734b9d222724334"
+    },
+    {
+      "path": "port/game-data/combat_result.hpp",
+      "bytes": 1263,
+      "sha256": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120"
+    },
+    {
+      "path": "port/game-data/data.hpp",
+      "bytes": 901,
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+    },
+    {
+      "path": "port/game-data/faery_tables.hpp",
+      "bytes": 2332,
+      "sha256": "b1c8cd5f5ac736f10e7ae09765bb0e567098d32ef74338ec5c0fca64c8cd779c"
+    },
+    {
+      "path": "port/game-data/fresh_inventory_owned_v4.hpp",
+      "bytes": 7044,
+      "sha256": "9bee487fbbbb0a0b150684d73a84e15192383f254bd873791630d4a009fe8033"
+    },
+    {
+      "path": "port/game-data/game_design_tables.hpp",
+      "bytes": 1851,
+      "sha256": "52bdb1135fdaa4fd03866797d0ccb5dd200ecd622963b8afeeb4470a2b58049e"
+    },
+    {
+      "path": "port/game-data/health.hpp",
+      "bytes": 1373,
+      "sha256": "fa8d4508a841c26cfcb72526cb5b811eee0a7775d82bea1b209588149c630aa8"
+    },
+    {
+      "path": "port/game-data/inventory_gathering_ids_v11.hpp",
+      "bytes": 1012,
+      "sha256": "2d5b6cb11e6f0dde452d1a4696bd39f0f07f55daade15563d2f6e011fda730eb"
+    },
+    {
+      "path": "port/game-data/item_inventory_v1.hpp",
+      "bytes": 4328,
+      "sha256": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847"
+    },
+    {
+      "path": "port/game-data/items.hpp",
+      "bytes": 1860,
+      "sha256": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f"
+    },
+    {
+      "path": "port/game-data/level_tables.hpp",
+      "bytes": 1691,
+      "sha256": "ba2961fde528980f9d9d69d05a9d1bbc58ae29f34d3825af8e02465ca5c3a4d9"
+    },
+    {
+      "path": "port/game-data/loot_tables_v2.hpp",
+      "bytes": 2243,
+      "sha256": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931"
+    },
+    {
+      "path": "port/game-data/player_savegame_v1.hpp",
+      "bytes": 9297,
+      "sha256": "517da5044d34afc94c54dd12ff371ece95cb547058066ce99eacf1e1e6ad15b9"
+    },
+    {
+      "path": "port/game-data/properties.hpp",
+      "bytes": 2254,
+      "sha256": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d"
+    },
+    {
+      "path": "port/game-data/quest_savegame_v1.hpp",
+      "bytes": 2294,
+      "sha256": "0bd2f5825420bf0c3c4a10d9bdddd114e98c42767bafb5a56cb34912d6c6eb85"
+    },
+    {
+      "path": "port/game-data/skill_tables.hpp",
+      "bytes": 2686,
+      "sha256": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab"
+    },
+    {
+      "path": "port/game-data/vitals.hpp",
+      "bytes": 1209,
+      "sha256": "526cb0138fadc5964f4a74e27c65d33d2054a0cd61f3a71cbf08981c8954ed85"
+    },
+    {
+      "path": "port/level-world/character_ai_events.hpp",
+      "bytes": 2564,
+      "sha256": "e78a1542dd1316047414419bcea7d8ad9fee32a410959d2f80db4af47ef357c3"
+    },
+    {
+      "path": "port/level-world/character_ai_update.hpp",
+      "bytes": 2015,
+      "sha256": "35efb90d8a55675e48a602d21dcce1ddbdb1aa211a6fca0acddcaa66d77e2758"
+    },
+    {
+      "path": "port/level-world/character_buffs.hpp",
+      "bytes": 3812,
+      "sha256": "2d3b4b7753868bb797c00888c5efb6e40e86f1bda4df5e812cfc6da6a07d7e06"
+    },
+    {
+      "path": "port/level-world/character_combat_queries.hpp",
+      "bytes": 2170,
+      "sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf"
+    },
+    {
+      "path": "port/level-world/character_combat_sound_v1.hpp",
+      "bytes": 1808,
+      "sha256": "73a686daebea0f9d619be3bde0f8bba9a2b349757c7dadd3eee09dca4a108a53"
+    },
+    {
+      "path": "port/level-world/character_controller_commands.hpp",
+      "bytes": 2776,
+      "sha256": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5"
+    },
+    {
+      "path": "port/level-world/character_current_skill_v2.hpp",
+      "bytes": 1305,
+      "sha256": "a6b97ec7b41734e375e9c995e46be56df55362c76f94b3d1ec589dd95ad3e21e"
+    },
+    {
+      "path": "port/level-world/character_deferred_script.hpp",
+      "bytes": 2828,
+      "sha256": "329325647b9703e89fc0a9023018722db0f72339d3d98bec08aab435ed3a883a"
+    },
+    {
+      "path": "port/level-world/character_design_services.hpp",
+      "bytes": 2362,
+      "sha256": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064"
+    },
+    {
+      "path": "port/level-world/character_dot_attack.hpp",
+      "bytes": 4065,
+      "sha256": "0ac60776bf112edf56a7576dbb239f8fdac06c74e31e5a14bad64c306d179681"
+    },
+    {
+      "path": "port/level-world/character_game_design.hpp",
+      "bytes": 3141,
+      "sha256": "3e2a36aae3aaca6dac7eb48dd92206bf72f8fbd694ecd90e4777552f817e92a8"
+    },
+    {
+      "path": "port/level-world/character_hit.hpp",
+      "bytes": 2840,
+      "sha256": "9035d572267994ce2dfcdbda05d6e12c6cc92711f526b31720757fe8a9c65311"
+    },
+    {
+      "path": "port/level-world/character_host_context.hpp",
+      "bytes": 2727,
+      "sha256": "cd51145421b37194bd79deec6603696a1d26e9d20f3030cb20372012430ac80e"
+    },
+    {
+      "path": "port/level-world/character_level.hpp",
+      "bytes": 2082,
+      "sha256": "c4cb773dd1468a41d9c630eb1f46d6a732ee64b0cd7062722f5e3cc7a90aaf76"
+    },
+    {
+      "path": "port/level-world/character_melee_animation_event_v1.hpp",
+      "bytes": 3409,
+      "sha256": "de99f2c5cac2e077742e132014baf38ff987c5a653c93c70c68ca63211271363"
+    },
+    {
+      "path": "port/level-world/character_native_fsm.hpp",
+      "bytes": 2936,
+      "sha256": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b"
+    },
+    {
+      "path": "port/level-world/character_path_commands.hpp",
+      "bytes": 1896,
+      "sha256": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7"
+    },
+    {
+      "path": "port/level-world/character_player_skills_v3.hpp",
+      "bytes": 3412,
+      "sha256": "8f887c84860a5669a9333f6235d0a21e694612cecc919e40b50ed520c4215a6a"
+    },
+    {
+      "path": "port/level-world/character_script_commands.hpp",
+      "bytes": 2419,
+      "sha256": "51f22d25809578af83f6da1f07b4cacbe2be6dbd2e1d5e35eec7b0477089e3c9"
+    },
+    {
+      "path": "port/level-world/character_script_lifecycle.hpp",
+      "bytes": 2275,
+      "sha256": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7"
+    },
+    {
+      "path": "port/level-world/character_script_owner.hpp",
+      "bytes": 7920,
+      "sha256": "e540eda340d30395f9536aa370bc44a0219d52e0a1fcad57bb7ce55957929435"
+    },
+    {
+      "path": "port/level-world/character_script_owner_v2.hpp",
+      "bytes": 4594,
+      "sha256": "c2011cfba7ff7cee327b93620a0b726b87c533e09072baa7bdc04896b021f080"
+    },
+    {
+      "path": "port/level-world/character_script_selection.hpp",
+      "bytes": 1461,
+      "sha256": "4414d0203ca20c90d40460863f75c3f0d373b43017664547386e41c43c73514e"
+    },
+    {
+      "path": "port/level-world/character_script_session.hpp",
+      "bytes": 5990,
+      "sha256": "1b631de5545071fc792da625bbeb7389e379ddd805d37af8ceb4f8c9e6f06e0c"
+    },
+    {
+      "path": "port/level-world/character_script_session_v3.hpp",
+      "bytes": 4994,
+      "sha256": "32f48250fac5bdf10714a4920aa2ecb889bd1118f8337b57a33d7961fd8cacaa"
+    },
+    {
+      "path": "port/level-world/character_skill_ai_v3.hpp",
+      "bytes": 2007,
+      "sha256": "09bc15ca1b49042b7f0eb007e5d8ddabcb382e6df1af7c69b7b7dafa4591f286"
+    },
+    {
+      "path": "port/level-world/character_skill_callbacks_v3.hpp",
+      "bytes": 1798,
+      "sha256": "4d701c9db3a0d08b070d644c089374c958fc8b3a208b5b9c7882c08b3f75c88f"
+    },
+    {
+      "path": "port/level-world/character_skill_combat_v6.hpp",
+      "bytes": 6478,
+      "sha256": "9b3afc6c883fb5bc10ee66b1e5e449f310fe8694f340008a734a57ccf662482c"
+    },
+    {
+      "path": "port/level-world/character_skill_info_session_v3.hpp",
+      "bytes": 843,
+      "sha256": "b73adbf78bcbfdd33eceb606ea96e4424dc7ccf1406dff8703d5b1497c1bc4f2"
+    },
+    {
+      "path": "port/level-world/character_skill_info_v1.hpp",
+      "bytes": 1658,
+      "sha256": "06b24f92cec2231c6e23a2f709d7952742bf8352c15caffdfa45c6117fc70a5a"
+    },
+    {
+      "path": "port/level-world/character_skill_native_v5.hpp",
+      "bytes": 3599,
+      "sha256": "fcc6f12b129ae74a79bbe83c148beb6878728b319f648028b226e1a96ee63643"
+    },
+    {
+      "path": "port/level-world/character_skill_native_v6.hpp",
+      "bytes": 2051,
+      "sha256": "30d83f5ec17904593f2500c2a1ac66e7e5475b492470d09b2b0a1150a6d8acb0"
+    },
+    {
+      "path": "port/level-world/character_skill_properties_v1.hpp",
+      "bytes": 1331,
+      "sha256": "d04404c5f2ba7d446255c19146b444b4fe3a012805ffc1bf9a98a74c3979b07a"
+    },
+    {
+      "path": "port/level-world/character_skill_readonly_v6.hpp",
+      "bytes": 2079,
+      "sha256": "47dc2251541beb0e4f17cf13f56d410be27801cc3a83a7d9ed8cb944c3c5bb9d"
+    },
+    {
+      "path": "port/level-world/character_skill_state_v4.hpp",
+      "bytes": 2497,
+      "sha256": "ee4a21a3503a8e4b3abd21dde48e5c45094e76f2354ba3fd090210deac977150"
+    },
+    {
+      "path": "port/level-world/character_skill_target_queries_v6.hpp",
+      "bytes": 981,
+      "sha256": "533916de1324d6d1ee3f57cee02dabc54989e16cec3995646691cd4e50ca0b6e"
+    },
+    {
+      "path": "port/level-world/character_skills.hpp",
+      "bytes": 3867,
+      "sha256": "553db42a288878ad476338ce33aa3d3bfdf7afca8c6f45ba99e952b4d0cb36b5"
+    },
+    {
+      "path": "port/level-world/character_skills_owner_v3.hpp",
+      "bytes": 1212,
+      "sha256": "594b8a850bb1ce87bd6e1e2d4e0cfe02d7ba683e13bef905adb832af68c95be5"
+    },
+    {
+      "path": "port/level-world/character_skills_session_v3.hpp",
+      "bytes": 1098,
+      "sha256": "8e85298e5764a8b1305816e14da37b82087ec2381d39a13bd39c3ca75d6d7bfd"
+    },
+    {
+      "path": "port/level-world/character_spatial_bindings.hpp",
+      "bytes": 1892,
+      "sha256": "72bc0754adb341676c03b220c03cad59804231e2403cb2e5d5be23ec3f821f6b"
+    },
+    {
+      "path": "port/level-world/character_state.hpp",
+      "bytes": 4857,
+      "sha256": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83"
+    },
+    {
+      "path": "port/level-world/character_target_bindings.hpp",
+      "bytes": 3650,
+      "sha256": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75"
+    },
+    {
+      "path": "port/level-world/character_target_providers.hpp",
+      "bytes": 2375,
+      "sha256": "2b6042a6a05c8b5be3f80738e7e308316832048271b875c018c2d9dbcdba7aa1"
+    },
+    {
+      "path": "port/level-world/character_target_search.hpp",
+      "bytes": 2190,
+      "sha256": "38ce6f1b5742642abe5e79e222330264d2a67933dddfa38bb81569b40b2e9c8a"
+    },
+    {
+      "path": "port/level-world/character_timers.hpp",
+      "bytes": 2309,
+      "sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883"
+    },
+    {
+      "path": "port/level-world/character_world_ai_can_attack_v1.hpp",
+      "bytes": 706,
+      "sha256": "92397821e7ebeb96d8c151dcc81400923c10d91b3c8d05906793116c88ce0785"
+    },
+    {
+      "path": "port/level-world/character_world_ai_relationship_v1.hpp",
+      "bytes": 1607,
+      "sha256": "5015af38b54de29262f75b75e25a8b75a60f348c611b8fd22566ee3a25e271a3"
+    },
+    {
+      "path": "port/level-world/character_world_handle_v1.hpp",
+      "bytes": 538,
+      "sha256": "6877803c1ff3006fac070eb23c0019b7bd5e2a124b15bbf6f68467fae8815f18"
+    },
+    {
+      "path": "port/level-world/character_world_runtime_v1.hpp",
+      "bytes": 3557,
+      "sha256": "3e9e9c9db7cbdf05ddb1c938f6ac745835442c809ab329e13868ba3cfd301f67"
+    },
+    {
+      "path": "port/level-world/character_world_skill_combat_v6.hpp",
+      "bytes": 2720,
+      "sha256": "1c42b9eb872f69baadf077ceba598beb60825f496f7b7f86d6ee2d2e559b620e"
+    },
+    {
+      "path": "port/level-world/character_world_target_owner_v1.hpp",
+      "bytes": 4029,
+      "sha256": "80c0766c5d8398e8a437f7a63007e43a7699820fd7ba1578ffb611ced90ef532"
+    },
+    {
+      "path": "port/level-world/visual_fx_preload.hpp",
+      "bytes": 2387,
+      "sha256": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b"
+    },
+    {
+      "path": "port/level-world/vox_play3d_owner_v2.hpp",
+      "bytes": 1220,
+      "sha256": "a073edeec74610b44afbae5eaa8571d6ddf173ec4f50543c700b60da58d47a8b"
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "bytes": 1626,
+      "sha256": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3"
+    },
+    {
+      "path": "port/script-runtime/script_constants.hpp",
+      "bytes": 1558,
+      "sha256": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01"
+    },
+    {
+      "path": "port/script-runtime/script_design_bindings.h",
+      "bytes": 1659,
+      "sha256": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9"
+    },
+    {
+      "path": "port/script-runtime/script_function_alias.h",
+      "bytes": 2226,
+      "sha256": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e"
+    },
+    {
+      "path": "port/script-runtime/script_int_bindings.hpp",
+      "bytes": 3408,
+      "sha256": "4cf66271fe2a909759e03f62d5016b960cc374273eabec8a38279d15716e4d9a"
+    },
+    {
+      "path": "port/script-runtime/script_object_bridge.h",
+      "bytes": 2803,
+      "sha256": "63c357b3879fb74e882f8ec5a4d3fb6f6a3ad9360ca1bbabcbc38f1c142a15d9"
+    },
+    {
+      "path": "port/script-runtime/script_runtime.h",
+      "bytes": 9577,
+      "sha256": "8c1c24ccdc09c8b06ee1d3be35536fa25af265a650047bf6d98a08dbc707ee54"
+    },
+    {
+      "path": "port/script-runtime/script_scalar_bindings.h",
+      "bytes": 1870,
+      "sha256": "378f06afa5311644a89a5d2d057e8e490dcf23e3ff2a555a5fc73b06a3833a3b"
+    }
+  ],
+  "frozen_prior_handoffs": [
+    {
+      "path": "handoff/audio-audit-v39/manifest.json",
+      "bytes": 29630,
+      "sha256": "25928ed4fa451fb0d04a1d433d4b36d14df4b3aed7c141d90c095692933fee60"
+    },
+    {
+      "path": "handoff/audio-v34/manifest.json",
+      "bytes": 94517,
+      "sha256": "23dfa4c00b1828aba1a557e7fc85e47ecddd814a8e756bc86bdfc2a696770ae6"
+    },
+    {
+      "path": "handoff/audio-v38/manifest.json",
+      "bytes": 141653,
+      "sha256": "b9d8a681218c4c06ed58d0e55667e9afb9f3093084bba2c9337ce05132662b9f"
+    },
+    {
+      "path": "handoff/authored-fx-v32/manifest.json",
+      "bytes": 88691,
+      "sha256": "e70b525dcf072b082cb0afc3f2a13de00a3f2f1d23d479b7a552eb4c766e9de1"
+    }
+  ],
+  "acceptance": {
+    "source_exact": true,
+    "cpu_decoded_output": true,
+    "shared_app_installed": false,
+    "actual_world_ready": false,
+    "actual_aaudio": false,
+    "all_categories_audible": false
+  }
+}

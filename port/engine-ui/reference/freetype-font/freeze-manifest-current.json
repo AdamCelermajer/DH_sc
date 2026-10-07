@@ -1,0 +1,31 @@
+{
+  "source_sha256": {
+    "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+    "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/swf_freetype_provider.hpp": "418e98f0d78c72885622173c3994da2a117c38d2769cc7f82de1c0b39ebeca5a",
+    "port/engine-ui/swf_freetype_provider.cpp": "afbc4d3c761e3ca972310ffe00c6f72828cc79e0274b852c6a89e45146a01999",
+    "port/engine-ui/swf_font_geometry.hpp": "ebe76668dd1875c9dae7711beabb450113d93aa320d4a37a312d1f6011a7913a",
+    "port/engine-ui/swf_font_geometry.cpp": "db2c47657bb2227a017db5570a1d1cd097678f442ff0687f5cb319b3336d410a",
+    "port/engine-ui/freetype237.cmake": "01fe763ab679eb602cd6fe2af060a027cd50a7177b4e61ba0d3e3127aad41fde",
+    "port/engine-ui/tests/freetype_font.cpp": "d2356a03014305ccfc43032d1f539235eb38bc9712eb7c0755c28ea862cf40ac",
+    "port/engine-ui/tests/freetype_glyph_differential.py": "c859f91c52ea2d518cdf9922d5cb09d36f6db7617b747a04c749beb633beddd5"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reference/freetype-font/native-source-manifest-current.json": "4863bab7b33315edec6e30cd8d6bfb41d8ef7481e6158e21d21a6dab3dafab4a",
+    "port/engine-ui/reference/freetype-font/NOTES.md": "27be9295aadac17e3996000e00d8b9edf0cb87591631971364eee4003830a459",
+    "port/engine-ui/reports/freetype-font-cmake-host-audit.json": "ca0c38abda759f142f1d0d72a6980dceaf6869f503e707bff4998f8110c97980",
+    "port/engine-ui/reports/freetype-hud-provider-host-audit.json": "d5656946ea16905a9e97d655a0fe71d5aba5d42912d49f4ebd3de772b3a680f1",
+    "port/engine-ui/reports/freetype-font-android-syntax-current.json": "3b9635b90df4323124021cd32ffe541a9e2a164d9fdb0790eb3e0c3713bb56e0",
+    "port/engine-ui/reports/freetype-glyph-arm64-differential.json": "14bded88a178af3091687e26d47c921ebde1871100f4a2db66b0e838cfd58808"
+  },
+  "prior_freeze_sha256": "75ef04bd8321674c92ce1ec7065d5dac092f65e07baa411f08c01db7b7db5c8b",
+  "standalone_fontin_rasters": 570,
+  "original_arm64_cases": 570,
+  "actual_hud_alpha_uploads": 238,
+  "actual_hud_bitmap_quads": 1032,
+  "unresolved_fonts": [
+    "Arial"
+  ]
+}

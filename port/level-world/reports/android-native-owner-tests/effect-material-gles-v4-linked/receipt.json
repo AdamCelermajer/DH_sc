@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "scope": "actual current APK-linked GLES shared source-key program/reflection/typed material comparison/source equal-distance sort and actual FIRE atlas draw/context lifecycle; quad/current-color/node-distance fixtures, not whole native scene or skill acceptance",
+  "apk_sha256": "f51c4c26fd58560520735e7145c075565c28abc378154abb3c0f5fd9760fbd4f",
+  "sources": [
+    {
+      "path": "port\\scene-materials\\tests\\effect_material_gles_v4.cpp",
+      "sha256": "4c1256fcfc4587a1c2e57448b0fe7325b1332338adf7582e3cc977e7a67fb77d"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "3c338dc3a01519f4e37bc252cd3124fe14e0f5620ee4692eca090e3e36762b23"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "20aa762d06c895443d6469302f41ede3413c9c814bb835a7e1556285781bb2d6"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "afca252b306b25b1cd4b451fb1d8d1d2319ae765f266454e54d5336973fbe633"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "8c1b14ee0b66897e09a4b18b5a60c654609349bd9ab52f404e8b5de6fd552d7b"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "ccac3f063697d8023ab8247abdcf7d5f6b712206e5dc4fef9aebfd427f48b5c1"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "5fea88825b595e9ae67e68287811058847f0a25366919eb1b7ecd43e9d18a55d"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "935fb390f0eee6bdb03f023c1110279b68006d8b80c49e4105986a5a43d95ba8"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "0440580faeed3288fb27d02d9eaab7984b0b0fd3634fabb7196b623bfbfb09a0",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp",
+    "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\tests\\effect_material_gles_v4.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-material-gles-v4-linked\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-material-gles-v4-linked\\linked-libs",
+    "-lEGL",
+    "-lGLESv2",
+    "-llog",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-material-gles-v4-linked\\effect-material-gles-v4-linked.bin"
+  ],
+  "stdout": "context 0 shared=1 uniforms=4 queue comparisons=27/8 actual atlas pixels PASS\ncontext 1 shared=1 uniforms=4 queue comparisons=27/8 actual atlas pixels PASS\ncontext 2 shared=1 uniforms=4 queue comparisons=27/8 actual atlas pixels PASS\nPASS 292 real GLES shared material/program checks; declared quad/current-color inputs, not whole gameFX acceptance\n",
+  "stderr": "",
+  "exit_code": 0
+}

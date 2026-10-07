@@ -61,16 +61,21 @@ struct Reader {
     }
 };
 struct Loader {
-    Reader r;Scene& s;std::vector<unsigned> path;
+    Reader r;Scene& s;std::vector<unsigned> path;bool include_hidden{};AuthoredVisibilityV76* visibility{};
     void materials(){
         const unsigned n=dh2_bres_library_count(&r.v,Library::material);
         if(n>4096)throw std::runtime_error("Too many materials");
         for(unsigned i=0;i<n;++i){
             auto p=r.item(Library::material,i);Material m;m.id=r.field(p);
+            m.effect_file=r.field(p+8,true);m.effect_uri=r.field(p+12,true);
             auto count=r.w(p+16),base=r.w(p+20);r.array(base,count,24);
             for(unsigned j=0;j<count;++j){
                 auto q=base+24*j;auto name=r.field(q);const auto type=r.w(q+8),data=r.w(q+20);
-                if(name=="Diffuse"||name=="diffuse-sampler"||name=="AlphaMap"){
+                if(name=="Multilight-fx-profile_GLES2/CurrentTechnique"){
+                    if(type!=20||r.w(q+12)!=1||r.w(r.w(q+16))!=1)
+                        throw std::runtime_error("Unexpected GLES2 technique parameter layout");
+                    r.at(data,8);m.gles2_technique=r.field(data+4);
+                }else if(name=="Diffuse"||name=="diffuse-sampler"||name=="AlphaMap"){
                     if(type!=11)throw std::runtime_error("Unexpected image parameter type");
                     auto img=r.image(q);if(name=="AlphaMap")m.alpha_map=img;else m.diffuse=img;
                 }else if(name=="__irrlicht_Diffuse_color"){
@@ -107,11 +112,17 @@ struct Loader {
         if(const auto properties=r.w(p+72))state.user_properties=r.field(properties,true);
         std::copy(translation,translation+3,state.translation);std::copy(scale,scale+3,state.scale);std::copy(quaternion,quaternion+4,state.quaternion);
         s.graph.push_back(std::move(state));
-        visible=visible&&r.w(p+52)!=0;
+        const bool local_visible=r.w(p+52)!=0;visible=visible&&local_visible;
+        if(visibility){visibility->node_local.push_back(local_visible?1u:0u);visibility->node_effective.push_back(visible?1u:0u);}
         auto count=r.w(p+64),base=r.w(p+68);r.array(base,count,8);
         for(unsigned i=0;i<count;++i){
             auto a=base+8*i;
             const auto tag=r.w(a);
+            if(tag==4){ //CColladaDatabase.constructNode61b664, instance-light URI.
+                const auto link=r.w(a+4);r.at(link,8);
+                if(r.w(link))throw std::runtime_error("External authored light instance needs its actual database transport");
+                s.lights_v113.push_back({node_index,r.find(Library::light,r.field(link+4))});continue;
+            }
             if(tag!=3&&tag!=2){++s.ignored_instances;continue;}
             auto g=r.w(a+4);r.at(g,24);
             if(r.w(g))throw std::runtime_error("External geometry not supported");
@@ -130,7 +141,7 @@ struct Loader {
                 if(r.w(b))throw std::runtime_error("External material binding not supported");
                 instance.materials.push_back(r.find(Library::material,r.field(b+4)));
             }
-            if(visible)s.instances.push_back(std::move(instance));
+            if(visible||include_hidden){s.instances.push_back(std::move(instance));if(visibility){visibility->mesh_local.push_back(1);visibility->mesh_effective.push_back(visible?1u:0u);}}
         }
         count=r.w(p+56);base=r.w(p+60);r.array(base,count,80);
         for(unsigned i=0;i<count;++i)node(base+80*i,world,visible,node_index);
@@ -152,7 +163,7 @@ struct Loader {
             }
             if(!found)throw std::runtime_error("Unresolved visual scene");
         }
-        if(s.instances.empty())throw std::runtime_error("Scene has no visible geometry");
+        if(s.instances.empty()&&!include_hidden)throw std::runtime_error("Scene has no visible geometry");
     }
 };
 }
@@ -172,6 +183,10 @@ bool load(const resources::BresView& v,Scene& out,std::string& error){
     out={};error.clear();try{Scene candidate;Loader{{v},candidate,{}}.run();out=std::move(candidate);return true;}
     catch(const std::exception& e){error=e.what();return false;}
 }
+bool load_authored_v76(const resources::BresView& v,Scene& out,AuthoredVisibilityV76& visibility,std::string& error){
+ out={};visibility={};error.clear();try{Scene candidate;AuthoredVisibilityV76 authored;Loader{{v},candidate,{},true,&authored}.run();out=std::move(candidate);visibility=std::move(authored);return true;}
+ catch(const std::exception& e){error=e.what();return false;}
+}
 bool update_world(Scene& scene,std::string& error){
     error.clear();
     std::vector<Matrix> world;world.reserve(scene.graph.size());
@@ -186,7 +201,7 @@ bool update_world(Scene& scene,std::string& error){
     }
     for(const auto& i:scene.instances)if(i.node_index>=world.size()){error="Invalid instance node index";return false;}
     for(unsigned i=0;i<world.size();++i)scene.graph[i].world=world[i];
-    for(auto& i:scene.instances)i.world=world[i.node_index];
+    for(auto& i:scene.instances)if(!i.source_storage_v91().detached)i.world=world[i.node_index];
     return true;
 }
 }

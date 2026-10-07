@@ -1,0 +1,125 @@
+{
+  "validation": "PASS",
+  "scope": "Cold build of corrected frozen checkpoint source archive in an isolated directory, using installed external SDK/JDK/Gradle caches. Original APK remains unchanged; rebuilt APK gameplay not independently retested.",
+  "source_archive": {
+    "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\build\\checkpoints\\dh2-native-ai-timers-alias-b4493ed5-source-build-inputs.zip",
+    "sha256": "a916fcf9c2f6987234e1ba71573e3eb5014cabbea6da72ab0e10d29ea1772ce3"
+  },
+  "checkpoint_sha256": "b4493ed558fb0956205d000acfee57aef4ba89d1325af288a85579a9dd0a8127",
+  "rebuilt_apk": {
+    "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\b449-source-replay\\port\\android-native\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+    "sha256": "9f600e08a780829ab45ef6192b9501e43974cbcec43eb9af78228325125ff9d9",
+    "bytes": 20765106
+  },
+  "observed_gradle_build": {
+    "command": "gradlew.bat assembleDebug --offline --console=plain",
+    "exit_code": 0,
+    "build_successful": true,
+    "elapsed_seconds": 25,
+    "executed_tasks": 39
+  },
+  "source_manifest_inputs_verified": 561,
+  "asset_count": 233,
+  "all_asset_bytes_match_checkpoint": true,
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "4d98246a08bec58340f6f324d5d498d01939340deca5e2b421749d024d0ce583",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "db90acbfa24502ac171ab06757438beb3a88a7025a12bba06515d109c1a4f8ed",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8c13c7777c3ed650b1e2a7ae489c150bb427315f323b0516efce5c1f47e4f1a3",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "9450fac57df313ac5bfa1e05ac28e5dcfdad54b79b83b09bfec8142cce073b4b",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "1a92be72f14af40a4570a85199bd7b55ea1a9655dba9e32bf7f6fede692443ed",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "33474ad83f5f0a53d0f2ed97e64ca342e0c1e29eda52cca0821d675a9f4992a1",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "71366d2e47cf0062bee34cf5b17c97a96ad5bacb7078ba027d002fdf2c4748eb",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "45a4682874a2aa53a81ff5595bc481a321ad1e962908392b77f26d0db89c4c0b",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "06c67b858e2bb47dd9cdbecf91c28205bdb5b3353ed4c95e518ef58879d7afe2",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "3bb964cac317fe51737ae33ee7436fba2b434250f50e9341b8dcc3d8230a5a5e",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "ad03ff1cb88deccc65ee0e2294bc5675c9cd93f4b192f9c7f2d672e61bbb9c06",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "470304597a36d07d7804ffa9083a827e6e83efc8720f2a6602e7e2c3eaba9a38",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "f8f96d032745505e1788b9f61e551122d664d3ffe29acac5f6bfb963597603fc",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "577a4e15eb05a99113517df908d7138c2489ac3dca8d81a3121266cfeef603ef",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "209934dd166f1e348015cea3cfaf98c785be0704e263a028c825619b43feb4ea",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "7bf95eaec107e3aa7770823c6470241e72bcd0c7cda9d7e36ccc999a913b1c31",
+      "byte_identical_to_checkpoint": false,
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "no_original_arm32_runtime": true,
+  "physical_arm64_verified": false,
+  "full_game_verified": false
+}

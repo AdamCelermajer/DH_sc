@@ -1,0 +1,191 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x3a2fcc",
+      "symbol": "_ZNK9Character7GetLootEv",
+      "size": 12,
+      "sha256": "290e1c3e2bab40b4e08688bb15bd2fded5064927a380f825f98fb71be8ddcc2c"
+    },
+    {
+      "address": "0x3a5ae4",
+      "symbol": "_ZNK9Character8DropLootEP10GameObject",
+      "size": 52,
+      "sha256": "3f9375a02e8972fb59d145741c1b1be7c00cd4c41a3560b921b2b57777037429"
+    },
+    {
+      "address": "0x3ecba0",
+      "symbol": "_ZN10ItemObject13DropLootTableEiPK10GameObjectS2_ib",
+      "size": 296,
+      "sha256": "d20efd736da27013d204e1dd48e08bd621f7421438bada6266586d8d3c95baae"
+    },
+    {
+      "address": "0x3ecae4",
+      "symbol": "_ZN10ItemObject18GetInventoryToDropER13ItemInventoryiPK10GameObjecti",
+      "size": 188,
+      "sha256": "11109d1574b67253b2dfbaba05713fdb2920b8d65386ce95fa702de3078e3e74"
+    },
+    {
+      "address": "0x3ec8a0",
+      "symbol": "_ZN10ItemObject16DropAndAwardLootER13ItemInventoryPK10GameObjectS4_i",
+      "size": 212,
+      "sha256": "4dea1a3e814b976d279fd8602c623d3a2a71de7678d51fa037e58fea4f43e16d"
+    },
+    {
+      "address": "0x3ec474",
+      "symbol": "_ZN10ItemObject17_DoAutoPickupHackEPS_PK10GameObjectS3_",
+      "size": 144,
+      "sha256": "fabf21a5fe4a641ce244389081a4f665e92e09f2ad46fbf98406b3dc4bc5350f"
+    },
+    {
+      "address": "0x3ec668",
+      "symbol": "_ZN10ItemObject17_GetRandomDropPosER7Point3DIfEPK10GameObjectS5_",
+      "size": 568,
+      "sha256": "7d6645aa8f1ac8ea332131c8bff76cb4afdc87e765f8012d3d2d2ce5587bafaa"
+    },
+    {
+      "address": "0x3eac00",
+      "symbol": "_ZN11ItemManagerC1Ev",
+      "size": 52,
+      "sha256": "f64f0ea449fecb16c9e318fc25ce215480f8396c2221222170984fe9a30488db"
+    },
+    {
+      "address": "0x3eb6e4",
+      "symbol": "_ZN11ItemManager8PreCacheEv",
+      "size": 1040,
+      "sha256": "00d68ec34d5862a05543e9a6a9a98a30000dd970a78cd25b6a15ee4b59c2f24a"
+    },
+    {
+      "address": "0x3eacd0",
+      "symbol": "_ZN11ItemManager5SpawnER13ItemInventoryjPK10GameObjectRK7Point3DIfES8_PK9Character",
+      "size": 392,
+      "sha256": "d3e503d81131b3d42fe46ea0d8c5a8c9ed37ce962ddb836711a0603959d204ce"
+    },
+    {
+      "address": "0x3eac34",
+      "symbol": "_ZN11ItemManager7DeSpawnEP10ItemObject",
+      "size": 156,
+      "sha256": "06197b3e8fc704173a8e54c029cd225b849fb0179aadc1f3fb79e012e06f527d"
+    },
+    {
+      "address": "0x3eb6bc",
+      "symbol": "_ZN11ItemManager5FlushEv",
+      "size": 40,
+      "sha256": "440e820f0f67ebdc3aaa9d0df27314636148b3e6f7231c73319d9683bed557a3"
+    },
+    {
+      "address": "0x3ec324",
+      "symbol": "_ZN10ItemObjectC1EN10ObjectBase6GO_IDSE",
+      "size": 168,
+      "sha256": "552aa338439303845fbf7217fec77a2e0a9a64125c84ab20966ac64a734ab2d7"
+    },
+    {
+      "address": "0x3ece80",
+      "symbol": "_ZN10ItemObject8InitOnceEi",
+      "size": 232,
+      "sha256": "b27a68c545025ced081df86edfeb4213153015669646b2b7292d51d80c0cb22e"
+    },
+    {
+      "address": "0x3ec0f0",
+      "symbol": "_ZN10ItemObject9InitAgainER13ItemInventoryjPK9Character",
+      "size": 552,
+      "sha256": "851cc1610883b6205bc0685ad0153b38eec3298add7384304b629df13605f54c"
+    },
+    {
+      "address": "0x3ed144",
+      "symbol": "_ZN10ItemObject8InteractEP10GameObject",
+      "size": 2416,
+      "sha256": "63e8f23a2999e7e9be6d259101529742a18bdd61a564267b71e5663d99b0a9ef"
+    },
+    {
+      "address": "0x3ec048",
+      "symbol": "_ZN10ItemObject17OnCollisionBeginsEP9Character",
+      "size": 168,
+      "sha256": "e912f37a23893b703067bd358b75f26402cf18f81bac12e8a9c6a715599bf1f7"
+    },
+    {
+      "address": "0x3ec014",
+      "symbol": "_ZNK10ItemObject13IsInteractiveEP10GameObject",
+      "size": 52,
+      "sha256": "a8f5a468e1f4dc18146ec30ff036c8c1ca69cc16bbe318c68d57198286fbda10"
+    },
+    {
+      "address": "0x3ebffc",
+      "symbol": "_ZNK10ItemObject13HasBeenLootedEv",
+      "size": 24,
+      "sha256": "d9170aef6023be28c09c21661fa994b4c475d5cfa8b05d29246f8cfb25446e56"
+    },
+    {
+      "address": "0x3f9e34",
+      "symbol": "_ZNK12ItemInstance13GetPickUpTypeEv",
+      "size": 36,
+      "sha256": "7a1ed8e7fc32331a8aeac4649b1e0795433c43199cc7127e86cd3e400995b187"
+    },
+    {
+      "address": "0x3fc26c",
+      "symbol": "_ZN12ItemInstanceC1Eij",
+      "size": 372,
+      "sha256": "ec2a17d01d6d6619865d181c05c5374c3dd83aebaeac635ae1013bc236f63f52"
+    },
+    {
+      "address": "0x3ffa68",
+      "symbol": "_ZN13ItemInventory19TransferInventoryToERS_bb",
+      "size": 472,
+      "sha256": "1118f45393b8d6f5eee596df9addd794af1d12cb517086091793d7cea4ed8f04"
+    },
+    {
+      "address": "0x3ff858",
+      "symbol": "_ZN13ItemInventory14TransferItemToEjRS_ibb",
+      "size": 492,
+      "sha256": "5d9f783d12bfd38ec7c53d5f046bdf859078fa7cb8cd49ceba8af6ce1cef4c35"
+    },
+    {
+      "address": "0x36ea50",
+      "symbol": "_ZN13PlayerManager29GetNumPlayerCharactersOfClassEi",
+      "size": 104,
+      "sha256": "e9eba9fb4e376a82aa3e29d3924da40c7330a9659addcfe40e270411af5fd251"
+    },
+    {
+      "address": "0x36eab8",
+      "symbol": "_ZN13PlayerManager28GetNumPlayerCharacterWarriorEv",
+      "size": 8,
+      "sha256": "a831cb32c8ee7758780ced4e10f931da23305e8d4df4ec60cc07bb8132be1766"
+    },
+    {
+      "address": "0x36eac0",
+      "symbol": "_ZN13PlayerManager26GetNumPlayerCharacterRogueEv",
+      "size": 8,
+      "sha256": "37895bff3f8e6487fa0870e13ea33dbb1aa57d2cffbff9ee2fabebc026ae7159"
+    },
+    {
+      "address": "0x36eac8",
+      "symbol": "_ZN13PlayerManager25GetNumPlayerCharacterMageEv",
+      "size": 8,
+      "sha256": "4183305e5f659e164516f052cfdc0353f16609e4e97762281272c448d35d8557"
+    },
+    {
+      "address": "0x36e478",
+      "symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    },
+    {
+      "address": "0x36e2cc",
+      "symbol": "_ZN13PlayerManager23_GetInternalIDByLocalIDEib",
+      "size": 428,
+      "sha256": "0465671728895de95f65bbc290d5cb54762dde24242a8fb066a7cbab65e22d4f"
+    },
+    {
+      "address": "0x36dfb0",
+      "symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    },
+    {
+      "address": "0x36e744",
+      "symbol": "_ZN13PlayerManager9GetPlayerEib",
+      "size": 32,
+      "sha256": "5d19ac5cd09da90a3037728eecc8623b843e040bab522a6abe6a2eaedb2a82a6"
+    }
+  ]
+}

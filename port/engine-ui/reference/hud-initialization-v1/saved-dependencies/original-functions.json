@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK14PlayerSavegame15SG_GetSkillSlotEj",
+      "elf_address": "0x46752c",
+      "size": 440,
+      "sha256": "4073a8d2cae83771f026f49fe343a796c8724f449938dd97ba5fa6097b5dd7a4"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame17SG_GetFaerieLevelEji",
+      "elf_address": "0x466700",
+      "size": 196,
+      "sha256": "57e55a7d00bc69847dce284e28c4657b25dcbd59e0f7a7e495ca0ee6f7a550b4"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame13SG_GetSkillIdEj",
+      "elf_address": "0x466a08",
+      "size": 272,
+      "sha256": "1ab9198c28ea328ec38a05a358fa1ecb8a6ba8470992766ff3a3042b62c62f1a"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca"
+    }
+  ]
+}

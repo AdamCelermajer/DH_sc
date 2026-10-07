@@ -1,0 +1,23 @@
+[
+  {
+    "uri": "data/3D/interface/quest_marker.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/quest_marker.bdae",
+    "file": "quest_marker.bdae",
+    "sha256": "e49cd0fb966f3b8f83e0ed1e2865efdb392e4bc98e42eacc6b68a1508117f10c",
+    "bytes": 19832
+  },
+  {
+    "uri": "data/3D/interface/target_circle.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/target_circle.bdae",
+    "file": "target_circle.bdae",
+    "sha256": "3625892b56a4cafc412669dbd8e4981e7053db8eb2bad45b4c401b16131628a5",
+    "bytes": 16444
+  },
+  {
+    "uri": "data/3D/interface/target_cross.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/target_cross.bdae",
+    "file": "target_cross.bdae",
+    "sha256": "4ce1c8f0eadd3f876a8747a7acaae9ee1e0be8cb786218dfba1950e9f0e4c734",
+    "bytes": 18048
+  }
+]

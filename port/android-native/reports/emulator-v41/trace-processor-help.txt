@@ -1,0 +1,9 @@
+trace-processor.exe: Warning: SetProgramUsageMessage() never called
+
+No flags matched.
+
+Try --helpfull to get a list of all flags or --help=substring shows help for
+flags which include specified substring in either in the name, or description or
+path.
+
+STDERR:

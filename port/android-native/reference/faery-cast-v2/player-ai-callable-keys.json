@@ -1,0 +1,791 @@
+{
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "tables": [
+    {
+      "symbol": "_ZTV6CharAI",
+      "address": "0x966790",
+      "size": 212,
+      "entries": [
+        {
+          "slot": 0,
+          "key": "0x3cdb60",
+          "symbol": "_ZN6CharAID1Ev"
+        },
+        {
+          "slot": 4,
+          "key": "0x3cdd5c",
+          "symbol": "_ZN6CharAID0Ev"
+        },
+        {
+          "slot": 8,
+          "key": "0x3d12b0",
+          "symbol": "_ZN6CharAI6OnInitEv"
+        },
+        {
+          "slot": 12,
+          "key": "0x3d0b80",
+          "symbol": "_ZN6CharAI10OnInitPostEv"
+        },
+        {
+          "slot": 16,
+          "key": "0x3d0ba4",
+          "symbol": "_ZN6CharAI11OnInitFinalEv"
+        },
+        {
+          "slot": 20,
+          "key": "0x3d11bc",
+          "symbol": "_ZN6CharAI11OnTerminateEv"
+        },
+        {
+          "slot": 24,
+          "key": "0x3d1050",
+          "symbol": "_ZN6CharAI8OnUpdateEv"
+        },
+        {
+          "slot": 28,
+          "key": "0x3d0bc8",
+          "symbol": "_ZN6CharAI5OnMsgEiPKv"
+        },
+        {
+          "slot": 32,
+          "key": "0x3d0bec",
+          "symbol": "_ZN6CharAI14OnStateChangedEii"
+        },
+        {
+          "slot": 36,
+          "key": "0x3d1000",
+          "symbol": "_ZN6CharAI6OnDiedEP10GameObject"
+        },
+        {
+          "slot": 40,
+          "key": "0x3d0f1c",
+          "symbol": "_ZN6CharAI9OnRevivedEP10GameObject"
+        },
+        {
+          "slot": 44,
+          "key": "0x3d2230",
+          "symbol": "_ZN6CharAI15OnFriendSpottedEP9Character"
+        },
+        {
+          "slot": 48,
+          "key": "0x3d217c",
+          "symbol": "_ZN6CharAI16OnNeutralSpottedEP9Character"
+        },
+        {
+          "slot": 52,
+          "key": "0x3d14b4",
+          "symbol": "_ZN6CharAI14OnEnemySpottedEP9Character"
+        },
+        {
+          "slot": 56,
+          "key": "0x3d20c8",
+          "symbol": "_ZN6CharAI7OnAggroEP9Character"
+        },
+        {
+          "slot": 60,
+          "key": "0x3d2014",
+          "symbol": "_ZN6CharAI9OnDeAggroEP9Character"
+        },
+        {
+          "slot": 64,
+          "key": "0x3d1f60",
+          "symbol": "_ZN6CharAI12OnTargetDiedEv"
+        },
+        {
+          "slot": 68,
+          "key": "0x3d1eb4",
+          "symbol": "_ZN6CharAI15OnTargetRevivedEv"
+        },
+        {
+          "slot": 72,
+          "key": "0x3d2410",
+          "symbol": "_ZN6CharAI18OnTargetOutOfSightEv"
+        },
+        {
+          "slot": 76,
+          "key": "0x3d22e4",
+          "symbol": "_ZN6CharAI15OnTargetInSightEv"
+        },
+        {
+          "slot": 80,
+          "key": "0x3d1e00",
+          "symbol": "_ZN6CharAI18OnTargetOutOfRangeEv"
+        },
+        {
+          "slot": 84,
+          "key": "0x3d1d4c",
+          "symbol": "_ZN6CharAI21OnTargetInRangedRangeEv"
+        },
+        {
+          "slot": 88,
+          "key": "0x3d1ca0",
+          "symbol": "_ZN6CharAI20OnTargetInCloseRangeEv"
+        },
+        {
+          "slot": 92,
+          "key": "0x3d1bf4",
+          "symbol": "_ZN6CharAI20OnTargetInMeleeRangeEv"
+        },
+        {
+          "slot": 96,
+          "key": "0x3d1b48",
+          "symbol": "_ZN6CharAI12OnMasterDiedEv"
+        },
+        {
+          "slot": 100,
+          "key": "0x3d1a9c",
+          "symbol": "_ZN6CharAI15OnMasterRevivedEv"
+        },
+        {
+          "slot": 104,
+          "key": "0x3d19f0",
+          "symbol": "_ZN6CharAI18OnMasterOutOfSightEv"
+        },
+        {
+          "slot": 108,
+          "key": "0x3d1944",
+          "symbol": "_ZN6CharAI15OnMasterInSightEv"
+        },
+        {
+          "slot": 112,
+          "key": "0x3d1898",
+          "symbol": "_ZN6CharAI18OnMasterOutOfRangeEv"
+        },
+        {
+          "slot": 116,
+          "key": "0x3d17ec",
+          "symbol": "_ZN6CharAI21OnMasterInRangedRangeEv"
+        },
+        {
+          "slot": 120,
+          "key": "0x3d1740",
+          "symbol": "_ZN6CharAI20OnMasterInCloseRangeEv"
+        },
+        {
+          "slot": 124,
+          "key": "0x3d1694",
+          "symbol": "_ZN6CharAI20OnMasterInMeleeRangeEv"
+        },
+        {
+          "slot": 128,
+          "key": "0x3d0c10",
+          "symbol": "_ZN6CharAI7OnTimerEPv"
+        },
+        {
+          "slot": 132,
+          "key": "0x3d0c34",
+          "symbol": "_ZN6CharAI13OnStunExpiredEv"
+        },
+        {
+          "slot": 136,
+          "key": "0x3d0c58",
+          "symbol": "_ZN6CharAI13OnFearExpiredEv"
+        },
+        {
+          "slot": 140,
+          "key": "0x3d0c7c",
+          "symbol": "_ZN6CharAI20OnAttackDelayExpiredEv"
+        },
+        {
+          "slot": 144,
+          "key": "0x3d0ca0",
+          "symbol": "_ZN6CharAI13OnScriptTimerEj"
+        },
+        {
+          "slot": 148,
+          "key": "0x3d0cc4",
+          "symbol": "_ZN6CharAI11OnAnimEventEPKc"
+        },
+        {
+          "slot": 152,
+          "key": "0x3d0ce8",
+          "symbol": "_ZN6CharAI11OnEndOfAnimEv"
+        },
+        {
+          "slot": 156,
+          "key": "0x3d0d0c",
+          "symbol": "_ZN6CharAI13OnPreInteractEv"
+        },
+        {
+          "slot": 160,
+          "key": "0x3d0d38",
+          "symbol": "_ZN6CharAI10OnInteractEv"
+        },
+        {
+          "slot": 164,
+          "key": "0x3d0ed4",
+          "symbol": "_ZN6CharAI11OnPreAttackEi"
+        },
+        {
+          "slot": 168,
+          "key": "0x3d0e7c",
+          "symbol": "_ZN6CharAI8OnAttackEiib"
+        },
+        {
+          "slot": 172,
+          "key": "0x3d0d5c",
+          "symbol": "_ZN6CharAI15OnProjectileHitEP10GameObject"
+        },
+        {
+          "slot": 176,
+          "key": "0x3d0d80",
+          "symbol": "_ZN6CharAI6OnKillEP9Character"
+        },
+        {
+          "slot": 180,
+          "key": "0x3d0da4",
+          "symbol": "_ZN6CharAI15OnCombatResultsEP9CharacterS1_Pv"
+        },
+        {
+          "slot": 184,
+          "key": "0x3d0dc8",
+          "symbol": "_ZN6CharAI15OnCombatResultsEP10GameObjectPv"
+        },
+        {
+          "slot": 188,
+          "key": "0x3d0dec",
+          "symbol": "_ZN6CharAI16OnCollisionBeginEP10GameObjectb"
+        },
+        {
+          "slot": 192,
+          "key": "0x3d0e10",
+          "symbol": "_ZN6CharAI18OnCollisionPersistEP10GameObjectb"
+        },
+        {
+          "slot": 196,
+          "key": "0x3d0e34",
+          "symbol": "_ZN6CharAI14OnCollisionEndEP10GameObjectb"
+        },
+        {
+          "slot": 200,
+          "key": "0x3d0e58",
+          "symbol": "_ZN6CharAI17OnCollisionResultEP10GameObjectb"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV15AISPlayerIPhone",
+      "address": "0x966cd0",
+      "size": 216,
+      "entries": [
+        {
+          "slot": 0,
+          "key": "0x3de174",
+          "symbol": "_ZN15AISPlayerIPhoneD1Ev"
+        },
+        {
+          "slot": 4,
+          "key": "0x3de294",
+          "symbol": "_ZN15AISPlayerIPhoneD0Ev"
+        },
+        {
+          "slot": 8,
+          "key": "0x3dbe78",
+          "symbol": "_ZN10AISDefault6OnInitEv"
+        },
+        {
+          "slot": 12,
+          "key": "0x3dbe7c",
+          "symbol": "_ZN10AISDefault10OnInitPostEv"
+        },
+        {
+          "slot": 16,
+          "key": "0x3dbe80",
+          "symbol": "_ZN10AISDefault11OnInitFinalEv"
+        },
+        {
+          "slot": 20,
+          "key": "0x3dbe84",
+          "symbol": "_ZN10AISDefault11OnTerminateEv"
+        },
+        {
+          "slot": 24,
+          "key": "0x3dc798",
+          "symbol": "_ZN10AISDefault8OnUpdateEv"
+        },
+        {
+          "slot": 28,
+          "key": "0x3dbe88",
+          "symbol": "_ZN10AISDefault5OnMsgEiPKv"
+        },
+        {
+          "slot": 32,
+          "key": "0x3dbe8c",
+          "symbol": "_ZN10AISDefault14OnStateChangedEii"
+        },
+        {
+          "slot": 36,
+          "key": "0x3dbe90",
+          "symbol": "_ZN10AISDefault6OnDiedEP10GameObject"
+        },
+        {
+          "slot": 40,
+          "key": "0x3dbe94",
+          "symbol": "_ZN10AISDefault9OnRevivedEP10GameObject"
+        },
+        {
+          "slot": 44,
+          "key": "0x3dbe98",
+          "symbol": "_ZN10AISDefault15OnFriendSpottedEP9Character"
+        },
+        {
+          "slot": 48,
+          "key": "0x3dbe9c",
+          "symbol": "_ZN10AISDefault16OnNeutralSpottedEP9Character"
+        },
+        {
+          "slot": 52,
+          "key": "0x3dda34",
+          "symbol": "_ZN9AISPlayer14OnEnemySpottedEP9Character"
+        },
+        {
+          "slot": 56,
+          "key": "0x3ddb70",
+          "symbol": "_ZN9AISPlayer7OnAggroEP9Character"
+        },
+        {
+          "slot": 60,
+          "key": "0x3dde48",
+          "symbol": "_ZN9AISPlayer9OnDeAggroEP9Character"
+        },
+        {
+          "slot": 64,
+          "key": "0x3dd84c",
+          "symbol": "_ZN9AISPlayer12OnTargetDiedEv"
+        },
+        {
+          "slot": 68,
+          "key": "0x3dbeb0",
+          "symbol": "_ZN10AISDefault15OnTargetRevivedEv"
+        },
+        {
+          "slot": 72,
+          "key": "0x3dbeb4",
+          "symbol": "_ZN10AISDefault18OnTargetOutOfSightEv"
+        },
+        {
+          "slot": 76,
+          "key": "0x3dbeb8",
+          "symbol": "_ZN10AISDefault15OnTargetInSightEv"
+        },
+        {
+          "slot": 80,
+          "key": "0x3de1b4",
+          "symbol": "_ZN15AISPlayerIPhone18OnTargetOutOfRangeEv"
+        },
+        {
+          "slot": 84,
+          "key": "0x3de1b0",
+          "symbol": "_ZN15AISPlayerIPhone21OnTargetInRangedRangeEv"
+        },
+        {
+          "slot": 88,
+          "key": "0x3de1ac",
+          "symbol": "_ZN15AISPlayerIPhone20OnTargetInCloseRangeEv"
+        },
+        {
+          "slot": 92,
+          "key": "0x3de1a8",
+          "symbol": "_ZN15AISPlayerIPhone20OnTargetInMeleeRangeEv"
+        },
+        {
+          "slot": 96,
+          "key": "0x3dbebc",
+          "symbol": "_ZN10AISDefault12OnMasterDiedEv"
+        },
+        {
+          "slot": 100,
+          "key": "0x3dbec0",
+          "symbol": "_ZN10AISDefault15OnMasterRevivedEv"
+        },
+        {
+          "slot": 104,
+          "key": "0x3dbec4",
+          "symbol": "_ZN10AISDefault18OnMasterOutOfSightEv"
+        },
+        {
+          "slot": 108,
+          "key": "0x3dbec8",
+          "symbol": "_ZN10AISDefault15OnMasterInSightEv"
+        },
+        {
+          "slot": 112,
+          "key": "0x3dbecc",
+          "symbol": "_ZN10AISDefault18OnMasterOutOfRangeEv"
+        },
+        {
+          "slot": 116,
+          "key": "0x3dbed0",
+          "symbol": "_ZN10AISDefault21OnMasterInRangedRangeEv"
+        },
+        {
+          "slot": 120,
+          "key": "0x3dbed4",
+          "symbol": "_ZN10AISDefault20OnMasterInCloseRangeEv"
+        },
+        {
+          "slot": 124,
+          "key": "0x3dbed8",
+          "symbol": "_ZN10AISDefault20OnMasterInMeleeRangeEv"
+        },
+        {
+          "slot": 128,
+          "key": "0x3dbedc",
+          "symbol": "_ZN10AISDefault7OnTimerEPv"
+        },
+        {
+          "slot": 132,
+          "key": "0x3dbee0",
+          "symbol": "_ZN10AISDefault13OnStunExpiredEv"
+        },
+        {
+          "slot": 136,
+          "key": "0x3dbee4",
+          "symbol": "_ZN10AISDefault13OnFearExpiredEv"
+        },
+        {
+          "slot": 140,
+          "key": "0x3dbee8",
+          "symbol": "_ZN10AISDefault20OnAttackDelayExpiredEv"
+        },
+        {
+          "slot": 144,
+          "key": "0x3dcc80",
+          "symbol": "_ZN10AISDefault13OnScriptTimerEj"
+        },
+        {
+          "slot": 148,
+          "key": "0x3dca50",
+          "symbol": "_ZN10AISDefault11OnAnimEventEPKc"
+        },
+        {
+          "slot": 152,
+          "key": "0x3dbeec",
+          "symbol": "_ZN10AISDefault11OnEndOfAnimEv"
+        },
+        {
+          "slot": 156,
+          "key": "0x3dbef0",
+          "symbol": "_ZN10AISDefault13OnPreInteractEv"
+        },
+        {
+          "slot": 160,
+          "key": "0x3dc1b0",
+          "symbol": "_ZN10AISDefault10OnInteractEv"
+        },
+        {
+          "slot": 164,
+          "key": "0x3dbef8",
+          "symbol": "_ZN10AISDefault11OnPreAttackEi"
+        },
+        {
+          "slot": 168,
+          "key": "0x3dd7ec",
+          "symbol": "_ZN9AISPlayer8OnAttackEiib"
+        },
+        {
+          "slot": 172,
+          "key": "0x3dbefc",
+          "symbol": "_ZN10AISDefault15OnProjectileHitEP10GameObject"
+        },
+        {
+          "slot": 176,
+          "key": "0x3ddb10",
+          "symbol": "_ZN9AISPlayer6OnKillEP9Character"
+        },
+        {
+          "slot": 180,
+          "key": "0x3dc9a8",
+          "symbol": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv"
+        },
+        {
+          "slot": 184,
+          "key": "0x3dbf04",
+          "symbol": "_ZN10AISDefault15OnCombatResultsEP10GameObjectPv"
+        },
+        {
+          "slot": 188,
+          "key": "0x3dbf08",
+          "symbol": "_ZN10AISDefault16OnCollisionBeginEP10GameObjectb"
+        },
+        {
+          "slot": 192,
+          "key": "0x3dbfa0",
+          "symbol": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb"
+        },
+        {
+          "slot": 196,
+          "key": "0x3dbf40",
+          "symbol": "_ZN10AISDefault14OnCollisionEndEP10GameObjectb"
+        },
+        {
+          "slot": 200,
+          "key": "0x3dbf68",
+          "symbol": "_ZN10AISDefault17OnCollisionResultEP10GameObjectb"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV9Character",
+      "address": "0x965f30",
+      "size": 812,
+      "entries": [
+        {
+          "slot": 0,
+          "key": "0x3a7c84",
+          "symbol": "_ZN9CharacterD1Ev"
+        },
+        {
+          "slot": 4,
+          "key": "0x3a7de0",
+          "symbol": "_ZN9CharacterD0Ev"
+        },
+        {
+          "slot": 8,
+          "key": "0x3a2f08",
+          "symbol": "_ZNK9Character13getUDTypeNameEv"
+        },
+        {
+          "slot": 12,
+          "key": "0x3b56bc",
+          "symbol": "_ZN9Character14createBindingsERN3sfc6script3lua6BinderE"
+        },
+        {
+          "slot": 16,
+          "key": "0x3a65c4",
+          "symbol": "_ZN9Character9SerializeEP11IStreamBase"
+        },
+        {
+          "slot": 20,
+          "key": "0x3a6210",
+          "symbol": "_ZN9Character11DeserializeEP11IStreamBase"
+        },
+        {
+          "slot": 24,
+          "key": "0x3a9fe4",
+          "symbol": "_ZN9Character17DeclarePropertiesEv"
+        },
+        {
+          "slot": 28,
+          "key": "0x3b4d60",
+          "symbol": "_ZN9Character8InitPostEv"
+        },
+        {
+          "slot": 32,
+          "key": "0x340054",
+          "symbol": "_ZNK10GameObject12IsGameObjectEv"
+        },
+        {
+          "slot": 36,
+          "key": "0x3a2e1c",
+          "symbol": "_ZNK9Character11IsCharacterEv"
+        },
+        {
+          "slot": 40,
+          "key": "0x3a49f0",
+          "symbol": "_ZNK9Character8IsPlayerEv"
+        },
+        {
+          "slot": 44,
+          "key": "0x3abe98",
+          "symbol": "_ZN9Character6UpdateEv"
+        },
+        {
+          "slot": 48,
+          "key": "0x3a84f4",
+          "symbol": "_ZNK9Character4DrawEv"
+        },
+        {
+          "slot": 52,
+          "key": "0x3a2ed4",
+          "symbol": "_ZNK9Character6IsDeadEv"
+        },
+        {
+          "slot": 56,
+          "key": "0x38aac0",
+          "symbol": "_ZNK10GameObject11IsUpdatableEv"
+        },
+        {
+          "slot": 60,
+          "key": "0x33dcf0",
+          "symbol": "_ZN10ObjectBase11setUpdatingEb"
+        },
+        {
+          "slot": 64,
+          "key": "0x38b0f0",
+          "symbol": "_ZN10GameObject10SetVisibleEb"
+        },
+        {
+          "slot": 68,
+          "key": "0x3a598c",
+          "symbol": "_ZN9Character7EnabledEv"
+        },
+        {
+          "slot": 72,
+          "key": "0x3a5974",
+          "symbol": "_ZN9Character8DisabledEv"
+        },
+        {
+          "slot": 76,
+          "key": "0x3a6f0c",
+          "symbol": "_ZN9Character25PopulateOutgoingNetStructEb"
+        },
+        {
+          "slot": 80,
+          "key": "0x3a7f10",
+          "symbol": "_ZN9Character26InterpretIncomingNetStructEb"
+        },
+        {
+          "slot": 84,
+          "key": "0x33dd10",
+          "symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv"
+        },
+        {
+          "slot": 88,
+          "key": "0x3b4978",
+          "symbol": "_ZN9Character9InitFinalEv"
+        },
+        {
+          "slot": 92,
+          "key": "0x3a2e2c",
+          "symbol": "_ZNK9Character14IsUpdatingPathEv"
+        },
+        {
+          "slot": 96,
+          "key": "0x3a2e38",
+          "symbol": "_ZNK9Character28IsUpdatingPositionFromVisualEv"
+        },
+        {
+          "slot": 100,
+          "key": "0x3a2e44",
+          "symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv"
+        },
+        {
+          "slot": 104,
+          "key": "0x3a2e50",
+          "symbol": "_ZNK9Character28IsUpdatingRotationFromVisualEv"
+        },
+        {
+          "slot": 108,
+          "key": "0x3a2e5c",
+          "symbol": "_ZNK9Character29IsUpdatingRotationFromPhysicsEv"
+        },
+        {
+          "slot": 112,
+          "key": "0x3a2e68",
+          "symbol": "_ZNK9Character28IsUpdatingVisualWithRotationEv"
+        },
+        {
+          "slot": 116,
+          "key": "0x3a2e78",
+          "symbol": "_ZNK9Character25IsValidatingFloorPositionEv"
+        },
+        {
+          "slot": 120,
+          "key": "0x3a2e88",
+          "symbol": "_ZNK9Character24IsValidatingCameraLimitsEv"
+        },
+        {
+          "slot": 124,
+          "key": "0x3a3754",
+          "symbol": "_ZNK9Character19IsAvoidingObstaclesEv"
+        },
+        {
+          "slot": 128,
+          "key": "0x3a2ee0",
+          "symbol": "_ZNK9Character10IsAnimatedEv"
+        },
+        {
+          "slot": 132,
+          "key": "0x3400b4",
+          "symbol": "_ZNK10GameObject5IsHitEv"
+        },
+        {
+          "slot": 136,
+          "key": "0x3a4870",
+          "symbol": "_ZNK9Character13IsInteractiveEP10GameObject"
+        },
+        {
+          "slot": 140,
+          "key": "0x38ad30",
+          "symbol": "_ZNK10GameObject15IsInteractiveExEPS_"
+        },
+        {
+          "slot": 144,
+          "key": "0x3a47e8",
+          "symbol": "_ZNK9Character18GetInteractionTypeEP10GameObject"
+        },
+        {
+          "slot": 148,
+          "key": "0x3a374c",
+          "symbol": "_ZNK9Character20GetInteractionRadiusEv"
+        },
+        {
+          "slot": 152,
+          "key": "0x3a4d78",
+          "symbol": "_ZN9Character8InteractEP10GameObject"
+        },
+        {
+          "slot": 156,
+          "key": "0x3a4398",
+          "symbol": "_ZN9Character15SetRelativeAABBERK4aabbIfEb"
+        },
+        {
+          "slot": 160,
+          "key": "0x3a2e9c",
+          "symbol": "_ZNK9Character10GetFXScaleEv"
+        },
+        {
+          "slot": 164,
+          "key": "0x3a2ecc",
+          "symbol": "_ZNK9Character15GetFXScaleValueEv"
+        },
+        {
+          "slot": 168,
+          "key": "0x3400e4",
+          "symbol": "_ZNK10GameObject8GetSpeedEv"
+        },
+        {
+          "slot": 172,
+          "key": "0x3a372c",
+          "symbol": "_ZNK9Character16GetRotationSpeedEv"
+        },
+        {
+          "slot": 176,
+          "key": "0x3a2e24",
+          "symbol": "_ZNK9Character14GetFocusObjectEv"
+        },
+        {
+          "slot": 180,
+          "key": "0x3a2ee8",
+          "symbol": "_ZNK9Character10IsObstacleEv"
+        },
+        {
+          "slot": 184,
+          "key": "0x3a2ef0",
+          "symbol": "_ZNK9Character17GetObstacleRadiusEv"
+        },
+        {
+          "slot": 188,
+          "key": "0x3a2efc",
+          "symbol": "_ZNK9Character19GetObstacleStrengthEv"
+        },
+        {
+          "slot": 192,
+          "key": "0x3a3724",
+          "symbol": "_ZNK9Character10GetOpacityEv"
+        },
+        {
+          "slot": 196,
+          "key": "0x3a36e4",
+          "symbol": "_ZNK9Character9IsZonableEv"
+        },
+        {
+          "slot": 200,
+          "key": "0x3addc8",
+          "symbol": "_ZN9Character10Ctrl_ClickERK7Point3DIfEb"
+        }
+      ]
+    }
+  ]
+}

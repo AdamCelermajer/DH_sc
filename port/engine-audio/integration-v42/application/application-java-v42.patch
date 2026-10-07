@@ -1,0 +1,135 @@
+--- a/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
+@@ -27,6 +27,8 @@
+     private VsyncSurfaceViewV44 surface;
+     private volatile FramePacingControllerV44 framePacer;
+     private FrontAudio frontAudio;
++    private SharedAudioFocusV40 sharedAudio;
++    private volatile long audioApplicationOwnerV42;
+     private TextView status;
+     private String[] assets=new String[0];
+     private volatile int selected;
+@@ -51,7 +53,8 @@
+     private BroadcastReceiver debugAttackReceiver;
+     @Override public void onCreate(Bundle state) {
+         setTheme(android.R.style.Theme_Material_NoActionBar);super.onCreate(state);
+-        frontAudio=new FrontAudio(this);
++        sharedAudio=new SharedAudioFocusV40(this,NativeBridge::audioActivityV40);
++        frontAudio=new FrontAudio(this,sharedAudio);
+         developerOpen=state!=null?state.getBoolean("developerOpen",false):getIntent().getBooleanExtra("developer",false);
+         boolean inspection=getIntent().hasExtra("texture")||getIntent().hasExtra("model")||getIntent().getBooleanExtra("original_hud",false);
+         if(!inspection&&!getIntent().getBooleanExtra("developer",false))setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+@@ -119,9 +122,11 @@
+         });
+         surface.setRenderer(new GLSurfaceView.Renderer(){
+             private boolean initialLoadPending;
++            private boolean lastNativeAudioReady;
+             @Override public void onSurfaceCreated(GL10 gl,EGLConfig config){
+                 if(framePacer!=null)framePacer.onRendererContextCreated();
+                 FrameBoundaryV42.configure((getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0&&getIntent().getBooleanExtra("frame_trace",false));
++                audioApplicationOwnerV42=NativeBridge.audioApplicationReserveV42();
+                 Log.i("DH2Native",NativeBridge.initialize(getAssets()));loadedAsset=null;ready=false;initialLoadPending=true;
+                 NativeBridge.debugCastProbe((getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0&&getIntent().getBooleanExtra("cast_trace",false));
+                 NativeBridge.configureFrontDevice(android.os.Build.MANUFACTURER,android.os.Build.MODEL);
+@@ -146,6 +151,8 @@
+                 FrameBoundaryV42.beginNative(frameTicket);
+                 try { NativeBridge.draw(); }
+                 finally { FrameBoundaryV42.endNative(frameTicket); }
++                final boolean nativeAudioReady=NativeBridge.audioSourceReadyV40();
++                if(nativeAudioReady!=lastNativeAudioReady){lastNativeAudioReady=nativeAudioReady;runOnUiThread(()->sharedAudio.setNativeDemand(nativeAudioReady));}
+                 String audio;
+                 while((audio=NativeBridge.consumeOriginalMenuAudio())!=null){final String control=audio;runOnUiThread(()->frontAudio.control(control));}
+                 while((audio=NativeBridge.consumeOriginalMenuSound())!=null){final String sound=audio;runOnUiThread(()->frontAudio.effect(sound));}
+@@ -476,8 +483,9 @@
+         @Override public boolean performClick(){super.performClick();return true;}
+         void stop(){axisX=axisY=0;invalidate();surface.queueEvent(()->NativeBridge.moveAxis(0,0));}
+     }
+-    @Override protected void onPause(){if(framePacer!=null)framePacer.onPause();super.onPause();queueHudPointer(3,-1,0,0);if("ui/original-main-menu".equals(loadedAsset))surface.queueEvent(()->NativeBridge.originalMenuTouch(0,0,3));ready=false;frontAudio.pause();movement.stop();gameplayHud.cancelPress();surface.onPause();}
+-    @Override protected void onResume(){super.onResume();frontAudio.resume();surface.onResume();if(framePacer!=null)framePacer.onResume();surface.queueEvent(()->{if(loadedAsset!=null)ready=true;});}
+-    @Override protected void onDestroy(){if(surface!=null)surface.destroyPacingV44();if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);frontAudio.stop();super.onDestroy();}
++    @Override protected void onPause(){sharedAudio.setResumed(false);if(isFinishing()||isChangingConfigurations())AudioApplicationLifecycleV42.closeBeforeProducerPause(surface,audioApplicationOwnerV42);if(framePacer!=null)framePacer.onPause();super.onPause();queueHudPointer(3,-1,0,0);if("ui/original-main-menu".equals(loadedAsset))surface.queueEvent(()->NativeBridge.originalMenuTouch(0,0,3));ready=false;frontAudio.pause();movement.stop();gameplayHud.cancelPress();surface.onPause();}
++    @Override protected void onResume(){super.onResume();sharedAudio.setResumed(true);frontAudio.resume();surface.onResume();if(framePacer!=null)framePacer.onResume();surface.queueEvent(()->{if(loadedAsset!=null)ready=true;});}
++    @Override public void onWindowFocusChanged(boolean focused){super.onWindowFocusChanged(focused);if(sharedAudio!=null)sharedAudio.setWindowFocused(focused);}
++    @Override protected void onDestroy(){sharedAudio.close();AudioApplicationLifecycleV42.destroyRequestOnly(audioApplicationOwnerV42);if(surface!=null)surface.destroyPacingV44();if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);frontAudio.stop();super.onDestroy();}
+     @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingActorCommand",pendingActorCommand);state.putBoolean("enemyAi",enemyAi);state.putBoolean("developerOpen",developerOpen);}
+ }
+--- a/port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java
+@@ -3,10 +3,7 @@
+ import android.content.Context;
+ import android.content.res.AssetFileDescriptor;
+ import android.media.AudioAttributes;
+-import android.media.AudioFocusRequest;
+-import android.media.AudioManager;
+ import android.media.MediaPlayer;
+-import android.os.Build;
+ import android.os.Handler;
+ import android.os.Looper;
+ import android.os.SystemClock;
+@@ -16,11 +13,11 @@
+ /** Owns the recovered title intro and loop on Android's audio backend. */
+ final class FrontAudio {
+     private final Context context;
+-    private final AudioManager audio;
+-    private AudioFocusRequest focus;
++    private final SharedAudioFocusV40 focusOwner;
++    private boolean requestingSharedFocus;
+     private MediaPlayer intro, loop, current;
+     private final HashSet<MediaPlayer> effects=new HashSet<>();
+-    private boolean requested, resumed=true, introReady, loopReady, started, focused;
++    private boolean requested, resumed=false, introReady, loopReady, started, focused;
+     private float musicVolume=1f,effectVolume=1f,musicGain=1f;
+     private boolean musicPaused;
+     private final Handler envelopeHandler=new Handler(Looper.getMainLooper());
+@@ -83,17 +80,18 @@
+         }
+         Log.e("DH2Front","Unknown native audio command: "+command);
+     }
+-    FrontAudio(Context c){context=c;audio=(AudioManager)c.getSystemService(Context.AUDIO_SERVICE);
+-        if(Build.VERSION.SDK_INT>=26)focus=new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+-            .setAudioAttributes(attributes()).setOnAudioFocusChangeListener(change->{
+-                focused=change==AudioManager.AUDIOFOCUS_GAIN;
+-                if(!focused)stopEffects();
+-                if(current!=null&&started){if(focused&&resumed&&requested&&!musicPaused)current.start();else if(current.isPlaying())current.pause();}
+-            }).build();
++    FrontAudio(Context c,SharedAudioFocusV40 owner){context=c;focusOwner=owner;
++        owner.setFrontListener(granted->{
++            focused=granted;
++            if(!focused)stopEffects();
++            if(requestingSharedFocus)return;
++            if(current!=null&&started){if(focused&&resumed&&requested&&!musicPaused)current.start();else if(current.isPlaying())current.pause();}
++            else if(focused)startPrepared();
++        });
+     }
+     private AudioAttributes attributes(){return new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();}
+-    private boolean requestFocus(){return (Build.VERSION.SDK_INT>=26?audio.requestAudioFocus(focus):audio.requestAudioFocus(null,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN))==AudioManager.AUDIOFOCUS_REQUEST_GRANTED;}
+-    private void abandonFocus(){if(Build.VERSION.SDK_INT>=26)audio.abandonAudioFocusRequest(focus);else audio.abandonAudioFocus(null);focused=false;}
++    private boolean requestFocus(){requestingSharedFocus=true;try{focusOwner.setFrontDemand(true);return focusOwner.canPlay();}finally{requestingSharedFocus=false;}}
++    private void abandonFocus(){focusOwner.setFrontDemand(false);focused=false;}
+     private MediaPlayer create(String name)throws Exception {
+         MediaPlayer p=new MediaPlayer();
+         try {p.setAudioAttributes(attributes());try(AssetFileDescriptor fd=context.getAssets().openFd("original-media/"+name)){
+@@ -133,7 +131,7 @@
+             p.prepareAsync();
+         }catch(Exception e){Log.e("DH2Front","Menu effect preparation failed | file="+file,e);releaseEffect(p);}
+     }
+-    private void releaseEffect(MediaPlayer p){if(effects.remove(p))p.release();}
++    private void releaseEffect(MediaPlayer p){if(effects.remove(p))p.release();if(effects.isEmpty()&&!requested)abandonFocus();}
+     private void stopEffects(){
+         if(!effects.isEmpty())Log.i("DH2Front","Menu effects released | count="+effects.size());
+         for(MediaPlayer p:effects)p.release();effects.clear();
+--- a/port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java
+@@ -5,6 +5,12 @@
+     static { System.loadLibrary("dh2_native"); }
+     static native String buildInfo();
+     static native String initialize(android.content.res.AssetManager assets);
++    static native void audioActivityV40(long owner,long sequence,boolean resumed,boolean windowFocused,boolean granted,boolean destroyed);
++    static native boolean audioSourceReadyV40();
++    static native long audioApplicationReserveV42();
++    static native long audioApplicationOwnerV42();
++    static native void audioApplicationCloseV42(long expectedOwner);
++    static native String audioApplicationShutdownV42(long expectedOwner);
+     // Original Android isSupportMM()I has one return register initialized -1;
+     // every manufacturer/model branch returns it (music-support-dex-v1.json).
+     static int isSupportMM(){return -1;}

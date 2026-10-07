@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "version": 1,
+  "source_sha256": {
+    "port/engine-ui/swf_movie.hpp": "e609bcf6218b3eec91a78de35546a9e649fbc6ab31feb0f58e5015b8fa996bd9",
+    "port/engine-ui/swf_movie.cpp": "499afc979e376f76582a439ec7f5df6cd1f35350784e61d78575eeffcba30301",
+    "port/engine-ui/swf_actionscript_connection.hpp": "3bab4140bdac7b6d797c953178fd4bc2ba63eb06e7303d58f822d0801065e915",
+    "port/engine-ui/swf_actionscript_connection.cpp": "4c0d0183641f5652d6f47937df9871fb7c29ad7112f9378e0ffdf36e07d0580f",
+    "port/engine-ui/renderfx_text_connection.hpp": "e791bd4384f6040fb629732f442c5403ae7983a7fd7789fef7847dbc19dedd5b",
+    "port/engine-ui/renderfx_text_connection.cpp": "d59f9d9a4b644483ab1152c868815be353fb246c70d03aeab264e56279d2e126",
+    "port/engine-ui/tests/swf_actionscript_connection.cpp": "e32a13c19f9b21b639e4d1ddb23f0258903b664c3c6890683db460970b983e6d",
+    "port/engine-ui/tests/run_swf_actionscript_connection_host.py": "b4c21998e2dc1f7c189267a9c020d8edb2020d56bc1f4c722b825c0ba65ab0ab"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/swf-actionscript-connection-host-audit-v1.json": "77b1cd50ca98d7646dac3508ce79b1ef5e25d307462880a70316f7fc77d68bf3",
+    "port/engine-ui/reference/swf-actionscript-connection-v1/NOTES.md": "31c9aa063bf8aa69b1bc7760aadaa7316e87376746404bc8df1b620afa6e629f"
+  },
+  "scope": "Typed native AS connection and source-gated native plaintext; genuine original HUD resources, game callbacks/GPU uploads host fixtures. No complete AS fork, original full text layout, HTML, live game backend, or APK claim."
+}

@@ -1,0 +1,379 @@
+{
+  "validation": "PASS",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "ima_blocks": 136,
+  "corpus": [
+    {
+      "file": "m_level_cathedral_sfx_catacomb.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_darkwood_sfx_darkwood.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_darkwood_sfx_infected.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_darkwood_sfx_root_den.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_darkwood_sfx_void_maze.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_gothicus_no_ambiance.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_hell_sfx_dark.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_icy_cliff_sfx_ice_cavern.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_icy_cliff_sfx_ice_hub.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_icy_cliff_sfx_wind.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_red_desert_no_ambiance.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_red_desert_sfx_fire.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_red_desert_sfx_red_desert.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_swamp_sfx_swamp.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_swamp_sfx_water.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_level_swamp_sfx_witch.vxn",
+      "segments": 2,
+      "comparisons": 8
+    },
+    {
+      "file": "m_title.vxn",
+      "segments": 2,
+      "comparisons": 8
+    }
+  ],
+  "source_event_sequences": [
+    {
+      "kind": 0,
+      "history_limit": 0,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        39,
+        40,
+        41,
+        41,
+        39,
+        40,
+        40,
+        41,
+        39,
+        39,
+        40,
+        41,
+        41,
+        39,
+        40,
+        40,
+        41,
+        39,
+        39,
+        40,
+        41,
+        41,
+        39
+      ]
+    },
+    {
+      "kind": 0,
+      "history_limit": 1,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        41,
+        39,
+        40,
+        39,
+        41,
+        39,
+        40,
+        39,
+        41,
+        39,
+        40,
+        39,
+        41,
+        39,
+        40,
+        39,
+        41,
+        39,
+        40,
+        39,
+        41,
+        39,
+        40
+      ]
+    },
+    {
+      "kind": 0,
+      "history_limit": 2,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40
+      ]
+    },
+    {
+      "kind": 0,
+      "history_limit": 3,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40,
+        39,
+        41,
+        40
+      ]
+    },
+    {
+      "kind": 1,
+      "history_limit": 0,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41
+      ]
+    },
+    {
+      "kind": 1,
+      "history_limit": 1,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41
+      ]
+    },
+    {
+      "kind": 1,
+      "history_limit": 2,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41
+      ]
+    },
+    {
+      "kind": 1,
+      "history_limit": 3,
+      "source": [
+        39,
+        40,
+        41
+      ],
+      "trace": [
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41,
+        39,
+        40,
+        41
+      ]
+    }
+  ],
+  "scope": "Original native IMA blocks over actual first/middle/tail segments; explicit stream read/seek callbacks. Whole source event selector with explicit same rand/allocator boundary. No Android/audible acceptance.",
+  "source_spatial_comparisons": 420,
+  "source_native_envelope_comparisons": 240
+}

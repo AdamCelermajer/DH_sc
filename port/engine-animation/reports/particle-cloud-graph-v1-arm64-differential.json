@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "comparisons": 200,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "f0869849fe81544f1d970ac9551ad819e61a92d48891d36f37a47a9bb593897b",
+  "reference_sha256": "b867e126b75c71452d5ff2ad7cceccded53eb447c3e94b039a27babe7562e71f",
+  "scope": "Whole original update6532cc reached Life/Color/Size/actual sphereEmitter/Motion variation/Spin/directionalGravity/compaction/vector resize/AlphaSort/BBox vs same native graph. Actual source generation65317c and update6532cc run over a reserved-capacity vector fixture; every reached model and sort/BBox runs original instructions. Allocator cleanup is an explicit ABI boundary; no material/live renderer claim."
+}

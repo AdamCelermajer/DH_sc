@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "original_ctor": true,
+  "original_insert": true,
+  "original_lookup": true,
+  "records": [
+    {
+      "name": "ProfileCOMMON_TEXTURED",
+      "id": 0,
+      "query": 0
+    },
+    {
+      "name": "ProfileCOMMON_ADDITIVE",
+      "id": 1,
+      "query": 1
+    }
+  ],
+  "fixtures": [
+    "allocator/libc string",
+    "retained source shader reference-count projection (no GPU link)"
+  ]
+}

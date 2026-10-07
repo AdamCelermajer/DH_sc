@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "file": "port/engine-audio/audio_mixer_v34.cpp",
+  "old_frozen_sha256": "bb441a7f22bfa54a8612ade20dff97831999114ad3e26f54e5ac1ff71db39660",
+  "current_sha256": "f220ca05e94ef8a172e5cd5297168bb00d82a5aa1d571b617d6d7f555bba63c6",
+  "non_whitespace_tokens_identical": true,
+  "reason": "Two closing-for-brace line breaks; no warning suppression or semantic change"
+}

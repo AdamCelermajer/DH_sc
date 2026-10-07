@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "df2900c5cc5e722194a11514f340a99d62ecdd0866a28957d88e8b2e0a7cf1bb",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\module_visual_mesh_box_v2.cpp",
+      "sha256": "7e76c9968106d7442263f15e27f308c5ec4207d278843c2f4868026e631ed65a"
+    },
+    {
+      "path": "port\\level-world\\module_visual_mesh_box_v2.cpp",
+      "sha256": "8020a16cb0a4b1eda63c09037e2eb2ac4b8574c360a2f405811cc39d5b101478"
+    },
+    {
+      "path": "port\\level-world\\decor_body_config.cpp",
+      "sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\module_visual_mesh_box_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_visual_mesh_box_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\decor_body_config.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\module-visual-mesh-box-v2\\module-visual-mesh-box-v2.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "Module CalcMeshBox original PASS 66\n",
+  "stderr": ""
+}

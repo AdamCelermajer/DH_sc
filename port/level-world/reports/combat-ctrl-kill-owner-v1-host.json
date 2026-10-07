@@ -1,0 +1,80 @@
+{
+  "validation": "PASS",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/combat_ctrl_kill_owner_v1.cpp",
+        "port/level-world/character_kill.cpp",
+        "port/level-world/tests/combat_ctrl_kill_owner_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-lz",
+        "-o",
+        ".local-inputs/combat_ctrl_kill_owner_v1_host_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/combat_ctrl_kill_owner_v1_host_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":88}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/combat_ctrl_kill_owner_v1.cpp",
+        "port/level-world/character_kill.cpp",
+        "port/level-world/tests/combat_ctrl_kill_owner_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-lz",
+        "-o",
+        ".local-inputs/combat_ctrl_kill_owner_v1_host_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/combat_ctrl_kill_owner_v1_host_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":88}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/combat_ctrl_kill_owner_v1.cpp": "c308aee12d0bb243e17d5f55980ade269d69c15c4a0fa7e9a5c12c95a633cc89",
+    "port/level-world/character_kill.cpp": "b02573981a54839ef300f1a04bdee51246fbb62de2af5104735f32b8e9f4fcfb",
+    "port/level-world/tests/combat_ctrl_kill_owner_v1_host.cpp": "b44377d35c6f5acf9f4c212872adff1d22384b41e7d3a4a8a336f22d3af9d177"
+  },
+  "production_connected": false,
+  "scope": "Same actual cache property rules/life plus whole native Ctrl_Kill kernel; explicit fixture identity/Level/loot/XP/quest observers; success/reentry/deadpublication/failureprefix/no duplicate retry"
+}

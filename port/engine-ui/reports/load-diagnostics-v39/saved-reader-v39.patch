@@ -1,0 +1,27 @@
+--- C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp\renderer_native_level_c1_v25.inc
++++ C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp\renderer_native_level_c1_v25.inc
+@@ -7,16 +7,7 @@
+  std::string directory;
+  RendererLevelFilesV25(AAssetManager* assets,std::string path):cache(assets),directory(std::move(path)){}
+  bool saved(const std::string& name,bool& found,std::vector<std::uint8_t>& bytes,std::string& e){
+-  found=false;bytes.clear();
+-  if(name.empty()||name.find_first_of("/\\")!=std::string::npos||name.find('\0')!=std::string::npos){e="Invalid source LevelSavegame private filename";return false;}
+-  errno=0;auto* file=std::fopen((directory+"/"+name).c_str(),"rb");
+-  if(!file){if(errno==ENOENT){e.clear();return true;}e="Actual LevelSavegame file open failed: "+std::to_string(errno);return false;}
+-  found=true;std::array<std::uint8_t,8192> buffer{};bool okay=true;
+-  while(true){const auto count=std::fread(buffer.data(),1,buffer.size(),file);bytes.insert(bytes.end(),buffer.data(),buffer.data()+count);
+-   if(count<buffer.size()){okay=std::ferror(file)==0;break;}}
+-  if(std::fclose(file))okay=false;
+-  if(!okay){e="Actual LevelSavegame private file read/close failed";return false;}
+-  e.clear();return true;
++  return dh2::android_ui::read_private_level_save_v39(directory,name,dh2::android_ui::level_save_transport_budget_v39,found,bytes,e);
+  }
+ };
+ struct RendererLevelApplicationV25 {
+--- C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp\model_renderer.cpp
++++ C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp\model_renderer.cpp
+@@ -1,3 +1,4 @@
++#include "renderer_private_save_read_v39.hpp"
+ #include "model_renderer.hpp"
+ #include "../level-loader/native_level_application_v25.hpp"
+ #include "retained_visual_draw_v27.hpp"

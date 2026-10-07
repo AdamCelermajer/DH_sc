@@ -1,0 +1,43 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/engine-ui/swf_event_dispatch.hpp": "359a1f7213de54d2a825810d9c471ad1c0ac804a09ee509086fec6866519becb",
+    "port/engine-ui/swf_event_dispatch.cpp": "48fd9df725c52d79dcfb4a49f1bf301b7afb3bafef97b66dce2fcc4f6a77ecee",
+    "port/engine-ui/swf_event_core.hpp": "2874e471f750819233baf932f946fbb72d8b85408958769fde499a33e524ec03",
+    "port/engine-ui/swf_event_core.cpp": "7dba5be35bb025359ff6191730dc3a112c262e212f4828e2975d84b7b7144fe1",
+    "port/engine-ui/tests/swf_event_dispatch.cpp": "6dd6d02a13c29699fbaea0ecb87bd7a8dbf55bc765c34cdbb8222edc39975bf1",
+    "port/engine-ui/tests/swf_event_dispatch_differential.py": "0b6c7774014903344aa4b9fba04ed8cb34a2ffd58861a9b8846e43d6ac13cb8a",
+    "port/engine-ui/tests/swf_event_method_probe.py": "65894318819138f8930b92cfda898d89993da51d2ebd74c20219f918fe60b8ac",
+    "port/engine-ui/tools/build_swf_event_dispatch_oracle.ps1": "08beaf165b455b6bdbfd7f79db6ccd5502be60b5d44d2200fbbe45f7540736e8",
+    "port/engine-ui/tools/swf_event_dispatch_host.py": "4f879a7d1914bd928277dcbbe4185946187e332fc01e1fab60f7c8d67f8f5176"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/swf-event-dispatch-arm64-differential.json": "6b2fcbd99bcc189160bc8add46d1bbda25827aaf2347a65a9848a57751e726af",
+    "port/engine-ui/reports/swf-event-dispatch-host-audit-v2.json": "32721e27bf1deb3b64589cc3d4d11ecc99cb319c5f5070d739d6a3da883fbc4f",
+    "port/engine-ui/reference/swf-input-connection/method-probe.json": "569b657ac64fafb28be747b2a4ac553afdfd8af6a75357332d63e6d691de615d"
+  },
+  "reference_sha256": {
+    "port/engine-ui/reference/swf-input-connection/callbacks/original-functions.json": "d656e9bef29867fd2941f7ebdfea63bfc7597a83acd62b40876b110bfef6dd89",
+    "port/engine-ui/reference/swf-input-connection/callbacks/reference/original-functions.asm": "6d0c9c6eeb06e21ce5e77dec300c66de0dcc86957d713d6a9ad1229d7ad96e42",
+    "port/engine-ui/reference/swf-input-connection/dispatch-gold.bin": "5b288c30015c5da3a7bf6eb6c419e07dbba653590bbc5126e577666f9cd74e84",
+    "port/engine-ui/reference/swf-input-connection/dispatch/original-functions.json": "2f1fe545bc4f81ff69752efa520b9a13683a8c89f0fed0abf7ebb3e1db0cabfe",
+    "port/engine-ui/reference/swf-input-connection/dispatch/reference/original-functions.asm": "7c4a833931822167d22986c0c1e241e7c1de2480e90ef2fefa41595a38e1f4b5",
+    "port/engine-ui/reference/swf-input-connection/FACADE-REVIEW.md": "81c4332eb897f4ce2cac08733cf78009da011d658c2af79b0efba1c9a064b980",
+    "port/engine-ui/reference/swf-input-connection/hud-globals/original-functions.json": "86b544e73c90c5058ad4826c17d9b6eb4b482351bdca0e6aaff429bb8f5d1577",
+    "port/engine-ui/reference/swf-input-connection/hud-globals/reference/original-functions.asm": "5bd33cbf637d73beed599b7553547297ea10af51efd911bd99f0bfe7f7c3988f",
+    "port/engine-ui/reference/swf-input-connection/method-dependencies/original-functions.json": "6bdf49f2a01aa2b61d8ccd773c0c6cb05c49329f653a4c5d5d7f02cbd6518dc2",
+    "port/engine-ui/reference/swf-input-connection/method-dependencies/reference/original-functions.asm": "32808c95f71bab5f300787e32211811d39dab541803f67e09440752209b6262d",
+    "port/engine-ui/reference/swf-input-connection/method-probe.json": "569b657ac64fafb28be747b2a4ac553afdfd8af6a75357332d63e6d691de615d",
+    "port/engine-ui/reference/swf-input-connection/NOTES.md": "1bf271167c19be13b96e9a0de97459936e3834935be309d227a6f1f05f43a169",
+    "port/engine-ui/reference/swf-input-connection/original-functions.json": "f47f0933d8c48094667636aea73935b1eaa1b7492a4e85a044f70e3f63807deb",
+    "port/engine-ui/reference/swf-input-connection/reference/original-functions.asm": "2bdeed57e06fe465f2e29eb046aaccaf2745286604cb91296a8f8ea772aa88a6"
+  },
+  "scope": "Complete source mutable SendEvent coordinator plus genuine retained GameSWF InvokeASCallback bridge; no full input/frame/game-action or live Android parity",
+  "original_comparisons": 2400,
+  "ordered_original_arm64_requests_and_stores": 5174,
+  "original_bound_reentry_cases": 400,
+  "original_method_gate_cases": 32,
+  "actual_host_as_callbacks": 14,
+  "sanitizer_findings": 0
+}

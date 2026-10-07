@@ -1,0 +1,49 @@
+{
+  "target_symbol": "LG_DEVICES",
+  "target_address": "0x9f6406",
+  "scope": "Conservative linear symbolic literal/GOT loads over ARM STT_FUNC bodies; conditional paths included. Indirect/unresolved writes and Thumb bodies not disproven.",
+  "xrefs": [
+    {
+      "function": "_ZN9Character6UpdateEv",
+      "address": "0x3ac074",
+      "instruction": "ldr r3, [r5, r3]",
+      "kind": "resolved pointer load"
+    },
+    {
+      "function": "_ZN12AnimationSet12GetAnimationEi",
+      "address": "0x36618c",
+      "instruction": "ldr r3, [r6, r3]",
+      "kind": "resolved pointer load"
+    },
+    {
+      "function": "_ZN14AnimSetManager15AddTemplateAnimEii",
+      "address": "0x4763f4",
+      "instruction": "ldr r3, [r6, r3]",
+      "kind": "resolved pointer load"
+    },
+    {
+      "function": "appInit",
+      "address": "0x530d0c",
+      "instruction": "ldr r3, [r4, r3]",
+      "kind": "resolved pointer load"
+    },
+    {
+      "function": "appInit",
+      "address": "0x530d10",
+      "instruction": "strb r2, [r3]",
+      "kind": "possible resolved writer"
+    },
+    {
+      "function": "_ZN14AnimSetManager7AddAnimEii",
+      "address": "0x4765a8",
+      "instruction": "ldr r3, [r4, r3]",
+      "kind": "resolved pointer load"
+    },
+    {
+      "function": "_ZN14AnimSetManager6CreateEv",
+      "address": "0x4764cc",
+      "instruction": "ldr r3, [r5, r3]",
+      "kind": "resolved pointer load"
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "cases": [
+    {
+      "format": 14,
+      "generated_name": 0,
+      "active_before": 0,
+      "current_contains": false,
+      "active_after": 0,
+      "flags_after": 18,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          0
+        ]
+      ],
+      "result": 0
+    },
+    {
+      "format": 14,
+      "generated_name": 0,
+      "active_before": 3,
+      "current_contains": false,
+      "active_after": 3,
+      "flags_after": 18,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          0
+        ]
+      ],
+      "result": 0
+    },
+    {
+      "format": 14,
+      "generated_name": 0,
+      "active_before": 2,
+      "current_contains": true,
+      "active_after": 2,
+      "flags_after": 18,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          0
+        ]
+      ],
+      "result": 0
+    },
+    {
+      "format": 14,
+      "generated_name": 77,
+      "active_before": 0,
+      "current_contains": false,
+      "active_after": 3,
+      "flags_after": 10,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          77
+        ],
+        [
+          "active",
+          33987
+        ],
+        [
+          "bind",
+          3553,
+          77,
+          3
+        ],
+        [
+          "update",
+          true,
+          10
+        ]
+      ],
+      "result": 1
+    },
+    {
+      "format": 14,
+      "generated_name": 77,
+      "active_before": 3,
+      "current_contains": false,
+      "active_after": 3,
+      "flags_after": 10,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          77
+        ],
+        [
+          "bind",
+          3553,
+          77,
+          3
+        ],
+        [
+          "update",
+          true,
+          10
+        ]
+      ],
+      "result": 1
+    },
+    {
+      "format": 14,
+      "generated_name": 77,
+      "active_before": 2,
+      "current_contains": true,
+      "active_after": 2,
+      "flags_after": 10,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          77
+        ],
+        [
+          "bind",
+          3553,
+          77,
+          2
+        ],
+        [
+          "update",
+          true,
+          10
+        ]
+      ],
+      "result": 1
+    },
+    {
+      "format": 27,
+      "generated_name": 0,
+      "active_before": 0,
+      "current_contains": false,
+      "active_after": 0,
+      "flags_after": 18,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          0
+        ]
+      ],
+      "result": 0
+    },
+    {
+      "format": 27,
+      "generated_name": 0,
+      "active_before": 3,
+      "current_contains": false,
+      "active_after": 3,
+      "flags_after": 18,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          0
+        ]
+      ],
+      "result": 0
+    },
+    {
+      "format": 27,
+      "generated_name": 0,
+      "active_before": 2,
+      "current_contains": true,
+      "active_after": 2,
+      "flags_after": 18,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          0
+        ]
+      ],
+      "result": 0
+    },
+    {
+      "format": 27,
+      "generated_name": 77,
+      "active_before": 0,
+      "current_contains": false,
+      "active_after": 3,
+      "flags_after": 10,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          77
+        ],
+        [
+          "active",
+          33987
+        ],
+        [
+          "bind",
+          3553,
+          77,
+          3
+        ],
+        [
+          "update",
+          true,
+          10
+        ]
+      ],
+      "result": 1
+    },
+    {
+      "format": 27,
+      "generated_name": 77,
+      "active_before": 3,
+      "current_contains": false,
+      "active_after": 3,
+      "flags_after": 10,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          77
+        ],
+        [
+          "bind",
+          3553,
+          77,
+          3
+        ],
+        [
+          "update",
+          true,
+          10
+        ]
+      ],
+      "result": 1
+    },
+    {
+      "format": 27,
+      "generated_name": 77,
+      "active_before": 2,
+      "current_contains": true,
+      "active_after": 2,
+      "flags_after": 10,
+      "counter_after": 0,
+      "events": [
+        [
+          "gen",
+          77
+        ],
+        [
+          "bind",
+          3553,
+          77,
+          2
+        ],
+        [
+          "update",
+          true,
+          10
+        ]
+      ],
+      "result": 1
+    }
+  ],
+  "scope": "12 original ARM bindImpl initial control cases, sourceGLgen/bind/cache/directgrid/online-before-update ordering; update(true) continuation fixture, GPU not executed"
+}

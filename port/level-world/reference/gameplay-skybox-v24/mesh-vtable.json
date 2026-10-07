@@ -1,0 +1,92 @@
+[
+  {
+    "slot": "0x0",
+    "address": "0x644cfc",
+    "name": "_ZN6glitch7collada5CMeshD1Ev"
+  },
+  {
+    "slot": "0x4",
+    "address": "0x644d4c",
+    "name": "_ZN6glitch7collada5CMeshD0Ev"
+  },
+  {
+    "slot": "0x8",
+    "address": "0x31d5cc",
+    "name": "_ZN6glitch17IReferenceCounted8onDeleteEv"
+  },
+  {
+    "slot": "0xc",
+    "address": "0x644f88",
+    "name": "_ZNK6glitch7collada5CMesh5cloneEv"
+  },
+  {
+    "slot": "0x10",
+    "address": "0x644a44",
+    "name": "_ZNK6glitch7collada5CMesh18getMeshBufferCountEv"
+  },
+  {
+    "slot": "0x14",
+    "address": "0x644a6c",
+    "name": "_ZNK6glitch7collada5CMesh13getMeshBufferEj"
+  },
+  {
+    "slot": "0x18",
+    "address": "0x644ac8",
+    "name": "_ZNK6glitch7collada5CMesh11getMaterialEj"
+  },
+  {
+    "slot": "0x1c",
+    "address": "0x644b24",
+    "name": "_ZNK6glitch7collada5CMesh29getMaterialVertexAttributeMapEj"
+  },
+  {
+    "slot": "0x20",
+    "address": "0x644bdc",
+    "name": "_ZN6glitch7collada5CMesh11setMaterialEjRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKNS3_INS4_27CMaterialVertexAttributeMapEEE"
+  },
+  {
+    "slot": "0x24",
+    "address": "0x644b80",
+    "name": "_ZNK6glitch7collada5CMesh14getBoundingBoxEv"
+  },
+  {
+    "slot": "0x28",
+    "address": "0x644b88",
+    "name": "_ZN6glitch7collada5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE"
+  },
+  {
+    "slot": "0x2c",
+    "address": "0x596c6c",
+    "name": "_ZNK6glitch5scene5IMesh15getUserPropertyEv"
+  },
+  {
+    "slot": "0x30",
+    "address": "0x644a3c",
+    "name": "_ZNK6glitch7collada5CMesh7getTypeEv"
+  },
+  {
+    "slot": "0x34",
+    "address": "0x6676b4",
+    "name": "_ZN6glitch7collada5IMesh9onAnimateEj"
+  },
+  {
+    "slot": "0x38",
+    "address": "0x6676b8",
+    "name": "_ZN6glitch7collada5IMesh27onPrepareBufferForRenderingENS0_21E_PREPARE_BUFFER_STEPEPNS_5video12IVideoDriverEj"
+  },
+  {
+    "slot": "0x3c",
+    "address": "0x6676c0",
+    "name": "_ZN6glitch7collada5IMesh20releaseProcessBufferEPNS_5video12IVideoDriverEj"
+  },
+  {
+    "slot": "0x40",
+    "address": "0x6676c4",
+    "name": "_ZN6glitch7collada5IMesh4initEPNS_5video12IVideoDriverEb"
+  },
+  {
+    "slot": "0x44",
+    "address": "0x6676c8",
+    "name": "_ZN6glitch7collada5IMesh12setTransformEPNS_5video12IVideoDriverERKNS_4core8CMatrix4IfEE"
+  }
+]

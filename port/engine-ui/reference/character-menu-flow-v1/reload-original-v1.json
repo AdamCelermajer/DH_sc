@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "original_complete_cases": 554,
+  "ordered_component_boundaries": 5750,
+  "gold_sha256": "2861335465b953046b40815e8f12ed77813567d2c9c129f15a3fb22e2d3331c4",
+  "fresh_class_getters_including_synchronous_change": true,
+  "component_services_are_fixtures": true,
+  "whole_menu_live": false
+}

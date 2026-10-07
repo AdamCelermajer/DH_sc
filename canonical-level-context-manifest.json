@@ -1,0 +1,94 @@
+{
+  "base_loader_archive_sha256": "6605e1d9cb0432463ea46c57f624a790bd6830c3f7f69c3b5614342855d7aa0a",
+  "checkpoint_sha256": "f671cb0540c0cfac849ca311178bccac499f1df3b826b100528b5872e8ad41df",
+  "entries": {
+    "port/level-loader/CANONICAL-LEVEL-CONTEXT-HANDOFF.md": {
+      "bytes": 8113,
+      "sha256": "9c8a06758edbdf962badda18fe789d496754fa487ca4726962204cf1ed8ebf78"
+    },
+    "port/level-loader/CMakeLists.txt": {
+      "bytes": 13791,
+      "sha256": "2dc24781f692d5d995b097eae4f3080218f63ca58a18eeaddbe314d37483b86b"
+    },
+    "port/level-loader/OWNER-CONTEXT-REQUIREMENTS.md": {
+      "bytes": 12468,
+      "sha256": "97ddef8e4210e15e5cefef37bd7d11613d0b346a86038ce1e6eeb72f3c0ab301"
+    },
+    "port/level-loader/README.md": {
+      "bytes": 27916,
+      "sha256": "1877bd04977d72fafc0e233aef430ab811558662a4b283a7ed0ff16da57027b6"
+    },
+    "port/level-loader/canonical_level_context_v1.cpp": {
+      "bytes": 2619,
+      "sha256": "70ed2c5436439184619dc94bf5af88bd788358f57f5cb437f3368ee1038d49e2"
+    },
+    "port/level-loader/canonical_level_context_v1.hpp": {
+      "bytes": 4081,
+      "sha256": "72a1e627c5423a9f0ad7f583d476d28b24b954274cb195b70118b1fd3ff34010"
+    },
+    "port/level-loader/reports/canonical-level-context-checks.json": {
+      "bytes": 3108,
+      "sha256": "be77f000be98d9fff7679627616cbee5dd550c670ebb40db481d8809557b7081"
+    },
+    "port/level-loader/reports/gslevel-current-original.asm": {
+      "bytes": 4860,
+      "sha256": "9fd5526421dec9e9399b37b269251e247b9cb5847b3e548a673b4fb4fa1f1646"
+    },
+    "port/level-loader/reports/gslevel-current-original.json": {
+      "bytes": 2083,
+      "sha256": "b9a97f122b249ddb7236ba70acd84613e1c83367fd835308ca05708c72bec0ab"
+    },
+    "port/level-loader/reports/level-constructor-3f3128.asm": {
+      "bytes": 14031,
+      "sha256": "6d69acab1f7d3090381b26d1eb8393399023c45683ab06cb00a7bd340badf813"
+    },
+    "port/level-loader/reports/level-constructor-fields-original.json": {
+      "bytes": 2755,
+      "sha256": "5e389839224b6258446c5f0dea9258555763de72885dc994b984b4e028d4a5fc"
+    },
+    "port/level-loader/tests/canonical_level_context_probe.cpp": {
+      "bytes": 7251,
+      "sha256": "e0bd840e955d89120fd87a9536be6629d20142e901487359fb7b337763d05a06"
+    },
+    "port/level-loader/tools/build_canonical_level_context_android.py": {
+      "bytes": 819,
+      "sha256": "7f1f7421dbd669652e769b8aa66d70773ab30560387cf11d9419cb5bf76f697b"
+    },
+    "port/level-loader/tools/oracle_gslevel_current.py": {
+      "bytes": 3773,
+      "sha256": "fd9b9e8dbeb8415bf23ff6824de4d581edb1bb936ba8483f4228082b4fd7b093"
+    },
+    "port/level-loader/tools/oracle_level_constructor_fields.py": {
+      "bytes": 3467,
+      "sha256": "fbe546d7dccf65d5cddb3f0ceb8bb5ba5425b180fa4b6e30e06e328d44fb41f7"
+    },
+    "port/level-loader/tools/run_canonical_level_context_checks.py": {
+      "bytes": 4103,
+      "sha256": "594806a049d8dba814e4f4e8eae5b7fb865ea153452576b2126cd49f5d9b62ea"
+    },
+    "port/level-loader/vendor/level-context-contracts-20261005/canonical_level_config_module_v1.hpp": {
+      "bytes": 5765,
+      "sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb"
+    },
+    "port/level-loader/vendor/level-context-contracts-20261005/canonical_level_module_bindings_v2.hpp": {
+      "bytes": 3095,
+      "sha256": "9c26e65ae375a7c4f081cae58666bb5af20886850571c56d37c445c2c0dcda93"
+    },
+    "port/level-loader/vendor/level-context-contracts-20261005/character_kill.hpp": {
+      "bytes": 3838,
+      "sha256": "ceee60938d3862a39134672a85f5a9fb3a01c3ec9c2a664bb028d162cbf66b06"
+    },
+    "port/level-loader/vendor/level-context-contracts-20261005/level_config_publication_v2.hpp": {
+      "bytes": 767,
+      "sha256": "16ed42de545755c17932346e961a3e262cca4c8019d1e00da36c505cb2914983"
+    },
+    "port/level-loader/vendor/level-context-contracts-20261005/manifest.json": {
+      "bytes": 595,
+      "sha256": "291d345caaac84b77a3686c91aa845e349b741c8c24edec69ab8f4af1e39b9f3"
+    }
+  },
+  "full_level_constructor_verified": false,
+  "full_loader_verified": false,
+  "scope": "Same canonical Level identity and constructor field authority; borrowed authoritative retained GSLevel::s_level global contract, not whole Level construction/gameplay",
+  "supersedes_level_context_archive_sha256": "c9cbd15dc7f387b6c14d51a9d1311a05221933b287b872c761052a248e3e8810"
+}

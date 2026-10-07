@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "cases": 4096,
+  "ordered_services": 76560,
+  "achievement_calls": 5164,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "45e7ccc19d815eb7cddce0a9408f7d3190b06df066c1f4ccf01a3405357da969",
+  "scope": "Original nonplayer HitFor including distinct player achievement tail.\nGame, policy, trophy and full Kill delivery are explicit fixture services;\ngenuine property/handle kernels and source instruction order execute.\n",
+  "full_kill_backend": false
+}

@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax generic Lua owner/test only",
+  "sources": [
+    {
+      "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+      "sha256": "1129dfa0695977763ab1d3d2749e3771302f6c9c33d9b2072d30b4360e45c863"
+    },
+    {
+      "path": "port/level-world/tests/generic_lua_script_owner_v13.cpp",
+      "sha256": "6cc579a1841608f1991ceecb92f2a0852125649c5d132ff881442e274ca1c298"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

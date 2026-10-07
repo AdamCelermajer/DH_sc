@@ -1,0 +1,83 @@
+{
+  "status": "source_stable_for_parent_integration",
+  "new_includes_native_runtime_verified": false,
+  "full_renderer_syntax": [
+    "arm64-v8a PASS",
+    "x86_64 PASS"
+  ],
+  "isolated_native_pass": [
+    "npc-attack-actor-frame-v1",
+    "npc-inventory-owner-v1",
+    "npc-animation-event-owner-v1"
+  ],
+  "files": [
+    {
+      "path": "port/level-world/npc_attack_command_owner_v1.hpp",
+      "sha256": "9cc6366502b1fac099aeea7af20bbeeced73e9770c3a5ea4e53c38288f378f0c"
+    },
+    {
+      "path": "port/level-world/npc_attack_command_owner_v1.cpp",
+      "sha256": "7405eb0513a05e8b9f67f74e51c7a9e0e16465f15c13f9b89c174a45035418ff"
+    },
+    {
+      "path": "port/level-world/npc_actor_frame_v1.hpp",
+      "sha256": "755705103d23c94801329c0b762774a69efa4c226ff567536a931f290cc0c154"
+    },
+    {
+      "path": "port/level-world/npc_actor_frame_v1.cpp",
+      "sha256": "3e5cecddb45f4d339585ee6ba7574b2ac81ae39959f1912b5c21975899c60148"
+    },
+    {
+      "path": "port/level-world/npc_inventory_owner_v1.hpp",
+      "sha256": "97369bdfd6cf89fbce25738eb94153b2bd3d861e6e0f593dd9957d44c73b1b27"
+    },
+    {
+      "path": "port/level-world/npc_animation_event_owner_v1.hpp",
+      "sha256": "db9a11f1ed1255a6fa8e2a19a8bb292de9c48484ffe3ed4e2583d6bd5edafd0f"
+    },
+    {
+      "path": "port/level-world/npc_animation_event_owner_v1.cpp",
+      "sha256": "8821ddf199842a3bb241817d515eb55d552a05eb0c65d90343403da394fad621"
+    },
+    {
+      "path": "port/level-world/tests/npc_attack_actor_frame_v1.cpp",
+      "sha256": "a13bfbd3f54ebc8bf694ef1d5858f527c30866c85fab0c2e773a7b0c45a17beb"
+    },
+    {
+      "path": "port/level-world/tests/npc_inventory_owner_v1.cpp",
+      "sha256": "dc455dd428a444d5ceb6ce7c8e74c0b469a3452f928728bcfc2616bc37820fa1"
+    },
+    {
+      "path": "port/level-world/tests/npc_animation_event_owner_v1.cpp",
+      "sha256": "520bc9b6413261589000d46a2ba740e7a786232bb4622697838ab26f567d440d"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_commands_v1.inc",
+      "sha256": "98887242a6b88eb85bbbd73ea781c3c42abde65554ee9264720033cb8b8466d3"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_attack_frame_v1.inc",
+      "sha256": "674e06ae87697e20ec2dee5ccbcfa573364233073d9f97be8dd6a99f2b061030"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_state_animation_v1.inc",
+      "sha256": "9f317d7464253c7e24b7b0b72256522d6cb626b078729e4cb65cb47a59cd1e36"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_inventory_v1.inc",
+      "sha256": "e91f95894f08fe44bdbb1e60420dcfc75757f122329ead48e67ceb3b7fcd830a"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_melee_event_v1.inc",
+      "sha256": "9e186643100527342e2ee50c541022bbe6773cda8a260ef3ef999d4fe7480b3d"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_state_animation_v1-handoff.md",
+      "sha256": "e2354037b89331ddb609875ace9a8efee52908f79ac8cd18de6dbd681de1580d"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_combat_v1-handoff.md",
+      "sha256": "f022cd016dd0572a31bf08fabf7c3aa14a7ef6227446c1827cbd28d7db1a39b7"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "cases": 48,
+  "source_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "292fbcdf6a528eddda1555fc0ba07a2aa3c10e00590dfffc7792fea45c5b9b7a",
+  "scope": "Whole original ClearAllAggro methods. Allocators and callbacks are named\nfixtures; original map traversal/erase/clear and target SyncLastTarget execute.\nNative keys normalize each original Character address to index+0x100000001.\n",
+  "full_game_death": false
+}

@@ -1,0 +1,9 @@
+{
+  "status": "SELECTED_LEAF_INTEGRATED_RUNTIME_VALIDATION_PENDING",
+  "archive_sha256": "cda71081f37d86995d0dfaa50e48e386aafd0b383cd7e696dadf7820f0d4722c",
+  "source": "port/level-loader/vendor/named-template-context-v1/canonical_property_map_v1.cpp",
+  "destination": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_property_map_v1.cpp",
+  "before_sha256": "da849d2cb3dc7a2ac67707136e2751b662636ed2a8929612792f91cc85e96c20",
+  "after_sha256": "d589c03c308b37785c7bc1ad03cdc6077b5d4f4c531a1719bf66de17329b09e8",
+  "limit": "Modern template descriptor correction; actual LoadTemplate assertion service still required; not complete Swamp readiness."
+}

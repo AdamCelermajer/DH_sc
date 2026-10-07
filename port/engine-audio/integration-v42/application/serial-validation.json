@@ -1,0 +1,10 @@
+{
+  "optimization": "O2",
+  "sanitizers": "ASan+UBSan",
+  "checks": 3010,
+  "exit_code": 0,
+  "source_sha256": {
+    "application_audio_serial_v42.hpp": "ec1b1f0b37559da53f2fde5264358401cb15533c99560bc111bedfc841167cd3",
+    "serial-fixture.cpp": "8ad8e06db47e83a730394455ea5a02a12f747d1abd659320408abde340f5d588"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "name": "_ZN10ObjectBase11DeserializeEP11IStreamBase",
+      "entry": "0x33e0f8",
+      "size": 64,
+      "sha256": "60d9f7294fc84162edf8f35d6bbaf0c6f045dc89d6eb577b1f429dc19f7d6ca1"
+    },
+    {
+      "name": "_ZN10ObjectBase9SerializeEP11IStreamBase",
+      "entry": "0x33e1f0",
+      "size": 40,
+      "sha256": "d0cac7e4de0654e2f1e69fe3a00583a79692df6484696e71a3311c852b593691"
+    },
+    {
+      "name": "_ZN10GameObject11DeserializeEP11IStreamBase",
+      "entry": "0x38b91c",
+      "size": 192,
+      "sha256": "0b4986424847c7722e2851249b01cc2865708c86dbc9ec90219b077e26f799d0"
+    },
+    {
+      "name": "_ZN10GameObject9SerializeEP11IStreamBase",
+      "entry": "0x38b9e4",
+      "size": 32,
+      "sha256": "16a71e9b7c7806c6f72823a2418e656f2ec6b8c802e5394974f92d770288aa8e"
+    },
+    {
+      "name": "_ZN9Character11DeserializeEP11IStreamBase",
+      "entry": "0x3a6210",
+      "size": 940,
+      "sha256": "6977066f072bf8f183e97ba5a882f8bb9517f510c00cb2f9d68309935e777892"
+    },
+    {
+      "name": "_ZN9Character9SerializeEP11IStreamBase",
+      "entry": "0x3a65c4",
+      "size": 248,
+      "sha256": "0919be98c4899965543d3e033494f94779609ae1cd42ef51605f21f094bf7385"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "validation": "PASS",
+  "comparisons": 465,
+  "callback_checks": 2130,
+  "callbacks": 333,
+  "native_guards": 6,
+  "native_reentry_checks": 1,
+  "mismatches": 0,
+  "source_bindings": {
+    "port\\level-world\\object_identity.cpp": "4d41ec703f8653cd9e4183727fd1e3e52d8e180087357e1983c31b82e0709499",
+    "port\\level-world\\object_identity.hpp": "ecffe87157463e169126f859d9a144b50ecb09b902b99787918f4262a44231bf",
+    "port\\level-world\\tests\\object_target_events.cpp": "b0a877854aaaa5b89f3605ee18c73cc1dfc16a9bb77a97b2c2636b1292a7a7d7",
+    "port\\level-world\\tests\\object_target_events_host.py": "4b588fef4594abed011a2cdbbd59f7b5c4f908136d905777a6fc8990644ad9ac",
+    "port\\level-world\\tests\\object_target_events_original.py": "c217bee1e09c97ef336ba099af65c376dc9f742716c9633dc23d93987ed32d4f",
+    "port\\level-world\\reference\\object-identity-lifecycle\\target-events\\dispatch-fixtures.bin": "9e4461625a7762b8a4f8e325f7497cfcd366ec66c22b157a34f8a321e6859225",
+    "port\\level-world\\reports\\object-target-events-arm64-differential.json": "b11b9127d206766d34ce99944692f3024d313d69c5c16778d1aba07b9285d11c",
+    "port\\level-world\\character_target_providers.hpp": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+    "port\\level-world\\character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf"
+  },
+  "binary_bindings": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\object-identity-lifecycle\\object_target_events_host": "0ad3113653ac96c61d30507e43be96ffbff4d54a92e141e2c65770ccbe564b6f"
+  },
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/object_identity.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/object_target_events.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/object-identity-lifecycle/object_target_events_host"
+  ],
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Sanitized target-wrapper callback replay against actual original dispatch gold. Receiver, borrowed VM and argument storage ownership remain caller services. No full target-event producer/live AI or main-linked compiler provenance claim."
+}

@@ -1,0 +1,7 @@
+{
+  "exit_code": 0,
+  "emulator": "emulator-5554",
+  "output": "PASS original atlas 1024x1024 | authored crops 147 | visible 147 | RGBA hash 8667b986333d9b16\n",
+  "original_atlas": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics_droid.tga",
+  "validation": "PASS"
+}

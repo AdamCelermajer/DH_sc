@@ -1,0 +1,30 @@
+{
+  "validation": "PASS",
+  "original_public_material_compare_cases": 300,
+  "original_hash_outputs": 600,
+  "host_checks": 906,
+  "host_sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reflection_gold": 258,
+  "reflection_host_checks": 264,
+  "strict_compile": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "scope": "Original comparison/hash gold + native64 pointer-hash/current-directory/cache invariants. Actual GL reflection helper syntax compiled; no live GPU overlapping queue claim.",
+  "sha256": {
+    "port/scene-materials/material_compare_v4.hpp": "f51745e0b65390ee713c5c42007b599e09f80f569047e3bc021b14203bc2ac89",
+    "port/scene-materials/material_compare_v4.cpp": "aeab85d6ea22ce6a0a9fa44bd7c6ca5b6b03963e5b5503b7539f88b49ef60665",
+    "port/scene-materials/shader_reflection_v4.hpp": "4a20ccd3238959b54324ba3dfbb245a003048280042cc318e2426d372753392d",
+    "port/scene-materials/shader_reflection_v4.cpp": "027ab73c484cbf598cd95bceadbddaa62c6e4c54fe9e85e7b03129e0331f048b",
+    "port/scene-materials/shader_program_collection_v4.hpp": "79c6261dd2795f12054d402627fe0141ce7e18925ca344d12cc6de777509aa7c",
+    "port/scene-materials/shader_program_collection_v4.cpp": "5beaab919c02a8bbc54baa77240a45acf3ad1b1b7ca4a7062ff1ef0c12dca431",
+    "port/scene-materials/effect_material_directory_v4.hpp": "71d39cfd7ef7f63a72450f38f1aafdd61d31395ba8e0a5b3a7849899deb989bd",
+    "port/scene-materials/effect_material_directory_v4.cpp": "33f46bcf778c739340db87fd992b5d0c0c2cda2d0e5f5591795c1a47f7b686c8",
+    "port/android-native/app/src/main/cpp/renderer_effect_material_directory_v4.inc": "c226d2ca9f9a3943433c454373cfcea1802064653a3deedaae1307cc7a3e0206",
+    "port/scene-materials/tests/material_compare_v4.cpp": "01d13618ac9dc6c6c19fdc738a705b2941fe7596a0c824830ef4a6f795822366",
+    "port/scene-materials/tests/material_compare_v4_gold.hpp": "44411fca3a79754d12e1a88c6fa4c543612b8467492188ae549d3b867082c83a"
+  }
+}

@@ -1,0 +1,47 @@
+--- a/port/level-world/canonical_destructible_container_v16.cpp
++++ b/port/level-world/canonical_destructible_container_v16.cpp
+@@ -37,11 +37,11 @@
+ bool CanonicalDestructibleContainerV16::do_open(std::string& e){if(!services_.table)return missing("SAME Arrays DestructibleContainers",e);auto* row=current_row();if(!required(services_.common.drop_loot_table,"actual ItemObject DropLootTable",e,row?row->loot():-1,opener398_,-1,false))return false;bool script{};if(!required(services_.common.has_script,"same object LuaScript presence",e,script))return false;return !script||required(services_.common.script_call,"OnOpen",e,"OnOpen",opener398_,nullptr);}
+ bool CanonicalDestructibleContainerV16::container_interact(std::uintptr_t actor,std::string& e){if(std::uint32_t(state394_)-3u<=1u)return true;opener398_=actor;if(!set_state(4,e))return false;if(!services_.table)return missing("SAME Arrays DestructibleContainers",e);auto* row=current_row();if((!row||!row->keep_physics20)&&!required(services_.common.detach_physical,"SetPhysical(NULL,false)",e))return false;
+  if(*base_.pointer(0x2d8)){bool played{};if(!set_state(3,e)||!required(services_.common.play_animation,"activate",e,"activate",played))return false;}else if(!do_open(e))return false;
+- row=current_row();if(!required(services_.common.play_sound_3d,"actual VoxSoundManager Play3D",e,row?row->sound():-1))return false;return required(services_.common.source_on_interact,"GameObject Update",e);
++ if(!required(services_.common.emit_complete_source_sound_v40,"complete source container sound emission",e))return false;return required(services_.common.source_on_interact,"GameObject Update",e);
+ }
+ bool CanonicalDestructibleContainerV16::destruction_quest(std::uintptr_t actor,std::string& e){if(!services_.table)return missing("SAME Arrays DestructibleContainers",e);std::int32_t id{};if(!required(services_.constant,"GetPyCst",e,"v2QuestObjectiveType","DestroyGameObject",id))return false;DestructibleQuestEventV16 event{id,actor,base_.room64(),0,0,-1,data_id()};return required(services_.raise_quest,"SAME Level EventManager RaiseAsync synchronous339090",e,event);}
+ bool CanonicalDestructibleContainerV16::interact(std::uintptr_t actor,std::string& e){
+- if(remaining6f4_){--remaining6f4_;if(*base_.pointer(0x2d8)&&!required(services_.play_index,"timeline staged Play index",e,stages6f0_-remaining6f4_,false))return false;if(!services_.table)return missing("SAME Arrays DestructibleContainers",e);auto* row=current_row();return required(services_.common.play_sound_3d,"actual stage VoxSoundManager Play3D",e,row?row->sound():-1);}
++ if(remaining6f4_){--remaining6f4_;if(*base_.pointer(0x2d8)&&!required(services_.play_index,"timeline staged Play index",e,stages6f0_-remaining6f4_,false))return false;if(!services_.table)return missing("SAME Arrays DestructibleContainers",e);return required(services_.common.emit_complete_source_sound_v40,"complete source staged container sound emission",e);}
+  if(!destruction_quest(actor,e)||!container_interact(actor,e))return false;
+  bool character{};if(!required(services_.as_character,"actual Handle AsChar",e,actor,character))return false;if(!character)return true;
+  if(!required(services_.increment_stat,"actual CharStat increment",e,actor,217,1))return false;std::int32_t count{};if(!required(services_.get_stat,"actual CharStat query",e,actor,217,count))return false;if(count<=199)return true;
+--- a/port/level-world/canonical_destructible_container_v16.hpp
++++ b/port/level-world/canonical_destructible_container_v16.hpp
+@@ -16,6 +16,7 @@
+  std::function<bool(std::string&)> source_on_interact,create_attach_po_decor,detach_physical;
+  std::function<bool(std::int32_t,std::uintptr_t,std::int32_t,bool,std::string&)> drop_loot_table;
+  std::function<bool(const char*,std::uintptr_t,const char*,std::string&)> script_call;
++ std::function<bool(std::string&)> emit_complete_source_sound_v40; // complete manager -> getter -> raw160
+ };
+ struct DestructibleContainerServicesV16 {
+  std::shared_ptr<void> owner;std::shared_ptr<const DestructibleContainerTableV16> table;
+--- a/port/level-world/openable_container_owner_v1.cpp
++++ b/port/level-world/openable_container_owner_v1.cpp
+@@ -117,7 +117,7 @@
+     bool visual=false;if(!call(s_.has_visual,"visual+2d8",e,visual))return false;
+     if(visual){bool played=false;if(!set_state(3,e)||!call(s_.play_animation,"activate",e,"activate",played))return false;}
+     else if(!do_open(e))return false;
+-    if(!call(s_.play_sound_3d,"VoxSoundManager::Play3D",e,r.sound))return false;
++    if(!call(s_.emit_complete_source_sound_v40,"complete source container sound emission",e))return false;
+     return call(s_.source_on_interact,"GameObject::Update",e);
+ }
+ bool OpenableContainerOwnerV1::do_open(std::string& e){
+--- a/port/level-world/openable_container_owner_v1.hpp
++++ b/port/level-world/openable_container_owner_v1.hpp
+@@ -55,6 +55,7 @@
+     std::function<bool(std::uintptr_t,std::int32_t,bool&,std::string&)> remove_key;
+     std::function<bool(std::int32_t,std::uintptr_t,std::int32_t,bool,std::string&)> drop_loot_table;
+     std::function<bool(const char*,std::uintptr_t,const char*,std::string&)> script_call;
++    std::function<bool(std::string&)> emit_complete_source_sound_v40; // source manager -> sound getter -> raw160
+ };
+ class OpenableContainerOwnerV1 {
+ public:

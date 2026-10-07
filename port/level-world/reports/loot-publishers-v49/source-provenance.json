@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "port/level-world/reports/loot-root-v47/loot-root-v47-handoff.zip": "eaddc1fdf2d30c1caada5146e3943c08d318efbd7e5566fa0b6216c5a15c2be4",
+    "port/level-world/retained_gameobject_decor_v1.hpp": "6a85304a985d69b50f7164b8b7a78a6ebd24db3ed5e60d43a9f5ae4544bc4eda",
+    "port/level-world/retained_gameobject_visual_v1.cpp": "a9ae0d500930bfc565740e3fdd021a1215d232fbef5c19f40fc8c60f9e2f40d5",
+    "port/level-world/decor_body_config.cpp": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa",
+    "port/level-world/physical_world.cpp": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15",
+    "port/level-world/canonical_property_map_v1.cpp": "c40d5514e19aa59c02a0bcbf0d911958230df68e41d307ef669db84b5e47b3a0",
+    "port/level-world/canonical_property_declarations_v1.inc": "5525db00248e259892e569d240352ef154cbc9cc807f65022d6759d9211224a3",
+    "port/level-world/canonical_decor_v15.cpp": "7e2f57f9785b6e9994e509d56c9406c5b17d45822cb634920696d971cb4b40da",
+    ".local-inputs/compile_loot_v44.py": "b8c7a6f01e208d71691def87d78e34f50992b8275dd97f0f9b4d2c7705f38021",
+    ".local-inputs/run_loot_v44_host.py": "b31a23ea6d1014c94279b87981764c84215de1b75596db0bf1a2086432d7bc87",
+    "port/android-native/app/src/main/assets/actors/crypt_candle1.bdae": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d"
+  },
+  "host_checks": 2682,
+  "runtime_acceptance": false,
+  "production_map_static_flags_changed": false,
+  "root_applied_getter": true,
+  "agent_shared_mutation_before_freeze": false,
+  "approved_player_hook_application_after_freeze": true
+}

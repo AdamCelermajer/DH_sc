@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "scope": "Compact actual45 source-cache CPU resource constructor/material/transform/multi-emitter/force domain coverage, 19 source frames each accepted resource; fixture camera/GLES driver8/outer transform. PASS runner means census completed, not all resource domains accepted. No GPU/live actor acceptance.",
+  "apk_sha256": "6b0b5408e7bec23ef7c3a570b7b1a1e328cae302733159eb3de986872911d69e",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\character_authored_resource_domains_v6.cpp",
+      "sha256": "017d56b5c66a12d7f0296f7564651f2b643ff8b6763498b0ce6a92f7839bce31"
+    },
+    {
+      "path": "port\\level-world\\character_authored_resource_v6.cpp",
+      "sha256": "7dc92f959f3466c3ee32713f1fad745b141172b01ea56fff0c67e540f38bc924"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_transform_v5.cpp",
+      "sha256": "7051df9421c9d931c32a63d5def9d94fdd4543d38ce08cf5e172a447e387d933"
+    },
+    {
+      "path": "port\\level-world\\character_authored_fx_forces_v4.cpp",
+      "sha256": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e"
+    },
+    {
+      "path": "port\\level-world\\source_fx_node_matrix_v4.cpp",
+      "sha256": "284f99150768be7fed31847d071958715351ca475c3e5550b60ed221ad2c6edf"
+    },
+    {
+      "path": "port\\level-world\\authored_fx_mesh_graph_v6.cpp",
+      "sha256": "a7fcc7ddd4e7ab6b11f19380f2e9fea5d73c875aa55fa71b117764a6b77b2c00"
+    },
+    {
+      "path": "port\\engine-animation\\particle_scalar_animation_v6.cpp",
+      "sha256": "720148094772015729da8542c30af8ef5bd9821692ddc1347358d7b90161d4c2"
+    },
+    {
+      "path": "port\\engine-animation\\particle_cloud_runtime_v3.cpp",
+      "sha256": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba"
+    },
+    {
+      "path": "port\\engine-animation\\particle_deflector_v1.cpp",
+      "sha256": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff"
+    },
+    {
+      "path": "port\\engine-animation\\particle_force_scene_v2.cpp",
+      "sha256": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58"
+    },
+    {
+      "path": "port\\engine-animation\\particle_bound_forces_v4.cpp",
+      "sha256": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "9060eb98316cbcba0ea9627759e072bc8eb3c5355713bed6e909bc822deccf01"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "e930e56debbd8eff93914f44df62e825c529b45d840ef817ee513bc6658aa9b9"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "4c9a3ffeee979edce27ac91542653ee87ebd8f56ce486cf4b437b85e322d1fbb"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "8b1aca640aab6592fb7c034d2b1dbcd3bf96a22c8694b40dcbb1650582b9e023"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "376f8041956e02608e889d516aef06248282c0b6e6a0975ea96eee49abb60617"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "0c3f7c42a567741c6dff64c68ce7da94603870337ccd4bd64efeee564760fa04"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "36aad981f9d6dbe5bc325992882a868a563c682f10c27f536dbb1c0028d1a330",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_authored_resource_domains_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_authored_resource_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_transform_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_authored_fx_forces_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\source_fx_node_matrix_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\authored_fx_mesh_graph_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_scalar_animation_v6.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_cloud_runtime_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_deflector_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_force_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_bound_forces_v4.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-authored-domains-v6\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-authored-domains-v6\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-authored-domains-v6\\character-authored-domains-v6.bin"
+  ],
+  "stdout": "resource asset_00.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_01.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_02.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_03.bdae | REQUIRED | meshes 0 | clouds 0 | Required blood resource initialization\nresource asset_04.bdae | REQUIRED | meshes 4 | clouds 2 | Blood source cloud update -1\nresource asset_05.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_06.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_07.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_08.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_09.bdae | REQUIRED | meshes 0 | clouds 0 | Required authored FX mesh payload\nresource asset_10.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_11.bdae | PASS | meshes 0 | clouds 2 | \nresource asset_12.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_13.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_14.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_15.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_16.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_17.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_18.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_19.bdae | PASS | meshes 0 | clouds 0 | \nresource asset_20.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_21.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_22.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_23.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_24.bdae | PASS | meshes 1 | clouds 0 | \nresource asset_25.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_26.bdae | PASS | meshes 3 | clouds 1 | \nresource asset_27.bdae | PASS | meshes 3 | clouds 2 | \nresource asset_28.bdae | PASS | meshes 3 | clouds 2 | \nresource asset_29.bdae | PASS | meshes 1 | clouds 1 | \nresource asset_30.bdae | PASS | meshes 1 | clouds 1 | \nresource asset_31.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_32.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_33.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_34.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_35.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_36.bdae | PASS | meshes 4 | clouds 0 | \nresource asset_37.bdae | PASS | meshes 4 | clouds 1 | \nresource asset_38.bdae | PASS | meshes 3 | clouds 0 | \nresource asset_39.bdae | PASS | meshes 7 | clouds 1 | \nresource asset_40.bdae | PASS | meshes 3 | clouds 1 | \nresource asset_41.bdae | PASS | meshes 2 | clouds 0 | \nresource asset_42.bdae | PASS | meshes 2 | clouds 1 | \nresource asset_43.bdae | PASS | meshes 5 | clouds 1 | \nresource asset_44.bdae | PASS | meshes 3 | clouds 1 | \n{\"resources\":45,\"accepted_cpu_domains\":38,\"source_frames\":738,\"gpu_submission\":false,\"live_acceptance\":false}\n",
+  "stderr": "",
+  "exit_code": 0,
+  "accepted_cpu_domains": 38,
+  "required_domains": 7
+}

@@ -1,0 +1,21 @@
+{
+  "validation": "INCOMPLETE",
+  "full_player_startup": false,
+  "arguments": [
+    "wsl.exe",
+    "--exec",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+    "UBSAN_OPTIONS=halt_on_error=1",
+    "/home/adampalace/dh2-world-build/character_player_cache_bootstrap_v1_audit",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-game-design/real-cache-inputs.bin",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-assets-v1/bootstrap-cache",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-assets-v1/exact-directory.txt"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Required skill service failed at operation 21; Required skill Session delivery failed at operation 21: [string \"loadFile()\"]:194: Unsupported source global GetCurrentSpellInfo (original callback 0x003b6e30)\n",
+  "full_cache_script_count": 219,
+  "test_source_sha256": "154cbb9eaf20bb5df815be74a299cf11ddaccc1591f8f945de502cc22f800ccc",
+  "required_action": "Compose current-spell-v1 with the actual same-authority Faery/save/difficulty provider in SessionV3 before full-cache player initialization"
+}

@@ -1,0 +1,29 @@
+# FX submission performance V34
+
+This modern rendering optimization preserves the actual source effects, emitter counts, animation clocks, transforms, passes, texture/material producers and transparent heapsort. It changes CPU/GPU submission work only. No particle reduction, fake shader, simulation skip or manual actor-facing workaround was introduced.
+
+## Changes
+
+* `authored_fx_geometry_packet_v7.hpp/.cpp`: compatible old packet API plus retained `AuthoredFxGeometryCacheV34`. Every live position/color/UV stream still runs through exact conversion and byte comparison. Topology is cached only when actual uint32 indices match and vertex-count range validation remains valid. Warm scratch buffers avoid per-frame allocations. Invalid streams preserve the last accepted packet and do not publish change flags.
+* `renderer_authored_effect_scene_v5.inc`: retains actual GPU buffers across hidden/pooled intervals. Source byte-owner replacement invalidates the old resource. Each record pins its exact source retention. Context/world release still clears buffers/programs/textures before FX teardown. Idle cache is bounded to256 entries or actual active-entry count, with600-submission expiry; active sources are never evicted. This is a renderer cache policy, not a source game clock. Index upload runs only on actual topology change; vertex upload runs only on exact vertex-byte change. Existing capacity uses BufferSubData; BufferData grows storage when necessary. Real source material refresh still runs every visible source/frame.
+* Source/material lookup maps and the transparent-entry vector retain storage, replacing repeated linear node/material searches and singleton draw vectors. First matching identity behavior is preserved by map.emplace. Original transparent sort and typed material comparisons are unchanged.
+* `renderer_authored_effect_draw_v5.inc` and `renderer_authored_effect_program_connection_v5.inc`: one actual GL state Guard encloses the whole source-ordered effect batch. Each draw still installs its actual program/pass/material/texture/attributes. Compatibility draw/vector methods still own their own state scope. The new one-draw batch API requires the live scope and avoids a temporary vector.
+* `renderer_effect_submission_v34.hpp`: modern renderer work counters. One global include was added beside FX includes in model_renderer.cpp. Existing compiled packet TU handles the cache; no additional production CMake TU.
+
+## Verification
+
+Full current model_renderer strict syntax passed ARM64 and x86_64 before the root's subsequent renderer work. Packet regression passed521 checks under WSL O1 ASan/UBSan and O2: byte-for-byte equivalence to the old packet API under changed positions, UVs, colors, indices, missing color and failed/shrunken input. 4,000 warmed dynamic frames allocated8,000 times through the old packet API versus zero through the cache; topology was built once. O2 sample1,713µs versus1,438µs; these synthetic timings are not a game FPS result. Exact receipt: fx-submission-cache-v34-host.json.
+
+Real GLES regression passed90 checks across two independent EGL contexts using the actual FIRE BRES, packaged ProfileCOMMON shaders and actual decoded atlas. Eight ordered draws used360 state queries with per-draw Guards versus45 with the batch Guard. Pixels were bit-identical, external program/texture/buffer/pass/color state was restored, changing VBO geometry changed the pixels, and live-context cleanup succeeded. Source geometry/current-color inputs are declared fixtures. Receipt: android-native-owner-tests/effect-batch-v34/receipt.json; linked APK5bb7b97c942e0f254aee9705cfcbe3643f45bffe9c81ba0a684a738b35cb820f. This is real GLES acceptance for the batch helper, not whole live game FPS or a full cache-eviction rendering proof.
+
+The root independently captured frozen2334 baseline375 samples: median34.1905ms, p9549.9324ms, p9952.2829ms, mean37.4278ms (~26.72FPS), SwiftShader, no errors. That is root baseline evidence, not a measurement by this agent. Live optimized FPS/p95 acceptance belongs to root's combined build and capture; V34 does not claim it.
+
+## Counters and integration
+
+`effect_submission_counters_v34` is retained in the renderer FX scope. It reports syncs/sources, packet_updates/topology_rebuilds, warm_hits/cold_resources/evictions, vertex/index uploads/skips/bytes, storage_allocations, state_snapshots/draws and current cache_entries/visible_entries. Context teardown resets it. The expected invariants are one snapshot for each nonempty source batch, unchanged topology producing index_skips, byte-identical static geometry producing vertex_skips, and a source-visible pooled replay producing warm_hits with existing buffers. Counters are cumulative renderer work, not Source Scene clocks.
+
+## Read-only root review
+
+World submit's material cache is invalidated each frame, after front drawing and after FX before loot. FX owns separate GL programs and restores the root program/texture0+active unit/buffers/pass/attributes; it does not change root-program uniforms or texture1. Root's corner-plane culling is column-major, conservative and fail-open for invalid data. The root applied the recommended poisoned-source-bound fix. Dynamic group bounds now use current deformed vertices; NPC bounds use the same pose positions that are uploaded while target bounds/source updates remain active. GPU uploaded_pose_revision plus actor-owner identity retains dirty state while offscreen and forces correct uploads when returning or switching the shared buffer owner. No root culling/world-opaque/camera/UI edits were made by this agent.
+
+Material-directory refresh caching was deliberately deferred after profiling showed approximately0.03ms FX preparation under the current light/idle scope; HUD dominated. External shader/resourceV32 files and the frozen loot packages were preserved.

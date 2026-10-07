@@ -1,0 +1,35 @@
+{
+  "runs": [
+    {
+      "optimization": "O1",
+      "sanitizers": "ASan+UBSan",
+      "exit_code": 0,
+      "output": "PASS 1576 checks; source binding pairs and names plus transactional failure cases"
+    },
+    {
+      "optimization": "O2",
+      "sanitizers": "ASan+UBSan",
+      "exit_code": 0,
+      "output": "PASS 1576 checks; source binding pairs and names plus transactional failure cases"
+    }
+  ],
+  "source_sha256": {
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/authorities-v38/original-properties-gold.bin": "f8ff84985c1ac7b67e0372704128c1f43ba141880b59fa26b9cfeba0add167f4",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/audio_source_bindings_v38.hpp": "aaa03aa7462ae98a8286d67bfa6c5e2f70bab1d16823f1ad82b1877f6522606d",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/audio_listener_rows_v38.cpp": "b6a2c3e47dba2ddad6f1bb3bf6f13b08527cf5c4038f7efd3bc2822e34869712",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/source-bindings-v38/bindings-fixture.cpp": "3472128002a884c50d049c38b68a992c50ce6f2a27bafb308e4ed04688b1c3dc",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/authorities-v38/BAPListener.bin": "12a917438586954ec4adc95420339f2c6b091549d8dc5d71b8739ca361fbfbf6",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/vox_source_fields_v38.hpp": "c7bc0db58b828fbefa3953bf56d7179778b40a52e8af71770889706b8d64501a",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/audio_spatial_v34.cpp": "9bf555424502a015694af03c217d156fa2404e8d8a9b39f2d30f2c75e42982f9",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/authorities-v38/AAA_DONT_DELETE_Listener.bin": "5d287609b86b6e30b2c94ba54bc1c4e0336f31d373a67ee8de4ee0c1776b1063",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/vox_source_fields_v38.cpp": "35d27ba6840e0ad3eb4fdfc465cba9860678481dd352412d10b000477b5ae304",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/audio_listener_rows_v38.hpp": "1e3584b23ab1015859b3519bb6c2031d0c53c8da18d3e44e57182751dc32bc62",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/audio_source_bindings_v38.cpp": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/source-bindings-v38/original-runtime-pairs.bin": "468b40978826aef7b61ad3c398b8a8c234a15c832c65f511fdedceabb4a60722",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\data\\sounds_pyarray.bin": "1a0f9d325d3f2d10ec1cb15394ec709b6da991b3818eb33c6cabda95bee25ab8",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/authorities-v38/CameraListener.bin": "31ec00ee035cdaa805fc5fcf5f2c033d66658c09b6444b17a02cd0d3ae9fbb13",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/authorities-v38/PlayerListener.bin": "8391dfeadf76276284979adfc22bdb1688642c17311f70f093cc6b3d12e4aeec",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/tests/vox_source_fields_v38_oracle.cpp": "0221be185f6d238c89361b14ff42823a9dd2ad2539cd621cc595c59e1a6cb89f",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio/reference/authorities-v38/curListener.bin": "8391dfeadf76276284979adfc22bdb1688642c17311f70f093cc6b3d12e4aeec"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "target": "aarch64-linux-android26",
+      "args": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsyntax-only",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_table_selection_v8.cpp",
+        "port/game-data/loot_item_selection_v8.cpp",
+        "port/game-data/loot_creation_v8.cpp",
+        "port/game-data/loot_temporary_inventory_v8.cpp",
+        "port/game-data/loot_audiovisual_v8.cpp",
+        "port/level-world/character_loot_drop_v8.cpp",
+        "port/level-world/character_loot_item_manager_v8.cpp",
+        "port/level-world/character_loot_drop_award_v8.cpp",
+        "port/level-world/character_loot_interact_v8.cpp",
+        "port/level-world/player_manager_loot_queries_v8.cpp",
+        "port/level-world/player_equipment_render_owner_v1.cpp",
+        "port/level-world/character_loot_scatter_v8.cpp"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "target": "x86_64-linux-android26",
+      "args": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsyntax-only",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_table_selection_v8.cpp",
+        "port/game-data/loot_item_selection_v8.cpp",
+        "port/game-data/loot_creation_v8.cpp",
+        "port/game-data/loot_temporary_inventory_v8.cpp",
+        "port/game-data/loot_audiovisual_v8.cpp",
+        "port/level-world/character_loot_drop_v8.cpp",
+        "port/level-world/character_loot_item_manager_v8.cpp",
+        "port/level-world/character_loot_drop_award_v8.cpp",
+        "port/level-world/character_loot_interact_v8.cpp",
+        "port/level-world/player_manager_loot_queries_v8.cpp",
+        "port/level-world/player_equipment_render_owner_v1.cpp",
+        "port/level-world/character_loot_scatter_v8.cpp"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/game-data/loot_entry_selection_v8.cpp": "2481c63b4c47a49fdbac564c35be456e2273c6e588c5d9398a47c61119164e76",
+    "port/game-data/loot_table_selection_v8.cpp": "969bcf1b7ca738a2defdbba87e05d49116f7bbf981dc47809a8f4f8a9d5a0923",
+    "port/game-data/loot_item_selection_v8.cpp": "94da6f656d8c2b7329e0c14aab2c4324616073862e7d1759ae03fa52b187df25",
+    "port/game-data/loot_creation_v8.cpp": "3a1868ac2cf3b15f1598a224e0d0e9d53aa2b96bf3132e72a9ae1f0bd7cb18d0",
+    "port/game-data/loot_temporary_inventory_v8.cpp": "3d70154324d1a6b05c1c1e2209dbb103ce61f060b78929e05077a37dde88cdaf",
+    "port/game-data/loot_audiovisual_v8.cpp": "a7e38d8de2a1c7cf80f23c321bba62ca8a5df64474eae0a9cb1bd83929f0de17",
+    "port/level-world/character_loot_drop_v8.cpp": "7c56d81ab8679c8923666f39fb08ca94c5e90d715bd084eb73df8414d5b8fb72",
+    "port/level-world/character_loot_item_manager_v8.cpp": "7b772c05a760cfcb174eb509745fcaabdcb94659ce9b457b169c2a1aa7f6a480",
+    "port/level-world/character_loot_drop_award_v8.cpp": "5243bbc549cbc88a5ee3f843123e9b08006ad9920f6a85a4a168b3dc113b7dee",
+    "port/level-world/character_loot_interact_v8.cpp": "66d48bfb671b67d0ba95ef78bdbff555754db341c10ac4f6edac6d320317ef34",
+    "port/level-world/player_manager_loot_queries_v8.cpp": "d6fe09b299b016510d6a3517dad46bcc6529b9d197106513e598ad2b7873d988",
+    "port/level-world/player_equipment_render_owner_v1.cpp": "4aa94b42352407bd5910455436bb7bc465c1cd053ccf8afa66cc2672932ab26f",
+    "port/level-world/character_loot_scatter_v8.cpp": "49d216de6d8ff30c4cf73161f766ebcad6dd4f727a7a29234f242bf230e95b48"
+  },
+  "full_native_link": false,
+  "APK": false
+}

@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "scope": "Current O2 constructor/catalogue regression for source Include owner; actual Include class integration is separately host-tested, not ARM64-executed here.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_external_constructor_evidence_sha256": "93f471391ba5c61e38e75f6fb618953f2a527dba5502da3ef12daa5e9f439f8b",
+  "original_stage_order_evidence_sha256": "e1ebb8012c056b4f951b0e4793414d933d45b3d7d03242635b79ec149ffd4c4e",
+  "original_stage_order_cases": 12,
+  "optimized_arm64_library_sha256": "b12cd0967be32d85acf77333e1a2f2007a7f32ff389cead83b680af29257004b",
+  "comparisons": 304,
+  "native_atomic_rejections": 4,
+  "mismatches": 0,
+  "legacy_gold_sha256": "d915ddba84c15b936748537fe3f77b3a64a43155f7a1a157810174dffe028b12",
+  "source_sha256": {
+    "port\\level-world\\character_script_owner.hpp": "84eb02a90c945b9c0845bcddd7dcb52d75e62b6c8f210c088deb285dfeb06050",
+    "port\\level-world\\character_script_owner.cpp": "d63c031dfc521bc98ff4cd50358cfb0c1bbfb7de307c69d087e6a8f220e10e82",
+    "port\\level-world\\character_script_owner_bindings.inc": "0a428c0126d314d664a4af687619e0ce22de1ed6c9d1a56b1fb056fc0f814f14",
+    "port\\level-world\\tests\\character_script_owner_include_differential.py": "cd87be44bd0a28c697f47efdea1102500b363d2fcdaa16c9dabf1253860434e8",
+    "port\\level-world\\tools\\build_character_script_owner_oracle.ps1": "763abf18f657271ba09b43162f71e2caf398bbf30c3cd2a5794d8c5271ba541d"
+  },
+  "full_owner_class_executed_this_arm64_probe": false,
+  "original_include_manager_evidence_sha256": "1357fa9039650778547f2069d0960db1b6800c6de579cf6356847f42d31da38a",
+  "full_include_owner_executed_this_arm64_probe": false
+}

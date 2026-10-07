@@ -1,0 +1,203 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript7_BitAndERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e9ec",
+      "size": 472,
+      "sha256": "214cd04dc8348d59140f34ee51bf579dc9c181e1f0f18eba988a7935c8c67214"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript9_MulFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e1a4",
+      "size": 308,
+      "sha256": "0dca27135cba20f6bff43b82982a880179de65937ecc4db5e7af8a00ad0d52e8"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript18_IsPlayerCharacterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ddc8",
+      "size": 148,
+      "sha256": "e935dd1d730ec907d8a86a01142ffbef06c1085f3e3d83cff41d5ef5bea1f6eb"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12_PushVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37be00",
+      "size": 68,
+      "sha256": "71dbceb6bfe06bc6ff0015abcde9b1b22a681b27f1b50eeeff858742539d57a1"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_GetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ec14",
+      "size": 92,
+      "sha256": "2a0b4a96c774c5272691da74eaab8a8270c360d5de540300f068dd729a426ebe"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript9_DivFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e068",
+      "size": 316,
+      "sha256": "12c6e00a84603946d0d7426bccf511c01df8f50e887e48e41a0e409fdf8fa8d6"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12_GetPyStructERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f4a8",
+      "size": 340,
+      "sha256": "f6a56f53075ea0138f07ff78563c9f3cddb695c12769a47e51a2222b4204da9c"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript11_PopVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37dc44",
+      "size": 388,
+      "sha256": "7f14e1d02edfdfa8f41e365e53138ecada5a8456ffd043593f95712b495b7dd2"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript9_GetPyCstERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f354",
+      "size": 340,
+      "sha256": "100919724144bb32cb1ca199cb4210084f5e034e412bd60e8461e2c001c66ab4"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_SetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37de5c",
+      "size": 212,
+      "sha256": "e94082bbba7b7647b70b0b0d36f7a5fc004ccb52d455b35b1b9f57c345efe090"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript14_GetGameScriptERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37c934",
+      "size": 68,
+      "sha256": "60612fb3a5583f8ada6b70a2cff73ff6c5d5ad4b06faf1c889c2deacf06eb038"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript19_GetHostPlayerLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37cc00",
+      "size": 60,
+      "sha256": "0e8d9eb81a822929624f7f3a95ec99fff4a4d744d7a0ae6d462e80e30e7d3220"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript14_GetHostPlayerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ca60",
+      "size": 60,
+      "sha256": "cd369b4cd9e0b447ce543da86e9b6bce095ae14892dc1cacaadaeefde4877808"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript13_CallPyScriptERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ef3c",
+      "size": 168,
+      "sha256": "d3b1ff35abb4e7bfda6c953f5cf1d779e002f43f3ad6d4c75b485c2f45124427"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12_SetGameTypeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f878",
+      "size": 340,
+      "sha256": "54f627b5eefd82eb07f19a4080f45025522b421d05a3a58b0a4244854a434419"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript10_PlaySoundERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e578",
+      "size": 440,
+      "sha256": "15ae4c577cfa5c1da146f945fb6a1369ad9df97cebf9e2bc90abacf6415deadb"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript13_AddToVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ec70",
+      "size": 528,
+      "sha256": "faf28ae3fbab77d1df38ffc6c7472155fabed08818ca3a9c638f0d4f6b8b60e9"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript9_GetPyOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f5fc",
+      "size": 340,
+      "sha256": "d5fc58b98cdfe223976a63443d44ce8e23f9916098083323ff1ec121429da773"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript10_StopSoundERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e730",
+      "size": 228,
+      "sha256": "5d5f2ada867c552c893a06b79c851405e502e1a88c6636234d470f6770ca3fea"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_BitXOrERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f750",
+      "size": 196,
+      "sha256": "d2b3d0235f4f8fa3cea906419a78bfc9030e2b6686e8af90ce01ae4eaf3e377f"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_BitNotERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f814",
+      "size": 100,
+      "sha256": "8083a5cbbe9d3d9a1956d0b3a248ceda88bc2882f141dad0cef82a40b7c5d7a8"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript24_GetHostPlayerDifficultyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37cb8c",
+      "size": 76,
+      "sha256": "b0b7426eca797f16e33effebdf019e1fb3bf1cd81e79f9b65f5c30cf9f665300"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript8_ToFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ebc4",
+      "size": 80,
+      "sha256": "3b52cd83c8b608b86b420554d5fd89d5f581f726d8e9396759fde06b59930c36"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript6_TraceERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ee80",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript8_IncludeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37efe4",
+      "size": 88,
+      "sha256": "f85f744d423f9adbf7dea6b219f0c9a3ffb56ff4e80b2f33690ef25012052484"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript10_PlayMusicERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e420",
+      "size": 344,
+      "sha256": "e2c75199556b98844d3e501fcb57fc7b6e696e70b16eb9c1c858ff668cf0c32e"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript21_GetGameObjectsByTypeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f03c",
+      "size": 436,
+      "sha256": "9619e69568769aac99b9708954b367e585a5d0eb270bd81e8d1186d8484c6f31"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript21_GetCurrentLevelRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f1f0",
+      "size": 356,
+      "sha256": "9af8bee09940520ff80f69ed4f456adb93e278b88f2dd6d0080dd8ad4cb6a411"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript5_RandERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37df30",
+      "size": 312,
+      "sha256": "d11b0dfc736f5245d1a7224d60bab47f2ad81047bbf647e77ab38e768c0a417a"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript6_RandFERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e2d8",
+      "size": 328,
+      "sha256": "87e08693586a8d21830f7f52552a01f2ee5fa3e219ef1144196bf69572e3aec2"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript6_BitOrERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37e814",
+      "size": 472,
+      "sha256": "f23c932b4a4b5edab322b7c796abffc5d8865d3a8a64565e583f73883dd959a0"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript14_GetNumPlayersERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37cbd8",
+      "size": 40,
+      "sha256": "048d7ce463129ca766fd971984071594514048806654a71420a7ae5ec38907a1"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript10_FromFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ee84",
+      "size": 184,
+      "sha256": "7a09f419abd923f9df9a914cf88f74d8f756163bc887cbbfa7d835213ced8a41"
+    }
+  ]
+}

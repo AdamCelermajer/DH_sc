@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf8as_valueC1ERKS0_S2_",
+      "elf_address": "0x769540",
+      "size": 84,
+      "sha256": "40fd939c42b6c2f4d140c285240bbbf8c700a52de2b7ed3a05684a8744da3251"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_value10set_stringEPNS_9as_stringE",
+      "elf_address": "0x7971fc",
+      "size": 52,
+      "sha256": "22cbd79e592cc4f18c60174e9e289f64ec39788d6a9eb07c4b88030e437deb96"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_valueC1EPNS_9as_objectE",
+      "elf_address": "0x7babb0",
+      "size": 52,
+      "sha256": "aaf568089f0143fb427fd9b6605b9e08aadbca123b2f9a8d3d3f45b39e16995e"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_value10set_stringEPKc",
+      "elf_address": "0x797350",
+      "size": 184,
+      "sha256": "4661e971d72860a058499b3eec8cad84fa89c18e846d42e45d98a7b642deeeb2"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_value10set_doubleEd",
+      "elf_address": "0x797488",
+      "size": 60,
+      "sha256": "0b0504aea02f3feab9e3d07045dd372aa35497d700d18472cd5e0230dfec620e"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf8as_value10to_xstringEv",
+      "elf_address": "0x796f5c",
+      "size": 88,
+      "sha256": "89357afe4396363e9af856f4aa05285a35335b4e3a32e585140b0ffed1ba56be"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_value8set_boolEb",
+      "elf_address": "0x797230",
+      "size": 32,
+      "sha256": "80b9a963db6b4873b4b4c565f565de3cf9dfca605d3aaa85b5ccd7041b0b4f62"
+    }
+  ]
+}

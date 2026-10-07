@@ -1,0 +1,14 @@
+{
+  "requested_base": "655f986",
+  "observed_head": "45c5348e807607a2825211bb8f26248067ba9106",
+  "requested_commit_available": false,
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/native_app.cpp": "8759c5079c72f9d0492f5a53cf54cd52b40d7f0f4bcfd50cc667fc51bc5c8209",
+    "port/android-native/app/src/main/cpp/model_renderer.hpp": "7e51f55c7f72d2130613481eb419ecfff8bded2d7d40f518ef6ea03ae7e1ae6e",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "be6171b15b64d36bbd6c09d42cd3ed62f73f4f64f292b9619cd2114f07814d62",
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "096bb9418d2d3c7adcd46a3be8568d3d7d1418c11b8ca525869f301a7d92ccfa",
+    "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java": "81af14c0257ae75170c9852d6aa948a2d311e54c71bcc25575149f5cae486eaf",
+    "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java": "fd8b60c622e5c2fc957fcda22ca04b06b671fcb6ff61842d1eb1a63ca1f67490"
+  },
+  "scope": "Exact working file snapshots; requested commit absent in this checkout. Root must verify/rebase these hashes in its integration checkout."
+}

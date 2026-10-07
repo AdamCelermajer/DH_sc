@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "cases": 1024,
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "b3984501eda379c6d987cb606ba5b9b79266abbb31a69621b878bd43e7d70ee6",
+  "scope": "Whole original transparent comparator instructions; material equal/order, node suborder and lease release are declared service observers. Not full material comparator, queue registration, vector sort or GPU order."
+}

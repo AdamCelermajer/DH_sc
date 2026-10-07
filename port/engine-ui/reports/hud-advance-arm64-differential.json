@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "comparisons": 450,
+  "deletion_callbacks": 72,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "d78714dcd794c5f169e41d8823788280dbca83688f6cbcbfead9468aaa651d4b",
+  "gold_sha256": "6e938f3a90acd9843b5b55e55e398db1ec2dd5112eb013adcf06e183614e3da6",
+  "source_sha256": {
+    "hud_advance.hpp": "e43c9414e4e485909a9f8689b94a7a8874e55b1cc7957d969b8b5732754d9e9e",
+    "hud_advance.cpp": "9ba4113c3fa6c9b5164170c502ddfea45af3bf7bb6db425ab33d7ebe2c3d1216"
+  },
+  "scope": "Full original notify_need_advance weak-parent gate vs native source fields.\nOnly weak-control deletion is explicit borrowed allocator/lifetime service.\n"
+}

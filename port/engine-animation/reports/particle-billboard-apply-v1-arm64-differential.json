@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "comparisons": 500,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "424d9451487a7ff6def9a4d06b0319d881810b2064091c32279742eb675ca906",
+  "reference_sha256": "8e5a39719dbfa101478979924b7ea1e41aeee955f3ef036122915a8464c5372a",
+  "scope": "Whole applyPRenderData n0..30 including same-vector source AlphaSort equal-distance identities, source camera distance and BBox, actual local-space branch."
+}

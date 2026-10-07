@@ -1,0 +1,18 @@
+{
+  "version": 59,
+  "date": "2026-10-06",
+  "status": "SOURCE_FROZEN_COMPILE_AND_RUNTIME_PENDING",
+  "no_heavy_launch_during_ram_hold": true,
+  "whole_player_manager_update_claimed": false,
+  "whole_application_constructor_claimed": false,
+  "source_character_or_save_or_count_forced": false,
+  "files": [
+    {"path":"port/level-world/application_player_manager_bootstrap_v59.hpp","sha256":"34504460fac94f2dd9a97f09e15110dad67565befb745001267ec20d2a42c868"},
+    {"path":"port/level-world/application_player_manager_bootstrap_v59.cpp","sha256":"84d89f7e85bbe96ea965b0b3cc0f4359b1010a60f265215f21ec3d53b3a97b64"},
+    {"path":"port/level-world/player_manager_owner_v1.hpp","sha256":"5629fe83bf0abffbefbb34965a25c703381bc1c1be72dff7d837f71a3c956e67"},
+    {"path":"port/level-world/player_manager_combat_runtime_v2.hpp","sha256":"32f6455cdb20e638e5ded2598ccf4b54b7efac7db8cbf9b866878290bf5fbffe"},
+    {"path":"port/level-world/player_manager_combat_runtime_v2.cpp","sha256":"08307c5c6a0f6bea3d19b379b394440abfccdfefb33b50f80ce8c42758e0c1f0"},
+    {"path":"port/android-native/app/src/main/cpp/renderer_application_player_manager_v59.inc","sha256":"af2b6e7fd6494111de8fd41f57314278d6f260faebb382b3d32de2430cd61fbb"},
+    {"path":"port/level-world/tests/application_player_manager_bootstrap_v59.cpp","sha256":"fe684d09b9e03cbdab019c034268b5704ae5a0f83febfb3b6f35419557bf4ee5"}
+  ]
+}

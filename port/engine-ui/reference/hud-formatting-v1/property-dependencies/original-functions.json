@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character8_SetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b7eac",
+      "size": 492,
+      "sha256": "c76adc68db53c9dc679d5ea3c669f88d95177385dd413a76f89fe41553d31b21"
+    },
+    {
+      "original_symbol": "_ZN9Character11_ClearPropsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b82e4",
+      "size": 328,
+      "sha256": "f345908236abac169f1593c9eb77bc7a34b143349309e9713edd7586512d792e"
+    },
+    {
+      "original_symbol": "_ZNK10CharTimers12TMR_TimeLeftEjRjS0_",
+      "elf_address": "0x3db344",
+      "size": 68,
+      "sha256": "e2319098a2a413795b7a921dda15594fb2e23d328b97aeaa082028c29d4ccc38"
+    },
+    {
+      "original_symbol": "_ZN9Character15_ApplyPropClassERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3babdc",
+      "size": 460,
+      "sha256": "37671f1fc224366a32d34868360b04a4b6a90d336645ce3c2df60f6d360427df"
+    }
+  ]
+}

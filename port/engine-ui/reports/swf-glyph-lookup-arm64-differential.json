@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "comparisons": 6912,
+  "ordered_services": 15768,
+  "arithmetic_nan_class_cases": 336,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "b8f460ca875e4b19a8a5b28cdc76a645423136808059787f099900d9cddf3871",
+  "gold_sha256": "ab8d890648aa64009b23f17adc3f3518dc4c4fc3ed712e432926824526611b99",
+  "oracle_sha256": "d2a8a6f45ffa87a8e0d68e4e698706abbe3ae49bf975acd4339276b778e3812a",
+  "source_sha256": {
+    "port/engine-ui/swf_glyph_lookup.hpp": "bbcc3afbddd3ae55f9b0dd44f6237856093ef49a12bc28ec6411386e640d6032",
+    "port/engine-ui/swf_glyph_lookup.cpp": "555b5ac3c78c70d3f33c4ed92fc09558fb38ecbd7f8891d008e77993a8868987",
+    "port/engine-ui/tests/swf_glyph_lookup_differential.py": "a4d38aaadbffd668f086c8f6b18d85d9503d7762a489b2418465da4003d9c152"
+  },
+  "scope": "Actual original font.get_glyph including inline native code-hash empty/direct/collision lookup vs O2 ARM64 provider/advance projection. Provider calls and original smart-pointer assignment are explicit services, live weak-player valid fixture; source float32 mul imported helper modeled. Copied words/NaNs exact, arithmetic NaNs class-only. No weak-player destruction or original FT raster/bitmap allocation parity."
+}

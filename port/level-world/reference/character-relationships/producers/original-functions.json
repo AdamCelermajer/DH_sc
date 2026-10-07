@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7Structs10AIFactions4readEP11IStreamBase",
+      "elf_address": "0x4dd158",
+      "size": 364,
+      "sha256": "64e33d1481108320698794eca638edd2dc98c1eb36f96c0dd8bd478508648b57"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14AIFactionTable4readEP11IStreamBase",
+      "elf_address": "0x4b3a38",
+      "size": 332,
+      "sha256": "abe94455ddeae459547f1ea0e2963be52943c0d351699aa0a6b2eb07e3972059"
+    },
+    {
+      "original_symbol": "_ZN7Structs9AIFaction4readEP11IStreamBase",
+      "elf_address": "0x4eb408",
+      "size": 208,
+      "sha256": "e20602c1d31192fb04e38b3727f227b8d2f9dfb1e8278fb747e71f5cafabbd20"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAIFactionIdEv",
+      "elf_address": "0x3a3180",
+      "size": 56,
+      "sha256": "2a53a61c549259bea3a75c1fdfcf3a86b4777279f92ea7bdb9df76cf334ac3c6"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharAIFactionEv",
+      "elf_address": "0x3a31b8",
+      "size": 48,
+      "sha256": "021f8f0d1b119bf8a199db1b428ddbfd07faf31f185aaa04a8bd2e3b79e5eddf"
+    }
+  ]
+}

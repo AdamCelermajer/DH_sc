@@ -1,0 +1,26 @@
+#include "startup_stage_telemetry_v41.hpp"
+#include <iostream>
+#include <stdexcept>
+#include <thread>
+#include <limits>
+using namespace dh2::startup_v41;
+namespace {unsigned checks{};void check(bool value,const char* text){++checks;if(!value){throw std::runtime_error(text);}}
+struct Clock{std::uint64_t time=100,thread=7;};std::uint64_t now(void* p){return static_cast<Clock*>(p)->time;}std::uint64_t thread(void* p){return static_cast<Clock*>(p)->thread;}}
+int main(){try{
+ Clock clock;Recorder owner(now,thread,&clock);check(!owner.start_current(Stage::world_load),"inactive recorder opened span");const auto generation=owner.begin(Request::cold_start,55);check(generation==1,"first generation");
+ const auto parent=owner.start(generation,Stage::world_load,1000);clock.time=110;const auto child=owner.start(generation,Stage::texture_decode,100);clock.time=140;check(owner.end(child,true,400),"child finish");clock.time=200;check(owner.end(parent),"parent finish");auto state=owner.snapshot();check(state.stages[unsigned(Stage::world_load)].inclusive_ns==100&&state.stages[unsigned(Stage::world_load)].exclusive_ns==70,"nested wall accounting");check(state.stages[unsigned(Stage::texture_decode)].bytes_out==400&&state.events[0].parent==parent,"source byte/parent metadata");
+ const auto stale=owner.start(generation,Stage::hud_load);const auto second=owner.begin(Request::context_restore);check(!owner.end(stale)&&!owner.start(generation,Stage::world_load)&&owner.snapshot().late_closes==1,"stale generation published");
+ for(unsigned i=0;i<10000;++i){const auto span=owner.start(second,Stage::texture_upload,10);++clock.time;check(owner.end(span,true,40),"warm complete span");}
+ state=owner.snapshot();check(state.stages[unsigned(Stage::texture_upload)].calls==10000&&state.event_count==128&&state.dropped_history==9872,"bounded history/complete totals");check(state.events[0].ticket<state.events[31].ticket&&state.events[31].ticket<state.events[32].ticket&&state.events[32].ticket<state.events[127].ticket,"first32 rolling96 order");
+ std::uint64_t active[64]{};for(auto& ticket:active){ticket=owner.start(second,Stage::hud_load);check(ticket!=0,"bounded active slot");}check(!owner.start(second,Stage::hud_load)&&owner.snapshot().dropped_starts==1,"active capacity overflow");
+ for(unsigned i=64;i>0;--i){++clock.time;check(owner.end(active[i-1]),"bounded stack finish");}
+ const auto a=owner.start(second,Stage::world_load);const auto b=owner.start(second,Stage::hud_load);++clock.time;check(owner.end(a)&&owner.end(b)&&owner.snapshot().invalid_nesting==1,"out-of-order span not diagnosed");
+ auto failure=owner.start(second,Stage::swf_parse);clock.time=1;check(owner.end(failure,false)&&owner.snapshot().invalid_events==1,"backward clock not diagnosed");check(owner.snapshot().stages[unsigned(Stage::swf_parse)].failures==1,"source failure omitted");
+ clock.time=20000;owner.start(second,Stage::native_draw);check(owner.finish(second,Outcome::cancelled)&&owner.snapshot().open_spans==1&&!owner.finish(second,Outcome::failed)&&!owner.start_current(Stage::native_draw),"cancelled/finalized measurement lifecycle");
+ const auto third=owner.begin(Request::demo_launch);try{Scope scope(owner,Stage::world_parse);throw std::runtime_error("source failure");}catch(const std::runtime_error&){}check(owner.snapshot().stages[unsigned(Stage::world_parse)].failures==1,"RAII unwind success falsely reported");
+ {Scope scope(owner,Stage::hud_bind);scope.fail();}check(owner.snapshot().stages[unsigned(Stage::hud_bind)].failures==1,"explicit return failure omitted");
+ for(unsigned i=0;i<2;++i){const auto t=owner.start(third,Stage::texture_decode,std::numeric_limits<std::uint64_t>::max());++clock.time;owner.end(t,true,std::numeric_limits<std::uint64_t>::max());}check(owner.snapshot().numeric_overflow&&owner.snapshot().stages[unsigned(Stage::texture_decode)].bytes_in==std::numeric_limits<std::uint64_t>::max(),"numeric wrap hidden");
+ check(!owner.start(third,Stage(999))&&owner.snapshot().invalid_events==1,"invalid stage accepted");owner.finish(third,Outcome::measured_return);const auto serialized=json(owner.snapshot(),true);check(serialized.find("dh2-startup-v41")!=std::string::npos&&serialized.find("texture_decode")!=std::string::npos&&serialized.size()<65536,"bounded report serialization");std::cout<<"JSON "<<serialized<<"\n";
+ Recorder concurrent;const auto token=concurrent.begin(Request::cold_start);std::thread left([&]{for(unsigned i=0;i<1000;++i){const auto t=concurrent.start(token,Stage::java_asset_read,1);concurrent.end(t,true,2);}}),right([&]{for(unsigned i=0;i<1000;++i){const auto t=concurrent.start(token,Stage::java_asset_read,1);concurrent.end(t,true,2);}});left.join();right.join();concurrent.finish(token,Outcome::measured_return);state=concurrent.snapshot();check(state.stages[unsigned(Stage::java_asset_read)].calls==2000&&state.stages[unsigned(Stage::java_asset_read)].mixed_threads&&!state.invalid_nesting,"concurrent producer/thread accounting");
+ std::cout<<"PASS bounded startup measurement: nested wall/bytes/thread spans,10000 events,64active, stale/cancel/unwind/error/overflow,2000 concurrent spans; checks="<<checks<<"\n";
+ }catch(const std::exception& e){std::cerr<<e.what()<<"\n";return 1;}}

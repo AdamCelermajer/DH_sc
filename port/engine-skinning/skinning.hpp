@@ -19,6 +19,10 @@ bool load(const resources::BresView&,unsigned controller,const scene::Scene&,Ski
 bool palette(const Skin&,const scene::Scene&,std::vector<Matrix>&,std::string&);
 bool positions(const Skin&,const std::vector<Matrix>&,const std::vector<std::array<float,3>>& input,
                std::vector<std::array<float,3>>& output,std::string&);
+//Software skin66ff48 normal stream: SAME influences/palette, upper3x3 only,
+//no translation and no extra normalize/animation pass.
+bool directions_v113(const Skin&,const std::vector<Matrix>&,
+ const std::vector<std::array<float,3>>&,std::vector<std::array<float,3>>&,std::string&);
 }
 extern "C" void dh2_skin_matrix(float* out,const float* world,const float* inverse_bind);
 extern "C" void dh2_skin_palette_matrix(float* out,const float* world,const float* inverse_bind,const float* bind_shape);

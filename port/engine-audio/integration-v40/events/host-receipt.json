@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "optimization": "O2",
+  "sanitizers": "ASan+UBSan",
+  "exit_code": 0,
+  "stdout": "PASS V40 producer-contract checks=53 source-names=638 no-playback",
+  "strict_helper_targets": [
+    "aarch64-linux-android23",
+    "x86_64-linux-android23"
+  ],
+  "scope": "53 O2 ASan+UBSan fixture checks over explicit observers and genuine names. Runtime/session bridges compile on both strict ABIs. Actual owning session lifecycle and production runtime behavior are parent tests, not this fixture.",
+  "inputs": [
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_producer_transport_v40.hpp",
+      "bytes": 1442,
+      "sha256": "0109ab18b25d8b363b983d1b53b31b78d116a051594950ff27513c71b1e66e64"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_runtime_transport_v40.hpp",
+      "bytes": 772,
+      "sha256": "d592a7dccab99147ecaf7c3a0bd9055119203d5b8ef5381c4274ae1bceca78f3"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_source_emission_v40.hpp",
+      "bytes": 2172,
+      "sha256": "129e7df25461456bb9ffc6f3d710da95d394d0caf5d791b520053f7db6e2c19d"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_authored_event_services_v40.hpp",
+      "bytes": 2856,
+      "sha256": "f5289e74aba3745e328a21e3b5d5cc809e5ab8f23548f54c5f51def821773729"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/renderer_player_named_prefix_v40.inc",
+      "bytes": 1849,
+      "sha256": "27077c55f6b217de648bed9aee70c3321e2712ac7e3fe7b2f5f3538c65d8b8d5"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/producer_transport_host.cpp",
+      "bytes": 5439,
+      "sha256": "1aa61665d350488eb25a7170b26cd2168893b10c56d4a77bd2ea97711964f536"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v40.hpp",
+      "bytes": 3271,
+      "sha256": "e76ef00051e442abb61a9972e0bf41564abd80ef312aece440c9ef7eef7843bc"
+    },
+    {
+      "path": "port/engine-audio/audio_source_bindings_v38.hpp",
+      "bytes": 1102,
+      "sha256": "aaa03aa7462ae98a8286d67bfa6c5e2f70bab1d16823f1ad82b1877f6522606d"
+    },
+    {
+      "path": "port/engine-audio/audio_source_bindings_v38.cpp",
+      "bytes": 3332,
+      "sha256": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6"
+    },
+    {
+      "path": "port/engine-audio/audio_named_animation_sound_v38.hpp",
+      "bytes": 2127,
+      "sha256": "2c36c8a2c8ad88db59e216dc9d19cd432d9dbb7c530cc6195d47f13d1269c376"
+    },
+    {
+      "path": "port/engine-audio/audio_world_producer_v38.hpp",
+      "bytes": 959,
+      "sha256": "c5953e13772c379c85552df765d4a5d0cbd7848a1980a297ed72992c18279a06"
+    },
+    {
+      "path": "port/level-world/character_melee_animation_event_v1.cpp",
+      "bytes": 7271,
+      "sha256": "eb05c4876a86ce8c6fbd15786aae05fae8bb6a6efb9eee9be3e3bb86404f78b3"
+    },
+    {
+      "path": "port/level-world/character_melee_animation_event_v1.hpp",
+      "bytes": 3409,
+      "sha256": "de99f2c5cac2e077742e132014baf38ff987c5a653c93c70c68ca63211271363"
+    },
+    {
+      "path": "port/engine-audio/reference/source-bindings-v38/sdd_dungeon_hunter_2_iphone_pyarray.bin",
+      "bytes": 5108,
+      "sha256": "fb02b0ce7bc6d3e5ac38d1c72ed07006a00f68de04ec8d3568b652a9dfc33784"
+    },
+    {
+      "path": "port/engine-audio/reference/source-bindings-v38/sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "bytes": 15457,
+      "sha256": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/events/audio_session_transport_v40.hpp",
+      "bytes": 803,
+      "sha256": "7ea9fd807e2944598535e120fa699e2ead0d171f7dadd878a027a0330cdd1168"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_native_session_v40.hpp",
+      "bytes": 3382,
+      "sha256": "2869ff35607812641710b4ad82ba7778e137dc5faf472e53552207b259bc9814"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.hpp",
+      "bytes": 1101,
+      "sha256": "6a59c6be965abdf11f94bd5083bc9fea650924451d5231360cbf302c00dc2ebf"
+    }
+  ],
+  "generated_utc": "2026-10-06T15:34:17.137557+00:00"
+}

@@ -1,0 +1,41 @@
+{
+  "binary_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "validation": "Source capture only; native lifecycle tests not run under RAM hold",
+  "captures": {
+    "unload": {
+      "start": "0x42d4bc",
+      "end_exclusive": "0x42d59c",
+      "sha256": "fcd2a8896789b86c5aba43e195cd449cc4191ba7fd4c2eaa43a9bd184c449e3d"
+    },
+    "update": {
+      "start": "0x42ea04",
+      "end_exclusive": "0x42ee40",
+      "sha256": "56c6adfe9f301933461adf31ef1470b90e64a99f17e84a1b98f311672ef0d847"
+    },
+    "menu-base-dtor": {
+      "start": "0x422824",
+      "end_exclusive": "0x422974",
+      "sha256": "ec52ee75f9d2fb75663ccfa1f494ff6a31e467a6aa65d0ac4dc8130a3de2ad5c"
+    },
+    "menu-base-update": {
+      "start": "0x421fe0",
+      "end_exclusive": "0x42204c",
+      "sha256": "cb33c8a47e504e9f4597f95d61b5cb0d663ebcca9e050f553b580577e3d790c6"
+    },
+    "menu-base-visible": {
+      "start": "0x41f3f4",
+      "end_exclusive": "0x41f3fc",
+      "sha256": "1ae263995292db81bdcb7a917d0f9a7e8174e299be89b22ec421368746d6ff0b"
+    },
+    "renderfx-is-anim-over": {
+      "start": "0x7a7dd4",
+      "end_exclusive": "0x7a7e5c",
+      "sha256": "4ecb3ec7f4258f2cc1c5d43f2e2340b28e60760293da105ef160453309bdfd2e"
+    },
+    "post-load-owned": {
+      "start": "0x42f270",
+      "end_exclusive": "0x42f2b0",
+      "sha256": "6cc5faa41ab194f77a83eb28d33c1fcb9f293b44a8dd86cae99f59d8461720fe"
+    }
+  }
+}

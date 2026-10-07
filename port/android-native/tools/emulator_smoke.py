@@ -41,7 +41,7 @@ def inspect(apk):
             if not name.startswith('lib/') or not name.endswith('.so'):continue
             abi=name.split('/')[1];raw=z.read(name)
             assert abi in ('arm64-v8a','x86_64') and raw[:5]==b'\x7fELF\x02',name
-            assert Path(name).name in ('libdh2_native.so','libdh2_engine_textures.so','libdh2_scene_materials.so','libdh2_engine_animation.so','libdh2_engine_skinning.so','libdh2_level_world.so','libdh2_game_data.so','libdh2_script_runtime.so','libc++_shared.so'),name
+            assert Path(name).name in ('libdh2_native.so','libdh2_engine_textures.so','libdh2_scene_materials.so','libdh2_engine_animation.so','libdh2_engine_skinning.so','libdh2_level_world.so','libdh2_game_data.so','libdh2_script_runtime.so','libdh2_engine_ui.so','libc++_shared.so'),name
             phoff=struct.unpack_from('<Q',raw,32)[0];phsize,phcount=struct.unpack_from('<HH',raw,54)
             aligns=[struct.unpack_from('<Q',raw,phoff+i*phsize+48)[0] for i in range(phcount) if struct.unpack_from('<I',raw,phoff+i*phsize)[0]==1]
             assert aligns and min(aligns)>=16384,(name,aligns)

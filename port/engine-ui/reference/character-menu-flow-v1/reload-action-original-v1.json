@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "original_complete_cases": 480,
+  "ordered_boundaries": 912,
+  "gold_sha256": "c4b2e0818451823d0b35a4987e626f677c6cb80cefe016ed320aabbb0237af55",
+  "AS_EABI_player_reload_services_are_fixtures": true,
+  "nonfinite_or_out_of_range_EABI_semantics_proven": false,
+  "live_character_menu": false
+}

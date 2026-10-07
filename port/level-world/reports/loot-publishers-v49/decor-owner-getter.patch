@@ -1,0 +1,6 @@
+*** Begin Patch
+*** Update File: port/level-world/retained_gameobject_decor_v1.hpp
+@@
++ CanonicalGameObjectBaseOwnerV1& source_owner_base_v49()noexcept{return base_;}
+  physical::NativeBody& native()noexcept{return native_;}
+*** End Patch

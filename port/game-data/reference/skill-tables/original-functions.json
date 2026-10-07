@@ -1,0 +1,131 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIbEEvP11IStreamBasePT_",
+      "elf_address": "0x4db89c",
+      "size": 176,
+      "sha256": "74ad7d2721470ff297fa1b4d2d6959fed75456af87600b2ac5e31af684ce8156"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14SkillListTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b0464",
+      "size": 408,
+      "sha256": "81fa4e30d4e02c9558b3e5a3c68d951a87aec89ecac39ef7ad7dabb4ef07c2f6"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10SkillTable13finalizeNamesEv",
+      "elf_address": "0x4a5464",
+      "size": 156,
+      "sha256": "f491fc4986884d40e07e0f2d24f96602f959d7aefd7eb1c708e448176c0272ec"
+    },
+    {
+      "original_symbol": "_ZN7Structs9SkillList4readEP11IStreamBase",
+      "elf_address": "0x4ea830",
+      "size": 292,
+      "sha256": "deee5b9fa231d5a552f350a607093108fa525a0b2b63e995b8caddc0834d7868"
+    },
+    {
+      "original_symbol": "_ZN7Structs5Skill4readEP11IStreamBase",
+      "elf_address": "0x4ebeb0",
+      "size": 1484,
+      "sha256": "e580d098dc2ed24a1918dc21d4e7d5d07de8c9d465cebff063b891b48e031600"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader12readStringExEP11IStreamBasePcy",
+      "elf_address": "0x317454",
+      "size": 60,
+      "sha256": "4b98c1070f5b1fde5e9ea6a9ee65e66080cc78d4bc12e5694e9c24abc08cfdec"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10SkillTable4readEP11IStreamBase",
+      "elf_address": "0x4b9810",
+      "size": 340,
+      "sha256": "432e191d80dc48a1195512ad7e33388ea4c5333d191c69f871ffcab733f053c2"
+    },
+    {
+      "original_symbol": "_ZN7Structs5Skill8finalizeEv",
+      "elf_address": "0x4d0fa4",
+      "size": 96,
+      "sha256": "7359f1be39695e913f1f8001f6ce2666e4ba8e2450b4c6c96ec634446c85cc8f"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14SkillListTable8finalizeEv",
+      "elf_address": "0x4a5680",
+      "size": 228,
+      "sha256": "ebbaa5f15e404dc22d8054f82fe4a709be631d87670ba1c6898bf1a633ea9a35"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "elf_address": "0x3df1a0",
+      "size": 176,
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10SkillTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b0938",
+      "size": 408,
+      "sha256": "cc52bf881d0e681cc156a06539fde6b24fc86ffd97d38d8ef0e2ff642e5eeb1a"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_10SkillTableEEEiPKc",
+      "elf_address": "0x4ad0dc",
+      "size": 116,
+      "sha256": "37083d3304ee84d80de33f5cd3cec5690a07d51250017c6aea1a080e8f8c516c"
+    },
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_5SkillEEEiPKc",
+      "elf_address": "0x4ad150",
+      "size": 88,
+      "sha256": "f768c45098652a06553f9a29a693f20354b0107ea5e07a7235931721140d6027"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14SkillListTable4readEP11IStreamBase",
+      "elf_address": "0x4b9964",
+      "size": 332,
+      "sha256": "efe1c4861d4feaa821c8eb6aa02df215cf8e10adc7baba06645e940c10788587"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10SkillTable8finalizeEv",
+      "elf_address": "0x4a5500",
+      "size": 228,
+      "sha256": "ad7b3e203b667b745df631c0ae7248c3419f5b8f98bb1610b71116dcc5ade657"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14SkillListTable13finalizeNamesEv",
+      "elf_address": "0x4a55e4",
+      "size": 156,
+      "sha256": "488b7359a4b7bf900859171d7388cb42bc770df88c63d908130bece022b0e002"
+    },
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_9SkillListEEEiPKc",
+      "elf_address": "0x4ad21c",
+      "size": 48,
+      "sha256": "6034761e9b38be0c063e8a6b86ea946c3ce7989a93a683c13e359db399c32f19"
+    },
+    {
+      "original_symbol": "_ZN7Structs9SkillList8finalizeEv",
+      "elf_address": "0x4d10e0",
+      "size": 40,
+      "sha256": "f9dacb52c6660b38d336d929d002ff5966955597496fa72732ff694e95d9803f"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_14SkillListTableEEEiPKc",
+      "elf_address": "0x4ad1a8",
+      "size": 116,
+      "sha256": "18624366c66714fa8fc0c0b9474ec032ae60a9920f5770e65ebe7d750a708213"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "elf_address": "0x313a90",
+      "size": 184,
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    }
+  ]
+}

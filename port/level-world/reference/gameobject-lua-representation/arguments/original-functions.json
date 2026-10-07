@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN3sfc6script3lua9ArgumentsC1EP9lua_Statei",
+      "elf_address": "0x3196ec",
+      "size": 500,
+      "sha256": "8df464228d0c3a6f65a4fc8c5330288b50aa3d83ce2a0362e94467b76dd09b3c"
+    }
+  ]
+}

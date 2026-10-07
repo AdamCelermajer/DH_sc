@@ -1,0 +1,148 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 46798,
+    "original_cases": 1000,
+    "ordered_services": 4184,
+    "reentries": 14,
+    "failure_prefixes": 4,
+    "atomic_guards": 8,
+    "real_fx77_repeats": 200,
+    "actual_missing_file_opens": 1,
+    "existing_file_rejected": true,
+    "module_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/libvisual_fx_preload_audit.so",
+    "world_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_level_world.so"
+  },
+  "source_sha256": {
+    "port/level-world/visual_fx_preload.hpp": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b",
+    "port/level-world/visual_fx_preload.cpp": "ab8c2d4bb1f40663859fb6bc443f0ed50e4160f42426ec8c99dee2766231b667",
+    "port/level-world/tests/visual_fx_preload.cpp": "5ea0a31d52f3d622984c4344ca65fc745b215eeeba36cc2567217a96cb8577fe",
+    "port/level-world/tests/visual_fx_preload_host.py": "91dc1edc92860b0d91f70150d744bb3c7e0eb5352c19407fae903def335dee82"
+  },
+  "private_snapshot": {
+    "libdh2_level_world.so": {
+      "original_path": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+      "sha256": "ae66686e6aaff69c03c966351ee64401af31c82bc7629b78977ca9abbdd0bafc"
+    },
+    "libdh2_engine_skinning.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so",
+      "sha256": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b"
+    },
+    "libdh2_game_data.so": {
+      "original_path": "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so",
+      "sha256": "ac2e2f7c4b568db0d4bfee2ae6101aa38fef376fd6f8105739b2db76b65b056d"
+    },
+    "libdh2_script_runtime.so": {
+      "original_path": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+      "sha256": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945"
+    },
+    "libdh2_engine_animation.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so",
+      "sha256": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856"
+    },
+    "libdh2_scene_materials.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so",
+      "sha256": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411"
+    }
+  },
+  "binary_sha256": {
+    ".local-inputs\\character-skeleton-fx-discovery\\libvisual_fx_preload_audit.so": "b50f135f854f887b4ae1b7f64ec487014fafc378ec8b63ede771be2bc7842f02",
+    ".local-inputs\\character-skeleton-fx-discovery\\host": "7b8c6bdea927c6a5f9cfc613e6445b5d83145a653c4e0d5f88815febcd129054"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "0a44a84ee2cca92166994d65a04474f52ea7283779250ead271dfd507f4aea3b",
+  "arm64_report_sha256": "c264614286ddd9d92f010ca122c02a75311093fbce327c6292f690c0d29df0b8",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "main_world_library_executed": true,
+  "module_in_main_world": false,
+  "FX_factory_or_rendering_executed": false,
+  "packaged_APK": false,
+  "scope": "Original preload gold plus actual missing-file DebugSwitches DSO adapter.\nPrivate complete transitive DSO snapshot; no shared build or source mutation.\n",
+  "commands": [
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-shared",
+        "-fPIC",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/visual_fx_preload.cpp",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies",
+        "-ldh2_level_world",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/libvisual_fx_preload_audit.so"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/visual_fx_preload.cpp",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery",
+        "-lvisual_fx_preload_audit",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies",
+        "-ldh2_level_world",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery",
+        "-ldl",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-skeleton-fx/preload-fixtures.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/files"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":46798,\"original_cases\":1000,\"ordered_services\":4184,\"reentries\":14,\"failure_prefixes\":4,\"atomic_guards\":8,\"real_fx77_repeats\":200,\"actual_missing_file_opens\":1,\"existing_file_rejected\":true,\"module_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/libvisual_fx_preload_audit.so\",\"world_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_level_world.so\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ldd",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x0000739d32b80000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000739d32400000)\n\tlibvisual_fx_preload_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/libvisual_fx_preload_audit.so (0x0000739d323a9000)\n\tlibdh2_level_world.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_level_world.so (0x0000739d30712000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000739d30400000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000739d302da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000739d2fc00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000739d306e4000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000739d2f800000)\n\tlibdh2_engine_skinning.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_engine_skinning.so (0x0000739d2fb36000)\n\tlibdh2_game_data.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_game_data.so (0x0000739d2f054000)\n\tlibdh2_script_runtime.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_script_runtime.so (0x0000739d2ebe7000)\n\tlibdh2_engine_animation.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_engine_animation.so (0x0000739d2e8b6000)\n\tlibdh2_scene_materials.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_scene_materials.so (0x0000739d2e718000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000739d32b82000)\n",
+      "stderr": ""
+    }
+  ],
+  "linked_dependencies": "linux-vdso.so.1 (0x0000739d32b80000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000739d32400000)\n\tlibvisual_fx_preload_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/libvisual_fx_preload_audit.so (0x0000739d323a9000)\n\tlibdh2_level_world.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_level_world.so (0x0000739d30712000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000739d30400000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000739d302da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000739d2fc00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000739d306e4000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000739d2f800000)\n\tlibdh2_engine_skinning.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_engine_skinning.so (0x0000739d2fb36000)\n\tlibdh2_game_data.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_game_data.so (0x0000739d2f054000)\n\tlibdh2_script_runtime.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_script_runtime.so (0x0000739d2ebe7000)\n\tlibdh2_engine_animation.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_engine_animation.so (0x0000739d2e8b6000)\n\tlibdh2_scene_materials.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies/libdh2_scene_materials.so (0x0000739d2e718000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000739d32b82000)"
+}

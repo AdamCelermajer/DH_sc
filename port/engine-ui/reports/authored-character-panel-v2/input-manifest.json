@@ -1,0 +1,353 @@
+{
+  "assets": [
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqshared_droid.swf",
+      "sha256": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+      "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarray.bin",
+      "sha256": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarraynames.bin",
+      "sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pystructnames.bin",
+      "sha256": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pycst.bin",
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.english",
+      "sha256": "c159ec8504161b587abe3eeaf3e79f275b7ea1fa7d15d69989b6807aefbec285"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.english",
+      "sha256": "de67d4395405f7602ae2c7281ccdb5e3d859be9df067818c733057f2e7afacde"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.english",
+      "sha256": "f38dc2786069543c49e97b9b849d37b75f4a498fecbd384b2426af0450dffc5d"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.english",
+      "sha256": "2d4e8618385e850ad39bcecba07fd65d632182654f557d7bea08cea7c009ed88"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.english",
+      "sha256": "4ff352081f4653d3854781cc827ec964d18dacd72ea5ca2cc83ab39c28bee196"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.english",
+      "sha256": "a8cd0d6f199e2936d65f76f88389ff4acfe8543f6a97de7af5dd55a73b620ad8"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.english",
+      "sha256": "b71f7f891e076e2d624fdaf400f9b34b417ce2f1e42f9a7040a9f3926aa47128"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.english",
+      "sha256": "bc8a55182c4f608f978a9586f8b81321117137fd155769580ebb573ee781e1f2"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.english",
+      "sha256": "2eda0189d2e6aecced7461ba068335364474badaa77bff19e51aa3578d2dfc31"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.english",
+      "sha256": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.english",
+      "sha256": "d7776aaf589a148c6e644352e7c70e1babfa7f8c4dfa255debb142f367884d0b"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.english",
+      "sha256": "e60b32b05edb5726569bbb845d2bdc68eedbde7dcf7ebdfbb47da37c312b07e6"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.english",
+      "sha256": "c5f4f7de502905116f34c887318362158b0545e16a9444c346efa35f6474b6a1"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/global.english",
+      "sha256": "020a1779505fda2387cd4b2506aa0ac2ae04d7467405edb10eaefdff3049e568"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.english",
+      "sha256": "7e0b7ce2ff555590f9e46f36b0ef9e1c5fc14d4c497eeb9ea0c2113f07cfc501"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.english",
+      "sha256": "574552b90fa11a84cdc483bd1a987cea24db7f4c903a43e0511a8e4bfdab4e36"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.english",
+      "sha256": "b3acf891a6dcdd48e4945c2f4bbafa90f8f63d05a73709a8f4ab35d46743ed42"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.english",
+      "sha256": "98520a99dc69be5a583ead22e5e26e047ce07fcc4316f76d318c3af641ced162"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.english",
+      "sha256": "4f5ad9d04afcae1cae2f930c6ce8fa5f0af57c83cb4b3fe56659c702c50db231"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.english",
+      "sha256": "60e33d2586cd5b43f30b0d4aef84c0d70dcf8158e616b5d5533f670b3765d40a"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.english",
+      "sha256": "39fc4565475ec03b813dc038bf2c25174d14c28a385620793d6e01623a45f81f"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.english",
+      "sha256": "445b1ea59be3f9a9a39753afda8f16825840a67982336c072e2b11a7769f2bff"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/items.english",
+      "sha256": "c1b2c984b5c8b24d3c0c9f0d69a65c4a54cde7275cef0c122361229e4c9604f3"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.english",
+      "sha256": "623fd0bd465c59d0f0579c4c70c7067658bc2736a549a026cec1565909158ae6"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.english",
+      "sha256": "72f96a85beda370b7005826174fcf5569e540c2083cfd62db7b9ed40b28251fc"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.english",
+      "sha256": "e0631467392ea5f641c980e27f3655ad03b254fe956de993a2b0aa5b44f0fead"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.english",
+      "sha256": "50e01954a9104b7b3c08bcbab0985c1e516cc873645854cc6fbdaa65a9fad101"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.english",
+      "sha256": "fb7602bc127ccc40cafe26458472dc1ad32df7a62f71c4062b5251e865f7f394"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.english",
+      "sha256": "8adafca5e72f54198d71a3f506ebe32ec53e2efe221827751fcb4389f38cd80a"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.english",
+      "sha256": "7f4e66c15c7b63cd5d9e05e61b4239159e683dbae5282aff6db4d67dc8b9d18f"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.english",
+      "sha256": "073a547b7a7849ca53b8388d27ca472ae09b51adae437af2484611f65d894308"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.english",
+      "sha256": "a853efc746e1e14e18f8c70d378dc005031f5aeb339cef811dc2cb7c45248f75"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.english",
+      "sha256": "aff283597c8d1943950c23cfca168b3811ae61339c1ef29adb1473fb5d8ed5b5"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.english",
+      "sha256": "1f1bed960f3a8b0dcb642c1edaed951eee2456f4316a362123433531a7ee86fc"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/void.english",
+      "sha256": "b6000711ca3b37dc3dd4ccebea8c1c53eee43d9760307b1bbf1d09c70fe76630"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.english",
+      "sha256": "882088913d02eb258c3a5c3d10e95fd308ac0b87c6fa522decbcb04fc200b900"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.english",
+      "sha256": "058eb8e62979cd3fb21b181ade35a16e0a3eb867fca396c3ee80bca96ee98120"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.symbols",
+      "sha256": "1348d9026282f44ca64a54aa50649bce9e1f84ff613de130a66a0f266a7c1cf2"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.symbols",
+      "sha256": "3785a3a35ee17a501009d1aa53bfea6dfcba7bed522e20598c89272b80386ab1"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.symbols",
+      "sha256": "b61350d14660e6da93e82fe40312d1e3da06182c2a7ade507aa1172d48a7cc8b"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.symbols",
+      "sha256": "b840f18c5156adc415cf539f9b60aea9c05c0ffd1233c732ba5b16b503902c0f"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.symbols",
+      "sha256": "d0dc5383fc6df776d4e2c09555946584108a2f1639a6e490a593f0092b7f4666"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.symbols",
+      "sha256": "f967880f5ecdc824569d5380436165cbe33065c73bc5a01c570378a5bc5d41e1"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.symbols",
+      "sha256": "f334664d0ba44dfb8df7423961f50e8fe542a5cccd88a1569e6969df9bbaedd3"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.symbols",
+      "sha256": "26767deb2d6161399b8734cc4a052ad3f27231571d0158507a834a44b14f1251"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.symbols",
+      "sha256": "390b456fe6cd02ce6a94f67437068c05e7c205f9992fab93038c781f081170f5"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.symbols",
+      "sha256": "7a933388893c6963b537791fbaf240660b5e39ef1c54741f98dd21ba5b89e136"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.symbols",
+      "sha256": "b195ad3cc68a0bca6a8717376ec9083eebb9e11c9a0f9345156f89fe4fd13ba4"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.symbols",
+      "sha256": "02fcd06aeec963934c9cddccbfe9cbb39ffa543929937e8924ff7c5ad1324ed2"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.symbols",
+      "sha256": "d944217da39b7e37607f25556b707b9101dd36563a50866a52dd2377b4094666"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/global.symbols",
+      "sha256": "5eb997db344a3a5241d26486b4edb19b3fda8a4f1fdeadf2b8c91514a848f3ac"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.symbols",
+      "sha256": "a8b9fba1101eb7a15120b78faeb9e63bdf1eba06fa2bc248b63424b24845ba28"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.symbols",
+      "sha256": "dc39bc65c874f3031dd2c07fc3622c012a8df31ef635874c071d85d816441e26"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.symbols",
+      "sha256": "a717e475ee2ee1ff4c6e174f0672b4ef8b9ba3e38772b43760f54bf775a23089"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.symbols",
+      "sha256": "f0dbf9af8a97ba4c44ddadab4700f5452d745df13b25eb29c3d21e19c223242f"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.symbols",
+      "sha256": "bd79fa03640d073dbe1b1c54764d6955728e6bcefcc5754caefee10627d6186d"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.symbols",
+      "sha256": "16d1558a4eb981b4ef5cf6528599ce0dae62c1d32fa0101b2638fa623690f027"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.symbols",
+      "sha256": "0c659fa39fccac4af85c037a0d50ece73fdc55491324a460454c005145dceee1"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.symbols",
+      "sha256": "d14bcdc7e180ad32522db8c1fd40815d85260ccf0484f9e94ed7a0ee715995d3"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/items.symbols",
+      "sha256": "e13d7043dad8858e02707ec88e1727e4428a06ba14b40cfa663858b5a7fe0761"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.symbols",
+      "sha256": "52dfd06162a84b985baca3d3f188963933a0faae62dd83bfd450deb2087c9a72"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.symbols",
+      "sha256": "5fbe4830370a2bf12d530de07b09eb6f4f7c4c83cda2d94407b077bdd663276e"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.symbols",
+      "sha256": "07818d10dd9ae4454434fa9b2066239dbd51ced1d2702b7e1cf2726b98959ed9"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.symbols",
+      "sha256": "95213f4b9c9a3f04c604a29a7586e26992fd81b1f08a3460d24cc9e1f321323b"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.symbols",
+      "sha256": "ca25ea3dfa84986d48cc4f56badd9a445bd224bba328df3cbc70d93bf70a0e77"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.symbols",
+      "sha256": "e2ff34d43374492a8a5f6e027a2e03f0c3e533ac53bca658092b1c980e54f627"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.symbols",
+      "sha256": "74a407f85dc59f6bb8266ce6c91a757a254ca4a21b9eb9935e451c51fbf27666"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.symbols",
+      "sha256": "e3faf84bd9bfcc5d2f3b5bf4bae6293c214137f104a4ccd807086bab4fe2c375"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.symbols",
+      "sha256": "4bd2f2e9ad32be91cb792cbea8a62cac98ffc509f37440155a4a26b1951387cb"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.symbols",
+      "sha256": "4e64b6ab6ebbcdede7a1ec0131ff8dbc36e9e9bc51ef42af315f9e35713848f6"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.symbols",
+      "sha256": "536f40b147960aa9aa6749adcd7befc94079850431d276323b4ce733716adc08"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/void.symbols",
+      "sha256": "a415da1c2effc3a5b9a60612f16f568b94b3c23dfe3df5ed6fde051971225599"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.symbols",
+      "sha256": "239fc456d80df45c27d0e1e09675fd3e65c99aceb60c8a0f5080371787ccf629"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.symbols",
+      "sha256": "80c6dfbcd0dc9ec411734a789a60bb334b977dd72961962b6ccefa9dd01dd5da"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/arkham_bold.ttf",
+      "sha256": "864b81bc3014986063289eb67be492b19c4bc57da1d46035b4fe9c55ce346df1"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/arkham_reg.ttf",
+      "sha256": "86146a3d9a59cf55d3eb79288f99129182ad30f8031b12d8f6572c6bb9aab828"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/Fontin SmallCaps.ttf",
+      "sha256": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/japanese.ttf",
+      "sha256": "792f186108fb8b082247928a8328f6a9b1554b0cd7114163c12cb7fa0d7c1d9e"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/nanumgothic.ttf",
+      "sha256": "8ee4e9fab0b4c65ecd2aa04a205a4b4b7770ed154b7290be027cec826c40f591"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/uncadis.ttf",
+      "sha256": "edc0d4d451b92d17062af875a365095fccfa6d00765a28eac956b31c19b37db0"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/wqy-zenhei.ttf",
+      "sha256": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3"
+    }
+  ],
+  "scope": "Actual SWF and source MenuStack; external application/profile/GPU fixture hooks. No live game menu acceptance."
+}

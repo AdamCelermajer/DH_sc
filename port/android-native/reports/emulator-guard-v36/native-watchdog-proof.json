@@ -1,0 +1,14 @@
+[
+  {
+    "scenario": "timeout",
+    "receipt": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\emulator-guard-v36\\timeout-57776964\\receipt.json",
+    "owned_target_stopped": true,
+    "unrelated_target_preserved": true
+  },
+  {
+    "scenario": "owner-death",
+    "receipt": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\emulator-guard-v36\\owner-death-a72a2b3a\\receipt.json",
+    "owned_target_stopped": true,
+    "unrelated_target_preserved": true
+  }
+]

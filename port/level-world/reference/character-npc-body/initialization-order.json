@@ -1,0 +1,60 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x3b4d60",
+      "symbol": "_ZN9Character8InitPostEv",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "address": "0x3c9f4c",
+      "symbol": "_ZN12CharAnimator15SetAnimationSetEv",
+      "size": 1504,
+      "sha256": "f6ced01ccb807df112993f2c9988c19651b76af258551e681e147a1f574b724d"
+    },
+    {
+      "address": "0x3c9c7c",
+      "symbol": "_ZN12CharAnimator21_AddTemplateAnimTableEiij",
+      "size": 260,
+      "sha256": "5104301dccc3564282aeffcf209e78cc4b7f96d7aa6fca6aee2301ba0a0221de"
+    },
+    {
+      "address": "0x3c9d80",
+      "symbol": "_ZN12CharAnimator13_AddAnimTableEiijjj",
+      "size": 460,
+      "sha256": "02161287c2939de2eaca3b6ab6504df97efd94cbd716a102de09eaaaa77f16bb"
+    },
+    {
+      "address": "0x476398",
+      "symbol": "_ZN14AnimSetManager15AddTemplateAnimEii",
+      "size": 204,
+      "sha256": "9ff3f7d34763f35e7cde008a7101c21adc65b4f93037299dcf276eda9608ae47"
+    },
+    {
+      "address": "0x62fc90",
+      "symbol": "_ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryERKNS0_16CColladaDatabaseE",
+      "size": 104,
+      "sha256": "78806631b55af3aa57555539ebf9e8e3ca71f33c6dfc119df3c63b7441d5d0e6"
+    },
+    {
+      "address": "0x470a54",
+      "symbol": "_ZN12VisualObject12ApplyMeshBoxEv",
+      "size": 48,
+      "sha256": "45cb14bb6756c027e7f755ed32f11d6fd6e2cedefae0e5f408b727d309c034b0"
+    },
+    {
+      "address": "0x3a59ac",
+      "symbol": "_ZN9Character6ReviveEP10GameObjectb",
+      "size": 312,
+      "sha256": "c17b6b9ee8943802d089fd8c928f391574e0a8134a4c2c8d32b741d6827ce680"
+    },
+    {
+      "address": "0x472a0c",
+      "symbol": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+      "size": 592,
+      "sha256": "009dcf6e02d189677a66323fc1b3319734ce8913147232978c3ec55b23cdd0f9"
+    }
+  ],
+  "scope": "Static original initialization/default-bank ordering evidence only."
+}

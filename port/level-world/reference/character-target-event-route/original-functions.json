@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI11AI_GetAggroEP9Character",
+      "elf_address": "0x3d4ac8",
+      "size": 252,
+      "sha256": "98c26116c098862a859a801d8a16bae8ff814a525b4a2972068f2283b4511fa9"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnTargetRevivedEv",
+      "elf_address": "0x3dbeb0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14OnEnemySpottedEP9Character",
+      "elf_address": "0x3d14b4",
+      "size": 480,
+      "sha256": "62c6f8a1f642e082b96bdb6d4667d3bf6ad25e524ddd41aa3da2f4864a5172d3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9GroupInfo14OnEnemySpottedEP9CharacterS2_",
+      "elf_address": "0x3d27cc",
+      "size": 616,
+      "sha256": "a3bd805a32fe4a2c183443a24791d785de286b5838ce2fae9cf12153d430c6e7"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI13AI_IsInCombatEv",
+      "elf_address": "0x3d4bc4",
+      "size": 112,
+      "sha256": "7e917c97faa26805e240a111a5719d87b9d14946aa3acd7b08657116d00c3ce3"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster15OnTargetRevivedEv",
+      "elf_address": "0x3dd490",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+      "elf_address": "0x3d7c68",
+      "size": 308,
+      "sha256": "710b6a40b61b134ddc8b165a38ac5bd0784dd1b2915ec4fce53d2e1bb4825193"
+    }
+  ]
+}

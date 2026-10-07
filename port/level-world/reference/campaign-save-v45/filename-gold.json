@@ -1,0 +1,149 @@
+{
+  "cases": [
+    {
+      "slot": 0,
+      "checkpoint": 0,
+      "multi": 0,
+      "filename": "dh2_000.savegame"
+    },
+    {
+      "slot": 0,
+      "checkpoint": 0,
+      "multi": 1,
+      "filename": "dh2_000.savegame"
+    },
+    {
+      "slot": 0,
+      "checkpoint": 1,
+      "multi": 0,
+      "filename": "dh2_000_single.checkpoint"
+    },
+    {
+      "slot": 0,
+      "checkpoint": 1,
+      "multi": 1,
+      "filename": "dh2_000_multi.checkpoint"
+    },
+    {
+      "slot": 9,
+      "checkpoint": 0,
+      "multi": 0,
+      "filename": "dh2_009.savegame"
+    },
+    {
+      "slot": 9,
+      "checkpoint": 0,
+      "multi": 1,
+      "filename": "dh2_009.savegame"
+    },
+    {
+      "slot": 9,
+      "checkpoint": 1,
+      "multi": 0,
+      "filename": "dh2_009_single.checkpoint"
+    },
+    {
+      "slot": 9,
+      "checkpoint": 1,
+      "multi": 1,
+      "filename": "dh2_009_multi.checkpoint"
+    },
+    {
+      "slot": 99,
+      "checkpoint": 0,
+      "multi": 0,
+      "filename": "dh2_099.savegame"
+    },
+    {
+      "slot": 99,
+      "checkpoint": 0,
+      "multi": 1,
+      "filename": "dh2_099.savegame"
+    },
+    {
+      "slot": 99,
+      "checkpoint": 1,
+      "multi": 0,
+      "filename": "dh2_099_single.checkpoint"
+    },
+    {
+      "slot": 99,
+      "checkpoint": 1,
+      "multi": 1,
+      "filename": "dh2_099_multi.checkpoint"
+    },
+    {
+      "slot": 999,
+      "checkpoint": 0,
+      "multi": 0,
+      "filename": "dh2_999.savegame"
+    },
+    {
+      "slot": 999,
+      "checkpoint": 0,
+      "multi": 1,
+      "filename": "dh2_999.savegame"
+    },
+    {
+      "slot": 999,
+      "checkpoint": 1,
+      "multi": 0,
+      "filename": "dh2_999_single.checkpoint"
+    },
+    {
+      "slot": 999,
+      "checkpoint": 1,
+      "multi": 1,
+      "filename": "dh2_999_multi.checkpoint"
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 0,
+      "multi": 0,
+      "filename": "dh2_1000.savegame"
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 0,
+      "multi": 1,
+      "filename": "dh2_1000.savegame"
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 1,
+      "multi": 0,
+      "filename": "dh2_1000_single.checkpoint"
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 1,
+      "multi": 1,
+      "filename": "dh2_1000_multi.checkpoint"
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 0,
+      "multi": 0,
+      "filename": "dh2_4294967295.savegame"
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 0,
+      "multi": 1,
+      "filename": "dh2_4294967295.savegame"
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 1,
+      "multi": 0,
+      "filename": "dh2_4294967295_single.checkpoint"
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 1,
+      "multi": 1,
+      "filename": "dh2_4294967295_multi.checkpoint"
+    }
+  ],
+  "scope": "Whole original filename branch; sprintf/CString assignment leaf fixtures."
+}

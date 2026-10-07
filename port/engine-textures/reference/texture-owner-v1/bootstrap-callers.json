@@ -1,0 +1,37 @@
+[
+  {
+    "call": "0x5a2e94",
+    "target": "0x5a90b0",
+    "caller": "0x5a2e20",
+    "size": 184,
+    "symbol": "_ZN6glitch5video12CBatchDriverC1EjjPNS0_12IVideoDriverE"
+  },
+  {
+    "call": "0x5a2f4c",
+    "target": "0x5a90b0",
+    "caller": "0x5a2ed8",
+    "size": 184,
+    "symbol": "_ZN6glitch5video12CBatchDriverC2EjjPNS0_12IVideoDriverE"
+  },
+  {
+    "call": "0x5af300",
+    "target": "0x5a90b0",
+    "caller": "0x5af2d8",
+    "size": 132,
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE10endScene2DEv"
+  },
+  {
+    "call": "0x5b1770",
+    "target": "0x5a90b0",
+    "caller": "0x5b1734",
+    "size": 260,
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12beginScene2DEv"
+  },
+  {
+    "call": "0x6e0118",
+    "target": "0x6e0a3c",
+    "caller": "0x6dfe68",
+    "size": 844,
+    "symbol": "_ZN6glitch5video18CGLSLShaderManager16createShaderCodeEPKcNS0_13E_SHADER_TYPEES3_PNS_2io9IReadFileE"
+  }
+]

@@ -1,0 +1,75 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated sanitized Spawn selection gold + real TimerStore/owned StateInfo routing; other state methods explicit fixtures.",
+  "host_audit": {
+    "validation": "PASS",
+    "original_cases": 3456,
+    "ordered_requests": 3456,
+    "zero_duration_timer_gold_cases": 243,
+    "guards_and_failure_prefix_checks": 10,
+    "genuine_TimerStore_owned_StateInfo_compositions": 4,
+    "remaining_method_fixture_deliveries": 12,
+    "synchronous_nested_spawn_request_checks": 1,
+    "permission_original_cases": 512,
+    "permission_atomic_guards": 5,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/level-world/character_spawn_select.hpp": "e6e6e7064610f1e652b538c956d7de49a5a8dde43b00f630e9b20acf02a85bbd",
+    "port/level-world/character_spawn_select.cpp": "472201d0a0d31387882e8a950a462a837888b3374a48888571059c1608a6df24",
+    "port/level-world/character_spawn_permission.hpp": "72531c1f78a3b95c742ed85971b58a44296f299deae52f37e91f0c57eb832ce5",
+    "port/level-world/character_spawn_permission.cpp": "cc63f772f404ee29051d1347c575aaf8239c1827581d0841351ac76a978235cf",
+    "port/level-world/character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+    "port/level-world/character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+    "port/level-world/character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+    "port/level-world/tests/character_spawn_select.cpp": "a90ce4306f105a42514726ba40a0cea9f96becf7a64eb763641624e3bffbc509",
+    "port/level-world/tests/character_spawn_select_host.py": "850ca69e16b4fede1b8183dcb4264bc281eff45b5a64a20000f6da7c530875cb",
+    "port/game-data/combat.hpp": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958",
+    "port/game-data/combat.cpp": "cd7adcea012ce9a7f4e8fba10a3bd16f515cea8bd66848c374bc6f5d42db1312"
+  },
+  "executable_sha256": "e5220e3ddc0e5823107c85272b5c2f74f8586c5e2a0eb1bdf5689cc575d77c31",
+  "reference_sha256": "2b3300fb372b3379d9c4a88c79a2db16f4fc637f98613dc8d4dd7462b3e0734a",
+  "permission_reference_sha256": "dcc708268a7acb732f0c0b5c9000b64d77d55387768b5df9bd575c7e2cf53f22",
+  "original_ARM64_proof": {
+    "path": "port/level-world/reports/character-spawn-select-arm64-differential.json",
+    "sha256": "50d36f560337114433ea5ef5ca3729aca9d7f70ae7abb22dc956eead8b8e71b9"
+  },
+  "permission_original_ARM64_proof": {
+    "path": "port/level-world/reports/character-spawn-permission-arm64-differential.json",
+    "sha256": "972660affeba90ee46f540e6833686b3c91cdab80faed360aedd9f1aa3c705f3"
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leaks": true,
+    "diagnostics": 0
+  },
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fno-omit-frame-pointer",
+    "-fsanitize=address,undefined",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_spawn_select.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_spawn_permission.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data/combat.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_owner.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_timers.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_spawn_select.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spawn-state/spawn_select_audit"
+  ],
+  "central_DSO_used": false,
+  "full_Spawn_virtual_methods": false,
+  "APK": false
+}

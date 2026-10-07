@@ -1,0 +1,60 @@
+{
+  "sources": [
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_character_progression_bindings_v44.inc",
+      "sha256": "ebb1b187dc2194772a0212f4ed3cbda088e5bdb74b6cc92c9dce0dcc7ebb5777",
+      "bytes": 8569
+    },
+    {
+      "path": "port/level-world/tests/player_progression_v44_host.cpp",
+      "sha256": "bf0236836aa6fca8c8a54bb8d780aca6e81641f3e8d85db95345c70eafd68f81",
+      "bytes": 8690
+    },
+    {
+      "path": "port/level-world/reports/player-progression-v44-host.json",
+      "sha256": "5d4b54bdedeb6a17a5ec5bdfe0bb09144012f83565f71a946f5f966e507946f1",
+      "bytes": 3813
+    },
+    {
+      "path": "port/level-world/reference/ranged-attack-v41/progression-bindings-v44.md",
+      "sha256": "6c9d581745d3da26da1ff20855b21e0d634844a65613ece25d7dbf631174ca27",
+      "bytes": 4934
+    },
+    {
+      "path": "port/level-world/reference/ranged-attack-v41/levelup-sourcecalls-v44.json",
+      "sha256": "9b1ff19dc081cf0cb2d0f49c16db0e927936fce5dc116bfc1fc88b982dc9a949",
+      "bytes": 8026
+    },
+    {
+      "path": ".local-inputs/compile_progression_v44.py",
+      "sha256": "d5289b90d30b38742474e469a25e178072ef43ff8a3b10731e11eb1173013ecb",
+      "bytes": 1418
+    },
+    {
+      "path": ".local-inputs/run_progression_v44_host.py",
+      "sha256": "e044834e186b22673e4eaa9cef4f683a1fe9e8bc3fd71b7999e720ac84d49dbd",
+      "bytes": 1658
+    },
+    {
+      "path": ".local-inputs/renderer_progression_v44_arm64-v8a.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local-inputs/renderer_progression_v44_x86_64.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "historical_dependencies": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "libdh2_zip_asset_pack_v1.a": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728"
+  },
+  "historical_source_attribution": false
+}

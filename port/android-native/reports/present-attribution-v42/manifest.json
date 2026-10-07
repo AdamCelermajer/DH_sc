@@ -1,0 +1,74 @@
+{
+  "schema": "present-attribution-v42-handoff",
+  "source_frozen": true,
+  "strict_compile_and_host_tests": "PASS",
+  "actual_runtime_capture": "PENDING",
+  "no_device_calls": true,
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/FrameBoundaryV42.java",
+      "bytes": 4428,
+      "sha256": "d30224c36b1b9c180db050dc035c13699d8674b6ada911962dc30956fd8292ae"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/present_capabilities_v42.cpp",
+      "bytes": 3989,
+      "sha256": "51376e435cdeb4465060ec4c92f628e125c8abc6aa453dcf8e12ee493b4227db"
+    },
+    {
+      "path": "port/android-native/tools/collect_present_trace_v42.py",
+      "bytes": 5443,
+      "sha256": "f19fca3dd931dc0665d35733890ae50fada14af5419c2db654f13a69dbdeb4f5"
+    },
+    {
+      "path": "port/android-native/tools/analyze_frame_boundary_v42.py",
+      "bytes": 2382,
+      "sha256": "901ec44f2726e7147600bb4eaf343bac0ae3b320645f7e6fc6f115e84fc259ce"
+    },
+    {
+      "path": "port/android-native/tools/test_present_attribution_v42.py",
+      "bytes": 2505,
+      "sha256": "c749e55d979d64c7f344d444ad6a21089f7e47a512055f9530e1fac83f4dd83d"
+    },
+    {
+      "path": ".local-inputs/compile_present_v42.py",
+      "bytes": 2518,
+      "sha256": "391a0908efb222531ff45606fed02ae8b1bc74354079c0be64d1169e745ff389"
+    },
+    {
+      "path": ".local-inputs/freeze_present_v42.py",
+      "bytes": 1964,
+      "sha256": "d19967f4c49b1b3c871e15097dfce34bc78bd6606ae2e36e085715dbdca721a9"
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/capture.textproto",
+      "bytes": 1115,
+      "sha256": "c19607dec1aca41d7f40a2b8792d85880c6c9cfd393c149112e580476969c622"
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/attribution.sql",
+      "bytes": 1757,
+      "sha256": "d4bda5d16929cfe9227f6fa2776d0f2c1d7d48b7590ab3092313a3150dd9d0a4"
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/README.md",
+      "bytes": 6472,
+      "sha256": "03c2ed4f0f8db29645e905580afbe2bd84b98805f9f7eaded0175eae5c4aa628"
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/ROOT-INTEGRATION.md",
+      "bytes": 2668,
+      "sha256": "4b975990ea635a5a0f0795ef80c467df5bfbc593d388c6e69b382ab25334f668"
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/STARTUP-EXTRACTION.md",
+      "bytes": 4179,
+      "sha256": "48630d4cdbd895ced4cd2d90f8f1aae26d7916d227d9278ee3cc03fd77e42f8c"
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/compile-test-receipt.json",
+      "bytes": 4917,
+      "sha256": "0dab14042b2a7e747b78eaca82b6b6fb74ed8b8a26414f83db0e7f4080e2e16e"
+    }
+  ]
+}

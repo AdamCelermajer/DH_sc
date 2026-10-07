@@ -1,0 +1,101 @@
+{
+  "version": 41,
+  "scope": "Loader nullable manager + raw selected-pack precache addendum; original prefixes and isolated helper proof; no installed manager/World/driver/audible claim",
+  "owned": [
+    {
+      "path": "port/engine-audio/integration-v41/audio_precache_v41.hpp",
+      "bytes": 3134,
+      "sha256": "20e13c2c0cadc2ea6da098f318191fc547e29b8d02cf8a49e8084af3cc234172"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/host-validation.json",
+      "bytes": 616,
+      "sha256": "3317f9d66e15c553d229769601de2fcf732ed79245a1ce28f611a9df9584cdc3"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/host.cpp",
+      "bytes": 3225,
+      "sha256": "2495bbb3d5cc0019b8e9e0136d7e5ebf9a4a01f14cac080a4edc778fb87d441f"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/loader-v50-original-snapshot.json",
+      "bytes": 63672,
+      "sha256": "f1b4a4fd0f45d5dc5b76e8010f7aac9d86595d669a5f089a8c7f833c72403ea3"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/original-precache-instance.asm",
+      "bytes": 2673,
+      "sha256": "37a08c0043facaea8d01c2f90c6a0507579f31f81e98bb7b93a7f6ea96e8af6b"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/original-proof.json",
+      "bytes": 3557,
+      "sha256": "3081d5926f5d852aeaa4128d898a69be7c72e57c4376c45f3c516c1d1e742710"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/prove_precache_v41.py",
+      "bytes": 3805,
+      "sha256": "4a4ac059d23000f8db8f1115306534a8607784aa14a781181f4a33941aa2ef2b"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/README.md",
+      "bytes": 5699,
+      "sha256": "da60d3fd07bd97bc6e103606f249dd61ec0d0983c760bf948bb03e035c94a5e6"
+    },
+    {
+      "path": "port/engine-audio/integration-v41/validate_v41.py",
+      "bytes": 1826,
+      "sha256": "0e9596a52d2c7a905c72d800f96e9ed9c726f8e03651c4b54f2e35f8dc3e67a2"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "handoff/audio-v40/manifest.json",
+      "bytes": 44053,
+      "sha256": "0f1740dcedc1661fa40c07bab5c97f7a681b654683cbc913759cc925c11e5693"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v40.hpp",
+      "bytes": 3271,
+      "sha256": "e76ef00051e442abb61a9972e0bf41564abd80ef312aece440c9ef7eef7843bc"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v40.cpp",
+      "bytes": 8486,
+      "sha256": "6bed25a433331c723ebe5c99af02b073836a3966a2b28d6d1045260a1b883225"
+    },
+    {
+      "path": "port/engine-audio/reference/source-bindings-v38/sound-manager-constructor.asm",
+      "bytes": 4986,
+      "sha256": "00655e70c59a075279bac286bc3346bc7c4ba80b3eba3fd227147c3b5ee5d0c9"
+    },
+    {
+      "path": "port/engine-audio/reference/source-bindings-v38/proof.json",
+      "bytes": 2866,
+      "sha256": "08e6d7a1c72b57df0b137a008611898ed4d5370e44cac820084ce4e3fceee9e1"
+    },
+    {
+      "path": "port/engine-resources/tests/cpu.py",
+      "bytes": 7006,
+      "sha256": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a"
+    }
+  ],
+  "loader_provenance": {
+    "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\container-audio-units-v50-original.json",
+    "sha256": "f1b4a4fd0f45d5dc5b76e8010f7aac9d86595d669a5f089a8c7f833c72403ea3"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "acceptance": {
+    "original_prefix_cases": 21,
+    "loader_prefix_cases": 207,
+    "actual_loader_rows": 68,
+    "host_checks": 35,
+    "strict_abis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "shared_files_modified": false,
+    "real_manager_installed": false,
+    "audible": false
+  }
+}

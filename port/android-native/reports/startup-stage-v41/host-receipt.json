@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "stdout": "JSON {\"schema\":\"dh2-startup-v41\",\"generation\":3,\"request\":2,\"finished\":true,\"outcome\":0,\"native_begin_ns\":20000,\"native_end_ns\":20002,\"java_origin_ns\":0,\"late_closes\":0,\"dropped_starts\":0,\"dropped_history\":0,\"invalid_events\":1,\"invalid_nesting\":0,\"open_spans\":0,\"numeric_overflow\":true,\"stages\":[{\"stage\":\"world_parse\",\"calls\":1,\"failures\":1,\"inclusive_ns\":0,\"exclusive_ns\":0,\"max_ns\":0,\"bytes_in\":0,\"bytes_out\":0,\"first_start_ns\":20000,\"last_end_ns\":20000,\"thread_id\":7,\"mixed_threads\":false},{\"stage\":\"texture_decode\",\"calls\":2,\"failures\":0,\"inclusive_ns\":2,\"exclusive_ns\":2,\"max_ns\":1,\"bytes_in\":18446744073709551615,\"bytes_out\":18446744073709551615,\"first_start_ns\":20000,\"last_end_ns\":20002,\"thread_id\":7,\"mixed_threads\":false},{\"stage\":\"hud_bind\",\"calls\":1,\"failures\":1,\"inclusive_ns\":0,\"exclusive_ns\":0,\"max_ns\":0,\"bytes_in\":0,\"bytes_out\":0,\"first_start_ns\":20000,\"last_end_ns\":20000,\"thread_id\":7,\"mixed_threads\":false}],\"events\":[{\"ticket\":10072,\"parent\":0,\"stage\":\"world_parse\",\"start_ns\":20000,\"end_ns\":20000,\"thread_id\":7,\"success\":false},{\"ticket\":10073,\"parent\":0,\"stage\":\"hud_bind\",\"start_ns\":20000,\"end_ns\":20000,\"thread_id\":7,\"success\":false},{\"ticket\":10074,\"parent\":0,\"stage\":\"texture_decode\",\"start_ns\":20000,\"end_ns\":20001,\"thread_id\":7,\"success\":true},{\"ticket\":10075,\"parent\":0,\"stage\":\"texture_decode\",\"start_ns\":20001,\"end_ns\":20002,\"thread_id\":7,\"success\":true}]}\nPASS bounded startup measurement: nested wall/bytes/thread spans,10000 events,64active, stale/cancel/unwind/error/overflow,2000 concurrent spans; checks=10148\n",
+  "stderr": "",
+  "sanitizers": [
+    "undefined"
+  ],
+  "strict_without_warning_suppression": true,
+  "compile_command": [
+    "g++",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O1",
+    "-g",
+    "-fsanitize=undefined",
+    "-pthread",
+    "-Iport/android-native/app/src/main/cpp",
+    "port/engine-ui/tests/startup_stage_telemetry_v41.cpp",
+    "port/android-native/app/src/main/cpp/startup_stage_telemetry_v41.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/reports/startup-stage-v41/startup-host.bin"
+  ],
+  "bounded_runtime_AS_MiB": 128,
+  "bounded_runtime_CPU_seconds": 5,
+  "binary_sha256": "4df09128a054c79ee2274d86201d98d0f5214b714d0584b47ad4234dc7ec819d",
+  "sources": [
+    {
+      "path": "port/engine-ui/tests/startup_stage_telemetry_v41.cpp",
+      "sha256": "b5def1dfad1a7f7b5804c68882ca8e4ea6b2614f7bf771ec76efba9309198e08"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/startup_stage_telemetry_v41.cpp",
+      "sha256": "1ecf97b57403fa2f8c4695cd1b09c1202beaf0f31a182c46dc476d604b136c27"
+    }
+  ],
+  "parsed_sample": {
+    "schema": "dh2-startup-v41",
+    "generation": 3,
+    "request": 2,
+    "finished": true,
+    "outcome": 0,
+    "native_begin_ns": 20000,
+    "native_end_ns": 20002,
+    "java_origin_ns": 0,
+    "late_closes": 0,
+    "dropped_starts": 0,
+    "dropped_history": 0,
+    "invalid_events": 1,
+    "invalid_nesting": 0,
+    "open_spans": 0,
+    "numeric_overflow": true,
+    "stages": [
+      {
+        "stage": "world_parse",
+        "calls": 1,
+        "failures": 1,
+        "inclusive_ns": 0,
+        "exclusive_ns": 0,
+        "max_ns": 0,
+        "bytes_in": 0,
+        "bytes_out": 0,
+        "first_start_ns": 20000,
+        "last_end_ns": 20000,
+        "thread_id": 7,
+        "mixed_threads": false
+      },
+      {
+        "stage": "texture_decode",
+        "calls": 2,
+        "failures": 0,
+        "inclusive_ns": 2,
+        "exclusive_ns": 2,
+        "max_ns": 1,
+        "bytes_in": 18446744073709551615,
+        "bytes_out": 18446744073709551615,
+        "first_start_ns": 20000,
+        "last_end_ns": 20002,
+        "thread_id": 7,
+        "mixed_threads": false
+      },
+      {
+        "stage": "hud_bind",
+        "calls": 1,
+        "failures": 1,
+        "inclusive_ns": 0,
+        "exclusive_ns": 0,
+        "max_ns": 0,
+        "bytes_in": 0,
+        "bytes_out": 0,
+        "first_start_ns": 20000,
+        "last_end_ns": 20000,
+        "thread_id": 7,
+        "mixed_threads": false
+      }
+    ],
+    "events": [
+      {
+        "ticket": 10072,
+        "parent": 0,
+        "stage": "world_parse",
+        "start_ns": 20000,
+        "end_ns": 20000,
+        "thread_id": 7,
+        "success": false
+      },
+      {
+        "ticket": 10073,
+        "parent": 0,
+        "stage": "hud_bind",
+        "start_ns": 20000,
+        "end_ns": 20000,
+        "thread_id": 7,
+        "success": false
+      },
+      {
+        "ticket": 10074,
+        "parent": 0,
+        "stage": "texture_decode",
+        "start_ns": 20000,
+        "end_ns": 20001,
+        "thread_id": 7,
+        "success": true
+      },
+      {
+        "ticket": 10075,
+        "parent": 0,
+        "stage": "texture_decode",
+        "start_ns": 20001,
+        "end_ns": 20002,
+        "thread_id": 7,
+        "success": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "validation": "PASS",
+  "scope": "Source connection receipt only: exact additive read-only player sheet getter plus header view, apart from line-ending representation. No gameplay/renderer body changes; current connected app/facade/bridge source hashes bound separately. Historical source/proofs not rebound. Host report optional binding; no APK/device or full HUD callback claim.",
+  "script_sha256": "61781fd786e77877a2a46b5be5fbc42a9f75bdcfcab380ef56a8741c0beedb7a",
+  "renderer_migration": {
+    "historical_sha256": "4e2e915db366b03881c0b6bde21cca93b99206f20a82ab1e3d832ce51b33c32e",
+    "current_sha256": "46b5284af8b2f86afbc2bd2c12908a5cae1e8b0a458be029fb467f9a267924fc",
+    "historical_capture_sha256": "18ddbe441ecbbb4df714c4b63b426d321601c749331db521806639daf4989aa1",
+    "exact_additive_getter_verified": true,
+    "historical_header_sha256": "7c479e6db79d3268590675fe1d3fd87edfbf4d5f137e70aa125618c510996bd6",
+    "current_header_sha256": "6745983f9af9f293db2db13a20ea0ddd10ffaa188fa8666072ec61dab31883fb",
+    "exact_additive_header_view_verified": true,
+    "line_ending_normalization": "CR bytes removed only; all other source bytes must match after removing the exact additions",
+    "historical_bytes": {
+      "port/android-native/app/src/main/cpp/model_renderer.cpp": {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\connected-hud-stage\\historical-renderer\\model_renderer.cpp",
+        "sha256": "4e2e915db366b03881c0b6bde21cca93b99206f20a82ab1e3d832ce51b33c32e"
+      },
+      "port/android-native/app/src/main/cpp/model_renderer.hpp": {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\connected-hud-stage\\historical-renderer\\model_renderer.hpp",
+        "sha256": "7c479e6db79d3268590675fe1d3fd87edfbf4d5f137e70aa125618c510996bd6"
+      }
+    }
+  },
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "46b5284af8b2f86afbc2bd2c12908a5cae1e8b0a458be029fb467f9a267924fc",
+    "port/android-native/app/src/main/cpp/model_renderer.hpp": "6745983f9af9f293db2db13a20ea0ddd10ffaa188fa8666072ec61dab31883fb",
+    "port/android-native/app/src/main/cpp/native_app.cpp": "1a343bdab56bc4d563c410c9f74263a726711286e3a3b558e1cd991accc30336",
+    "port/android-native/app/src/main/cpp/original_ui_session.cpp": "796146d5d4eee455b52d030280f294be1b10ca92d6ce3dab52d9f1070e5f57a7",
+    "port/android-native/app/src/main/cpp/original_ui_session.hpp": "3facb490025f973a7e60a525e9ffe9fd2c730c3bcca517d1e61871148baea570",
+    "port/android-native/app/src/main/cpp/original_ui_assets.cpp": "fb4f17618f4fbbeb24a5dee027d5ec6b66c639ac0bf3a2772b47416c0cd0d166",
+    "port/android-native/app/src/main/cpp/original_ui_assets.hpp": "59163f94d70f8e22a6f6e20e77c156e0eaf121c72ecbcb6e6c453b48a812f559",
+    "port/android-native/app/src/main/cpp/swf_gpu.cpp": "4c1d411c1c41aac4b61c80bf3abf98bbf11422a5f82650cfcca2453e048e76cf",
+    "port/android-native/app/src/main/cpp/swf_gpu.hpp": "23ee5d98329286a8347b6d788fee2d5e2e77ea6aae2802b35838ea85f5f91237",
+    "port/android-native/app/src/main/cpp/authored_shader_program.cpp": "2f4ed55901764313704d93b11d3730698adf26a16f5cd60214dd695d2630e92e",
+    "port/android-native/app/src/main/cpp/authored_shader_program.hpp": "a65fa08b21a95ff970550f7b21103144c49ad5472587f6054485f35154252fe8",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "8757262a10c080847c07e4d6ee3a4f4835ecdf943a737a7ba6532856ac5a5be7",
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "c5c6cf2ae802b087d4e8d5f9e48368fb69c89538802b8789086d8a2f1aff7d87",
+    "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java": "c671d6276bc5882f0a1649bf867c9115aacab1c2d55b367af0bc99eff6747689",
+    "port/engine-ui/swf_movie.cpp": "920779547262cf1f212bfacfbe5d8e6eab96dbe56ba89b14290eb0df959891df",
+    "port/engine-ui/swf_movie.hpp": "52dca5375a98a93ddf425e6a4cebe94568608f7d2960653d7ed266d25d5b50f2",
+    "port/engine-ui/CMakeLists.txt": "6ed33925ed47d4181d6b4d7e737b564d1187e30a91c231bef1048fff42b5d3a8",
+    "port/engine-ui/gameswf_sources.cmake": "39eb92ae4f89a9ce64401dcfa10c72a86234858f491f57fb52af13a3da4f9dcc",
+    "port/engine-ui/gameswf_font_overlay_v1.cmake": "08734d539f4cdb082a6b6d98b425d61aeef6ad3177352354679d23c359b0266c",
+    "port/engine-ui/overlays/font-v1/gameswf_font.cpp": "c587ec54baf8a2b68d747ad8f5c8039334df27d6c55f764fc30a8137f2053d1d",
+    "port/engine-ui/player_status_hud.hpp": "02edb6107d1d38e17a5c40dfb10988d77752c22978adf90688679edd610c33fc",
+    "port/engine-ui/player_status_hud.cpp": "dbc6a4dabe0777eaef3fb62b25bab74e8cde0abd9938d5cc06b40720f9b94b53",
+    "port/engine-ui/hud_player_values.hpp": "3a7c2e5ad740135c6836a4aece4bac2f1f0df20ca29a3f2cedb64f1482798fd6",
+    "port/engine-ui/hud_player_values.cpp": "93c72ba1150b5b9ab37f178fd59bdf63bd5ab1fd3b4d6d1dd3af74e51bc1a26e",
+    "port/engine-ui/swf_viewport_connection.hpp": "197c12cb1b34e05d93a2a74679c2de762b867aee9d491722438eaef78c32c966",
+    "port/engine-ui/swf_viewport_connection.cpp": "7f5278e000a91a79088be113a3b6f79354a22bc2845be2cbeab922ad17a2b813",
+    "port/engine-ui/hud_sprite_timeline.hpp": "4585e30a0aba44c1c9a2ea5430f0a4e59f624a7099cefc3eb15679c13f304e53",
+    "port/engine-ui/hud_sprite_timeline.cpp": "48d1a025d97395adf77b5cb5a93e4828e300b412b17493503e431aa9dd8dbbe6",
+    "port/engine-ui/hud_sprite_core.hpp": "b97a9c7ff876be84618424b9edf18239bfa85dfbc371fb957c2d703529f7a7a1",
+    "port/engine-ui/hud_sprite_core.cpp": "7bdb36cc652d3157cc525da90fa86eef8c4ee0df6a373b854069a4470c63401d",
+    "port/engine-ui/hud_advance.hpp": "e43c9414e4e485909a9f8689b94a7a8874e55b1cc7957d969b8b5732754d9e9e",
+    "port/engine-ui/hud_advance.cpp": "9ba4113c3fa6c9b5164170c502ddfea45af3bf7bb6db425ab33d7ebe2c3d1216",
+    "port/engine-ui/hud_advance_owner.hpp": "7a801f029da013c262aaefdb3d54222a43f67bda073e7d0b2693bf78b0f5fd0c",
+    "port/engine-ui/hud_advance_owner.cpp": "7b0fc4f423d85917f54a94912310b5056cee31b04405aae632993fb3cc76872f"
+  },
+  "historical_proof_rebound": false,
+  "host_path": "port\\level-world\\reports\\connected-player-status-main-linked-host-audit-v3.json",
+  "host_sha256": "b39c1c6351ddd295cf3bcd6d3cbb95fcb9052abf6fc551452a9b91c4b42c0856",
+  "core_stage_path": "port\\engine-ui\\reports\\gameswf-font-overlay-central-stage-v2.json",
+  "core_stage_sha256": "7b9f0b943988e9a7e84de446fe94a89d32b529c608c8da622d0b2bffc9ad5586"
+}

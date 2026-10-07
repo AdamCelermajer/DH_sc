@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "comparisons": 937,
+  "original_properties_compared": 1224,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "78b3ce44a7967929dde8d91f28b4d1cac24c2732989002f1a49539900cdf1c59",
+  "gold_sha256": "af0106cd1437dda390bd8c2469498429155454f03bc2a7f45935217d6496f6c2",
+  "source_sha256": {
+    "port/game-data/item_power_tables_v5.hpp": "cec1eab98e7d137303267bd586e8be00821c3067ffa2501e5d6730e8aba3167d",
+    "port/game-data/item_power_tables_v5.cpp": "c391a2b2b7800306ccbb7c5bebf5f7d595e71a7224dd8c004f864efe37a580d6",
+    "port/game-data/tests/item_power_tables_v5_original.py": "9beb5f682b339141ad4430fe7a13cbe59ba5d0e4161aecf2480d58228fecd449"
+  },
+  "input_sha256": {
+    ".local-inputs/player-item-effects-v5/power-cache/item_powers_pyarray.bin": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+    ".local-inputs/player-item-effects-v5/power-cache/item_powers_pyarraynames.bin": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+    ".local-inputs/player-item-effects-v5/power-cache/item_powers_pystructnames.bin": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444"
+  },
+  "original_byte_reader_services": 16127,
+  "original_allocations": 1060,
+  "source_scope": "Original ItemPowerList/Table/Ref readers on all genuine cache bytes.\nStorage allocation and stream virtual reads are explicit byte services; every\ndecoded scalar and ordered property including full signed32 Flags is compared.\n",
+  "original_reader_begin": 12578,
+  "original_reader_end": 54443,
+  "AddPower_instance_and_presentation_parity": false
+}

@@ -1,0 +1,33 @@
+{
+  "captured_utc": "2026-10-06T15:56:43.839638+00:00",
+  "git_head": "45c5348e807607a2825211bb8f26248067ba9106",
+  "scope": "NEW staged active sources only; no shared edits or device/build execution",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "base_sha256": "db185068b38010ab880d7b246c37a6df460de14b2a36dbc031213767b4882426",
+      "base_canonical_sha256": "503693c97f3156aac8af98e88809d2202ecb46bd80dbe1624bdd5909fc66a1f1",
+      "staged_sha256": "59fc041aea67e1b6e2ea3c742b593ea09947912aedf7f9d3636cf3542640bd4c"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "base_sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "base_canonical_sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "staged_sha256": "430c6fcf35919685cfdc4d22af66abc33eda739a314c9c911045869a02c3fdaa"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "base_sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "base_canonical_sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "staged_sha256": "b9d5a62b9f9aef356216b02001e523b3dd2943a5dae7e3da445953638caa92b4"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "base_sha256": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3",
+      "base_canonical_sha256": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3",
+      "staged_sha256": "cf0c096626cfbc3e363f4a755ab05b449f2808122919d258f038bda6ecf78ce6"
+    }
+  ],
+  "changed_during_capture": [],
+  "required": "actual event clock scope; focus/native borrow implementation; actual V42 gates/listener/source command providers"
+}

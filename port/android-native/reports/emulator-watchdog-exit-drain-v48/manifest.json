@@ -1,0 +1,65 @@
+{
+  "status": "FROZEN_LAUNCH_READY_COMPONENT",
+  "watchdog_sha256": "6bfa25f98ca82729878e50313af0af2c54c7f33cf9c38346b8146aab093b93ba",
+  "injected_tests": 49,
+  "actual_benign_job_exit_proof": "PASS_WITH_REAL_NOTIFICATION_LAG",
+  "live_emulator_acceptance": false,
+  "planned_exit_wait_budget_seconds": 0.15,
+  "metric_pass_bound": 3,
+  "membership_query_bound": 5,
+  "memory_limits_and_termination_scope_unchanged": true,
+  "files": {
+    "port/android-native/tools/emulator_watchdog_v36.py": {
+      "sha256": "6bfa25f98ca82729878e50313af0af2c54c7f33cf9c38346b8146aab093b93ba",
+      "bytes": 38778
+    },
+    "port/android-native/tools/freeze_watchdog_exit_drain_v48.py": {
+      "sha256": "2dfea9a969795317476053ca4ff3a2df404e5d04b749a52350a6953701068d5f",
+      "bytes": 2612
+    },
+    "port/android-native/tools/test_watchdog_exit_drain_native_v48.py": {
+      "sha256": "76c6ce2ee65f343a9c4601f17c7a3c80e13ad48a440b91aabd4d64985d473aae",
+      "bytes": 3519
+    },
+    "port/android-native/tools/tests/test_watchdog_exit_drain_v48.py": {
+      "sha256": "eeeaf197123a2f8e1fa82b85879056609bf6cb12632d6ce33072ab8e6a81477e",
+      "bytes": 6428
+    },
+    "port/android-native/tools/tests/test_watchdog_membership_v45.py": {
+      "sha256": "4594f07f51852062e5d5b03b26209c27695bd3cca699b66c9d8acf3403e0917d",
+      "bytes": 9000
+    },
+    "port/android-native/tools/tests/test_watchdog_child_exit_v42.py": {
+      "sha256": "2eb6246b966012829690c7459219c6d6549cd7e1fb95b0377f71f4d553c22d86",
+      "bytes": 6361
+    },
+    "port/android-native/tools/tests/test_emulator_watchdog_v36.py": {
+      "sha256": "368bcc0c0e8a513e804603bd228feb8aeee34826ed8ff6d994ccae0fb405dcd1",
+      "bytes": 13518
+    },
+    "port/android-native/reports/emulator-watchdog-exit-drain-v48/README.md": {
+      "sha256": "dae1f7afa702141a0c277b5968d93ff68bad0a1789423860a10b5a8b4311eeb3",
+      "bytes": 3301
+    },
+    "port/android-native/reports/emulator-watchdog-exit-drain-v48/native-benign-job-receipt.json": {
+      "sha256": "1f226e78ba281dea36c6d093c559c4dadf7e4f70af1abad0fc061570db096af2",
+      "bytes": 6727
+    },
+    "port/android-native/reports/emulator-watchdog-exit-drain-v48/fixture-receipt.json": {
+      "sha256": "89df2950544e00b860608b3854e3c1c76f8e1948d6f1c3a5ea5dca2510ce1009",
+      "bytes": 401
+    },
+    "port/android-native/reports/emulator-watchdog-membership-v45/fixture-receipt.json": {
+      "sha256": "0cb0f2041ed411489ef531e0470f51adb9078ca2094911168c411a5bbca02826",
+      "bytes": 444
+    },
+    "port/android-native/reports/emulator-watchdog-child-exit-v42/race-test-receipt.json": {
+      "sha256": "44af8b85d40302cf24641642402012ff5a6a2b13bf49abe435c62486008811c3",
+      "bytes": 408
+    },
+    "port/android-native/reports/emulator-watchdog-v36/fixture-receipt.json": {
+      "sha256": "642bbb95b03dee978c6f55af74b93032bf506a3b6496a410d75e61776f79a63c",
+      "bytes": 383
+    }
+  }
+}

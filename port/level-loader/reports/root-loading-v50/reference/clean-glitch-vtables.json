@@ -1,0 +1,75 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "rows": [
+    {
+      "vtable": "_ZTVN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE",
+      "address": "0x977568",
+      "slot": "0xac",
+      "word": "0x97761c",
+      "target": "0x5aa290",
+      "symbols": [
+        "_ZN6glitch5video12IVideoDriver12removeUnusedEv"
+      ]
+    },
+    {
+      "vtable": "_ZTVN6glitch5video16COpenGLES2DriverE",
+      "address": "0x977b18",
+      "slot": "0xac",
+      "word": "0x977bcc",
+      "target": "0x5aa290",
+      "symbols": [
+        "_ZN6glitch5video12IVideoDriver12removeUnusedEv"
+      ]
+    },
+    {
+      "vtable": "_ZTVN6glitch5video11CNullDriverE",
+      "address": "0x977d40",
+      "slot": "0xac",
+      "word": "0x977df4",
+      "target": "0x5aa290",
+      "symbols": [
+        "_ZN6glitch5video12IVideoDriver12removeUnusedEv"
+      ]
+    },
+    {
+      "vtable": "_ZTVN6glitch5video12IVideoDriverE",
+      "address": "0x977330",
+      "slot": "0xac",
+      "word": "0x9773e4",
+      "target": "0x5aa290",
+      "symbols": [
+        "_ZN6glitch5video12IVideoDriver12removeUnusedEv"
+      ]
+    },
+    {
+      "vtable": "_ZTVN6glitch5video19CCommonGLDriverBaseE",
+      "address": "0x98ae60",
+      "slot": "0xac",
+      "word": "0x98af14",
+      "target": "0x5aa290",
+      "symbols": [
+        "_ZN6glitch5video12IVideoDriver12removeUnusedEv"
+      ]
+    },
+    {
+      "vtable": "_ZTVN6glitch5video12CBatchDriverE",
+      "address": "0x977100",
+      "slot": "0xac",
+      "word": "0x9771b4",
+      "target": "0x5aa290",
+      "symbols": [
+        "_ZN6glitch5video12IVideoDriver12removeUnusedEv"
+      ]
+    },
+    {
+      "vtable": "_ZTVN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEEE",
+      "address": "0x9778b8",
+      "slot": "0xac",
+      "word": "0x97796c",
+      "target": "0x5aa290",
+      "symbols": [
+        "_ZN6glitch5video12IVideoDriver12removeUnusedEv"
+      ]
+    }
+  ]
+}

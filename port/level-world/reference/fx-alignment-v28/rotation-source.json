@@ -1,0 +1,27 @@
+[
+  {
+    "name": "_ZNK10GameObject17GetTargetPositionEv",
+    "address": "0x3935dc",
+    "size": 36
+  },
+  {
+    "name": "_ZN12VisualObject11SetPositionERK7Point3DIfE",
+    "address": "0x470c24",
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch4core8CMatrix4IfE18getRotationDegreesEv",
+    "address": "0x432bbc",
+    "size": 668
+  },
+  {
+    "name": "_ZN12VisualObject10SetScalingERK7Point3DIfE",
+    "address": "0x4727ac",
+    "size": 180
+  },
+  {
+    "name": "_ZN12VisualObject11SetRotationERK7Point3DIfE",
+    "address": "0x472874",
+    "size": 212
+  }
+]

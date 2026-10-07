@@ -1,0 +1,221 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10AnimatedFX13ForceMaterialEi",
+      "elf_address": "0x4928c8",
+      "size": 136,
+      "sha256": "ebff4d4dd46eafe15b0c74cd4fd4bbe660727d3c7a9d1af06d143d91c041620c"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFXD2Ev",
+      "elf_address": "0x492408",
+      "size": 84,
+      "sha256": "778ab91f4ff9432d34cf6d5f9bd8eca5d7110b846ee07f4c742cc65e5beb808e"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager10_GetAnimFXEi",
+      "elf_address": "0x494ad4",
+      "size": 308,
+      "sha256": "cc7c1f4433a98917245db16516e3ea0c947592b5f5037adbb64618b7dc863021"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager14DropAnimatedFXERP10AnimatedFX",
+      "elf_address": "0x494978",
+      "size": 316,
+      "sha256": "0243184adf121f184e5aca9df26d1411a054c982704d380da9cde135b6fb15f7"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFXC2Ei",
+      "elf_address": "0x4922e0",
+      "size": 148,
+      "sha256": "1422b2ab3c875d84e616e225e5a4923b7d0ca3ea0a24dd7ab226a422fe094b24"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX8SetScaleERK7Point3DIfE",
+      "elf_address": "0x4928ac",
+      "size": 28,
+      "sha256": "1b64a0d9bfd6e9cbd8d8bdae7ef0836fba903b36bfa90301dea56245b3032947"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager21DropAnimatedFXSetByIDEi",
+      "elf_address": "0x494660",
+      "size": 408,
+      "sha256": "d07b7a7b836495a8878fb27e8d6802b2126ec3e242e624f3289d55130b3b6d34"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager13GetAnimFXDataENS_13AnimFXSetInfoEPNS_13AnimFXSetDataE",
+      "elf_address": "0x4933e4",
+      "size": 164,
+      "sha256": "75baad4097f7eeff9ff847b2e05c946065378621dd804e527ca15cb5b737f908"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager13PlayAnimFXSetEiRK7Point3DIfEPK10GameObjectPNS_13AnimFXSetDataE",
+      "elf_address": "0x495d14",
+      "size": 496,
+      "sha256": "c28f63a51618a2baee7f5e3e7619624fa88109ef79fb65668e7795018554388e"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager10GrabAnimFXEiP10GameObject",
+      "elf_address": "0x495430",
+      "size": 648,
+      "sha256": "ef277260818ef8b49fa47ca5dd724110750efe79cd4030cc0677eb23a2e92e08"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX8SetStartEv",
+      "elf_address": "0x492744",
+      "size": 96,
+      "sha256": "7b93b78239f6f9430a2cf0863ac3aa7934830181f1c5931619f0a16bf1ebc5e3"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager13PlayAnimFXSetEiPK10GameObjectPNS_13AnimFXSetDataE",
+      "elf_address": "0x495f04",
+      "size": 56,
+      "sha256": "ba8d665b83e996e998123d1c099773481f2b54f35d55cab2a7947d4c442b8885"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager10PlayAnimFXEiPK10GameObjectPNS_10AnimFXDataE",
+      "elf_address": "0x495f3c",
+      "size": 56,
+      "sha256": "f9ac70c69183003774b4d387005bb338a238a32a536e2e2b2819b1122324a94d"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager18_HandleEndOfLoopCBEP10AnimatedFXPNS_13AnimFXSetDataE",
+      "elf_address": "0x496364",
+      "size": 108,
+      "sha256": "8ece60d244cae1c524010597bda105dc47d17f0675c25ffe2f575e204128bee1"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX11SetEndPointERK7Point3DIfE",
+      "elf_address": "0x492560",
+      "size": 284,
+      "sha256": "036f324c96d9aafcf6c4e9198a75ba30c28583149ab44fca6ec43b5ee61836d2"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX10SetVisibleEb",
+      "elf_address": "0x492ef0",
+      "size": 76,
+      "sha256": "8e2d681dff8738906a232f5ae5c4cae63f60da4ff819013313efd5d9d0507268"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX8SetSpeedEf",
+      "elf_address": "0x4924b0",
+      "size": 48,
+      "sha256": "08c885c47c0b2aef6b7fb6e4a1cdcfce9dd2fb03b8de21137088068839fb84dc"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX6UpdateEv",
+      "elf_address": "0x492f68",
+      "size": 456,
+      "sha256": "852c13210640923738260ba9ec40bb27774bc74cf7fcba7a72cf7f5e5b38c277"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager10PlayAnimFXEiRK7Point3DIfES3_PK10GameObjectPNS_10AnimFXDataE",
+      "elf_address": "0x4956b8",
+      "size": 464,
+      "sha256": "6da664f5492e11f56a3b1fc19090de37eb375d9e79adb9392ca83325cee772b3"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX14_HandleLoopEndEv",
+      "elf_address": "0x4927a4",
+      "size": 256,
+      "sha256": "0f8b06fd2233fdfe3ce304dd566e00b3fdc3b289bdbde263904d70bd707bdb03"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX11SetRotationERK7Point3DIfE",
+      "elf_address": "0x492f3c",
+      "size": 44,
+      "sha256": "2520ffc5627bad187ea5ebd9b83d18ecac4c4d1ca66524314b738934587dc0eb"
+    },
+    {
+      "original_symbol": "_ZN10GameObject7_PlayFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3923cc",
+      "size": 596,
+      "sha256": "fd8af7356e16fe27ba36ff9902fc80be3ec8da0128c1dae4ecdfac318f92f10e"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager16GetAnimFXSetDataEiiiPK10GameObjectPNS_13AnimFXSetDataE7Point3DIfES6_",
+      "elf_address": "0x4935b8",
+      "size": 152,
+      "sha256": "346785243fab997961e2e33be36366396948ddfd57c960dbc74a5b85421b8a3c"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX10SetLoopingEb",
+      "elf_address": "0x492694",
+      "size": 80,
+      "sha256": "6aa473f1d3a7d7896a4dee24faf50cc021bdd1e73b77d764a9ba9a7547c490a8"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager14PlayAnimFXStepEPNS_13AnimFXSetDataENS_10AnimFXDataE",
+      "elf_address": "0x495f74",
+      "size": 464,
+      "sha256": "ec53a9b7b8495c76831b9d19e986d8f1353b6cc3dc52975c1a8eb93358e7a4f1"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager13PlayAnimFXSetEiRK7Point3DIfES3_PK10GameObjectPNS_13AnimFXSetDataE",
+      "elf_address": "0x495888",
+      "size": 512,
+      "sha256": "e95030850f8385edc888e56195ae7b7241e33bb293e1d92d9317eda862bd2c05"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX11GetAnimatorEv",
+      "elf_address": "0x49267c",
+      "size": 24,
+      "sha256": "ba35aba38f77dbda8143664f0880c2b05cbe7bf08c16b43ef18616eab364c4c0"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX6SetEndEv",
+      "elf_address": "0x4926e4",
+      "size": 96,
+      "sha256": "3c95994bfbb1a2fbe2da4f1591b41ddad9eaf63ac05b83ff5b880d01c1a8e7dc"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager6UpdateEv",
+      "elf_address": "0x496594",
+      "size": 596,
+      "sha256": "26efeb4666a52c3be83610eb488beae2b99d4f1be9212ed1d9e66593fb008660"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager10PlayAnimFXEiRK7Point3DIfEPK10GameObjectPNS_10AnimFXDataE",
+      "elf_address": "0x495b54",
+      "size": 448,
+      "sha256": "d0921a851ff1a7509992033a6b82165d7a752db18475454ed83cf9bd20062568"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX4LoadEPKcS1_fib",
+      "elf_address": "0x49296c",
+      "size": 308,
+      "sha256": "d77c5aebf24a9f23d36d97ff407cb8c2fbcfa10345a5fbbf42ece27d174bac60"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX11SyncIrrDataEb",
+      "elf_address": "0x492aa0",
+      "size": 1004,
+      "sha256": "d8f43335fc451b564fbc53b61926e3b9639aa82af7909274c735fc92041867f2"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX9SetAnimFXEbbbfiPN15VisualFXManager13AnimFXSetDataEPFvPS_S2_E",
+      "elf_address": "0x492e8c",
+      "size": 100,
+      "sha256": "43aa7cb48742d8e9f78ccb6697c6f59235fa2dc0d5bb747dddaa8195690d0fd2"
+    },
+    {
+      "original_symbol": "_ZN10AnimatedFX17GetAnimControllerEv",
+      "elf_address": "0x492550",
+      "size": 16,
+      "sha256": "ed4a1261f15dca00c4d449ee4646917c5ac2bb292cb76ba63ae29c3c1e6d964b"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager15_HandleSequenceEP10AnimatedFXPNS_13AnimFXSetDataEb",
+      "elf_address": "0x496144",
+      "size": 544,
+      "sha256": "58e958b2f773843ee687d1415ea33ae2ca689891d7bdfadb79b8842111f3bbc6"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager16__Anim_EndOfLoopEP10AnimatedFXPNS_13AnimFXSetDataE",
+      "elf_address": "0x4963d0",
+      "size": 100,
+      "sha256": "07c3d72eac53d682d4472fc6f93710e7933c7611355373178394ef5bd7b273b5"
+    }
+  ]
+}

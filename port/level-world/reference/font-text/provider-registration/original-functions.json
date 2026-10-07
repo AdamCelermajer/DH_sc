@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX10InitializeERNS_24InitializationParametersE",
+      "elf_address": "0x7a9814",
+      "size": 228,
+      "sha256": "3ccba898aeb32e14d881f9fb201b5daa8b23c0bf020f4793abde8cc3cc931020"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10InitializeEPN6glitch5video12IVideoDriverE",
+      "elf_address": "0x7a98f8",
+      "size": 92,
+      "sha256": "05d259f8f6544e6f4280bc9d09d72bbb67d752374f2049167ca4a90239db80b0"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX27InitializeGlyphTextureCacheEii",
+      "elf_address": "0x7a8d74",
+      "size": 16,
+      "sha256": "de0bd23ea43c646f22820dc02ed81a21db2d80c7af7074499f24724d2075ba64"
+    }
+  ]
+}

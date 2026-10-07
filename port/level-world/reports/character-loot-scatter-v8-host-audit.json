@@ -1,0 +1,85 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_loot_scatter_v8.cpp",
+        "port/level-world/tests/character_loot_scatter_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/items.cpp",
+        "-o",
+        ".local-inputs/character_loot_scatter_v8_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_loot_scatter_v8_O1",
+        "port/level-world/reference/character-loot-world-v8/scatter-fixtures.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"cases\":256,\"checks\":257,\"normalization_and_basis_fixtures\":true}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_loot_scatter_v8.cpp",
+        "port/level-world/tests/character_loot_scatter_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/items.cpp",
+        "-o",
+        ".local-inputs/character_loot_scatter_v8_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_loot_scatter_v8_O2",
+        "port/level-world/reference/character-loot-world-v8/scatter-fixtures.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"cases\":256,\"checks\":257,\"normalization_and_basis_fixtures\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_loot_scatter_v8.cpp": "49d216de6d8ff30c4cf73161f766ebcad6dd4f727a7a29234f242bf230e95b48",
+    "port/level-world/tests/character_loot_scatter_v8.cpp": "54d01210149b826e6e1d55e2eaeb2b9778be468a9f6285fb016487627b7174cb",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb"
+  },
+  "normalization_and_basis_fixtures": true,
+  "production_world": false
+}

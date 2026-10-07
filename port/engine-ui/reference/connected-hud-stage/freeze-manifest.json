@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/tools/verify_font_overlay_stage.py": "30ad3cd6337d68f9b3b75759ccfc236e39b44f052e52afcd451a5c6702689a9b",
+    "port/engine-ui/tools/verify_connected_hud_stage.py": "61781fd786e77877a2a46b5be5fbc42a9f75bdcfcab380ef56a8741c0beedb7a",
+    "port/engine-ui/tests/connected_hud_stage_verifiers.py": "a0a6a47e0ea8c584c13b9bf43915cd1e47a1337bc8a5e20de5c48095c390625f"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/connected-hud-stage-verifier-guards.json": "819b8568b66f4614c830782823d4a1cf14d3dcd5e5304909ecbd1ac2757bbe29",
+    "port/engine-ui/reports/connected-player-status-source-stage-v1.json": "a61f5ffae57e40a8f1fbc8e6a334c77a1f548a61853239aeacc7478a7f42c6c3",
+    "port/engine-ui/reports/gameswf-font-overlay-central-stage-v2.json": "7b9f0b943988e9a7e84de446fe94a89d32b529c608c8da622d0b2bffc9ad5586"
+  },
+  "scope": "Read-only receipt tools, source/additive getter and same-compiler paired core; ten guard checks/seven deliberate rejections. Historical receipts unchanged; no current device or full HUD/native callback claim."
+}

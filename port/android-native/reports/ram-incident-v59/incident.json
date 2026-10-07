@@ -1,0 +1,121 @@
+{
+  "scope": "Recorded host pressure and session audit; exact originating process not identified by old telemetry",
+  "watchdog_status": "terminated_by_guard",
+  "owned_emulator_termination_succeeded": true,
+  "first_retained": {
+    "time": "2026-10-06T16:46:44Z",
+    "elapsed": 0.01599999999962165,
+    "processes": 581,
+    "commitGiB": 44.52,
+    "freeRamGiB": 9.33,
+    "emulatorPrivateGiB": 0.01
+  },
+  "last_retained": {
+    "time": "2026-10-06T17:36:43Z",
+    "elapsed": 2998.280999999999,
+    "processes": 3329,
+    "commitGiB": 77.92,
+    "freeRamGiB": 0.96,
+    "emulatorPrivateGiB": 6.98
+  },
+  "max_processes": 3329,
+  "max_commitGiB": 77.92,
+  "min_freeRamGiB": 0.43,
+  "samples": [
+    {
+      "time": "2026-10-06T16:46:44Z",
+      "elapsed": 0.01599999999962165,
+      "processes": 581,
+      "commitGiB": 44.52,
+      "freeRamGiB": 9.33,
+      "emulatorPrivateGiB": 0.01
+    },
+    {
+      "time": "2026-10-06T16:51:45Z",
+      "elapsed": 300.125,
+      "processes": 579,
+      "commitGiB": 52.37,
+      "freeRamGiB": 1.94,
+      "emulatorPrivateGiB": 8.85
+    },
+    {
+      "time": "2026-10-06T16:56:44Z",
+      "elapsed": 600.0469999999987,
+      "processes": 599,
+      "commitGiB": 49.74,
+      "freeRamGiB": 4.78,
+      "emulatorPrivateGiB": 6.14
+    },
+    {
+      "time": "2026-10-06T17:01:45Z",
+      "elapsed": 900.2659999999996,
+      "processes": 669,
+      "commitGiB": 54.67,
+      "freeRamGiB": 3.79,
+      "emulatorPrivateGiB": 8.62
+    },
+    {
+      "time": "2026-10-06T17:06:45Z",
+      "elapsed": 1200.625,
+      "processes": 607,
+      "commitGiB": 53.26,
+      "freeRamGiB": 5.6,
+      "emulatorPrivateGiB": 8.38
+    },
+    {
+      "time": "2026-10-06T17:11:45Z",
+      "elapsed": 1500.1409999999996,
+      "processes": 583,
+      "commitGiB": 52.11,
+      "freeRamGiB": 7.09,
+      "emulatorPrivateGiB": 9.42
+    },
+    {
+      "time": "2026-10-06T17:16:44Z",
+      "elapsed": 1800.0,
+      "processes": 598,
+      "commitGiB": 51.68,
+      "freeRamGiB": 8.26,
+      "emulatorPrivateGiB": 6.14
+    },
+    {
+      "time": "2026-10-06T17:21:45Z",
+      "elapsed": 2100.7340000000004,
+      "processes": 601,
+      "commitGiB": 51.88,
+      "freeRamGiB": 6.68,
+      "emulatorPrivateGiB": 6.98
+    },
+    {
+      "time": "2026-10-06T17:26:45Z",
+      "elapsed": 2400.8280000000013,
+      "processes": 591,
+      "commitGiB": 50.24,
+      "freeRamGiB": 7.89,
+      "emulatorPrivateGiB": 6.98
+    },
+    {
+      "time": "2026-10-06T17:31:45Z",
+      "elapsed": 2700.5469999999987,
+      "processes": 587,
+      "commitGiB": 44.14,
+      "freeRamGiB": 10.24,
+      "emulatorPrivateGiB": 7.7
+    }
+  ],
+  "current_boot": "2026-10-06 17:38:54 UTC",
+  "current_observation": {
+    "freeRamGiB": 15.12,
+    "usedVirtualGiB": 20.21,
+    "processes": 342,
+    "windows_build_emulator_processes": 0
+  },
+  "session_audit": {
+    "root_agents": "pending_init after reboot; no confirmed live build handles",
+    "loader": "source only; parent and3agents report no live build/test handles",
+    "menu": "source only; no build/test handles",
+    "audio": "idle; no live audio-owned handles,2agents completed"
+  },
+  "limits": "Host process-name counts were not recorded before crash; Windows git/conhost errors are evidence of failures, not proof of the initiator. WSL internal PID ownership not inspected.",
+  "diagnostic_change": "Existing watchdog process census now records bounded top16 image counts. Syntax checked; not exercised in a new emulator run."
+}

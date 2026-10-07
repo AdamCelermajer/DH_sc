@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "original_complete_Level_C1_cases": 3180,
+  "mismatches": 0,
+  "native_failure_guards": 48,
+  "instruction_words_executed": 218,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "sources": {
+    "port/level-loader/tests/level_constructor_v3.cpp": "56c1fbeae46886526f20cc8491765a34bd7721a8979a025a339ca458d2905a17",
+    "port/level-loader/level_constructor_v3.cpp": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+    "port/level-world/event_manager_owner_v12.cpp": "b66a23fe43ce48e104cc0845431e541b4a757eee51baa6b18e5cdce81adeb459",
+    "port/level-loader/level_constructor_v3.hpp": "12a5bcfbf4e28820ac46dea20b78b00dab67c74618561ae4ed24e6ddfe44f5c0"
+  },
+  "binaries": {
+    "x86_64": "762166bde4421a6a522a61d1ab7850b7fd8ddaac1d403ca23d86becec805a0a2",
+    "arm64-v8a": "5e01713cfffa6e08749995ac8a5b87fc9e001b2067a427a0cbfdcba7d636fa15"
+  },
+  "explicit_deeper_fixtures": [
+    "LuaScript C1/load",
+    "source-compatible immutable LevelList rows",
+    "online/player/matching services",
+    "Save allocation/C1",
+    "ASCII ToLowerCase and C-string imports"
+  ],
+  "real_EventManager_native_owner": true,
+  "full_lua_save_file_backend_proven": false,
+  "live_app_unchanged": true,
+  "gameplay_ready": false
+}

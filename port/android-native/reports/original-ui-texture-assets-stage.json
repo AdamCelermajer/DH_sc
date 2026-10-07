@@ -1,0 +1,61 @@
+{
+  "validation": "PASS",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "resource_count": 6,
+  "movies": 0,
+  "ttf_fonts": 0,
+  "resources": {
+    "data/3d/textures/iphone_table_dh2.tga": {
+      "uri": "data/3d/textures/iphone_table_dh2.tga",
+      "asset": "original-cache/data/3d/textures/iphone_table_dh2.tga",
+      "bytes": 32828,
+      "sha256": "9850caf0375d313529b4219ecc4bb2be24118e70546c5edfc577f4028dc0f58b",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/iphone_table_dh2.tga"
+    },
+    "data/3d/textures/menusgraphics_droid.tga": {
+      "uri": "data/3d/textures/MenusGraphics_droid.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics_droid.tga",
+      "bytes": 524348,
+      "sha256": "c75e8f4df8a9b28fcca7aa819a05cd69e6206d27a391b4364fd67790aeea86c7",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics_droid.tga"
+    },
+    "data/3d/textures/menusgraphics.tga": {
+      "uri": "data/3d/textures/MenusGraphics.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics.tga",
+      "bytes": 4194348,
+      "sha256": "ddc6194e85381e07ecc9586040e0546fd3219a53fc054095277f6c0d7262ad74",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics.tga"
+    },
+    "data/3d/textures/map_top.tga": {
+      "uri": "data/3d/textures/map_top.tga",
+      "asset": "original-cache/data/3d/textures/map_top.tga",
+      "bytes": 131132,
+      "sha256": "d758912d7e9e9cfaee64bb8fe7afdafd70eaf7841c106b82f205e176a2b97be9",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/map_top.tga"
+    },
+    "data/3d/textures/map_bottom.tga": {
+      "uri": "data/3d/textures/map_bottom.tga",
+      "asset": "original-cache/data/3d/textures/map_bottom.tga",
+      "bytes": 524348,
+      "sha256": "038faedbd0f68f42975deca4638257382dcd79fc5907138fad67efb026c0a1b3",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/map_bottom.tga"
+    },
+    "data/3d/textures/splash_final_droid.tga": {
+      "uri": "data/3d/textures/splash_final_droid.tga",
+      "asset": "original-cache/data/3d/textures/splash_final_droid.tga",
+      "bytes": 8388652,
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final_droid.tga"
+    }
+  },
+  "index_sha256": "88a222c133747e1a27526d5c16269b0b09cf675747748de779807675aa28aa16",
+  "text_stage": false,
+  "texture_stage": true,
+  "unmodified_original_bytes": true,
+  "prior_assets_preserved": 765,
+  "assets_per_project": 770,
+  "studio_staged": false,
+  "full_game_assets": false,
+  "packaged_apk": false,
+  "live_validation": "NOT_RUN"
+}

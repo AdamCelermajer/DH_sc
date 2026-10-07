@@ -27,6 +27,12 @@ extern "C" void dh2_animation_quaternion(float* out,const float* a,const float* 
     dh2_quat_slerp(&value,&left,&right,t);std::memcpy(out,&value,16);
 }
 namespace dh2::animation {
+bool Player::bind_scene_v116(const scene::Scene& scene,std::string& error,MissingTargets policy){
+    // Keep the original resource alive while load replaces this Player's
+    // storage. The Player itself remains the registered library receiver.
+    const auto retained=bytes;
+    return load(retained.data(),retained.size(),scene,error,policy);
+}
 namespace {
 struct DefaultReader {
     const resources::BresView& image;
@@ -380,5 +386,51 @@ bool Player::sample(scene::Scene& scene,std::int32_t ms,std::string& error)const
     }
     if(!scene::update_world(candidate,error))return false;
     scene=std::move(candidate);return true;
+}
+bool Player::sample_reuse(scene::Scene& scene,std::int32_t ms,PoseSampleWorkspaceV32& workspace,std::string& error)const{
+    error.clear();++workspace.calls;
+    if(scene.graph.size()!=rest.size()){error="Animation graph differs";return false;}
+    for(unsigned i=0;i<rest.size();++i)if(scene.graph[i].id!=rest[i].id){error="Animation target order differs";return false;}
+    const auto capacity=workspace.nodes.capacity();workspace.nodes.resize(rest.size());
+    if(workspace.nodes.capacity()!=capacity)++workspace.storage_growths;
+    for(unsigned i=0;i<rest.size();++i){auto& n=workspace.nodes[i];
+        std::copy(rest[i].scale,rest[i].scale+3,n.scale);
+        std::copy(rest[i].translation,rest[i].translation+3,n.translation);
+        std::copy(rest[i].quaternion,rest[i].quaternion+4,n.quaternion);
+    }
+    unsigned segment=0;while(segment+1<ranges.size()&&ms>=ranges[segment][1])++segment;
+    for(const auto& t:tracks){
+        if(t.segment!=segment)continue;
+        std::int32_t key=0;float fraction=0;const bool interpolate=dh2_animation_find(&t.accessor,0,ms,&key,&fraction);
+        if(key<0||unsigned(key)>=t.values.count){error="Selected animation key out of range";return false;}
+        float a[4]{},b[4]{};dh2_vector_read(&t.values,key,a);
+        float* destination=t.type==1?workspace.nodes[t.node].translation:t.type==5?workspace.nodes[t.node].quaternion:workspace.nodes[t.node].scale;
+        if(interpolate){
+            if(unsigned(key)+1>=t.values.count){error="Animation successor out of range";return false;}
+            dh2_vector_read(&t.values,key+1,b);
+            if(t.type==5)dh2_animation_quaternion(destination,a,b,fraction);else dh2_animation_lerp3(destination,a,b,fraction);
+        }else std::copy(a,a+(t.type==5?4:3),destination);
+    }
+    // Same transactional update_world arithmetic/order, in numeric scratch.
+    // Metadata remains in the live graph and is validated freshly each call.
+    for(unsigned i=0;i<scene.graph.size();++i){const auto parent=scene.graph[i].parent;auto& n=workspace.nodes[i];
+        if(parent< -1||parent>=std::int32_t(i)){error="Invalid graph parent order";return false;}
+        for(float x:n.translation)if(!std::isfinite(x)){error="Invalid node translation";return false;}
+        for(float x:n.quaternion)if(!std::isfinite(x)){error="Invalid node rotation";return false;}
+        for(float x:n.scale)if(!std::isfinite(x)){error="Invalid node scale";return false;}
+        std::array<float,16> local;dh2_node_matrix(local.data(),n.translation,n.quaternion,n.scale);
+        n.world=parent<0?local:scene::multiply(workspace.nodes[parent].world,local);
+        for(float x:n.world)if(!std::isfinite(x)){error="World transform overflow";return false;}
+    }
+    for(const auto& instance:scene.instances)if(instance.node_index>=workspace.nodes.size()){
+        error="Invalid instance node index";return false;
+    }
+    for(unsigned i=0;i<scene.graph.size();++i){auto& n=scene.graph[i];const auto& sampled=workspace.nodes[i];
+        std::copy(sampled.translation,sampled.translation+3,n.translation);
+        std::copy(sampled.quaternion,sampled.quaternion+4,n.quaternion);
+        std::copy(sampled.scale,sampled.scale+3,n.scale);n.world=sampled.world;
+    }
+    for(auto& instance:scene.instances)instance.world=workspace.nodes[instance.node_index].world;
+    return true;
 }
 }

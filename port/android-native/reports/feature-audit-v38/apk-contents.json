@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "scope": "Both-ABI native Android link and APK contents only; no runtime, audible-output, all-skills, all-levels or FPS acceptance. Audio output class linked; stream/World authorities not yet connected.",
+  "apk": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+  "apk_bytes": 595906710,
+  "apk_sha256": "c6691313759eae4c8fe505658037d48eebf9cb309ccbc52fac761670062d9716",
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "native_libraries": [
+    {
+      "entry": "lib/arm64-v8a/libdh2_native.so",
+      "bytes": 2147896,
+      "sha256": "45bb65a1822ff51be9ec160ccc671e4fdc4f9141dcddb79bea73a6f860429c08",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_textures.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_level_world.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_script_runtime.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_ui.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_audio.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libandroid.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [liblog.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libGLESv2.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libEGL.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libz.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_skinning.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_animation.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_scene_materials.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    },
+    {
+      "entry": "lib/arm64-v8a/libdh2_engine_audio.so",
+      "bytes": 462104,
+      "sha256": "bf1ea2e9b5818b93d93104665b465f40acccdc9393c090de9f412ffb9fb7af7e",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    },
+    {
+      "entry": "lib/arm64-v8a/libdh2_level_world.so",
+      "bytes": 4554008,
+      "sha256": "2549b11099f7aef1f995e2cc079cf3b91af31563eb390f3d2b6ddc2fe5fd7d9c",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_skinning.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_script_runtime.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_ui.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libz.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_audio.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_animation.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_scene_materials.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    },
+    {
+      "entry": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "bytes": 560784,
+      "sha256": "f54827508d2c685fe0985837a753de6bd49e2579e46a2a5e44806c024694b0c1",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    },
+    {
+      "entry": "lib/x86_64/libdh2_native.so",
+      "bytes": 2222240,
+      "sha256": "fca55536eb1735b9b352e978e86c4526e24916cba09e924ded5be10f6c401a4e",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_textures.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_level_world.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_script_runtime.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_ui.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_audio.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libandroid.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [liblog.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libGLESv2.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libEGL.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libz.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_skinning.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_animation.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_scene_materials.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    },
+    {
+      "entry": "lib/x86_64/libdh2_engine_audio.so",
+      "bytes": 466576,
+      "sha256": "bb346a93fb90f8762534e0270cb235e24176dae3a8bc4c14543bd398160fa0a7",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    },
+    {
+      "entry": "lib/x86_64/libdh2_level_world.so",
+      "bytes": 4641728,
+      "sha256": "2a2ff49e8e747b05ccad400b8aec4b718674b28fb1d9db562312bebf1b1327c0",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_skinning.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_script_runtime.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_ui.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libz.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_audio.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_animation.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdh2_scene_materials.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    },
+    {
+      "entry": "lib/x86_64/libdh2_scene_materials.so",
+      "bytes": 561528,
+      "sha256": "03fc56f0e973c7d4ddcb5e50338d545cb11a63f2dd20f4560a9fd0ad0e3a96e9",
+      "needed": [
+        "0x0000000000000001 (NEEDED)       Shared library: [libm.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libdl.so]",
+        "0x0000000000000001 (NEEDED)       Shared library: [libc.so]"
+      ]
+    }
+  ],
+  "embedded_original_cache": {
+    "entry": "assets/dh2-original-cache.zip",
+    "bytes": 433189197,
+    "sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+    "file_backed_compatible": true
+  },
+  "generated_sound_schema": [
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin",
+      "bytes": 5108,
+      "sha256": "fb02b0ce7bc6d3e5ac38d1c72ed07006a00f68de04ec8d3568b652a9dfc33784"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "bytes": 15457,
+      "sha256": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d"
+    }
+  ],
+  "emulator_launched": false
+}

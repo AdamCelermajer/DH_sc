@@ -1,0 +1,67 @@
+{
+  "scope": "FX GPU submission/cache optimization, exact source data and all effects retained; no live FPS claim",
+  "sources": [
+    {
+      "path": "port/level-world/authored_fx_geometry_packet_v7.hpp",
+      "sha256": "ea479d582cdbfec221448c5924a4853c8cede7bb9176fe7740f9fbc4beab5d76"
+    },
+    {
+      "path": "port/level-world/authored_fx_geometry_packet_v7.cpp",
+      "sha256": "8cbcb54a3fd88e0376623d3f1bb95d97cb884644cbb287bdbe443f82a2195950"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
+      "sha256": "dfe3bbb2b8af494d14d4d3d00bb40bb3a4c7a2a47230c8b1ba7756bfdd017e00"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_draw_v5.inc",
+      "sha256": "0d2e6d06a4aba371ab6fb7bb0c6353b268ebbba3007a2e51facdb7a3b2903adf"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_program_connection_v5.inc",
+      "sha256": "5d54aa8061ec207dce72bf35d402e6fdde8b7f3a3023fc2272dd068c931a242d"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_effect_submission_v34.hpp",
+      "sha256": "48183c5ba032ae1663118f26a2487315a3d4a6f122fef9cbb908e9d840f4a7b6"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_geometry_cache_v34.cpp",
+      "sha256": "678443159cf2268c0928299ee26fb1d284a31c02ad348cef8ac641bec4daafce"
+    },
+    {
+      "path": "port/scene-materials/tests/effect_batch_gles_v34.cpp",
+      "sha256": "badbaf7de30a3e1a6dbd3279c854a03c82a31832130100acadbac3ffccbd76ba"
+    },
+    {
+      "path": "port/level-world/reports/fx-submission-performance-v34.md",
+      "sha256": "c717bce15d2ff08e9dc41ff17ba32b8d24fe8bcc8477143311bce431b464c9fe"
+    },
+    {
+      "path": "port/level-world/reports/fx-submission-cache-v34-host.json",
+      "sha256": "bc08ad5110bb0b1615bd5ba8b0354b290c2e3233f8683e7e90608009c4e07b49"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/effect-batch-v34/receipt.json",
+      "sha256": "6dff15727fb78bdfc2753650289f76a0fedb4521789284d03301590454ef7db2"
+    },
+    {
+      "path": ".local-inputs/fire_atlas_native_fixture_v5.inc",
+      "sha256": "9ede80462f7bf1f1377bfc73d56bd59579c6b171e3fa16f3b1f0d80f19f31212"
+    },
+    {
+      "path": ".local-inputs/fire_bdae_native_fixture_v5.inc",
+      "sha256": "6f93e9dfffe1550e5d1129511af620a43ea1dd631c32c4efbe35b0f5d679cbcc"
+    }
+  ],
+  "archive_sha256": "5598228210b26bd44f47e303366ce096b398eb33f6a58514f69bd7652cad38f0",
+  "strict_renderer_both_abi": true,
+  "geometry_checks_each_optimization": 521,
+  "gles_checks": 90,
+  "old_state_queries_8draws": 360,
+  "batch_state_queries_8draws": 45,
+  "old_allocations_4000frames": 8000,
+  "cache_allocations_4000frames": 0,
+  "required_root_include": "renderer_effect_submission_v34.hpp",
+  "production_new_cmake_tus": []
+}

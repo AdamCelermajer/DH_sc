@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "comparisons": 1119,
+  "power_append_calls": 1395,
+  "actual_power_definitions": 937,
+  "sorted_chain_cases": 12,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "6c9431542643835527e4e82a6e185ff409b500fcc8d7f2a1e39f7cac732d5938",
+  "gold_sha256": "d74c0ec69cc552f83362090b9695725fae235a29c1609afe4faba65f3c02505e",
+  "source_sha256": {
+    "port/game-data/item_presentation_v5.hpp": "f296c1caa3bd008fc7de5dc09379657eeb084d57711c1345343575868eee41b3",
+    "port/game-data/item_presentation_v5.cpp": "9684a2cd9c2cea693afedd1c6d3867fae17c34afaff84c486c37f1bd48a77306",
+    "port/game-data/item_power_tables_v5.hpp": "cec1eab98e7d137303267bd586e8be00821c3067ffa2501e5d6730e8aba3167d",
+    "port/game-data/item_power_tables_v5.cpp": "c391a2b2b7800306ccbb7c5bebf5f7d595e71a7224dd8c004f864efe37a580d6",
+    "port/game-data/tests/item_power_instance_v5_fixture.cpp": "f85989864d9853f543261d0434a0e929b6fbf1589c042a24565f00de8c75ee4d",
+    "port/game-data/tests/item_power_instance_v5_differential.py": "c381d3e96c4c03fdc9a9eb1492bf7272038434eb702e32d571416b232560931c",
+    "port/game-data/tests/item_presentation_v5_original.py": "dd399b92fed11dbb07b800069448211f790618b4f3b04b76b9403465258851e8"
+  },
+  "scope": "Full actual Power-instance append, value projection and stable insertion sort.\nActual cached definition/name data execute on original and O2 native owners;\nlocalized raw strings/parseEx are explicit fixture services, not full text proof.\nThe native full Power state is tied to its real item ID vector, not inventory\nmirror storage. Powered V4 creation valuation remains a separate boundary.\n"
+}

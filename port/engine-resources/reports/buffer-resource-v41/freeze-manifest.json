@@ -1,0 +1,37 @@
+{
+  "scope": "Frozen surgical generic buffer+precise CPU geometry admission; shared live source/CMake unchanged",
+  "source_sha256": {
+    "port/engine-resources/cpu_vector_capacity_v41.hpp": "d0c81038d660c2d8d660a1976bea866ad96dd6acefbbc76bde67b6c9dc9e24f3",
+    "port/android-native/app/src/main/cpp/renderer_buffer_budget_v41.inc": "3e19b3629518fe048e66518cb39dba5c4b8fe3ae277ad423fc1a241bdbf405be",
+    "port/engine-resources/tests/buffer_resource_consumer_v41.cpp": "661b491fed11e3fe6f8fdd9b4c5f0e265b8e2ef3d80156d47cc0935470f831d4",
+    "port/engine-resources/tools/prepare_buffer_patch_v41.py": "de8ac0248543ac9ba5722e7d999159b4ef4ee2eab6feee73116b8e44c22fd03d",
+    "port/engine-resources/tools/test_buffer_resources_v41_host.py": "c756d1045cef154befb6baadf0516bf8f6dd9a68b4ae9027b9456aa8fa723d2f",
+    "port/engine-resources/tools/compile_buffer_resources_v41_android.py": "47c457d2aead8503e446c70df11f0635903a1ac79cf7f2477f26ad846671a68f",
+    "port/engine-resources/reports/buffer-resource-v41/resource_budget_v37.hpp": "17497774d82e05cb420003c2a0312c34e3092abd63d579a65d6e1ef879a6eba7",
+    "port/engine-resources/reports/buffer-resource-v41/resource_budget_v37.cpp": "cb9fca1579fea9e751c8ca5889ad4b5ffcd6a9f04794a23ee51317c8a16f493f",
+    "port/engine-resources/reports/buffer-resource-v41/model_renderer.cpp": "367185c9e7e55030637d480a54b6e6e78792055150f44bd1eff5e0c28a6d5c33",
+    "port/engine-resources/reports/buffer-resource-v41/renderer_model_texture_budget_v40.inc": "c4ff74181e39bdf1f5b4f7900f6d4c3021adca0e73b2f901c0803071d2218354",
+    "port/engine-resources/reports/buffer-resource-v41/renderer_front_visual_v87.inc": "5936e90a51836efc1e747525c586a51d8d19c21145f850af51f45d5106ce0821",
+    "port/engine-resources/reports/buffer-resource-v41/renderer_front_draw_v87.inc": "7908e7be5230fc424832d5f99305a1a946e5d12382761b22b7b5591ca3eb40d1",
+    "port/engine-resources/reports/buffer-resource-v41/renderer_loot_gpu_v27.inc": "2433d1269d7c088b8711e48bdd8ceae94dd8cc8fda5658b2093c829ecd239be3",
+    "port/engine-resources/reports/buffer-resource-v41/renderer_authored_effect_scene_v5.inc": "f1c22754d6a82ceb3bf85cbc4b9f05ce8cfcb64f00bd82fb322f993a0ac32a38",
+    "port/engine-resources/reports/buffer-resource-v41/authored_fx_geometry_packet_v7.hpp": "e6d0107842daa9e00d6c9d5349c0b5077cc3a3b816e0ea20502f65d1092ad180",
+    "port/engine-resources/reports/buffer-resource-v41/authored_fx_geometry_packet_v7.cpp": "5f6fb5bc95a98e248e576e86abdc392b440428410afd80f99c28ce1f3738f85d",
+    "port/engine-resources/reports/buffer-resource-v41/buffer-resource-v41.patch": "c49afcccc8c3a8776181e81a9ae978f166c8146b11a0b536956d807064b8e3f2",
+    "port/engine-resources/reports/buffer-resource-v41/baseline-source-sha256.json": "f364193915c4009a1c8ecdd7d2364f11285cdb0585d37ada876a0dd51b2f9488",
+    "port/engine-resources/reports/buffer-resource-v41/host-receipt.json": "2947508e20b07617e65531146733cef6b2736b1cfd2b82970991bbcec816c8b6",
+    "port/engine-resources/reports/buffer-resource-v41/android-compile.json": "f92b7efe5e9d072dd9cc69edb2b2dd8c47b1f2f1d8b32bf527418698fea05a9c",
+    "port/engine-resources/reports/buffer-resource-v41/android-overlay.json": "3ec241431a7c34f3fac68740ac5b0b9cb9d1eaa50a596673282c2ef8661a67e5",
+    "port/engine-resources/reports/buffer-resource-v41/README.md": "f455e915de39a914d93de4b509212ad76e7791d60d87091ef67c0b260f944fad",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/cpu_vector_capacity_v41.hpp": "d0c81038d660c2d8d660a1976bea866ad96dd6acefbbc76bde67b6c9dc9e24f3",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/resource_budget_v37.cpp": "cb9fca1579fea9e751c8ca5889ad4b5ffcd6a9f04794a23ee51317c8a16f493f",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/resource_budget_v37.hpp": "17497774d82e05cb420003c2a0312c34e3092abd63d579a65d6e1ef879a6eba7",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/level-world/authored_fx_geometry_packet_v7.cpp": "5f6fb5bc95a98e248e576e86abdc392b440428410afd80f99c28ce1f3738f85d",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/level-world/authored_fx_geometry_packet_v7.hpp": "e6d0107842daa9e00d6c9d5349c0b5077cc3a3b816e0ea20502f65d1092ad180"
+  },
+  "patch_check": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

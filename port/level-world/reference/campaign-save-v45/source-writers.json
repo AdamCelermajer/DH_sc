@@ -1,0 +1,77 @@
+[
+  {
+    "symbol": "_ZN14PlayerSavegame13__SaveFaeriesEP11IStreamBasePv",
+    "address": "0x468f18",
+    "size": 344
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17__SavePlayerLevelEP11IStreamBasePv",
+    "address": "0x468930",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame21__SaveDifficultyLevelEP11IStreamBasePv",
+    "address": "0x4688f8",
+    "size": 56
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame12__SaveSkillsEP11IStreamBasePv",
+    "address": "0x469e6c",
+    "size": 584
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16__SavePlayerNameEP11IStreamBasePv",
+    "address": "0x4688c0",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame20__SaveFastTravelListEP11IStreamBasePv",
+    "address": "0x469cdc",
+    "size": 172
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame19__SaveUseSpawnPointEP11IStreamBasePv",
+    "address": "0x4689a8",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame21__SaveLevelEntryPointEP11IStreamBasePv",
+    "address": "0x4688c8",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame18__SaveCurrentFaeryEP11IStreamBasePv",
+    "address": "0x468bf0",
+    "size": 228
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17__SavePlayerClassEP11IStreamBasePv",
+    "address": "0x4698e4",
+    "size": 188
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame12__SaveQuestsEP11IStreamBasePv",
+    "address": "0x469454",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame15__SaveLevelNameEP11IStreamBasePv",
+    "address": "0x468b20",
+    "size": 88
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame15__SaveInventoryEP11IStreamBasePv",
+    "address": "0x46a0b4",
+    "size": 748
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17__SaveLevelStatesEP11IStreamBasePv",
+    "address": "0x46a7a0",
+    "size": 556
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16__SavePropertiesEP11IStreamBasePv",
+    "address": "0x4689d8",
+    "size": 280
+  }
+]

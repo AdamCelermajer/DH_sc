@@ -1,0 +1,167 @@
+{
+  "status": "PASS",
+  "scope": "Tiny fake GL executes exact staged SWF upload/stream and shader lifecycle bodies.",
+  "bindings_sha256": {
+    "port/engine-resources/reports/swf-objects-v43/resource_budget_v37.hpp": "bbdbfcbe7e8776dd7e50bbe6b88ffa5dbbc495f2933e650512c0f69014ff3d88",
+    "port/engine-resources/reports/swf-objects-v43/resource_budget_v37.cpp": "7d645543087042a76d08a3d49dfc977be0d467a3551979374e5629b2f04ac23d",
+    "port/engine-resources/cpu_vector_capacity_v41.hpp": "d0c81038d660c2d8d660a1976bea866ad96dd6acefbbc76bde67b6c9dc9e24f3",
+    "port/engine-resources/gpu_object_owner_v43.hpp": "ff9f8c92fe1e6a679b08a0551e48bf22e8ec9d925f80e527cf33157a9be1fd4e",
+    "port/engine-resources/reports/swf-objects-v43/swf_vertex_cache_v36.hpp": "ad0f062a2f471877a2e242cb514d6074f7be6fe38db130b89240a392363ac5f1",
+    "port/engine-resources/reports/swf-objects-v43/swf_vertex_cache_v36.cpp": "f08045904d66f7dd0b144e4a91f29fa48945191ac83e86222aab863766b674be",
+    "port/engine-resources/reports/swf-objects-v43/authored_shader_program.hpp": "3f4f325e0eaccbda1b452eab59b3f0cdd162882637a66a54d4ca4d57f8c1c5ce",
+    "port/engine-resources/tests/swf_objects_consumer_v43.cpp": "6fbef8328d5cb87435c1abab3ab20bdd8a064a92f4f3d26cb15df6a91cf5d166",
+    "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/tests/swf_objects_source_v43.inc": "143db36ee988eac805a9ab98e13b71430acf39dd4b5d35d759c4100a3139db8c",
+    "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/tests/swf_objects_consumer_v43.cpp": "3a9dc6de6a767fbe394c5a337f77fd8992ba2fa76bb341c9f469d3c15236733b"
+  },
+  "receipts": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-pthread",
+        "-Iport/engine-ui/reports/swf-gpu-host-v38/headers",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/tests/swf_objects_consumer_v43.cpp",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/resource_budget_v37.cpp",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-ui/swf_vertex_cache_v36.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/fixture-O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=2",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/fixture-O1"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS source-bound SWF cache/upload/stream/shader lifetimes; checks=405\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-pthread",
+        "-Iport/engine-ui/reports/swf-gpu-host-v38/headers",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/tests/swf_objects_consumer_v43.cpp",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/resource_budget_v37.cpp",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-ui/swf_vertex_cache_v36.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/fixture-O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=2",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/fixture-O2"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS source-bound SWF cache/upload/stream/shader lifetimes; checks=405\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-pthread",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/tests/resource_budget_v37.cpp",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/resource_budget_v37.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/resource_budget_v37-regression"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=2",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/resource_budget_v37-regression"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":89,\"requested_gpu_peak\":900,\"rejections\":14,\"context_losses\":2,\"live_gpu_bytes\":0,\"live_cpu_bytes\":0}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-pthread",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-ui/tests/swf_vertex_cache_v36.cpp",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/resource_budget_v37.cpp",
+        "port/engine-resources/reports/swf-objects-v43/test-layout/engine-ui/swf_vertex_cache_v36.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/swf_vertex_cache_v36-regression"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=2",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/swf_vertex_cache_v36-regression"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS bounded exact-content cache: warm reuse1000, mode/data keys, LRU/budgets, lost-context reupload, required failure cleanup, strip topology; checks=1049\n",
+      "stderr": ""
+    }
+  ]
+}

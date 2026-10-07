@@ -1,0 +1,38 @@
+[
+  {
+    "vtable": "_ZTV11AISExternal",
+    "vtable_symbol": "0x966a48",
+    "character_virtual_b4": "0x3dc9a8",
+    "function": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv"
+  },
+  {
+    "vtable": "_ZTV15AISPlayerIPhone",
+    "vtable_symbol": "0x966cd0",
+    "character_virtual_b4": "0x3dc9a8",
+    "function": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv"
+  },
+  {
+    "vtable": "_ZTV9AISPlayer",
+    "vtable_symbol": "0x966bf8",
+    "character_virtual_b4": "0x3dc9a8",
+    "function": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv"
+  },
+  {
+    "vtable": "_ZTV10AISDefault",
+    "vtable_symbol": "0x966970",
+    "character_virtual_b4": "0x3dc9a8",
+    "function": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv"
+  },
+  {
+    "vtable": "_ZTV10AISMonster",
+    "vtable_symbol": "0x966b20",
+    "character_virtual_b4": "0x3dc9a8",
+    "function": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv"
+  },
+  {
+    "vtable": "_ZTV8AISFaery",
+    "vtable_symbol": "0x966da8",
+    "character_virtual_b4": "0x3dc9a8",
+    "function": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv"
+  }
+]

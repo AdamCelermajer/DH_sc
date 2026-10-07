@@ -1,0 +1,48 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated optimized empty-only dispatcher; original-bound metadata gold, SAN.",
+  "host_audit": {
+    "validation": "PASS",
+    "method_metadata_comparisons": 64,
+    "empty_methods": 18,
+    "required_nonempty_methods": 46,
+    "invalid_metadata_checks": 130,
+    "mismatches": 0
+  },
+  "reference_sha256": "442f7ef1c9eaf1f10b659720ef68e4a1db79418aeb296a346ca1548d7234659e",
+  "source_sha256": {
+    "port/level-world/character_state_empty.hpp": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+    "port/level-world/character_state_empty.cpp": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+    "port/level-world/reference/character-state-methods/native-methods.inc": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+    "port/level-world/tests/character_state_empty.cpp": "82e79db5ffbe0d627f4e022a9c2008e7751d12646ad93cef5812d3ecc633709b",
+    "port/level-world/tests/character_state_empty_host.py": "3a18bcb38bb3b95a21b43dcca1e6fd9822c2ec8e95b8505a9b0a9c5c42b57517"
+  },
+  "executable_sha256": "b17b19e6ee694ca7af2f775ababe4826d1183e9c2b025d85323d1ba1ba77c7dc",
+  "original_arm64_proof": {
+    "path": "port/level-world/reports/character-state-empty-arm64-differential.json",
+    "sha256": "d5a5c83d6481b54915253ad31c8665620ab1611679f8370bd386dcd1fdc00dda"
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "diagnostics": 0
+  },
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fno-omit-frame-pointer",
+    "-fsanitize=address,undefined",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_empty.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_state_empty.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-state-methods/empty_audit"
+  ],
+  "central_DSO_used": false,
+  "full_nonempty_behaviors": false
+}

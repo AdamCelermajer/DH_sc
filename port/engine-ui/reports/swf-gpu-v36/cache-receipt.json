@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "observed_stdout": "PASS bounded exact-content cache: warm reuse1000, mode/data keys, LRU/budgets, lost-context reupload, required failure cleanup, strip topology; checks=1049",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "command": [
+    "g++",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-O2",
+    "-g",
+    "-fsanitize=address,undefined",
+    "port/engine-ui/tests/swf_vertex_cache_v36.cpp",
+    "port/engine-ui/swf_vertex_cache_v36.cpp",
+    "-o",
+    ".local-inputs/swf_vertex_cache_v36_test"
+  ],
+  "binary_sha256": "a3b2707811bdb26c36786077a1bbe5178596ec9448425c2797982cd1a92cfe62"
+}

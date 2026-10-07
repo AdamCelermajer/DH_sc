@@ -1,0 +1,1889 @@
+{
+  "validation": "PASS",
+  "original_cases": 137,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "64fd5c5a26d80e6b88535f655a57c44acae6f5691dbdf4e1906567a52ca9a5db",
+  "scope": "Original AISDefault/CharAI relay with named Lua, foot and FX boundaries.",
+  "lua_foot_fx_services_are_named_fixtures": true,
+  "native_comparisons": 0,
+  "records": [
+    {
+      "event": "step_left",
+      "row": -1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": -1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": -1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ],
+        [
+          "fx",
+          275,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": -1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 0,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 0,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 0,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ],
+        [
+          "fx",
+          275,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 0,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          253,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          253,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          253,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          253,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 99,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 99,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 99,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ],
+        [
+          "fx",
+          275,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_left",
+      "row": 99,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "left"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            11.0,
+            12.0,
+            13.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": -1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": -1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": -1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ],
+        [
+          "fx",
+          275,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": -1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 0,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 0,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 0,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ],
+        [
+          "fx",
+          275,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 0,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          253,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          253,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          253,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          253,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 99,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 99,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 99,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ],
+        [
+          "fx",
+          275,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "step_right",
+      "row": 99,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "step_right"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ],
+        [
+          "foot",
+          "right"
+        ],
+        [
+          "fx",
+          -1,
+          [
+            22.0,
+            23.0,
+            24.0
+          ]
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": -1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": -1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": -1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": -1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 0,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 0,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 0,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 0,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 99,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 99,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 99,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "other",
+      "row": 99,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "other"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": -1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": -1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": -1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": -1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 0,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 0,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 0,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 0,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 1,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 1,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 1,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 1,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 99,
+      "floor": null,
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 99,
+      "floor": "",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 99,
+      "floor": "water",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    },
+    {
+      "event": "ev_step_left",
+      "row": 99,
+      "floor": "unknown",
+      "trace": [
+        [
+          "argument",
+          "ev_step_left"
+        ],
+        [
+          "lag",
+          37
+        ],
+        [
+          "lua",
+          "OnAnimEvent"
+        ]
+      ]
+    }
+  ],
+  "foot_getters": [
+    {
+      "left": false,
+      "visual": false,
+      "found": false,
+      "point": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "trace": [
+        [
+          "position"
+        ]
+      ]
+    },
+    {
+      "left": false,
+      "visual": false,
+      "found": true,
+      "point": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "trace": [
+        [
+          "position"
+        ]
+      ]
+    },
+    {
+      "left": false,
+      "visual": true,
+      "found": false,
+      "point": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "trace": [
+        [
+          "position"
+        ],
+        [
+          "node",
+          "Bip01_R_Foot"
+        ]
+      ]
+    },
+    {
+      "left": false,
+      "visual": true,
+      "found": true,
+      "point": [
+        11.0,
+        12.0,
+        13.0
+      ],
+      "trace": [
+        [
+          "position"
+        ],
+        [
+          "node",
+          "Bip01_R_Foot"
+        ]
+      ]
+    },
+    {
+      "left": true,
+      "visual": false,
+      "found": false,
+      "point": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "trace": [
+        [
+          "position"
+        ]
+      ]
+    },
+    {
+      "left": true,
+      "visual": false,
+      "found": true,
+      "point": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "trace": [
+        [
+          "position"
+        ]
+      ]
+    },
+    {
+      "left": true,
+      "visual": true,
+      "found": false,
+      "point": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "trace": [
+        [
+          "position"
+        ],
+        [
+          "node",
+          "Bip01_L_Foot"
+        ]
+      ]
+    },
+    {
+      "left": true,
+      "visual": true,
+      "found": true,
+      "point": [
+        11.0,
+        12.0,
+        13.0
+      ],
+      "trace": [
+        [
+          "position"
+        ],
+        [
+          "node",
+          "Bip01_L_Foot"
+        ]
+      ]
+    }
+  ]
+}

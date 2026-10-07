@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "f7a80a7de07999ca6b890e2c66d82ed47984782ed55e9c5e79ea1e14ab4d64ea",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\character_visual_fields_v5.cpp",
+      "sha256": "9691480cb3f2fcc62b0d3e815b18d11b130260044507f2f5af4397bfd5256f57"
+    },
+    {
+      "path": "port\\level-world\\canonical_character_family_v4.cpp",
+      "sha256": "7f0628472aeff4eeb16e987d1a19461efed63cf07262eb8c4f7a44ffc4e7fc32"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "2a8b8fdc9fcc69dfbe26d6b62a5c3b91f0db2fa132e4018f28e882172470d322"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "b96dd2fa2c2a0f53c34eaadaee38df918dfcd489a6ac66e4ed8a056a01857846"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "dd78f961710a60a50f19887edc47b69c8b0232f2f3298d429011dab63720903d"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "1d162242f34a45803833d029856f2f0a20eb728a140b876ec08b4810d6befe52"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "68d3d43eff1c48ec6646005dd2a037109ad56850ddbd606b12aaad0818e1fbf1"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "73443b252fe1b75b5591ddf418d151723a2fd615c38eb1e1693cce08af6b770b",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_visual_fields_v5.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_character_family_v4.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-visual-fields-v5\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-visual-fields-v5\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-visual-fields-v5\\character-visual-fields-v5.bin"
+  ],
+  "stdout": "actual row 419 WanderingPriest AItype 2 model data/3D/characters/npcs/Priest_good.bdae\nCharacter visual fields V5 native PASS 433 actual NPC rows; same constructor/sheets/inventory/FSM/model prefix; intentional Visual InitPost boundary, no whole level claim\n",
+  "stderr": "",
+  "exit_code": 0
+}

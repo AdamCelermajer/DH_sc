@@ -1,0 +1,682 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": 36,
+  "mismatches": 0,
+  "whole_original_wrappers": [
+    "0x394a3c",
+    "0x3949b0"
+  ],
+  "whole_original_filters": [
+    "0x46ebe4",
+    "0x46eb70"
+  ],
+  "actual_character_virtual_leaves": [
+    "0x3a2ee8",
+    "0x3a2ef0",
+    "0x3a2efc"
+  ],
+  "fixture_boundaries": [
+    "NativeWorld::Refilter delivery observer",
+    "PF528234 delivery observer; existing navigation differential separately proves its body"
+  ],
+  "native_differential": false,
+  "case_receipts": [
+    {
+      "enabled": false,
+      "body": false,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": false,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "refilter",
+          36864,
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "refilter",
+          36864,
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "refilter",
+          40960,
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "body": true,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          0,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": false,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": false,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "refilter",
+          36864,
+          [
+            65531,
+            4660,
+            43981
+          ]
+        ],
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": true,
+      "secondary": false,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "refilter",
+          36864,
+          [
+            65531,
+            4660,
+            43981
+          ]
+        ],
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 0,
+      "calls": [
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 1,
+      "calls": [
+        [
+          "refilter",
+          36864,
+          [
+            65531,
+            4660,
+            43981
+          ]
+        ],
+        [
+          "refilter",
+          40960,
+          [
+            65531,
+            4660,
+            43981
+          ]
+        ],
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "body": true,
+      "primary": true,
+      "secondary": true,
+      "initial_disabled": 2,
+      "calls": [
+        [
+          "refilter",
+          36864,
+          [
+            65531,
+            4660,
+            43981
+          ]
+        ],
+        [
+          "refilter",
+          40960,
+          [
+            65531,
+            4660,
+            43981
+          ]
+        ],
+        [
+          "nav",
+          456,
+          1,
+          1112014848,
+          1101004800
+        ]
+      ]
+    }
+  ]
+}

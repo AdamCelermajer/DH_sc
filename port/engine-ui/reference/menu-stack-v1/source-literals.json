@@ -1,0 +1,278 @@
+[
+  {
+    "instruction": "0x4382b8",
+    "literal": "0x438b58",
+    "target": "0x8cb7c8",
+    "text": "menu_MultiLogin"
+  },
+  {
+    "instruction": "0x4382d0",
+    "literal": "0x438b5c",
+    "target": "0x8cb818",
+    "text": "menu_MultiplayerConnectivity"
+  },
+  {
+    "instruction": "0x4382e8",
+    "literal": "0x438b60",
+    "target": "0x8bf0d8",
+    "text": "menu_MainMenu"
+  },
+  {
+    "instruction": "0x438300",
+    "literal": "0x438b64",
+    "target": "0x8c91f0",
+    "text": "menu_VerificationLoading"
+  },
+  {
+    "instruction": "0x438378",
+    "literal": "0x438b70",
+    "target": "0x8cbaa0",
+    "text": "OnHide"
+  },
+  {
+    "instruction": "0x43846c",
+    "literal": "0x438b74",
+    "target": "0x8cbac0",
+    "text": "OnShow"
+  },
+  {
+    "instruction": "0x4384d0",
+    "literal": "0x438b78",
+    "target": "0x8bf0d8",
+    "text": "menu_MainMenu"
+  },
+  {
+    "instruction": "0x4384e8",
+    "literal": "0x438b7c",
+    "target": "0x8cb8b8",
+    "text": "menu_StartGame"
+  },
+  {
+    "instruction": "0x4385f8",
+    "literal": "0x438b9c",
+    "target": "0x8cbac8",
+    "text": "show"
+  },
+  {
+    "instruction": "0x438724",
+    "literal": "0x438ba4",
+    "target": "0x8c9238",
+    "text": "menu_Options"
+  },
+  {
+    "instruction": "0x43875c",
+    "literal": "0x438ba8",
+    "target": "0x8cbaa8",
+    "text": "focus_out"
+  },
+  {
+    "instruction": "0x43878c",
+    "literal": "0x438bac",
+    "target": "0x8cbab8",
+    "text": "hide"
+  },
+  {
+    "instruction": "0x4387b4",
+    "literal": "0x438bb0",
+    "target": "0x8cb8c8",
+    "text": "menu_info"
+  },
+  {
+    "instruction": "0x4387e0",
+    "literal": "0x438bb4",
+    "target": "0x8cb8d8",
+    "text": "menu_HelpButtons"
+  },
+  {
+    "instruction": "0x438820",
+    "literal": "0x438bb8",
+    "target": "0x8c9b50",
+    "text": "menu_hud_confirm"
+  },
+  {
+    "instruction": "0x43884c",
+    "literal": "0x438bbc",
+    "target": "0x8c1fd8",
+    "text": "menu_Loading"
+  },
+  {
+    "instruction": "0x438878",
+    "literal": "0x438bc0",
+    "target": "0x8bed48",
+    "text": "menu_FadeFromBlackScreen"
+  },
+  {
+    "instruction": "0x4388a4",
+    "literal": "0x438bc4",
+    "target": "0x8bed20",
+    "text": "menu_Ingame"
+  },
+  {
+    "instruction": "0x4388e0",
+    "literal": "0x438bc8",
+    "target": "0x8c1f38",
+    "text": "menu_splash"
+  },
+  {
+    "instruction": "0x43890c",
+    "literal": "0x438bcc",
+    "target": "0x8c9b68",
+    "text": "menu_confirm"
+  },
+  {
+    "instruction": "0x438924",
+    "literal": "0x438bd0",
+    "target": "0x8cb948",
+    "text": "menu_confirm2"
+  },
+  {
+    "instruction": "0x43893c",
+    "literal": "0x438bd4",
+    "target": "0x8c91e0",
+    "text": "menu_playlist"
+  },
+  {
+    "instruction": "0x438954",
+    "literal": "0x438bd8",
+    "target": "0x8c9948",
+    "text": "menu_SelectClass"
+  },
+  {
+    "instruction": "0x4389a0",
+    "literal": "0x438be0",
+    "target": "0x8c9b78",
+    "text": "menu_EnterName"
+  },
+  {
+    "instruction": "0x438a10",
+    "literal": "0x438bec",
+    "target": "0x8c1db8",
+    "text": "menu_About"
+  },
+  {
+    "instruction": "0x438a3c",
+    "literal": "0x438bf0",
+    "target": "0x8cba00",
+    "text": "menu_Help"
+  },
+  {
+    "instruction": "0x438a68",
+    "literal": "0x438bf4",
+    "target": "0x8bed08",
+    "text": "menu_CharacterMenu"
+  },
+  {
+    "instruction": "0x438a80",
+    "literal": "0x438bf8",
+    "target": "0x8cba10",
+    "text": "menu_CharacterSheetNew"
+  },
+  {
+    "instruction": "0x438a98",
+    "literal": "0x438bfc",
+    "target": "0x8cba28",
+    "text": "menu_CharacterSheetStats"
+  },
+  {
+    "instruction": "0x438ab0",
+    "literal": "0x438c00",
+    "target": "0x8cba48",
+    "text": "menu_InventorySheetMain"
+  },
+  {
+    "instruction": "0x438ac8",
+    "literal": "0x438c04",
+    "target": "0x8cba60",
+    "text": "menu_SkillTreeSheetNew"
+  },
+  {
+    "instruction": "0x438ae0",
+    "literal": "0x438c08",
+    "target": "0x8cba78",
+    "text": "menu_FaerySheet"
+  },
+  {
+    "instruction": "0x438af8",
+    "literal": "0x438c0c",
+    "target": "0x8cba88",
+    "text": "menu_QuestLogSheetNEW"
+  },
+  {
+    "instruction": "0x438b10",
+    "literal": "0x438c10",
+    "target": "0x8cb700",
+    "text": "menu_MapSheet"
+  },
+  {
+    "instruction": "0x438cf8",
+    "literal": "0x439260",
+    "target": "0x8cb610",
+    "text": "Size > 0"
+  },
+  {
+    "instruction": "0x438d00",
+    "literal": "0x439264",
+    "target": "0x8cbab8",
+    "text": "hide"
+  },
+  {
+    "instruction": "0x438d08",
+    "literal": "0x439268",
+    "target": "0x8cbb20",
+    "text": "focus_in"
+  },
+  {
+    "instruction": "0x438d0c",
+    "literal": "0x43926c",
+    "target": "0x8cbac0",
+    "text": "OnShow"
+  },
+  {
+    "instruction": "0x439288",
+    "literal": "0x439c0c",
+    "target": "0x8cbb20",
+    "text": "focus_in"
+  },
+  {
+    "instruction": "0x43928c",
+    "literal": "0x439c10",
+    "target": "0x8cbaa0",
+    "text": "OnHide"
+  },
+  {
+    "instruction": "0x439290",
+    "literal": "0x439c14",
+    "target": "0x8cbab8",
+    "text": "hide"
+  },
+  {
+    "instruction": "0x439298",
+    "literal": "0x439c18",
+    "target": "0x8cbac0",
+    "text": "OnShow"
+  },
+  {
+    "instruction": "0x439740",
+    "literal": "0x439c20",
+    "target": "0x8cbaa0",
+    "text": "OnHide"
+  },
+  {
+    "instruction": "0x439750",
+    "literal": "0x439c24",
+    "target": "0x8cbac0",
+    "text": "OnShow"
+  },
+  {
+    "instruction": "0x43975c",
+    "literal": "0x439c28",
+    "target": "0x8cbb20",
+    "text": "focus_in"
+  },
+  {
+    "instruction": "0x439768",
+    "literal": "0x439c2c",
+    "target": "0x8cbab8",
+    "text": "hide"
+  }
+]

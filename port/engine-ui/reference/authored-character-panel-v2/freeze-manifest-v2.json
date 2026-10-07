@@ -1,0 +1,55 @@
+{
+  "version": 2,
+  "scope": "Sole session authored movie/MenuStack/source shape release; APK-linked real cache movie proof. External profile/application/GPU fixture scope preserved; live Android menu acceptance pending.",
+  "apk_sha256": "0a8a3d26cf2b9c014cdab333cd3aad4c5e97df6fab86921dd56afcbbb3d32e59",
+  "files": [
+    {
+      "path": "port/engine-ui/authored_character_panel_v2.hpp",
+      "sha256": "fca50239a4099d229e2912460d1ca40d0f80c7b16761f356cc21bc59ddbb06d9"
+    },
+    {
+      "path": "port/engine-ui/authored_character_panel_v2.cpp",
+      "sha256": "8485ff31850eb53e1dca8ed7c31f7727981a0ecfd4b259075e0dcd6e4217119f"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/character_panel_session_v1.hpp",
+      "sha256": "1a8352ffe7a3fa0af91f55e725c48d28fe345c350150bf7a7912e6fc426491ba"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/character_panel_session_v1.cpp",
+      "sha256": "4e2e1f42df1828be38904c0dc3a8d029c42f486e5b93d46039bcd7574a89a1d9"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/character_panel_authored_v2.cpp",
+      "sha256": "4fae3461a59c17df8651cfb698a02a6c369c22092c444d0f1d8c22644b37f0e8"
+    },
+    {
+      "path": "port/engine-ui/tests/authored_character_panel_v2.cpp",
+      "sha256": "375eaa9e1690875f9e58c730426d2f1877b5b119518e7568eb7c6e9b97291e54"
+    },
+    {
+      "path": "port/engine-ui/tools/run_authored_character_panel_v2.py",
+      "sha256": "e010ee86602e874845e5f76bdb7f32af6e485b84df3b34fe561f25cb84172dee"
+    },
+    {
+      "path": "port/engine-ui/tools/build_authored_character_panel_v2.sh",
+      "sha256": "eb96f14b6e34261380e3ec889eaec40196ff718ab1927e0f36452fdb6cd7e453"
+    },
+    {
+      "path": "port/engine-ui/reference/authored-character-panel-v2/create-original.json",
+      "sha256": "bd867eb006bd3afbd6aa898b71d64e54a3d0e2eacd6a38b6c5577f7a42204369"
+    },
+    {
+      "path": "port/engine-ui/reference/authored-character-panel-v2/integration.md",
+      "sha256": "f95500a073f400affdae67a7fc554d0efef5369f9525fc46491243df94b6fc5d"
+    },
+    {
+      "path": "port/engine-ui/reports/authored-character-panel-v2/input-manifest.json",
+      "sha256": "e36906b6562ebebd5926785cc627e0dd4deaa0519f969a6856c19f606bbff749"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/authored-character-panel-v2/receipt.json",
+      "sha256": "befcae92c170667538e083b002d785b4902c62e2acf927637bf14bddbdfe5d19"
+    }
+  ]
+}

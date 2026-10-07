@@ -1,0 +1,32 @@
+{
+  "actual_mlx": ".local-inputs\\world\\x07_crypt_backup.mlx",
+  "mlx_sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7",
+  "xml_header_equal": true,
+  "test_only_dependencies": [
+    {
+      "read_only_source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\xml_document_v1.cpp",
+      "sha256": "19ef9043068be2b0e976fa149da0bb1ff542544d099a0b2069632708e0714955",
+      "fixture_wrapper": ".local-inputs\\camera-config-v20-test\\xml_document_v1.cpp"
+    },
+    {
+      "read_only_source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\tinyxml\\tinyxml.cpp",
+      "sha256": "9ee7ceb204f2f30fe6eb92294999a68437a872c70b0cbf69dc74ee1ce94b1cac",
+      "fixture_wrapper": ".local-inputs\\camera-config-v20-test\\tinyxml.cpp"
+    },
+    {
+      "read_only_source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\tinyxml\\tinyxmlparser.cpp",
+      "sha256": "1dd6068847ee18697e559b7876136bcaaf3c9eca58c28863320e8a21c8f4aeb5",
+      "fixture_wrapper": ".local-inputs\\camera-config-v20-test\\tinyxmlparser.cpp"
+    },
+    {
+      "read_only_source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\tinyxml\\tinyxmlerror.cpp",
+      "sha256": "2367fc5035030390fd2d420501ed9aff5a5d32c59f3c5b1efb9a769d469ed926",
+      "fixture_wrapper": ".local-inputs\\camera-config-v20-test\\tinyxmlerror.cpp"
+    },
+    {
+      "read_only_source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\tinyxml\\tinystr.cpp",
+      "sha256": "220612a57261e51016670678a1474e28c3eecb30b0544cf16efb9851ecb4cb5b",
+      "fixture_wrapper": ".local-inputs\\camera-config-v20-test\\tinystr.cpp"
+    }
+  ]
+}

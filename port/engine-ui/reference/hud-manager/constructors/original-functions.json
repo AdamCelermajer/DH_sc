@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN20DebugCachedCharacterC1Ev",
+      "elf_address": "0x41aeec",
+      "size": 48,
+      "sha256": "b2529d95a0e805284f69a905d9d05ccbc27e975911b35918a200da47531ba5ae"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManagerC1Ev",
+      "elf_address": "0x41ecb0",
+      "size": 288,
+      "sha256": "d380d72cf5fd4a70636dd1282265e4aff54beaf92476b082fffd84d850ffe68a"
+    }
+  ]
+}

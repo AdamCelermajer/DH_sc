@@ -1,0 +1,65 @@
+{
+  "scope": "Compact actual45 source-cache CPU resource constructor/material/transform/multi-emitter/force domain coverage, 19 source frames each accepted resource; fixture camera/GLES driver8/outer transform. PASS runner means census completed, not all resource domains accepted. No GPU/live actor acceptance.",
+  "linked_fixture_apk_sha256": "6b0b5408e7bec23ef7c3a570b7b1a1e328cae302733159eb3de986872911d69e",
+  "sources": [
+    {
+      "path": "port/level-world/character_authored_resource_v6.hpp",
+      "sha256": "7b3379cb343178d4846119f54282c8205dad3884cfe9084d58ea6d9e0717db6d"
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v6.cpp",
+      "sha256": "c907d6ea23c8caef2b461ac88728a07602188e664556d66b228a180b1120a468"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v6.hpp",
+      "sha256": "c13cfc1095bfb649e7d070208b146dc24dd50058f203f2573c6bac26487cbdae"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v6.cpp",
+      "sha256": "a7fcc7ddd4e7ab6b11f19380f2e9fea5d73c875aa55fa71b117764a6b77b2c00"
+    },
+    {
+      "path": "port/engine-animation/particle_scalar_animation_v6.hpp",
+      "sha256": "b242da4c35081deedb477bcc5dc10ba8538ba6848f8395e88344150d03965619"
+    },
+    {
+      "path": "port/engine-animation/particle_scalar_animation_v6.cpp",
+      "sha256": "720148094772015729da8542c30af8ef5bd9821692ddc1347358d7b90161d4c2"
+    },
+    {
+      "path": "port/level-world/authored_fx_transform_v5.hpp",
+      "sha256": "a5297ef86bf05eed2ce7f246beda7f676cf116606a97049cbde9ad50b1e4664b"
+    },
+    {
+      "path": "port/level-world/authored_fx_transform_v5.cpp",
+      "sha256": "7051df9421c9d931c32a63d5def9d94fdd4543d38ce08cf5e172a447e387d933"
+    },
+    {
+      "path": "port/level-world/authored_fx_null_tracks_v5.hpp",
+      "sha256": "097055dd5a99f6b62d0189d1f60df32081d2489522b4eacab879163e750c74b1"
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.cpp",
+      "sha256": "bf2e44dfa3b67d4adbb64e25dcb478da6802261415a86e9c2add576dc74c28ff"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_npc_animation_v1.inc",
+      "sha256": "0477c9822377b4f8185e76fb02748aa4894c9bcc3eba2362f49c8d06ed13b92c"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_fx_anchor_v4.inc",
+      "sha256": "a178e52cd1a3c91ff9996ea4361f72844b695f06c71d0e4421c04339bb53e64b"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_combat_fx_runtime_v4.inc",
+      "sha256": "37391bee2aed52ff046fee69465bdf29e7b5a3dfcd8d2ab9da8ae5935c5f0ce8"
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_skin_scalar_v6.cpp",
+      "sha256": "939d6ba56b6fa40be50cd52361c5ce268771c79d3d594fe615bd9e89c65307b1"
+    }
+  ],
+  "accepted_cpu_resources": 38,
+  "required_cpu_resources": 7,
+  "gpu_or_live_acceptance": false
+}

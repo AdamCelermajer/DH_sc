@@ -1,0 +1,44 @@
+[
+  {
+    "literal": "0x3a1050",
+    "add": "0x3a0e9c",
+    "pointer": "0x8c2970",
+    "text": "v2QuestObjectiveType"
+  },
+  {
+    "literal": "0x3a1054",
+    "add": "0x3a0ea0",
+    "pointer": "0x8c2ff8",
+    "text": "DestroyGameObject"
+  },
+  {
+    "literal": "0x3a13ec",
+    "add": "0x3a12f4",
+    "pointer": "0x8c2970",
+    "text": "v2QuestObjectiveType"
+  },
+  {
+    "literal": "0x3a13f0",
+    "add": "0x3a12fc",
+    "pointer": "0x8c2ff8",
+    "text": "DestroyGameObject"
+  },
+  {
+    "literal": "0x3a13dc",
+    "add": "0x3a128c",
+    "pointer": "0x8c0da8",
+    "text": "fx"
+  },
+  {
+    "literal": "0x3a13e4",
+    "add": "0x3a12b0",
+    "pointer": "0x8c2f90",
+    "text": "opened"
+  },
+  {
+    "literal": "0x3a106c",
+    "add": "0x3a0fb0",
+    "pointer": "0x8c3010",
+    "text": "destroy_200_breakables"
+  }
+]

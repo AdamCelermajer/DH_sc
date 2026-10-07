@@ -1,0 +1,71 @@
+--- stock1714/gameswf_font.cpp
++++ font-v1/gameswf_font.cpp
+@@ -305,55 +305,44 @@
+ 
+ 	bool	font::get_glyph(glyph* g, Uint16 code, int fontsize) const
+ 	{
+-		// defaults
++		// DH2 source-fork overlay v1: provider owns advance and does not
++		// consume embedded outline shapes. Source font::get_glyph 0x7d01bc.
+ 		g->m_glyph_index = -1;
+ 		g->m_glyph_advance = 512;
+ 
+-		if (m_code_table.get(code, &g->m_glyph_index))
+-		{
+-			g->m_shape_glyph = m_glyphs[g->m_glyph_index];
+-		}
+-
+-		// first try glyph provider
+ 		glyph_provider* fp = get_glyph_provider();
+ 		if (fp)
+ 		{
+-			g->m_bitmap_info = fp->get_char_image(g->m_shape_glyph, code, m_fontname, m_is_bold, m_is_italic, 
+-				fontsize,	&g->m_bounds, &g->m_glyph_advance);
++			g->m_bitmap_info = fp->get_char_image(NULL, code, m_fontname, m_is_bold, m_is_italic,
++				fontsize, &g->m_bounds, &g->m_glyph_advance);
+ 			if (g->m_bitmap_info != NULL)
+ 			{
+ 				if (is_define_font3())
+ 				{
+ 					g->m_glyph_advance *= 20.0f;
+ 				}
+-
+-				// for embedded characters use advance value from 'm_advance_table'
+-				if (g->m_glyph_index >= 0 && g->m_glyph_index < m_advance_table.size())
+-				{
+-					g->m_glyph_advance = m_advance_table[g->m_glyph_index];
+-				}
+-
+ 				return true;
+ 			}
+ 		}
+ 
+-		// then use an embedded character
++		// Embedded lookup occurs after a missing provider image. Preserve
++		// any bounds/advance writes made by that provider before fallback.
++		if (m_code_table.get(code, &g->m_glyph_index))
++		{
++			g->m_shape_glyph = m_glyphs[g->m_glyph_index];
++		}
+ 		if (g->m_glyph_index >= 0)
+ 		{
+ 			if (g->m_glyph_index < m_advance_table.size())
+ 			{
+ 				g->m_glyph_advance = m_advance_table[g->m_glyph_index];
+ 			}
+-			else
+-			{
+-				if (is_define_font3())
+-				{
+-					g->m_glyph_advance *= 20.0f;
+-				}
++			else if (is_define_font3())
++			{
++				g->m_glyph_advance *= 20.0f;
+ 			}
+ 			return true;
+ 		}
+-
+ 		return false;
+ 	}
+ 

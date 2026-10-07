@@ -1,0 +1,70 @@
+{
+  "scope": "missing relay headers only; shared owners unchanged",
+  "copied": [
+    {
+      "path": "port/level-loader/canonical_source_adapter_v1.hpp",
+      "sha256": "50b9147bd1682765a52a56d5e9f65ba62f2a5c2a7536c7f0a053f16dbe858847"
+    },
+    {
+      "path": "port/level-loader/object_entry_v1.hpp",
+      "sha256": "0934a05b557b7797e9a1ddea64fd808d4fc98b7fd8a7ce7d7117398f12270893"
+    },
+    {
+      "path": "port/level-loader/cached_level_file_v1.hpp",
+      "sha256": "fa67c91e120e302d55f82e9da194167de3def771780c35e995bd7daf9d2cc6ee"
+    },
+    {
+      "path": "port/level-loader/level_file_walk_v1.hpp",
+      "sha256": "eab42a9a859e4c6fa8626ab547976d7ef92c2be3b6a9219a313523dea4bad787"
+    }
+  ],
+  "closure": [
+    "port/asset-payloads/payloads.hpp",
+    "port/asset-payloads/zip_asset_pack_v1.hpp",
+    "port/engine-resources/resources.hpp",
+    "port/game-data/animation_tables.hpp",
+    "port/game-data/class_tables.hpp",
+    "port/game-data/data.hpp",
+    "port/game-data/properties.hpp",
+    "port/level-loader/cached_level_file_v1.hpp",
+    "port/level-loader/canonical_cached_file_v1.hpp",
+    "port/level-loader/canonical_level_context_v1.hpp",
+    "port/level-loader/canonical_module_files_v1.hpp",
+    "port/level-loader/canonical_source_adapter_v1.hpp",
+    "port/level-loader/fixed_declarations_v1.hpp",
+    "port/level-loader/fixed_map_v1.hpp",
+    "port/level-loader/fixed_sources_v1.hpp",
+    "port/level-loader/level_file_walk_v1.hpp",
+    "port/level-loader/level_preparation_v1.hpp",
+    "port/level-loader/object_entry_v1.hpp",
+    "port/level-loader/procedural_blocks_v1.hpp",
+    "port/level-loader/procedural_connections_v1.hpp",
+    "port/level-loader/procedural_instances_v1.hpp",
+    "port/level-loader/procedural_layout_v1.hpp",
+    "port/level-loader/procedural_lists_v1.hpp",
+    "port/level-loader/procedural_map_sources_v1.hpp",
+    "port/level-loader/procedural_modules_v1.hpp",
+    "port/level-loader/procedural_random_v1.hpp",
+    "port/level-loader/procedural_rules_v1.hpp",
+    "port/level-loader/procedural_sources_v1.hpp",
+    "port/level-loader/visual_transform_v1.hpp",
+    "port/level-loader/xml_document_v1.hpp",
+    "port/level-world/canonical_object_factory_v1.hpp",
+    "port/level-world/canonical_object_manager_v1.hpp",
+    "port/level-world/character_combat_queries.hpp",
+    "port/level-world/character_kill.hpp",
+    "port/level-world/character_target_providers.hpp",
+    "port/level-world/collision.hpp",
+    "port/level-world/floor_source.hpp",
+    "port/level-world/floors.hpp",
+    "port/level-world/module_xml_selection_v1.hpp",
+    "port/level-world/navigation.hpp",
+    "port/level-world/navigation_motion.hpp",
+    "port/level-world/navigation_path.hpp",
+    "port/level-world/navigation_search.hpp",
+    "port/level-world/navigation_world.hpp",
+    "port/level-world/octree.hpp",
+    "port/level-world/selector.hpp",
+    "port/scene-materials/scene.hpp"
+  ]
+}

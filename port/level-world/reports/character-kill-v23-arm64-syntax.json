@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax Kill V23 native providers only",
+  "sources": [
+    {
+      "path": "port/level-world/character_ais_kill_vm_v23.cpp",
+      "sha256": "b3fa32867f7f47ea4c0a877dde8c28a1fb6a99487dd12c25065ae0c85d998d41"
+    },
+    {
+      "path": "port/level-world/character_kill_contributor_event_v23.cpp",
+      "sha256": "aca5575629d41f603be256183212c772e50ccd827035f66a69b0e01db50eaee2"
+    },
+    {
+      "path": "port/level-world/character_kill_level_events_v23.cpp",
+      "sha256": "72c0bc4e6bde4d1dd0feac1e7d96a70bb064ca75f561ed0a29c440e8fb16e4da"
+    },
+    {
+      "path": "port/level-world/character_kill_production_v23.cpp",
+      "sha256": "0bf397c4e3362be2e7bf40007ac64937a0128a49782c9544f9e464c0c0342bf9"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

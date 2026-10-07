@@ -1,4 +1,5 @@
 #include "actor_playback.hpp"
+#include "visual_anim_controller_owner_v4.hpp"
 #include <cmath>
 #include <cstring>
 extern "C" int dh2_actor_event_handoff(dh2::actor::EventHandoff* out,std::int32_t* lag,const dh2::animation::TriggeredEvent* event){
@@ -42,6 +43,9 @@ void triggered(const animation::TriggeredEvent* input,void* context){
 }
 }
 bool Playback::set_speed(float speed,std::string& error){
+ // Source base AnimController.SetScale474920 has the SAME process gate;
+ // disabled scaling leaves the existing timeline value untouched.
+ if(!world::source_animation_scaling_enabled_v99()){error.clear();return true;}
  if(!std::isfinite(speed)||speed<0){error="Animation global speed rejected";return false;}
  const float product=speed*scheduler.clip().speed;
  if(!std::isfinite(product)||dh2_timeline_scale(&timeline,product)){

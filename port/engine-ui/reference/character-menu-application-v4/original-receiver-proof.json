@@ -1,0 +1,119 @@
+{
+  "validation": "PASS",
+  "cases": 12,
+  "rows": [
+    {
+      "operation": "source_constructor_region",
+      "empty": true,
+      "trace": [
+        [
+          "map_alloc",
+          8
+        ],
+        [
+          "block_alloc",
+          104
+        ],
+        [
+          "atexit_registered",
+          10091444
+        ]
+      ],
+      "source_start_end_same": true
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 0,
+      "actual_to_bool": 0,
+      "field110": 1,
+      "trace": []
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 0,
+      "actual_to_bool": 1,
+      "field110": 1,
+      "trace": []
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 1,
+      "actual_to_bool": 0,
+      "field110": 0,
+      "trace": [
+        [
+          "to_bool",
+          33563904
+        ]
+      ]
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 1,
+      "actual_to_bool": 1,
+      "field110": 1,
+      "trace": [
+        [
+          "to_bool",
+          33563904
+        ]
+      ]
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 2,
+      "actual_to_bool": 0,
+      "field110": 1,
+      "trace": []
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 2,
+      "actual_to_bool": 1,
+      "field110": 1,
+      "trace": []
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 3,
+      "actual_to_bool": 0,
+      "field110": 1,
+      "trace": []
+    },
+    {
+      "operation": "NativeSetMultitouch",
+      "argc": 3,
+      "actual_to_bool": 1,
+      "field110": 1,
+      "trace": []
+    },
+    {
+      "operation": "whole_NativeSkip_empty",
+      "unchanged": true
+    },
+    {
+      "operation": "whole_NativeShowStatusBar",
+      "actual_to_bool": 0,
+      "application_leaf": "31f668 bx lr",
+      "trace": [
+        [
+          "to_bool",
+          33563904
+        ]
+      ]
+    },
+    {
+      "operation": "whole_NativeShowStatusBar",
+      "actual_to_bool": 1,
+      "application_leaf": "31f668 bx lr",
+      "trace": [
+        [
+          "to_bool",
+          33563904
+        ]
+      ]
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "actual tutorial guarded constructor region plus whole NativeSetMultitouch/NativeSkip empty/NativeShowStatusBar ARM bodies; allocator, atexit, manager getter and AS boolean are explicit providers. Not original positive tutorial localization/setter/Invoke proof."
+}

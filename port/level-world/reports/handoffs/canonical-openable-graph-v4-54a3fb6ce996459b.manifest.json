@@ -1,0 +1,835 @@
+{
+  "version": "canonical-openable-graph-v4",
+  "scope": "same canonical Container/scene/physical owner composition; explicit external providers required for live loader",
+  "excluded_inactive_sdk": [
+    "Fixed.h TARGET_IS_NDS-only nds.h"
+  ],
+  "native_receipt": "port/level-world/reports/android-native-owner-tests/canonical-openable-graph-v4/receipt.json",
+  "entries": [
+    {
+      "path": ".local-inputs/check_openable_graph_v4.py",
+      "size": 810,
+      "sha256": "20ef99811e72e4aa8910f5b52a8e9765dce41dae1acf7ea34ba6722cf2a4e52c"
+    },
+    {
+      "path": ".local-inputs/container-base-source.asm",
+      "size": 22923,
+      "sha256": "d0990a4858955dd11ea018aadbbd0c0f6869e0e242a9eecf0d01fa34508a2aba"
+    },
+    {
+      "path": ".local-inputs/openable-container-source.asm",
+      "size": 16044,
+      "sha256": "dc8b52838da260265430edcb67399fc19eecc9574efe166b4889ea12405064af"
+    },
+    {
+      "path": ".local-inputs/run_canonical_openable_graph_v4.py",
+      "size": 1225,
+      "sha256": "88636d91742de787d90586f832b7adfd649d100135d222806679c23664b96eb1"
+    },
+    {
+      "path": "port/asset-payloads/payloads.cpp",
+      "size": 18957,
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d"
+    },
+    {
+      "path": "port/asset-payloads/payloads.hpp",
+      "size": 4261,
+      "sha256": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee"
+    },
+    {
+      "path": "port/engine-animation/angle_interpreter.cpp",
+      "size": 2145,
+      "sha256": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f"
+    },
+    {
+      "path": "port/engine-animation/angle_interpreter.hpp",
+      "size": 844,
+      "sha256": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df"
+    },
+    {
+      "path": "port/engine-animation/animation.cpp",
+      "size": 28374,
+      "sha256": "741a4df6e1c1753a9fbcf20192c2b1f09ed0d1bfc5701ab9ccd943e76713237f"
+    },
+    {
+      "path": "port/engine-animation/animation.hpp",
+      "size": 5396,
+      "sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3"
+    },
+    {
+      "path": "port/engine-animation/events.cpp",
+      "size": 4429,
+      "sha256": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35"
+    },
+    {
+      "path": "port/engine-animation/events.hpp",
+      "size": 1844,
+      "sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a"
+    },
+    {
+      "path": "port/engine-math/math.cpp",
+      "size": 13157,
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    },
+    {
+      "path": "port/engine-math/math.hpp",
+      "size": 3376,
+      "sha256": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+    },
+    {
+      "path": "port/engine-resources/resources.cpp",
+      "size": 11880,
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+    },
+    {
+      "path": "port/engine-resources/resources.hpp",
+      "size": 6630,
+      "sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230"
+    },
+    {
+      "path": "port/engine-skinning/skinning.cpp",
+      "size": 8219,
+      "sha256": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102"
+    },
+    {
+      "path": "port/engine-skinning/skinning.hpp",
+      "size": 1257,
+      "sha256": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2"
+    },
+    {
+      "path": "port/game-data/animation_tables.cpp",
+      "size": 6804,
+      "sha256": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67"
+    },
+    {
+      "path": "port/game-data/animation_tables.hpp",
+      "size": 2164,
+      "sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d"
+    },
+    {
+      "path": "port/game-data/data.cpp",
+      "size": 3449,
+      "sha256": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f"
+    },
+    {
+      "path": "port/game-data/data.hpp",
+      "size": 901,
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+    },
+    {
+      "path": "port/level-world/actor_rotation.cpp",
+      "size": 2034,
+      "sha256": "3351581401858a0cfa462de899de720fb292b06e038e074a5e0199c04fdc0c58"
+    },
+    {
+      "path": "port/level-world/actor_rotation.hpp",
+      "size": 835,
+      "sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212"
+    },
+    {
+      "path": "port/level-world/actor_runtime.cpp",
+      "size": 11362,
+      "sha256": "4019ae9fc82f23ef2781e5f4d20e6d9ec9d604c53af70273f9fb8af3a6f0cdfe"
+    },
+    {
+      "path": "port/level-world/actor_runtime.hpp",
+      "size": 3475,
+      "sha256": "4cd7e66812fd48321180fd2593859c1339f4048964b4059dc5549b4e59f4ebe7"
+    },
+    {
+      "path": "port/level-world/authored_scene_subtree_v2.cpp",
+      "size": 1685,
+      "sha256": "495018b2a1763cc888bb96e717feb6471253978b2b1516bcdb871d202bd24c5a"
+    },
+    {
+      "path": "port/level-world/authored_scene_subtree_v2.hpp",
+      "size": 416,
+      "sha256": "bdf12ffabb326d435af713178f445c2ef827bb54316c7c1c0e270c0e9bd857a1"
+    },
+    {
+      "path": "port/level-world/base_named_animation_controller_v1.cpp",
+      "size": 1662,
+      "sha256": "c5ce416da97b92874843c0f85b3594e96dcb3a6e56132fe2f3809b9a8c4c14a6"
+    },
+    {
+      "path": "port/level-world/base_named_animation_controller_v1.hpp",
+      "size": 1346,
+      "sha256": "016336a3f31af22cb1304c95b6ab2d9ccf574e4b6dffde6e36bb101a330e0f1f"
+    },
+    {
+      "path": "port/level-world/canonical_class_receiver_bindings_v1.cpp",
+      "size": 4673,
+      "sha256": "7a9f91e730a739462e7e1903e50e63e80090c21f345a89fd640b62c05b72adf3"
+    },
+    {
+      "path": "port/level-world/canonical_class_receiver_bindings_v1.hpp",
+      "size": 3252,
+      "sha256": "bb8b1fb01df649723f670aaca953e6ddfa459eb8e1f5a267d1eda8a27953f233"
+    },
+    {
+      "path": "port/level-world/canonical_gameobject_base_owner_v1.cpp",
+      "size": 7175,
+      "sha256": "0be9e9142db4ebd2705c67c98c424fc610d1a32659029db060fb363bcbdea481"
+    },
+    {
+      "path": "port/level-world/canonical_gameobject_base_owner_v1.hpp",
+      "size": 3353,
+      "sha256": "02cf1d5da5b10016f2649c5f32ff2484b187911e590937f39828fa36e07c8343"
+    },
+    {
+      "path": "port/level-world/canonical_level_config_module_declarations_v1.inc",
+      "size": 3423,
+      "sha256": "b9e57f13e0eda8695274db43b3be31959a9d8f0525e742e58b4b0e0f254010ce"
+    },
+    {
+      "path": "port/level-world/canonical_object_factory_v1.cpp",
+      "size": 4510,
+      "sha256": "84eb8a2eb9aa8909f8d3f9918ec0fde83d92e434d69a4ce64978a8259bb08463"
+    },
+    {
+      "path": "port/level-world/canonical_object_factory_v1.hpp",
+      "size": 2610,
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.cpp",
+      "size": 7110,
+      "sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.hpp",
+      "size": 4219,
+      "sha256": "d66a38c1b01b2d37d9481dec0935e2e0a11d65532696b320e9fe84ce37ff75a8"
+    },
+    {
+      "path": "port/level-world/canonical_openable_container_v1.cpp",
+      "size": 1365,
+      "sha256": "b930290fac48910afaf41410af4a04e5415f81367024a454e7f522884082ee09"
+    },
+    {
+      "path": "port/level-world/canonical_openable_container_v1.hpp",
+      "size": 2885,
+      "sha256": "c72b0ba8c7e4e1cefa11cfaba63378bbf37923b71188e6626d8c70b077920dc9"
+    },
+    {
+      "path": "port/level-world/canonical_openable_graph_v4.cpp",
+      "size": 7091,
+      "sha256": "28020cd64dc81c047d14f81a61a26cc65686a957bda400d1f9f47f89e2427342"
+    },
+    {
+      "path": "port/level-world/canonical_openable_graph_v4.hpp",
+      "size": 2282,
+      "sha256": "1567ff631cb519d40ade6b4f881f52f3c753b111dc5db885d97536cddce7f1b8"
+    },
+    {
+      "path": "port/level-world/canonical_property_declarations_v1.inc",
+      "size": 5991,
+      "sha256": "5525db00248e259892e569d240352ef154cbc9cc807f65022d6759d9211224a3"
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.cpp",
+      "size": 8856,
+      "sha256": "da849d2cb3dc7a2ac67707136e2751b662636ed2a8929612792f91cc85e96c20"
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.hpp",
+      "size": 3311,
+      "sha256": "bfacc2040fc34fabd86eb93863eb5cf6182f78c39d4518f17b8bc00757ea6ad8"
+    },
+    {
+      "path": "port/level-world/character_body_config.cpp",
+      "size": 2826,
+      "sha256": "acef13c8923143a1ad22aa8d57bbdc7c949d24183b6104bc15095db10442f58c"
+    },
+    {
+      "path": "port/level-world/character_body_config.hpp",
+      "size": 2109,
+      "sha256": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d"
+    },
+    {
+      "path": "port/level-world/character_combat_queries.cpp",
+      "size": 2841,
+      "sha256": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225"
+    },
+    {
+      "path": "port/level-world/character_combat_queries.hpp",
+      "size": 2170,
+      "sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf"
+    },
+    {
+      "path": "port/level-world/character_target_providers.cpp",
+      "size": 5430,
+      "sha256": "24c160b8f7e1d3e95bb06ef5f43f63c794851ec430ccfc4ff6e2135fd7aba70a"
+    },
+    {
+      "path": "port/level-world/character_target_providers.hpp",
+      "size": 2375,
+      "sha256": "2b6042a6a05c8b5be3f80738e7e308316832048271b875c018c2d9dbcdba7aa1"
+    },
+    {
+      "path": "port/level-world/character_world_npc_object_v1.cpp",
+      "size": 5924,
+      "sha256": "f97774cd6732ff95fa5702c15882db1dd886316877526bc0aebe4c5729bd0e0b"
+    },
+    {
+      "path": "port/level-world/character_world_npc_object_v1.hpp",
+      "size": 3056,
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b"
+    },
+    {
+      "path": "port/level-world/collision.cpp",
+      "size": 4727,
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378"
+    },
+    {
+      "path": "port/level-world/collision.hpp",
+      "size": 1482,
+      "sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b"
+    },
+    {
+      "path": "port/level-world/decor_body_config.cpp",
+      "size": 3581,
+      "sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa"
+    },
+    {
+      "path": "port/level-world/decor_body_config.hpp",
+      "size": 1681,
+      "sha256": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd"
+    },
+    {
+      "path": "port/level-world/decor_scene.cpp",
+      "size": 4166,
+      "sha256": "cc8ffcfd1105191c051eb2c32e1adacc0a9598daf0a0a1a3831df34d00dd2f69"
+    },
+    {
+      "path": "port/level-world/decor_scene.hpp",
+      "size": 1769,
+      "sha256": "1c88689fc04a83b61022a80521f810ee61a850120f8c30972e16be49dfc4bcb7"
+    },
+    {
+      "path": "port/level-world/game_object_initialization_owner_v1.cpp",
+      "size": 6382,
+      "sha256": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865"
+    },
+    {
+      "path": "port/level-world/game_object_initialization_owner_v1.hpp",
+      "size": 2242,
+      "sha256": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809"
+    },
+    {
+      "path": "port/level-world/game_object_set_position_v2.cpp",
+      "size": 1596,
+      "sha256": "4054b95cab71f550215eecd4f579f54f29943d83fc58c8a5b694b59723d1dde2"
+    },
+    {
+      "path": "port/level-world/game_object_set_position_v2.hpp",
+      "size": 812,
+      "sha256": "4d9075703fa64f9a29afc6ff85ed07764e3ef32753634a31446f59cc141bd600"
+    },
+    {
+      "path": "port/level-world/game_object_visual_asset_owner_v1.cpp",
+      "size": 2611,
+      "sha256": "c824c60767dc82bf8c230c6dc64eea63faf69913898893084e8b065f7dab5cb3"
+    },
+    {
+      "path": "port/level-world/game_object_visual_asset_owner_v1.hpp",
+      "size": 1379,
+      "sha256": "ffd3d1dc3e9d84d34c48a9c10e5071876b9e24fc869b37ed9ff9b43a1c626304"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_binding_v1.cpp",
+      "size": 2095,
+      "sha256": "915bf2bedc6c9cc7a1ffb7e292515b45417eba48cbd10163228dba78111ddbbf"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_binding_v1.hpp",
+      "size": 883,
+      "sha256": "51fdb93b6c60cf60088d9236e4e142904de510fa3a4a2af2d2a0091ee6f0d945"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_root_registry_v1.cpp",
+      "size": 2094,
+      "sha256": "de48dd5e63ee3d238c7c2efee597d6b197fc41a6dffe603c9c250f20fb65c544"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_root_registry_v1.hpp",
+      "size": 1973,
+      "sha256": "16bb5d415a064b6726ceccc4ece7652a5fb542beba8555516f2f0d11114fe7d0"
+    },
+    {
+      "path": "port/level-world/move_state.cpp",
+      "size": 1540,
+      "sha256": "671596b24c3bce671fc5da633652f93ab5377e26586599369772b0efa4cf1b77"
+    },
+    {
+      "path": "port/level-world/move_state.hpp",
+      "size": 1119,
+      "sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0"
+    },
+    {
+      "path": "port/level-world/native_body.cpp",
+      "size": 4578,
+      "sha256": "242a54b3ce929e57da9ff41e91206189e7cf31be8a289eb11f676c846b7df6e9"
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "size": 2789,
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140"
+    },
+    {
+      "path": "port/level-world/navigation.cpp",
+      "size": 11628,
+      "sha256": "cc20d5df2f8b6b1501754b33ea16e5aacd3c35d916880ca868343994c12fdc91"
+    },
+    {
+      "path": "port/level-world/navigation.hpp",
+      "size": 2744,
+      "sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71"
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.cpp",
+      "size": 7245,
+      "sha256": "5b34aeffe47c370fe8683d7dd71d5a383dd44324218b4a1d8e7f0e3cff74d7de"
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.hpp",
+      "size": 2469,
+      "sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36"
+    },
+    {
+      "path": "port/level-world/navigation_controller.cpp",
+      "size": 5860,
+      "sha256": "43e6d236fa5d7bdf7d2befda7f288008a6cfb87ec06a411c19fdcf2465eed9ae"
+    },
+    {
+      "path": "port/level-world/navigation_controller.hpp",
+      "size": 2098,
+      "sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6"
+    },
+    {
+      "path": "port/level-world/navigation_heading.cpp",
+      "size": 2111,
+      "sha256": "98f771927be4021dad6432e1aee509bf91f4db17f7525668ef1332ba09b3818d"
+    },
+    {
+      "path": "port/level-world/navigation_heading.hpp",
+      "size": 1415,
+      "sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e"
+    },
+    {
+      "path": "port/level-world/navigation_motion.cpp",
+      "size": 7783,
+      "sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f"
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "size": 2487,
+      "sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac"
+    },
+    {
+      "path": "port/level-world/navigation_objects.cpp",
+      "size": 6365,
+      "sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9"
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "size": 2981,
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011"
+    },
+    {
+      "path": "port/level-world/navigation_path.cpp",
+      "size": 7408,
+      "sha256": "4200d57fe3224e9bf423cdca11b34d22a080c868f57b1c7d68416a735b10ca36"
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "size": 2937,
+      "sha256": "939d187f857ac4eae7eafa3b517b9beb0b312d4d75541e769dd1566cc6a4b619"
+    },
+    {
+      "path": "port/level-world/navigation_search.cpp",
+      "size": 5254,
+      "sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0"
+    },
+    {
+      "path": "port/level-world/navigation_search.hpp",
+      "size": 1714,
+      "sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0"
+    },
+    {
+      "path": "port/level-world/navigation_world.cpp",
+      "size": 8129,
+      "sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d"
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "size": 2514,
+      "sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e"
+    },
+    {
+      "path": "port/level-world/octree.cpp",
+      "size": 5033,
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a"
+    },
+    {
+      "path": "port/level-world/octree.hpp",
+      "size": 1397,
+      "sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83"
+    },
+    {
+      "path": "port/level-world/openable_container_owner_v1.cpp",
+      "size": 9214,
+      "sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65"
+    },
+    {
+      "path": "port/level-world/openable_container_owner_v1.hpp",
+      "size": 3857,
+      "sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf"
+    },
+    {
+      "path": "port/level-world/openable_container_property_connection_v1.cpp",
+      "size": 2566,
+      "sha256": "b47d51ba0e259af0fe8fb0f444c4707951c5934a6fc2444c3ce2bd9a1e7897f2"
+    },
+    {
+      "path": "port/level-world/openable_container_property_connection_v1.hpp",
+      "size": 1188,
+      "sha256": "a06cdda9f8738efab29d8063ae3b1d9f2b2c95df2ecb1f6c1bd8fafd3bab0bc1"
+    },
+    {
+      "path": "port/level-world/physical_controls.cpp",
+      "size": 2523,
+      "sha256": "104b8b409e40eb1e733388d8977b7c0dbe333dfd7b61fc9d17aef67dca77aea6"
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "size": 2081,
+      "sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85"
+    },
+    {
+      "path": "port/level-world/physical_world.cpp",
+      "size": 6514,
+      "sha256": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15"
+    },
+    {
+      "path": "port/level-world/physical_world.hpp",
+      "size": 2318,
+      "sha256": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6"
+    },
+    {
+      "path": "port/level-world/reference/world-item-physical-v2/canonical-openable-graph-v4-handoff.md",
+      "size": 4677,
+      "sha256": "238c71f54e3a5fdb9613800c8833811a7551557c11e14afdddce6f219b2bf47b"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/canonical-openable-graph-v4/compile.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/canonical-openable-graph-v4/receipt.json",
+      "size": 4941,
+      "sha256": "f3d646338cbbba14d252fd1c417360fc8dabf837ce747bdd57b20dfc484a2f8a"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_decor_v1.cpp",
+      "size": 5436,
+      "sha256": "1d9286b1381883f3d80d6daabfc68424c716da12715aabec663f62bcfdbcde90"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_decor_v1.hpp",
+      "size": 2047,
+      "sha256": "7f4a406ee88de118b0515f6969e09a2223289d0eaec4b2ce7bf2ff490f3a1569"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_asset_connection_v1.cpp",
+      "size": 2045,
+      "sha256": "6891571433a3ffdf2543c431a96fceea36f2f6e9387c03b099f392db05c96d2f"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_asset_connection_v1.hpp",
+      "size": 946,
+      "sha256": "ed4563081642491b538bbb7e627e01321bba2b91c141b8eecd38940650525cbb"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_asset_connection_v2.cpp",
+      "size": 3164,
+      "sha256": "6e73a49104ef731f12ee20f759f07e868d2703d863103de986d0ba1ab35e2b4a"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_asset_connection_v2.hpp",
+      "size": 1556,
+      "sha256": "e6d9ccd1b05d705514e5d84e98a66c0e590e796016f7a8993b83679d887e2060"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.cpp",
+      "size": 18324,
+      "sha256": "74936aac2ab0ef43f352d4d998cbbdfd9c0f8f24dc8f36f506d65d304d82f336"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.hpp",
+      "size": 5360,
+      "sha256": "6867a8f25781fd278a2aee596abfe992a44349398fc86d4af98541d4c1c9e5df"
+    },
+    {
+      "path": "port/level-world/retained_scene_visual_connection_v3.cpp",
+      "size": 2102,
+      "sha256": "d25f250e57c7af201e42246ff57e3cf90eefefdb9a4a8bcbd6936583b6ee0b1c"
+    },
+    {
+      "path": "port/level-world/retained_scene_visual_connection_v3.hpp",
+      "size": 1209,
+      "sha256": "a63cfb1507bac2e5d6d2599998554270d340c05570acb2a58547f20d69bee4d5"
+    },
+    {
+      "path": "port/level-world/selector.cpp",
+      "size": 6749,
+      "sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5"
+    },
+    {
+      "path": "port/level-world/selector.hpp",
+      "size": 1686,
+      "sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790"
+    },
+    {
+      "path": "port/level-world/subobjects_update.cpp",
+      "size": 4105,
+      "sha256": "da7407030dee5be659b4ffe3b9e5c3f10671fb47b08b2694a7eab2526ba56bfe"
+    },
+    {
+      "path": "port/level-world/subobjects_update.hpp",
+      "size": 2358,
+      "sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03"
+    },
+    {
+      "path": "port/level-world/tests/canonical_openable_graph_v4.cpp",
+      "size": 5317,
+      "sha256": "d22f75e8a1e36f68c94bab8e4bb15e2b09b0dd0641d441593410fce37a8e4d89"
+    },
+    {
+      "path": "port/level-world/tests/openable_container_real_cache_fixture_v1.hpp",
+      "size": 12171,
+      "sha256": "7a8a5a4006dc263a1906a367d028e4d260f86b5d617a17da5818d03ba7471333"
+    },
+    {
+      "path": "port/level-world/visual_aabb_dispatch_scope_v3.cpp",
+      "size": 896,
+      "sha256": "f963d719a46a8730a76017a3fdfdcde78aad9adc293b90ed3ecd29f42f9e6215"
+    },
+    {
+      "path": "port/level-world/visual_aabb_dispatch_scope_v3.hpp",
+      "size": 1021,
+      "sha256": "fba98d2850b0a58777c8d2f241a6e645722189bdd04b8171c366efd8c16ec936"
+    },
+    {
+      "path": "port/level-world/visual_mesh_box_fallback_v2.cpp",
+      "size": 1735,
+      "sha256": "6f18d304a9d3b09d71dfc44dbe47c8f85126cf8af1252c741af45b81213bfa1b"
+    },
+    {
+      "path": "port/level-world/visual_mesh_box_fallback_v2.hpp",
+      "size": 486,
+      "sha256": "4aaec6258efc071a5536a1c9a9ab6b1305322f1092903dc41313583e22ca8a22"
+    },
+    {
+      "path": "port/level-world/visual_motion.cpp",
+      "size": 7995,
+      "sha256": "7d9e9ab6fa0f6a2653f67b114b36dd38a18338409d1969390f75b4ba4a59d414"
+    },
+    {
+      "path": "port/level-world/visual_motion.hpp",
+      "size": 3202,
+      "sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f"
+    },
+    {
+      "path": "port/level-world/visual_timeline.cpp",
+      "size": 5394,
+      "sha256": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca"
+    },
+    {
+      "path": "port/level-world/visual_timeline.hpp",
+      "size": 3387,
+      "sha256": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Include/Box2D.h",
+      "size": 1941,
+      "sha256": "0ad13b9cdae52a4d57f70f824a856601b151d7d5ac483d354740a3e9a46aa7a5"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.h",
+      "size": 4351,
+      "sha256": "b5e0f3f4c15c15f365bae101f819e21098b6a1c819fc2329f3830aa5bdd953d8"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.h",
+      "size": 5498,
+      "sha256": "d1f825e57717f8163ff8e937b02f2e39a99a16714a37919fa83daca9a62f84a9"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.h",
+      "size": 3601,
+      "sha256": "f22b19e47d91b75d2fe2f691e5e10100ce1463672524c1fadecb79339e91c1ae"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.h",
+      "size": 2512,
+      "sha256": "a575f875afa9c0aae4e01b1aa186ddfb4fc2aa6f217be69d7d09996e4ab30fcd"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.h",
+      "size": 4607,
+      "sha256": "54b78992f13caf81515710d9341eba4f61a72820a341ce567fdad3062b7041c6"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.h",
+      "size": 8287,
+      "sha256": "ea59008f09889b632c0ac6cd5f2724781c9dbe23f9663ab9d38a2b21ef07fa4c"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.h",
+      "size": 1825,
+      "sha256": "b9056e01399ee810604c54097a25d71f8e867e0ffad2712bc98498fce2d5bfce"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.h",
+      "size": 14686,
+      "sha256": "bb9eb24351da6c1bb1ff6fee57e013e502057e4837511b1d236c2b252d1ba418"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.h",
+      "size": 6123,
+      "sha256": "8f37991405eb70bf175e3dd47685bbbb167c2aa1d522941a91aefa69ae1780e7"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.h",
+      "size": 1722,
+      "sha256": "3b65b1456f10ccf5ecb72583f05eaaf50094d3cffbbca1012cb0bee100484e60"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/Fixed.h",
+      "size": 18569,
+      "sha256": "818f120b7f17eee3bf0ceb54acb888650732fa1d267458e5477792d81483ffc5"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/jtypes.h",
+      "size": 4175,
+      "sha256": "4ba0ec25429a79495203fc9ae80d1b82168e5cfa0a85d842f2ed3e89829f9c79"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.h",
+      "size": 15858,
+      "sha256": "634324f14ef3835a5d33e2043a80dbcc4fb2bcbc1db9f9089e8205be998216ea"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.h",
+      "size": 1737,
+      "sha256": "1e17705e78b21186149ae7177a3725911e7d35a42c503eec383b5eb7813777ed"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.h",
+      "size": 8025,
+      "sha256": "8b54a4fc617e0e15828063ca00b8529c9c254a1b13a100bc91ad7b3d322df93d"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.h",
+      "size": 5963,
+      "sha256": "3aab4ccbfc8a8c4d207d7ac82d2fa0509a8942eba792cb0f788e9c1b115b1d19"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.h",
+      "size": 5776,
+      "sha256": "da89817056b93e124f53bb520402466df01986d3da9d449222838ff6ad841ac0"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2NullContact.h",
+      "size": 1207,
+      "sha256": "74899863e071428be4d71d6c1fe062650cde7d49ba7064fc9f9d7f5e8c43d8aa"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.h",
+      "size": 3039,
+      "sha256": "c167e9f0362edb80c8949e8c66fb9ac267fed3628313c4b696cd055cd88ed100"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.h",
+      "size": 3215,
+      "sha256": "e61df42dd9366d6f472bf18843838579863602281c336b4148f634b7f9a60fd5"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.h",
+      "size": 5514,
+      "sha256": "b01f4e90a0ea7044b9cadeb5c8cf91ae752e2c115cf0f764c1f45a249e4778f9"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.h",
+      "size": 3007,
+      "sha256": "820476f8770f51e86df059703a54244e37291cadf48be436582d2341d5921473"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.h",
+      "size": 5459,
+      "sha256": "0f9fc788a01c0cb02b3e959d9d2a2d6eed1012276288bff39d1dd6cd019f9081"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.h",
+      "size": 4533,
+      "sha256": "3a3b2642c88952e5412c29409ea066d18b82611710e8cb926b2d83f1931731c4"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.h",
+      "size": 5464,
+      "sha256": "608269ad82b95ba822abcb65d55f1c82dcba40ed07cb35eba22236ebfc58d1ff"
+    },
+    {
+      "path": "port/scene-materials/scene.cpp",
+      "size": 11754,
+      "sha256": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556"
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "size": 1626,
+      "sha256": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3"
+    },
+    {
+      "path": "reference/openable-container-v1/actual-openable-rows.json",
+      "size": 16372,
+      "sha256": "963f6b88e2d5fcccf44d1f4e034f0cb7556570420d3d5346bf407f97a23cceae"
+    },
+    {
+      "path": "reference/openable-container-v1/cache/game_objects_dictionary_pyarray.bin",
+      "size": 4144,
+      "sha256": "99ef357caa883a0f5ba0709d6fc4abcb6b8ab9741adc275ca9a295dd70b8be9a"
+    },
+    {
+      "path": "reference/openable-container-v1/cache/game_objects_pyarray.bin",
+      "size": 5326,
+      "sha256": "8b02cf1bd776621c18d82fd24ef0320d996b28ea77e3a24be3f986e84160e07d"
+    },
+    {
+      "path": "reference/openable-container-v1/cache/game_objects_pyarraynames.bin",
+      "size": 3846,
+      "sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53"
+    },
+    {
+      "path": "reference/openable-container-v1/cache/go_chest_swamp.bdae",
+      "size": 23652,
+      "sha256": "3387a4e39ff726b01aac29b2788f6ab64c97e0f37ca034c7c5c00545b9155e00"
+    },
+    {
+      "path": "reference/openable-container-v1/cache/go_chest_swamp_big.bdae",
+      "size": 30324,
+      "sha256": "ab6564c006ccb80864cf7f6e1720f3678c2cfbaa905608c05adf47ca3f680e43"
+    },
+    {
+      "path": "reference/openable-container-v1/cache/go_chest_swamp_rotten.bdae",
+      "size": 38028,
+      "sha256": "ea7af6081a15fbc3f55d253d85cc28e8009981103f7ce4d6f06a8e4969bedc4d"
+    },
+    {
+      "path": "reference/openable-container-v1/chest-visual-cache-hashes.json",
+      "size": 647,
+      "sha256": "d9af61a53bcab7e4c71d3824bd03cea882fc02f79411226b9f73c2ce9a03c89e"
+    }
+  ]
+}

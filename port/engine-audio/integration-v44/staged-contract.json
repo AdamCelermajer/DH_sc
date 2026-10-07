@@ -1,0 +1,27 @@
+{
+  "bases": [
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "raw_sha256": "15e3a9bb022ff2e6f03c1a0d8fb5a56ad57be601189d36e30e9e2535b17f247d",
+      "scope": "Captured source base; source review only, no compilation under RAM hold"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_source_campaign_v55.inc",
+      "raw_sha256": "990a05ba4585c8694bfd30e3b4413a822ec1859cd27cd48c15f7bee04b5bbdcc",
+      "scope": "Captured source base; source review only, no compilation under RAM hold"
+    },
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.hpp",
+      "raw_sha256": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "scope": "Captured source base; source review only, no compilation under RAM hold"
+    },
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.cpp",
+      "raw_sha256": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995",
+      "scope": "Captured source base; source review only, no compilation under RAM hold"
+    }
+  ],
+  "requires": "V42 Application bootstrap plus actual Container getter binding",
+  "ram_hold": "No compiler/test/WSL/build/emulator launched",
+  "status": "source_reviewed_uncompiled"
+}

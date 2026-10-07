@@ -1,0 +1,1838 @@
+--- /dev/null
++++ b/port/level-loader/gslevel_update_v44.hpp
+@@ -0,0 +1,88 @@
++#pragma once
++#include <gslevel_lifecycle_v2.hpp>
++#include <cstring>
++namespace dh2::loader {
++struct GSApplicationBorrowV44 {
++ std::shared_ptr<void> actual_owner;
++ const std::uint8_t* byte_ec{};
++ std::uint32_t* original_debug_word_global{}; // GOT2dfc, source3866b4.
++ std::uint8_t* original_debug_flag_global{}; // GOT2fd0, source3866bc/3867bc.
++};
++template<class Level> struct GSLevelReadBorrowV44 {
++ std::shared_ptr<Level> actual_owner;
++ std::uintptr_t identity{};
++ const std::uint32_t* state130{};
++ const std::uint8_t* byte145{};
++};
++struct GSMenuBorrowV44 {std::shared_ptr<void> actual_owner;std::uintptr_t identity{};};
++template<class Level> struct GSLevelUpdateServicesV44 {
++ std::function<bool(const std::shared_ptr<Level>&,GSLevelReadBorrowV44<Level>&,std::string&)> borrow_level;
++ // Exact Level.Load3ef218 only: same source state130=0. No whole Init/readiness.
++ std::function<bool(const std::shared_ptr<Level>&,std::string&)> level_load;
++ // Actual Level.Update(false), routed to real source loading/frame authority.
++ std::function<bool(const std::shared_ptr<Level>&,bool,std::string&)> level_update;
++ std::shared_ptr<void> actual_debug_owner;
++ std::function<bool(std::string&)> debug_load;
++ std::function<bool(const char*,bool&,std::string&)> debug_get_switch;
++ std::function<bool(const char*,bool,std::string&)> debug_set_switch;
++ std::function<bool(GSMenuBorrowV44&,std::string&)> menu_instance;
++ std::function<bool(const GSMenuBorrowV44&,bool,std::string&)> menu_update;
++};
++enum class GSLevelUpdateResultV44 {advanced,application_gate,failed};
++// Exact whole GS.Update386630 envelope. One actual GS fields reference; no
++// current-Level slot, GameSM state selection, alternate loading or ready flag.
++template<class Level> class GSLevelUpdateV44 {
++ std::shared_ptr<void> actual_gs_owner_;GSLevelFieldsV2<Level>& fields_;
++ GSApplicationBorrowV44 application_;GSLevelUpdateServicesV44<Level> services_;
++ bool busy_{},failed_{};std::string error_,required_;
++ bool reject(const char* what){failed_=true;required_=what;if(error_.empty())error_=std::string("Required actual GS.Update provider: ")+what;return false;}
++ template<class F,class... Args> bool call(const char* name,const F& fn,Args&&... args){
++  if(!fn||!fn(std::forward<Args>(args)...,error_)||failed_)return reject(name);return true;
++ }
++ bool borrow(const std::shared_ptr<Level>& level,GSLevelReadBorrowV44<Level>& out){
++  if(!level)return reject("nonnull actual GS.field34 Level");
++  if(!call("SAME C1 state130/byte145 borrow",services_.borrow_level,level,out))return false;
++  if(!out.actual_owner||out.actual_owner.get()!=level.get()||out.actual_owner.owner_before(level)||level.owner_before(out.actual_owner)||!out.identity||!out.state130||!out.byte145)return reject("SAME retained Level fields");return true;
++ }
++ static std::int32_t signed_word(std::uint32_t v){std::int32_t result;std::memcpy(&result,&v,4);return result;}
++ bool body(){
++  switch(fields_.loading38){
++  case 1:fields_.loading38=2;break;
++  case 2:{auto level=fields_.level34;if(!level)return reject("nonnull Level.Load receiver");if(!call("Level.Load",services_.level_load,level))return false;fields_.loading38=3;break;}
++  case 3:{auto level=fields_.level34;if(!level)return reject("nonnull Level.Update receiver");if(!call("Level.Update(false)",services_.level_update,level,false))return false;
++   GSLevelReadBorrowV44<Level> actual;if(!borrow(fields_.level34,actual))return false;if(*actual.state130==38)fields_.loading38=4;break;}
++  case 4:{
++   if(!services_.actual_debug_owner||!application_.original_debug_word_global||!application_.original_debug_flag_global)return reject("actual Debug/global word/byte owners");
++   *application_.original_debug_word_global=0;*application_.original_debug_flag_global=0;
++   if(!call("DebugSwitches.load",services_.debug_load))return false;
++   bool enabled{};if(!call("DebugSwitches.GetSwitch",services_.debug_get_switch,"Lua_DumpCalls",enabled))return false;
++   if(enabled){*application_.original_debug_flag_global=1;if(!call("DebugSwitches.load after flag1",services_.debug_load)||!call("DebugSwitches.SetSwitch(false)",services_.debug_set_switch,"Lua_DumpCalls",false))return false;}
++   auto level=fields_.level34;if(!level)return reject("nonnull Level.Update receiver");if(!call("Level.Update(false)",services_.level_update,level,false))return false;break;}
++  default:break;
++  }
++  // Original rereads GS.field34 after every reached callback. Same source
++  // Level145 skips menu; signed state130 in2..26 skips menu, outside updates.
++  const auto level=fields_.level34;
++  if(level){GSLevelReadBorrowV44<Level> actual;if(!borrow(level,actual))return false;
++   if(*actual.byte145)return true;const auto state=signed_word(*actual.state130);if(state>1&&state<=26)return true;
++  }
++  GSMenuBorrowV44 menu;if(!call("MenuManager.GetInstance",services_.menu_instance,menu))return false;
++  if(!menu.actual_owner||!menu.identity)return reject("actual MenuManager instance");
++  return call("MenuManager.Update(true)",services_.menu_update,menu,true);
++ }
++public:
++ GSLevelUpdateV44(std::shared_ptr<void> actual_gs_owner,GSLevelFieldsV2<Level>& actual_fields,GSApplicationBorrowV44 application,GSLevelUpdateServicesV44<Level> services):actual_gs_owner_(std::move(actual_gs_owner)),fields_(actual_fields),application_(std::move(application)),services_(std::move(services)){}
++ GSLevelUpdateV44(const GSLevelUpdateV44&)=delete;
++ const std::string& error()const noexcept{return error_;}
++ const std::string& required_service()const noexcept{return required_;}
++ GSLevelUpdateResultV44 tick(){
++  if(failed_)return GSLevelUpdateResultV44::failed;if(busy_){reject("nonreentrant owning-runtime access");return GSLevelUpdateResultV44::failed;}
++  if(!actual_gs_owner_||!application_.actual_owner||!application_.byte_ec){reject("SAME GS/Application byteec lease");return GSLevelUpdateResultV44::failed;}
++  if(*application_.byte_ec)return GSLevelUpdateResultV44::application_gate;
++  struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
++  try{if(!body()||failed_)return GSLevelUpdateResultV44::failed;return GSLevelUpdateResultV44::advanced;}
++  catch(const std::exception& e){error_=e.what();reject("source provider exception");return GSLevelUpdateResultV44::failed;}
++  catch(...){reject("unknown source provider exception");return GSLevelUpdateResultV44::failed;}
++ }
++};
++}
+--- /dev/null
++++ b/port/level-loader/gslevel_update_v44_level_borrow.hpp
+@@ -0,0 +1,18 @@
++#pragma once
++#include "gslevel_update_v44.hpp"
++#include "lifecycle_v36_counter_borrow.hpp"
++namespace dh2::loader {
++// Production body providers over completed actual C1. The generic test fixture
++// does not stand in for this validated pointer/ownership binding.
++template<class Context> bool borrow_gslevel_read_v44(const std::shared_ptr<Context>& level,GSLevelReadBorrowV44<Context>& out,std::string& error){
++ LifecycleBorrowV36 loading;if(!borrow_lifecycle_fields_v36(level,loading,error))return false;
++ const auto c1=level->constructor_borrow_v3();if(!c1.fields||!c1.owner){error="Require actual Level C1 byte145";return false;}
++ static_assert(std::is_same_v<decltype(c1.fields->byte145),std::uint8_t>,"Require actual C1 byte145 storage");
++ if(c1.owner.get()!=loading.actual_level_owner.get()||c1.identity!=loading.identity||c1.owner.owner_before(loading.actual_level_owner)||loading.actual_level_owner.owner_before(c1.owner)){error="GS read borrow must use SAME C1 receiver";return false;}
++ out={level,loading.identity,loading.fields.state130,&c1.fields->byte145};error.clear();return true;
++}
++template<class Context> bool actual_level_load_v44(const std::shared_ptr<Context>& level,std::string& error){
++ LifecycleBorrowV36 actual;if(!borrow_lifecycle_fields_v36(level,actual,error))return false;
++ *actual.fields.state130=0;error.clear();return true; // Exact3ef21c; no Init/ready flag.
++}
++}
+--- /dev/null
++++ b/port/level-loader/level_source_loading_update_v46.hpp
+@@ -0,0 +1,56 @@
++#pragma once
++#include "level_update_loading_v46.hpp"
++#include "level_source_loading_v43.hpp"
++#include "retained_level_module_graph_v1.hpp"
++namespace dh2::loader {
++struct SourceLoadProcessPrefixV46 {
++ std::shared_ptr<void> actual_provider_owner;
++ // Original3f69b0..3f6a24 complete per-call prefix: optional fast-travel
++ // unlock/world-map byte12c, DebugSwitches.load/GetSwitch exact
++ // IsDisplayLoadingStepName, optional StepName/MenuDebug.SetText, _DEBUG_OUT.
++ // Receives actual state word; no copied state or alternative current global.
++ std::function<bool(std::uint32_t,std::string&)> before_dispatch;
++ // Existing bounded dispatcher deliberately skips debug-only stages3/16/19.
++ // Their actual GetInstance/GetSwitch(isTracingLevel_Loading) must run here.
++ std::function<bool(std::uint32_t,std::string&)> debug_only_stage;
++};
++// Bounded native response adapter: original per-call prefix, ONE authentic
++// stage step, original scalar tail and required main/menu publish callback.
++// Source loops yield between steps; not an exact synchronous whole Init call.
++class LevelSourceLoadingUpdateV46 final {
++ std::shared_ptr<CanonicalLevelContextV1> level_;
++ std::shared_ptr<SourceLoadingV43> source_;
++ std::unique_ptr<LevelLoadingUpdateV46<CanonicalLevelContextV1>> update_;
++public:
++ static bool create(std::shared_ptr<CanonicalLevelContextV1> level,SourceLoadingInputsV43 in,SourceLoadProcessPrefixV46 prefix,std::unique_ptr<LevelSourceLoadingUpdateV46>& out,std::string& error){
++  LifecycleBorrowV36 actual;if(!borrow_lifecycle_fields_v36(level,actual,error))return false;
++  if(!in.preparation||in.preparation->level().get()!=level.get()||in.preparation->level().owner_before(level)||level.owner_before(in.preparation->level())){error="Level.Update source preparation requires SAME actual C1 owner";return false;}
++  std::unique_ptr<SourceLoadingV43> driver;if(!SourceLoadingV43::create(std::move(in),driver,error))return false;
++  auto source=std::shared_ptr<SourceLoadingV43>(std::move(driver));
++  using Bridge=LevelLoadingUpdateV46<CanonicalLevelContextV1>;
++  // Raw pointer is an internal observer only. Bridge owns this slot through
++  // its callback; the slot owns no Bridge and introduces no self-cycle.
++  auto bridge_slot=std::make_shared<Bridge*>(nullptr);
++  LevelLoadProcessProviderV46 body;body.actual_level_owner=actual.actual_level_owner;body.identity=actual.identity;
++  body.load_process=[source,actual,bridge_slot,prefix=std::move(prefix)](std::string& e){
++   if(!prefix.actual_provider_owner||!prefix.before_dispatch){e="Required original Level._LoadProcess per-call debug/fast-travel prefix3f69b0..3f6a24";return false;}
++   if(!prefix.before_dispatch(*actual.fields.state130,e))return false;
++   if(*bridge_slot&&(*bridge_slot)->failure_latched()){e="Level.Update prefix reentered; dispatcher not invoked";return false;}
++   const auto phase=*actual.fields.state130;
++   if(phase==3||phase==16||phase==19){if(!prefix.debug_only_stage){e="Required original debug-only loading stage GetInstance/GetSwitch(isTracingLevel_Loading)";return false;}if(!prefix.debug_only_stage(phase,e))return false;}
++   if(*bridge_slot&&(*bridge_slot)->failure_latched()){e="Level.Update debug stage reentered; dispatcher not invoked";return false;}
++   const auto result=source->tick();
++   if(result==LifecycleStatusV36::failed){e=source->diagnostics().error;return false;}
++   if(result==LifecycleStatusV36::cancelled||result==LifecycleStatusV36::cancelling){e="Original Level.Update loading branch does not perform cancellation";return false;}
++   e.clear();return true;
++  };
++  std::unique_ptr<LevelLoadingUpdateV46<CanonicalLevelContextV1>> update;if(!LevelLoadingUpdateV46<CanonicalLevelContextV1>::create(level,std::move(body),update,error))return false;
++  *bridge_slot=update.get();
++  auto next=std::make_unique<LevelSourceLoadingUpdateV46>();next->level_=std::move(level);next->source_=std::move(source);next->update_=std::move(update);out=std::move(next);error.clear();return true;
++ }
++ LevelLoadingUpdateResultV46 update(const std::shared_ptr<CanonicalLevelContextV1>& level,bool force){return update_->update(level,force);}
++ const std::string& error()const noexcept{return update_->error();}
++ const std::string& required_service()const noexcept{return update_->required_service();}
++ const LifecycleDiagnosticsV36& diagnostics()const noexcept{return source_->diagnostics();}
++};
++}
+--- /dev/null
++++ b/port/level-loader/level_source_loading_v43.hpp
+@@ -0,0 +1,40 @@
++#pragma once
++#include "lifecycle_v36.hpp"
++#include "stage_loader_v38_root_file.hpp"
++#include "stage_loader_v38_init_post.hpp"
++#include <canonical_object_manager_v1.hpp>
++#include <module_xml_selection_v1.hpp>
++namespace dh2::loader {
++class RetainedLevelModuleGraphV1;
++struct SourceLoadingInputsV43 {
++ std::shared_ptr<RetainedLevelModuleGraphV1> preparation;
++ // Aliasing shared_ptr is allowed for a manager inside the real candidate owner.
++ std::shared_ptr<world::CanonicalObjectManagerV1> manager;
++ Stage7GlobalsV38 globals;
++ Stage7ServicesV38 procedural;
++ std::shared_ptr<void> filename_provider;
++ // Original filesystem/mount resolution, supplied by the actual application.
++ // Source spelling and the resolved resource identity stay distinct.
++ std::function<bool(const std::string&,std::string&,std::string&)> resolve_filename;
++ world::ModuleXmlServicesV1 module_xml;
++ CanonicalInitPostServicesV38<world::CanonicalObjectManagerV1> object_services;
++ // Real remaining stage bodies, progress and teardown. Leave7/10 and after7 empty.
++ LifecycleServicesV36 external;
++ std::vector<std::shared_ptr<const void>> resource_pins;
++};
++// Connects original source stages7/10 to the SAME C1/registry/preparation.
++// It never selects a state, publishes GSLevel, creates globals, or certifies
++// whole initialization. Other bodies must perform their actual original work.
++class SourceLoadingV43 final {
++ struct Impl;std::unique_ptr<Impl> impl_;
++ explicit SourceLoadingV43(std::unique_ptr<Impl>);
++public:
++ static bool create(SourceLoadingInputsV43,std::unique_ptr<SourceLoadingV43>&,std::string&);
++ ~SourceLoadingV43();
++ SourceLoadingV43(const SourceLoadingV43&)=delete;
++ SourceLoadingV43& operator=(const SourceLoadingV43&)=delete;
++ LifecycleStatusV36 tick();
++ void request_cancel() noexcept;
++ const LifecycleDiagnosticsV36& diagnostics()const noexcept;
++};
++}
+--- /dev/null
++++ b/port/level-loader/level_source_loading_v43.cpp
+@@ -0,0 +1,68 @@
++#include "level_source_loading_v43.hpp"
++#include "retained_level_module_graph_v1.hpp"
++#include "stage_loader_v38_stage10.hpp"
++#include "stage_loader_v39_file_counter.hpp"
++namespace dh2::loader {
++struct SourceLoadingV43::Impl {
++ SourceLoadingInputsV43 inputs;
++ std::unique_ptr<Stage7BodyV38> root;
++ std::unique_ptr<Stage10BodyV38<world::CanonicalObjectManagerV1>> objects;
++ std::unique_ptr<LifecycleV36> lifecycle;
++ LifecycleDiagnosticsV36 terminal;
++ bool filename_resolved{};std::string source_name,resolved_name;
++ Impl(SourceLoadingInputsV43 in,LifecycleBorrowV36 actual,Stage7FieldsV38 fields,FileCounterBorrowV39 file):inputs(std::move(in)){
++  auto root_services=std::move(inputs.procedural);
++  root_services.root_file_step=[this](const std::string& name,const char* tag,std::string& e){
++   if(!tag||std::string(tag)!="Level"){e="Require original root Level tag";return LifecycleStepV36::failed;}
++   if(!filename_resolved){
++    if(!inputs.filename_provider||!inputs.resolve_filename){e="Required actual filesystem filename resolver";return LifecycleStepV36::dependency_missing;}
++    std::string next;if(!inputs.resolve_filename(name,next,e))return LifecycleStepV36::failed;
++    if(next.empty()||next.find('\0')!=std::string::npos){e="Filename resolver returned invalid resource identity";return LifecycleStepV36::failed;}
++    source_name=name;resolved_name=std::move(next);filename_resolved=true;
++   }else if(source_name!=name){e="Actual root filename changed after source occurrence began";return LifecycleStepV36::failed;}
++   const auto result=inputs.preparation->load_root_step_v38(resolved_name);
++   if(result==LevelFileWalkStepV1::failed){e=inputs.preparation->status().error;return LifecycleStepV36::failed;}
++   return result==LevelFileWalkStepV1::complete?LifecycleStepV36::complete:LifecycleStepV36::pending;
++  };
++  root_services.increment_actual_file13c=actual_file_counter_increment_v39(std::move(file));
++  root=std::make_unique<Stage7BodyV38>(std::move(fields),inputs.globals,std::move(root_services));
++  auto object_services=std::move(inputs.object_services);
++  object_services.load_module=[this](std::uintptr_t identity,std::string& e){
++   return inputs.preparation->load_source_module_v38(identity,inputs.module_xml,e)?LifecycleStepV36::complete:LifecycleStepV36::failed;
++  };
++  object_services.init_post=[this](const world::CanonicalObjectBorrowV1& object,std::string& e){return inputs.preparation->source_object_init_post_v38(object,e);};
++  objects=std::make_unique<Stage10BodyV38<world::CanonicalObjectManagerV1>>(actual,inputs.manager,*inputs.manager,std::move(object_services));
++  auto services=std::move(inputs.external);
++  services.stage_body[7]=[this](std::string& e){const auto r=root->step();if(r==LifecycleStepV36::failed)e=root->error();return r;};
++  services.after_source_increment[7]=[this](std::string& e){return root->after_source_increment(e);};
++  services.stage_body[10]=[this](std::string& e){const auto r=objects->step();if(r==LifecycleStepV36::failed)e=objects->error();return r;};
++  auto pins=std::move(inputs.resource_pins);pins.push_back(inputs.preparation);pins.push_back(inputs.manager);
++  lifecycle=std::make_unique<LifecycleV36>(actual.fields,std::move(actual.actual_level_owner),std::move(pins),std::move(services));
++ }
++ LifecycleStatusV36 tick(){
++  if(!lifecycle)return terminal.status;
++  const auto status=lifecycle->tick();
++  if(status==LifecycleStatusV36::cancelled){
++   terminal=lifecycle->diagnostics();lifecycle.reset();objects.reset();root.reset();inputs={};
++   source_name.clear();resolved_name.clear();
++  }
++  return status;
++ }
++};
++SourceLoadingV43::SourceLoadingV43(std::unique_ptr<Impl> in):impl_(std::move(in)){}
++SourceLoadingV43::~SourceLoadingV43()=default;
++bool SourceLoadingV43::create(SourceLoadingInputsV43 in,std::unique_ptr<SourceLoadingV43>& out,std::string& e){
++ if(!in.preparation||!in.manager||in.manager.get()!=&in.preparation->manager()){e="Require SAME retained preparation and actual manager lease";return false;}
++ if(in.preparation->status().stage==RetainedModulePreparationStageV1::failed||in.manager->source_init_phase7c_v38()!=0){e="Require fresh source dispatcher with actual manager phase0";return false;}
++ if(in.external.stage_body[7]||in.external.stage_body[10]||in.external.after_source_increment[7]||in.procedural.root_file_step||in.procedural.increment_actual_file13c||in.object_services.load_module||in.object_services.init_post){e="Source7/10 bindings must have one authoritative provider";return false;}
++ LifecycleBorrowV36 actual;Stage7FieldsV38 root;FileCounterBorrowV39 file;
++ const auto& level=in.preparation->level();
++ if(!borrow_lifecycle_fields_v36(level,actual,e)||!borrow_stage7_fields_v38(level,root,e)||!borrow_file_counter_v39(level,file,e))return false;
++ if(*actual.fields.state130>38){e="Invalid actual source loading state";return false;}
++ auto next=std::unique_ptr<SourceLoadingV43>(new SourceLoadingV43(std::make_unique<Impl>(std::move(in),std::move(actual),std::move(root),std::move(file))));
++ out=std::move(next);e.clear();return true;
++}
++LifecycleStatusV36 SourceLoadingV43::tick(){return impl_->tick();}
++void SourceLoadingV43::request_cancel()noexcept{if(impl_->lifecycle)impl_->lifecycle->request_cancel();}
++const LifecycleDiagnosticsV36& SourceLoadingV43::diagnostics()const noexcept{return impl_->lifecycle?impl_->lifecycle->diagnostics():impl_->terminal;}
++}
+--- /dev/null
++++ b/port/level-loader/level_update_loading_v46.hpp
+@@ -0,0 +1,54 @@
++#pragma once
++#include "lifecycle_v36_counter_borrow.hpp"
++#include <exception>
++namespace dh2::loader {
++// Exact original3f830c..3f8324 selector; raw words outside the supported native
++// loading domain still enter original _LoadProcess unless they equal38.
++inline bool original_level_update_loading_branch_v46(std::uint32_t state,bool force) noexcept {return state!=38&&!force;}
++enum class LevelLoadingUpdateResultV46 { advanced,main_gameplay_required,failed };
++struct LevelLoadProcessProviderV46 {
++ std::shared_ptr<void> actual_level_owner;
++ std::uintptr_t identity{};
++ // Genuine complete _LoadProcess provider, or explicitly bounded native
++ // composition with original per-call prefix/stage/tail services. Not gameplay.
++ std::function<bool(std::string&)> load_process;
++};
++// Owns a checked SAME C1 borrow, not a replacement Level or a second phase.
++// Main dispatches its full gameplay3f8350 body on main_gameplay_required.
++// No source readiness, phase38 write, GS/global publication or save is added.
++template<class Context> class LevelLoadingUpdateV46 final {
++ std::shared_ptr<Context> level_;LifecycleBorrowV36 actual_;LevelLoadProcessProviderV46 provider_;
++ bool busy_{},failed_{};std::string error_,required_;std::uint64_t calls_{};
++ bool fail(const std::string& service,const std::string& reason){failed_=true;required_=service;error_=reason.empty()?"Required original service: "+service:reason;return false;}
++ explicit LevelLoadingUpdateV46(std::shared_ptr<Context> level,LifecycleBorrowV36 actual,LevelLoadProcessProviderV46 provider):level_(std::move(level)),actual_(std::move(actual)),provider_(std::move(provider)){}
++public:
++ static bool create(std::shared_ptr<Context> level,LevelLoadProcessProviderV46 provider,std::unique_ptr<LevelLoadingUpdateV46>& out,std::string& error){
++  LifecycleBorrowV36 actual;if(!borrow_lifecycle_fields_v36(level,actual,error))return false;
++  if(!provider.actual_level_owner||provider.identity!=actual.identity||provider.actual_level_owner.get()!=actual.actual_level_owner.get()||provider.actual_level_owner.owner_before(actual.actual_level_owner)||actual.actual_level_owner.owner_before(provider.actual_level_owner)){error="Level.Update provider requires SAME completed C1 receiver/owner";return false;}
++  auto candidate=std::unique_ptr<LevelLoadingUpdateV46>(new LevelLoadingUpdateV46(std::move(level),std::move(actual),std::move(provider)));out=std::move(candidate);error.clear();return true;
++ }
++ LevelLoadingUpdateResultV46 update(const std::shared_ptr<Context>& receiver,bool force){
++  if(failed_)return LevelLoadingUpdateResultV46::failed;
++  if(busy_){fail("Level.Update/nonreentrancy","Level.Update reentered; source prefix retained");return LevelLoadingUpdateResultV46::failed;}
++  if(!receiver||receiver.get()!=level_.get()||receiver.owner_before(level_)||level_.owner_before(receiver)){fail("same-Level-receiver","Level.Update called with foreign Level");return LevelLoadingUpdateResultV46::failed;}
++  LifecycleBorrowV36 fresh;std::string e;
++  if(!borrow_lifecycle_fields_v36(receiver,fresh,e)||fresh.identity!=actual_.identity||fresh.fields.state130!=actual_.fields.state130){fail("completed-actual-C1-borrow",e);return LevelLoadingUpdateResultV46::failed;}
++  // The original selector runs BEFORE loading-domain validation. Main owns
++  // force=true even when the actual C1 is still at loadingstate0.
++  if(!original_level_update_loading_branch_v46(*actual_.fields.state130,force))return LevelLoadingUpdateResultV46::main_gameplay_required;
++  if(*actual_.fields.state130>37){fail("actual-loading-domain","Bounded native _LoadProcess requires original loadingstate0..37");return LevelLoadingUpdateResultV46::failed;}
++  if(!provider_.load_process){fail("Level._LoadProcess",{});return LevelLoadingUpdateResultV46::failed;}
++  struct Busy {bool& value;explicit Busy(bool& b):value(b){value=true;}~Busy(){value=false;}} guard(busy_);
++  bool ok=false;try{++calls_;ok=provider_.load_process(e);}catch(const std::exception& ex){e=ex.what();}catch(...){e="Level._LoadProcess provider threw";}
++  if(failed_)return LevelLoadingUpdateResultV46::failed;
++  if(!ok){fail("Level._LoadProcess",e);return LevelLoadingUpdateResultV46::failed;}
++  // Original Update returns after the load call, INCLUDING37->38. It never
++  // executes gameplay immediately in that same invocation.
++  return LevelLoadingUpdateResultV46::advanced;
++ }
++ const std::string& error()const noexcept{return error_;}
++ const std::string& required_service()const noexcept{return required_;}
++ std::uint64_t load_process_calls()const noexcept{return calls_;}
++ bool failure_latched()const noexcept{return failed_;}
++};
++}
+--- /dev/null
++++ b/port/level-loader/lifecycle_v36.hpp
+@@ -0,0 +1,69 @@
++#pragma once
++#include <array>
++#include <cstdint>
++#include <functional>
++#include <memory>
++#include <string>
++#include <vector>
++
++namespace dh2::loader {
++struct LifecycleStageV36 { std::int32_t state;std::uint32_t original_entry;const char* service;bool source_has_body; };
++const std::array<LifecycleStageV36,38>& lifecycle_stages_v36() noexcept;
++// These pointers MUST alias the retained actual Level receiver. No copied
++// progress field, secondary Level global, campaign authority or ready flag.
++struct LifecycleFieldsV36 {
++ std::uint32_t *progress30{},*state130{},*counter134{},*current138{};
++};
++// Original scalar tail 3f6e9c..3f6ef4 only. Does not invoke UI/license callbacks.
++void lifecycle_progress_tail_v36(LifecycleFieldsV36 fields) noexcept;
++enum class LifecycleStepV36 { pending,complete,dependency_missing,failed };
++enum class LifecycleStatusV36 { loading,awaiting_end_loading,source_finished,cancelling,cancelled,failed };
++struct LifecycleResourceCountsV36 { std::uint64_t objects{},visuals{},meshes{},textures{},navigation{},bytes{}; };
++struct LifecycleDiagnosticsV36 {
++ LifecycleStatusV36 status{LifecycleStatusV36::loading};
++ std::int32_t source_state{},source_progress{},failed_state{-1};
++ std::uint64_t service_calls{},completed_stages{},elapsed_nanoseconds{},cpu_ticks{},owned_pins{};
++ LifecycleResourceCountsV36 actual_resources;
++ bool actual_resources_available{},whole_level_init_verified{},gameplay_ready{};
++ std::string required_service,error;
++};
++struct LifecycleServicesV36 {
++ // Each body performs the authentic side effects for the numbered source
++ // stage, excluding source field130 increment/progress-tail/UI callback.
++ // pending preserves its own cursor. The map/InitPost internal source spins
++ // become ONE call per tick. No partial body may return complete.
++ std::array<std::function<LifecycleStepV36(std::string&)>,38> stage_body;
++ // Source stage7 increments file13c AFTER dispatcher130 increment and
++ // BEFORE progress tail. Required for7; optional reached hooks for others.
++ std::array<std::function<bool(std::string&)>,38> after_source_increment;
++ // Original post-tail onProgress/license/menu effects, owned by main/menu.
++ std::function<bool(std::int32_t,std::int32_t,std::string&)> publish_progress;
++ // Real retained resource counters, not elapsed-time-derived work estimates.
++ std::function<bool(LifecycleResourceCountsV36&,std::string&)> resource_counts;
++ // Cancellation is an explicit native safety adapter; source has no cancel
++ // branch in _LoadProcess. Must complete genuine Level::Unload/teardown before
++ // resource pins are dropped. May yield pending for bounded cleanup.
++ std::function<LifecycleStepV36(std::string&)> cancel_and_unload;
++};
++class LifecycleV36 {
++ LifecycleFieldsV36 fields_;
++ std::shared_ptr<void> actual_level_pin_;
++ std::vector<std::shared_ptr<const void>> resource_pins_;
++ LifecycleServicesV36 services_;
++ LifecycleDiagnosticsV36 diagnostics_;
++ std::int32_t expected_state_{};
++ bool busy_{},cancel_requested_{};
++ void fail(std::int32_t,const std::string&,const std::string&);
++ bool publish();
++public:
++ LifecycleV36(LifecycleFieldsV36,std::shared_ptr<void> actual_level_pin,
++              std::vector<std::shared_ptr<const void>> retained_resource_pins,
++              LifecycleServicesV36);
++ LifecycleV36(const LifecycleV36&)=delete;
++ LifecycleV36& operator=(const LifecycleV36&)=delete;
++ // One original stage-body call maximum; no poll loop or timer progress.
++ LifecycleStatusV36 tick();
++ void request_cancel() noexcept {cancel_requested_=true;}
++ const LifecycleDiagnosticsV36& diagnostics() const noexcept {return diagnostics_;}
++};
++}
+--- /dev/null
++++ b/port/level-loader/lifecycle_v36.cpp
+@@ -0,0 +1,138 @@
++#include "lifecycle_v36.hpp"
++#include <algorithm>
++#include <chrono>
++#include <ctime>
++#include <cstring>
++#include <exception>
++#include <utility>
++namespace dh2::loader {
++const std::array<LifecycleStageV36,38>& lifecycle_stages_v36() noexcept {
++ static constexpr std::array<LifecycleStageV36,38> stages{{
++ {0,0x3f74c8,"Application.CleanGlitch/stop-sounds/reset-load-counters",true},
++ {1,0x3f753c,"source-default-increment",false},
++ {2,0x3f745c,"MenuManager.UnloadMenu(2,1,3)",true},
++ {3,0x3f7414,"source-debug-only-increment",false},
++ {4,0x3f73c0,"VisualFXManager.BuildLibraries",true},
++ {5,0x3f734c,"PhysicalWorld.load",true},
++ {6,0x3f72d0,"PlayerManager.Update/GameEventManager.Load",true},
++ {7,0x3f7204,"seeds/GenerateRandomLevel/Level.LoadFile",true},
++ {8,0x3f7174,"LevelConfig/fog/Level._LoadScripts",true},
++ {9,0x3f7128,"Level._LoadLightSet",true},
++ {10,0x3f70cc,"ObjectManager.InitPost",true},
++ {11,0x3f707c,"PFWorld.PostLoad",true},
++ {12,0x3f7a84,"MenuManager.LoadMenu(1)",true},
++ {13,0x3f7a34,"ScriptManager.InitCommands",true},
++ {14,0x3f7880,"Level._LoadPlayer/online-bindings",true},
++ {15,0x3f7828,"VoxSoundManager.SetLevelRouting",true},
++ {16,0x3f780c,"source-debug-only-increment",false},
++ {17,0x3f77c0,"Level._LoadFinalInit",true},
++ {18,0x3f76c8,"Level._LoadCharStates",true},
++ {19,0x3f76ac,"source-debug-only-increment",false},
++ {20,0x3f7b84,"Level._LoadCamera",true},
++ {21,0x3f7b38,"Level._LoadBatchInit",true},
++ {22,0x3f7aec,"Level._LoadBatchList",true},
++ {23,0x3f7aa0,"Level._LoadBatchMap",true},
++ {24,0x3f7df4,"Level._LoadBatching",true},
++ {25,0x3f7da4,"Application.CleanGlitch",true},
++ {26,0x3f6fb0,"HUD/PostInitCharacters/cache-refresh",true},
++ {27,0x3f6e90,"source-default-increment",false},
++ {28,0x3f6e90,"source-default-increment",false},
++ {29,0x3f7c3c,"ItemManager/ProjectileManager.PreCache",true},
++ {30,0x3f7be8,"VisualFXManager.PreCacheLibraries",true},
++ {31,0x3f7bd0,"GameEventManager.Compile",true},
++ {32,0x3f7714,"ambient/ObjectManager.Update/AI/physical/camera",true},
++ {33,0x3f7630,"LevelSavegame.Load/spawn-restoration",true},
++ {34,0x3f6b34,"level-id/camera/environment/checkpoint-finalize",true},
++ {35,0x3f753c,"source-default-increment",false},
++ {36,0x3f7558,"online-loading/network/quest-sync/wait-EndLoading",true},
++ {37,0x3f7c98,"menu/input/final-load-completion",true}
++ }};return stages;
++}
++static std::int32_t signed_word(std::uint32_t raw) noexcept {std::int32_t value;std::memcpy(&value,&raw,4);return value;}
++void lifecycle_progress_tail_v36(LifecycleFieldsV36 f) noexcept {
++ const auto state=*f.state130;
++ if(state==38){*f.progress30=100;return;}
++ if(signed_word(*f.current138)<signed_word(*f.counter134))*f.counter134=*f.current138;
++ // Accepted source range 0..38: exact signed magic-division result /38.
++ const auto product=signed_word(std::uint32_t(100)*state);
++ *f.progress30=state==36?100:std::uint32_t(std::min(product/38,100));
++}
++void LifecycleV36::fail(std::int32_t state,const std::string& service,const std::string& error){
++ diagnostics_.status=LifecycleStatusV36::failed;diagnostics_.failed_state=state;
++ diagnostics_.required_service=service;diagnostics_.error=error.empty()?"Required actual provider: "+service:error;
++}
++LifecycleV36::LifecycleV36(LifecycleFieldsV36 f,std::shared_ptr<void> level,
++ std::vector<std::shared_ptr<const void>> pins,LifecycleServicesV36 s):
++ fields_(f),actual_level_pin_(std::move(level)),resource_pins_(std::move(pins)),services_(std::move(s)) {
++ diagnostics_.owned_pins=resource_pins_.size()+(actual_level_pin_?1:0);
++ if(!actual_level_pin_||!f.progress30||!f.state130||!f.counter134||!f.current138){
++  fail(-1,"actual-Level-field-borrow","Require pinned actual Level fields30/130/134/138");return;
++ }
++ expected_state_=signed_word(*f.state130);diagnostics_.source_state=expected_state_;diagnostics_.source_progress=signed_word(*f.progress30);
++ if(expected_state_<0||expected_state_>38)fail(expected_state_,"actual-Level-state","Invalid actual loading state");
++}
++bool LifecycleV36::publish(){
++ try {
++ diagnostics_.source_state=*fields_.state130;diagnostics_.source_progress=*fields_.progress30;
++ if(services_.resource_counts){std::string error;diagnostics_.actual_resources_available=services_.resource_counts(diagnostics_.actual_resources,error);
++  if(!diagnostics_.actual_resources_available){fail(*fields_.state130,"actual-resource-counts",error);return false;}}
++ if(!services_.publish_progress){fail(*fields_.state130,"original-progress-callback",{});return false;}
++ std::string error;if(!services_.publish_progress(*fields_.state130,*fields_.progress30,error)){fail(*fields_.state130,"original-progress-callback",error);return false;}return true;
++ }catch(const std::exception& e){fail(*fields_.state130,"progress/resource-provider",e.what());return false;}
++ catch(...){fail(*fields_.state130,"progress/resource-provider","Provider threw an unknown exception");return false;}
++}
++LifecycleStatusV36 LifecycleV36::tick(){
++ if(busy_){fail(diagnostics_.source_state,"runtime-thread/nonreentrancy","Level load reentered");return diagnostics_.status;}
++ if(diagnostics_.status==LifecycleStatusV36::cancelled)return diagnostics_.status;
++ if(diagnostics_.status==LifecycleStatusV36::failed&&!cancel_requested_)return diagnostics_.status;
++ struct Busy {bool& b;explicit Busy(bool&v):b(v){b=true;}~Busy(){b=false;}} busy(busy_);
++ const auto started=std::chrono::steady_clock::now();const auto cpu=std::clock();
++ struct Time {LifecycleDiagnosticsV36& d;std::chrono::steady_clock::time_point at;std::clock_t cpu;
++  ~Time(){d.elapsed_nanoseconds+=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now()-at).count();const auto end=std::clock();if(cpu!=std::clock_t(-1)&&end!=std::clock_t(-1)&&end>=cpu)d.cpu_ticks+=end-cpu;}}
++  timer{diagnostics_,started,cpu};
++ if(cancel_requested_){
++  diagnostics_.status=LifecycleStatusV36::cancelling;
++  if(!services_.cancel_and_unload){fail(expected_state_,"Level.Unload/owned-resource-teardown",{});return diagnostics_.status;}
++  std::string error;LifecycleStepV36 r;
++  try {++diagnostics_.service_calls;r=services_.cancel_and_unload(error);}
++  catch(const std::exception& e){fail(expected_state_,"Level.Unload/owned-resource-teardown",e.what());cancel_requested_=false;return diagnostics_.status;}
++  catch(...){fail(expected_state_,"Level.Unload/owned-resource-teardown","Provider threw an unknown exception");cancel_requested_=false;return diagnostics_.status;}
++   // A nested tick can latch failure inside the teardown callback. Preserve
++   // that reached failure and its pins instead of accepting the outer result.
++   if(diagnostics_.status==LifecycleStatusV36::failed){cancel_requested_=false;return diagnostics_.status;}
++  if(r==LifecycleStepV36::complete){resource_pins_.clear();actual_level_pin_.reset();diagnostics_.owned_pins=0;diagnostics_.status=LifecycleStatusV36::cancelled;}
++  else if(r!=LifecycleStepV36::pending){fail(expected_state_,"Level.Unload/owned-resource-teardown",error);cancel_requested_=false;}
++  return diagnostics_.status;
++ }
++ const auto state=signed_word(*fields_.state130);
++ // The menu's real NativeEndLoading is allowed to advance 36->37 between ticks.
++ if(state!=expected_state_&&!(expected_state_==36&&state==37)){fail(state,"single-actual-loading-authority","Unexpected actual loading-state mutation; refusing replay");return diagnostics_.status;}
++ expected_state_=state;
++ if(state==38){diagnostics_.status=LifecycleStatusV36::source_finished;lifecycle_progress_tail_v36(fields_);publish();return diagnostics_.status;}
++ const auto& stage=lifecycle_stages_v36()[state];LifecycleStepV36 result=LifecycleStepV36::complete;
++ if(stage.source_has_body){
++  if(!services_.stage_body[state]){fail(state,stage.service,{});return diagnostics_.status;}
++  std::string error;
++  try {++diagnostics_.service_calls;result=services_.stage_body[state](error);}
++  catch(const std::exception& e){fail(state,stage.service,e.what());return diagnostics_.status;}
++  catch(...){fail(state,stage.service,"Provider threw an unknown exception");return diagnostics_.status;}
++  if(diagnostics_.status==LifecycleStatusV36::failed)return diagnostics_.status;
++  if(*fields_.state130!=std::uint32_t(state)){fail(state,stage.service,"Stage provider mutated field130; require body excluding dispatcher increment");return diagnostics_.status;}
++  if(result==LifecycleStepV36::failed||result==LifecycleStepV36::dependency_missing){fail(state,stage.service,error);return diagnostics_.status;}
++ }
++ if(result==LifecycleStepV36::complete&&state!=36){
++  ++*fields_.state130;expected_state_=*fields_.state130;
++  const auto& after=services_.after_source_increment[state];
++  if(state==7&&!after){fail(state,"source-file13c-after130",{});return diagnostics_.status;}
++  if(after){std::string error;bool ok{};
++   try {ok=after(error);}catch(const std::exception& e){error=e.what();}catch(...){error="Post-increment provider threw";}
++   if(!ok){fail(state,"source-after130-increment",error);return diagnostics_.status;}
++   if(*fields_.state130!=std::uint32_t(state+1)){fail(state,"source-after130-increment","Provider mutated field130");return diagnostics_.status;}
++  }
++  ++diagnostics_.completed_stages;
++ }
++ if(state==36)diagnostics_.status=LifecycleStatusV36::awaiting_end_loading;
++ else diagnostics_.status=*fields_.state130==38?LifecycleStatusV36::source_finished:LifecycleStatusV36::loading;
++ lifecycle_progress_tail_v36(fields_);publish();return diagnostics_.status;
++}
++}
+--- /dev/null
++++ b/port/level-loader/lifecycle_v36_counter_borrow.hpp
+@@ -0,0 +1,44 @@
++#pragma once
++#include "lifecycle_v36.hpp"
++#include <type_traits>
++#include <utility>
++namespace dh2::loader {
++// Pins and aliases the SAME retained CanonicalLevelContext's completed C1
++// scalar fields. Contains no scalar copies, second state or publication slot.
++struct LifecycleBorrowV36 {
++ std::shared_ptr<void> actual_level_owner;
++ std::uintptr_t identity{};
++ LifecycleFieldsV36 fields;
++};
++// Context is the actual selected CanonicalLevelContextV1. Template defers
++// instantiation until the reviewed genuine134/138 scalar header is selected.
++// A uintptr_t legacy field intentionally fails compilation; never reinterpret.
++template<class Context>
++bool borrow_lifecycle_fields_v36(const std::shared_ptr<Context>& receiver,
++ LifecycleBorrowV36& out,std::string& error) {
++ auto reject=[&](const char* reason){error=reason;return false;};
++ if(!receiver)return reject("Required actual retained Level receiver");
++ const auto* constructor=receiver->constructor_owner_v3();
++ if(!constructor)return reject("Required actual completed Level C1 owner");
++ using Phase=decltype(constructor->phase());
++ if(constructor->phase()!=Phase::complete)return reject("Loading counter borrow requires completed actual Level C1");
++ typename Context::LoadingFieldsV26 loading;
++ if(!receiver->loading_fields_v26(loading,error))return false;
++ auto constructor_borrow=receiver->constructor_borrow_v3();
++ if(!constructor_borrow.fields)return reject("Required actual Level C1 fields");
++ auto& fields=*constructor_borrow.fields;
++ static_assert(std::is_same_v<decltype(fields.phase30),std::uint32_t>);
++ static_assert(std::is_same_v<decltype(fields.field130),std::uint32_t>);
++ static_assert(std::is_same_v<decltype(fields.field134),std::uint32_t>,"Require original-derived32-bit scalar field134");
++ static_assert(std::is_same_v<decltype(fields.field138),std::uint32_t>,"Require original-derived32-bit scalar field138");
++ auto same_owner=[&](const std::shared_ptr<void>& owner){return owner&&owner.get()==receiver.get()&&!owner.owner_before(receiver)&&!receiver.owner_before(owner);};
++ if(!same_owner(loading.level_owner)||!same_owner(constructor_borrow.owner)||
++    loading.identity!=receiver->identity()||constructor_borrow.identity!=receiver->identity())
++  return reject("Loading and constructor borrows must pin the same actual Level identity/owner");
++ if(loading.progress30!=&fields.phase30||loading.state130!=&fields.field130)
++  return reject("Loading progress/state must alias the same actual C1 storage");
++ LifecycleBorrowV36 candidate{std::move(loading.level_owner),loading.identity,
++  {&fields.phase30,&fields.field130,&fields.field134,&fields.field138}};
++ out=std::move(candidate);error.clear();return true;
++}
++}
+--- /dev/null
++++ b/port/level-loader/native_gslevel_frame_v45.cpp
+@@ -0,0 +1,25 @@
++#include "native_gslevel_frame_v45.hpp"
++namespace dh2::loader {
++NativeGSLevelFrameV45::NativeGSLevelFrameV45(std::shared_ptr<NativeGSLevelRuntimeV27> runtime,GSLevelFieldsV2<CanonicalLevelContextV1>* fields,GSApplicationBorrowV44 application,GSLevelUpdateServicesV44<CanonicalLevelContextV1> services):runtime_(std::move(runtime)),fields_(fields){
++ services.borrow_level=[](const auto& level,auto& out,std::string& e){return borrow_gslevel_read_v44(level,out,e);};
++ services.level_load=[](const auto& level,std::string& e){return actual_level_load_v44(level,e);};
++ update_=std::make_unique<GSLevelUpdateV44<CanonicalLevelContextV1>>(runtime_,*fields_,std::move(application),std::move(services));
++}
++bool NativeGSLevelFrameV45::create(std::shared_ptr<NativeGSLevelRuntimeV27> runtime,GSApplicationBorrowV44 application,GSLevelUpdateServicesV44<CanonicalLevelContextV1> services,std::unique_ptr<NativeGSLevelFrameV45>& out,std::string& e){
++ if(!runtime){e="Required retained actual GS runtime";return false;}
++ if(services.borrow_level||services.level_load){e="GS frame C1 reads/Level.Load must have one actual provider";return false;}
++ GSLevelFieldsV2<CanonicalLevelContextV1>* fields{};
++ if(!runtime->frame_fields_v45(fields,e))return false;
++ auto next=std::unique_ptr<NativeGSLevelFrameV45>(new NativeGSLevelFrameV45(std::move(runtime),fields,std::move(application),std::move(services)));
++ out=std::move(next);e.clear();return true;
++}
++GSLevelUpdateResultV44 NativeGSLevelFrameV45::tick(){
++ if(failed_)return GSLevelUpdateResultV44::failed;
++ GSLevelFieldsV2<CanonicalLevelContextV1>* current{};
++ if(!runtime_->frame_fields_v45(current,error_)||current!=fields_){failed_=true;required_="same constructed GS runtime fields";return GSLevelUpdateResultV44::failed;}
++ const auto result=update_->tick();
++ if(result==GSLevelUpdateResultV44::failed){failed_=true;error_=update_->error();required_=update_->required_service();return result;}
++ if(!runtime_->frame_fields_v45(current,error_)||current!=fields_){failed_=true;required_="constructed GS lifetime after callback";return GSLevelUpdateResultV44::failed;}
++ error_.clear();required_.clear();return result;
++}
++}
+--- /dev/null
++++ b/port/level-loader/native_gslevel_frame_v45.hpp
+@@ -0,0 +1,21 @@
++#pragma once
++#include <native_gslevel_runtime_v27.hpp>
++#include "gslevel_update_v44_level_borrow.hpp"
++namespace dh2::loader {
++// Sibling connection: pins the original GS runtime, which does not own this
++// frame driver. This avoids a GS -> frame -> GS ownership cycle.
++class NativeGSLevelFrameV45 final {
++ std::shared_ptr<NativeGSLevelRuntimeV27> runtime_;
++ GSLevelFieldsV2<CanonicalLevelContextV1>* fields_{};
++ std::unique_ptr<GSLevelUpdateV44<CanonicalLevelContextV1>> update_;
++ std::string error_,required_;bool failed_{};
++ NativeGSLevelFrameV45(std::shared_ptr<NativeGSLevelRuntimeV27>,GSLevelFieldsV2<CanonicalLevelContextV1>*,GSApplicationBorrowV44,GSLevelUpdateServicesV44<CanonicalLevelContextV1>);
++public:
++ static bool create(std::shared_ptr<NativeGSLevelRuntimeV27>,GSApplicationBorrowV44,GSLevelUpdateServicesV44<CanonicalLevelContextV1>,std::unique_ptr<NativeGSLevelFrameV45>&,std::string&);
++ NativeGSLevelFrameV45(const NativeGSLevelFrameV45&)=delete;
++ NativeGSLevelFrameV45& operator=(const NativeGSLevelFrameV45&)=delete;
++ GSLevelUpdateResultV44 tick();
++ const std::string& error()const noexcept{return error_;}
++ const std::string& required_service()const noexcept{return required_;}
++};
++}
+--- /dev/null
++++ b/port/level-loader/native_gslevel_loading_connection_v49.hpp
+@@ -0,0 +1,47 @@
++#pragma once
++#include "native_gslevel_frame_v45.hpp"
++#include "level_source_loading_update_v46.hpp"
++namespace dh2::loader {
++// Native integration policy, not another original engine body: attach the
++// checked loading-only Update to the actual GS frame's SAME C1. The original
++// phase38/forced gameplay body remains an explicit main-owned continuation.
++// Sibling owner only; no GS -> connection -> GS or callback -> connection cycle.
++class NativeGSLevelLoadingConnectionV49 final {
++ std::shared_ptr<LevelSourceLoadingUpdateV46> loading_;
++ std::unique_ptr<NativeGSLevelFrameV45> frame_;
++public:
++ using GameplayUpdate=std::function<bool(const std::shared_ptr<CanonicalLevelContextV1>&,bool,std::string&)>;
++ static bool create(std::shared_ptr<NativeGSLevelRuntimeV27> runtime,
++  GSApplicationBorrowV44 application,GSLevelUpdateServicesV44<CanonicalLevelContextV1> services,
++  SourceLoadingInputsV43 inputs,SourceLoadProcessPrefixV46 prefix,GameplayUpdate gameplay,
++  std::unique_ptr<NativeGSLevelLoadingConnectionV49>& out,std::string& error){
++  if(!runtime){error="Required actual constructed GS runtime for loading connection";return false;}
++  if(services.level_update||services.borrow_level||services.level_load){error="GS loading connection requires sole actual Level.Load/Update/borrow providers";return false;}
++  GSLevelFieldsV2<CanonicalLevelContextV1>* fields{};
++  if(!runtime->frame_fields_v45(fields,error))return false;
++  if(!fields||!fields->level34){error="Required actual GS Level34 receiver";return false;}
++  auto level=fields->level34;
++  std::unique_ptr<LevelSourceLoadingUpdateV46> loading;
++  if(!LevelSourceLoadingUpdateV46::create(level,std::move(inputs),std::move(prefix),loading,error))return false;
++  auto retained=std::shared_ptr<LevelSourceLoadingUpdateV46>(std::move(loading));
++  services.level_update=[retained,gameplay=std::move(gameplay)](const auto& receiver,bool force,std::string& e){
++   const auto result=retained->update(receiver,force);
++   if(result==LevelLoadingUpdateResultV46::failed){e=retained->error();return false;}
++   if(result==LevelLoadingUpdateResultV46::main_gameplay_required){
++    if(!gameplay){e="Required main original Level.Update gameplay3f8350 continuation";return false;}
++    return gameplay(receiver,force,e);
++   }
++   e.clear();return true;
++  };
++  std::unique_ptr<NativeGSLevelFrameV45> frame;
++  if(!NativeGSLevelFrameV45::create(std::move(runtime),std::move(application),std::move(services),frame,error))return false;
++  auto next=std::make_unique<NativeGSLevelLoadingConnectionV49>();
++  next->loading_=std::move(retained);next->frame_=std::move(frame);
++  out=std::move(next);error.clear();return true;
++ }
++ GSLevelUpdateResultV44 tick(){return frame_->tick();}
++ const std::string& error()const noexcept{return frame_->error();}
++ const std::string& required_service()const noexcept{return frame_->required_service();}
++ const LifecycleDiagnosticsV36& loading_diagnostics()const noexcept{return loading_->diagnostics();}
++};
++}
+--- /dev/null
++++ b/port/level-loader/stage_loader_v38_root_file.hpp
+@@ -0,0 +1,91 @@
++#pragma once
++#include "lifecycle_v36_counter_borrow.hpp"
++namespace dh2::loader {
++struct Stage7FieldsV38 {
++ LifecycleBorrowV36 level;
++ std::uint32_t* party_dc{};std::uint32_t* word_e0{};
++ std::uint8_t* procedural_e8{};std::string* name_f8{};
++};
++template<class Context> bool borrow_stage7_fields_v38(const std::shared_ptr<Context>& level,Stage7FieldsV38& out,std::string& error){
++ Stage7FieldsV38 next;if(!borrow_lifecycle_fields_v36(level,next.level,error))return false;
++ auto source=level->constructor_borrow_v3();if(!source.fields){error="Required actual Level C1 source fields";return false;}
++ next.party_dc=&source.fields->party_dc;next.word_e0=&source.fields->word_e0;
++ next.procedural_e8=&source.fields->byte_e8;next.name_f8=&source.fields->name_f8;out=std::move(next);return true;
++}
++struct Stage7GlobalsV38 {
++ std::shared_ptr<void> actual_owner;
++ std::uint32_t* source_dc_global{};std::uint32_t* source_e0_global{};
++};
++struct GeneratedSourceStreamV38 {std::shared_ptr<void> actual_owner;std::uintptr_t identity{};};
++struct Stage7ServicesV38 {
++ std::function<bool(std::uint8_t&,std::string&)> online_byte5;
++ std::function<bool(GeneratedSourceStreamV38&,std::string&)> construct_stream;
++ // Actual GenerateRandomLevel output, including faithful serializer/ownership.
++ // pending is a native responsiveness adaptation over one retained generator
++ // cursor; it must not reroll/restart the original generator on each tick.
++ std::function<LifecycleStepV36(const GeneratedSourceStreamV38&,std::uint32_t,bool&,std::string&)> generate;
++ std::function<bool(const LifecycleBorrowV36&,const GeneratedSourceStreamV38&,std::string&)> assign_stream;
++ std::function<bool(GeneratedSourceStreamV38&,std::string&)> destroy_stream;
++ // Exact Level.LoadFile occurrence: named root Level and original root child
++ // factory order/Player guard. CanonicalCachedFileV1 supplies fixed files.
++ std::function<LifecycleStepV36(const std::string&,const char*,std::string&)> root_file_step;
++ std::function<bool(std::string&)> increment_actual_file13c;
++};
++enum class Stage7PhaseV38 {publish_globals,online,stream,generate,assign,backup,destroy,load_counter,root_file,file_index,complete,failed};
++class Stage7BodyV38 {
++ Stage7FieldsV38 fields_;Stage7GlobalsV38 globals_;Stage7ServicesV38 services_;
++ GeneratedSourceStreamV38 stream_;std::uint32_t seed_{};bool generated_{},busy_{};
++ Stage7PhaseV38 phase_{Stage7PhaseV38::publish_globals};std::string error_;
++ LifecycleStepV36 fail(const char* operation){phase_=Stage7PhaseV38::failed;if(error_.empty())error_=std::string("Required actual stage7 provider: ")+operation;return LifecycleStepV36::failed;}
++ template<class F,class... A> bool call(const F& fn,A&&... args){return fn&&fn(std::forward<A>(args)...,error_)&&phase_!=Stage7PhaseV38::failed;}
++public:
++ Stage7BodyV38(Stage7FieldsV38 fields,Stage7GlobalsV38 globals,Stage7ServicesV38 services):fields_(std::move(fields)),globals_(std::move(globals)),services_(std::move(services)){}
++ Stage7BodyV38(const Stage7BodyV38&)=delete;
++ Stage7PhaseV38 phase()const noexcept{return phase_;}
++ const std::string& error()const noexcept{return error_;}
++ // Original3f72b4..3f72c8: dispatcher writes130=8 BEFORE file13c++.
++ // Bind this as LifecycleServices.after_source_increment[7].
++ bool after_source_increment(std::string& error){
++  if(busy_){fail("post-increment reentered");error=error_;return false;}
++  struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
++  if(phase_==Stage7PhaseV38::complete){error.clear();return true;}
++  if(phase_!=Stage7PhaseV38::file_index||!fields_.level.fields.state130||*fields_.level.fields.state130!=8){fail("source130=8 before file13c increment");error=error_;return false;}
++  if(!call(services_.increment_actual_file13c)){fail("actual source file13c increment");error=error_;return false;}
++  phase_=Stage7PhaseV38::complete;error.clear();return true;
++ }
++ LifecycleStepV36 step(){
++  if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;if(phase_==Stage7PhaseV38::complete||phase_==Stage7PhaseV38::file_index)return LifecycleStepV36::complete;
++  if(busy_)return fail("runtime-thread nonreentrancy");struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
++  if(!fields_.level.actual_level_owner||!fields_.level.fields.state130||*fields_.level.fields.state130!=7||!fields_.level.fields.current138||!fields_.party_dc||!fields_.word_e0||!fields_.procedural_e8||!fields_.name_f8)return fail("same actual Level stage7 fields");
++  switch(phase_){
++  case Stage7PhaseV38::publish_globals:
++   if(!globals_.actual_owner||!globals_.source_dc_global||!globals_.source_e0_global)return fail("actual source globals");
++   *globals_.source_dc_global=*fields_.party_dc;*globals_.source_e0_global=*fields_.word_e0;
++   phase_=*fields_.procedural_e8?Stage7PhaseV38::online:Stage7PhaseV38::load_counter;break;
++  case Stage7PhaseV38::online:{
++   std::uint8_t online{};if(!call(services_.online_byte5,online))return fail("GetOnline byte5");
++   // Source reads selected GLOBAL after online callback, before Stream C1.
++   seed_=online?*globals_.source_e0_global:*globals_.source_dc_global;phase_=Stage7PhaseV38::stream;break;}
++  case Stage7PhaseV38::stream:
++   if(!call(services_.construct_stream,stream_)||!stream_.actual_owner||!stream_.identity)return fail("actual StreamBuffer C1");phase_=Stage7PhaseV38::generate;break;
++  case Stage7PhaseV38::generate:{
++   if(!services_.generate)return fail("GenerateRandomLevel/faithful output serializer");const auto result=services_.generate(stream_,seed_,generated_,error_);
++   if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;if(result==LifecycleStepV36::pending)return result;if(result!=LifecycleStepV36::complete)return fail("GenerateRandomLevel");phase_=generated_?Stage7PhaseV38::assign:Stage7PhaseV38::backup;break;}
++  case Stage7PhaseV38::assign:
++   if(!call(services_.assign_stream,fields_.level,stream_))return fail("AssignSteamToLoadDataFile actual field140");phase_=Stage7PhaseV38::destroy;break;
++  case Stage7PhaseV38::backup:{
++   auto& name=*fields_.name_f8;if(name.empty()||name.find('\0')!=std::string::npos)return fail("nonempty source CString backup domain");
++   name[0]='x';const auto dot=name.find('.');if(dot!=std::string::npos){name.resize(dot);name+="_BACKUP.mlx";}
++   phase_=Stage7PhaseV38::destroy;break;}
++  case Stage7PhaseV38::destroy:
++   if(!call(services_.destroy_stream,stream_))return fail("actual temporary StreamBuffer destruction");stream_={};phase_=Stage7PhaseV38::load_counter;break;
++  case Stage7PhaseV38::load_counter:*fields_.level.fields.current138=500;phase_=Stage7PhaseV38::root_file;break;
++  case Stage7PhaseV38::root_file:{
++   if(!services_.root_file_step)return fail("Level.LoadFile/root factory transport");const auto result=services_.root_file_step(*fields_.name_f8,"Level",error_);
++   if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;if(result==LifecycleStepV36::pending)return result;if(result!=LifecycleStepV36::complete)return fail("Level.LoadFile");phase_=Stage7PhaseV38::file_index;return LifecycleStepV36::complete;}
++  default:return fail("valid original stage7 phase");
++  }
++  if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;return LifecycleStepV36::pending;
++ }
++};
++}
+--- /dev/null
++++ b/port/level-loader/stage_loader_v38_init_post.hpp
+@@ -0,0 +1,93 @@
++#pragma once
++#include "lifecycle_v36.hpp"
++#include <memory>
++#include <functional>
++#include <string>
++#include <type_traits>
++#include <utility>
++namespace dh2::loader {
++template<class Manager> struct CanonicalInitPostServicesV38 {
++ using Actor=typename Manager::SourceActorBorrowV38;
++ using Handle=std::decay_t<decltype(*std::declval<Actor>().shared_handle)>;
++ // The real Module receiver's LoadModule: chosen MGP then chosen MVP,
++ // through CanonicalModuleFilesV1. Must finish before generic InitPost.
++ std::function<LifecycleStepV36(std::uintptr_t,std::string&)> load_module;
++ std::function<bool(const Actor*,Handle&,std::string&)> make_handle;
++ std::function<bool(Handle&,bool,const Actor*&,std::string&)> resolve;
++ std::function<bool(const Actor&,std::string&)> init_post;
++ std::function<bool(const Actor&,bool,std::string&)> test_enable_condition;
++ std::function<bool(const Actor&,std::string&,std::string&)> type_name;
++ std::function<bool(const Actor&,bool&,std::string&)> is_updatable;
++ std::function<bool(const Actor&,std::string&)> room_init_object_list;
++ std::function<bool(const Actor&,std::uintptr_t&,std::uint8_t&,std::uintptr_t&,std::uint8_t&,std::string&)> membership_fields;
++ // Actual SAME manager source lists. No copied output vectors in scheduler.
++ std::function<bool(std::uint32_t,const Actor&,std::string&)> append_list;
++ std::function<bool(std::uint32_t,std::string&)> clear_list;
++};
++// Original ObjectManager.InitPost34552c algorithm over the real manager map,
++// Module list and phase7c. Scalar cursors are per scheduler as an explicit
++// nonreentrancy repair to original function-static cursors. No map/list copies.
++template<class Manager> class CanonicalInitPostV38 {
++ using Services=CanonicalInitPostServicesV38<Manager>;
++ using Actor=typename Services::Actor;using Handle=typename Services::Handle;
++ std::shared_ptr<void> manager_pin_;Manager& manager_;Services services_;
++ std::size_t module_cursor_{};std::int32_t key_{};bool end_{true},failed_{},finished_{},busy_{};
++ std::string error_;
++ LifecycleStepV36 fail(const char* missing){failed_=true;if(error_.empty())error_=std::string("Required actual InitPost provider: ")+missing;return LifecycleStepV36::failed;}
++ template<class F,class... A> bool call(const F& fn,A&&... args){return fn&&fn(std::forward<A>(args)...,error_)&&!failed_;}
++ void reset_cursor(){const Actor* ignored{};end_=!manager_.source_ordered_begin_v38(key_,ignored);}
++ bool advance_cursor(){const Actor* ignored{};end_=!manager_.source_ordered_next_v38(key_,key_,ignored);return true;}
++public:
++ CanonicalInitPostV38(std::shared_ptr<void> manager_pin,Manager& manager,Services services):manager_pin_(std::move(manager_pin)),manager_(manager),services_(std::move(services)){if(manager_.source_init_phase7c_v38()!=0)fail("fresh actual phase7c/cursor provenance");}
++ CanonicalInitPostV38(const CanonicalInitPostV38&)=delete;
++ const std::string& error()const noexcept{return error_;}
++ LifecycleStepV36 step(){
++  if(failed_)return LifecycleStepV36::failed;if(finished_)return LifecycleStepV36::complete;
++  if(!manager_pin_)return fail("same-manager lease");if(busy_)return fail("nonreentrant owning-runtime access");
++  struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
++  auto& phase=manager_.source_init_phase7c_v38();
++  if(phase==0){module_cursor_=0;reset_cursor();phase=1;}
++  if(module_cursor_==manager_.modules().size()){
++   if(phase==1){phase=2;reset_cursor();++phase;}
++  }else if(phase==1){
++   if(!services_.load_module)return fail("Module.LoadModule");
++   const auto result=services_.load_module(manager_.modules()[module_cursor_],error_);
++   if(failed_)return LifecycleStepV36::failed;
++   if(result==LifecycleStepV36::pending)return result;
++   if(result!=LifecycleStepV36::complete)return fail("Module.LoadModule");
++   if(failed_)return LifecycleStepV36::failed;++module_cursor_;
++  }
++  if(end_){
++   ++phase;if(phase!=4){finished_=true;return LifecycleStepV36::complete;}
++   reset_cursor();for(auto offset:{0x2cu,0x44u,0x34u})if(!call(services_.clear_list,offset))return fail("clear actual lists2c/44/34");
++   return LifecycleStepV36::pending;
++  }
++  const Actor* object{};if(!manager_.source_ordered_entry_v38(key_,object))return fail("current actual registry node erased");
++  if(phase==3){
++   Handle handle{};const Actor* resolved{};
++   if(!call(services_.make_handle,object,handle))return fail("ObjectHandle constructor");
++   if(!call(services_.resolve,handle,false,resolved))return fail("ObjectHandle.GetObject(false)");
++   if(resolved){
++    if(!call(services_.resolve,handle,true,resolved)||!resolved)return fail("asserted ObjectHandle before InitPost");
++    if(!call(services_.init_post,*resolved))return fail("virtual InitPost");
++    if(!call(services_.resolve,handle,true,resolved)||!resolved)return fail("asserted ObjectHandle after InitPost");
++    if(!call(services_.test_enable_condition,*resolved,false))return fail("TestEnableCondition(false)");
++   }
++  }else if(phase==4&&object){
++   std::string name;if(!call(services_.type_name,*object,name))return fail("actual class type name");
++   for(char& ch:name)if(ch>='A'&&ch<='Z')ch=char(ch+'a'-'A');
++   if(name=="roomzone"){
++    if(!call(services_.append_list,0x24,*object))return fail("append actual room list24");
++    if(!call(services_.room_init_object_list,*object))return fail("RoomZone.InitObjectList");
++   }else {
++    bool updatable{};if(!call(services_.is_updatable,*object,updatable))return fail("virtual IsUpdatable");
++    if(updatable&&(!call(services_.append_list,0x2c,*object)))return fail("append actual update list2c");
++   }
++   std::uintptr_t a8{},cc{};std::uint8_t ac{},d0{};
++   if(!call(services_.membership_fields,*object,a8,ac,cc,d0))return fail("actual membership fields a8/ac/cc/d0");
++   if((!ac&&a8)||(!d0&&cc))if(!call(services_.append_list,0x44,*object))return fail("append actual membership list44");
++  }
++  if(failed_)return LifecycleStepV36::failed;advance_cursor();return LifecycleStepV36::pending;
++ }
++};
++}
+--- /dev/null
++++ b/port/level-loader/stage_loader_v38_stage10.hpp
+@@ -0,0 +1,57 @@
++#pragma once
++#include "stage_loader_v38_init_post.hpp"
++#include <map>
++#include "lifecycle_v36_counter_borrow.hpp"
++namespace dh2::loader {
++// One reached source state10 body. Its counter reads actual map1c ONCE before
++// InitPost's resumable loop, including original reserved null0. Not count50.
++template<class Manager> class Stage10BodyV38 {
++ LifecycleBorrowV36 level_;Manager& manager_;
++ CanonicalInitPostV38<Manager> dispatcher_;bool counter_produced_{},failed_{};
++ std::string error_;
++public:
++ Stage10BodyV38(LifecycleBorrowV36 level,std::shared_ptr<void> actual_manager_pin,
++  Manager& manager,CanonicalInitPostServicesV38<Manager> services):
++  level_(std::move(level)),manager_(manager),dispatcher_(std::move(actual_manager_pin),manager,std::move(services)){}
++ const std::string& error()const noexcept{return error_;}
++ LifecycleStepV36 step(){
++  if(failed_)return LifecycleStepV36::failed;
++  if(!level_.actual_level_owner||!level_.fields.state130||*level_.fields.state130!=10||!level_.fields.current138){failed_=true;error_="Require actual retained Level state10 fields";return LifecycleStepV36::failed;}
++  if(!counter_produced_){*level_.fields.current138=manager_.source_map_size1c_v38();counter_produced_=true;}
++  const auto result=dispatcher_.step();if(result==LifecycleStepV36::failed){failed_=true;error_=dispatcher_.error();}return result;
++ }
++};
++// Concrete retained Module.LoadModule provider. Preparation is the actual
++// RetainedLevelModuleGraphV1, parameterized so legacy headers need not be
++// modified/instantiated until the reviewed manager APIs are selected.
++template<class Preparation,class ModuleXmlServices>
++auto retained_stage10_module_load_v38(std::shared_ptr<Preparation> retained,
++ ModuleXmlServices actual_xml_services){
++ struct Journal {bool attempted{},complete{},failed{};std::string error;};
++ return [retained=std::move(retained),actual_xml_services=std::move(actual_xml_services),
++         journal=std::map<std::uintptr_t,Journal>{}](std::uintptr_t identity,std::string& error) mutable ->LifecycleStepV36 {
++  if(!retained){error="Required actual retained module preparation";return LifecycleStepV36::dependency_missing;}
++  auto& attempt=journal[identity];if(attempt.complete)return LifecycleStepV36::complete;
++  if(attempt.failed||attempt.attempted){error=attempt.error.empty()?"Module source prefix already attempted":attempt.error;return LifecycleStepV36::failed;}
++  auto reject=[&](const std::string& why){attempt.failed=true;attempt.error=why;error=why;return LifecycleStepV36::failed;};
++  typename std::remove_reference_t<decltype(*retained->level())>::LoadingFieldsV26 fields;
++  if(!retained->level()->loading_fields_v26(fields,error))return reject(error);
++  auto& manager=retained->manager();
++  if(!retained->status().root_complete||!fields.state130||*fields.state130!=10||manager.source_init_phase7c_v38()!=1)return reject("Module source loading requires actual state10/phase1 after root factories");
++  // This API intentionally bypasses inspection facade's geometry-prepared
++  // gate: source phase1 loads MGP/MVP before generic InitPost/floor/InitFinal.
++  const auto& modules=retained->modules();
++  for(std::size_t i=0;i<modules.size();++i){
++   const auto& record=modules[i];if(!record||!record->receiver||record->receiver->base().identity()!=identity)continue;
++   if(!retained->module_files()->begin_module(std::uint32_t(i),error))return reject(error);
++   attempt.attempted=true;
++   // Existing source module_load_v1 performs original selector/shared RNG,
++   // Level18c/160 placement prefix, MGP then MVP, reset on successful tail.
++   // It spins synchronously inside one real call; wrapper cannot preempt it.
++   if(!record->receiver->load(actual_xml_services,retained->module_files()->load_borrow(),error))return reject(error);
++   attempt.complete=true;return LifecycleStepV36::complete;
++  }
++  return reject("Actual Module list receiver absent from retained source records; dynamic module-record binding required");
++ };
++}
++}
+--- /dev/null
++++ b/port/level-loader/stage_loader_v39_file_counter.hpp
+@@ -0,0 +1,23 @@
++#pragma once
++#include "lifecycle_v36_counter_borrow.hpp"
++namespace dh2::loader {
++struct FileCounterBorrowV39 {
++ std::shared_ptr<void> actual_level_owner;
++ std::uintptr_t identity{};
++ std::uint32_t* state130{};std::uint32_t* file13c{};
++};
++template<class Context> bool borrow_file_counter_v39(const std::shared_ptr<Context>& level,FileCounterBorrowV39& out,std::string& error){
++ LifecycleBorrowV36 actual;if(!borrow_lifecycle_fields_v36(level,actual,error))return false;
++ auto c1=level->constructor_borrow_v3();if(!c1.fields||!c1.owner){error="Required actual Level C1 file counter";return false;}
++ static_assert(std::is_same_v<decltype(c1.fields->field13c),std::uint32_t>,"Require recovered actual32-bit scalar13c; never reinterpret legacy uintptr_t");
++ if(c1.owner.get()!=actual.actual_level_owner.get()||c1.identity!=actual.identity||c1.owner.owner_before(actual.actual_level_owner)||actual.actual_level_owner.owner_before(c1.owner)){error="File13c borrow must use same actual completed C1 owner";return false;}
++ FileCounterBorrowV39 next{std::move(actual.actual_level_owner),actual.identity,actual.fields.state130,&c1.fields->field13c};out=std::move(next);error.clear();return true;
++}
++inline std::function<bool(std::string&)> actual_file_counter_increment_v39(FileCounterBorrowV39 actual){
++ return [actual=std::move(actual),done=false,failed=false](std::string& error)mutable{
++  if(done){error.clear();return true;}if(failed){error="Actual file counter producer already failed";return false;}
++  if(!actual.actual_level_owner||!actual.state130||!actual.file13c||*actual.state130!=8){failed=true;error="Require same actual Level state130=8 before original file13c ADD32";return false;}
++  ++*actual.file13c;done=true;error.clear();return true; // defined uint32 wrap
++ };
++}
++}
+--- /dev/null
++++ b/port/level-loader/stage_loader_v46_early.hpp
+@@ -0,0 +1,64 @@
++#pragma once
++#include "stage_loader_v39_file_counter.hpp"
++#include <exception>
++namespace dh2::loader {
++struct Stage0LevelBorrowV46 {LifecycleBorrowV36 loading;std::uint32_t* file13c{};std::uint8_t* byte144{};};
++template<class Context> bool borrow_stage0_level_v46(const std::shared_ptr<Context>& level,Stage0LevelBorrowV46& out,std::string& error){
++ LifecycleBorrowV36 actual;if(!borrow_lifecycle_fields_v36(level,actual,error))return false;
++ FileCounterBorrowV39 file;if(!borrow_file_counter_v39(level,file,error))return false;
++ auto c1=level->constructor_borrow_v3();static_assert(std::is_same_v<decltype(c1.fields->byte144),std::uint8_t>);
++ if(file.actual_level_owner.get()!=actual.actual_level_owner.get()||file.identity!=actual.identity||file.state130!=actual.fields.state130){error="Stage0 file borrow must use SAME completed C1";return false;}
++ out={std::move(actual),file.file13c,&c1.fields->byte144};error.clear();return true;
++}
++// Application/device/audio owners supply their actual views. No modern copy
++// of g_bigI/g_bigV/Application.byteb4 or audio state may be passed as production.
++struct Stage0ApplicationBorrowV46 {
++ std::shared_ptr<void> application_owner,global_words_owner;
++ std::uintptr_t application_identity{};
++ std::uint32_t *g_bigI{},*g_bigV{};std::uint8_t* byteb4{};
++};
++struct Stage0ServicesV46 {
++ // Actual Application.CleanGlitch31f55c: globalApp+10 ->owner+10 ->virtualac.
++ std::function<bool(const Stage0ApplicationBorrowV46&,std::string&)> clean_glitch;
++ std::shared_ptr<void> sound_manager_owner;std::uintptr_t sound_manager_identity{};
++ std::function<bool(std::uintptr_t,int,std::string&)> stop_all_sounds;
++};
++inline std::function<LifecycleStepV36(std::string&)> stage0_body_v46(Stage0LevelBorrowV46 level,Stage0ApplicationBorrowV46 app,Stage0ServicesV46 services){
++ return [level=std::move(level),app=std::move(app),services=std::move(services),done=false,failed=false,busy=false,failure=std::string{}](std::string& error)mutable{
++  auto reject=[&](const std::string& e){failed=true;failure=e;error=e;return LifecycleStepV36::failed;};
++  if(busy)return reject("Stage0 reentered; original prefix retained");
++  if(failed){error="Stage0 original prefix already failed; refusing replay";return LifecycleStepV36::failed;}
++  if(done){error="Stage0 already completed; refusing body replay";return LifecycleStepV36::failed;}
++  struct Busy{bool& b;explicit Busy(bool& v):b(v){b=true;}~Busy(){b=false;}} guard(busy);
++  auto f=level.loading.fields;
++  if(!level.loading.actual_level_owner||!f.state130||!f.counter134||!f.current138||!level.file13c||!level.byte144||*f.state130!=0)return reject("Stage0 requires SAME completed actual C1 at state130=0");
++  if(!app.application_owner||!app.application_identity||!app.global_words_owner||!app.g_bigI||!app.g_bigV||!app.byteb4)return reject("Required actual Application/global words/byteb4 borrow");
++  // Exact3f74e4/3f74ec prefix before the first missing body may fail.
++  *app.g_bigI=0;*app.g_bigV=0;
++  if(!services.clean_glitch)return reject("Required original Application.CleanGlitch31f55c");
++  try{
++   if(!services.clean_glitch(app,error))return reject(error.empty()?"Application.CleanGlitch failed":error);
++   if(failed){error=failure;return LifecycleStepV36::failed;}
++   if(*f.state130!=0)return reject("Application.CleanGlitch mutated actual loadingstate");
++   // ShowMemoryStats31041c is genuine BX LR, no invented body service.
++   if(!services.sound_manager_owner||!services.sound_manager_identity||!services.stop_all_sounds)return reject("Required original VoxSoundManager.StopAllSounds369990(500)");
++   if(!services.stop_all_sounds(services.sound_manager_identity,500,error))return reject(error.empty()?"VoxSoundManager.StopAllSounds failed":error);
++   if(failed){error=failure;return LifecycleStepV36::failed;}
++   if(*f.state130!=0)return reject("VoxSoundManager.StopAllSounds mutated actual loadingstate");
++  }catch(const std::exception& e){return reject(e.what());}catch(...){return reject("Stage0 provider threw");}
++  *app.byteb4=1;*f.counter134=0;*f.current138=0;*level.file13c=0;*level.byte144=0;done=true;error.clear();return LifecycleStepV36::complete;
++  // Dispatcher130 increment and original progress/tail are caller owned.
++ };
++}
++inline constexpr const char* level_loading_trace_key_v46="isTracingLevel_Loading";
++// Stages2..6 all query this exact key, result ignored. Actual DebugSwitches
++// GetInstance330740 and GetSwitch337a88 belong to the source provider.
++struct EarlyLoadingDebugV46 {
++ std::shared_ptr<void> actual_owner;
++ std::function<bool(const char*,bool&,std::string&)> get_instance_and_switch;
++};
++inline bool early_loading_trace_v46(const EarlyLoadingDebugV46& debug,std::string& error){
++ if(!debug.actual_owner||!debug.get_instance_and_switch){error="Required actual DebugSwitches.GetInstance/GetSwitch(isTracingLevel_Loading)";return false;}
++ bool ignored=false;return debug.get_instance_and_switch(level_loading_trace_key_v46,ignored,error);
++}
++}
+--- /dev/null
++++ b/port/level-loader/stage_loader_v46_physical.hpp
+@@ -0,0 +1,24 @@
++#pragma once
++#include "stage_loader_v46_early.hpp"
++#include <physical_world.hpp>
++namespace dh2::loader {
++// The shared_ptr can alias Application's actual PhysicalWorld owner. It must
++// refer to that SAME receiver; no substitute world or Application is created.
++inline std::function<LifecycleStepV36(std::string&)> stage5_physical_body_v46(LifecycleBorrowV36 level,std::shared_ptr<physical::NativeWorld> world,EarlyLoadingDebugV46 debug){
++ return [level=std::move(level),world=std::move(world),debug=std::move(debug),attempted=false,failed=false,failure=std::string{}](std::string& error)mutable{
++  auto reject=[&](const std::string& reason){attempted=true;failed=true;failure=reason;error=reason;return LifecycleStepV36::failed;};
++  if(attempted)return reject("Stage5 body already attempted; refusing physical reset replay");
++  if(!level.actual_level_owner||!level.fields.state130||*level.fields.state130!=5)return reject("Stage5 requires SAME completed actual C1 at state130=5");
++  attempted=true;try{
++   if(!early_loading_trace_v46(debug,error))return LifecycleStepV36::dependency_missing;
++   if(failed){error=failure;return LifecycleStepV36::failed;}
++   if(*level.fields.state130!=5)return reject("Debug query mutated actual loadingstate");
++   if(!world){error="Required actual Application.PhysicalWorld+44 owner";return LifecycleStepV36::dependency_missing;}
++   constexpr float original_bounds[4]{-2000.0f,-2000.0f,2000.0f,2000.0f};
++   world->load(original_bounds); // Genuine retained PhysicalWorld::load body.
++   if(!world->backend())return reject("Actual PhysicalWorld.load did not produce its backend");
++   error.clear();return LifecycleStepV36::complete;
++  }catch(const std::exception& e){return reject(e.what());}catch(...){return reject("Stage5 actual physics provider threw");}
++ };
++}
++}
+--- /dev/null
++++ b/port/level-loader/level_file_walk_v1.cpp
+@@ -0,0 +1,62 @@
++#include "level_file_walk_v1.hpp"
++namespace dh2::loader {
++bool prepare_level_file_walk_v1(XmlDocumentV1::Borrow document,std::string requested,
++    LevelFileWalkV1& out,std::string& error) {
++    error.clear();
++    if(!document||!document.used_level_buffer_route()||requested.find('\0')!=std::string::npos) {
++        error="File walk requires retained level-buffer XML and a non-NUL root name";return false;
++    }
++    LevelFileWalkV1 candidate;candidate.document=std::move(document);candidate.requested_root=std::move(requested);
++    out=std::move(candidate);return true;
++}
++LevelFileWalkStepV1 step_level_file_walk_v1(LevelFileWalkV1& state,LevelFileWalkServicesV1& services) {
++    const auto fail=[&](const char* operation) {
++        state.failed=true;
++        state.error=std::string(operation)+(state.error.empty()?": failed":": "+state.error);
++        return LevelFileWalkStepV1::failed;
++    };
++    if(state.failed)return LevelFileWalkStepV1::failed;
++    if(state.completed)return LevelFileWalkStepV1::complete;
++    if(!state.document)return fail("No retained file walk source");
++    if(!state.started) {
++        state.started=true;
++        const bool success=state.document.diagnostic().code==0;
++        if(!services.parse_result(success,state.error))return fail("parse result service");
++        if(!success) {
++            state.error=state.document.uri()+": "+state.document.diagnostic().message;
++            return fail("XML parse");
++        }
++    }else if(state.advance_root) {
++        ++state.root_cursor;state.child_cursor=0;state.advance_root=false;
++    }else if(state.root_cursor<state.document.top_level_nodes().size()) {
++        const auto& root=state.document.top_level_nodes().at(state.root_cursor);
++        const auto& children=state.document.elements().at(root.element).children;
++        if(state.child_cursor<children.size()) {
++            if(!services.load_element(state.document,children[state.child_cursor],state.error))return fail("Level::_LoadFromXML service");
++            ++state.child_cursor;
++            if(state.child_cursor==children.size())state.advance_root=true;
++            return LevelFileWalkStepV1::pending;
++        }
++    }
++    if(state.root_cursor==state.document.top_level_nodes().size()) {
++        // A scan reaching the end returns false; the next poll releases state.
++        if(!state.advance_root) {state.advance_root=true;return LevelFileWalkStepV1::pending;}
++    }
++    if(state.root_cursor>=state.document.top_level_nodes().size()) {
++        if(!services.release_load_state(state.error))return fail("release load state");
++        state.released=true;state.document={};state.completed=true;
++        return LevelFileWalkStepV1::complete;
++    }
++    const auto& root=state.document.top_level_nodes().at(state.root_cursor);
++    if(root.value!=state.requested_root) {state.advance_root=true;return LevelFileWalkStepV1::pending;}
++    if(root.kind!=1||root.element==UINT32_MAX)return fail("Matching top-level node is not an element");
++    state.advance_root=state.document.elements().at(root.element).children.empty();
++    return LevelFileWalkStepV1::pending;
++}
++bool discard_level_file_walk_v1(LevelFileWalkV1& state,LevelFileWalkServicesV1& services,std::string& error) {
++    error.clear();
++    if(state.released)return true;
++    if(!services.release_load_state(error))return false;
++    state.released=true;state.document={};return true;
++}
++}
+--- /dev/null
++++ b/port/level-loader/object_entry_v1.cpp
+@@ -0,0 +1,59 @@
++#include "object_entry_v1.hpp"
++#include <stdexcept>
++namespace dh2::loader {
++const std::array<OriginalFactoryV1,33>& original_factories_v1() {
++    static const std::array<OriginalFactoryV1,33> entries{{
++#include "original_factory_table_v1.inc"
++    }};
++    return entries;
++}
++const OriginalFactoryV1* original_factory_v1(const std::string& gametype) {
++    for (const auto& entry:original_factories_v1()) if (gametype==entry.gametype) return &entry;
++    return nullptr;
++}
++const XmlElementV1& ObjectEntryV1::source()const { return document.elements().at(element); }
++const char* object_entry_disposition_v1(ObjectEntryDispositionV1 disposition) {
++    switch (disposition) {
++    case ObjectEntryDispositionV1::registered_requires_services:return "registered_requires_services";
++    case ObjectEntryDispositionV1::original_missing_attribute:return "original_missing_attribute";
++    case ObjectEntryDispositionV1::original_type_filter:return "original_type_filter";
++    case ObjectEntryDispositionV1::original_player_exclusion:return "original_player_exclusion";
++    case ObjectEntryDispositionV1::original_unregistered_type:return "original_unregistered_type";
++    case ObjectEntryDispositionV1::unsafe_level_missing_type:return "unsafe_level_missing_type";
++    }
++    throw std::logic_error("Invalid object entry disposition");
++}
++bool prepare_object_entry_v1(XmlDocumentV1::Borrow document, std::uint32_t element,
++    ObjectEntryRouteV1 route,const std::optional<std::string>& filter,
++    ObjectEntryV1& out,std::string& error) {
++    error.clear();
++    if (!document || !document.parsed() || element>=document.elements().size()) {
++        error="Object entry requires a parsed retained element";return false;
++    }
++    if (route==ObjectEntryRouteV1::level && filter) {
++        error="Level::_LoadFromXML does not pass a type filter";return false;
++    }
++    ObjectEntryV1 candidate;candidate.document=std::move(document);candidate.element=element;
++    const auto& source=candidate.source();
++    const auto* type=source.attribute("gametype");const auto* name=source.attribute("name");
++    if (route==ObjectEntryRouteV1::level && !type)
++        candidate.disposition=ObjectEntryDispositionV1::unsafe_level_missing_type;
++    else if (route==ObjectEntryRouteV1::level && *type=="Player")
++        candidate.disposition=ObjectEntryDispositionV1::original_player_exclusion;
++    else if (!type || !name)
++        candidate.disposition=ObjectEntryDispositionV1::original_missing_attribute;
++    else if (filter && *filter!=*type)
++        candidate.disposition=ObjectEntryDispositionV1::original_type_filter;
++    else {
++        candidate.factory=original_factory_v1(*type);
++        if (!candidate.factory) candidate.disposition=ObjectEntryDispositionV1::original_unregistered_type;
++        else {
++            candidate.disposition=ObjectEntryDispositionV1::registered_requires_services;
++            candidate.template_present=source.attribute("template")!=nullptr;
++            candidate.early_init_post=*type=="LevelConfig";
++            candidate.force_id_minus_one=*name=="_prim_PlayerLight";
++        }
++    }
++    out=std::move(candidate);return true;
++}
++}
+--- /dev/null
++++ b/port/level-loader/object_initialization_v1.cpp
+@@ -0,0 +1,92 @@
++#include "object_initialization_v1.hpp"
++
++namespace dh2::loader {
++namespace {
++void reset_cursor(ObjectInitializationV1& s) {
++    s.cursor_at_end = s.objects.empty();
++    if (!s.cursor_at_end) s.cursor_key = s.objects.begin()->first;
++}
++void advance_cursor(ObjectInitializationV1& s) {
++    const auto next = s.objects.upper_bound(s.cursor_key);
++    s.cursor_at_end = next == s.objects.end();
++    if (!s.cursor_at_end) s.cursor_key = next->first;
++}
++bool is_room(std::string name) {
++    // Checked source domain is ASCII. Original uses strcasecmp, independently
++    // of its case-sensitive factory dispatch registry.
++    for (char& c : name) if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ('a'-'A'));
++    return name == "roomzone";
++}
++}
++ObjectInitializationStepV1 step_object_initialization_v1(
++    ObjectInitializationV1& s, ObjectInitializationServicesV1& services) {
++    const auto fail = [&](const char* operation) {
++        s.failed = true;
++        s.error = std::string(operation) + (s.error.empty() ? ": service failed" : ": " + s.error);
++        return ObjectInitializationStepV1::failed;
++    };
++    if (s.failed) return ObjectInitializationStepV1::failed;
++    if (s.completed) return ObjectInitializationStepV1::complete;
++    if (s.phase == 0) {
++        s.module_cursor = 0;
++        reset_cursor(s);
++        s.phase = 1;
++    }
++    if (s.module_cursor == s.modules.size()) {
++        if (s.phase == 1) {
++            s.phase = 2;
++            reset_cursor(s);
++            ++s.phase;
++        }
++    } else if (s.phase == 1) {
++        const auto object = s.modules[s.module_cursor];
++        if (!services.load_module(object, s, s.error)) return fail("Module::LoadModule");
++        ++s.module_cursor;
++    }
++    if (s.cursor_at_end) {
++        ++s.phase;
++        if (s.phase != 4) {
++            s.completed = true;
++            return ObjectInitializationStepV1::complete;
++        }
++        reset_cursor(s);
++        for (const auto offset : {0x2cu, 0x44u, 0x34u}) {
++            auto& list = offset == 0x2c ? s.list_2c : offset == 0x44 ? s.list_44 : s.list_34;
++            if (!services.clear_list(offset, list, s.error)) return fail("clear_list");
++            list.clear();
++        }
++        return ObjectInitializationStepV1::pending;
++    }
++    const auto found = s.objects.find(s.cursor_key);
++    if (found == s.objects.end()) return fail("current registry node erased");
++    const auto object = found->second;
++    if (s.phase == 3) {
++        InitializationHandleV1 handle;
++        InitializationObjectV1 resolved{};
++        if (!services.make_handle(object, handle, s.error)) return fail("ObjectHandle construction");
++        if (!services.get_object(handle, false, resolved, s.error)) return fail("ObjectHandle::GetObject(false)");
++        if (resolved) {
++            if (!services.get_object(handle, true, resolved, s.error)) return fail("ObjectHandle::GetObject(true) before InitPost");
++            if (!services.init_post(resolved, s.error)) return fail("ObjectBase::InitPost");
++            if (!services.get_object(handle, true, resolved, s.error)) return fail("ObjectHandle::GetObject(true) after InitPost");
++            if (!services.test_enable_condition(resolved, false, s.error)) return fail("ObjectBase::TestEnableCondition");
++        }
++    } else if (s.phase == 4 && object) {
++        std::string type;
++        if (!services.type_name(object, type, s.error)) return fail("object type name");
++        if (is_room(type)) {
++            s.rooms.push_back(object);
++            if (!services.room_init_object_list(object, s.error)) return fail("RoomZone::InitObjectList");
++        } else {
++            bool updating{};
++            if (!services.is_updatable(object, updating, s.error)) return fail("ObjectBase::IsUpdatable");
++            if (updating) s.list_2c.push_back(object);
++        }
++        InitializationFieldsV1 fields;
++        if (!services.fields(object, fields, s.error)) return fail("object membership fields");
++        if ((!fields.ac && fields.a8) || (!fields.d0 && fields.cc)) s.list_44.push_back(object);
++    }
++    advance_cursor(s);
++    return ObjectInitializationStepV1::pending;
++}
++}
+--- /dev/null
++++ b/port/level-loader/resource_paths_v1.cpp
+@@ -0,0 +1,21 @@
++#include "resource_paths_v1.hpp"
++#include <stdexcept>
++namespace dh2::loader {
++std::vector<std::string> compiled_level_paths_v1(const std::string& authored) {
++    if(authored.find('\0')!=std::string::npos)
++        throw std::invalid_argument("Embedded NUL in resource name");
++    std::vector<std::string> result;
++    for(const char* folder:{"","data/","data/scene/","data/3d/modules/"}) {
++        std::string candidate=std::string(folder)+authored;
++        for(const char* marker:{"old/","debug/","ps3/","iphone/"}) {
++            const auto found=candidate.find(marker);
++            if(found!=std::string::npos) {
++                candidate.erase(found,std::char_traits<char>::length(marker));
++                break;
++            }
++        }
++        result.push_back(std::move(candidate));
++    }
++    return result;
++}
++}
+--- /dev/null
++++ b/port/level-loader/user_properties_v1.cpp
+@@ -0,0 +1,32 @@
++#include "user_properties_v1.hpp"
++namespace dh2::loader {
++namespace {bool alnum(unsigned char c){return (c>='a'&&c<='z')||(c>='A'&&c<='Z')||(c>='0'&&c<='9');}}
++bool decode_user_properties_v1(const std::string& raw,std::map<std::string,std::string>& out,std::string& error) {
++    error.clear();
++    if(raw.size()>4096||raw.find('\0')!=std::string::npos){error="User property source exceeds checked domain";return false;}
++    // Only C-locale ASCII is currently verified; reject high-byte keys/values
++    // rather than relying on the host's locale or signed-char table indexing.
++    for(unsigned char c:raw)if(c>=128){error="User property encoding outside checked ASCII domain";return false;}
++    std::map<std::string,std::string> candidate;
++    for(std::size_t start=0;start<=raw.size();) {
++        const auto nl=raw.find('\n',start);const auto line=raw.substr(start,nl==std::string::npos?std::string::npos:nl-start);
++        const auto equal=line.find('=');const auto left=line.substr(0,equal);
++        std::size_t first=0;while(first<left.size()&&!alnum(static_cast<unsigned char>(left[first])))++first;
++        if(first<left.size()) {
++            std::size_t end=first;while(end<left.size()&&alnum(static_cast<unsigned char>(left[end])))++end;
++            // _ParseKeyValue's no-equals branch is confirmed separately by
++            // original-call comparisons; preserve the literal empty value.
++            std::string value=equal==std::string::npos?std::string{}:line.substr(equal+1);
++            const auto open=value.find("%22");
++            if(open!=std::string::npos) {
++                const auto close=value.find("%22",open+3);
++                if(close!=std::string::npos)value=value.substr(open+3,close-open-3);
++            }
++            candidate[left.substr(first,end-first)]=std::move(value);
++        }
++        if(nl==std::string::npos)break;
++        start=nl+1;
++    }
++    out=std::move(candidate);return true;
++}
++}
+--- /dev/null
++++ b/port/level-loader/visual_transform_v1.cpp
+@@ -0,0 +1,25 @@
++#include "visual_transform_v1.hpp"
++#include "../engine-math/math.hpp"
++#include <cmath>
++#include <cstring>
++namespace dh2::loader {
++namespace {float literal(unsigned bits){float f;std::memcpy(&f,&bits,4);return f;}}
++bool project_visual_transform_v1(VisualTransformV1& value,std::string& error) {
++    error.clear();
++    for(const auto* a:{&value.position,&value.rotation_degrees,&value.scale})
++        for(float x:*a)if(!std::isfinite(x)){error="Nonfinite authored visual transform";return false;}
++    auto next=value;
++    // 0x38be8c..0x38beec: per-component near-zero scale replacement.
++    for(float& x:next.scale)if(std::abs(x)<literal(0x38d1b717))x=1;
++    const float conversion=literal(0x3c8efa35);
++    const float x=next.rotation_degrees[0]*conversion;
++    const float y=next.rotation_degrees[1]*conversion;
++    const float z=next.rotation_degrees[2]*conversion;
++    // 0x47288c..0x4728a4: ARM soft-float r1=Y,r2=-X,r3=-Z.
++    math::Quaternion q{};dh2_quat_from_euler(&q,y,-x,-z);
++    next.quaternion={q.x,q.y,q.z,q.w};
++    for(float v:next.quaternion)if(!std::isfinite(v)){error="Authored rotation overflow";return false;}
++    // SyncScaling calls the Point3D overload, not the uniform float overload.
++    value=next;return true;
++}
++}
+--- a/port/level-loader/retained_level_module_graph_v1.hpp
++++ b/port/level-loader/retained_level_module_graph_v1.hpp
+@@ -41,8 +41,13 @@
+     std::shared_ptr<CanonicalModuleFilesV1> files_;
+     std::vector<std::shared_ptr<world::CanonicalModuleRecordV2>> modules_;
+     RetainedModulePreparationStatusV1 status_;
++    using ModuleRecordProducerV44=std::function<bool(const world::CanonicalObjectBorrowV1&,std::shared_ptr<world::CanonicalModuleRecordV2>&,std::string&)>;
++    std::shared_ptr<void> module_record_provider_owner_;
++    ModuleRecordProducerV44 module_record_provider_;
++    bool source_module_index_v44(std::uintptr_t,std::size_t&,std::string&);
+     bool busy_{},floor_attempted_{},active_{true};
+-    std::vector<bool> init_attempted_,final_attempted_;
++    std::vector<bool> init_attempted_,final_attempted_,source_load_attempted_,source_load_complete_;
++    bool load_module_source_index_v38(std::size_t,const world::ModuleXmlServicesV1&,std::string&);
+     explicit RetainedLevelModuleGraphV1(RetainedLevelModuleGraphInputsV1);
+     bool fail(RetainedModulePreparationStageV1,const std::string&,std::string&);
+     bool enter(RetainedModulePreparationStageV1,std::string&);
+@@ -53,15 +58,27 @@
+     RetainedLevelModuleGraphV1(const RetainedLevelModuleGraphV1&)=delete;
+     RetainedLevelModuleGraphV1& operator=(const RetainedLevelModuleGraphV1&)=delete;
+     LevelFileWalkStepV1 load_root_step();
++    // Source driver supplies actual C1 filename after an explicit generic cache resolver.
++    LevelFileWalkStepV1 load_root_step_v38(const std::string& resolved_actual_filename);
+     bool initialize_next_module(std::string&);
+     bool prepare_floors(std::string&);
+     bool finalize_next_module(std::string&);
+     bool load_next_module_sources(const world::ModuleXmlServicesV1&,std::string&);
++    // Original state10/phase1 loads Module MGP/MVP BEFORE generic InitPost,
++    // PFWorld.PostLoad11 and InitFinal17. Legacy inspection sequence stays separate.
++    bool load_source_module_v38(std::uintptr_t,const world::ModuleXmlServicesV1&,std::string&);
++    // The existing canonical factory lends a newly registered Module record.
++    // Provider/candidate and preparation must be siblings, avoiding cycles.
++    bool bind_module_record_provider_v44(std::shared_ptr<void>,ModuleRecordProducerV44,std::string&);
++    // Dispatches the actual registered class InitPost and records successful
++    // Module calls; no manual readiness/initialized flag publication.
++    bool source_object_init_post_v38(const world::CanonicalObjectBorrowV1&,std::string&);
+     // A per-frame immutable resource pin, never a second scene/world. Missing
+     // visuals fail; no demo geometry, transform recomputation or actor skipping.
+     bool capture_draw_frames(std::vector<ModuleDrawFrameV1>& out,std::string&)const;
+     const RetainedModulePreparationStatusV1& status()const noexcept{return status_;}
+     const auto& level()const noexcept{return input_.level;}
++    const auto& candidate_owner_v50()const noexcept{return input_.candidate_owner;}
+     world::CanonicalObjectManagerV1& manager()const noexcept{return *input_.manager;}
+     const auto& floor_world()const noexcept{return input_.floors;}
+     const auto& modules()const noexcept{return modules_;}
+--- a/port/level-loader/retained_level_module_graph_v1.cpp
++++ b/port/level-loader/retained_level_module_graph_v1.cpp
+@@ -40,17 +40,23 @@
+             if(!object||!object->type_f4||*object->type_f4!=5||!object->lease){e="Required actual registered Module receiver";return false;}
+             auto record=std::static_pointer_cast<world::CanonicalModuleRecordV2>(object->lease);
+             if(!record->receiver||record->receiver->base().identity()!=object->identity){e="Module graph receiver identity differs";return false;}
+-            modules_.push_back(std::move(record));init_attempted_.push_back(false);final_attempted_.push_back(false);
++            modules_.push_back(std::move(record));init_attempted_.push_back(false);final_attempted_.push_back(false);source_load_attempted_.push_back(false);source_load_complete_.push_back(false);
+         }
+         status_.declarations=i+1;
+     }
+     status_.modules=modules_.size();return true;
+ }
+ LevelFileWalkStepV1 RetainedLevelModuleGraphV1::load_root_step(){
++    return load_root_step_v38(input_.level->source_request().definition);
++}
++LevelFileWalkStepV1 RetainedLevelModuleGraphV1::load_root_step_v38(const std::string& resolved_actual_filename){
+     std::string e;if(!enter(RetainedModulePreparationStageV1::root_file,e))return LevelFileWalkStepV1::failed;
+-    if(status_.root_complete){status_.stage=RetainedModulePreparationStageV1::root_complete;return LevelFileWalkStepV1::complete;}
++    if(status_.root_complete){
++        if(root_->step(resolved_actual_filename,"Level")!=LevelFileWalkStepV1::complete){fail(RetainedModulePreparationStageV1::root_file,root_->error(),e);return LevelFileWalkStepV1::failed;}
++        status_.stage=RetainedModulePreparationStageV1::root_complete;return LevelFileWalkStepV1::complete;
++    }
+     BusyGuard guard(busy_);
+-    const auto result=root_->step(input_.level->source_request().definition,"Level");
++    const auto result=root_->step(resolved_actual_filename,"Level");
+     if(!collect_modules(e)){fail(RetainedModulePreparationStageV1::root_file,e,e);return LevelFileWalkStepV1::failed;}
+     if(result==LevelFileWalkStepV1::failed){fail(RetainedModulePreparationStageV1::root_file,root_->error(),e);return result;}
+     if(status_.stage==RetainedModulePreparationStageV1::failed)return LevelFileWalkStepV1::failed;
+@@ -94,11 +100,83 @@
+     const auto at=RetainedModulePreparationStageV1::module_files;if(!enter(at,e))return false;
+     if(!status_.geometry_prepared)return fail(at,"Required retained Module geometry preparation",e);
+     if(status_.loaded==modules_.size()){status_.object_sources_complete=true;status_.stage=RetainedModulePreparationStageV1::object_sources_complete;return true;}
+-    BusyGuard guard(busy_);const auto i=status_.loaded;
+-    if(!files_->begin_module(static_cast<std::uint32_t>(i),e)||!modules_[i]->receiver->load(random,files_->load_borrow(),e))return fail(at,e,e);
++    return load_module_source_index_v38(status_.loaded,random,e);
++}
++
++bool RetainedLevelModuleGraphV1::load_module_source_index_v38(std::size_t i,const world::ModuleXmlServicesV1& xml,std::string& e){
++    const auto at=RetainedModulePreparationStageV1::module_files;
++    if(i>=modules_.size())return fail(at,"Source Module identity/index outside actual retained records",e);
++    if(source_load_complete_[i]){e.clear();return true;}
++    if(source_load_attempted_[i])return fail(at,"Source Module file prefix already attempted",e);
++    BusyGuard guard(busy_);source_load_attempted_[i]=true;
++    if(!files_->begin_module(static_cast<std::uint32_t>(i),e)||!modules_[i]->receiver->load(xml,files_->load_borrow(),e))return fail(at,e,e);
+     if(status_.stage==RetainedModulePreparationStageV1::failed){e=status_.error;return false;}
+-    ++status_.loaded;if(status_.loaded==modules_.size()){status_.object_sources_complete=true;status_.stage=RetainedModulePreparationStageV1::object_sources_complete;}return true;
++    source_load_complete_[i]=true;++status_.loaded;
++    if(status_.loaded==modules_.size()){status_.object_sources_complete=true;status_.stage=RetainedModulePreparationStageV1::object_sources_complete;}
++    e.clear();return true;
+ }
++bool RetainedLevelModuleGraphV1::bind_module_record_provider_v44(std::shared_ptr<void> owner,ModuleRecordProducerV44 provider,std::string& e){
++    if(!active_||busy_||status_.stage==RetainedModulePreparationStageV1::failed||!owner||!provider||module_record_provider_owner_||module_record_provider_){e="Require one live canonical Module record producer before its source use";return false;}
++    module_record_provider_owner_=std::move(owner);module_record_provider_=std::move(provider);e.clear();return true;
++}
++bool RetainedLevelModuleGraphV1::source_module_index_v44(std::uintptr_t identity,std::size_t& index,std::string& e){
++    const auto at=RetainedModulePreparationStageV1::module_files;
++    bool listed=false;for(const auto id:input_.manager->modules())if(id==identity){listed=true;break;}
++    if(!identity||!listed)return fail(at,"Source Module identity absent from SAME manager module list",e);
++    const world::CanonicalObjectBorrowV1* actual{};std::int32_t key{};bool found=input_.manager->source_ordered_begin_v38(key,actual);
++    while(found&&(!actual||actual->identity!=identity))found=input_.manager->source_ordered_next_v38(key,key,actual);
++    if(!found||!actual||!actual->lease||!actual->shared_handle||!actual->type_f4||*actual->type_f4!=5||input_.manager->object(actual->shared_handle->key)!=actual)
++        return fail(at,"Required live SAME registered source Module receiver",e);
++    // Keep the actual receiver alive across the typed factory lookup callback.
++    const auto observed=*actual;const auto handle_key=actual->shared_handle->key;
++    std::size_t existing=modules_.size();std::shared_ptr<world::CanonicalModuleRecordV2> record;
++    for(std::size_t i=0;i<modules_.size();++i)if(modules_[i]&&modules_[i]->receiver&&modules_[i]->receiver->base().identity()==identity){existing=i;record=modules_[i];break;}
++    if(!record){
++        if(!module_record_provider_owner_||!module_record_provider_)return fail(at,"Required canonical factory record producer for newly registered Module",e);
++        BusyGuard guard(busy_);
++        if(!module_record_provider_(observed,record,e))return fail(at,e.empty()?"Canonical Module record lookup failed":e,e);
++        if(status_.stage==RetainedModulePreparationStageV1::failed){e=status_.error;return false;}
++    }
++    actual=input_.manager->object(handle_key);
++    if(!actual||actual->identity!=identity||!record||!record->receiver||!record->declaration||
++        actual->lease.get()!=record.get()||actual->lease.owner_before(record)||record.owner_before(actual->lease)||
++        record->receiver->base().identity()!=identity)return fail(at,"Module factory record does not match actual retained registry receiver",e);
++    const auto canonical=record->receiver->canonical(record);
++    if(actual->context!=canonical.context||actual->shared_handle!=canonical.shared_handle||actual->type_f4!=canonical.type_f4||*actual->type_f4!=5)
++        return fail(at,"Module record lost SAME canonical receiver field addresses",e);
++    if(existing==modules_.size()){
++        modules_.push_back(std::move(record));init_attempted_.push_back(false);final_attempted_.push_back(false);
++        source_load_attempted_.push_back(false);source_load_complete_.push_back(false);
++        status_.modules=modules_.size();status_.object_sources_complete=false;
++    }
++    index=existing;e.clear();return true;
++}
++bool RetainedLevelModuleGraphV1::load_source_module_v38(std::uintptr_t identity,const world::ModuleXmlServicesV1& xml,std::string& e){
++    const auto at=RetainedModulePreparationStageV1::module_files;if(!enter(at,e))return false;
++    CanonicalLevelContextV1::LoadingFieldsV26 fields;
++    if(!status_.root_complete||!input_.level->loading_fields_v26(fields,e)||!fields.state130||*fields.state130!=10||input_.manager->source_init_phase7c_v38()!=1)
++        return fail(at,e.empty()?"Require actual completed root, Level state10 and SAME manager phase1":e,e);
++    std::size_t index{};if(!source_module_index_v44(identity,index,e))return false;
++    return load_module_source_index_v38(index,xml,e);
++}
++bool RetainedLevelModuleGraphV1::source_object_init_post_v38(const world::CanonicalObjectBorrowV1& object,std::string& e){
++    const auto at=RetainedModulePreparationStageV1::module_init_post;if(!enter(at,e))return false;
++    CanonicalLevelContextV1::LoadingFieldsV26 fields;
++    const auto* actual=object.shared_handle?input_.manager->object(object.shared_handle->key):nullptr;
++    if(!input_.level->loading_fields_v26(fields,e)||!fields.state130||*fields.state130!=10||input_.manager->source_init_phase7c_v38()!=3||
++       !actual||actual->identity!=object.identity||actual->lease!=object.lease||!input_.classes.init_post)
++        return fail(at,e.empty()?"Required actual state10/phase3 class receiver and InitPost producer":e,e);
++    std::size_t tracked=modules_.size();
++    for(std::size_t i=0;i<modules_.size();++i)if(modules_[i]->receiver->base().identity()==object.identity){
++        if(init_attempted_[i])return fail(at,"Actual Module InitPost replayed",e);
++        tracked=i;init_attempted_[i]=true;break;
++    }
++    BusyGuard guard(busy_);
++    if(!input_.classes.init_post(input_.classes.context,*actual,e))return fail(at,e,e);
++    if(tracked<modules_.size())++status_.initialized;
++    e.clear();return true;
++}
++
+ bool RetainedLevelModuleGraphV1::capture_draw_frames(std::vector<ModuleDrawFrameV1>& out,std::string& e)const{
+     if(!active_||busy_){e="Retained graph is released or mutating";return false;}
+     std::vector<ModuleDrawFrameV1> frames;frames.reserve(modules_.size());
+@@ -113,6 +191,7 @@
+     if(busy_){e="Retained preparation cleanup reentered";return false;}
+     BusyGuard guard(busy_);
+     if(active_){if(!release){e="Required actual Level/manager/visual release";return false;}if(!release(e))return false;active_=false;}
++    module_record_provider_={};module_record_provider_owner_.reset();
+     if(!root_->discard_after_owner_release([](std::string&){return true;},e))return false;
+     return files_->discard_after_owner_release([](std::string&){return true;},e);
+ }
+--- a/port/level-loader/level_constructor_v3.hpp
++++ b/port/level-loader/level_constructor_v3.hpp
+@@ -19,7 +19,9 @@
+  std::int32_t level110{},mode118{};std::uint32_t seed114{};
+  std::uintptr_t field128{},field12c{};
+  std::uint32_t field130{}; // source Level::_LoadProcess state, not a pointer
+- std::uintptr_t field134{},field138{},field13c{},field140{};
++ std::uint32_t field134{},field138{}; // source scalar counters; signed comparison in progress tail
++ std::uint32_t field13c{}; // source file-count/index scalar, ADD32 in state7
++ std::uintptr_t field140{}; // actual LoadFileData stream-state pointer
+  std::uint8_t byte144{},byte145{};std::int32_t field148{-1};
+  std::uintptr_t field14c{},field154{},field158{},field15c{},field194{},field19c{},field1a0{},field1a4{};
+  std::uint8_t byte16c{},byte198{},byte1a8{};
+--- a/port/level-loader/native_level_application_v25.cpp
++++ b/port/level-loader/native_level_application_v25.cpp
+@@ -36,10 +36,12 @@
+  error_.clear();return true;
+ }
+ bool NativeLevelConnectionV25::construct_allocated(LevelConstructorArgumentsV3 arguments,LevelConstructorApplicationV4 app,std::string& e){
++ // Modern source identity (SWAMP) is distinct from original C1 filename.
++ // Seed equality remains an explicit source-transaction consistency policy.
+  if(attempted_){e=error_.empty()?"Same native Level C1 already attempted":error_;return false;}
+  attempted_=true;
+- if(!candidate_||!app.owner||!arguments.name||candidate_->source_request().identity!=arguments.name||candidate_->source_request().seed!=arguments.seed){
+-  e=error_="Native Level C1 selected request/arguments identity differs";return false;
++ if(!candidate_||!app.owner||!arguments.name||candidate_->source_request().seed!=arguments.seed){
++  e=error_="Native Level C1 allocation/name/seed consistency differs";return false;
+  }
+  bindings_=LevelConstructorBindingsV4::create(std::move(app),e);
+  if(!bindings_){error_=e;return false;}
+--- a/port/level-loader/native_gslevel_runtime_v27.hpp
++++ b/port/level-loader/native_gslevel_runtime_v27.hpp
+@@ -28,6 +28,10 @@
+  bool destroy(std::string&);
+  bool current(CanonicalCurrentLevelBorrowV1&,std::string&)const;
+  ui::LoadingMenuStateServicesV1 loading_services()noexcept{return loading_?loading_->services():ui::LoadingMenuStateServicesV1{};}
++  bool frame_fields_v45(GSLevelFieldsV2<CanonicalLevelContextV1>*&,std::string&);
++bool owns_globals_v50(const std::shared_ptr<NativeGSLevelGlobalsV27>& actual)const noexcept{
++  return actual&&globals_.get()==actual.get()&&!globals_.owner_before(actual)&&!actual.owner_before(globals_);
++ }
+  const GSLevelFieldsV2<CanonicalLevelContextV1>& fields()const noexcept{return fields_;}
+  const std::unique_ptr<NativeGSLevelConnectionV26>& connection()const noexcept{return gs_;}
+ };
+--- a/port/level-loader/native_gslevel_runtime_v27.cpp
++++ b/port/level-loader/native_gslevel_runtime_v27.cpp
+@@ -23,4 +23,9 @@
+  if(!globals_){error="Required sole native GS global storage";return false;}
+  return borrow_current_canonical_level_v1(globals_->borrow(globals_),out,error);
+ }
++bool NativeGSLevelRuntimeV27::frame_fields_v45(GSLevelFieldsV2<CanonicalLevelContextV1>*& out,std::string& error){
++ if(!gs_||gs_->lifecycle().stage()!=GSLevelLifecycleStageV2::constructed){error="Required SAME completed GS constructor for frame fields";return false;}
++ out=&fields_;error.clear();return true;
+ }
++
++}
+--- a/port/level-world/canonical_object_manager_v1.hpp
++++ b/port/level-world/canonical_object_manager_v1.hpp
+@@ -39,16 +39,18 @@
+  std::map<std::int32_t,Entry> entries_;
+  std::vector<std::uintptr_t> characters_,modules_;
+  std::vector<std::uintptr_t> pending_; // Original ctor-empty ObjectManager+34 list.
+- std::uint32_t next_key_{},count_{},frame_{}; // explicit ctor stores +4c/+50/+78
+- std::uint32_t update_count58_{}; // SAME ObjectManager C2 store34a4c8, GameObject.Update38cc68.
++ std::uint32_t next_key_{},count_{},frame_{},init_phase7c_{}; // explicit ctor stores +4c/+50/+78
+  CanonicalObjectManagerServicesV1 services_;
++ // Native ownership receipt only: invalidated at source mutation prefixes.
++ // Never substitutes source initialized/count/phase fields.
++ bool source_c1_fresh_v50_{};
+  bool required(bool,const char*,std::string&);
+ public:
+  explicit CanonicalObjectManagerV1(CanonicalObjectManagerServicesV1 services):services_(services){
+   // C1 34a404 ends with Flush3496b8. Its genuinely empty constructor
+   // branch inserts the null map node0 (349944..349958), then stores1
+   // into next_key4c (34995c..349960). Zero never names a live receiver.
+-  entries_.try_emplace(0);next_key_=1;
++  entries_.try_emplace(0);next_key_=1;source_c1_fresh_v50_=true;
+  }
+  CanonicalObjectManagerV1(const CanonicalObjectManagerV1&)=delete;
+  bool by_name(const char*,std::int32_t,bool,const char*,target_providers::Handle16&,std::string&);
+@@ -64,11 +66,41 @@
+  // Host adoption preflight only: observes published entries without issuing
+  // source GetObjectByName(create=true) twice or allocating a map node.
+  bool published_name_conflict_v4(const char*,std::int32_t,bool&,std::string&)const;
+- void begin_frame(std::uint32_t v)noexcept{frame_=v;}
++ void begin_frame(std::uint32_t v)noexcept{source_c1_fresh_v50_=false;frame_=v;}
++ // Source C1 field7c zero store34a4f8. This SAME manager owns InitPost phase;
++ // scheduler stores only modern cursors, never another phase/registry.
++
++ class FreshSourceBorrowV50 {
++  friend class CanonicalObjectManagerV1;
++  std::shared_ptr<CanonicalObjectManagerV1> owner_;
++ public:
++  bool same_fresh_producer(const std::shared_ptr<CanonicalObjectManagerV1>& owner)const noexcept{
++   return owner_&&owner&&owner_.get()==owner.get()&&!owner_.owner_before(owner)&&!owner.owner_before(owner_)&&owner_->source_c1_fresh_v50_&&owner_->init_phase7c_==0;
++  }
++ };
++ bool borrow_fresh_source_v50(const std::shared_ptr<CanonicalObjectManagerV1>& owner,FreshSourceBorrowV50& out,std::string& error){
++  if(!owner||owner.get()!=this||!source_c1_fresh_v50_||init_phase7c_!=0){error="Required authentic unconsumed source ObjectManager C1 producer";return false;}
++  FreshSourceBorrowV50 next;next.owner_=owner;out=std::move(next);error.clear();return true;
++ }
++ using SourceActorBorrowV38=CanonicalObjectBorrowV1;
++ std::uint32_t& source_init_phase7c_v38()noexcept{return init_phase7c_;}
++ // Original map header+1c node count includes the real reserved null key0,
++ // names allocated before publication and operator[]-inserted null entries.
++ std::uint32_t source_map_size1c_v38()const noexcept{return std::uint32_t(entries_.size());}
++ bool source_ordered_begin_v38(std::int32_t& key,const CanonicalObjectBorrowV1*& actor)const noexcept{
++  const auto i=entries_.begin();if(i==entries_.end()){actor=nullptr;return false;}
++  key=i->first;actor=i->second.actor.identity?&i->second.actor:nullptr;return true;
++ }
++ bool source_ordered_next_v38(std::int32_t previous,std::int32_t& key,const CanonicalObjectBorrowV1*& actor)const noexcept{
++  const auto i=entries_.upper_bound(previous);if(i==entries_.end()){actor=nullptr;return false;}
++  key=i->first;actor=i->second.actor.identity?&i->second.actor:nullptr;return true;
++ }
++ bool source_ordered_entry_v38(std::int32_t key,const CanonicalObjectBorrowV1*& actor)const noexcept{
++  const auto i=entries_.find(key);if(i==entries_.end()){actor=nullptr;return false;}
++  actor=i->second.actor.identity?&i->second.actor:nullptr;return true;
++ }
+  std::uint32_t source_count50()const noexcept{return count_;}
+  std::uint32_t source_next_key4c()const noexcept{return next_key_;}
+- std::uint32_t& source_update_count58_v23()noexcept{return update_count58_;}
+- const std::uint32_t& source_update_count58_v23()const noexcept{return update_count58_;}
+  const std::vector<std::uintptr_t>& characters()const noexcept{return characters_;}
+  const std::vector<std::uintptr_t>& modules()const noexcept{return modules_;}
+  // Source Spawn accepted virtual38 appends the SAME published receiver.
+--- a/port/level-world/canonical_object_manager_v1.cpp
++++ b/port/level-world/canonical_object_manager_v1.cpp
+@@ -23,7 +23,7 @@
+  if(!actor.identity||!actor.lease||!actor.shared_handle){e="Required published source Spawn pending receiver";return false;}
+  const auto* actual=object(actor.shared_handle->key);
+  if(!actual||actual->identity!=actor.identity||actual->lease!=actor.lease){e="Spawn pending receiver differs from canonical manager publication";return false;}
+- pending_.push_back(actor.identity);return true;
++ source_c1_fresh_v50_=false;pending_.push_back(actor.identity);return true;
+ }
+ bool CanonicalObjectManagerV1::by_name(const char* name,std::int32_t room,bool create,const char* threat,target_providers::Handle16& out,std::string& e){
+  out={0,UINT32_MAX,0};if(!name){e="source GetObjectByName null name is outside safe native domain";return false;}
+@@ -43,7 +43,7 @@
+   if(match){out.key=key;return true;}
+  }
+  if(!create)return required(services_.missing_name_debug!=nullptr,"missing-name Debug load/query",e)&&services_.missing_name_debug(services_.context,e);
+- const auto bits=next_key_++;std::int32_t key{};static_assert(sizeof key==sizeof bits);std::memcpy(&key,&bits,sizeof key);
++ source_c1_fresh_v50_=false;const auto bits=next_key_++;std::int32_t key{};static_assert(sizeof key==sizeof bits);std::memcpy(&key,&bits,sizeof key);
+  // Original counter mutation precedes allocation/insertion. Prefix survives.
+  auto [i,inserted]=entries_.try_emplace(key);if(!inserted){e="source key wrapped onto an existing map node";return false;}i->second.name=name;out.key=key;return true;
+ }
+@@ -55,7 +55,7 @@
+   if(!handle.cached||handle.frame!=frame_){
+    // Original std::map::operator[] inserts a default node on a missing key.
+    // It does not advance next_key4c or source_count50.
+-   auto [it,inserted]=entries_.try_emplace(handle.key);(void)inserted;
++   auto [it,inserted]=entries_.try_emplace(handle.key);if(inserted)source_c1_fresh_v50_=false;
+    handle.cached=it->second.actor.identity;handle.frame=frame_;
+   }
+   result=handle.cached;
+@@ -75,7 +75,7 @@
+  if(!actor.identity||!actor.lease||!actor.shared_handle||!actor.type_f4||!actor.room64||!name||!archetype){e="source Add requires actual constructed receiver fields/name/archetype";return false;}
+  if(!by_name(name,room,true,nullptr,out,e))return false;
+  out.frame=frame_;if(auto* prior=object(out.key)){out.cached=prior->identity;return required(services_.destroy_duplicate!=nullptr,"duplicate virtual deleting destructor",e)&&services_.destroy_duplicate(services_.context,actor,e);}
+- auto& entry=entries_[out.key];entry.actor=std::move(actor);auto& a=entry.actor;++count_;out.cached=a.identity;*a.shared_handle=out;
++ source_c1_fresh_v50_=false;auto& entry=entries_[out.key];entry.actor=std::move(actor);auto& a=entry.actor;++count_;out.cached=a.identity;*a.shared_handle=out;
+  if(!required(a.set_name!=nullptr,"SetName",e)||!a.set_name(a.context,name,e))return false;entry.name=name;
+  if(!required(a.set_archetype!=nullptr,"CString archetype48",e)||!a.set_archetype(a.context,archetype,e))return false;*a.room64=room;
+  std::uintptr_t character{};a.shared_handle->frame=frame_;
+--- /dev/null
++++ b/port/level-loader/user_properties_v1.hpp
+@@ -0,0 +1,9 @@
++#pragma once
++#include <map>
++#include <string>
++namespace dh2::loader {
++// Source-owned user metadata, separate from gameplay CStrProps overrides.
++// Original UserProperties splits LF lines, takes the first alphanumeric key
++// run and extracts literal %22 pairs. It is not a general URL decoder.
++bool decode_user_properties_v1(const std::string&,std::map<std::string,std::string>&,std::string&);
++}
+--- /dev/null
++++ b/port/level-loader/resource_paths_v1.hpp
+@@ -0,0 +1,10 @@
++#pragma once
++#include <string>
++#include <vector>
++namespace dh2::loader {
++// Compiled-data branch of original Level::LoadFile, 0x3f3d14..0x3f3e30.
++// Removes only the first occurrence of the first matching authoring marker,
++// in the original marker priority. Case/slash folding belongs to asset lookup.
++// Uncompiled-data mode and its conditional first read are not implemented here.
++std::vector<std::string> compiled_level_paths_v1(const std::string& authored);
++}
+--- /dev/null
++++ b/port/level-loader/object_initialization_v1.hpp
+@@ -0,0 +1,58 @@
++#pragma once
++#include <cstddef>
++#include <cstdint>
++#include <map>
++#include <string>
++#include <vector>
++
++namespace dh2::loader {
++// Internal dispatcher contract, not a selected gameplay/factory/save ABI.
++// These tokens borrow objects/handles from the service owner. Zero is null.
++using InitializationObjectV1 = std::uint64_t;
++struct InitializationHandleV1 { std::uint64_t words[3]{}; };
++struct InitializationFieldsV1 {
++    std::uint32_t a8{}, cc{};
++    std::uint8_t ac{}, d0{}; // Semantics of the original field names unresolved.
++};
++struct ObjectInitializationV1 {
++    // Original ObjectManager uses std::map<int,ObjectListItem>, not authored
++    // XML order. Keys must come from the runtime owner, never source indices.
++    std::map<std::int32_t, InitializationObjectV1> objects;
++    std::vector<InitializationObjectV1> modules, rooms, list_2c, list_34, list_44;
++    std::uint32_t phase{};
++    bool completed{}, failed{};
++    std::string error;
++    // Original has function-static cursors: it is not reentrant. This adapter
++    // keeps them per candidate to avoid sharing state between level owners.
++    bool cursor_at_end{true};
++    std::int32_t cursor_key{};
++    std::size_t module_cursor{};
++};
++class ObjectInitializationServicesV1 {
++public:
++    virtual ~ObjectInitializationServicesV1() = default;
++    // Module loading may append modules and insert objects into the registry.
++    // Callbacks must not erase current tree nodes or reorder/remove modules.
++    virtual bool load_module(InitializationObjectV1, ObjectInitializationV1&, std::string&) = 0;
++    virtual bool make_handle(InitializationObjectV1, InitializationHandleV1&, std::string&) = 0;
++    virtual bool get_object(const InitializationHandleV1&, bool required,
++                            InitializationObjectV1&, std::string&) = 0;
++    virtual bool init_post(InitializationObjectV1, std::string&) = 0;
++    virtual bool test_enable_condition(InitializationObjectV1, bool force, std::string&) = 0;
++    virtual bool type_name(InitializationObjectV1, std::string&, std::string&) = 0;
++    virtual bool is_updatable(InitializationObjectV1, bool&, std::string&) = 0;
++    virtual bool room_init_object_list(InitializationObjectV1, std::string&) = 0;
++    virtual bool fields(InitializationObjectV1, InitializationFieldsV1&, std::string&) = 0;
++    // Notification before native list storage is cleared, in original order.
++    virtual bool clear_list(std::uint32_t offset,
++                            const std::vector<InitializationObjectV1>&, std::string&) = 0;
++};
++enum class ObjectInitializationStepV1 { pending, complete, failed };
++// Original resumable InitPost dispatcher at 0x34552c. Services are required,
++// never replaced by fabricated objects/condition evaluation. Failure latches
++// this candidate with its partial state: destruction/unwind belongs to the
++// owning integration. Stable repeated completion is an adapter guard; the
++// original is only compared through its first true return.
++ObjectInitializationStepV1 step_object_initialization_v1(
++    ObjectInitializationV1&, ObjectInitializationServicesV1&);
++}
+--- /dev/null
++++ b/port/level-loader/original_factory_table_v1.inc
+@@ -0,0 +1,35 @@
++// Original ELF registry 0x95c800; addresses are provenance, never native callable pointers.
++// Receipt SHA-256: fe19470f8cb8aa76e7f0d4d375411a7d9094c7984751fd6d41ca697802c0f70f
++{"Decor", 0x3410fcu},
++{"AnimatedDecor", 0x342600u},
++{"Dummy", 0x3410a4u},
++{"Floor", 0x34104cu},
++{"LightPoint", 0x34115cu},
++{"ColBox", 0x340fe0u},
++{"Billboard", 0x340fbcu},
++{"Module", 0x340f98u},
++{"Block", 0x340f98u},
++{"Character", 0x340800u},
++{"Player", 0x340800u},
++{"RoomZone", 0x340f74u},
++{"QuestMoveInZone", 0x340f50u},
++{"CheckpointZone", 0x340f2cu},
++{"TriggerObject", 0x340f0cu},
++{"TriggerPlate", 0x340ee8u},
++{"TriggerZone", 0x340ec4u},
++{"TriggerZoneExitLevel", 0x340ea0u},
++{"TriggerTrap", 0x340e7cu},
++{"TimerTrap", 0x340e58u},
++{"ProjectileTrap", 0x340e34u},
++{"Door", 0x340824u},
++{"SpawnPoint", 0x340e10u},
++{"SpawnSpot", 0x340decu},
++{"LiftableObject", 0x340dc8u},
++{"OpenableContainer", 0x340da4u},
++{"SlotContainer", 0x340d80u},
++{"DestructibleContainer", 0x340d5cu},
++{"Item", 0x340d38u},
++{"Projectile", 0x340d14u},
++{"LaserTypeProjectile", 0x340cf0u},
++{"SoundEmitter", 0x340cccu},
++{"LevelConfig", 0x340ca8u},

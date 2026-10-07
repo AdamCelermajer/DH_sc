@@ -1,0 +1,231 @@
+{
+  "version": 45,
+  "scope": "Source campaign save writers/backend and SAME Save fields; staged renderer binding. No live full campaign restore acceptance.",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_campaign_save_bindings_v45.inc",
+      "sha256": "5b47c4256bb7825fb244e877d9a835e8717955e7e13a10b5f25f564efbbf4e97",
+      "bytes": 6224
+    },
+    {
+      "path": "port/game-data/player_save_state_fields_v45.cpp",
+      "sha256": "33c4af5417b0b92d436f1be5f19886e44a2160dc4374ed8bd3e76f8b6d5cb2fa",
+      "bytes": 3064
+    },
+    {
+      "path": "port/game-data/player_savegame_v1.hpp",
+      "sha256": "517da5044d34afc94c54dd12ff371ece95cb547058066ce99eacf1e1e6ad15b9",
+      "bytes": 9297
+    },
+    {
+      "path": "port/game-data/quest_savegame_v1.hpp",
+      "sha256": "0bd2f5825420bf0c3c4a10d9bdddd114e98c42767bafb5a56cb34912d6c6eb85",
+      "bytes": 2294
+    },
+    {
+      "path": "port/level-world/campaign_save_filename_v45.cpp",
+      "sha256": "a2182e111f9c1de0b7308e3c35d3ebed047f3ccdc7f92c8215558be1aff5f75e",
+      "bytes": 359
+    },
+    {
+      "path": "port/level-world/campaign_save_filename_v45.hpp",
+      "sha256": "606c0ad45a279d017783290561c62fb9c3f6c2bb35b334246c306158ae4dac16",
+      "bytes": 248
+    },
+    {
+      "path": "port/level-world/campaign_save_profile_v45.cpp",
+      "sha256": "72b6a6b636130e06b19778bff591d6cdc66ad31b46207a8e352987bcd81f9f72",
+      "bytes": 4678
+    },
+    {
+      "path": "port/level-world/campaign_save_profile_v45.hpp",
+      "sha256": "a1d737c2578716079ffdeb591df2b261c1f7cd372ed398b01d54fbc57d2cca4b",
+      "bytes": 2114
+    },
+    {
+      "path": "port/level-world/player_save_collections_writer_v45.cpp",
+      "sha256": "1e5710e3e5db721017708b93b95dd8bbe7cea29f7bdf3cc45f350d4ed00dea02",
+      "bytes": 2505
+    },
+    {
+      "path": "port/level-world/player_save_collections_writer_v45.hpp",
+      "sha256": "18a15b32f76039122d832c7ce272e8aa57826ebcd0e8b20bb1e15ebf437d3406",
+      "bytes": 1436
+    },
+    {
+      "path": "port/level-world/player_save_inventory_writer_v45.cpp",
+      "sha256": "84e4f7e5b86dde86b01b8e025f963a3d0a246bf2c1e633a1a39deb8694d02af2",
+      "bytes": 3024
+    },
+    {
+      "path": "port/level-world/player_save_inventory_writer_v45.hpp",
+      "sha256": "18cb8c5600c7f7332a8f075bfdd8e75433ab8d2286713955e18dd157bf32c755",
+      "bytes": 907
+    },
+    {
+      "path": "port/level-world/player_save_metadata_writer_v45.cpp",
+      "sha256": "754872925f81e15ca76d7d45a565976cd2fedc3490660944d7a4baaffae811b4",
+      "bytes": 2249
+    },
+    {
+      "path": "port/level-world/player_save_metadata_writer_v45.hpp",
+      "sha256": "74b5c970171474cf434325c744600ca6a5b8ff48d0237c47c8977ddc9f8e7e7c",
+      "bytes": 693
+    },
+    {
+      "path": "port/level-world/private_save_file_transport_v45.cpp",
+      "sha256": "59710570bba2f5f67f5b5e38d300a443b7f72d54f2acf57c6c326965d4253e19",
+      "bytes": 5037
+    },
+    {
+      "path": "port/level-world/private_save_file_transport_v45.hpp",
+      "sha256": "0b7247311c9139f456aa63fbaea096da682f27f963f6c7f4c41a01de342337db",
+      "bytes": 1230
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/auxiliary.asm",
+      "sha256": "a78fb321dfeee539eaff87468fac4f01562941ffeeef697794559a37406729e6",
+      "bytes": 13876
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/auxiliary.json",
+      "sha256": "5bb2e393a2f5e76fe92b24ccb6c7a11ab089d33956d593660a73400df88f02f5",
+      "bytes": 1234
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/filename-gold.bin",
+      "sha256": "5d72b29d09df4ce648e01c12d8cc1a61eac27a3b9465cf94f19bd1ce5524bcae",
+      "bytes": 906
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/filename-gold.json",
+      "sha256": "e6962328cb757ca0e7713e5ce600fda9a3d4c9851e1391738e6d4676db096cf6",
+      "bytes": 3043
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/filename-literals.json",
+      "sha256": "a778121a118b18e507df8527995e05dc64eab98a7616a63823d0e88e7d1e0744",
+      "bytes": 763
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/filename-original.asm",
+      "sha256": "17fa58389e5ed70e9f15fb4d8dac73295bc95dd145fbb92f9dd46d4ea11da4f8",
+      "bytes": 2181
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/filenames-symbols.json",
+      "sha256": "37999945869ad5cca499d7c5196b38cae0706dbe5e0b45e55aec6de5b62971b8",
+      "bytes": 1578
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/initialization.asm",
+      "sha256": "4db91b64f796dc08db6725163faf7f981145d13ab5daf6af96f199081cb27837",
+      "bytes": 17574
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/initialization.json",
+      "sha256": "c45598cd438aed95816046d257cd050248b27d091a1e03f194cd3880e99ed270",
+      "bytes": 1114
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/metadata-original.bin",
+      "sha256": "3a9104d23824a17258e5141473e498107b2b71452fd7ceb7adba4c905ff7ab03",
+      "bytes": 31899
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/metadata-original.json",
+      "sha256": "dbd3932bcee308acc53a368b1a624384480a5e5ddccc62bac0229e2a6ed7bea6",
+      "bytes": 198
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/save194-producers.json",
+      "sha256": "445d6064ed0b9ce5e8bec9f1cd03b1a7c427c98eb61e759710a7e42a6ccffb64",
+      "bytes": 2673
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/source-writers.asm",
+      "sha256": "c1b9803ec6c14103e824ece7b1297d2b71ecea842a376cf87efd1effabca328b",
+      "bytes": 23097
+    },
+    {
+      "path": "port/level-world/reference/campaign-save-v45/source-writers.json",
+      "sha256": "12201cd435b33ea2a53faed525ba9b52c2461e573b049d1877a08c535f0bf2b0",
+      "bytes": 1940
+    },
+    {
+      "path": "port/level-world/reports/campaign-collections-v45-host.json",
+      "sha256": "551462e9bb05ec6cfd2a7b9ba44e4027ffd35bcd6c256b671fd323c191520abc",
+      "bytes": 5971
+    },
+    {
+      "path": "port/level-world/reports/campaign-filename-v45-host.json",
+      "sha256": "a5b283c16ceca9a2858dad5e0f039cf5d0a161eaa540bc87599dcd17bb28cfb8",
+      "bytes": 5979
+    },
+    {
+      "path": "port/level-world/reports/campaign-metadata-v45-host.json",
+      "sha256": "3a5516ccc45d3b38de8f2aa880fbccf57b9ed04fa5a9115706ff8053e7cd702f",
+      "bytes": 6058
+    },
+    {
+      "path": "port/level-world/reports/campaign-owned-fields-v45-host.json",
+      "sha256": "91dd2c03e966ee667680ff636c2b7945f5e094412b221a4b46baea2cd0f6d0a5",
+      "bytes": 6400
+    },
+    {
+      "path": "port/level-world/reports/campaign-save-v45-host.json",
+      "sha256": "894a5c735199d95a3638dafaaccb6aca642c6c3b6e88b3f95ed32a0ac8feb408",
+      "bytes": 5999
+    },
+    {
+      "path": "port/level-world/reports/campaign-save-v45-strict.json",
+      "sha256": "912ff72ac379815c344af8f55e64934e3c035d1fa90efa84df09b6b41a4b6f6c",
+      "bytes": 1971
+    },
+    {
+      "path": "port/level-world/reports/campaign-sections-v45-host.json",
+      "sha256": "280e354a7366019dd623faa45363807a2f1407b8a4beab8e392fcb981b6bd4c3",
+      "bytes": 7175
+    },
+    {
+      "path": "port/level-world/tests/campaign_filename_v45.cpp",
+      "sha256": "5ed5b7f1cfe666a22208714843503c2077826239ac9fb8ef038ed5c8b8f80fd7",
+      "bytes": 693
+    },
+    {
+      "path": "port/level-world/tests/campaign_metadata_v45.cpp",
+      "sha256": "a9c035f8ba38e88a38f997133520e648dc734688be3b4cf0a4544d6e5b07ced9",
+      "bytes": 2489
+    },
+    {
+      "path": "port/level-world/tests/campaign_save_profile_v45.cpp",
+      "sha256": "e272bccba29fd67806b5e827c7e744ab1b9c1c84edc3b2d53a6dd83a298f595c",
+      "bytes": 4582
+    },
+    {
+      "path": "port/level-world/tests/player_save_collections_v45.cpp",
+      "sha256": "e8faa2e032fa2eade25c1fe65f0014a4e1d3ca706eb0b766d308dbd0c90bff2b",
+      "bytes": 2975
+    },
+    {
+      "path": "port/level-world/tests/player_save_owned_fields_v45.cpp",
+      "sha256": "36ae0f2497e63302f79f4cd76e6c6cbdf02b6057c2a26cd23ac38e0757161889",
+      "bytes": 3049
+    },
+    {
+      "path": "port/level-world/tests/player_save_sections_v45.cpp",
+      "sha256": "65558541b6e1a282f95cbfd3878162e678f689d9be4ab8a7975319b888d7816a",
+      "bytes": 4541
+    },
+    {
+      "path": "port/level-world/tools/capture_campaign_filename_v45.py",
+      "sha256": "8a288853221a258171610f39f73bbc2f73649739535ac6adf8ba6cb345b2d420",
+      "bytes": 1661
+    },
+    {
+      "path": "port/level-world/tools/capture_campaign_metadata_v45.py",
+      "sha256": "8851dc6d170787e97af61ea8235249fd7be63f060f352e316047683296432a68",
+      "bytes": 2859
+    }
+  ]
+}

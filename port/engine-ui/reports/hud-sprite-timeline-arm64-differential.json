@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "comparisons": 1730,
+  "ordered_services": 27402,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "74c03cef9bff85c8d46240243e98a06b839742cd85882144f0f0673bcef7f136",
+  "gold_sha256": "7fec8f5e63532570d6ee3fab3b780a01eaddd52f278b9e1df030ba0dd56b50d9",
+  "source_sha256": {
+    "hud_sprite_timeline.hpp": "4585e30a0aba44c1c9a2ea5430f0a4e59f624a7099cefc3eb15679c13f304e53",
+    "hud_sprite_timeline.cpp": "48d1a025d97395adf77b5cb5a93e4828e300b412b17493503e431aa9dd8dbbe6"
+  },
+  "scope": "Complete original goto_frame/set_play_state caller instructions vs O2 ARM64.\nFrame tags/reverse helpers, renderer sound lookup, stream pause and dirty weak\nownership notification are required service projections, not implemented AS/GL.\nSource pending action copies/append and STOP/notification ordering execute.\n"
+}

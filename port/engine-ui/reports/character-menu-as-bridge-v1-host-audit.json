@@ -1,0 +1,130 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-04T23:28:29.311353+00:00",
+  "scope": "Typed original ActionScript callback transport and three-class native menu-operation composition",
+  "source_hashes": {
+    "port/engine-ui/character_menu_as_bridge_v1.hpp": "5f9d355c8beea575c15549fae6eae5475994eb619c05c911274e3a3486927a9c",
+    "port/engine-ui/character_menu_as_bridge_v1.cpp": "166b9b854d8de0ba3a2c538b7ae221180c34c6facb7adc233ef82ac92b5dea20",
+    "port/engine-ui/tests/character_menu_as_bridge_v1.cpp": "108e68927b8e1a694b219e22bbb7024621fed056ec799cbd9d841278d863d307",
+    "port/engine-ui/tests/character_menu_connected_as_host_v1.hpp": "52e68152edde31bbb78b63c71067f3380589a424e64f25a9d879d0123220fba7",
+    "port/engine-ui/tests/character_menu_connected_v1.cpp": "f3c11003a45a3839958b02549083ef1ed07f9b9543cdd306f842ccd757da07fb",
+    "port/engine-ui/tools/build_character_menu_as_bridge_v1.sh": "04125dd4d0a8417b6005edc4725087670361d5c1274cb39e8ae61d4df4a89ef5",
+    "port/engine-ui/tools/build_character_menu_connected_v1.sh": "0efbed0d934c970950927205e9361e8c2a9c58cbec26974e35d08eefba22e27b",
+    "port/engine-ui/tools/prepare_character_menu_connected_v1.py": "620bfb7e6d962a347f15856a0b9191a4c36f12b56bf2445f2f1f998a346160c4",
+    "port/engine-ui/tools/audit_character_menu_as_bridge_v1.py": "34c19d38364e891e93674ffdb1f07f1b4506e5232b727e026ed079c834250a92"
+  },
+  "linked_private_snapshot": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  },
+  "linked_zip_archive_sha256": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728",
+  "original_SWF_inputs": {
+    "dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    "dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "transport": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "typed_callbacks": 8,
+        "real_member_writes": 10,
+        "retained_array_appends": 7,
+        "retained_created_objects": 4,
+        "source_conversions": 5,
+        "nested_watchers": 1,
+        "guards": 6,
+        "property_getter_checks": 2,
+        "source_receiver_identity": true,
+        "limits": {
+          "gameplay_callbacks_fixture": true,
+          "localization_fixture": true,
+          "GPU_fixture": true,
+          "whole_character_menu_live": false
+        }
+      },
+      "result_sha256": "5551b8f47035ab06403392b07cd646ee219a63d1f0f1a5b28712db769d7172d9",
+      "executable_sha256": "39351c5b43ed80bb5402960a6f76f9d1692b53f49e359ef3f772f27206ccbad7"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "typed_callbacks": 8,
+        "real_member_writes": 10,
+        "retained_array_appends": 7,
+        "retained_created_objects": 4,
+        "source_conversions": 5,
+        "nested_watchers": 1,
+        "guards": 6,
+        "property_getter_checks": 2,
+        "source_receiver_identity": true,
+        "limits": {
+          "gameplay_callbacks_fixture": true,
+          "localization_fixture": true,
+          "GPU_fixture": true,
+          "whole_character_menu_live": false
+        }
+      },
+      "result_sha256": "5551b8f47035ab06403392b07cd646ee219a63d1f0f1a5b28712db769d7172d9",
+      "executable_sha256": "cd4f6c25e7b5bae3aecfeb896c4c1480926a2069cd6b38df470499ed6ae67295"
+    }
+  },
+  "connected_operations": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "same_graph_classes": 3,
+        "stat_members": 207,
+        "actual_item_members": 233,
+        "actual_skill_members": 27,
+        "whole_training_transactions": 3,
+        "same_graph_actions": 21,
+        "required_provider_guards": 12,
+        "complete_original_scripts": 219,
+        "real_retained_AS_transport": true,
+        "authored_character_menu_flow": false,
+        "startup_GPU_and_offline_world_boundary_fixtures": true
+      },
+      "result_sha256": "46e84e1617fff3240d26d6ae419f9f83cb6111c0beb2cba415813884a71cc637",
+      "executable_sha256": "68b8c0c6ebeda03ac66b35da9cf8fee43c29549a8ac296e29d5205aeaec8b3b1"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "same_graph_classes": 3,
+        "stat_members": 207,
+        "actual_item_members": 233,
+        "actual_skill_members": 27,
+        "whole_training_transactions": 3,
+        "same_graph_actions": 21,
+        "required_provider_guards": 12,
+        "complete_original_scripts": 219,
+        "real_retained_AS_transport": true,
+        "authored_character_menu_flow": false,
+        "startup_GPU_and_offline_world_boundary_fixtures": true
+      },
+      "result_sha256": "46e84e1617fff3240d26d6ae419f9f83cb6111c0beb2cba415813884a71cc637",
+      "executable_sha256": "5b76dd991a9db32d81dac7586384ed34a7765e0208627ca8f863d299ec74de34"
+    }
+  },
+  "fixture_derivation": {
+    "source": "port\\engine-ui\\tests\\character_menu_composite_v1.cpp",
+    "source_sha256": "a1be75925691fd6f9b6fa21f501ef1023d5bc7d36fa622b40bb085dccb5811c4",
+    "output": "port\\engine-ui\\tests\\character_menu_connected_v1.cpp",
+    "output_sha256": "f3c11003a45a3839958b02549083ef1ed07f9b9543cdd306f842ccd757da07fb",
+    "limits": "real AS callback composition; original character-screen flow and live Android not exercised"
+  },
+  "limits": {
+    "source_gameplay_menu_owners_still_under_development": true,
+    "whole_authored_character_menu_flow_exercised": false,
+    "main_menu_or_character_selection_in_scope": false,
+    "current_APK_modified": false,
+    "live_Android_character_menu_exercised": false,
+    "GPU_texture_settings_startup_localization_and_offline_World_boundaries_are_fixtures": true,
+    "all_decoded_fixture_asset_hashes_included": false
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "emitter_prefix_cases": 24,
+  "emitter_prefix_boundary": "0x8652b8 redirected to real epilogue0x8665b8; then whole Reset3D and GetGain/GetPitch execute separately.",
+  "emitter_defaults": {
+    "relative_offset": "0xc0",
+    "relative": 0,
+    "position_offset": "0x9c",
+    "velocity_offset": "0xa8",
+    "direction_offset": "0xb4",
+    "vectors": [
+      0,
+      0,
+      0
+    ],
+    "maximum_distance_bits": "0x7f7fffff",
+    "reference_distance_bits": "0x42c80000",
+    "rolloff_bits": "0x3f800000",
+    "gain_bits": "0x3f800000",
+    "pitch_bits": "0x3f800000"
+  },
+  "driver_init_boundary": "0x8931f8 redirected to real epilogue0x8932c0 before buffer allocation. Format/sample-rate supplied fixture.",
+  "driver_gain_q14": 16384,
+  "driver_pitch_q14": 16384,
+  "driver_general_initializers": {
+    "distance_model": {
+      "address": "0x99e260",
+      "value": 2
+    },
+    "doppler_factor": {
+      "address": "0x99e264",
+      "bits": "0x3f800000",
+      "value": 1.0
+    },
+    "speed_over_doppler": {
+      "address": "0x99e268",
+      "bits": "0x43aba666",
+      "value": 343.29998779296875
+    }
+  },
+  "manager_initialization": [
+    {
+      "call": "0x36c3d8",
+      "integer_parameter": 2,
+      "value": 4
+    }
+  ],
+  "manager_engine_state": {
+    "distance_model": 4,
+    "dirty_flag": 1
+  },
+  "scope": "Fresh emitter/driver and reached original manager initialization defaults only. Actual later listener/settings/general setters override them. No unknown current-state getter, source-ready/World-phase assumption, driver buffer/render or Android acceptance. Single-thread mutex services are explicit noops."
+}

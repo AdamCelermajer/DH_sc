@@ -1,0 +1,59 @@
+{
+  "cases": [
+    {
+      "format": 14,
+      "active_before": 0,
+      "flags_after": 18,
+      "pending": 1,
+      "result": 0,
+      "events": [
+        "generate",
+        "active",
+        "bind",
+        "update_error",
+        "delete"
+      ]
+    },
+    {
+      "format": 14,
+      "active_before": 3,
+      "flags_after": 18,
+      "pending": 1,
+      "result": 0,
+      "events": [
+        "generate",
+        "bind",
+        "update_error",
+        "delete"
+      ]
+    },
+    {
+      "format": 27,
+      "active_before": 0,
+      "flags_after": 18,
+      "pending": 1,
+      "result": 0,
+      "events": [
+        "generate",
+        "active",
+        "bind",
+        "update_error",
+        "delete"
+      ]
+    },
+    {
+      "format": 27,
+      "active_before": 3,
+      "flags_after": 18,
+      "pending": 1,
+      "result": 0,
+      "events": [
+        "generate",
+        "bind",
+        "update_error",
+        "delete"
+      ]
+    }
+  ],
+  "scope": "4 original ARM whole bindImpl->real unbindImpl error10 tails, updateData GL-error boundary fixture"
+}

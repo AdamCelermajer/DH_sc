@@ -1,0 +1,26 @@
+{
+  "native": [
+    {
+      "abi": "arm64-v8a",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "exit_code": 0
+    }
+  ],
+  "host": {
+    "optimization": "O2",
+    "sanitizers": "ASan+UBSan",
+    "checks": 221,
+    "exit_code": 0
+  },
+  "source_sha256": {
+    "compile_helper.py": "de5f5b8ea87a509ca02f614f53297da506e6abac04eababe73b9a6670ef4376e",
+    "default_source_fields_v40.hpp": "93a9a2e164f5ab18d4931b6fbb87abf5504ac699fabe50e9d89943658cdc1884",
+    "helper-fixture.cpp": "f0053a0353a3894f425abea74bebcd1eef0419223f7b126c8d9a779bb338913e",
+    "original-driver-init-prefix.bin": "930711fcba8c835cda9bc49d0f1134aa655c154a6d2a122a910396bbf68f4fd4",
+    "original-emitter-prefix.bin": "6906b7d181e6b28f4b0f70eaa8bde84a3b1191900c87562f619a00c0f561bfef",
+    "prove_defaults.py": "a05627d66c1872fd88d1a0a16726aea6c0c09259c75aa90b14fa7fe084f88014"
+  }
+}

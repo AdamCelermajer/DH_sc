@@ -1,0 +1,97 @@
+{
+  "entries": [
+    {
+      "path": "port/level-world/character_world_clear_aggro_v40.hpp",
+      "size": 1399,
+      "sha256": "65a87a27a9de2116e2f428a0569185e2bd82108d5ed04330a0d0233eddbf687b"
+    },
+    {
+      "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+      "size": 2786,
+      "sha256": "6f2d4fcda9995c79fdf2c4f072b56779842fb1f76966414c8daf02c670f7b50e"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_target_cleanup_v40.inc",
+      "size": 3552,
+      "sha256": "9fe64d9e9b0cf29228a972ac913287028c2c1c59e5457619add69d0b61acd11b"
+    },
+    {
+      "path": "port/level-world/tests/character_world_clear_aggro_v40.cpp",
+      "size": 6093,
+      "sha256": "39c8eb0b2128c101ebcdb42f33e666151c0a669c483bfc6d44cad558b578e2f8"
+    },
+    {
+      "path": "port/level-world/tests/target_lifecycle_contrasts_v40.cpp",
+      "size": 4782,
+      "sha256": "ba88c6c47e5d970027387217d69ef4180e8a39f217925afde851e5ab34744b9a"
+    },
+    {
+      "path": "port/level-world/tools/make_clear_aggro_v40_gold.py",
+      "size": 1438,
+      "sha256": "382639f1ce22689d99e89ec5e7e8cab37dc53cd45f3e46a383d0fe523dd5ee05"
+    },
+    {
+      "path": "port/level-world/tools/run_clear_aggro_v40_host.py",
+      "size": 1610,
+      "sha256": "6e5c9a94542cd702016f0c2bbb6f0f603bda5efea0c5130c2830714f2e09de19"
+    },
+    {
+      "path": "port/level-world/reference/target-cleanup-v40/clear-original.bin",
+      "size": 2308,
+      "sha256": "b93cd3e74e5c3cb2c3e644ab0a5c3225e5e65200ef3d3fbe19d8b0b2840b4623"
+    },
+    {
+      "path": "port/level-world/reference/target-cleanup-v40/original-gold.json",
+      "size": 472,
+      "sha256": "ebb25d0692245bedab9867db4fb43d385c0ead3fe8ff51a8536830e5ba791b32"
+    },
+    {
+      "path": "port/level-world/reference/target-cleanup-v40/handoff.md",
+      "size": 6956,
+      "sha256": "21d4de9757c1ca6c7482e2102456222ab984721d3186c67854c178fbc9a55fa0"
+    },
+    {
+      "path": "port/level-world/reference/character-clear-aggro/reference/original-functions.asm",
+      "size": 24379,
+      "sha256": "2a74dd7e5cdc5a06061399cadd765d76f7710046846d297aee2ddeceff0e64cd"
+    },
+    {
+      "path": "port/level-world/reports/world-clear-aggro-v40-host.json",
+      "size": 4326,
+      "sha256": "bbf4e0639e98b8b199c87a469ea3946738830e29369c53d7e2ea624c49d46be9"
+    },
+    {
+      "path": "port/level-world/reports/target-lifecycle-v40-host.json",
+      "size": 4799,
+      "sha256": "00ae16b8e4752f60a81e5542bca1c3a8f727b0d4d1106688b47c3dc2586f73e1"
+    },
+    {
+      "path": "port/level-world/reports/target-cleanup-v40-strict.json",
+      "size": 250,
+      "sha256": "5cd1042aac2b228c96a9452bdfd1302d6b663e8a444f78b8a1ee46691028e825"
+    },
+    {
+      "path": ".local-inputs/renderer_target_cleanup_v40_arm64-v8a.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local-inputs/renderer_target_cleanup_v40_x86_64.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local-inputs/compile_target_cleanup_v40.py",
+      "size": 1206,
+      "sha256": "c6dbce7f6f57699bb69086d4a9a51be07d83d04b4b96d6e2d944562bd87d731e"
+    },
+    {
+      "path": ".local-inputs/run_target_lifecycle_v40.py",
+      "size": 548,
+      "sha256": "63be62c7e6c49f9987f1712d69166759ed0b8827fe27af97819b18c9caa4bd0b"
+    }
+  ],
+  "archive_sha256": "4c6de9d690d7036d9fafe830fd623c725877facf4756aff66c0fbc355b3a0981",
+  "root_reports_both_abi_app_integration": true,
+  "live_acceptance_included": false
+}

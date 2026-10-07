@@ -1,0 +1,42 @@
+{
+  "0x3f0898": {
+    "name": "_ZN5Level22PlaceFaeryAndFollowersEP9Character",
+    "size": 584
+  },
+  "0x3a3054": {
+    "name": "_ZNK9Character11GetCharTypeEv",
+    "size": 16
+  },
+  "0x3a3094": {
+    "name": "_ZNK9Character8IsFaerieEv",
+    "size": 24
+  },
+  "0x3a54d4": {
+    "name": "_ZNK9Character16GetCharModelNameEv",
+    "size": 464
+  },
+  "0x3a307c": {
+    "name": "_ZNK9Character10IsFollowerEv",
+    "size": 24
+  },
+  "0x3ae99c": {
+    "name": "_ZN9Character11ChangeFaeryEj",
+    "size": 256
+  },
+  "0x3cebf0": {
+    "name": "_ZN6CharAIC2Ev",
+    "size": 352
+  },
+  "0x3c99a0": {
+    "name": "_ZN12CharAnimator25ANIM_AddSetToRenderObjectEv",
+    "size": 344
+  },
+  "0x3aa1b4": {
+    "name": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+    "size": 1448
+  },
+  "0x394d34": {
+    "name": "_ZN10GameObject15SetVisualObjectEPKcS1_b",
+    "size": 380
+  }
+}

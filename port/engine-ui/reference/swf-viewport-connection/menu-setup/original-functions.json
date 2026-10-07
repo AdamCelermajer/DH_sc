@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN16MultiMenuManager11LoadSWFFileEPKci",
+      "elf_address": "0x437d68",
+      "size": 188,
+      "sha256": "59967728abf738d5330a478c4090dd93af32aeb59b4f046cf4aa1b38117f9a22"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10SetContextEPN7gameswf9characterE",
+      "elf_address": "0x7a7ee8",
+      "size": 8,
+      "sha256": "fe0a0548a35f746429ebc5f30e61bf8dc63c94dd44bf6fd613e866f0807d1e0b"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager11LoadSWFFileEPKci",
+      "elf_address": "0x42d290",
+      "size": 124,
+      "sha256": "797c66d1f7333d964bc9100c1d6cc027eedd26a9667b235bd92f0f07d57d47e3"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "results": [
+    {
+      "optimization": "-O1",
+      "result": {
+        "validation": "PASS",
+        "checks": 58,
+        "scope": "actual cached HUD AS, true append semantics, stale-tail reproduction and whole onPush refresh; player/details/texture/font platform fixture providers"
+      }
+    },
+    {
+      "optimization": "-O2",
+      "result": {
+        "validation": "PASS",
+        "checks": 58,
+        "scope": "actual cached HUD AS, true append semantics, stale-tail reproduction and whole onPush refresh; player/details/texture/font platform fixture providers"
+      }
+    }
+  ],
+  "sha256": {
+    "port/engine-ui/authored_gameplay_hud_v1.cpp": "836f717f38ed6fb37ce02636ad031afe3868193a1f77a6022851821c76117a24",
+    "port/engine-ui/tests/authored_hud_skill_refresh_v5.cpp": "2b506c19096a1e8cee01d130c39b6ce5cb316728a9efd826e24d6c734b6ffb95",
+    "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  }
+}

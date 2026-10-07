@@ -1,0 +1,15 @@
+{
+  "0x30df8c": "__aeabi_fcmpeq",
+  "0x30e1c0": "sqrt",
+  "0x30e2f8": "__aeabi_fcmpgt",
+  "0x30e3ac": "__aeabi_fsub",
+  "0x30e6a0": "__aeabi_d2f",
+  "0x30e70c": "__aeabi_fcmplt",
+  "0x30e8a4": "__aeabi_f2d",
+  "0x30e9ac": "__aeabi_fcmple",
+  "0x30eba4": "__aeabi_fadd",
+  "0x30ec94": "__aeabi_fdiv",
+  "0x30ed6c": "__aeabi_fmul",
+  "0x30deb4": "logf",
+  "0x30ec64": "expf"
+}

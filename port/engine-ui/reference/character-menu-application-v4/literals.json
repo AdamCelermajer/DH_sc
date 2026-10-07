@@ -1,0 +1,212 @@
+[
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x508f78",
+    "pointer": "0x8bec30",
+    "text": "StrID"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x508f7c",
+    "pointer": "0x8dbda8",
+    "text": "GLOBAL_DECIMAL_SEPERATOR"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x508fa8",
+    "pointer": "0x8dbdc8",
+    "text": "GLOBAL_THOUSANDS_SEPERATOR"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x508fcc",
+    "pointer": "0x8dbde8",
+    "text": "GLOBAL_THOUSANDS_GROUP_AT"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509008",
+    "pointer": "0x8dbe08",
+    "text": "<null>"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509030",
+    "pointer": "0x8dbe38",
+    "text": "%.1f"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509044",
+    "pointer": "0x8dbe30",
+    "text": "%.2f"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x5092b0",
+    "pointer": "0x8dbc20",
+    "text": "%c"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x5094a0",
+    "pointer": "0x8dbe20",
+    "text": "%d%s%03d"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x5095d0",
+    "pointer": "0x8dbe20",
+    "text": "%d%s%03d"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509750",
+    "pointer": "0x8c1eb8",
+    "text": "%d"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509770",
+    "pointer": "0x8c1eb8",
+    "text": "%d"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509840",
+    "pointer": "0x8c1eb8",
+    "text": "%d"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509860",
+    "pointer": "0x8c1eb8",
+    "text": "%d"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x509880",
+    "pointer": "0x8dbe10",
+    "text": "%d%s%03d%s%03d"
+  },
+  {
+    "function": "_ZN13StringManager5parseERSsPKcz",
+    "load": "0x5098ac",
+    "pointer": "0x8dbe10",
+    "text": "%d%s%03d%s%03d"
+  },
+  {
+    "function": "_ZN8MenuBase19FS_GetParsedString2EPKcS1_Pv",
+    "load": "0x424fb0",
+    "pointer": "0x8c9218",
+    "text": "ParsedStringArgs"
+  },
+  {
+    "function": "_ZN8MenuBase19FS_GetParsedString2EPKcS1_Pv",
+    "load": "0x425214",
+    "pointer": "0x8c8f58",
+    "text": "retval"
+  },
+  {
+    "function": "_ZN8MenuBase19FS_GetParsedString2EPKcS1_Pv",
+    "load": "0x425220",
+    "pointer": "0x8c3208",
+    "text": "_root"
+  },
+  {
+    "function": "_ZN11MenuManagerC1Ev",
+    "load": "0x431da0",
+    "pointer": "0x8bfe58",
+    "text": "IsDeactivatingFlashMenus"
+  },
+  {
+    "function": "_ZN11MenuManagerC1Ev",
+    "load": "0x431dd4",
+    "pointer": "0x8bfe78",
+    "text": "IsDeactivatingFlashMenusUpdate"
+  },
+  {
+    "function": "_ZN11MenuManagerC1Ev",
+    "load": "0x431e08",
+    "pointer": "0x8bfe98",
+    "text": "IsDeactivatingFlashMenusRender"
+  },
+  {
+    "function": "_ZN11MenuManagerC2Ev",
+    "load": "0x431b34",
+    "pointer": "0x8bfe58",
+    "text": "IsDeactivatingFlashMenus"
+  },
+  {
+    "function": "_ZN11MenuManagerC2Ev",
+    "load": "0x431b68",
+    "pointer": "0x8bfe78",
+    "text": "IsDeactivatingFlashMenusUpdate"
+  },
+  {
+    "function": "_ZN11MenuManagerC2Ev",
+    "load": "0x431b9c",
+    "pointer": "0x8bfe98",
+    "text": "IsDeactivatingFlashMenusRender"
+  },
+  {
+    "function": "_Z19NativeGetNumPotionsRKN7gameswf7fn_callE",
+    "load": "0x4499d4",
+    "pointer": "0x8cc728",
+    "text": "NumPotions"
+  },
+  {
+    "function": "_Z19NativeGetNumPotionsRKN7gameswf7fn_callE",
+    "load": "0x449a48",
+    "pointer": "0x8cc738",
+    "text": "MaxNumPotions"
+  },
+  {
+    "function": "_ZN8MenuBase16FS_GetNumPotionsEPKcS1_Pv",
+    "load": "0x421b08",
+    "pointer": "0x8c3208",
+    "text": "_root"
+  },
+  {
+    "function": "_ZN8MenuBase16FS_GetNumPotionsEPKcS1_Pv",
+    "load": "0x421b0c",
+    "pointer": "0x8c8f58",
+    "text": "retval"
+  },
+  {
+    "function": "_Z32NativeGetCharMenuTutorialMessageRKN7gameswf7fn_callE",
+    "load": "0x44c8a4",
+    "pointer": "0x8cc9a8",
+    "text": "TutorialMessage"
+  },
+  {
+    "function": "_Z32NativeGetCharMenuTutorialMessageRKN7gameswf7fn_callE",
+    "load": "0x44c914",
+    "pointer": "0x8cc988",
+    "text": "TutorialFrame"
+  },
+  {
+    "function": "_Z32NativeGetCharMenuTutorialMessageRKN7gameswf7fn_callE",
+    "load": "0x44c970",
+    "pointer": "0x8cc998",
+    "text": "TutorialMenu"
+  },
+  {
+    "function": "_Z25NativeGetStringNumPotionsRKN7gameswf7fn_callE",
+    "load": "0x446a0c",
+    "pointer": "0x8cc138",
+    "text": "GAMEPLAYMENUS_POTIONS"
+  },
+  {
+    "function": "_Z25NativeGetStringNumPotionsRKN7gameswf7fn_callE",
+    "load": "0x446a10",
+    "pointer": "0x8bec30",
+    "text": "StrID"
+  },
+  {
+    "function": "_Z25NativeGetStringNumPotionsRKN7gameswf7fn_callE",
+    "load": "0x446a54",
+    "pointer": "0x8cc150",
+    "text": "StrNumPotions"
+  }
+]

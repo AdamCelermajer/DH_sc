@@ -1,0 +1,61 @@
+{
+  "scope": "LevelSavegame C1/cache/readiness/lifetime native subset; OBJS/load receiver and whole saveAll/job delivery remain explicit required services",
+  "entries": [
+    {
+      "path": "port/level-world/level_savegame_owner_v1.hpp",
+      "sha256": "33e1869ee0df95affb272a577a21c63d2b6465845a62a24e205b5eeed89b06c0"
+    },
+    {
+      "path": "port/level-world/level_savegame_owner_v1.cpp",
+      "sha256": "bddb330a95b2d7443cea60c5ee5a5c276ba222db912d083c8e8da468b169af0b"
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.hpp",
+      "sha256": "165b5bc5b7dba91fbad3489e5ff90574f44f0f6af89fe9e622f1654d9269b58f"
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.cpp",
+      "sha256": "65c1c7612d0d89fbbb8a8c3d9e99f687375045f6ca70037481c5d1d3721b8df9"
+    },
+    {
+      "path": "port/level-world/level_savegame_runtime_v1.hpp",
+      "sha256": "676cfd119fb6bbbe086445d22a37c3186f5413a38d90634b165e5f0103a2378e"
+    },
+    {
+      "path": "port/level-world/level_savegame_runtime_v1.cpp",
+      "sha256": "a96a52df3a2b87e94503611ce6be6e66441865c760cdd6195350168a5ae33e2f"
+    },
+    {
+      "path": "port/level-world/tests/level_savegame_owner_v1_native.cpp",
+      "sha256": "06f5d0a640c2dc3297b69c6cc7e8cd88d06053fc6f5c70b51354729e7ea7656e"
+    },
+    {
+      "path": "port/level-world/tools/produce_level_savegame_v1.py",
+      "sha256": "70a2072894052042acc48659722c230a21e4eff9f825651977b9f33a6b5243d9"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/constructor-gold.hpp",
+      "sha256": "5182ac1fc3b716f596e1e0e6e82d073ef4ce97ceee2b6f3225de3234a18a134f"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/constructor-gold.json",
+      "sha256": "4840b251dd84d37000fe729d9205e19ec964a1436a055c103b4264bec43e8dc5"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/integration.md",
+      "sha256": "f42e11bac7426cf875f88f9d80cecf78eaa75fd7cdb77a3a764f8ff2866b4ce9"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/original-functions.asm",
+      "sha256": "5fd1363f3c76b1fe2aa6cf829f1478166a6a00d162322bd73374d9527ec43047"
+    },
+    {
+      "path": "port/level-world/reference/level-savegame-v1/original-functions.json",
+      "sha256": "5dedd1a69a68693fec9b1a1c8a388ade8199fc00a36b087e51071d4cc619eaa1"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/level-savegame-v1/receipt.json",
+      "sha256": "8e5c0d563f7bdaac0578d225b0d60024d2efcc270280af15a637a166c7d3468f"
+    }
+  ]
+}

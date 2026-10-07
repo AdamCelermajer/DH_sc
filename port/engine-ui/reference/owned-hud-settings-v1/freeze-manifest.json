@@ -1,0 +1,58 @@
+{
+  "validation": "PASS",
+  "version": 1,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/engine-ui/game_option_table_v1.hpp": "5dd3edbc9a5f1e4fd568f7513b90e6f37964023b3aecd6e421d1be494e8ada93",
+    "port/engine-ui/game_option_table_v1.cpp": "8ffd204eba23339675b635c415deb9cfa9f397d45fe264cbfc3142fc31f7debf",
+    "port/engine-ui/owned_hud_settings_v1.hpp": "22d32d0e81c70a4966f986b6da1e8def5499859c77063d92eeea71afc27c3155",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "9cc1cf9ba79272159ccea80f12649c752b0744c74b2bf0a8c1685382759e7269",
+    "port/engine-ui/settings_native_files_v1.hpp": "be40fa0f68685ead0ab31c93cf95116dd3014bc95a7eee1dd0273de1f01413d3",
+    "port/engine-ui/settings_native_files_v1.cpp": "65730369ba3d42944abc7785f2c216db07c92d2f27a7aa4b918f6534925691a3",
+    "port/engine-ui/settings_language_scene_v1.hpp": "29d560ffd3c50eb87eb948f097f9a69822486b0480d249d2d38c84499a5d62a5",
+    "port/engine-ui/settings_language_scene_v1.cpp": "d94d0b06cc58e2df0094dc46603e7c6aa0ce11b60cc7d465cd79b8873d6d5fea"
+  },
+  "source_and_evidence_sha256": {
+    "port/engine-ui/game_option_table_v1.hpp": "5dd3edbc9a5f1e4fd568f7513b90e6f37964023b3aecd6e421d1be494e8ada93",
+    "port/engine-ui/game_option_table_v1.cpp": "8ffd204eba23339675b635c415deb9cfa9f397d45fe264cbfc3142fc31f7debf",
+    "port/engine-ui/owned_hud_settings_v1.hpp": "22d32d0e81c70a4966f986b6da1e8def5499859c77063d92eeea71afc27c3155",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "9cc1cf9ba79272159ccea80f12649c752b0744c74b2bf0a8c1685382759e7269",
+    "port/engine-ui/settings_native_files_v1.hpp": "be40fa0f68685ead0ab31c93cf95116dd3014bc95a7eee1dd0273de1f01413d3",
+    "port/engine-ui/settings_native_files_v1.cpp": "65730369ba3d42944abc7785f2c216db07c92d2f27a7aa4b918f6534925691a3",
+    "port/engine-ui/settings_language_scene_v1.hpp": "29d560ffd3c50eb87eb948f097f9a69822486b0480d249d2d38c84499a5d62a5",
+    "port/engine-ui/settings_language_scene_v1.cpp": "d94d0b06cc58e2df0094dc46603e7c6aa0ce11b60cc7d465cd79b8873d6d5fea",
+    "port/engine-ui/tests/owned_settings_v1.cpp": "837cb42bb2655496e5d38f3515ae77223f7a4e790132c1a1f55e0f2b010c5a6f",
+    "port/engine-ui/tests/settings_language_scene_v1.cpp": "f58ff5e1ffb8ad4d5d780ee101a21358b836c3cf86fb52fa73185963cc7c2434",
+    "port/engine-ui/tests/owned_settings_v1_differential.py": "481ebdb96c75fe98df40bdad0dbe120c001e972d9fba6f457eb275b9cecca626",
+    "port/engine-ui/tests/settings_language_scene_v1_differential.py": "6077b0722de2aefe4bf7d49019bdab00540cd6b356db7b0d6b5d4a6874581a7b",
+    "port/engine-ui/tests/run_owned_settings_v1_host.py": "fe10a5f90faf168d3f0252244fda487c66715fb1a0acc26638210fddb701a489",
+    "port/engine-ui/localization.hpp": "48433e35464d7fc14118de3d60a5323766a22c8116761e61eb605809187bbc8c",
+    "port/engine-ui/localization.cpp": "b519ab31e8553ccc808822fc1c9f846ebdff5f9e608eb31cd2fe3245d2860611",
+    "port/engine-ui/hud_startup_callbacks.hpp": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+    "port/engine-ui/hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+    "port/engine-ui/reference/owned-hud-settings-v1/build-commands.json": "7f9a00319703a0c10bd398f2278bfa595bdca9941b005cf97054caf52cf7469a",
+    "port/engine-ui/reference/owned-hud-settings-v1/fixtures.bin": "64d287eebe6fb57db07df51e1d4894b831a96b41c841de4da9056db35611028b",
+    "port/engine-ui/reference/owned-hud-settings-v1/language-scene-fixtures.bin": "85555f63d1f15bb6ffa6554b0d643605b1080586ca9b8d07bbfd40ea4130baa4",
+    "port/engine-ui/reference/owned-hud-settings-v1/NOTES.md": "98f9c67ae38071a653e3c973f521f331429cfa8859bb4f24b1e1c1c62daf1515",
+    "port/engine-ui/reference/owned-hud-settings-v1/original-cache.json": "38c4aaf4b37896e80326e3e46fabf43ce7651921f2f03400ed4902db83742178",
+    "port/engine-ui/reference/owned-hud-settings-v1/original-owner.json": "6680339b542a515214b597104e3b39c0aef9e1657adeb1f02284ad8efc73dfb2",
+    "port/engine-ui/reference/owned-hud-settings-v1/original_cache.py": "0903959d158e286b6494660d5d817f9118f520cca129ced27eba6505c780d040",
+    "port/engine-ui/reference/owned-hud-settings-v1/original_owner.py": "42fc9984dec9c750123fff6c8bb7bb0c042965afc15cd50c98c017263ab89c26",
+    "port/engine-ui/reference/owned-hud-settings-v1/source-capture/original-functions.json": "b89dfa59366d755ada6f3a851baa9f474e57b8b683658b909c09231d000b1dd9",
+    "port/engine-ui/reference/owned-hud-settings-v1/source-capture/reference/original-functions.asm": "8889ba3224527d206f6a1ca25d2bce17514a18a38e28ee171d5d15dc9bab87f9"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/owned-hud-settings-v1-arm64-differential.json": "12ae00b92ebbbe27986a3a72c8e01d24e16d87645eb46f3378a76495c0ad8b2a",
+    "port/engine-ui/reports/settings-language-scene-v1-arm64-differential.json": "418ffc53dd744381cf7ec3e0e44831a84d7daf030afbfb1b1e6d4f511575a83a",
+    "port/engine-ui/reports/owned-hud-settings-v1-host-audit.json": "6af8ae1e7732c17f11b6586693af2e099d2415eff15effb7635abd352a36fcb8"
+  },
+  "counts": {
+    "original_full_manager_gold": 254,
+    "original_arm64_record_and_parser": 784,
+    "original_arm64_language_graph": 162,
+    "host_owner_parser_record": 1038,
+    "host_language_graph": 162,
+    "sanitizer_findings": 0
+  },
+  "scope": "Complete owned HUD settings map/raw-file read and exact language refresh traversal; required inventory/audio/device/AS backends explicit. Campaign profile/write/fullApplication/liveAPK parity unclaimed."
+}

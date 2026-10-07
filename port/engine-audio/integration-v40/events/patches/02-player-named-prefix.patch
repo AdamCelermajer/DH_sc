@@ -1,0 +1,39 @@
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -660,6 +660,7 @@
+ std::string source_player_attack_v1(int);
+ bool source_player_heading_v1(const float*,bool,std::string&);
+ static int source_named_animation_sound_v38(PlayerSkillsRuntime&,std::uintptr_t,const char*);
++static int source_player_named_prefix_v40(PlayerSkillsRuntime&,const char*,bool&);
+ extern std::uint32_t controller_global_blocked;
+ void MonsterScriptHandle::state_body(void* pointer,dh2::character::State* state,const dh2::character::Request* request){
+  auto& m=*static_cast<MonsterScriptHandle*>(pointer);
+@@ -1547,6 +1548,11 @@
+ }
+ namespace {
+ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip){
++ if(event.name&&!std::strncmp(event.name,"sfx_",4)){
++  if(!player_skills_runtime)throw std::runtime_error("Required actual player named-event owner");
++  bool handled=false;const int status=source_player_named_prefix_v40(*player_skills_runtime,event.name,handled);
++  if(!handled||status)throw std::runtime_error("Required source attack named sound: "+player_skills_runtime->error);return;
++ }
+  const auto& frames=prince_locomotion.scheduler.frames();
+  if(frames.empty())return;
+  const dh2::data::CombatEventContext context{prince_state.current,int(frames.front().step),int(frames.back().step),0,-1};
+@@ -1754,6 +1760,8 @@
+  // Preserve synchronous authored damage and the existing FSM close boundary.
+  if(event.handoff.event_id==0x28){
+    if(prince_state.current==7&&player_skills_runtime&&player_skills_runtime->cast){
++    bool handled=false;const int named_status=source_player_named_prefix_v40(*player_skills_runtime,static_cast<const char*>(event.handoff.payload),handled);
++    if(handled){if(named_status)throw std::runtime_error("Required source cast named sound: "+player_skills_runtime->error);return;}
+     if(player_skills_runtime->cast->animation_event(player_gameplay_binding(),event.handoff.payload))throw std::runtime_error("Original cast animation event: "+player_skills_runtime->cast->error());return;
+    }
+    if(prince_state.current!=5&&player_skills_runtime){
+@@ -1968,6 +1976,7 @@
+ void clear_npc_death_owners_v2(){for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.script)actor.script->death.reset();}
+ #include "renderer_combat_fx_runtime_v4.inc"
+ #include "renderer_animation_sound_v4.inc"
++#include "integration-v40/events/renderer_player_named_prefix_v40.inc"
+ #include "renderer_player_animation_step_fx_v2.inc"
+ PlayerSkillsRuntime::~PlayerSkillsRuntime(){
+  if(cast_fx_probe_v46.owner==this)cast_fx_probe_v46={};

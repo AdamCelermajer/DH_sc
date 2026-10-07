@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK13ItemInventory15IsInventoryFullEv",
+      "elf_address": "0x3fe330",
+      "size": 280,
+      "sha256": "5029e7096116bda75932887c0401fdb742009ca066deb602799d21c9b9320255"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance8SetValueEi",
+      "elf_address": "0x3fbc58",
+      "size": 8,
+      "sha256": "e0857178738f7fd87b902d5d74ba0bd6662e141f7fcc92fecc29f2489fe5ee63"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance12GetNumPowersEv",
+      "elf_address": "0x3f9e80",
+      "size": 20,
+      "sha256": "93fe41b3d6348608be7e7434d76131aac9e4073c5890480baafc2bed878b04be"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance8AddPowerEii",
+      "elf_address": "0x3fbc60",
+      "size": 1364,
+      "sha256": "14a149da698fb427db189368bc86605fd3618db8129aa138a80f701abdb801ad"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstanceeqERKS_",
+      "elf_address": "0x3f9d78",
+      "size": 136,
+      "sha256": "e774eb527d22255988331132c2a0a1a6f0902928c67037865261d6ce1ca1ecf4"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_AddItemInstanceEP12ItemInstancebb",
+      "elf_address": "0x3ff5d4",
+      "size": 644,
+      "sha256": "4cbfefd1a8147801fe15f33419feb63e0c4c2185f630440de9ae4333e09c4e8d"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance10GetPowerIdEj",
+      "elf_address": "0x3fa038",
+      "size": 172,
+      "sha256": "2f89242b7eb9f42fcdd477c9cc6f626b5887ffca1c2d58ff86d31f67102076f7"
+    }
+  ]
+}

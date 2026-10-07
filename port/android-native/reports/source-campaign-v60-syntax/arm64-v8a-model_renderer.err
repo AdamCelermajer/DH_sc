@@ -1,0 +1,115 @@
+In file included from C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp\model_renderer.cpp:1971:
+C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp/renderer_source_campaign_v55.inc:294:16: error: call to 'borrow_source_campaign_candidate_v55' is ambiguous
+  294 |  if(!factory||!borrow_source_campaign_candidate_v55(actual,error)){
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp/model_renderer.hpp:54:6: note: candidate function
+   54 | bool borrow_source_campaign_candidate_v55(SourceCampaignCandidateBorrowV55&,std::string&);
+      |      ^
+C:\Users\adamc\Desktop\workspace\DH_sc\port\android-native\app\src\main\cpp/renderer_source_campaign_v55.inc:277:6: note: candidate function
+  277 | bool borrow_source_campaign_candidate_v55(SourceCampaignCandidateBorrowV55& out,std::string& error){
+      |      ^
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DDH2_ENABLE_LOAD_DIAGNOSTICS=0 -Ddh2_native_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-loader -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1 -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -DANDROID -D_FORTIFY_SOURCE=2 -IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc -IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-audio\\integration-v42 -std=c++17 -Wall -Wextra -Werror -isystem C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\overlays\\edit-text-v1 -Wno-misleading-indentation -fsyntax-only C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp
+1.	<eof> parser at end of file
+2.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__functional/function.h:980:59: instantiating function definition 'std::function<bool (unsigned int, unsigned int, int, std::string &)>::operator=<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22), void>'
+3.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__functional/function.h:952:30: instantiating function definition 'std::function<bool (unsigned int, unsigned int, int, std::string &)>::function<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22), void>'
+4.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__functional/function.h:378:34: instantiating function definition 'std::__function::__value_func<bool (unsigned int, unsigned int, int, std::string &)>::__value_func<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22), 0>'
+5.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__functional/function.h:358:25: instantiating function definition 'std::__function::__value_func<bool (unsigned int, unsigned int, int, std::string &)>::__value_func<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22), std::allocator<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22)>>'
+6.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__functional/function.h:274:34: instantiating function definition 'std::__function::__func<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22), std::allocator<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22)>, bool (unsigned int, unsigned int, int, std::string &)>::__func'
+7.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__functional/function.h:318:45: instantiating function definition 'std::__function::__func<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22), std::allocator<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22)>, bool (unsigned int, unsigned int, int, std::string &)>::operator()'
+8.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__functional/function.h:166:29: instantiating function definition 'std::__function::__alloc_func<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22), std::allocator<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22)>, bool (unsigned int, unsigned int, int, std::string &)>::operator()'
+9.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__type_traits/invoke.h:272:58: instantiating function definition 'std::__invoke_r<bool, (lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22) &, unsigned int, unsigned int, int, std::string &>'
+10.	C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/__type_traits/invoke.h:242:67: instantiating function definition 'std::__invoke_void_return_wrapper<bool>::__call<(lambda at C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc:120:22) &, unsigned int, unsigned int, int, std::string &>'
+Exception Code: 0xC000001D
+0x00007FF73E156966, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x656966 byte(s)
+0x00007FF9A8FA2139, C:\WINDOWS\System32\ucrtbase.dll(0x00007FF9A8EE0000) + 0xC2139 byte(s)
+0x00007FF9A8F85261, C:\WINDOWS\System32\ucrtbase.dll(0x00007FF9A8EE0000) + 0xA5261 byte(s)
+0x00007FF73E13691B, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x63691B byte(s)
+0x00007FF73E136932, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x636932 byte(s)
+0x00007FF73DB056DC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x56DC byte(s)
+0x00007FF73DB05709, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x5709 byte(s)
+0x00007FF73DC61CBD, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x161CBD byte(s)
+0x00007FF73F350DD1, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x1850DD1 byte(s)
+0x00007FF73F3149FA, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x18149FA byte(s)
+0x00007FF741727C6B, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C27C6B byte(s)
+0x00007FF742882CB4, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4D82CB4 byte(s)
+0x00007FF741784BCA, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C84BCA byte(s)
+0x00007FF74178F2C4, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C8F2C4 byte(s)
+0x00007FF7417274EC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C274EC byte(s)
+0x00007FF74178B275, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C8B275 byte(s)
+0x00007FF7417279E3, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C279E3 byte(s)
+0x00007FF741726ECE, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C26ECE byte(s)
+0x00007FF741730B22, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C30B22 byte(s)
+0x00007FF7428919DA, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4D919DA byte(s)
+0x00007FF742884E69, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4D84E69 byte(s)
+0x00007FF74288283A, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4D8283A byte(s)
+0x00007FF741784BCA, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C84BCA byte(s)
+0x00007FF74178F2C4, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C8F2C4 byte(s)
+0x00007FF7417274EC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C274EC byte(s)
+0x00007FF74178B275, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C8B275 byte(s)
+0x00007FF7417279E3, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C279E3 byte(s)
+0x00007FF741726ECE, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C26ECE byte(s)
+0x00007FF741730B22, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C30B22 byte(s)
+0x00007FF7428919DA, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4D919DA byte(s)
+0x00007FF74292202B, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4E2202B byte(s)
+0x00007FF742920E04, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4E20E04 byte(s)
+0x00007FF7429249CE, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x4E249CE byte(s)
+0x00007FF7417FACDA, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3CFACDA byte(s)
+0x00007FF74180F9DF, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3D0F9DF byte(s)
+0x00007FF74180F8A7, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3D0F8A7 byte(s)
+0x00007FF74180FB3D, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3D0FB3D byte(s)
+0x00007FF74180FF2D, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3D0FF2D byte(s)
+0x00007FF741839BF7, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3D39BF7 byte(s)
+0x00007FF741854B62, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3D54B62 byte(s)
+0x00007FF7417743FA, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C743FA byte(s)
+0x00007FF741792D08, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C92D08 byte(s)
+0x00007FF74177B380, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C7B380 byte(s)
+0x00007FF74172FD4E, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3C2FD4E byte(s)
+0x00007FF74160A0C4, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A0C4 byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF74160A20F, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0A20F byte(s)
+0x00007FF74160DFBC, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3B0DFBC byte(s)
+0x00007FF73F780034, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x1C80034 byte(s)
+0x00007FF73F78087D, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x1C8087D byte(s)
+0x00007FF742B477D0, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x50477D0 byte(s)
+0x00007FF741A8D28E, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x3F8D28E byte(s)
+0x00007FF73F79E56B, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x1C9E56B byte(s)
+0x00007FF73E28A240, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x78A240 byte(s)
+0x00007FF73E323952, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x823952 byte(s)
+0x00007FF73DC32B65, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x132B65 byte(s)
+0x00007FF73DC2F670, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x12F670 byte(s)
+0x00007FF73F4F352D, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x19F352D byte(s)
+0x00007FF73E13088E, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x63088E byte(s)
+0x00007FF73F4F2F22, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x19F2F22 byte(s)
+0x00007FF73E235BA7, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x735BA7 byte(s)
+0x00007FF73E25AF0D, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x75AF0D byte(s)
+0x00007FF73DC2E3F8, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x12E3F8 byte(s)
+0x00007FF73DC3EE0D, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x13EE0D byte(s)
+0x00007FF73DB01395, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x1395 byte(s)
+0x00007FF73DB014C8, C:\Users\adamc\AppData\Local\Android\Sdk\ndk\29.0.14206865\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe(0x00007FF73DB00000) + 0x14C8 byte(s)
+0x00007FF9A9B6CD87, C:\WINDOWS\System32\KERNEL32.DLL(0x00007FF9A9B40000) + 0x2CD87 byte(s)
+0x00007FF9AB52CAEC, C:\WINDOWS\SYSTEM32\ntdll.dll(0x00007FF9AB480000) + 0xACAEC byte(s)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (13989888, based on r563880c) clang version 21.0.0 (https://android.googlesource.com/toolchain/llvm-project 5e96669f06077099aa41290cdb4c5e6fa0f59349)
+Target: aarch64-none-linux-android24
+Thread model: posix
+InstalledDir: C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: error: unable to execute command: Couldn't execute program 'C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe': The paging file is too small for this operation to complete.  (0x5AF)
+clang++: note: diagnostic msg: Error generating preprocessed source(s).

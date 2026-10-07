@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "actual_fire_factory_executed": true,
+  "factory_result": "full uchar4 SUseDefaultLerp; not component3 alpha",
+  "instance": "0x9f6f00",
+  "vtable": "0x97a748",
+  "actual_node_constructor_executed": true,
+  "camera_offset_word": 0,
+  "rendering_layer": 0,
+  "scope": "Actual getAnimationTrackEx611ae0 chooses fulluchar4 over relocated exact FIRE sampler/default. Initialized singleton is explicit fixture. Whole ISceneNodeC1 and actual getter instructions produce both queue words0.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "asset_sha256": "b48d8f0bd4f5884d04bdfd79050549a0541d98375a3febe384fe5dbee31ca152"
+}

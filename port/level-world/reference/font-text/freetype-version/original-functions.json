@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "FT_Load_Glyph",
+      "elf_address": "0x7091e0",
+      "size": 1152,
+      "sha256": "4fdb864ff5a3fecd72a46421281bbbcf6b6482011bbade758f06a15d0e29b582"
+    },
+    {
+      "original_symbol": "FT_Get_Kerning",
+      "elf_address": "0x704f6c",
+      "size": 256,
+      "sha256": "a1e59bf7ca8382c0131eceb6228156c1eb10dc0874edba48a6e3f402a3e296a6"
+    },
+    {
+      "original_symbol": "_ZN7gameswf14glyph_providerC1Eiibf",
+      "elf_address": "0x7d0dfc",
+      "size": 244,
+      "sha256": "1bc98ed6e8918058e3cbfabb5f3f5466db70c0a01a30f8166466f60ad37f4d87"
+    },
+    {
+      "original_symbol": "FT_Init_FreeType",
+      "elf_address": "0x70d708",
+      "size": 132,
+      "sha256": "afda4009fe78656b4469d8a120bd430be6b37191e6fb45f28fdaf80c18702f4c"
+    },
+    {
+      "original_symbol": "FT_Library_Version",
+      "elf_address": "0x70576c",
+      "size": 60,
+      "sha256": "52fb93fde99b0a2abfdb4f605358205c0fd9ab3c140f9b99c346eecf9eda0cb6"
+    },
+    {
+      "original_symbol": "FT_New_Library",
+      "elf_address": "0x70aee8",
+      "size": 140,
+      "sha256": "bf7df14e99322e09573bd43d28dac817eccb9322009b02d3e97dcd5b4945b2e8"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "status": "PASS",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/character_progression_world_v26_host.cpp",
+        "port/level-world/character_progression_world_v23.cpp",
+        "port/level-world/player_progression_v1.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "port/level-world/player_add_character_owner_v5.cpp",
+        "port/level-world/canonical_player_facet_v3.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/character_progression_world_v26_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_progression_world_v26_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\":\"PASS\",\"checks\":33,\"actual_cache_victim\":\"Crypt_Skeleton\",\"source_count_store\":true,\"lifecycle_endpoints_fixture\":true,\"production_presentation\":false,\"source_prefix_preserved\":1}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/character_progression_world_v26_host.cpp",
+        "port/level-world/character_progression_world_v23.cpp",
+        "port/level-world/player_progression_v1.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "port/level-world/player_add_character_owner_v5.cpp",
+        "port/level-world/canonical_player_facet_v3.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/character_progression_world_v26_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_progression_world_v26_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\":\"PASS\",\"checks\":33,\"actual_cache_victim\":\"Crypt_Skeleton\",\"source_count_store\":true,\"lifecycle_endpoints_fixture\":true,\"production_presentation\":false,\"source_prefix_preserved\":1}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/level-world/tests/character_progression_world_v26_host.cpp",
+      "sha256": "00cb72c1a6dd3c398cd39bfc6b874d9213ea5e6656175bb4246e8090b04aee39"
+    },
+    {
+      "path": "port/level-world/character_progression_world_v23.cpp",
+      "sha256": "eefe3bb909aaaff320072bb183a9fb8c0a19c64814f733cf3c4de28a92c5a6c8"
+    },
+    {
+      "path": "port/level-world/player_progression_v1.cpp",
+      "sha256": "f375ce69e3ddedc57e6fc6cf5a366b843642e7dccf8d0e71769a5f97e45e8471"
+    },
+    {
+      "path": "port/level-world/player_manager_owner_v1.cpp",
+      "sha256": "75d0713553fe47494f675051b33a243c4841f01ba2baf44dff8c439ba3e640a1"
+    },
+    {
+      "path": "port/level-world/player_add_character_owner_v5.cpp",
+      "sha256": "598020b5dd7fafef4ca3e41f0d11f00a803842f86c6ffa540b3d2331b616bd8f"
+    },
+    {
+      "path": "port/level-world/canonical_player_facet_v3.cpp",
+      "sha256": "0e9257442418babc04d1fb3763a85831293d1825dd58e3d780fd5df3ee1f0c30"
+    }
+  ]
+}

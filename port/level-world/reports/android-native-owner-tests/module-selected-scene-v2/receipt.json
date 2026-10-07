@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "e02f171cb86e661c0782cab5682e48e91ed4c4b9ad7a91075194a1b89d9fea6e",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\module_selected_scene_v2.cpp",
+      "sha256": "1dcf6b2aa151f701c1c1c8ee4f7911f635616869682f4aa6fa3cdc3626323554"
+    },
+    {
+      "path": "port\\level-world\\module_selected_scene_v2.cpp",
+      "sha256": "cb03c8c01cb87c2a2eb2f0a2342e3e6393208ae2ab08ed7968bcb15c3d727dc1"
+    },
+    {
+      "path": "port\\scene-materials\\scene.cpp",
+      "sha256": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d"
+    },
+    {
+      "path": "port\\engine-resources\\resources.cpp",
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+    },
+    {
+      "path": "port\\asset-payloads\\payloads.cpp",
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d"
+    },
+    {
+      "path": "port\\engine-math\\math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\module_selected_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_selected_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\scene.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-resources\\resources.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\payloads.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-math\\math.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\module-selected-scene-v2\\module-selected-scene-v2.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "PASS actual SWAMP selected subscenes 9 plus missing/empty cases\n",
+  "stderr": ""
+}

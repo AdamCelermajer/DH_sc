@@ -1,0 +1,47 @@
+{
+  "scope": "Loading ring atlas compatibility correction; supplied Android fill mapping unresolved",
+  "original_sha256": "ee12d5c1dd9791fe2d438eb931794ff78ee53618c084bf350b90ad33838f34d5",
+  "original_atlas_source": "dqmenus.swf embedded bitmap1; original packed splash ring artwork",
+  "source_movie_sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+  "patched_sha256": "31a039dba1e180deb788d6899002f1ec05cdc72a14a6dc6f329b393b64998790",
+  "geometry_actions_timeline_unchanged": true,
+  "shapes": [
+    {
+      "shape": 2,
+      "bounds_twips": [
+        173,
+        753,
+        112,
+        697
+      ],
+      "old_matrix": {
+        "scale": [
+          20.0,
+          20.0
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -6750,
+          -6601
+        ]
+      },
+      "ring_pixel_bounds": [
+        21,
+        74,
+        793,
+        845
+      ],
+      "new_scale": [
+        10.943396226415095,
+        11.25
+      ],
+      "new_shift": [
+        -56.811320754716974,
+        -8809.25
+      ]
+    }
+  ]
+}

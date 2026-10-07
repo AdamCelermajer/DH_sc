@@ -1,0 +1,23 @@
+{
+  "status": "FROZEN",
+  "scope": "unfinished unpublished player startup",
+  "files": {
+    "port/level-world/player_add_after_save_v29.cpp": "8166490e8de8e2042f690fae7981cbc677cdf966fce75f42b26632c6df4c787b",
+    "port/level-world/player_add_after_save_v29.hpp": "d6ab34b05c74cd21bec23bc591d8244d51addbc7dbbadf100e27f85760b03d4e",
+    "port/level-world/player_level_quicksave_v29.cpp": "603784db950f0e3e36952425a0761b41dcde3fd9f566ea2e0554a974296a8d0a",
+    "port/level-world/player_level_quicksave_v29.hpp": "2daaa1781b67945a0192f6c9d48909f05790c6caff5e3c1301641f09a7699dc2",
+    "port/level-world/player_save_difficulty_global_v29.cpp": "ff2ffd687fc5f8327384172c11d9d18c4a7e71986415690d47e565603cb9a439",
+    "port/level-world/player_save_difficulty_global_v29.hpp": "7a0588ce6b847ba370a9738c836b40d8e4bee3ae0a12199e077f0a030c2e4021",
+    "port/level-world/player_save_identity_authority_v29.cpp": "9d2089fdc21d47658c481acf2fdd740287bad5d7291fe25952b5d113bbcdde02",
+    "port/level-world/player_save_identity_authority_v29.hpp": "917056902ec00d565bb2fbf86dc93f9fa1173c11ef1f0ed8c4f1b80064e8c993",
+    "port/level-world/reference/player-initialization-v29/manifest.json": "672f82efc106f59962221f4a139a38cb3b8b31c14e9d8c5718247669280257f2",
+    "port/level-world/reference/player-initialization-v29/original-functions.asm": "fe239be0311ec179c1000ce7835982724488a523c245d6a6e1dfa92839e80292",
+    "port/level-world/reports/player-initialization-v29/UNPUBLISHED.md": "045b57192c3e6287e08725d1490586e1335ae2cd946baecab21530344e19676d",
+    "port/level-world/reports/player-initialization-v29/android-compile.json": "095b11d5902ad96db2859acbaa0da224b716cc507494f3a92d3759829a5c32cc",
+    "port/level-world/reports/player-initialization-v29/quicksave-host-receipt.json": "98461435c79d36569247c021241fe247ee1180d47c534d8f7c278134d7255aef",
+    "port/level-world/reports/player-initialization-v29/save-identity-host-receipt.json": "8127e7d81ff2847d9cf2c6896e06072f5bdc2fb388577957bb095bc4d0f21f4f",
+    "port/level-world/tests/player_add_after_save_v29.cpp": "1eb0c927de7610676e8d8cc6db9a682280024d61355176a8f89dcccf11d03ec8",
+    "port/level-world/tests/player_level_quicksave_v29.cpp": "61318d419cf5d49cc160b43a8e81a321d05d01b19cab89da09c307a2393eb245",
+    "port/level-world/tests/player_save_identity_authority_v29.cpp": "fa0cbd747b9b3e0250938c55e851678a27f621f44477908febc098ceaa189463"
+  }
+}

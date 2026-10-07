@@ -1,0 +1,13 @@
+# Canonical Dummy V14
+
+The actual factory3410a4 allocates0x374, invokes GameObjectC1(38c398,GO_ID20), then writes static84=1. Dummy adds no fields. Its primary slots18/1c/58 inherit GameObject DeclareProperties38cee8, InitPost38be5c and InitFinal38cd48. The four source capability leaves340134/13c/144/14c return false.
+
+Construct one `CanonicalDummyOwnerV14(worldLease,sameRuntime,actualInitializationServices,actualDestructionServices)` and return `CanonicalDummyOwnerV14::factory_receiver(owner,sourceXmlLease)` through the existing caller catalog constructor. The actual factory/transport supplies class_name20=`Dummy`; the constructor does not fabricate it. The receiver uses one canonical base, Handle, property fields and runtime. Manager Add and property application remain existing source order. No property defaults or Add are replayed inside the receiver.
+
+The shared `canonical_property_map_v1.cpp` now accepts Dummy and delegates only its declaration body to GameObject, while retaining a separate Dummy class/template map and the actual constructor static default. This source hash supersedes the prior PropertyMap handoff checksum. All other subclasses and LoadTemplate assertion behavior are preserved. No declaration include or public shared header changed.
+
+Production closure: add `canonical_dummy_owner_v14.cpp` to the existing level-world target and rebuild the changed PropertyMap TU. Existing CanonicalGameObjectBaseOwnerV1 and GameObjectInitializationOwnerV1 supply constructor/Init methods. Positive visual/condition/PF/destruction services must use the same world graph. Empty visual names use the existing genuine GameObjectVisualAssetOwnerV1 branch, not a successful no-op. InitFinal still reaches PF initialization even when no visual exists. Source eligibility does not substitute for registration or filter declarations.
+
+Proof: original ARM poisoned factory/constructor execution PASS3; source capability leaves and inherited slots verified. Native actual parsed SWAMP41 declarations PASS616 checks, receipt `android-native-owner-tests/canonical-dummy-v14/receipt.json`. XML attribute capture is an immutable parsed source report, not a claim that this fixture ran the raw XML parser. Required external initialization/destruction providers were deliberately absent to verify explicit errors; full live level acceptance is not claimed.
+
+The current actual source census also contains Decor10, SpawnPoint11, CheckpointZone4, TriggerZone18, TriggerZoneExitLevel3, TriggerObject1, SoundEmitter1, Door4, DestructibleContainer9 and QuestMoveInZone1. Original factory/method captures are included for continuation; these classes are not silently supported by this Dummy change.

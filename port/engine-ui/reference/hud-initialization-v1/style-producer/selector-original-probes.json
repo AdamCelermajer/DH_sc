@@ -1,0 +1,2507 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "comparisons": 120,
+  "scope": "Actual complete MenuManager.Init execution at stage3; required filesystem/language/load/input bodies explicit callbacks, no source whole Application initialization claim",
+  "rows": [
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 480,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 800,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_i9000.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 854,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud_droid.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 960,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 0,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "language",
+          0
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 4,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "language",
+          4
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 0,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 0,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": false,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ]
+      ]
+    },
+    {
+      "width": 1080,
+      "language": 5,
+      "htc": 1,
+      "no_igp": 1,
+      "exists": true,
+      "return_value": 0,
+      "next_stage": 4,
+      "events": [
+        [
+          "exists",
+          "data/menus/dqhud.swf"
+        ],
+        [
+          "language",
+          5
+        ],
+        [
+          "load",
+          "data/menus/dqhud.swf",
+          3
+        ],
+        [
+          "input_behavior",
+          4
+        ]
+      ]
+    }
+  ]
+}

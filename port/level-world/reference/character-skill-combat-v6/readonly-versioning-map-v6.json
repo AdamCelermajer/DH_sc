@@ -1,0 +1,12 @@
+{
+  "source_sha256": {
+    "port\\level-world\\character_skill_native_v5.hpp": "fcc6f12b129ae74a79bbe83c148beb6878728b319f648028b226e1a96ee63643",
+    "port\\level-world\\character_skill_native_v5.cpp": "98237f63987e656d42b5d4ea0bec53152c9148928483b190819a60b0ac72815f"
+  },
+  "new_sha256": {
+    "character_skill_readonly_v6.hpp": "47dc2251541beb0e4f17cf13f56d410be27801cc3a83a7d9ed8cb944c3c5bb9d",
+    "character_skill_readonly_v6.cpp": "e06c819bf2aff694027baf8bad0be0f6ceea538f575e333b920585f5923a7c16"
+  },
+  "construction": "same frozen V5 implementation text under class-name and const inventory type remap; one targetlist/mana/Session graph over the same actual inventory",
+  "mutability": "all inventory calls compile through const FreshInventoryOwnedV4&, no const_cast"
+}

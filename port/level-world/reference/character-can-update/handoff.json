@@ -1,0 +1,34 @@
+{
+  "validation": "PASS",
+  "frozen": true,
+  "production": "NEW character_can_update.hpp/.cpp only",
+  "central_integrated": false,
+  "comparisons": 4752,
+  "ordered_services": 13833,
+  "malformed_and_delivery_checks": 23,
+  "sanitizer_findings": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "whole_character_frame": false,
+  "upstream_visibility_or_world_producers": false,
+  "source_and_artifact_sha256": {
+    "port/level-world/character_can_update.hpp": "d78387cf87b2ca01a2b82ed6a79aab5e37b8cac45c9c39010df331a745f83ae2",
+    "port/level-world/character_can_update.cpp": "22565a3e5fdf23503b8ea0634459803b0aa031fecdedf7db54dfa85b7207f991",
+    "port/level-world/tests/character_can_update.cpp": "7b7448948f912af3303406668768db57d2d49edcafa37af6f6e70c29d30ec137",
+    "port/level-world/tests/character_can_update_differential.py": "090b37ca8b75948ec9b28c4838689c364708cfacdcaf06f5a76a096e8135b4de",
+    "port/level-world/tests/character_can_update_host.py": "03217aa219ca813b94677068ebd88d7fe15b331204fe31808ed121ede9ee024e",
+    "port/level-world/tools/build_character_can_update_oracle.ps1": "7a7cad84b35c01cee9553d33a4546c66196a4ed86329b4f1523e952c6f495bbe",
+    "port/level-world/reference/character-can-update/original-functions.json": "74c7f1411f97a38a1145741635482cf75e2132e1ef8fa2333835d11349e14bb4",
+    "port/level-world/reference/character-can-update/reference/original-functions.asm": "d77561f12463342bb84cf4c7d258538b605a8676ed17b2aa96d5ccd4ff254382",
+    "port/level-world/reference/character-can-update/can-update-fixtures.bin": "23f4fc2361631e4c5b9c41b63324df0d32f665338537c4cf67aebed2049a3683",
+    "port/level-world/reference/character-can-update/NOTES.md": "84f70cd8bbba00e3998a3fb0cfa983c40f173b0a7297d054495988ca9f07604c",
+    "port/level-world/reports/character-can-update-arm64-differential.json": "fe7534b7a3bba0a268cd751e2a11fae9be39c4f67f6843bbeb2012ad8bc25c29",
+    "port/level-world/reports/character-can-update-host-audit.json": "313778b01722779214bf5bd0163de5d3482a01cfba92574a985fd89006da1ea6"
+  },
+  "proposed_cmake_target": "character_can_update_audit",
+  "host_test_argument": "port/level-world/reference/character-can-update/can-update-fixtures.bin",
+  "reproduction": [
+    "powershell -File port/level-world/tools/build_character_can_update_oracle.ps1",
+    "python port/level-world/tests/character_can_update_differential.py",
+    "python port/level-world/tests/character_can_update_host.py"
+  ]
+}

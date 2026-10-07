@@ -1,0 +1,36 @@
+{
+  "status": "ARCHIVE_VERIFIED_ADDITIVE_LEAVES_IMPORTED_LINK_VALIDATION_PENDING",
+  "archive_sha256": "747e5f3894cdf9738e701e5b5c7d84acc17b52f06d02347524fa8302894b6ea8",
+  "archive_entries": 1156,
+  "selected": [
+    {
+      "path": "port/level-loader/RETAINED-LEVEL-MODULE-GRAPH-V1-HANDOFF.md",
+      "sha256": "ad5af157204c302af0815038959f95cc1739bf0d4e385948a0fb58a8c0633acc"
+    },
+    {
+      "path": "port/level-loader/retained_level_module_graph_v1.cpp",
+      "sha256": "15ffbe6b469bd9cb32f44f97baa7476229b7e03059cc7ad37610aa4126e37ff5"
+    },
+    {
+      "path": "port/level-loader/retained_level_module_graph_v1.hpp",
+      "sha256": "3ad3dc634cd6d580d286ef75350d807c645b1254726ef218db1de8150e666eb3"
+    },
+    {
+      "path": "port/level-loader/canonical_level_class_dispatch_v1.cpp",
+      "sha256": "0057830f05467e8006ec4ba50bc658f89ad92df64777805b7f4c1d37276d5f3e"
+    },
+    {
+      "path": "port/level-loader/canonical_level_class_dispatch_v1.hpp",
+      "sha256": "8a90a887bcf62499dcaf6289de1289abf683271ec64001a5eca12a5022cfa6f8"
+    },
+    {
+      "path": "port/level-loader/module_draw_frame_v1.cpp",
+      "sha256": "99f52cdd44ff7c371fc07019dc22628427cac0d161acfedb2d47133eefd7077e"
+    },
+    {
+      "path": "port/level-loader/module_draw_frame_v1.hpp",
+      "sha256": "eee28010dfba8e0c3fd7685f23680be61ba7722c83bce6b8c577aeaf2bab08ca"
+    }
+  ],
+  "limit": "Vendor/baseline engine sources not imported. Runtime full Level readiness remains unproven."
+}

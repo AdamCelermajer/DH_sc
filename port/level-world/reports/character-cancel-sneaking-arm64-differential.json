@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "comparisons": 976,
+  "ordered_calls": 1538,
+  "mutating_callback_cases": 156,
+  "mutation_configuration_cases": 541,
+  "actual_cache_cases": 152,
+  "actual_cache_calls": 228,
+  "actual_skill_lists": 36,
+  "actual_skills": 127,
+  "actual_sneak_skills": 0,
+  "actual_input_sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+  "skill_layout_manifest_sha256": "96c8934d05219b5cd81d65b9a127085c536a1df002e401e257e3fe7e819515f8",
+  "skill_layout_asm_sha256": "7400cbbcd9a14852aacb3a80d907c9a6df45dc28441e92db2f2e351549de32c6",
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "c048ff85bbd9272669e60b17284afd0b75cd6e87aea1fad101e0c5b80930ee37",
+  "arm64_sha256": "0b3e373f5a3e7ad1583899d879a845836d282d170ac12a6bc7ff57c884712115",
+  "corpus_sha256": "60517c5c257ead1d7ce0af8ab80123b69ad938ce58a64bc666f78c71916acbe3",
+  "source_sha256": {
+    "port/level-world/character_cancel_sneaking.cpp": "f3bc02c718a29739d8afc71aa5b8040714de1c84b23b3b84a1d8c474bdcdcf54",
+    "port/level-world/character_cancel_sneaking.hpp": "d3b808ff7280d181c96e6ad60df3d650cfbf3dcba33e0286ad0c84b55beeffe0",
+    "port/level-world/tests/character_cancel_sneaking_differential.py": "7fead4b7f9b713e4f1c9eaf521e19da691b5462c9635aae2bbcad11fc5005277"
+  },
+  "scope": "Complete CancelSneaking/AI_CancelSkill instructions vs O2 native coordinator.\n\nOriginal IsSneaking, resolved GetProperty, cached list-ID fallback, ordered list\nand GetCharSkill execute. Player, complete DelBuff and Active/Pre script bodies\nare explicit synchronous services. Their state/reload/order are compared.\n",
+  "full_DelBuff": false,
+  "full_skill_VM": false,
+  "source_GetProperty": true,
+  "source_skill_list_ID_fallback": true,
+  "actual_cache_projection": "Test-only complete serialized traversal; integer/byte fields retained, unused owned-array/string pointers projected null. Not a production SkillTable loader."
+}

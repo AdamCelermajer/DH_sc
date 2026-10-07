@@ -1,0 +1,65 @@
+[
+  {
+    "call": "0x37e540",
+    "target": "0x369514",
+    "owner": "_ZN9LuaScript10_PlayMusicERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "start": "0x37e420",
+    "size": 344
+  },
+  {
+    "call": "0x37e558",
+    "target": "0x369514",
+    "owner": "_ZN9LuaScript10_PlayMusicERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "start": "0x37e420",
+    "size": 344
+  },
+  {
+    "call": "0x3ddd94",
+    "target": "0x369514",
+    "owner": "_ZN9AISPlayer7OnAggroEP9Character",
+    "start": "0x3ddb70",
+    "size": 728
+  },
+  {
+    "call": "0x3ddf50",
+    "target": "0x369514",
+    "owner": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "start": "0x3dde48",
+    "size": 668
+  },
+  {
+    "call": "0x3f0cd8",
+    "target": "0x369f50",
+    "owner": "_ZN5Level14UpdateListenerEv",
+    "start": "0x3f0ae0",
+    "size": 1320
+  },
+  {
+    "call": "0x3f786c",
+    "target": "0x3695f4",
+    "owner": "_ZN5Level12_LoadProcessEv",
+    "start": "0x3f6990",
+    "size": 6472
+  },
+  {
+    "call": "0x43b35c",
+    "target": "0x369c2c",
+    "owner": "_Z18NativeLoadSettingsRKN7gameswf7fn_callE",
+    "start": "0x43b2d8",
+    "size": 184
+  },
+  {
+    "call": "0x45fdd4",
+    "target": "0x369514",
+    "owner": "_ZN21Script_PlayLevelMusic7ExecuteEbi",
+    "start": "0x45fd20",
+    "size": 268
+  },
+  {
+    "call": "0x45fe00",
+    "target": "0x369514",
+    "owner": "_ZN21Script_PlayLevelMusic7ExecuteEbi",
+    "start": "0x45fd20",
+    "size": 268
+  }
+]

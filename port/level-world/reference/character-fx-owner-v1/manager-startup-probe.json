@@ -1,0 +1,48 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "constructor": "0x493260",
+      "module_result": 0,
+      "constructor_precache": 0,
+      "final_precache": 0,
+      "ordered_services": [
+        "Debug.Load",
+        "Debug.GetModule:AnimatedFX"
+      ]
+    },
+    {
+      "constructor": "0x493260",
+      "module_result": 1,
+      "constructor_precache": 0,
+      "final_precache": 1,
+      "ordered_services": [
+        "Debug.Load",
+        "Debug.GetModule:AnimatedFX"
+      ]
+    },
+    {
+      "constructor": "0x4932c4",
+      "module_result": 0,
+      "constructor_precache": 0,
+      "final_precache": 0,
+      "ordered_services": [
+        "Debug.Load",
+        "Debug.GetModule:AnimatedFX"
+      ]
+    },
+    {
+      "constructor": "0x4932c4",
+      "module_result": 1,
+      "constructor_precache": 0,
+      "final_precache": 1,
+      "ordered_services": [
+        "Debug.Load",
+        "Debug.GetModule:AnimatedFX"
+      ]
+    }
+  ],
+  "scope": "Execute original constructor/PreCacheLibraries before native owner pooling.\nDebug/files and C++ temporary string ownership are explicit caller boundaries.\n",
+  "script_sha256": "3bd11c05a22ff2b3a6f54a176e50b959c9b1f3fb08096c8692b10c9233d84653"
+}

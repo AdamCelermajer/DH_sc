@@ -123,4 +123,16 @@ bool positions(const Skin& skin,const std::vector<Matrix>& matrices,const std::v
  }
  output=std::move(candidate);return true;
 }
+bool directions_v113(const Skin& skin,const std::vector<Matrix>& matrices,const std::vector<std::array<float,3>>& input,std::vector<std::array<float,3>>& output,std::string& error){
+ if(input.size()!=skin.influences.size()||matrices.size()!=skin.nodes.size()||!skin.influence_count||skin.influence_count>4){error="Actual software-skin normal/influence domain differs";return false;}
+ output.resize(input.size());
+ for(std::size_t i=0;i<input.size();++i){auto& result=output[i];result={0,0,0};const auto& influence=skin.influences[i];
+  for(unsigned j=0;j<skin.influence_count;++j){const float weight=influence.weights[j];if(weight==0.f)break;if(influence.joints[j]>=matrices.size()){error="Actual normal joint outside SAME palette";return false;}
+   const auto& matrix=matrices[influence.joints[j]];const auto& v=input[i];
+   for(unsigned axis=0;axis<3;++axis){const float rotated=(matrix[axis]*v[0]+matrix[4+axis]*v[1])+matrix[8+axis]*v[2];result[axis]+=rotated*weight;}
+  }
+  for(float value:result)if(!std::isfinite(value)){error="Nonfinite actual software-skin normal";return false;}
+ }
+ error.clear();return true;
+}
 }

@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "comparisons": 500,
+  "scope": "Whole original PDBox float ctor69b354, transform69efac, generate69b534 including real PSRandom sequential draws versus compiledARM64. Finite authored/random matrices, zero/positive/negative dimensions. No particle factory/GL claim.",
+  "sources": {
+    "port\\engine-animation\\particle_box_v2.cpp": "3e31bb713f0d1f26ba5fe4004f31a7a99d9c8a10e342c6e409ca143c1f36ee6a",
+    ".local-inputs\\libDungeonHunter2.so": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    ".local-inputs\\particle_box_v2_arm64.so": "eb6bb523a27b25d709a95eb5df288ac235a926ef038fe13f4fe8af38673fd575"
+  }
+}

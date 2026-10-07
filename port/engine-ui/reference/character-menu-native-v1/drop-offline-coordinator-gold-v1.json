@@ -1,0 +1,196 @@
+{
+  "boundary_fixtures": [
+    "player lookup",
+    "online session",
+    "temporary constructor",
+    "TransferItem",
+    "WorldDropInventory",
+    "temporary destructor"
+  ],
+  "cases": [
+    {
+      "present": 0,
+      "index": 0,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "present": 0,
+      "index": 1,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "present": 0,
+      "index": 7,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "present": 0,
+      "index": 99,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "present": 1,
+      "index": 0,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "online"
+        ],
+        [
+          "construct"
+        ],
+        [
+          "transfer",
+          0,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          "world",
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          "destroy"
+        ]
+      ]
+    },
+    {
+      "present": 1,
+      "index": 1,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "online"
+        ],
+        [
+          "construct"
+        ],
+        [
+          "transfer",
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          "world",
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          "destroy"
+        ]
+      ]
+    },
+    {
+      "present": 1,
+      "index": 7,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "online"
+        ],
+        [
+          "construct"
+        ],
+        [
+          "transfer",
+          7,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          "world",
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          "destroy"
+        ]
+      ]
+    },
+    {
+      "present": 1,
+      "index": 99,
+      "effects": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "online"
+        ],
+        [
+          "construct"
+        ],
+        [
+          "transfer",
+          99,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          "world",
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          "destroy"
+        ]
+      ]
+    }
+  ]
+}

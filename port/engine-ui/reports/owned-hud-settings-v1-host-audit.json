@@ -1,0 +1,83 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 1038,
+    "owner_cases": 254,
+    "parser_cases": 512,
+    "record_cases": 272,
+    "additional_checks": 259,
+    "atomic_guards": 12,
+    "required_failure_prefixes": 4,
+    "synchronous_mutation_cases": 1,
+    "real_stdio_missing_and_present": true,
+    "mismatches": 0
+  },
+  "language_scene_audit": {
+    "validation": "PASS",
+    "comparisons": 162,
+    "required_failure_and_live_mutation_checks": 3,
+    "guards": 3,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true,
+    "findings": 0
+  },
+  "source_sha256": {
+    "port/engine-ui/game_option_table_v1.hpp": "5dd3edbc9a5f1e4fd568f7513b90e6f37964023b3aecd6e421d1be494e8ada93",
+    "port/engine-ui/game_option_table_v1.cpp": "8ffd204eba23339675b635c415deb9cfa9f397d45fe264cbfc3142fc31f7debf",
+    "port/engine-ui/owned_hud_settings_v1.hpp": "22d32d0e81c70a4966f986b6da1e8def5499859c77063d92eeea71afc27c3155",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "9cc1cf9ba79272159ccea80f12649c752b0744c74b2bf0a8c1685382759e7269",
+    "port/engine-ui/settings_native_files_v1.hpp": "be40fa0f68685ead0ab31c93cf95116dd3014bc95a7eee1dd0273de1f01413d3",
+    "port/engine-ui/settings_native_files_v1.cpp": "65730369ba3d42944abc7785f2c216db07c92d2f27a7aa4b918f6534925691a3",
+    "port/engine-ui/settings_language_scene_v1.hpp": "29d560ffd3c50eb87eb948f097f9a69822486b0480d249d2d38c84499a5d62a5",
+    "port/engine-ui/settings_language_scene_v1.cpp": "d94d0b06cc58e2df0094dc46603e7c6aa0ce11b60cc7d465cd79b8873d6d5fea",
+    "port/engine-ui/localization.hpp": "48433e35464d7fc14118de3d60a5323766a22c8116761e61eb605809187bbc8c",
+    "port/engine-ui/localization.cpp": "b519ab31e8553ccc808822fc1c9f846ebdff5f9e608eb31cd2fe3245d2860611",
+    "port/engine-ui/hud_startup_callbacks.hpp": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+    "port/engine-ui/hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+    "port/engine-ui/tests/owned_settings_v1.cpp": "837cb42bb2655496e5d38f3515ae77223f7a4e790132c1a1f55e0f2b010c5a6f",
+    "port/engine-ui/tests/settings_language_scene_v1.cpp": "f58ff5e1ffb8ad4d5d780ee101a21358b836c3cf86fb52fa73185963cc7c2434"
+  },
+  "executable_sha256": {
+    ".local-inputs/hud-owned-settings-v1/owned-settings-audit": "ca03c5ac7242c175156ed049bbd754bc3ff8563744c7312fcc26679c00f3fc83",
+    ".local-inputs/hud-owned-settings-v1/language-scene-audit": "a177a4348d928c4963b458b1895960a5bf17f084e24ffe62f9a3bf7c19d58622"
+  },
+  "corpus_sha256": {
+    "port/engine-ui/reference/owned-hud-settings-v1/fixtures.bin": "64d287eebe6fb57db07df51e1d4894b831a96b41c841de4da9056db35611028b",
+    "port/engine-ui/reference/owned-hud-settings-v1/language-scene-fixtures.bin": "85555f63d1f15bb6ffa6554b0d643605b1080586ca9b8d07bbfd40ea4130baa4"
+  },
+  "input_sha256": {
+    ".local-inputs/design-settings/design_pyarray.bin": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+    ".local-inputs/design-settings/design_pyarraynames.bin": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+    ".local-inputs/design-settings/design_pystructnames.bin": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarray.bin": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarraynames.bin": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pystructnames.bin": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "proof_sha256": {
+    "port/engine-ui/reports/owned-hud-settings-v1-arm64-differential.json": "12ae00b92ebbbe27986a3a72c8e01d24e16d87645eb46f3378a76495c0ad8b2a",
+    "port/engine-ui/reports/settings-language-scene-v1-arm64-differential.json": "418ffc53dd744381cf7ec3e0e44831a84d7daf030afbfb1b1e6d4f511575a83a"
+  },
+  "script_sha256": "fe10a5f90faf168d3f0252244fda487c66715fb1a0acc26638210fddb701a489",
+  "scope": "Bind isolated sanitizer replay of the actual settings owner batch.\nThis does not build or run production APKs, and does not label fixture world\ninventory/audio/device providers as a genuine full application backend.\n",
+  "required_backends": [
+    "ObjectManager graph projection and lifetime",
+    "Character virtual predicates and real inventory localization",
+    "ItemObject real inventory/item localization",
+    "actual platform-language/device facts",
+    "live sound backend when present",
+    "AS result/ref cleanup for multiplayer result"
+  ],
+  "not_claimed": [
+    "campaign profile chunk owner/save writes",
+    "full original FileSystem implementation",
+    "complete inventory/audio/device backend",
+    "packaged ARM64 instruction parity",
+    "live Android startup"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Actual unconditional GameObjectC2 source store blocks for position/destination/visual/physical/attachment/bounds plus whole original UpdateAbsoluteAABB execute. Established ctor r3/r5=0 and bounds bits supplied at block boundaries; not whole C1, allocator/CString/Condition/PF ctor execution. Nested PF defaults use the separately proved existing navigation_objects kernel.",
+  "physical2dc": 0,
+  "attached2e0": 0,
+  "visual2d8": 0,
+  "position": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "destination": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "local_bounds": [
+    -100.0,
+    -100.0,
+    -100.0,
+    100.0,
+    100.0,
+    100.0
+  ],
+  "absolute_bounds": [
+    -100.0,
+    -100.0,
+    -100.0,
+    100.0,
+    100.0,
+    100.0
+  ]
+}

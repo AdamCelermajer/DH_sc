@@ -1,0 +1,40 @@
+{
+  "validation": "PASS",
+  "native_compile_flags": [
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-fast-math",
+    "-ffp-contract=off"
+  ],
+  "misleading_indentation_suppressed": false,
+  "v34_production_compiles": 16,
+  "v38_authority_compiles": 4,
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/audio_output_v34.cpp": "5509e63c652ae4c06faedf642b40310861bee111f24a8740f6d394d9bb59da91",
+    "port/engine-audio/audio_bank_v34.cpp": "0b045772219c8f8b76404614dd46412f6cb9d7e984bcc176edbea8436684226a",
+    "port/engine-audio/audio_catalog_v34.cpp": "7cf74934301d2d8b5cf4bdefd8d86c31a9078edd333b9889f22afd5c4fe1b5c0",
+    "port/engine-audio/audio_listener_rows_v38.cpp": "b6a2c3e47dba2ddad6f1bb3bf6f13b08527cf5c4038f7efd3bc2822e34869712",
+    "port/engine-audio/audio_mixer_v34.cpp": "f220ca05e94ef8a172e5cd5297168bb00d82a5aa1d571b617d6d7f555bba63c6",
+    "port/engine-audio/audio_native_envelope_v34.cpp": "9c62269d40d01521f91e4c74111d38d6dbba913f671d7fc4216c1fc18e87e31a",
+    "port/engine-audio/audio_sample_v34.cpp": "7a31d0493ae300a23be3b269badc20c47d617d88ddd364f43b622a8d4636fd32",
+    "port/engine-audio/audio_spatial_v34.cpp": "9bf555424502a015694af03c217d156fa2404e8d8a9b39f2d30f2c75e42982f9",
+    "port/engine-audio/vox_source_fields_v38.cpp": "35d27ba6840e0ad3eb4fdfc465cba9860678481dd352412d10b000477b5ae304",
+    "port/level-world/vox_audio_bridge_v34.cpp": "226f7d6f400590235ee7a8e5891c64683270d5e79b5ee1526a51124e14954534",
+    "port/engine-audio/audio_source_bindings_v38.cpp": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6",
+    "port/engine-audio/audio_target_events_v38.cpp": "0d45d663aadfd9f5fe6d34ce04cbfbf3a5088faa1703da132b70fa503ef098ba",
+    "port/engine-audio/audio_constructor_fields_v38.hpp": "2c4ade9737092b91aa1548c63628e202f3a6a84b06cd17da49dec75c4efb8a67"
+  },
+  "receipt_dependencies": [
+    "port/engine-audio/reports/audio-v34-strict-compile.json",
+    "port/engine-audio/reference/authorities-v38/strict-compile.json",
+    "port/engine-audio/reference/source-bindings-v38/native-validation.json"
+  ],
+  "additional_receipts": [
+    "port/engine-audio/reference/source-bindings-v38/native-validation.json",
+    "port/engine-audio/reference/target-events-v38/host-receipt.json"
+  ],
+  "additional_scope": "Binding loader and generic target successor use their own recorded strict flags; constructor header checked by authority compile receipt."
+}

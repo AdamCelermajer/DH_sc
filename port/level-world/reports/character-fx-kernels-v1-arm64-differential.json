@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "bd64b678467aed6d650864fe5ca582ee5ed70c765dd09af357fd9575e0bf217d",
+  "reference_sha256": "792ab838e28b9512a702a4c004f05c3144da4f111a3a244b807fc3b4469636b3",
+  "comparisons": 4530,
+  "counts": {
+    "data": 1024,
+    "scalar": 2048,
+    "matrix": 512,
+    "shipping_sampler": 946
+  },
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_fx_kernels_v1.hpp": "7ec1c3349fcb0177a41a1757e0b4e9a5b9e6cfbcb0851705ae0cb716a2c012cb",
+    "port/level-world/character_fx_kernels_v1.cpp": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d",
+    "port/level-world/fx_texture_animation_v1.hpp": "563cd48c2b8853efc4a87687cc1e84d5017fbb0f8df658452efbbd9b152cf109",
+    "port/level-world/fx_texture_animation_v1.cpp": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc",
+    "port/level-world/tests/character_fx_kernels_v1_differential.py": "9a3a2164835cf1e752c931481ce9ba3ecd9ebc180c4312757676ab63ea23848e"
+  },
+  "original_instruction_execution": true,
+  "optimized_arm64_instruction_execution": true,
+  "services": "Identical UCRT cosf/sinf and imported IEEE helpers; material setter only captures original matrix. STL/allocator/native guards are port contracts.",
+  "scope": "Actual AnimFX data and texture interpreter instructions versus optimized ARM64.\n\nImported IEEE softfloat/libm and material-set service are explicit contracts.\nReal shipping swoosh BRES accessors execute the full original key interpreter.\n",
+  "elapsed_seconds": 5.031
+}

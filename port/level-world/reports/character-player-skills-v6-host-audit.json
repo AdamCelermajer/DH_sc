@@ -1,0 +1,101 @@
+{
+  "validation": "PASS",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "leak_detection": true,
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_player_skills_v6.cpp",
+        "port/level-world/character_skill_mana_v5.cpp",
+        "port/level-world/character_skill_native_v5.cpp",
+        "port/level-world/character_target_search_v5.cpp",
+        "port/game-data/fresh_inventory_owned_v4.cpp",
+        "port/level-world/tests/character_player_skills_v6_host.cpp",
+        "port/level-world/character_skills_owner_v6.cpp",
+        "port/level-world/character_skill_save_reload_v6.cpp",
+        "port/level-world/character_skill_reload_v6.cpp",
+        "-Iport/level-world",
+        "-L.local-inputs/character-skill-native-v5-host/snapshot",
+        ".local-inputs/character-skill-native-v5-host/snapshot/libdh2_zip_asset_pack_v1.a",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-lz",
+        "-o",
+        ".local-inputs/character_player_skills_v6_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skill-native-v5-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_player_skills_v6_host",
+        "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+        "port/android-native/app/src/main/assets",
+        ".local-inputs/character-skill-session-v2/cache",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        ".local-inputs/items-discovery"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_source_scripts\":3,\"same_v3_callbacks\":18,\"same_owner_mana_spends\":3,\"required_debug_failure_prefix\":3,\"explicit_empty_world_fixture\":true,\"no_alias_fixture\":true,\"full_campaign\":false,\"checks\":565}\n",
+      "stderr": ""
+    }
+  ],
+  "results": [
+    {
+      "validation": "PASS",
+      "actual_source_scripts": 3,
+      "same_v3_callbacks": 18,
+      "same_owner_mana_spends": 3,
+      "required_debug_failure_prefix": 3,
+      "explicit_empty_world_fixture": true,
+      "no_alias_fixture": true,
+      "full_campaign": false,
+      "checks": 565
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_player_skills_v6.cpp": "7dc439ea2e8ed8e3e4722d00dfea1005bc5692d42f2f64b75509d48c2b8d3294",
+    "port/level-world/character_skill_mana_v5.cpp": "e64b46e566add5c2d247a544c127557c401cd2832b5826b3954dfa09c0587f9f",
+    "port/level-world/character_skill_native_v5.cpp": "98237f63987e656d42b5d4ea0bec53152c9148928483b190819a60b0ac72815f",
+    "port/level-world/character_target_search_v5.cpp": "e8aaa43805dcaed1cbff6f5fb3d224694033a4a2129e298418defe200224f170",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "25fdaf86072992f801b673a6c033fdef5d5a3973b59ca9f85dd64054b7daa0a2",
+    "port/level-world/tests/character_player_skills_v6_host.cpp": "8ffb25dbc9f38f7197c8ef932bb5e94e9c48c6e14164678c70ea44ac26f8cc35",
+    "port/level-world/character_skills_owner_v6.cpp": "19c942f5fcae812f4026b9b4dde1e9f72dc1d880e54c7fb6ed081c2360f9624e",
+    "port/level-world/character_skill_save_reload_v6.cpp": "fbd97ac170df6f3ef9ac28d589faef68dd5cf27b5fcc1ce42dfb4f2f0f880046",
+    "port/level-world/character_skill_reload_v6.cpp": "3e01b0521d478ef234961471ebb0330030d9a6fd034c726af0eeebbb22208643",
+    "port/level-world/character_player_skills_v6.hpp": "db114ad7f610b7e94f84681e2d0ecfd7b0c71f3c2ea01abbd2894c3b73948e1a",
+    "port/level-world/tools/prepare_character_player_skills_v6.py": "d61089c9a6dafa30c54dbfa9e316352d71d8c6f019635ef3305ac1d09c2e1749",
+    "port/level-world/tools/prepare_character_player_skills_v6_host.py": "a00a417ad96f976b9fc8e18606f6e853c19499a84cac883b402aeec7cf98c57c",
+    "port/level-world/tools/run_character_player_skills_v6_host.py": "8df634b4901ae34d260d83c20c1cf2572abcc89dc74e98b57001b78d2336ba1f"
+  },
+  "private_dependency_sha256": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "46752bb911697276f849a3f6c3bf920df71da97b61094354db5656ed66b39e6c",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "libdh2_zip_asset_pack_v1.a": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728"
+  },
+  "dependency_current_source_attribution": false,
+  "same_owner_native_buff_lifetime": true,
+  "populated_world": false,
+  "full_target_application": false
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "symbol": "_ZN14PlayerSavegame17m_difficultyLevelE",
+    "address": "0x9a6060",
+    "size": 4,
+    "type": "STT_OBJECT",
+    "section": 16,
+    "section_name": ".bss",
+    "initial_word": 0
+  },
+  {
+    "symbol": "_ZN9Character20SG_GetGameDifficultyEv",
+    "address": "0x3bb8e4",
+    "size": 52,
+    "type": "STT_FUNC",
+    "section": 7
+  },
+  {
+    "symbol": "_ZN9Character28SG_GetGameDifficultyUnlockedEv",
+    "address": "0x3bb918",
+    "size": 24,
+    "type": "STT_FUNC",
+    "section": 7
+  },
+  {
+    "symbol": "_Z26NativeSetCurrentDifficultyRKN7gameswf7fn_callE",
+    "address": "0x43cd68",
+    "size": 68,
+    "type": "STT_FUNC",
+    "section": 7
+  }
+]

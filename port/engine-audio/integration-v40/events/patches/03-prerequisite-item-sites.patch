@@ -1,0 +1,68 @@
+--- a/port/level-world/world_item_graph_v3.cpp
++++ b/port/level-world/world_item_graph_v3.cpp
+@@ -54,9 +54,11 @@
+  case WorldItemOperationV1::set_destination:
+   if(!q.position){e="Required original Item destination input";return false;}
+   std::memcpy(item_->runtime().controller.destination,q.position,12);return true;
+- case WorldItemOperationV1::drop_sound:
+-  if(!services_.vox){e="Required same world Vox Play3D owner";return false;}
+-  return world_item_drop_sound_v2(*services_.vox,services_.vox_identity,q.object,static_cast<std::int16_t>(q.integer),q.position,e);
++ case WorldItemOperationV1::drop_sound:{
++  if(!services_.audio_runtime_v40||!services_.actual_audio_manager_v40){e="Required ONE root audio runtime for actual Item drop";return false;}
++  std::uintptr_t manager{};if(!services_.actual_audio_manager_v40(services_.audio_manager_context_v40,manager,e))return false;
++  if(!q.position){e="Required actual cached Item position1a8";return false;}std::array<float,3> position{};std::memcpy(position.data(),q.position,12);
++  return audio::audio_emit_actual_item_v40(*services_.audio_runtime_v40,manager,q.object,static_cast<std::int16_t>(q.integer),position,e);}
+  default:handled=false;return true;
+  }
+ }
+--- a/port/level-world/world_item_graph_v3.hpp
++++ b/port/level-world/world_item_graph_v3.hpp
+@@ -1,4 +1,5 @@
+ #pragma once
++#include "../engine-audio/integration-v40/events/audio_source_emission_v40.hpp"
+ #include "world_item_visual_v2.hpp"
+ #include "world_item_physical_v2.hpp"
+ #include "world_item_drop_sound_v2.hpp"
+@@ -15,6 +16,9 @@
+  sound::VoxPlay3DOwnerV2* vox{};std::uintptr_t vox_identity{};
+  void* destruction_context{};
+  bool(*before_item_destroy)(void*,data::ItemInstanceV1&,std::string&){};
++ const audio::AudioProducerTransportV40* audio_runtime_v40{};
++ void* audio_manager_context_v40{};
++ bool(*actual_audio_manager_v40)(void*,std::uintptr_t&,std::string&){};
+ };
+ // Same canonical receiver graph used by the real145 pool. No registry/IDs or
+ // inventory are duplicated; operations not owned here remain required outer
+--- a/port/level-world/world_loot_pickup_v23.cpp
++++ b/port/level-world/world_loot_pickup_v23.cpp
+@@ -32,7 +32,11 @@
+  case O::saved_option:if(!services_.settings||!q.key){e="Required SAME actual saved pickup option";return false;}out.value=services_.settings->saved_option(q.key);return true;
+  case O::show_text:if(!services_.enqueue_status){e="Required SAME Application StatusMsg4 queue/movie owner";return false;}return services_.enqueue_status(services_.context,q.text,static_cast<std::uint32_t>(q.argument),e);
+  case O::font_color:{if(!q.item){e="Required actual pickup item color";return false;}std::uint32_t color{};if(!item_color_lookup_v2(*q.item,services_.colors,color,e))return false;out.value=static_cast<std::int32_t>(color);return true;}
+- case O::pickup_sound:{if(!services_.vox){e="Required actual pickup Vox owner";return false;}const float* p=item->base().vector3(0x160);return world_item_drop_sound_v2(*services_.vox,services_.vox_identity,q.object,static_cast<std::int16_t>(q.argument),p,e);} // source3ed558..598 uses rawItem position160, not cached1a8
++ case O::pickup_sound:{
++  if(!services_.audio_runtime_v40||!services_.actual_audio_manager_v40){e="Required ONE root audio runtime for actual Item pickup";return false;}
++  std::uintptr_t manager{};if(!services_.actual_audio_manager_v40(services_.audio_manager_context_v40,manager,e))return false;
++  const float* p=item->base().vector3(0x160);if(!p){e="Required actual raw Item position160";return false;}std::array<float,3> position{};std::memcpy(position.data(),p,12);
++  return audio::audio_emit_actual_item_v40(*services_.audio_runtime_v40,manager,q.object,static_cast<std::int16_t>(q.argument),position,e);} // source3ed558..598 uses rawItem position160, not cached1a8
+  case O::hide_glow:if(!item->fields().glow3cc)return true;break; // whole HideGlow3ebccc NULL branch
+  case O::increment_stat:return true; // original IncrementStat3790ec -> IncreaseStat3790e0 literal bx lr
+  default:break;
+--- a/port/level-world/world_loot_pickup_v23.hpp
++++ b/port/level-world/world_loot_pickup_v23.hpp
+@@ -1,4 +1,5 @@
+ #pragma once
++#include "../engine-audio/integration-v40/events/audio_source_emission_v40.hpp"
+ #include "world_item_live_owner_v5.hpp"
+ #include "world_item_pickup_inventory_v10.hpp"
+ #include "loot_pickup_quest_tail_v10.hpp"
+@@ -28,6 +29,9 @@
+  // Full remaining text/tutorial/transmute/trophy/net/positive glow/loot FX
+  // services. Returning false preserves the actual reached transfer prefix.
+  bool(*remaining)(void*,const LootInteractRequestV8&,LootInteractResponseV8&,std::string&){};
++ const audio::AudioProducerTransportV40* audio_runtime_v40{};
++ void* audio_manager_context_v40{};
++ bool(*actual_audio_manager_v40)(void*,std::uintptr_t&,std::string&){};
+ };
+ class WorldLootPickupV23 {
+  player::PlayerManagerOwnerV1& players_;WorldLootPickupServicesV23 services_;

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scope": "actual live nonlethal targeted FIRE; lethal Hit8 remains known failure and is excluded",
+  "apk_sha256": "0a8a3d26cf2b9c014cdab333cd3aad4c5e97df6fab86921dd56afcbbb3d32e59",
+  "pid": "17093",
+  "events": [
+    "I/DH2Native(17093): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 4672 | same retained World/Gear/SkillV6",
+    "I/DH2Native(17093): Enemy HUD presentation | target 0000000100000006 | HP 8894 25600 | dead 0 | visible 1 | anchor pixels 1065.37695 500.311981 | mesh head -1249.21899 -297.842957 470.682861 | Prince -1143.63586 -284.531342 240.573914 | same submitted camera",
+    "I/DH2Native(17093): Source effect live draw | node 000076db65184428 | material _1_-_Defaultjh | vertices 16 | indices 24 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(17093): Character sequence closed | state 6 | event 0x22 | clip 1234 | Step 6871 | post Step animator | position -1130.8685 -272.6172 246.4576"
+  ],
+  "errors": []
+}

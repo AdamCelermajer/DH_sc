@@ -57,15 +57,15 @@ void NativeWorld::load(const float bounds[4]){
  world_=std::make_unique<b2World>(aabb,b2Vec2(0,0),true);
  world_->SetBoundaryListener(this);world_->SetContactFilter(this);world_->SetContactListener(this);world_->SetDestructionListener(this);
 }
-void NativeWorld::clear(){world_.reset();}
+void NativeWorld::clear(){DeliveryV106 delivery(mutation_depth_v106_);world_.reset();}
 void NativeWorld::update(std::uint32_t milliseconds){
  if(!world_)throw std::logic_error("Physical world not loaded");
- float dt;unsigned iterations;dh2_physical_world_step_arguments(&dt,&iterations,milliseconds);world_->Step(dt,iterations);
+ DeliveryV106 delivery(step_depth_v106_);float dt;unsigned iterations;dh2_physical_world_step_arguments(&dt,&iterations,milliseconds);world_->Step(dt,iterations);
 }
-b2Body* NativeWorld::create(const b2BodyDef* definition){return definition&&world_?world_->CreateBody(definition):nullptr;}
-void NativeWorld::destroy(b2Body*& body){if(body){if(!world_)throw std::logic_error("Physical world not loaded");world_->DestroyBody(body);}body=nullptr;}
+b2Body* NativeWorld::create(const b2BodyDef* definition){DeliveryV106 delivery(mutation_depth_v106_);return definition&&world_?world_->CreateBody(definition):nullptr;}
+void NativeWorld::destroy(b2Body*& body){DeliveryV106 delivery(mutation_depth_v106_);if(body){if(!world_)throw std::logic_error("Physical world not loaded");world_->DestroyBody(body);}body=nullptr;}
 b2Body* NativeWorld::create_character(const CharacterBodyConfig& c,WorldObject* owner){
- if(!world_||!c.enabled)return nullptr;
+ DeliveryV106 delivery(mutation_depth_v106_);if(!world_||!c.enabled)return nullptr;
  if(c.shape.kind>1||c.shape.vertex_count>4||!owner||owner->reserved)throw std::invalid_argument("Invalid character body definition");
  b2BodyDef definition;definition.userData=owner;definition.massData.mass=c.body.mass;
  definition.massData.center.Set(c.body.local_center[0],c.body.local_center[1]);definition.massData.I=c.body.inertia;
@@ -83,8 +83,9 @@ b2Body* NativeWorld::create_character(const CharacterBodyConfig& c,WorldObject* 
  if(c.pinned){b2MassData mass;mass.mass=0;mass.I=0;mass.center=body->GetLocalCenter();body->SetMass(&mass);}
  return body;
 }
-bool NativeWorld::ShouldCollide(b2Shape* a,b2Shape* b){const auto x=shape(a),y=shape(b);return dh2_physical_world_should_collide(&x,&y)==1;}
+bool NativeWorld::ShouldCollide(b2Shape* a,b2Shape* b){DeliveryV106 delivery(filter_depth_v106_);const auto x=shape(a),y=shape(b);return dh2_physical_world_should_collide(&x,&y)==1;}
 void NativeWorld::dispatch(ContactEvent event,const b2ContactPoint* p){
+ DeliveryV106 delivery(contact_depth_v106_);
  WorldObject owners[2];WorldContact c{{shape(p->shape1,&owners[0]),shape(p->shape2,&owners[1])},{p->position.x,p->position.y}};
  if(dh2_physical_world_contact(&c,static_cast<unsigned>(event)))throw std::logic_error("Incomplete physical contact services");
 }
@@ -92,6 +93,7 @@ void NativeWorld::Add(const b2ContactPoint* p){dispatch(ContactEvent::add,p);}
 void NativeWorld::Persist(const b2ContactPoint* p){dispatch(ContactEvent::persist,p);}
 void NativeWorld::Remove(const b2ContactPoint* p){dispatch(ContactEvent::remove,p);}
 void NativeWorld::Result(const b2ContactResult* p){
+ DeliveryV106 delivery(contact_depth_v106_);
  WorldObject owners[2];WorldContact c{{shape(p->shape1,&owners[0]),shape(p->shape2,&owners[1])},{0,0}};
  if(dh2_physical_world_contact(&c,3))throw std::logic_error("Incomplete physical result services");
 }

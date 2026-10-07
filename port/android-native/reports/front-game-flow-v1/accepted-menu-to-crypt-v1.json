@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "scope": "Original main menu -> unused slot -> name -> animated Warrior class selection -> create profile -> Single Player -> temporary Crypt demo -> original HUD. Existing-slot process restart, Android background/resume and movement separately checked on the SAME APK.",
+  "apk_sha256": "e92c2102893845f082e9bb4ccdf4bb6f780520471c8c085f836e43839339f46c",
+  "bytes": 600712425,
+  "checkpoint": "port\\android-native\\build\\checkpoints\\dh2-native-main-menu-to-crypt-e92c2102.apk",
+  "serial": "emulator-5554",
+  "viewport": [
+    2400,
+    1080
+  ],
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "bundled_cache_archives": [
+    "assets/dh2-original-cache.zip"
+  ],
+  "accepted_menu_to_knight_crypt_demo": true,
+  "accepted_full_game_flow": false,
+  "lethal_skill_fix_verified": false,
+  "character_panels_live_verified": false,
+  "swamp_chapter_complete": false,
+  "full_selected_profile_restored": false,
+  "physical_arm64_device_tested": false,
+  "evidence": [
+    {
+      "label": "17-main-create",
+      "pid": "27164",
+      "screenshot_sha256": "82ead3ba429c8d47abd6b0e0458cf44bbb8c3d8deaf1da063d5da87e6bf12253",
+      "log_sha256": "0f87ba1ed66e21aeb65c27d730777db26d5d2668c9cf55a97a891e880d31b082"
+    },
+    {
+      "label": "18-next-slot",
+      "pid": "27164",
+      "screenshot_sha256": "922c1f80e41b14ddf1ed9aa9cb2f83f5e0eab5fdfdf0ec185d6a8466d52e968c",
+      "log_sha256": "d657c225945cb727d14467cdffe0e1857737c4b9854fa1fc5b82f66f2bcb2322"
+    },
+    {
+      "label": "19-new-start",
+      "pid": "27164",
+      "screenshot_sha256": "00e3377e695e3768b8cedaeee4eca216d28a2dab807437b1e1cca07bf18ea484",
+      "log_sha256": "5e451dd6159a9fcca39a905ea3fd842e7b000d62254940504821aa5e2e4cb5df"
+    },
+    {
+      "label": "20-new-name",
+      "pid": "27164",
+      "screenshot_sha256": "312c982d50b933cd4219abea2d3a7cbfb8051a790482c1cc421c14419a9280ca",
+      "log_sha256": "f02222e6c50abfe508dc026a429548a63819fea38864e2abea78aa7730f367dc"
+    },
+    {
+      "label": "21-new-class",
+      "pid": "27164",
+      "screenshot_sha256": "c0bf8ba93a4c5d8554a78b2cf4b8eca60c608d2228e8b217c8dcaa50851fe544",
+      "log_sha256": "f93ad43b467ff1651041c2c23d55d2b985548661a0a79ec7458e5618786490b1"
+    },
+    {
+      "label": "22-new-slot-confirm",
+      "pid": "27164",
+      "screenshot_sha256": "84552967df4ef67c605bdc9236e385b493895f292a26405e78c684006a250e8c",
+      "log_sha256": "ffd278e0236977c101df714fd8bb700249f73ee4e4442b90fed11553f8613b6d"
+    },
+    {
+      "label": "23-new-play",
+      "pid": "27164",
+      "screenshot_sha256": "7020fbb8a3b73cae23ab2f4e437faa7b5046b3b25f94152024764a2f1fda7b75",
+      "log_sha256": "cf1504796aea7d1db9c1fda83e9b92d7b80d75ccebddcc458e8087b9b0c5ec70"
+    },
+    {
+      "label": "24-new-crypt-hud",
+      "pid": "27164",
+      "screenshot_sha256": "4095e53a792934187b3f01018c3f609cd85fec7894ef872e5a770ee44c35044a",
+      "log_sha256": "2926b248488ae5ac64d823053d144e5edd19213c3205f8d86a1179b2df58782a"
+    }
+  ],
+  "other_same_apk_evidence": [
+    "10-main-restart",
+    "11-start-restart",
+    "12-play-crypt",
+    "13-crypt-hud",
+    "14-background",
+    "15-resume-crypt",
+    "16-crypt-movement"
+  ],
+  "source_note": "Working-tree source includes subsequent agent work beyond this built APK; this immutable binary checkpoint does not claim those later files are integrated."
+}

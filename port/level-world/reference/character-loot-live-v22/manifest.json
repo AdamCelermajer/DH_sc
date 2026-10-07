@@ -1,0 +1,125 @@
+{
+  "version": 22,
+  "scope": "source owner composition; positive nonempty live drop/audio/kill not accepted",
+  "new_files": [
+    {
+      "path": "port/level-world/character_loot_live_v22.hpp",
+      "sha256": "16773e83ab82171c8661bdc1480eb4361267bb6cfa975d5d328ea4b8e1ca46d5"
+    },
+    {
+      "path": "port/level-world/character_loot_live_v22.cpp",
+      "sha256": "f0c914481f37fdc9da04feeaa5ccb4b8d597bc8c4c3b56ab76b7bdbd14362349"
+    },
+    {
+      "path": "port/level-world/character_loot_creation_bindings_v22.hpp",
+      "sha256": "78873da1e8611be9942cf237e8da6eac9ab6d0c5c82161c665fd5b31c483c540"
+    },
+    {
+      "path": "port/level-world/character_loot_creation_bindings_v22.cpp",
+      "sha256": "d0225fdf34c6634e77d2bf0f803a337b684c2eecf7a643ca9427ed63b31958cc"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_character_loot_live_v22.inc",
+      "sha256": "f75371888bb1964d6cb447b7981e4ac90b474556c5b91f30dbcaab93d2651432"
+    },
+    {
+      "path": "port/level-world/tests/character_loot_live_v22_native.cpp",
+      "sha256": "e3c2ba80389c717ae01ace45b9fd62483fd59effab79e29be293fc7da4d20a52"
+    },
+    {
+      "path": "port/level-world/reference/character-loot-live-v22/integration.md",
+      "sha256": "e4c3db4d3aa41415b2548762c1cf2eb5f285f422070813f48c6f543a5d019d24"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/character-loot-live-v22/receipt.json",
+      "sha256": "1acb62856c3548ff84105fd48def1f3b4947de623ceefed01d8b1fef1bbe4df0"
+    },
+    {
+      "path": ".local-inputs/compile_character_loot_live_v22.py",
+      "sha256": "8d9f9c1b8241ec659f2fd7e445d3cbe4eb2967193bf34a2f0a5143f8f02296f5"
+    },
+    {
+      "path": ".local-inputs/compile_renderer_loot_live_v22.py",
+      "sha256": "82b7aa27d353049686a434b0f191251ca529f56928d21bc37c2fb111f7f0c0f2"
+    },
+    {
+      "path": ".local-inputs/run_character_loot_live_v22.py",
+      "sha256": "8c216f3c0d90b01c2689717886f82950b1deb2fa41c273d2112a553051b33445"
+    }
+  ],
+  "unchanged_dependencies": [
+    {
+      "path": "port/level-world/world_item_live_owner_v5.hpp",
+      "sha256": "30a781dd4c6200e13066ff911a9837ca874449e7f342cb57ba217aba903153c8"
+    },
+    {
+      "path": "port/level-world/world_item_live_owner_v5.cpp",
+      "sha256": "272f282de3c90ca8489c6cf21de03c4b75abc6bd15b7e2bfcfbd747d9f0dd0e0"
+    },
+    {
+      "path": "port/level-world/world_loot_item_runtime_v1.hpp",
+      "sha256": "f83af3ff137c41c5b384f040ea04066f9f3e4e1b2e4627b9a6f51edd004bc371"
+    },
+    {
+      "path": "port/level-world/world_loot_item_runtime_v1.cpp",
+      "sha256": "17713015272e7fa41991e90bc3ea1769009f9d01509e375d1de47cd3a2d8086d"
+    },
+    {
+      "path": "port/level-world/character_kill_loot_connection_v10.cpp",
+      "sha256": "90f0988c8be9900696f23f7b3f6f2c5a31fcc2b8c3fc3fcd16041778f49fa419"
+    },
+    {
+      "path": "port/level-world/character_loot_drop_v8.cpp",
+      "sha256": "7c56d81ab8679c8923666f39fb08ca94c5e90d715bd084eb73df8414d5b8fb72"
+    },
+    {
+      "path": "port/level-world/character_loot_drop_award_v8.cpp",
+      "sha256": "5243bbc549cbc88a5ee3f843123e9b08006ad9920f6a85a4a168b3dc113b7dee"
+    },
+    {
+      "path": "port/level-world/character_loot_item_manager_v8.cpp",
+      "sha256": "7b772c05a760cfcb174eb509745fcaabdcb94659ce9b457b169c2a1aa7f6a480"
+    },
+    {
+      "path": "port/level-world/world_item_loot_creation_v10.cpp",
+      "sha256": "5e9d9e05799da2e7b385a11936165f4d214c905ed271bec9602a47c10db3bc59"
+    },
+    {
+      "path": "port/level-world/character_loot_scatter_v8.cpp",
+      "sha256": "49d216de6d8ff30c4cf73161f766ebcad6dd4f727a7a29234f242bf230e95b48"
+    },
+    {
+      "path": "port/level-world/point3d_normalize_v2.cpp",
+      "sha256": "364e356f63d208ce75cf7ec7277eb763203828bf7e2a5e8c6ef2bc25814e3489"
+    },
+    {
+      "path": "port/level-world/canonical_point3d_globals_v1.hpp",
+      "sha256": "b8d0af9c06ad4fed356146d2d094656170e58caa804116b29ea22fcf7b4ba789"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_item_graph_v4.inc",
+      "sha256": "2da35bd641fa07b86322d516335b4693f451ad2ae7f9fb39661928e377578124"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64"
+    }
+  ],
+  "actual_cache": [
+    {
+      "path": "port/android-native/app/src/main/assets/data/loot_table_pyarray.bin",
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/loot_table_pyarraynames.bin",
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/loot_table_pystructnames.bin",
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+    }
+  ],
+  "strict_tu_abi_checks": 4,
+  "complete_renderer_abi_checks": 2,
+  "native_checks": 23
+}

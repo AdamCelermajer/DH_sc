@@ -1,0 +1,317 @@
+{
+  "source": "0x3beb88",
+  "symbol": "_ZN9Character7LevelUpEi",
+  "size": 2320,
+  "calls": [
+    {
+      "source": "0x3bebd0",
+      "target": "0x4c4bdc",
+      "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "source": "0x3bebdc",
+      "target": "0x3bb918",
+      "symbol": "_ZN9Character28SG_GetGameDifficultyUnlockedEv"
+    },
+    {
+      "source": "0x3bebec",
+      "target": "0x3bb918",
+      "symbol": "_ZN9Character28SG_GetGameDifficultyUnlockedEv"
+    },
+    {
+      "source": "0x3bec08",
+      "target": "0x3df6e0",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+    },
+    {
+      "source": "0x3bec40",
+      "target": "0x337888",
+      "symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "source": "0x3bec54",
+      "target": "0x3140ec",
+      "symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "source": "0x3bec60",
+      "target": "0x337a88",
+      "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "source": "0x3bec68",
+      "target": "0x318254",
+      "symbol": "_ZNSsD1Ev"
+    },
+    {
+      "source": "0x3bec78",
+      "target": "0x3e0798",
+      "symbol": "_ZN14CharProperties12PROPS_AddIntEii"
+    },
+    {
+      "source": "0x3bec88",
+      "target": "0x3e0808",
+      "symbol": "_ZN14CharProperties12PROPS_SetIntEii"
+    },
+    {
+      "source": "0x3bec98",
+      "target": "0x3e087c",
+      "symbol": "_ZN14CharProperties20UpdateBasePropertiesEi"
+    },
+    {
+      "source": "0x3beca4",
+      "target": "0x3bdca4",
+      "symbol": "_ZN9Character7RegenHPEi"
+    },
+    {
+      "source": "0x3becb0",
+      "target": "0x3bdbb8",
+      "symbol": "_ZN9Character7RegenMPEi"
+    },
+    {
+      "source": "0x3becc0",
+      "target": "0x3df6e0",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+    },
+    {
+      "source": "0x3beccc",
+      "target": "0x3bb840",
+      "symbol": "_ZN9Character17SG_SetPlayerLevelEi"
+    },
+    {
+      "source": "0x3becd4",
+      "target": "0x3bc4a8",
+      "symbol": "_ZN9Character7SG_SaveEv"
+    },
+    {
+      "source": "0x3bed04",
+      "target": "0x31167c",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "source": "0x3bed30",
+      "target": "0x4c4bdc",
+      "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "source": "0x3bed3c",
+      "target": "0x508edc",
+      "symbol": "_ZNK13StringManager9getStringEi"
+    },
+    {
+      "source": "0x3bed44",
+      "target": "0x30de54",
+      "symbol": ""
+    },
+    {
+      "source": "0x3bed5c",
+      "target": "0x3109e0",
+      "symbol": "_ZNSs9_M_assignEPKcS0_"
+    },
+    {
+      "source": "0x3bed78",
+      "target": "0x3be28c",
+      "symbol": "_ZNSt5dequeI9StatusMsgSaIS0_EE9push_backERKS0_"
+    },
+    {
+      "source": "0x3bed94",
+      "target": "0x3bcf8c",
+      "symbol": "_ZNKSt4priv20_Deque_iterator_baseI9StatusMsgE11_M_subtractERKS2_"
+    },
+    {
+      "source": "0x3bedc8",
+      "target": "0x4591f0",
+      "symbol": "_ZNK13ScriptManager13GetIDFromNameEPKcb"
+    },
+    {
+      "source": "0x3bede4",
+      "target": "0x4605c0",
+      "symbol": "_ZN13ScriptManager11StartScriptEiib"
+    },
+    {
+      "source": "0x3bedfc",
+      "target": "0x495f04",
+      "symbol": "_ZN15VisualFXManager13PlayAnimFXSetEiPK10GameObjectPNS_13AnimFXSetDataE"
+    },
+    {
+      "source": "0x3bee0c",
+      "target": "0x3df6e0",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+    },
+    {
+      "source": "0x3bee30",
+      "target": "0x36effc",
+      "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+    },
+    {
+      "source": "0x3befcc",
+      "target": "0x3a3f70",
+      "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+    },
+    {
+      "source": "0x3befd8",
+      "target": "0x3813b8",
+      "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+    },
+    {
+      "source": "0x3befe0",
+      "target": "0x318254",
+      "symbol": "_ZNSsD1Ev"
+    },
+    {
+      "source": "0x3beff0",
+      "target": "0x3df6e0",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+    },
+    {
+      "source": "0x3bf00c",
+      "target": "0x3dedb4",
+      "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+    },
+    {
+      "source": "0x3bf028",
+      "target": "0x3e0798",
+      "symbol": "_ZN14CharProperties12PROPS_AddIntEii"
+    },
+    {
+      "source": "0x3bf040",
+      "target": "0x4c4bdc",
+      "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "source": "0x3bf05c",
+      "target": "0x4c4bdc",
+      "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "source": "0x3bf124",
+      "target": "0x3bd130",
+      "symbol": ""
+    },
+    {
+      "source": "0x3bf138",
+      "target": "0x7fd794",
+      "symbol": "_Z9GetOnlinev"
+    },
+    {
+      "source": "0x3bf148",
+      "target": "0x7fd794",
+      "symbol": "_Z9GetOnlinev"
+    },
+    {
+      "source": "0x3bf158",
+      "target": "0x7fd794",
+      "symbol": "_Z9GetOnlinev"
+    },
+    {
+      "source": "0x3bf16c",
+      "target": "0x3bb8e4",
+      "symbol": "_ZN9Character20SG_GetGameDifficultyEv"
+    },
+    {
+      "source": "0x3bf1a8",
+      "target": "0x4591f0",
+      "symbol": "_ZNK13ScriptManager13GetIDFromNameEPKcb"
+    },
+    {
+      "source": "0x3bf1b8",
+      "target": "0x7fd794",
+      "symbol": "_Z9GetOnlinev"
+    },
+    {
+      "source": "0x3bf1d8",
+      "target": "0x4605c0",
+      "symbol": "_ZN13ScriptManager11StartScriptEiib"
+    },
+    {
+      "source": "0x3bf1e0",
+      "target": "0x42ca8c",
+      "symbol": "_ZN11MenuManager11GetInstanceEv"
+    },
+    {
+      "source": "0x3bf21c",
+      "target": "0x7ad7e8",
+      "symbol": "_ZN8RenderFX16InvokeASCallbackEPKcS1_PKN7gameswf8as_valueEi"
+    },
+    {
+      "source": "0x3bf224",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "source": "0x3bf23c",
+      "target": "0x42ca8c",
+      "symbol": "_ZN11MenuManager11GetInstanceEv"
+    },
+    {
+      "source": "0x3bf240",
+      "target": "0x42cb8c",
+      "symbol": "_ZN11MenuManager10GetHUDRootEv"
+    },
+    {
+      "source": "0x3bf288",
+      "target": "0x752b38",
+      "symbol": "_ZN7gameswf13free_internalEPvj"
+    },
+    {
+      "source": "0x3bf2b4",
+      "target": "0x427ca0",
+      "symbol": "_ZN20DebugCachedCharacter12RefreshCacheEPKcP6MenuFXPN7gameswf9characterE"
+    },
+    {
+      "source": "0x3bf2bc",
+      "target": "0x427d50",
+      "symbol": "_ZN20DebugCachedCharacter7GetCharEv"
+    },
+    {
+      "source": "0x3bf308",
+      "target": "0x7abe0c",
+      "symbol": "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi"
+    },
+    {
+      "source": "0x3bf310",
+      "target": "0x797124",
+      "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+    },
+    {
+      "source": "0x3bf31c",
+      "target": "0x3bb8e4",
+      "symbol": "_ZN9Character20SG_GetGameDifficultyEv"
+    },
+    {
+      "source": "0x3bf358",
+      "target": "0x4591f0",
+      "symbol": "_ZNK13ScriptManager13GetIDFromNameEPKcb"
+    },
+    {
+      "source": "0x3bf378",
+      "target": "0x4605c0",
+      "symbol": "_ZN13ScriptManager11StartScriptEiib"
+    },
+    {
+      "source": "0x3bf384",
+      "target": "0x3bb8e4",
+      "symbol": "_ZN9Character20SG_GetGameDifficultyEv"
+    },
+    {
+      "source": "0x3bf3c0",
+      "target": "0x4591f0",
+      "symbol": "_ZNK13ScriptManager13GetIDFromNameEPKcb"
+    },
+    {
+      "source": "0x3bf3e0",
+      "target": "0x4605c0",
+      "symbol": "_ZN13ScriptManager11StartScriptEiib"
+    },
+    {
+      "source": "0x3bf400",
+      "target": "0x317e98",
+      "symbol": "_ZN16updateJob_thread6Start2Ev"
+    },
+    {
+      "source": "0x3bf408",
+      "target": "0x30e310",
+      "symbol": ""
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "86f7638b8b6c6e7dcb15e4515b08c51a1fc4e65eaba8ec977965ff63e6549a08",
+  "sources": [
+    {
+      "path": "port\\engine-animation\\tests\\particle_bound_forces_v4.cpp",
+      "sha256": "1f3878eeb0d3d27f182328eccb871efc3ecfa0fe8181aeeea2cb393bc3711c2e"
+    },
+    {
+      "path": "port\\engine-animation\\particle_bound_forces_v4.cpp",
+      "sha256": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68"
+    },
+    {
+      "path": "port\\engine-animation\\particle_force_scene_v2.cpp",
+      "sha256": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58"
+    },
+    {
+      "path": "port\\engine-animation\\particle_deflector_v1.cpp",
+      "sha256": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff"
+    },
+    {
+      "path": "port\\engine-animation\\particle_cloud_models_v1.cpp",
+      "sha256": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747"
+    },
+    {
+      "path": "port\\engine-animation\\particle_random_v1.cpp",
+      "sha256": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0"
+    },
+    {
+      "path": "port\\engine-math\\math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    },
+    {
+      "path": "port\\scene-materials\\scene.cpp",
+      "sha256": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556"
+    },
+    {
+      "path": "port\\scene-materials\\particle_scene_v1.cpp",
+      "sha256": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc"
+    },
+    {
+      "path": "port\\engine-resources\\resources.cpp",
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+    },
+    {
+      "path": "port\\level-world\\source_fx_node_matrix_v4.cpp",
+      "sha256": "cc00eeec454f1e3c15e42788efe3f5aebf4c2c50723d398a4d58e084e1cf6575"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\tests\\particle_bound_forces_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_bound_forces_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_force_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_deflector_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_cloud_models_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-animation\\particle_random_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-math\\math.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\scene.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\particle_scene_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-resources\\resources.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\source_fx_node_matrix_v4.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\particle-bound-forces-v4\\particle-bound-forces-v4.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "actual BashDown forces PASS: debris2/dust0/shared2nodes/orderedDeflectorGravity/sourceparams/finitecollision/history/missingproducer\n",
+  "stderr": ""
+}

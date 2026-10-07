@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "scope": "Read-only original authored bytecode/native call capture; no original whole-frame, synthetic reflow or live integration claim",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "evidence_sha256": {
+    "port/engine-ui/reference/swf-layout-trigger/NOTES.md": "e7da449b4e5824df21f2af4a597e30c580bd0e39fb93353bb9e41ea9ff3f832a",
+    "port/engine-ui/reference/swf-layout-trigger/action-evidence.json": "14149a701f9a6bc7cd862befb7c3624fea9f473d09cc9988ceacae014444fa58",
+    ".local-inputs/swf-layout-trigger/decode_actions.py": "f137ebd46dba1f12e26ea16be9587078b65f5a50e687df5bab80ce1969d4abf1",
+    ".local-inputs/swf-layout-trigger/summarize.py": "0627c855341e3e1a32b603c44454da77f7e148905d470394136b54a2d42a0599",
+    ".local-inputs/swf-layout-trigger/dqhud_droid-actions.json": "ceca32e37fb1172aa4567a6c9c1b81ffc59461bf35bb2b20572d36d04e2373bc",
+    ".local-inputs/swf-layout-trigger/dqhud_droid-actions.txt": "fdef41abfcedf0225faccada8e2ea0ed6f589e26dcf799a6493072e83d0b4664",
+    ".local-inputs/swf-layout-trigger/dqshared_droid-actions.json": "77129fa3947c49f57452a27caa45d5e80964e6e77052bd76ffaaa73d2db13145",
+    ".local-inputs/swf-layout-trigger/dqshared_droid-actions.txt": "9f50cb321838dfcd99e99abcc3cd3d8aa74d7b7c5311bdf646cf9261739f102e",
+    "port/engine-ui/reference/swf-layout-trigger/hud-owner/original-functions.json": "b3bbf87e5674c43b2cebade5cde91f31a6355680fcaee940df07bfb839227081",
+    "port/engine-ui/reference/swf-layout-trigger/hud-owner/reference/original-functions.asm": "8f7830c7373cb1c54e1508e29456d3225c4e5612aaabd22c87e1730dc56cd9bb",
+    "port/engine-ui/reference/swf-layout-trigger/native/original-functions.json": "dd2746f6ff6590814ad9706390430926be9bdb62dce7df370be22099f31541ff",
+    "port/engine-ui/reference/swf-layout-trigger/native/reference/original-functions.asm": "03dc9cdaba8647cf4ed95e42ace31417c9a82181ff2edb0523dec3ac2ebd7ab6",
+    "port/engine-ui/reference/swf-layout-trigger/orientation/original-functions.json": "947814b1a73633e4062cc48bd6e3e28e9836f97d812c58b3d31669f9a52d685a",
+    "port/engine-ui/reference/swf-layout-trigger/orientation/reference/original-functions.asm": "960f70820049cd13df85ebb4ebac1771ea23e1b1dbf1b4952ef1448345044c78"
+  },
+  "dqhud": {
+    "viewport_literals": 0,
+    "action_blocks": 548,
+    "resize_literals": 0,
+    "placement_clip_actions": 41,
+    "functions": 335,
+    "instructions": 14728
+  },
+  "dqshared": {
+    "viewport_literals": 0,
+    "action_blocks": 163,
+    "resize_literals": 0,
+    "placement_clip_actions": 2,
+    "functions": 186,
+    "instructions": 6434
+  },
+  "native_functions_captured": 13,
+  "production_edits": false
+}

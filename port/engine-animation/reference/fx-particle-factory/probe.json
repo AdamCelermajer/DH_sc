@@ -1,0 +1,673 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "b42e7a2e4cf2b6147a1933b06a96ba373d35d1a968c8d4f0255ee3642c059c50",
+  "resource_sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+  "complete_original_cloud_constructors_executed": true,
+  "cloud_constructors": [
+    {
+      "color_baker": false,
+      "factory_source": "655314",
+      "constructor_source": "654ec4",
+      "allocations": [
+        476,
+        92,
+        1
+      ],
+      "constructor_calls": [
+        {
+          "kind": "context",
+          "source": "0x64d1d0",
+          "offset": 384
+        },
+        {
+          "kind": "generation",
+          "source": "0x6545d0",
+          "offset": 16
+        },
+        {
+          "kind": "size",
+          "source": "0x6543f8",
+          "offset": 36
+        },
+        {
+          "kind": "color",
+          "source": "0x654690",
+          "offset": 56
+        },
+        {
+          "kind": "emitter",
+          "source": "0x6548fc",
+          "offset": 96
+        },
+        {
+          "kind": "motion",
+          "source": "0x6540ec",
+          "offset": 120
+        },
+        {
+          "kind": "spin",
+          "source": "0x654218",
+          "offset": 168
+        },
+        {
+          "kind": "life",
+          "source": "0x65452c",
+          "offset": 208
+        }
+      ],
+      "registration_order": [
+        "AnimationDatabase",
+        "BirthRate",
+        "MaxParticles",
+        "TargetSize",
+        "SizeVariation",
+        "SizeGrowthTime",
+        "SizeFadeTime",
+        "TextureTransformTrack",
+        "DiffuseColorTrack",
+        "AnimKeyMappingType",
+        "AnimOffset",
+        "AnimOffsetVariation",
+        "AnimLength",
+        "AnimLengthVariation",
+        "AnimScaleMultiplier",
+        "AnimScaleMultiplierVariation",
+        "EmitterType",
+        "RadiusLength",
+        "Width",
+        "Height",
+        "Direction",
+        "DirectionVariation",
+        "Speed",
+        "SpeedVariation",
+        "SpinTime",
+        "SpinVariation",
+        "SpinPhase",
+        "SpinPhaseVariation",
+        "SpinAxis",
+        "SpinAxisVariation",
+        "SpinAxisType",
+        "Life",
+        "LifeVariation",
+        "AllocateBuffer",
+        "RenderMesh",
+        "OutIndexBuffer",
+        "RenderMaterial",
+        "RenderBuffer",
+        "RBufferSizeNeeded",
+        "ViewMatrix",
+        "BBox"
+      ],
+      "registry_count": 41,
+      "registry_slots": [
+        {
+          "hash": "0xadc087b",
+          "storage_offset": 44,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x13258350",
+          "storage_offset": 108,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x1d951e85",
+          "storage_offset": 112,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x2938580a",
+          "storage_offset": 472,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x2c482813",
+          "storage_offset": 204,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x2d3025b1",
+          "storage_offset": 24,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x30218e0e",
+          "storage_offset": 124,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x334d8143",
+          "storage_offset": 80,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x36712aff",
+          "storage_offset": 76,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x375ca359",
+          "storage_offset": 364,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x3af671fc",
+          "storage_offset": 176,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x4a0a9603",
+          "storage_offset": 212,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x4dc4cc84",
+          "storage_offset": 136,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x4f10264d",
+          "storage_offset": 336,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x5518ad0d",
+          "storage_offset": 144,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x6b1a1c8f",
+          "storage_offset": 40,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x7032c4e6",
+          "storage_offset": 72,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x70a58eec",
+          "storage_offset": 140,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x761b9473",
+          "storage_offset": 88,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x7633d1d7",
+          "storage_offset": 216,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x7d66d025",
+          "storage_offset": 20,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x86643c93",
+          "storage_offset": 180,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x87fe731d",
+          "storage_offset": 104,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x89138b5f",
+          "storage_offset": 228,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x8d2f8efe",
+          "storage_offset": 184,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x921c6628",
+          "storage_offset": 64,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x93653203",
+          "storage_offset": 360,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x9494a4a8",
+          "storage_offset": 372,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xa1bd5056",
+          "storage_offset": 60,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xad996576",
+          "storage_offset": 268,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xb4ca3f28",
+          "storage_offset": 380,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xc071185c",
+          "storage_offset": 188,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xc0737bbc",
+          "storage_offset": 172,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xc5c23dad",
+          "storage_offset": 52,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xce04bcde",
+          "storage_offset": 92,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xce23ccdf",
+          "storage_offset": 48,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xd8f4207e",
+          "storage_offset": 116,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xe0c423b8",
+          "storage_offset": 68,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xe0c7abde",
+          "storage_offset": 200,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xe775cc4a",
+          "storage_offset": 84,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xff859ce0",
+          "storage_offset": 224,
+          "storage_pointer_is_owned": true
+        }
+      ],
+      "all_registry_storage_owned": true,
+      "animation_database_cell_seed_preserved": true,
+      "original_fields_file": "cloud-color-0-original-fields.bin",
+      "original_fields_sha256": "2d0582dd9faadd8acc9ed7cf86a6ffefe2a1e7afc7d980ee56bc4e2cff71ef1f"
+    },
+    {
+      "color_baker": true,
+      "factory_source": "655314",
+      "constructor_source": "654a74",
+      "allocations": [
+        476,
+        92,
+        1
+      ],
+      "constructor_calls": [
+        {
+          "kind": "context",
+          "source": "0x64d1d0",
+          "offset": 384
+        },
+        {
+          "kind": "generation",
+          "source": "0x6545d0",
+          "offset": 16
+        },
+        {
+          "kind": "size",
+          "source": "0x6543f8",
+          "offset": 36
+        },
+        {
+          "kind": "color",
+          "source": "0x654690",
+          "offset": 56
+        },
+        {
+          "kind": "emitter",
+          "source": "0x6548fc",
+          "offset": 96
+        },
+        {
+          "kind": "motion",
+          "source": "0x6540ec",
+          "offset": 120
+        },
+        {
+          "kind": "spin",
+          "source": "0x654218",
+          "offset": 168
+        },
+        {
+          "kind": "life",
+          "source": "0x65452c",
+          "offset": 208
+        }
+      ],
+      "registration_order": [
+        "AnimationDatabase",
+        "BirthRate",
+        "MaxParticles",
+        "TargetSize",
+        "SizeVariation",
+        "SizeGrowthTime",
+        "SizeFadeTime",
+        "TextureTransformTrack",
+        "DiffuseColorTrack",
+        "AnimKeyMappingType",
+        "AnimOffset",
+        "AnimOffsetVariation",
+        "AnimLength",
+        "AnimLengthVariation",
+        "AnimScaleMultiplier",
+        "AnimScaleMultiplierVariation",
+        "EmitterType",
+        "RadiusLength",
+        "Width",
+        "Height",
+        "Direction",
+        "DirectionVariation",
+        "Speed",
+        "SpeedVariation",
+        "SpinTime",
+        "SpinVariation",
+        "SpinPhase",
+        "SpinPhaseVariation",
+        "SpinAxis",
+        "SpinAxisVariation",
+        "SpinAxisType",
+        "Life",
+        "LifeVariation",
+        "AllocateBuffer",
+        "RenderMesh",
+        "OutIndexBuffer",
+        "RenderMaterial",
+        "RenderBuffer",
+        "RBufferSizeNeeded",
+        "ViewMatrix",
+        "BBox"
+      ],
+      "registry_count": 41,
+      "registry_slots": [
+        {
+          "hash": "0xadc087b",
+          "storage_offset": 44,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x13258350",
+          "storage_offset": 108,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x1d951e85",
+          "storage_offset": 112,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x2938580a",
+          "storage_offset": 472,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x2c482813",
+          "storage_offset": 204,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x2d3025b1",
+          "storage_offset": 24,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x30218e0e",
+          "storage_offset": 124,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x334d8143",
+          "storage_offset": 80,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x36712aff",
+          "storage_offset": 76,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x375ca359",
+          "storage_offset": 364,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x3af671fc",
+          "storage_offset": 176,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x4a0a9603",
+          "storage_offset": 212,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x4dc4cc84",
+          "storage_offset": 136,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x4f10264d",
+          "storage_offset": 336,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x5518ad0d",
+          "storage_offset": 144,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x6b1a1c8f",
+          "storage_offset": 40,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x7032c4e6",
+          "storage_offset": 72,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x70a58eec",
+          "storage_offset": 140,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x761b9473",
+          "storage_offset": 88,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x7633d1d7",
+          "storage_offset": 216,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x7d66d025",
+          "storage_offset": 20,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x86643c93",
+          "storage_offset": 180,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x87fe731d",
+          "storage_offset": 104,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x89138b5f",
+          "storage_offset": 228,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x8d2f8efe",
+          "storage_offset": 184,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x921c6628",
+          "storage_offset": 64,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x93653203",
+          "storage_offset": 360,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0x9494a4a8",
+          "storage_offset": 372,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xa1bd5056",
+          "storage_offset": 60,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xad996576",
+          "storage_offset": 268,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xb4ca3f28",
+          "storage_offset": 380,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xc071185c",
+          "storage_offset": 188,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xc0737bbc",
+          "storage_offset": 172,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xc5c23dad",
+          "storage_offset": 52,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xce04bcde",
+          "storage_offset": 92,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xce23ccdf",
+          "storage_offset": 48,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xd8f4207e",
+          "storage_offset": 116,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xe0c423b8",
+          "storage_offset": 68,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xe0c7abde",
+          "storage_offset": 200,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xe775cc4a",
+          "storage_offset": 84,
+          "storage_pointer_is_owned": true
+        },
+        {
+          "hash": "0xff859ce0",
+          "storage_offset": 224,
+          "storage_pointer_is_owned": true
+        }
+      ],
+      "all_registry_storage_owned": true,
+      "animation_database_cell_seed_preserved": true,
+      "original_fields_file": "cloud-color-1-original-fields.bin",
+      "original_fields_sha256": "6d1faba7a4fc06904c49b8b36935a8d4cbb7e08cc36eececea35805ea9a44469"
+    }
+  ],
+  "actual_FX77_factory_branches_executed": true,
+  "node_factory_traces": [
+    {
+      "index": 0,
+      "trace": [
+        [
+          "allocate_scene_node",
+          408
+        ],
+        [
+          "required_scene_node_constructor",
+          6614420
+        ],
+        [
+          "required_initParticleSystem",
+          true
+        ]
+      ],
+      "original_factory_returned_created_receiver": true
+    },
+    {
+      "index": 1,
+      "trace": [
+        [
+          "allocate_scene_node",
+          408
+        ],
+        [
+          "required_scene_node_constructor",
+          6614420
+        ],
+        [
+          "required_initParticleSystem",
+          true
+        ]
+      ],
+      "original_factory_returned_created_receiver": true
+    }
+  ],
+  "services": [
+    "raw native allocation service5341ac with0xcdseed",
+    "initialized source hash guard",
+    "modeled single-thread allocator locks",
+    "required graph constructor64ed94 and initParticleSystem virtualreceiver"
+  ],
+  "native_full_cloud_implementation_supplied": false,
+  "scope": "All original cloud mixin constructor/registry instructions execute. Node factory mode0/descriptor3 branch executes with explicitly required scene/driver initialization receivers. No simulation, particle buffer/baker/GPU or complete native cloud claim.",
+  "source_sha256": {
+    "probe.py": "75a28b0dec6a449eff9cee36959fa449b0621d515350a6e6368771d9afd112de"
+  }
+}

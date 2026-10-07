@@ -1,0 +1,220 @@
+{
+  "scope": "CPU/native/GLES fixture acceptance; production renderer and CMake connected and strict compiled both ABIs, but not packaged/installed/live accepted",
+  "files": [
+    {
+      "path": "port/level-world/character_animation_step_fx_v2.hpp",
+      "sha256": "920855b99ab6ada8d104d74c0377d5ae8885a18450eaad32e66382028eb2d90e",
+      "bytes": 983
+    },
+    {
+      "path": "port/level-world/character_animation_step_fx_v2.cpp",
+      "sha256": "a6c654fade608a2e7f2a5beef96a30dc26be472f5e4c24fd82178f18c6defa2c",
+      "bytes": 1171
+    },
+    {
+      "path": "port/level-world/character_animation_swoosh_v4.hpp",
+      "sha256": "ba3b625f93349ff6efa7ecb5a96b85073acd5e17857709958d97a268e58cf850",
+      "bytes": 804
+    },
+    {
+      "path": "port/level-world/character_animation_swoosh_v4.cpp",
+      "sha256": "c99360311514965d502152fef84d827655a1de0fcbfd3514a52ab1ee0a8c60ca",
+      "bytes": 1679
+    },
+    {
+      "path": "port/level-world/source_fx_node_matrix_v4.hpp",
+      "sha256": "a4aa1b986cd3ce68704f3440e6dd2df965130dfcd6439f18d20c25040d71839b",
+      "bytes": 994
+    },
+    {
+      "path": "port/level-world/source_fx_node_matrix_v4.cpp",
+      "sha256": "284f99150768be7fed31847d071958715351ca475c3e5550b60ed221ad2c6edf",
+      "bytes": 3482
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v4.hpp",
+      "sha256": "94b7c4631dbbefa2b1f77541612b92f4d200767f5014ed92242a2736af792c43",
+      "bytes": 1076
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v4.cpp",
+      "sha256": "6aafe4a485078e3a045f72260015698f22182d47be6ef270254d80a0d436ced6",
+      "bytes": 11939
+    },
+    {
+      "path": "port/level-world/character_authored_particle_fx_v4.hpp",
+      "sha256": "cce38efc95922f3b5f77c8a40dd7958bef3348fabc6ecc8e534bc0d817fa16d5",
+      "bytes": 1693
+    },
+    {
+      "path": "port/level-world/character_authored_particle_fx_v4.cpp",
+      "sha256": "13d8c2c290d189c59c923dcb53705e387e11790c927ae0f6085c73d0c9e69775",
+      "bytes": 24759
+    },
+    {
+      "path": "port/level-world/character_authored_fx_forces_v4.hpp",
+      "sha256": "2003c9e0ed80f6feef1e6f9c995eb821a6363a10b58aef7142e9daf7a7a173b3",
+      "bytes": 679
+    },
+    {
+      "path": "port/level-world/character_authored_fx_forces_v4.cpp",
+      "sha256": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e",
+      "bytes": 1535
+    },
+    {
+      "path": "port/level-world/character_mesh_fx_owner_v4.hpp",
+      "sha256": "1f179d59a60f2d54094e101c7d3ac0eeff726e1655e172a5625804e6e85910b2",
+      "bytes": 2418
+    },
+    {
+      "path": "port/level-world/character_mesh_fx_owner_v4.cpp",
+      "sha256": "d6390b0bfddbc0a3ffd1ff0124e74a1ab3aceea189135bb8d447d6ccca53dafa",
+      "bytes": 24034
+    },
+    {
+      "path": "port/level-world/character_combat_hit_fx_v4.hpp",
+      "sha256": "0bdea7e8e97889ae4de67c9a37ca1533656faa714497dd7ff866bd6fd2ceaa61",
+      "bytes": 331
+    },
+    {
+      "path": "port/level-world/character_combat_hit_fx_v4.cpp",
+      "sha256": "db13011ee94d1f68e8099906e1cb225a5b6a3920a547339ddb42ce54f763c3da",
+      "bytes": 2150
+    },
+    {
+      "path": "port/level-world/character_combat_fx_runtime_v4.hpp",
+      "sha256": "5e853d88f33de063fa6edd93fb46969d22429c073b9a73120ca2c96bdf8b6e39",
+      "bytes": 1458
+    },
+    {
+      "path": "port/level-world/character_combat_fx_runtime_v4.cpp",
+      "sha256": "fe33e83bc3e3218145620719aa9363deb607d421ca639e62ecfc121864e75260",
+      "bytes": 3567
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_runtime_v3.hpp",
+      "sha256": "0322c20757bffe1849c4887de714075ec58915f7eff5a43ec389d94a2e5457b1",
+      "bytes": 1003
+    },
+    {
+      "path": "port/engine-animation/particle_cloud_runtime_v3.cpp",
+      "sha256": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba",
+      "bytes": 2334
+    },
+    {
+      "path": "port/engine-animation/particle_deflector_v1.hpp",
+      "sha256": "2a9c856bf390a717c7ad604262002cca7f55ef14a3801b17fac83a1b3085f271",
+      "bytes": 1177
+    },
+    {
+      "path": "port/engine-animation/particle_deflector_v1.cpp",
+      "sha256": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff",
+      "bytes": 5039
+    },
+    {
+      "path": "port/engine-animation/particle_force_scene_v2.hpp",
+      "sha256": "514f2a8b9b0b69efc2d58a88b858cbdedc831bca0a0ffa1ae2a7a3ee580672c2",
+      "bytes": 777
+    },
+    {
+      "path": "port/engine-animation/particle_force_scene_v2.cpp",
+      "sha256": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58",
+      "bytes": 4812
+    },
+    {
+      "path": "port/engine-animation/particle_bound_forces_v4.hpp",
+      "sha256": "1c5cae2691ea35ee12a02c9caaafe94d961924899422dec6f7ad66f723642a6f",
+      "bytes": 2737
+    },
+    {
+      "path": "port/engine-animation/particle_bound_forces_v4.cpp",
+      "sha256": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68",
+      "bytes": 4275
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_draw_v5.inc",
+      "sha256": "830d1e4d35766f963c07642f0dd39e7588d9bba1dd22725f40455bcda5e4ed32",
+      "bytes": 9375
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_program_connection_v5.inc",
+      "sha256": "a84aa5c0fd420b1816f8662d68dda867512dea06c467a2cef15a4c8e9cb1cd7d",
+      "bytes": 3826
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_sources_v5.inc",
+      "sha256": "973f70630008ca54df34fe192e55cb23537f04176767439ba853308ea5c985da",
+      "bytes": 2170
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
+      "sha256": "6ca00e3fa64bb3c00c9c102fdcc52ff3b8ef95eb75dc7ed6a94e522ab621f9c6",
+      "bytes": 13938
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_fx_anchor_v4.inc",
+      "sha256": "5c04415952689bf7a81e95ea6393d86c1a33fc6f42e7d168eb98c61eda862a3d",
+      "bytes": 2034
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "sha256": "53468e51859db133dc4bc9e2f7401528a64fd3339d533da070229ee10c4ae368",
+      "bytes": 1742
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_player_animation_step_fx_v2.inc",
+      "sha256": "154ed7fb7f99a46d86d154622c19498152400dfae29d3e06b987458983c51aa4",
+      "bytes": 5030
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_combat_fx_runtime_v4.inc",
+      "sha256": "cc86c3b1938f5011ebe48160059813b10114134a56f636f07223972665ac65c3",
+      "bytes": 6006
+    },
+    {
+      "path": "port/level-world/actor_blended_playback.hpp",
+      "sha256": "4637828174e84bf4624df599a1255f1f3bab43b18612ffb686820828258329a8",
+      "bytes": 8850
+    },
+    {
+      "path": "port/level-world/actor_blended_playback.cpp",
+      "sha256": "5324d29d60ae1964078566fd5d8e70af415097db9df7c68aa2ba3d23f0db74dc",
+      "bytes": 26570
+    },
+    {
+      "path": "port/level-world/reports/authored-step-fx-v4-integration.md",
+      "sha256": "994e19c928aa649bf8dd2a77f944419ad51a1f8a7630ff3f4a8e8c5e84096740",
+      "bytes": 5574
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/skill_dh2_prince_warrior_bash_down.bdae",
+      "sha256": "21a31d374a80b9b6f7d1f9b7f273c62459dde9bfd9a2fabfa629fc2fae83a483",
+      "bytes": 34420
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/skill_dh2_prince_warrior_charge.bdae",
+      "sha256": "10a9a78be5882e87ce921d2ec2649b0163d351148b8e23a054e934a3cdf87bfe",
+      "bytes": 23544
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/skill_dh2_prince_warrior_ground_slam.bdae",
+      "sha256": "17cbcd5d103dc7e57fbd22890a48712890d18a5836fd96bc2a345d2a5ee8762c",
+      "bytes": 45180
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+      "bytes": 15528
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/animations/skill_dh2_prince_warrior_charge.bdae",
+      "sha256": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373",
+      "bytes": 11516
+    },
+    {
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/animations/skill_dh2_prince_warrior_ground_slam.bdae",
+      "sha256": "89e8b2569aa036905760382b18b85ea9185dca0b125f6b5a49ccf265a7c59937",
+      "bytes": 14676
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "scope": "Isolated prospective active model TU syntax only; no app build or shared edits",
+  "results": [
+    {
+      "abi": "arm64-v8a",
+      "exit_code": 0,
+      "diagnostics": "",
+      "compile_database_sha256": "c46b307dcf9d87fb585d4d2b9f3643797ebc2d37cd67e3079a2f2d6a993ab06d"
+    },
+    {
+      "abi": "x86_64",
+      "exit_code": 0,
+      "diagnostics": "",
+      "compile_database_sha256": "bf0e35043f9072a36b3b8c04082b45f69517c335cb591c104a09d4ce3d9836a0"
+    }
+  ]
+}

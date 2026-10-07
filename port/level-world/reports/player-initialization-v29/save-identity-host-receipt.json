@@ -1,0 +1,131 @@
+{
+  "status": "PASS",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/player_save_identity_authority_v29.cpp",
+        "port/level-world/player_save_identity_authority_v29.cpp",
+        "port/level-world/character_props_id_owner_v1.cpp",
+        "port/game-data/player_save_load_owner_v1.cpp",
+        "port/game-data/player_save_write_owner_v1.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/player_save_identity_v29_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_save_identity_v29_O1",
+        "port/android-native/app/src/main/assets/data"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS 30 checks; actual KnightPlayerBase id=263; actual AI IsPlayer; same Save/profile/cache; zero-call NULL file branches; required positive profile failure\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/level-world/tests/player_save_identity_authority_v29.cpp",
+        "port/level-world/player_save_identity_authority_v29.cpp",
+        "port/level-world/character_props_id_owner_v1.cpp",
+        "port/game-data/player_save_load_owner_v1.cpp",
+        "port/game-data/player_save_write_owner_v1.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/player_save_identity_v29_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_save_identity_v29_O2",
+        "port/android-native/app/src/main/assets/data"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS 30 checks; actual KnightPlayerBase id=263; actual AI IsPlayer; same Save/profile/cache; zero-call NULL file branches; required positive profile failure\n",
+      "stderr": ""
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/level-world/tests/player_save_identity_authority_v29.cpp",
+      "sha256": "fa0cbd747b9b3e0250938c55e851678a27f621f44477908febc098ceaa189463"
+    },
+    {
+      "path": "port/level-world/player_save_identity_authority_v29.cpp",
+      "sha256": "efda389d5eb36cddca4aae68165e37a88f1e766c4ce982b084fdab7c1eae2d35"
+    },
+    {
+      "path": "port/level-world/character_props_id_owner_v1.cpp",
+      "sha256": "2be4281ad03cc34210fad2fb98c5f1225f154edba3e6a340487ec4afaeda6877"
+    },
+    {
+      "path": "port/game-data/player_save_load_owner_v1.cpp",
+      "sha256": "89420de82ddfc4c2efb8b6d6b6dd7d8b8b2d82fbe0d6be89f134dc3baeb95037"
+    },
+    {
+      "path": "port/game-data/player_save_write_owner_v1.cpp",
+      "sha256": "e9a55183559a12f30319afc0af8000abcc4c79bf26fbc4f494031b9779351d68"
+    }
+  ]
+}

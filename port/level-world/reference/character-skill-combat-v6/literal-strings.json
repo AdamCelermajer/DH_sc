@@ -1,0 +1,494 @@
+[
+  {
+    "caller": "_ZNK6CharAI11AI_GetAggroEP9Character",
+    "instruction": "0x3d4b80",
+    "address": "0x8c55c8",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\CharAI_Queries.cpp"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2650",
+    "address": "0x8c3d38",
+    "text": "Character::_F_CalculateResult"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2780",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b27c0",
+    "address": "0x8c3d38",
+    "text": "Character::_F_CalculateResult"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b286c",
+    "address": "0x8c3d38",
+    "text": "Character::_F_CalculateResult"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddbb0",
+    "address": "0x8c5bb0",
+    "text": "isTracingAggroCount"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddc84",
+    "address": "0x8c5bb0",
+    "text": "isTracingAggroCount"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddd88",
+    "address": "0x8c1c30",
+    "text": "combat"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddddc",
+    "address": "0x8c1c60",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8c74",
+    "address": "0x8c3410",
+    "text": "GOD_Monster"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8d0c",
+    "address": "0x8c3420",
+    "text": "OneShotKill"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8f14",
+    "address": "0x8c34b8",
+    "text": "power_onehit"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a908c",
+    "address": "0x8c3430",
+    "text": "cinematic_Tuto_potionUse"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9138",
+    "address": "0x8c3478",
+    "text": "power_200dam"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9150",
+    "address": "0x8c3488",
+    "text": "power_150dam"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9168",
+    "address": "0x8c3498",
+    "text": "power_100dam"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9180",
+    "address": "0x8c34a8",
+    "text": "power_50dam"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1124",
+    "address": "0x8c3ca8",
+    "text": "NoDamages"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b12d8",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1344",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b13b4",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b14cc",
+    "address": "0x8c3cb8",
+    "text": "GOD"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1870",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b18e0",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1938",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b19b0",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a78",
+    "address": "0x8c3ce8",
+    "text": "isTracingThreatChange"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b40",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1bd4",
+    "address": "0x8c3d10",
+    "text": "epic_invincible"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c44",
+    "address": "0x8c3d00",
+    "text": "epic_invisible"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1cb4",
+    "address": "0x8c3d20",
+    "text": "knocked_down_50_times"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1d18",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1d4c",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3dde88",
+    "address": "0x8c5bb0",
+    "text": "isTracingAggroCount"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf40",
+    "address": "0x8c1c28",
+    "text": "ambient"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf80",
+    "address": "0x8c5bb0",
+    "text": "isTracingAggroCount"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379d60",
+    "address": "0x8c19b8",
+    "text": "isTracingPlayerStats"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2eb8",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2f58",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2fac",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b31f8",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b32bc",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b3310",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc3c",
+    "address": "0x8c4898",
+    "text": "isTracingChar_Stats"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei",
+    "instruction": "0x3798d0",
+    "address": "0x8c1948",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\PlayerManager\\PlayerStatManager.cpp"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei",
+    "instruction": "0x379904",
+    "address": "0x8c1948",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\PlayerManager\\PlayerStatManager.cpp"
+  },
+  {
+    "caller": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+    "instruction": "0x3d7c04",
+    "address": "0x8c55c8",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\CharAI_Queries.cpp"
+  },
+  {
+    "caller": "_ZN6CharAI9OnDeAggroEP9Character",
+    "instruction": "0x3d204c",
+    "address": "0x8c54f0",
+    "text": "isTracingCharAIEvents"
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "instruction": "0x3cdedc",
+    "address": "0x8c5308",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\/CharAISkillScript.h"
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "instruction": "0x3cdf30",
+    "address": "0x8c5308",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\/CharAISkillScript.h"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0214",
+    "address": "0x8c3ca8",
+    "text": "NoDamages"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b036c",
+    "address": "0x8c3cc0",
+    "text": "isTracingChar_Attack"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b03a0",
+    "address": "0x8c3cb8",
+    "text": "GOD"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b04e0",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0538",
+    "address": "0x8c3c18",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba01c",
+    "address": "0x8be470",
+    "text": "vector"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba08c",
+    "address": "0x8be470",
+    "text": "vector"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba0d8",
+    "address": "0x8be470",
+    "text": "vector"
+  },
+  {
+    "caller": "_ZN6CharAI7OnAggroEP9Character",
+    "instruction": "0x3d2100",
+    "address": "0x8c54f0",
+    "text": "isTracingCharAIEvents"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d4cc",
+    "address": "0x8be938",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Utils\\sfc\\script\\lua\\Value.cpp"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d524",
+    "address": "0x8be938",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Utils\\sfc\\script\\lua\\Value.cpp"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce08c",
+    "address": "0x8c5360",
+    "text": "Lua_LoadMemUsage"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce0f4",
+    "address": "0x8c3670",
+    "text": "data/scripts/skills/"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce160",
+    "address": "0x8c5360",
+    "text": "Lua_LoadMemUsage"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce268",
+    "address": "0x8c5220",
+    "text": "_commons"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce274",
+    "address": "0x8c5388",
+    "text": "DeclareSkill"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce280",
+    "address": "0x8c5388",
+    "text": "DeclareSkill"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce28c",
+    "address": "0x8be470",
+    "text": "vector"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce49c",
+    "address": "0x8c5220",
+    "text": "_commons"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce4b0",
+    "address": "0x8c5388",
+    "text": "DeclareSkill"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce4c4",
+    "address": "0x8c5388",
+    "text": "DeclareSkill"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce4d0",
+    "address": "0x8be470",
+    "text": "vector"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce6dc",
+    "address": "0x8c51c0",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\CharAI.cpp"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x3795fc",
+    "address": "0x8c1928",
+    "text": "xp"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x37962c",
+    "address": "0x8c18e8",
+    "text": "killer"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379640",
+    "address": "0x8c18f0",
+    "text": "striker"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379654",
+    "address": "0x8c18f8",
+    "text": "controller"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379668",
+    "address": "0x8c1908",
+    "text": "defender"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x37967c",
+    "address": "0x8c1918",
+    "text": "looter"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379690",
+    "address": "0x8c1920",
+    "text": "support"
+  },
+  {
+    "caller": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+    "instruction": "0x3d7d48",
+    "address": "0x8c55c8",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\CharAI_Queries.cpp"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdd28",
+    "address": "0x8c4898",
+    "text": "isTracingChar_Stats"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf14glyph_provider11draw_bitmapERK10FT_Bitmap_",
+      "elf_address": "0x7d06c4",
+      "size": 208,
+      "sha256": "f68c2e8aea409e61234205592ca06f23d274cfa6edffb7aa91e3d3e3cc386f10"
+    }
+  ]
+}

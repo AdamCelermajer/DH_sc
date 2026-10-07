@@ -1,0 +1,451 @@
+--- a/port/engine-resources/resource_budget_v37.hpp
++++ b/port/engine-resources/resource_budget_v37.hpp
+@@ -38,6 +38,7 @@
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> objects{};
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> gpu_bytes_by_kind{},cpu_bytes_by_kind{};
+ };
++struct ResourceContextStateV41 {std::uint64_t generation{};bool ready{};};
+ struct ResourceBudgetSnapshotV37 {
+  ResourceUsageV37 live,pending,requested,peak;
+  std::array<ResourceUsageV37,std::size_t(ResourceScopeV37::count)> live_by_scope{},pending_by_scope{};
+@@ -95,6 +96,7 @@
+  bool release(ResourceTokenV37&,std::string&);
+  bool charge(ResourceTokenV37,ResourceChargeV37&,bool& has_live_gpu,std::string&)const;
+  ResourceBudgetSnapshotV37 snapshot()const;
++ ResourceContextStateV41 context_state_v41()const;
+  const ResourceBudgetLimitsV37& limits()const noexcept{return limits_;}
+ };
+ bool checked_resource_bytes_v37(std::uint64_t count,std::uint64_t stride,std::uint64_t&,std::string&);
+--- a/port/engine-resources/resource_budget_v37.cpp
++++ b/port/engine-resources/resource_budget_v37.cpp
+@@ -127,6 +127,7 @@
+  std::lock_guard<std::mutex> lock(mutex_);auto* r=const_cast<ContextResourceBudgetV37*>(this)->find(token);error.clear();
+  if(!r||r->pending){error="V37 charge query requires live owner token";return false;}out=r->charge;gpu=r->gpu_live;return true;
+ }
++ResourceContextStateV41 ContextResourceBudgetV37::context_state_v41()const{std::lock_guard<std::mutex> lock(mutex_);return {snapshot_.context_generation,snapshot_.context_ready};}
+ ResourceBudgetSnapshotV37 ContextResourceBudgetV37::snapshot()const{std::lock_guard<std::mutex> lock(mutex_);return snapshot_;}
+ ResourceReservationV37::ResourceReservationV37(ContextResourceBudgetV37* b,ResourceTokenV37 p,ResourceTokenV37 old):budget_(b),pending_(p),replaced_(old){}
+ ResourceReservationV37::~ResourceReservationV37(){abort();}
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -184,6 +184,7 @@
+ #include "native_resource_budget_v38.hpp"
+ #include "../../../../../engine-resources/admitted_cpu_bytes_v40.hpp"
+ #include "../../../../../engine-resources/retained_bytes_v39.hpp"
++#include "../../../../../engine-resources/cpu_vector_capacity_v41.hpp"
+ #include "world_visibility_v35.hpp"
+ #include "skin_pose_cache_v32.hpp"
+ #include <cerrno>
+@@ -194,7 +195,7 @@
+ using Matrix=std::array<float,16>;
+ using Vertex=dh2::objects::Vertex;
+ struct Draw{GLuint vertices=0,indices=0,diffuse=0,alpha=0;GLsizei count=0;unsigned node=0;dh2::scene::Material material;
+- dh2::skinning::Skin skin;std::vector<Vertex> cpu_vertices;std::vector<std::array<float,3>> rest_positions;
++ dh2::skinning::Skin skin;dh2::resources::CpuGeometryStorageV41<Vertex> cpu_geometry_v41;std::vector<std::array<float,3>> rest_positions;
+  bool environment=false;Matrix placement{};dh2::render::BoundsV35 clip_bounds;
+  const void* pose_owner{};std::uint64_t uploaded_pose_revision{};};
+ std::vector<Draw> draws;std::vector<GLuint> images;GLuint program=0;
+@@ -776,6 +777,7 @@
+   has_alpha=glGetUniformLocation(program,"has_alpha");alpha_ref=glGetUniformLocation(program,"alpha_ref");
+   original_alpha_blue=glGetUniformLocation(program,"original_alpha_blue");
+ }
++#include "renderer_buffer_budget_v41.inc"
+ #include "renderer_model_texture_budget_v40.inc"
+ void release_objects(std::vector<ObjectGroup>& groups){std::vector<GLuint> none;for(auto& group:groups)release(group.draws,none);groups.clear();}
+ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,const std::string& folder="textures"){
+@@ -940,6 +942,7 @@
+ }
+ void sync_equipment_draws(const std::vector<dh2::skinning::VisualDrawViewV32>& parts,
+  AAssetManager* assets,dh2::android_ui::OriginalCacheAssetsV1& original){
++  std::string error;
+   bool rebuild=parts.size()!=equipment_parts.size();
+   for(std::size_t i=0;i<parts.size();++i){const auto& part=parts[i];
+     if(!part.positions||!part.retention||!part.geometry||!part.material_table||!part.materials||
+@@ -978,7 +981,10 @@
+           };
+           const auto* uv=attribute(4);const auto* color_stream=attribute(2);
+           if(uv&&uv->components<2)throw std::runtime_error("Equipped UV stream has fewer than two components");
+-          std::vector<Vertex> vertices(geometry.positions.size());
++          dh2::resources::CpuVectorCapacityV41 vertex_capacity_v41;
++          std::vector<Vertex> vertices;
++          if(!dh2::resources::reserve_cpu_vector_v41(vertices,vertex_capacity_v41,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::equipment,geometry.positions.size(),error))throw std::runtime_error(error);
++          vertices.resize(geometry.positions.size());
+           for(std::size_t k=0;k<vertices.size();++k){auto& vertex=vertices[k];
+             std::copy(part.positions->at(k).begin(),part.positions->at(k).end(),vertex.p);
+             if(uv)std::copy_n(uv->values.data()+k*uv->components,2,vertex.uv);
+@@ -986,19 +992,19 @@
+             if(color_stream)for(unsigned c=0;c<color_stream->components;++c)
+               vertex.color[c]=color_stream->values[k*color_stream->components+c]/(color_stream->type==1?255.f:1.f);
+           }
+-          std::vector<std::uint16_t> indices;indices.reserve(primitive.indices.size());
++          dh2::resources::CpuVectorCapacityV41 index_capacity_v41;
++          std::vector<std::uint16_t> indices;
++          if(!dh2::resources::reserve_cpu_vector_v41(indices,index_capacity_v41,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::equipment,primitive.indices.size(),error))throw std::runtime_error(error);
+           for(auto index:primitive.indices){if(index>=vertices.size()||index>65535)
+               throw std::runtime_error("Equipped index exceeds vertex/GLES2 bounds");
+             indices.push_back(static_cast<std::uint16_t>(index));}
+           next.emplace_back();auto& draw=next.back();draw.material=part.material_table->at(material);
+           draw.placement=part.world;draw.environment=true;draw.count=static_cast<GLsizei>(indices.size());
+-          draw.cpu_vertices=std::move(vertices);mapping.push_back(i);
++          draw.cpu_geometry_v41.vertices=std::move(vertices);draw.cpu_geometry_v41.capacity=std::move(vertex_capacity_v41);mapping.push_back(i);
+           draw.diffuse=upload(assets,draw.material.diffuse,cache,textures,&original,dh2::resources::ResourceScopeV37::equipment);
+           draw.alpha=upload(assets,draw.material.alpha_map,cache,textures,&original,dh2::resources::ResourceScopeV37::equipment);
+-          glGenBuffers(1,&draw.vertices);glBindBuffer(GL_ARRAY_BUFFER,draw.vertices);
+-          glBufferData(GL_ARRAY_BUFFER,draw.cpu_vertices.size()*sizeof(Vertex),draw.cpu_vertices.data(),GL_DYNAMIC_DRAW);
+-          glGenBuffers(1,&draw.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,draw.indices);
+-          glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*sizeof(std::uint16_t),indices.data(),GL_STATIC_DRAW);
++          buffer_storage_v41(draw.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(draw.cpu_geometry_v41.vertices.size(),sizeof(Vertex)),draw.cpu_geometry_v41.vertices.data(),GL_DYNAMIC_DRAW,dh2::resources::ResourceScopeV37::equipment);
++          buffer_storage_v41(draw.indices,GL_ELEMENT_ARRAY_BUFFER,buffer_bytes_v41(indices.size(),sizeof(std::uint16_t)),indices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::equipment);
+           check("Equipped source buffer upload");
+         }
+       }
+@@ -1009,12 +1015,11 @@
+       parts.size(),equipment_draws.size(),equipment_images.size());
+   }else{
+     for(std::size_t i=0;i<equipment_draws.size();++i){auto& draw=equipment_draws[i];const auto& part=parts.at(equipment_draw_part.at(i));
+-      if(draw.cpu_vertices.size()!=part.positions->size())throw std::runtime_error("Equipped pose size differs from retained mesh");
++      if(draw.cpu_geometry_v41.vertices.size()!=part.positions->size())throw std::runtime_error("Equipped pose size differs from retained mesh");
+       draw.placement=part.world;if(part.pose_revision==equipment_parts.at(equipment_draw_part.at(i)).pose_revision)continue;
+-      for(std::size_t k=0;k<part.positions->size();++k)std::copy(part.positions->at(k).begin(),part.positions->at(k).end(),draw.cpu_vertices[k].p);
+-      glBindBuffer(GL_ARRAY_BUFFER,draw.vertices);
+-      glBufferSubData(GL_ARRAY_BUFFER,0,draw.cpu_vertices.size()*sizeof(Vertex),draw.cpu_vertices.data());
+-      dh2::perf::state.uploads+=draw.cpu_vertices.size()*sizeof(Vertex);
++      for(std::size_t k=0;k<part.positions->size();++k)std::copy(part.positions->at(k).begin(),part.positions->at(k).end(),draw.cpu_geometry_v41.vertices[k].p);
++      buffer_subdata_v41(draw.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(draw.cpu_geometry_v41.vertices.size(),sizeof(Vertex)),draw.cpu_geometry_v41.vertices.data(),dh2::resources::ResourceScopeV37::equipment);
++      dh2::perf::state.uploads+=draw.cpu_geometry_v41.vertices.size()*sizeof(Vertex);
+     }
+   }
+   equipment_parts.resize(parts.size());
+@@ -1096,7 +1101,7 @@
+  // Its genuine initial NULL is distinct from the demo's unpublised C1 owner.
+  return dh2::loader::borrow_current_canonical_level_v1(renderer_gs_globals_v27->borrow(renderer_gs_globals_v27),out,error);
+ }
+-void reset_context(){begin_gameplay_camera_release_v20();class_preview_actors.clear();menu_background=class_scene=false;clear_retained_loot_gpu_v27(true);clear_combat_fx_gpu(true);if(player_equipment)player_equipment->detach_visual();equipment_draws.clear();equipment_images.clear();equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();resume_world=resume_world||world_mode;if(world_mode){saved_actors.clear();for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.kind==1)saved_actors.push_back(actor);}world_mode=false;move_x=move_y=0;draws.clear();images.clear();object_groups.clear();world_objects.clear();prince_locomotion=dh2::actor::BlendedPlayback{};prince_visual={};prince_attack_clips.clear();prince_animation_bank={};scene_clock=0;inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;discard_model_textures_v40();}
++void reset_context(){begin_gameplay_camera_release_v20();class_preview_actors.clear();menu_background=class_scene=false;clear_retained_loot_gpu_v27(true);clear_combat_fx_gpu(true);if(player_equipment)player_equipment->detach_visual();equipment_draws.clear();equipment_images.clear();equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();resume_world=resume_world||world_mode;if(world_mode){saved_actors.clear();for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.kind==1)saved_actors.push_back(actor);}world_mode=false;move_x=move_y=0;draws.clear();images.clear();object_groups.clear();world_objects.clear();prince_locomotion=dh2::actor::BlendedPlayback{};prince_visual={};prince_attack_clips.clear();prince_animation_bank={};scene_clock=0;inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;discard_model_textures_v40();discard_generic_buffers_v41();}
+ void deactivate(){begin_gameplay_camera_release_v20();release_class_previews();menu_background=class_scene=false;clear_retained_loot_gpu_v27(false);clear_combat_fx_gpu(false);clear_npc_death_owners_v2();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();player_skills_runtime.reset();release_canonical_world_v4(live_script_world);if(player_equipment)player_equipment->detach_visual();player_equipment.reset();equipment_platform.reset();release(equipment_draws,equipment_images);equipment_parts.clear();equipment_draw_part.clear();enabled=false;world_mode=false;resume_world=false;move_x=move_y=0;}
+ bool active(){return enabled;}
+ void set_character_panel_open(bool value){character_panel_open=value&&world_mode;move_x=move_y=0;source_hud_heading_active=false;last_frame=std::chrono::steady_clock::now();__android_log_print(ANDROID_LOG_INFO,"DH2Native","Character overlay simulation pause | open %d | same live World",character_panel_open);}
+@@ -1166,7 +1171,9 @@
+         if(d.material.id!=p.material)throw std::runtime_error("Material binding order/symbol mismatch");
+         candidate.push_back(std::move(d));auto& batch=candidate.back();
+         batch.diffuse=upload(assets,batch.material.diffuse,cache,textures);batch.alpha=upload(assets,batch.material.alpha_map,cache,textures);
+-        std::vector<Vertex> vertices(mesh.vertices);
++        dh2::resources::CpuVectorCapacityV41 vertex_capacity_v41;std::vector<Vertex> vertices;
++        if(!dh2::resources::reserve_cpu_vector_v41(vertices,vertex_capacity_v41,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::world,mesh.vertices,error))throw std::runtime_error(error);
++        vertices.resize(mesh.vertices);
+         for(unsigned k=0;k<mesh.vertices;++k){auto& vertex=vertices[k];float raw[4]{};dh2_attribute_read(&a,k,raw);
+           for(unsigned row=0;row<3;++row){float x=instance.world[12+row];for(unsigned c=0;c<3;++c)x+=instance.world[c*4+row]*raw[c];
+             if(!std::isfinite(x))throw std::runtime_error("Nonfinite vertex position");vertex.p[row]=raw[row];
+@@ -1180,11 +1187,14 @@
+           std::vector<dh2::skinning::Matrix> matrices;std::vector<std::array<float,3>> deformed;
+           if(!dh2::skinning::palette(batch.skin,scene,matrices,error)||!dh2::skinning::positions(batch.skin,matrices,batch.rest_positions,deformed,error))throw std::runtime_error(error);
+           for(unsigned k=0;k<vertices.size();++k)for(unsigned row=0;row<3;++row){vertices[k].p[row]=deformed[k][row];low[row]=std::min(low[row],deformed[k][row]);high[row]=std::max(high[row],deformed[k][row]);}
+-          batch.cpu_vertices=vertices;
++          if(!dh2::resources::reserve_cpu_vector_v41(batch.cpu_geometry_v41.vertices,batch.cpu_geometry_v41.capacity,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::world,vertices.size(),error))throw std::runtime_error(error);
++          batch.cpu_geometry_v41.vertices=vertices;
+         }
+-        std::vector<std::uint16_t> indices(p.index_count);for(unsigned k=0;k<p.index_count;++k){std::uint32_t x;dh2_index_read(&p,k,&x);indices[k]=x;}
+-        batch.count=p.index_count;glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferData(GL_ARRAY_BUFFER,vertices.size()*sizeof(Vertex),vertices.data(),batch.skin.nodes.empty()?GL_STATIC_DRAW:GL_DYNAMIC_DRAW);
+-        glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*2,indices.data(),GL_STATIC_DRAW);check("Mesh buffer upload");
++        dh2::resources::CpuVectorCapacityV41 index_capacity_v41;std::vector<std::uint16_t> indices;
++        if(!dh2::resources::reserve_cpu_vector_v41(indices,index_capacity_v41,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::world,p.index_count,error))throw std::runtime_error(error);
++        indices.resize(p.index_count);for(unsigned k=0;k<p.index_count;++k){std::uint32_t x;dh2_index_read(&p,k,&x);indices[k]=x;}
++        batch.count=p.index_count;buffer_storage_v41(batch.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(vertices.size(),sizeof(Vertex)),vertices.data(),batch.skin.nodes.empty()?GL_STATIC_DRAW:GL_DYNAMIC_DRAW,dh2::resources::ResourceScopeV37::world);
++        buffer_storage_v41(batch.indices,GL_ELEMENT_ARRAY_BUFFER,buffer_bytes_v41(indices.size(),2),indices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::world);check("Mesh buffer upload");
+       }
+     }
+     const float extent[3]{high[0]-low[0],high[1]-low[1],high[2]-low[2]};
+@@ -2572,8 +2582,8 @@
+       for(const auto& primitive:group.resource.primitives){Draw d;d.node=primitive.node;d.material=group.resource.scene.materials.at(primitive.material);group.draws.push_back(std::move(d));auto& batch=group.draws.back();
+         if(primitive.skin.nodes.empty())for(const auto& vertex:primitive.vertices)batch.clip_bounds.include(vertex.p);
+         batch.diffuse=upload(assets,batch.material.diffuse,cache,textures);batch.alpha=upload(assets,batch.material.alpha_map,cache,textures);batch.count=primitive.indices.size();
+-        glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data(),primitive.skin.nodes.empty()?GL_STATIC_DRAW:GL_DYNAMIC_DRAW);
+-        glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*2,primitive.indices.data(),GL_STATIC_DRAW);check("Object buffer upload");
++        buffer_storage_v41(batch.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(primitive.vertices.size(),sizeof(Vertex)),primitive.vertices.data(),primitive.skin.nodes.empty()?GL_STATIC_DRAW:GL_DYNAMIC_DRAW,dh2::resources::ResourceScopeV37::world);
++        buffer_storage_v41(batch.indices,GL_ELEMENT_ARRAY_BUFFER,buffer_bytes_v41(primitive.indices.size(),2),primitive.indices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::world);check("Object buffer upload");
+       }
+       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Object resource %s | primitives %zu | tracks %u | unbound %u | unsupported %u | removed helpers %u",object.model.c_str(),group.draws.size(),group.resource.animation.track_count(),group.resource.animation.unbound,group.resource.animation.skipped,group.resource.removed_helpers);
+     }
+@@ -2588,13 +2598,17 @@
+         if(dh2_mesh_attribute(&mesh,p.attributes[0],&position_attribute)!=dh2::assets::Error::ok||position_attribute.components<3)throw std::runtime_error("World position missing");
+         const bool have_uv=dh2_mesh_attribute(&mesh,p.attributes[4],&uv)==dh2::assets::Error::ok&&uv.components>=2;
+         const bool have_color=dh2_mesh_attribute(&mesh,p.attributes[2],&color_attribute)==dh2::assets::Error::ok;
+-        std::vector<Vertex> vertices(mesh.vertices);for(unsigned k=0;k<mesh.vertices;++k){float v[4]{};dh2_attribute_read(&position_attribute,k,v);std::copy(v,v+3,vertices[k].p);
++        dh2::resources::CpuVectorCapacityV41 vertex_capacity_v41;std::vector<Vertex> vertices;
++        if(!dh2::resources::reserve_cpu_vector_v41(vertices,vertex_capacity_v41,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::world,mesh.vertices,error))throw std::runtime_error(error);
++        vertices.resize(mesh.vertices);for(unsigned k=0;k<mesh.vertices;++k){float v[4]{};dh2_attribute_read(&position_attribute,k,v);std::copy(v,v+3,vertices[k].p);
+           if(have_uv){dh2_attribute_read(&uv,k,v);std::copy(v,v+2,vertices[k].uv);}std::fill(vertices[k].color,vertices[k].color+4,1);
+           if(have_color){dh2_attribute_read(&color_attribute,k,v);for(unsigned c=0;c<color_attribute.components;++c)vertices[k].color[c]=v[c]/(color_attribute.type==1?255.f:1.f);}}
+         for(const auto& vertex:vertices)d.clip_bounds.include(vertex.p);
+-        std::vector<std::uint16_t> indices(p.index_count);for(unsigned k=0;k<p.index_count;++k){unsigned index;dh2_index_read(&p,k,&index);indices[k]=index;}
+-        d.count=p.index_count;triangles+=p.index_count/3;glGenBuffers(1,&d.vertices);glBindBuffer(GL_ARRAY_BUFFER,d.vertices);glBufferData(GL_ARRAY_BUFFER,vertices.size()*sizeof(Vertex),vertices.data(),GL_STATIC_DRAW);
+-        glGenBuffers(1,&d.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,d.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*2,indices.data(),GL_STATIC_DRAW);check("World buffer upload");
++        dh2::resources::CpuVectorCapacityV41 index_capacity_v41;std::vector<std::uint16_t> indices;
++        if(!dh2::resources::reserve_cpu_vector_v41(indices,index_capacity_v41,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::world,p.index_count,error))throw std::runtime_error(error);
++        indices.resize(p.index_count);for(unsigned k=0;k<p.index_count;++k){unsigned index;dh2_index_read(&p,k,&index);indices[k]=index;}
++        d.count=p.index_count;triangles+=p.index_count/3;buffer_storage_v41(d.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(vertices.size(),sizeof(Vertex)),vertices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::world);
++        buffer_storage_v41(d.indices,GL_ELEMENT_ARRAY_BUFFER,buffer_bytes_v41(indices.size(),2),indices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::world);check("World buffer upload");
+       }
+     }
+     const auto actor_report=load(prince.data(),prince.size(),assets);
+@@ -2803,8 +2817,8 @@
+       std::string error;std::vector<dh2::skinning::Matrix> matrices;std::vector<std::array<float,3>> deformed;
+       if(!dh2::skinning::palette(b.skin,current_scene,matrices,error)||!dh2::skinning::positions(b.skin,matrices,b.rest_positions,deformed,error)){
+         __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Skin sample failed: %s",error.c_str());enabled=false;return;}
+-      for(unsigned k=0;k<b.cpu_vertices.size();++k)std::copy(deformed[k].begin(),deformed[k].end(),b.cpu_vertices[k].p);
+-      glBindBuffer(GL_ARRAY_BUFFER,b.vertices);glBufferSubData(GL_ARRAY_BUFFER,0,b.cpu_vertices.size()*sizeof(Vertex),b.cpu_vertices.data());
++      for(unsigned k=0;k<b.cpu_geometry_v41.vertices.size();++k)std::copy(deformed[k].begin(),deformed[k].end(),b.cpu_geometry_v41.vertices[k].p);
++      buffer_subdata_v41(b.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(b.cpu_geometry_v41.vertices.size(),sizeof(Vertex)),b.cpu_geometry_v41.vertices.data(),dh2::resources::ResourceScopeV37::world);
+     }
+     // Native actor joints already include owner * helper * authored graph.
+     const auto transform=b.environment?dh2::scene::multiply(projection,b.placement):b.skin.nodes.empty()?dh2::scene::multiply(projection,current_scene.graph[b.node].world):projection;submit(b,transform);
+@@ -2817,12 +2831,12 @@
+     auto refresh_draw_bounds_v35=[&](){for(unsigned i=0;i<group.draws.size();++i){auto& batch=group.draws[i];const auto& primitive=group.resource.primitives[i];if(primitive.skin.nodes.empty())continue;batch.clip_bounds={};for(const auto& vertex:primitive.vertices)batch.clip_bounds.include(vertex.p);}};
+     auto render_actor=[&](const ObjectActor& instance){
+      if(instance.script){instance.script->rendered_bounds_ready=false;instance.script->rendered_screen_bounds_ready=false;}
+-     for(unsigned i=0;i<group.draws.size();++i){const auto& primitive=group.resource.primitives[i];const auto& batch=group.draws[i];
++     for(unsigned i=0;i<group.draws.size();++i){const auto& primitive=group.resource.primitives[i];auto& batch=group.draws[i];
+       if(instance.script){const auto pose=primitive.skin.nodes.empty()?dh2::scene::multiply(instance.placement,group.resource.scene.graph[primitive.node].world):instance.placement;
+        for(const auto& vertex:primitive.vertices){float point[3]{};for(unsigned row=0;row<3;++row)point[row]=pose[row]*vertex.p[0]+pose[4+row]*vertex.p[1]+pose[8+row]*vertex.p[2]+pose[12+row];npc_include_bound(*instance.script,point);}
+       }
+       auto transform=dh2::scene::multiply(projection,instance.placement);if(primitive.skin.nodes.empty())transform=dh2::scene::multiply(transform,group.resource.scene.graph[primitive.node].world);
+-      if(!primitive.skin.nodes.empty()&&!dh2::render::outside_clip_v35(batch.clip_bounds,transform)){group.draws[i].pose_owner=nullptr;glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferSubData(GL_ARRAY_BUFFER,0,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());dh2::perf::state.uploads+=primitive.vertices.size()*sizeof(Vertex);}
++      if(!primitive.skin.nodes.empty()&&!dh2::render::outside_clip_v35(batch.clip_bounds,transform)){group.draws[i].pose_owner=nullptr;buffer_subdata_v41(batch.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(primitive.vertices.size(),sizeof(Vertex)),primitive.vertices.data(),dh2::resources::ResourceScopeV37::world);dh2::perf::state.uploads+=primitive.vertices.size()*sizeof(Vertex);}
+       submit(batch,transform);
+     }};
+     if(group.animation_table<0){
+@@ -2852,12 +2866,15 @@
+          if(!cache->sample(scene,error))throw std::runtime_error("NPC retained CPU skin failed: "+error);
+          const auto& positions=cache->positions();
+          batch.clip_bounds={};for(const auto& point:positions)batch.clip_bounds.include(point.data());
+-         if(batch.cpu_vertices.size()!=primitive.vertices.size())batch.cpu_vertices=primitive.vertices;
+-         for(unsigned k=0;k<batch.cpu_vertices.size();++k)std::copy(positions[k].begin(),positions[k].end(),batch.cpu_vertices[k].p);
++         if(batch.cpu_geometry_v41.vertices.size()!=primitive.vertices.size()){
++          if(!dh2::resources::reserve_cpu_vector_v41(batch.cpu_geometry_v41.vertices,batch.cpu_geometry_v41.capacity,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::world,primitive.vertices.size(),error))throw std::runtime_error(error);
++          batch.cpu_geometry_v41.vertices=primitive.vertices;
++         }
++         for(unsigned k=0;k<batch.cpu_geometry_v41.vertices.size();++k)std::copy(positions[k].begin(),positions[k].end(),batch.cpu_geometry_v41.vertices[k].p);
+          for(const auto& point:positions)npc_include_bound(*actor.script,point.data());
+          if(!dh2::render::outside_clip_v35(batch.clip_bounds,projection)&&(batch.pose_owner!=actor.script.get()||batch.uploaded_pose_revision!=cache->revision())){
+-          glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferSubData(GL_ARRAY_BUFFER,0,batch.cpu_vertices.size()*sizeof(Vertex),batch.cpu_vertices.data());
+-          dh2::perf::state.uploads+=batch.cpu_vertices.size()*sizeof(Vertex);batch.pose_owner=actor.script.get();batch.uploaded_pose_revision=cache->revision();}
++          buffer_subdata_v41(batch.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(batch.cpu_geometry_v41.vertices.size(),sizeof(Vertex)),batch.cpu_geometry_v41.vertices.data(),dh2::resources::ResourceScopeV37::world);
++          dh2::perf::state.uploads+=batch.cpu_geometry_v41.vertices.size()*sizeof(Vertex);batch.pose_owner=actor.script.get();batch.uploaded_pose_revision=cache->revision();}
+         }
+         else{const auto& pose=scene.graph[primitive.node].world;for(const auto& vertex:primitive.vertices){float point[3]{};for(unsigned row=0;row<3;++row)point[row]=pose[row]*vertex.p[0]+pose[4+row]*vertex.p[1]+pose[8+row]*vertex.p[2]+pose[12+row];npc_include_bound(*actor.script,point);}}
+         // Source joints already contain owner/root/helper transforms. Applying
+--- a/port/android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc
++++ b/port/android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc
+@@ -21,7 +21,7 @@
+  while(!model_texture_charges_v40.empty())release_model_texture_v40(model_texture_charges_v40.begin()->first,true);
+ }
+ void release(std::vector<Draw>& batches,std::vector<GLuint>& textures){
+- for(auto& b:batches){if(b.vertices)glDeleteBuffers(1,&b.vertices);if(b.indices)glDeleteBuffers(1,&b.indices);}
++ for(auto& b:batches){release_buffer_v41(b.vertices,false);release_buffer_v41(b.indices,false);}
+  for(auto name:textures)release_model_texture_v40(name,false);
+  batches.clear();textures.clear();
+ }
+--- a/port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc
++++ b/port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc
+@@ -66,8 +66,8 @@
+    if(!primitive.skin.nodes.empty())throw std::runtime_error("Starting weapon requires unsupported skinned attachment");
+    weapon.draws.emplace_back();auto& batch=weapon.draws.back();batch.node=primitive.node;batch.material=weapon.resource.scene.materials.at(primitive.material);
+    batch.diffuse=upload(assets,batch.material.diffuse,cache,weapon.images,nullptr,dh2::resources::ResourceScopeV37::actor);batch.alpha=upload(assets,batch.material.alpha_map,cache,weapon.images,nullptr,dh2::resources::ResourceScopeV37::actor);batch.count=primitive.indices.size();
+-   glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data(),GL_STATIC_DRAW);
+-   glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*sizeof(std::uint16_t),primitive.indices.data(),GL_STATIC_DRAW);check("Weapon preview upload");
++   buffer_storage_v41(batch.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(primitive.vertices.size(),sizeof(Vertex)),primitive.vertices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::actor);
++   buffer_storage_v41(batch.indices,GL_ELEMENT_ARRAY_BUFFER,buffer_bytes_v41(primitive.indices.size(),sizeof(std::uint16_t)),primitive.indices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::actor);check("Weapon preview upload");
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original preview weapon attached | class %s | item %s | module %s | anchor %s | triangles %u",definition.character.c_str(),item.identifier.c_str(),item.module.c_str(),anchors[count],weapon.resource.triangles);
+   ++count;
+@@ -108,10 +108,8 @@
+     batch.material=actor.resource.scene.materials.at(primitive.material);
+     batch.diffuse=upload(assets,batch.material.diffuse,cache,actor.images,nullptr,dh2::resources::ResourceScopeV37::actor);batch.alpha=upload(assets,batch.material.alpha_map,cache,actor.images,nullptr,dh2::resources::ResourceScopeV37::actor);
+     batch.count=primitive.indices.size();
+-    glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
+-    glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data(),GL_DYNAMIC_DRAW);
+-    glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);
+-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*sizeof(std::uint16_t),primitive.indices.data(),GL_STATIC_DRAW);
++    buffer_storage_v41(batch.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(primitive.vertices.size(),sizeof(Vertex)),primitive.vertices.data(),GL_DYNAMIC_DRAW,dh2::resources::ResourceScopeV37::actor);
++    buffer_storage_v41(batch.indices,GL_ELEMENT_ARRAY_BUFFER,buffer_bytes_v41(primitive.indices.size(),sizeof(std::uint16_t)),primitive.indices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::actor);
+     check("Class preview buffer upload");
+    }
+    load_class_preview_weapons(assets,definition,actor);
+--- a/port/android-native/app/src/main/cpp/renderer_front_draw_v87.inc
++++ b/port/android-native/app/src/main/cpp/renderer_front_draw_v87.inc
+@@ -10,8 +10,8 @@
+    Matrix placement=menu_background?Matrix{std::cos(menu_angle),std::sin(menu_angle),0,0,-std::sin(menu_angle),std::cos(menu_angle),0,0,0,0,1,0,0,-200,-20,1}:current_scene.graph.at(actor.anchor).world;
+    for(unsigned column=0;column<3;++column)for(unsigned row=0;row<4;++row)placement[column*4+row]*=actor.scale[column];
+    const auto owner_projection=dh2::scene::multiply(projection,placement);
+-   for(unsigned i=0;i<actor.draws.size();++i){const auto& primitive=resource.primitives[i];const auto& batch=actor.draws[i];
+-    glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferSubData(GL_ARRAY_BUFFER,0,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());
++   for(unsigned i=0;i<actor.draws.size();++i){const auto& primitive=resource.primitives[i];auto& batch=actor.draws[i];
++    buffer_subdata_v41(batch.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(primitive.vertices.size(),sizeof(Vertex)),primitive.vertices.data(),dh2::resources::ResourceScopeV37::actor);
+     const auto transform=primitive.skin.nodes.empty()?dh2::scene::multiply(owner_projection,resource.scene.graph.at(primitive.node).world):owner_projection;
+     submit(batch,transform);
+    }
+--- a/port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc
++++ b/port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc
+@@ -7,7 +7,7 @@
+ std::map<std::string,GLuint> loot_gpu_texture_cache_v27;
+ std::vector<GLuint> loot_gpu_textures_v27;
+ void release_loot_gpu_record_v27(LootGpuRecordV27& record,bool lost){
+- if(lost)record.draws.clear();else{std::vector<GLuint> none;release(record.draws,none);}
++ if(lost){for(auto& draw:record.draws){release_buffer_v41(draw.vertices,true);release_buffer_v41(draw.indices,true);}record.draws.clear();}else{std::vector<GLuint> none;release(record.draws,none);}
+ }
+ void clear_retained_loot_gpu_v27(bool lost){
+  for(auto& entry:loot_gpu_records_v27)release_loot_gpu_record_v27(entry.second,lost);
+@@ -19,15 +19,14 @@
+  const auto& parts=record.geometry.parts();
+  if(parts.size()!=record.draws.size())throw std::runtime_error("Loot GPU primitive count changed after source binding");
+  for(std::size_t i=0;i<parts.size();++i){const auto& part=parts[i];auto& draw=record.draws[i];
+-  if(draw.cpu_vertices.size()!=part.vertices.size())throw std::runtime_error("Loot GPU vertex count changed after source binding");
++  if(draw.cpu_geometry_v41.vertices.size()!=part.vertices.size())throw std::runtime_error("Loot GPU vertex count changed after source binding");
+   for(std::size_t v=0;v<part.vertices.size();++v){
+-   std::copy_n(part.vertices[v].position,3,draw.cpu_vertices[v].p);
+-   std::copy_n(part.vertices[v].uv,2,draw.cpu_vertices[v].uv);
+-   std::copy_n(part.vertices[v].color,4,draw.cpu_vertices[v].color);
++   std::copy_n(part.vertices[v].position,3,draw.cpu_geometry_v41.vertices[v].p);
++   std::copy_n(part.vertices[v].uv,2,draw.cpu_geometry_v41.vertices[v].uv);
++   std::copy_n(part.vertices[v].color,4,draw.cpu_geometry_v41.vertices[v].color);
+   }
+   draw.placement=part.matrix;
+-  glBindBuffer(GL_ARRAY_BUFFER,draw.vertices);
+-  glBufferSubData(GL_ARRAY_BUFFER,0,draw.cpu_vertices.size()*sizeof(Vertex),draw.cpu_vertices.data());
++  buffer_subdata_v41(draw.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(draw.cpu_geometry_v41.vertices.size(),sizeof(Vertex)),draw.cpu_geometry_v41.vertices.data(),dh2::resources::ResourceScopeV37::loot);
+  }
+ }
+ void build_loot_gpu_record_v27(LootGpuRecordV27& record,const std::shared_ptr<dh2::world::RetainedGameObjectVisualV1>& visual){
+@@ -37,13 +36,12 @@
+   for(const auto& part:parts){
+    record.draws.emplace_back();auto& draw=record.draws.back();
+    draw.material=visual->scene().materials.at(part.material);draw.count=GLsizei(part.indices.size());draw.environment=true;
+-   draw.cpu_vertices.resize(part.vertices.size());draw.placement=part.matrix;
++   if(!dh2::resources::reserve_cpu_vector_v41(draw.cpu_geometry_v41.vertices,draw.cpu_geometry_v41.capacity,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::loot,part.vertices.size(),error))throw std::runtime_error(error);
++   draw.cpu_geometry_v41.vertices.resize(part.vertices.size());draw.placement=part.matrix;
+    draw.diffuse=upload(equipment_platform->manager,draw.material.diffuse,loot_gpu_texture_cache_v27,loot_gpu_textures_v27,&equipment_platform->cache,dh2::resources::ResourceScopeV37::loot);
+    draw.alpha=upload(equipment_platform->manager,draw.material.alpha_map,loot_gpu_texture_cache_v27,loot_gpu_textures_v27,&equipment_platform->cache,dh2::resources::ResourceScopeV37::loot);
+-   glGenBuffers(1,&draw.vertices);glBindBuffer(GL_ARRAY_BUFFER,draw.vertices);
+-   glBufferData(GL_ARRAY_BUFFER,draw.cpu_vertices.size()*sizeof(Vertex),nullptr,GL_DYNAMIC_DRAW);
+-   glGenBuffers(1,&draw.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,draw.indices);
+-   glBufferData(GL_ELEMENT_ARRAY_BUFFER,part.indices.size()*sizeof(std::uint16_t),part.indices.data(),GL_STATIC_DRAW);
++   buffer_storage_v41(draw.vertices,GL_ARRAY_BUFFER,buffer_bytes_v41(draw.cpu_geometry_v41.vertices.size(),sizeof(Vertex)),nullptr,GL_DYNAMIC_DRAW,dh2::resources::ResourceScopeV37::loot);
++   buffer_storage_v41(draw.indices,GL_ELEMENT_ARRAY_BUFFER,buffer_bytes_v41(part.indices.size(),sizeof(std::uint16_t)),part.indices.data(),GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::loot);
+   }
+   refresh_loot_gpu_vertices_v27(record);check("Actual retained loot GPU geometry upload");
+  }catch(...){release_loot_gpu_record_v27(record,false);throw;}
+--- a/port/level-world/authored_fx_geometry_packet_v7.hpp
++++ b/port/level-world/authored_fx_geometry_packet_v7.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include "objects.hpp"
++#include "../engine-resources/cpu_vector_capacity_v41.hpp"
+ #include "../engine-skinning/visual_skin_owner_v6.hpp"
+ namespace dh2::fx {
+ // Native upload packet from a retained source primitive. Engine primitive6
+@@ -16,6 +17,8 @@
+ // Renderer cache only. Every live stream is still consumed and compared
+ // exactly; no source animation, particle, UV or color update is skipped.
+ class AuthoredFxGeometryCacheV34 {
++ std::shared_ptr<resources::ContextResourceBudgetV37> cpu_budget_v41_;
++ resources::CpuVectorCapacityV41 packet_vertices_v41_,packet_indices_v41_,scratch_vertices_v41_,scratch_indices_v41_,source_indices_v41_;
+  AuthoredFxGeometryPacketV7 packet_;
+  std::vector<objects::Vertex> scratch_vertices_;
+  std::vector<std::uint16_t> scratch_indices_;
+@@ -23,6 +26,8 @@
+  std::size_t validated_vertex_count_{};
+  AuthoredFxGeometryCountersV34 counters_;
+ public:
++ bool bind_cpu_budget_v41(std::shared_ptr<resources::ContextResourceBudgetV37>,std::string&);
++ void reset_buffers_v41()noexcept;
+  bool update(const skinning::VisualDrawPartV6&,std::uint32_t,AuthoredFxGeometryChangeV34&,std::string&);
+  const AuthoredFxGeometryPacketV7& packet()const noexcept{return packet_;}
+  const AuthoredFxGeometryCountersV34& counters()const noexcept{return counters_;}
+--- a/port/level-world/authored_fx_geometry_packet_v7.cpp
++++ b/port/level-world/authored_fx_geometry_packet_v7.cpp
+@@ -20,6 +20,17 @@
+  result.indices.reserve(primitive.indices.size());for(auto index:primitive.indices){if(index>=result.vertices.size())throw std::runtime_error("Source effect index range");result.indices.push_back(std::uint16_t(index));}
+  out=std::move(result);return true;
+  }catch(const std::exception& e){error=e.what();return false;}}
++bool AuthoredFxGeometryCacheV34::bind_cpu_budget_v41(std::shared_ptr<resources::ContextResourceBudgetV37> budget,std::string& error){
++ if(!budget||(cpu_budget_v41_&&cpu_budget_v41_!=budget)){error="V41 same FX CPU budget owner required";return false;}
++ if(!cpu_budget_v41_&&(packet_.vertices.capacity()||packet_.indices.capacity()||scratch_vertices_.capacity()||scratch_indices_.capacity()||source_indices_.capacity())){error="V41 FX vector adoption after allocation prohibited";return false;}
++ cpu_budget_v41_=std::move(budget);return true;
++}
++void AuthoredFxGeometryCacheV34::reset_buffers_v41()noexcept{
++ std::vector<objects::Vertex>().swap(packet_.vertices);std::vector<std::uint16_t>().swap(packet_.indices);
++ std::vector<objects::Vertex>().swap(scratch_vertices_);std::vector<std::uint16_t>().swap(scratch_indices_);std::vector<std::uint32_t>().swap(source_indices_);
++ packet_vertices_v41_.reset();packet_indices_v41_.reset();scratch_vertices_v41_.reset();scratch_indices_v41_.reset();source_indices_v41_.reset();
++ packet_.source_color_missing=false;validated_vertex_count_=0;counters_={};
++}
+ bool AuthoredFxGeometryCacheV34::update(const skinning::VisualDrawPartV6& part,
+  std::uint32_t material_index,AuthoredFxGeometryChangeV34& change,std::string& error){try{
+  change={};
+@@ -35,6 +46,7 @@
+   throw std::runtime_error("Required source effect vertex streams");
+  const bool topology=source_indices_!=primitive.indices;
+  if(topology||validated_vertex_count_!=part.positions.size())for(auto i:primitive.indices)if(i>=part.positions.size())throw std::runtime_error("Source effect index range");
++ if(cpu_budget_v41_&&!resources::reserve_cpu_vector_v41(scratch_vertices_,scratch_vertices_v41_,cpu_budget_v41_,resources::ResourceScopeV37::fx,part.positions.size(),error))return false;
+  scratch_vertices_.resize(part.positions.size());
+  for(std::size_t i=0;i<scratch_vertices_.size();++i){auto& vertex=scratch_vertices_[i];vertex=objects::Vertex{};
+   std::copy_n(part.positions[i].data(),3,vertex.p);std::copy_n(uv.values.data()+i*2,2,vertex.uv);
+@@ -42,11 +54,19 @@
+  }
+  static_assert(sizeof(objects::Vertex)==9*sizeof(float),"Exact renderer vertex bytes have no padding");
+  const bool vertices=packet_.vertices.size()!=scratch_vertices_.size()||std::memcmp(packet_.vertices.data(),scratch_vertices_.data(),scratch_vertices_.size()*sizeof(objects::Vertex));
+- if(topology){scratch_indices_.resize(primitive.indices.size());for(std::size_t i=0;i<scratch_indices_.size();++i)scratch_indices_[i]=static_cast<std::uint16_t>(primitive.indices[i]);}
++ if(topology){
++  if(cpu_budget_v41_&&!resources::reserve_cpu_vector_v41(scratch_indices_,scratch_indices_v41_,cpu_budget_v41_,resources::ResourceScopeV37::fx,primitive.indices.size(),error))return false;
++  scratch_indices_.resize(primitive.indices.size());for(std::size_t i=0;i<scratch_indices_.size();++i)scratch_indices_[i]=static_cast<std::uint16_t>(primitive.indices[i]);}
+  // Publication follows all validation/conversion. Invalid streams preserve
+  // the accepted packet and cached topology, and cannot hide a later retry.
+- if(vertices)packet_.vertices.swap(scratch_vertices_);
+- if(topology){packet_.indices.swap(scratch_indices_);source_indices_=primitive.indices;}
++ // Source index snapshot allocation precedes packet publication. Numeric
++ // assignment and swaps below cannot throw after admitted capacity exists.
++ if(topology){
++  if(cpu_budget_v41_&&!resources::reserve_cpu_vector_v41(source_indices_,source_indices_v41_,cpu_budget_v41_,resources::ResourceScopeV37::fx,primitive.indices.size(),error))return false;
++  source_indices_=primitive.indices;
++ }
++ if(vertices){packet_.vertices.swap(scratch_vertices_);std::swap(packet_vertices_v41_,scratch_vertices_v41_);}
++ if(topology){packet_.indices.swap(scratch_indices_);std::swap(packet_indices_v41_,scratch_indices_v41_);}
+  validated_vertex_count_=part.positions.size();packet_.source_color_missing=!colors;
+  change={vertices,topology};++counters_.updates;if(vertices)++counters_.vertex_changes;else ++counters_.unchanged_vertices;if(topology)++counters_.topology_rebuilds;
+  error.clear();return true;
+--- a/port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc
++++ b/port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc
+@@ -65,7 +65,7 @@
+  if(!dh2::android_resources::budget_v38().reserve_replace(token,{kind,ResourceScopeV37::fx,bytes,0},ReplacementModeV37::same_object_coexisting_storage,candidate,error)){
+   // Admission failure never touched GL. Retain old names/storage/charges,
+   // but invalidate the CPU dirty receipt so a later retry resubmits geometry.
+-  resource.geometry_cache={};throw std::runtime_error("FX storage admission: "+error);
++  resource.geometry_cache.reset_buffers_v41();throw std::runtime_error("FX storage admission: "+error);
+  }
+  try{
+   glBufferData(target,bytes,data,GL_DYNAMIC_DRAW);check("Source effect admitted storage upload");
+@@ -75,7 +75,7 @@
+   // Discard both names and their exact charges before reporting the failure;
+   // a later retry must rebuild geometry rather than reuse stale dirty flags.
+   candidate.abort();release_effect_buffers_v38(resource,false);
+-  resource.geometry_cache={};throw;
++  resource.geometry_cache.reset_buffers_v41();throw;
+  }
+ }
+ // Bounded modern GPU cache. Active source entries are never evicted; idle
+@@ -182,6 +182,7 @@
+    if(!r.vertices||!r.indices)allocate_effect_buffer_names_v38(r,error);
+   r.last_seen=effect_submission_counters_v34.syncs;r.source_retention=part.retention;
+   dh2::fx::AuthoredFxGeometryChangeV34 changed;
++  if(!r.geometry_cache.bind_cpu_budget_v41(dh2::android_resources::budget_lease_v39(),error))throw std::runtime_error(error);
+   if(!r.geometry_cache.update(part,s.material,changed,error))throw std::runtime_error(error);
+   const auto& packet=r.geometry_cache.packet();const auto& vertices=packet.vertices;const auto& indices=packet.indices;
+   ++effect_submission_counters_v34.packet_updates;if(changed.indices)++effect_submission_counters_v34.topology_rebuilds;
+@@ -197,7 +198,7 @@
+    ++effect_submission_counters_v34.index_uploads;effect_submission_counters_v34.index_bytes+=index_bytes;
+   }else ++effect_submission_counters_v34.index_skips;
+    try{check("Source effect retained geometry upload");}
+-   catch(...){release_effect_buffers_v38(r,false);r.geometry_cache={};throw;}
++   catch(...){release_effect_buffers_v38(r,false);r.geometry_cache.reset_buffers_v41();throw;}
+   if(!s.source_texture_matrix68)throw std::runtime_error("Required actual source effect Matrix4f68 owner");
+   const float bias=r.texture->owner().lod_bias();
+   EffectMaterialProfileContextV4 values;

@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI10AI_SetDeadEv",
+      "elf_address": "0x3d6cdc",
+      "size": 140,
+      "sha256": "f3468811a494010b0265316a819636747c2e66a6e4090f019c6c2b0d3fa8a96d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6OnDiedEP10GameObject",
+      "elf_address": "0x3d1000",
+      "size": 80,
+      "sha256": "e872aa87b36c9d46638f7ea691bfcde728a6068401d2111dcf4c0cd3036cc2bc"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers8TMR_StopEj",
+      "elf_address": "0x3db2d8",
+      "size": 32,
+      "sha256": "6dbf462d15b090873ba926013ab337200b3311223de9da6d7c3bcae893637b61"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_ClearAllAggroEv",
+      "elf_address": "0x3d5fa8",
+      "size": 480,
+      "sha256": "9cf1065d84a6b5f84f26ef7debd8bec0bc834a646ccd8c9f6f29a5c38eb101a3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    }
+  ]
+}

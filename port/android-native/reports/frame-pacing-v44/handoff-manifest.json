@@ -1,0 +1,62 @@
+{
+  "status": "FROZEN_OPT_IN_EXPERIMENT",
+  "runtime_acceptance": false,
+  "default_continuous_unchanged": true,
+  "shared_apply_patch_only": [
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java"
+  ],
+  "files": {
+    "port/android-native/app/src/main/java/com/example/dh2/FramePacingControllerV44.java": {
+      "sha256": "8de3b90c0724cccf8375bf0036c874307d0a480e604dbec1f00c628e871ee39a",
+      "bytes": 7952
+    },
+    "port/android-native/app/src/main/java/com/example/dh2/VsyncSurfaceViewV44.java": {
+      "sha256": "ddedd27c1f4ad9a70c67c084431dd5c92884d9cf997c1832d1b962a23ad49990",
+      "bytes": 5680
+    },
+    "port/android-native/tools/tests/FramePacingV44Test.java": {
+      "sha256": "43b865628ef50484da4c93978a05d7aac90e503b8b60f6f29e6e20f25de2548b",
+      "bytes": 9172
+    },
+    "port/android-native/tools/prepare_frame_pacing_v44.py": {
+      "sha256": "09f7c1ea7a74ae08a698e22f0dec065d8418fd746ff4eb0da5f87ddd6f4f76dc",
+      "bytes": 4617
+    },
+    "port/android-native/tools/test_frame_pacing_v44.py": {
+      "sha256": "40e2bdad33876b5cd9ee188d61413bf48053bf430306c94ce2efd0c75d31b21a",
+      "bytes": 2263
+    },
+    "port/android-native/tools/freeze_frame_pacing_v44.py": {
+      "sha256": "10676222623dd707e208f7d1ba7e1e9a6ee6de612fcf04fe2ac656cc3c706088",
+      "bytes": 2345
+    },
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": {
+      "sha256": "ec58b23713597f1bf6bc1bc991679c3cce0fa7dcee5989ea45aa1af7f99cd46a",
+      "bytes": 38767
+    },
+    "port/android-native/reports/frame-pacing-v44/README.md": {
+      "sha256": "14d341c4cca72bc4b6029ada1fa40626df84d7022dc0889caeba43509af0b665",
+      "bytes": 7151
+    },
+    "port/android-native/reports/frame-pacing-v44/integration.patch": {
+      "sha256": "865782270949d0d7a26d2dda31e6384fae100a20095ed83f2179b616365a9b4c",
+      "bytes": 9787
+    },
+    "port/android-native/reports/frame-pacing-v44/baseline-source-sha256.json": {
+      "sha256": "79c8363e11763308fdb931c8ff6b356ea66ae2544826e95b5dace84da0e4f67b",
+      "bytes": 151
+    },
+    "port/android-native/reports/frame-pacing-v44/native-wall-clock-contract.json": {
+      "sha256": "59ded6696fdd981a46cbe1f832a35d12cc0815c4aa3909f08bfe191ff6096076",
+      "bytes": 1300
+    },
+    "port/android-native/reports/frame-pacing-v44/java-receipt.json": {
+      "sha256": "b29f1232e278ca0918620809a9b24b1fedc147fe7f2466b72663c6cc558020f9",
+      "bytes": 5518
+    },
+    "port/android-native/reports/frame-pacing-v44/patch-check.json": {
+      "sha256": "ff6b56353bdacc2b76e557e533f1bb1804b464ae3d2a54c2545d3e2587244e3c",
+      "bytes": 58
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "/usr/bin/c++",
+        "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+        "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+        "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+        "-DTU_CONFIG_LINK_TO_THREAD=0",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-isystem",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-isystem",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include",
+        "-isystem",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-g",
+        "-fno-sanitize=vptr",
+        "port/engine-ui/tests/item_category_presentation_v1.cpp",
+        "port/engine-ui/item_category_presentation_v1.cpp",
+        "port/engine-ui/character_menu_inventory_order_v1.cpp",
+        "-o",
+        ".local-inputs/item-category-presentation-v1-host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        ".local-inputs/item-category-presentation-v1-host",
+        "port/engine-ui/reference/character-menu-native-v1/inventory-slot-gold-v1.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_slot_cases\":810,\"source_valuables_branch\":true,\"category_only_no_item_icon_substitution\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Original810 slot membership cases; sourceConstants boundary fixture, no source whole UI or GPU claim"
+}

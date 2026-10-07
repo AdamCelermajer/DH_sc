@@ -1,0 +1,9 @@
+{
+  "bdae": ".local-inputs\\effect-cache-v4\\spell_dh2_hurt_fire.bdae",
+  "bdae_sha256": "b48d8f0bd4f5884d04bdfd79050549a0541d98375a3febe384fe5dbee31ca152",
+  "actual_uri": "q:/data/iphone/3d/textures/FX_smoke_03.tga",
+  "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+  "bytes": 2108,
+  "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0",
+  "scope": "actual material URI string + exact packaged bytes; parsed scene material identity must also be checked in native test"
+}

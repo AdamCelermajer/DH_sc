@@ -1,0 +1,38 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entry": "0x3b4d60",
+  "size": 2164,
+  "function_sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079",
+  "literals": [
+    {
+      "add_pc": "0x3b4de8",
+      "literal_word": "0x3b55a0",
+      "address": "0x8c3e18",
+      "text": "isTracingChar_Init"
+    },
+    {
+      "add_pc": "0x3b4ea4",
+      "literal_word": "0x3b55a8",
+      "address": "0x8c3e18",
+      "text": "isTracingChar_Init"
+    },
+    {
+      "add_pc": "0x3b4f20",
+      "literal_word": "0x3b55ac",
+      "address": "0x8c3e18",
+      "text": "isTracingChar_Init"
+    },
+    {
+      "add_pc": "0x3b5058",
+      "literal_word": "0x3b55b8",
+      "address": "0x8c3e18",
+      "text": "isTracingChar_Init"
+    },
+    {
+      "add_pc": "0x3b5468",
+      "literal_word": "0x3b55cc",
+      "address": "0x8c3e18",
+      "text": "isTracingChar_Init"
+    }
+  ]
+}

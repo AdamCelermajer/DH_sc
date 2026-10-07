@@ -1,0 +1,58 @@
+{
+  "trace_sha256": "9e58325cb4527ab8f7b50b6606f64d4c98d9119dd86d77401b9dd42bc07c7049",
+  "stable_game_pid": 3319,
+  "GL_tid": 3338,
+  "kernel_trace_loss": true,
+  "lost_bundle_flags": 38,
+  "final_cpu_overrun_events": {
+    "0": 98952,
+    "1": 80651
+  },
+  "excluded_loss_total_ms": 9007.383882,
+  "helper_callback_slices_matching_actual_rows": 262,
+  "mismatching_callback_slices": 0,
+  "matched_begin_delta": {
+    "samples": 262,
+    "total_ms": 6.074122,
+    "median_ms": 0.019551,
+    "p95_ms": 0.027776,
+    "p99_ms": 0.155978,
+    "max_ms": 0.214675
+  },
+  "matched_end_delta": {
+    "samples": 262,
+    "total_ms": 4.575785,
+    "median_ms": 0.007799,
+    "p95_ms": 0.094437,
+    "p99_ms": 0.154899,
+    "max_ms": 0.190405
+  },
+  "matched_valid_gap_with_one_complete_swap": 251,
+  "matched_swap_wall_partial_samples": {
+    "samples": 251,
+    "total_ms": 5890.243325,
+    "median_ms": 16.928166,
+    "p95_ms": 36.403496,
+    "p99_ms": 48.317769,
+    "max_ms": 1015.820593
+  },
+  "matched_gap_wall_partial_samples": {
+    "samples": 251,
+    "total_ms": 5947.639966,
+    "median_ms": 17.148248,
+    "p95_ms": 36.498544,
+    "p99_ms": 48.40742,
+    "max_ms": 1016.266282
+  },
+  "matched_gap_remainder_partial_samples": {
+    "samples": 251,
+    "total_ms": 57.396641,
+    "median_ms": 0.09721,
+    "p95_ms": 0.226845,
+    "p99_ms": 1.855736,
+    "max_ms": 13.214576
+  },
+  "whole_trace_quantiles_or_workload_percentages_accepted": false,
+  "full_trace_processor_or_FrameTimeline_import": false,
+  "interpretation": "Incomplete source trace. Complete surviving synchronous spans only, validated against independent512-row callback dataset. Observed EGLswap wall may contain buffer queue/pacing/guest or host scheduling; no GPU timing or full-workload causal allocation."
+}

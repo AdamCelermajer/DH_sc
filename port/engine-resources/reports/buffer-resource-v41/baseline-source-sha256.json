@@ -1,0 +1,12 @@
+{
+  "port/engine-resources/resource_budget_v37.hpp": "98a67c1bf9056df9f879c317c83a4f3d61b69cfc227f36a6b1ccffe54185a869",
+  "port/engine-resources/resource_budget_v37.cpp": "9282aacb83c4a57d474e25ea6d6962db342b3b7db3efb6f4ecdbae75da93a8e2",
+  "port/android-native/app/src/main/cpp/model_renderer.cpp": "6efd8f5f97604cb739177d1ef396c816ab56775c28980e7d12a237f53c9d8ec7",
+  "port/android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc": "77540e7fe79faa6e773ea813c3c2de9f6502be52708fc8668b876cc234fd1b4e",
+  "port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc": "b4af4b31b3390be0f0817e0c178a2e0b409a4c0e0c4a011c2c558f6991a0858a",
+  "port/android-native/app/src/main/cpp/renderer_front_draw_v87.inc": "c419bb166b0ba5d655a22dc7bcab7804cd3f25dfc916a423b5093a189193cc9a",
+  "port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc": "c7b3043086e4a3c8429bba150b4ca6c6bbc52a0e1bac5c8e773b3cd238e43691",
+  "port/level-world/authored_fx_geometry_packet_v7.hpp": "ea479d582cdbfec221448c5924a4853c8cede7bb9176fe7740f9fbc4beab5d76",
+  "port/level-world/authored_fx_geometry_packet_v7.cpp": "8cbcb54a3fd88e0376623d3f1bb95d97cb884644cbb287bdbe443f82a2195950",
+  "port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc": "b92086f223309d643bf551f90a656dbb3bdc380ef8cfc6e5db0145a17a1a459a"
+}

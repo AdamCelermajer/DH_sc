@@ -1,0 +1,47 @@
+[
+  {
+    "symbol": "_ZN14PlayerSavegame23SG_UnlockAllFastTravelsEv",
+    "address": "0x466384",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame20__LoadFastTravelListEP11IStreamBasePv",
+    "address": "0x469b18",
+    "size": 452
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame26SG_GetFastTravelIdUnlockedEPKci",
+    "address": "0x46649c",
+    "size": 200
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame20__SaveFastTravelListEP11IStreamBasePv",
+    "address": "0x469cdc",
+    "size": 172
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16_InitLevelStatesEv",
+    "address": "0x46954c",
+    "size": 316
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame26SG_GetFastTravelIdUnlockedEii",
+    "address": "0x467c54",
+    "size": 144
+  },
+  {
+    "symbol": "_ZN14PlayerSavegameC1Ev",
+    "address": "0x465ae0",
+    "size": 352
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame26SG_SetFastTravelIdUnlockedEPKcbi",
+    "address": "0x4663f8",
+    "size": 164
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17__LoadLevelStatesEP11IStreamBasePv",
+    "address": "0x46a9cc",
+    "size": 648
+  }
+]

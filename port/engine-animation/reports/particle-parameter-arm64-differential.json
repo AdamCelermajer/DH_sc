@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "62da4b40589bbf9c9a7b39cf714e4c996c7285c7cd464c1c04fe66b45b3920dd",
+  "arm64_library_sha256": "b2dddd65bffa74975a6c09bc6445ca9eacaf62becff1d4a0e0060b7a35fbefce",
+  "reference_sha256": "d58dbcc6b055ab1b33060a164ab957c8504d67b45fa625b38036367b8e90ce86",
+  "source_sha256": {
+    "port/engine-animation/particle_parameter.hpp": "0a09d7a4264e07ab25991fa458e68f29b1473a313ae4716c689fd3c50843b0c6",
+    "port/engine-animation/particle_parameter.cpp": "6ce02670d379a7103936049226972314ec9edbad0e4581cc50b4ccc174219e38",
+    "port/engine-animation/tests/particle_parameter.cpp": "9f5e6e80b8345e3eef2353f77ffbd7dd10ed16d84ea251a689e0f4ed2b09ac86",
+    "port/engine-animation/tests/particle_parameter_differential.py": "a26516fd161e64d83a0bb3bdd542ced8b2ac5a01a2f3214a157d7a207c7a8ded"
+  },
+  "comparisons": 4925,
+  "operation_counts": {
+    "0": 531,
+    "1": 1155,
+    "3": 569,
+    "2": 555,
+    "4": 1800,
+    "5": 315
+  },
+  "actual_fx77_key_interpretations": 610,
+  "actual_fx77_tracks": [
+    {
+      "uri": "gl_pcloud_debris-emitter",
+      "type": 28,
+      "key_count": 5,
+      "values_sha256": "0cf9f85c3fda0cf5a0dfd7f962898879f330b3decbdeb30b741036b15c87625a"
+    },
+    {
+      "uri": "gl_pcloud_dust-emitter",
+      "type": 28,
+      "key_count": 5,
+      "values_sha256": "0cf9f85c3fda0cf5a0dfd7f962898879f330b3decbdeb30b741036b15c87625a"
+    }
+  ],
+  "atomic_guards": 16,
+  "mismatches": 0,
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "asset_sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+  "scope": "CFloatEx keys, interpolation, delta, weighted blend/add and raw4-byte resolved parameter application. Copy bits exact; arithmetic NaNs compare classification, all other words exact. Original accessor getters execute. Parameter map/factory/emission/attachments/rendering excluded.",
+  "elapsed_seconds": 3.55
+}

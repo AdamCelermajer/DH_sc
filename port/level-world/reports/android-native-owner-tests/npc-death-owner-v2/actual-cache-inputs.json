@@ -1,0 +1,77 @@
+[
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin",
+    "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "bytes": 401608
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarraynames.bin",
+    "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "bytes": 8993
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pystructnames.bin",
+    "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "bytes": 5032
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\skills_pyarray.bin",
+    "sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "bytes": 11862
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\skills_pyarraynames.bin",
+    "sha256": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "bytes": 2757
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\skills_pystructnames.bin",
+    "sha256": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9",
+    "bytes": 233
+  },
+  {
+    "path": ".local-inputs\\character-script-assets-v1\\bootstrap-cache\\data\\pydata\\faeries_pyarray.bin",
+    "sha256": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+    "bytes": 699
+  },
+  {
+    "path": ".local-inputs\\character-script-assets-v1\\bootstrap-cache\\data\\pydata\\faeries_pyarraynames.bin",
+    "sha256": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+    "bytes": 253
+  },
+  {
+    "path": ".local-inputs\\character-script-assets-v1\\bootstrap-cache\\data\\pydata\\faeries_pystructnames.bin",
+    "sha256": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b",
+    "bytes": 113
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\animations_pyarray.bin",
+    "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "bytes": 72812
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\animations_pyarraynames.bin",
+    "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "bytes": 17971
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\animations_pystructnames.bin",
+    "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134",
+    "bytes": 648
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\animations_dictionary_pyarraynames.bin",
+    "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+    "bytes": 42616
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\animations_dictionary_pyarray.bin",
+    "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    "bytes": 104357
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\scripts_pycst.bin",
+    "sha256": "8a48588048c3eb7dbe559aae89804a947b391eab67894aaa73f588437a497fd1",
+    "bytes": 1731
+  }
+]

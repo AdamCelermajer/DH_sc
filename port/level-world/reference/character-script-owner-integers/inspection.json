@@ -1,0 +1,65 @@
+{
+  "status": "READ_ONLY_PROPOSAL_READY",
+  "integration_executed": false,
+  "production_files_written": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "inputs_sha256": {
+    "port/level-world/character_script_owner.hpp": "84eb02a90c945b9c0845bcddd7dcb52d75e62b6c8f210c088deb285dfeb06050",
+    "port/level-world/character_script_owner.cpp": "d63c031dfc521bc98ff4cd50358cfb0c1bbfb7de307c69d087e6a8f220e10e82",
+    "port/level-world/character_script_owner_bindings.inc": "0a428c0126d314d664a4af687619e0ce22de1ed6c9d1a56b1fb056fc0f814f14",
+    "port/level-world/tests/character_script_owner.cpp": "acc1f751efce734724a8542ada99962fbd0a25837463985a2dde907c7e36bcce",
+    "port/level-world/reference/character-script-ownership/original-functions.json": "10880a02cec8279ef6050ca60e4f80d187e0afeef12c1eb0853784cfb12a5f6a",
+    "port/level-world/reference/character-script-ownership/reference/original-functions.asm": "8a7832a596c26348dbf2057d4114169844e38ef62498456574cac7f03c480a10",
+    "port/script-runtime/reference/game-bindings/registration-names.json": "c7f21aab139b6409e7bd749b0310b6cfe7daabb084611097dcf202dba36cc0ad",
+    "port/script-runtime/reference/int-bindings/teardown/original-functions.json": "5edca52e4e5a262144c0433f127fcdba044adafa89d87b4cde484f3fa26dc9e6",
+    "port/script-runtime/reference/int-bindings/teardown/reference/original-functions.asm": "84d2ab21ad8b094a82043866015596189419854999cd081b91b8376dbae4610a",
+    "port/script-runtime/reports/script-int-arm64-differential.json": "0f7c799a6d67d8c183db28c695ec3bd39465cf1859e635a86938d1a36950cb5e",
+    "port/script-runtime/reports/script-int-host-audit.json": "28950a2c94de65d52b012d419c541318e7b76453d92a72c119c7a8d6cb73f3bb",
+    "port/script-runtime/script_int_bindings.hpp": "4cf66271fe2a909759e03f62d5016b960cc374273eabec8a38279d15716e4d9a",
+    "port/script-runtime/script_int_bindings.cpp": "04b216621891f067b423230fd2b7aa8b47330bb08174bcaef394cca8e22edc7a",
+    "port/script-runtime/script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+    "port/script-runtime/script_runtime.c": "cfb4aaa0585188731c76d3ed86e346bd2d48d6a2024c1f453c4bd038e8e835d1",
+    "port/level-world/reference/character-script-owner-integers/PROPOSAL.md": "716a4d8721277f11239f37f09159fbce26a23d4de884c66bd8b4e63c329f7aa2",
+    "port/level-world/reference/character-script-owner-integers/integration-cases.json": "760e80074c30f559e608f9d25e51c1bf3e5865ef77e2c905dccb7d51b59f6722",
+    "port/level-world/reference/character-script-owner-integers/inspect_proposal.py": "b68d90128471151b457c98fd83f9e92fe91f80007cc6ba2133da9644f7e19655"
+  },
+  "source_registrations": [
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b628",
+      "name": "SetInt",
+      "callback": "0x37de5c"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b644",
+      "name": "GetInt",
+      "callback": "0x37ec14"
+    }
+  ],
+  "current_owner": {
+    "integer_map_owned": false,
+    "integer_binding_accessor": false,
+    "stable_heap_session": true,
+    "all_source_global_deliveries": 170,
+    "stage1_global_deliveries": 35,
+    "historical_SetInt_nil_is_fixture_boundary": true
+  },
+  "source_owned_map": {
+    "offset": "0x1c",
+    "initialization": [
+      "0x37c6c4",
+      "0x37c6d8"
+    ],
+    "clearing": [
+      "0x37c0bc",
+      "0x37c0e8"
+    ],
+    "owned_VM_close": "0x37c100",
+    "clear_after_aliases": true
+  },
+  "proposed_test_plan": "port/level-world/reference/character-script-owner-integers/integration-cases.json",
+  "proposed_test_cases": 14,
+  "production_API": "Add constructor persistent services + stable borrowed integer_bindings accessor; keep old views/constructor and all registration deliveries.",
+  "outstanding": "Parent approval/production implementation and NEW actual central-DSO owner integration proof; no current package/device/full-namespace claim."
+}

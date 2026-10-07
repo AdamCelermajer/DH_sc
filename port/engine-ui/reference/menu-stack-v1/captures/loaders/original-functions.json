@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN16MultiMenuManager11LoadSWFFileEPKci",
+      "elf_address": "0x437d68",
+      "size": 188,
+      "sha256": "59967728abf738d5330a478c4090dd93af32aeb59b4f046cf4aa1b38117f9a22"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager11LoadSWFFileEPKci",
+      "elf_address": "0x42d290",
+      "size": 124,
+      "sha256": "797c66d1f7333d964bc9100c1d6cc027eedd26a9667b235bd92f0f07d57d47e3"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager8LoadMenuEi",
+      "elf_address": "0x431ea4",
+      "size": 1592,
+      "sha256": "ea10e89c8da9322096a0ee005b91587e0d7db98c35016d559885154108b1a163"
+    }
+  ]
+}

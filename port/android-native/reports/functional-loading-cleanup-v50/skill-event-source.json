@@ -1,0 +1,35 @@
+{
+  "scope": "Asset diagnosis only: original idle and Bash do_skill are authored, so no invented dominant-slot filter; no enemy-hit acceptance",
+  "results": [
+    {
+      "clip": 1040,
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "exact_supplied_cache_bytes": true,
+      "events": [
+        {
+          "raw_time": 17,
+          "kind": 1,
+          "names": [
+            "do_skill"
+          ]
+        }
+      ]
+    },
+    {
+      "clip": 1234,
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+      "exact_supplied_cache_bytes": true,
+      "events": [
+        {
+          "raw_time": 21,
+          "kind": 1,
+          "names": [
+            "do_skill"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port\\level-world\\character_timer_effects.hpp": "d0d1dcfa0ebb530a8c7fd302a6801357e6a36df9b16d0305c17d67201a0c684a",
+    "port\\level-world\\character_timer_effects.cpp": "b6937578a786cbbb2cc1a516611598941e76d32bac5441d57a4a88b5772bd0f5",
+    "port\\level-world\\tests\\character_timer_effects.cpp": "78594c004c5aa5dd1e96ca5dc50e3eb20182103f1f939312bc39e6ea71f02649",
+    "port\\level-world\\tests\\character_timer_effects_host.py": "0d116880902ab79f749cee44bc1babb33c59de669328ceaf6531cffd52aa7abf",
+    "port\\level-world\\tests\\character_timer_effects_differential.py": "2bcf7f57170fb352b8283d661c548ebf1f3a9748c34dcadbf5d03ff9118160da",
+    "port\\level-world\\tools\\build_character_timer_effects_oracle.ps1": "f8b3efbd580a4743cda2bb201645154a017a41c902163e7e11c5e19011b81bca",
+    "port\\level-world\\reference\\character-timer-effects\\NOTES.md": "cb7370802cdba764e606a7be7976d42e0995219f973033d034d81987aeb5c9a8"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_expiry_cases": 1456,
+  "cached_reset_cases": 32,
+  "RemoveDot_cases": 192,
+  "owner_query_cases": 72,
+  "host_checks": 106022,
+  "sanitizer_findings": 0,
+  "full_DoT_buff_registry_or_application": false,
+  "packaged_APK": false,
+  "reports_sha256": {
+    "port\\level-world\\reports\\character-timer-effects-arm64-differential.json": "0acca3e0b32aaa82e260f179c74941f2c26c37962a02e8e7c5e2734d665c3e69",
+    "port\\level-world\\reports\\character-timer-effects-host-audit.json": "7078d5e64664b66d6de8ec9e92545a725e658b232a325286e7be47d9d5e12351"
+  },
+  "freeze_sha256": "3730be8ebbcb359a47b495e30e92c7272f5ac4a37f63f1aa704980c97cc35488"
+}

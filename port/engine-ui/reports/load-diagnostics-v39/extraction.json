@@ -1,0 +1,13 @@
+{
+  "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+  "source_sha256": "44e5ee7adfb2b460aab316a0628195293d71df27e87a2639bfbe3b7663f6f579",
+  "original_block_sha256": "8c8f48884e1d73477f18785fb6aaedf7b7b9ef31be0c7b71855be6e60fb5954e",
+  "original_block_bytes": 13436,
+  "start_line": 2757,
+  "end_line": 2855,
+  "pair_sweeps": 5,
+  "floor_sweeps": 2,
+  "original_block": "port/engine-ui/reports/load-diagnostics-v39/original-proof-block.inc",
+  "new_include": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\renderer_load_diagnostics_v39.inc",
+  "shared_source_modified": false
+}

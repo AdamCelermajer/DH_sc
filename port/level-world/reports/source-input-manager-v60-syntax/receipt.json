@@ -1,0 +1,74 @@
+{
+  "scope": "Native syntax only; no link/execution/APK/emulator/WSL",
+  "rows": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/source_input_manager_v60.cpp",
+      "sha256": "9f5583a1e45b73ce0e0f3ce248e8d3fa5ed00abec7c64f98948b25c927431182",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 91545600,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 257028,
+        "create_time_filetime": 134357898245676019
+      }
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/tests/source_input_manager_v60.cpp",
+      "sha256": "60c4d20fef3afa11aa5f07960ea7bd2a4a868421675b0797a842bed4ec863313",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 117972992,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 256716,
+        "create_time_filetime": 134357898293324469
+      }
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/source_input_manager_v60.cpp",
+      "sha256": "9f5583a1e45b73ce0e0f3ce248e8d3fa5ed00abec7c64f98948b25c927431182",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 90935296,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 264988,
+        "create_time_filetime": 134357898304684181
+      }
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/tests/source_input_manager_v60.cpp",
+      "sha256": "60c4d20fef3afa11aa5f07960ea7bd2a4a868421675b0797a842bed4ec863313",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 117374976,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 265348,
+        "create_time_filetime": 134357898312215474
+      }
+    }
+  ],
+  "status": "PASS"
+}

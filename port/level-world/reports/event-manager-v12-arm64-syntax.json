@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax new owner/test only",
+  "sources": [
+    {
+      "path": "port/level-world/event_manager_owner_v12.cpp",
+      "sha256": "b66a23fe43ce48e104cc0845431e541b4a757eee51baa6b18e5cdce81adeb459"
+    },
+    {
+      "path": "port/level-world/tests/event_manager_owner_v12.cpp",
+      "sha256": "4157e8c4d9d07efb30a4b1239a01b4e4a6796f5f52b1987b1eab24a3c60c8d0e"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

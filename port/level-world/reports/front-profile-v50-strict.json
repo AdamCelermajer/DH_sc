@@ -1,0 +1,26 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "source": "front_ui_session_v87.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "front_selected_profile_v50.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "front_ui_session_v87.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "front_selected_profile_v50.cpp",
+    "exit": 0,
+    "stderr": ""
+  }
+]

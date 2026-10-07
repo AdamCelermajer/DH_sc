@@ -1,0 +1,105 @@
+{
+  "frozen_dependencies": [
+    {
+      "path": "handoff/audio-v42/manifest.json",
+      "sha256": "5b51da42d76a7447c06cfba439f7dbb6190549d8dfeaae148f441e271e8d46a2"
+    },
+    {
+      "path": "handoff/audio-v43/manifest.json",
+      "sha256": "fe69d6079ac93e72ec7272b5c815e895dab0102d31af3e21d65f899def4f9224"
+    },
+    {
+      "path": "handoff/audio-v44/manifest.json",
+      "sha256": "8a7c0e3489d905ff3829151cc3fd6f842ef5bd0fa92ae33c7c96384bb621df69"
+    }
+  ],
+  "verification": {
+    "audible": false,
+    "current_apk": false,
+    "current_link": false,
+    "git_diff_check": true,
+    "driver": false,
+    "source_review": true,
+    "current_compile": false
+  },
+  "scope": "Installed audio Application/CMake/JNI/Java and exported Stage0/canonical raw getter bridges; shared source checkpoint may include other agents changes, only scoped audio edits claimed",
+  "current_source_checkpoint": [
+    {
+      "path": "port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "sha256": "a76d61b5cb3cb5eac39f3170697bbd857641d511fb48e939c1fb595723ed5c7c",
+      "bytes": 5717
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "eb4dfb4eaa6edc6d6ac789ad886c8560d1b5bf490a55b654adcc325c5c4cec3b",
+      "bytes": 30695
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "766bb7dc035f04a85564698ab20a35a19a25d4825d384cc2747a832eb7351c36",
+      "bytes": 261529
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.hpp",
+      "sha256": "4b078ed0775544587fa3d43754bef7702ee78257a4e698b59a7b438a553e756c",
+      "bytes": 9054
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_application_audio_v45.inc",
+      "sha256": "cb792502ec80037da5613410a6d9eaf5dce9786d76e2c61852ca0b43183d9f9e",
+      "bytes": 1174
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_application_audio_v45.inc",
+      "sha256": "558ccd0e98ee516838a3156598b36297c3e3d77f1338b812de59426dd03fb83c",
+      "bytes": 1664
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_container_audio_bindings_v45.hpp",
+      "sha256": "c0bb438c2a2f1c09148fe88c251f649492c7e3ba56fde3e90ae4627d1e829f38",
+      "bytes": 3196
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "sha256": "1a60627085832bc19810edb63221b143a04673e743078347251919ea642913fd",
+      "bytes": 40038
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java",
+      "sha256": "986762a3f308e78cfa234dc0c2ec6a58bd15e34bf74609a2345317ae88273692",
+      "bytes": 3089
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java",
+      "sha256": "7df11999b6184d8838514704f349be9d8ad03db174fd85d0a2a76084c435b30f",
+      "bytes": 10305
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/SharedAudioFocusV40.java",
+      "sha256": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a",
+      "bytes": 2950
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/AudioFocusPolicyV40.java",
+      "sha256": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769",
+      "bytes": 2686
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/AudioApplicationLifecycleV42.java",
+      "sha256": "c4456c84b50048fe4393d36cb4084ac5469ddc5cf93331e6f4b246bb727caa72",
+      "bytes": 1394
+    },
+    {
+      "path": "port/engine-audio/integration-v45/ROOT-INTEGRATION.md",
+      "sha256": "b29269ae9c4c43b6a90a6bc9179aff57166addad843a1555cdcab38d12dae284",
+      "bytes": 5260
+    }
+  ],
+  "version": 45,
+  "remaining": [
+    "Status inserts Stage0 call in its owned source campaign",
+    "Loader binds complete callback in actual canonical services",
+    "Central scheduler admission before any compiler leaf",
+    "Genuine positive playback providers/time scope and audible checks"
+  ]
+}

@@ -1,0 +1,629 @@
+
+port/android-native/app/src/main/cpp/swf_gpu.cpp:305-327
+305: }
+306: void SwfGpu::mask_rectangle(){
+307:     ui::SwfDraw command;command.kind=ui::SwfDraw::triangle_strip;
+308:     command.xy={bounds_[0],bounds_[2],bounds_[1],bounds_[2],bounds_[0],bounds_[3],bounds_[1],bounds_[3]};
+309:     command.fill.kind=ui::SwfFill::color;
+310:     primitive(command,command.fill,GL_TRIANGLE_STRIP);
+311: }
+312: void SwfGpu::abort() noexcept {
+313:     if(materialized_v36_||begin_pending_){glBindFramebuffer(GL_FRAMEBUFFER,destination_);glViewport(viewport_[0],viewport_[1],viewport_[2],viewport_[3]);
+314:         glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);glDepthMask(GL_TRUE);glDisable(GL_STENCIL_TEST);}
+315:     frame_=false;begin_pending_=false;mask_level_=0;submitting_mask_=false;
+316:     materialized_v36_=false;
+317: }
+318: void SwfGpu::materialize_v36(){
+319:     if(materialized_v36_)return;
+320:     if(!frame_)throw std::runtime_error("SWF target requested outside logical display");
+321:     glGetIntegerv(GL_FRAMEBUFFER_BINDING,&destination_);begin_pending_=true;target(viewport_[2],viewport_[3]);
+322:     glBindFramebuffer(GL_FRAMEBUFFER,target_);
+323:     glViewport(0,0,viewport_[2],viewport_[3]);glDisable(GL_DEPTH_TEST);glDisable(GL_CULL_FACE);
+324:     glDisable(GL_SCISSOR_TEST);glDisable(GL_STENCIL_TEST);glDepthMask(GL_FALSE);
+325:     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);glStencilMask(0xff);
+326:     glClearColor(0,0,0,0);glClear(GL_COLOR_BUFFER_BIT);
+327:     materialized_v36_=true;begin_pending_=false;++materializations_v36_;
+
+port/android-native/app/src/main/cpp/swf_gpu.cpp:339-403
+339: bool SwfGpu::draw(const ui::SwfDraw& command,std::string& error){
+340:     try{
+341:         using Draw=ui::SwfDraw;
+342:         ++command_serial_v37_;
+343:         if(command.kind!=Draw::begin&&!frame_)throw std::runtime_error("SWF command outside display lifetime");
+344:         const bool boundary=command.kind==Draw::begin||command.kind==Draw::end||command.kind==Draw::mask_begin||
+345:             command.kind==Draw::mask_end||command.kind==Draw::mask_disable;
+346:         if(boundary){dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);barrier_v37("SWF display/mask entry");}
+347:         switch(command.kind){
+348:         case Draw::begin:{
+349:             dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);
+350:             if(frame_)throw std::runtime_error("Nested SWF display begin");
+351:             for(unsigned i=0;i<4;++i){finite(command.bounds[i]);bounds_[i]=command.bounds[i];viewport_[i]=command.viewport[i];}
+352:             if(bounds_[1]<=bounds_[0]||bounds_[3]<=bounds_[2]||viewport_[2]<=0||viewport_[3]<=0)
+353:                 throw std::runtime_error("Invalid SWF display extent");
+354:             // Preserve every source command/callback, but do not allocate,
+355:             // clear or composite a fullscreen target for an empty display.
+356:             frame_=true;materialized_v36_=false;begin_pending_=false;mask_level_=0;submitting_mask_=false;++displays_v36_;break;}
+357:         case Draw::end:{
+358:             dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);
+359:             if(mask_level_||submitting_mask_)throw std::runtime_error("Unbalanced SWF mask lifetime");
+360:             if(!materialized_v36_){frame_=false;++empty_displays_v36_;break;}
+361:             glDisable(GL_STENCIL_TEST);glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+362:             glBindFramebuffer(GL_FRAMEBUFFER,destination_);glViewport(viewport_[0],viewport_[1],viewport_[2],viewport_[3]);
+363:             glEnable(GL_BLEND);glBlendEquation(GL_FUNC_ADD);glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+364:             {const std::array<float,16> flipped{1,0,0,0,0,-1,0,0,0,0,1,0,0,0,0,1};
+365:              draw_quad(normal_,target_color_,flipped,{1,1,1,1},{0,0,0,0});}
+366:             glDepthMask(GL_TRUE);frame_=false;materialized_v36_=false;break;}
+367:         case Draw::triangles:primitive(command,command.fill,GL_TRIANGLES);break;
+368:         case Draw::triangle_strip:primitive(command,command.fill,GL_TRIANGLE_STRIP);break;
+369:         case Draw::bitmap_quad:primitive(command,command.fill,GL_TRIANGLE_STRIP);break;
+370:         case Draw::line_strip:
+371:             finite(command.line_width);if(command.line_width<=0)break;
+372:             // Source widths are twips; actual affine scale and viewport turn them
+373:             // into pixel widths. GLES2 hardware clamps to its supported range.
+374:             {const float x=std::hypot(command.matrix.value[0],command.matrix.value[3]);
+375:              const float y=std::hypot(command.matrix.value[1],command.matrix.value[4]);
+376:              const float scale=(viewport_[2]/(bounds_[1]-bounds_[0])+viewport_[3]/(bounds_[3]-bounds_[2]))*.5f;
+377:              const float width=command.line_width*(x+y)*.5f*scale;finite(width);
+378:              primitive(command,command.line,GL_LINE_STRIP,width);}break;
+379:         case Draw::mask_begin:
+380:             if(mask_level_>=255)throw std::runtime_error("Invalid SWF mask begin");
+381:             materialize_v36();
+382:             if(!mask_level_){glEnable(GL_STENCIL_TEST);glClearStencil(0);glClear(GL_STENCIL_BUFFER_BIT);}
+383:             glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+384:             glStencilFunc(GL_EQUAL,mask_level_++,0xff);glStencilOp(GL_KEEP,GL_KEEP,GL_INCR);submitting_mask_=true;break;
+385:         case Draw::mask_end:
+386:             if(!submitting_mask_||!mask_level_)throw std::runtime_error("Invalid SWF mask end");
+387:             glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);glStencilFunc(GL_EQUAL,mask_level_,0xff);
+388:             glStencilOp(GL_KEEP,GL_KEEP,GL_KEEP);submitting_mask_=false;break;
+389:         case Draw::mask_disable:
+390:             if(!mask_level_)throw std::runtime_error("Invalid SWF mask disable");
+391:             submitting_mask_=false;
+392:             if(!--mask_level_)glDisable(GL_STENCIL_TEST);
+393:             else{glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);glStencilFunc(GL_EQUAL,mask_level_+1,0xff);
+394:                  glStencilOp(GL_KEEP,GL_KEEP,GL_DECR);mask_rectangle();
+395:                  glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);glStencilFunc(GL_EQUAL,mask_level_,0xff);glStencilOp(GL_KEEP,GL_KEEP,GL_KEEP);}
+396:             break;
+397:         case Draw::antialias:break; // frame multisampling belongs to the EGL config
+398:         }
+399:         if(boundary){dh2::perf::Scope control_scope(dh2::perf::Phase::ui_submit);barrier_v37("SWF display/mask exit");}error.clear();return true;
+400:     }catch(const std::exception& e){
+401:         abort();
+402:         error=e.what();return false;
+403:     }
+
+port/android-native/app/src/main/cpp/native_app.cpp:214-242
+214:   if(authored_character_menu&&authored_character_menu->opened){
+215:     std::string error;if(!authored_character_menu->frame(error)){
+216:       original_ui_error="Character menu: "+error;
+217:       __android_log_print(ANDROID_LOG_ERROR,tag,"Original character menu frame failed: %s",error.c_str());
+218:       authored_character_menu->close();
+219:     }
+220:     return;
+221:   }
+222:   if(model_renderer::active()){
+223:     try {
+224:       if(original_ui.overlays_player()){
+225:         dh2::perf::Scope perf_prepare(dh2::perf::Phase::hud_prepare);
+226:         std::string error;if(!original_ui.prepare_player_frame(surface_width,surface_height,error))throw std::runtime_error("Combat HUD preparation: "+error);
+227:         model_renderer::connect_combat_text(original_ui.combat_text_sink());
+228:       }
+229:       model_renderer::draw(surface_width,surface_height);
+230:     } catch(const std::exception& e) {
+231:       __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: %s",e.what());
+232:       original_ui_error=std::string("Gameplay failed: ")+e.what();
+233:       original_ui.deactivate();
+234:       model_renderer::deactivate();
+235:       return;
+236:     } catch(...) {
+237:       __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: unknown exception");
+238:       original_ui_error="Gameplay failed: unknown native exception";
+239:       original_ui.deactivate();
+240:       model_renderer::deactivate();
+241:       return;
+242:     }
+
+port/android-native/app/src/main/cpp/native_character_menu_v4.inc:173-191
+173:  bool open(std::string& error){
+174:   if(!character_panel->authored_bound()&&!bind(error))return false;
+175:   std::string command;if(!original_ui.hud_pointer(3,-1,0,0,command,error))return false;
+176:   if(!character_panel->authored_open(model_renderer::player_gameplay_binding(),error))return false;
+177:   model_renderer::world_touch_cancel();model_renderer::set_character_panel_open(true);
+178:   opened=true;request_close=false;frame_time=std::chrono::steady_clock::now();
+179:   __android_log_print(ANDROID_LOG_INFO,tag,"Original character menu opened | actual stats/skills/inventory artwork | same live player");return true;
+180:  }
+181:  void close(){opened=false;request_close=false;model_renderer::set_character_panel_open(false);}
+182:  bool frame(std::string& error){
+183:   const auto live=model_renderer::player_gameplay_binding();
+184:   if(live.world_owner!=leases->world){error="Character menu world was replaced";close();return false;}
+185:   if(!viewport(error))return false;
+186:   const auto now=std::chrono::steady_clock::now();const float dt=std::chrono::duration<float>(now-frame_time).count();frame_time=now;
+187:   if(!character_panel->authored_frame(live,dt,error))return false;
+188:   auto* stack=character_panel->authored_native_v4()->stack();
+189:   if(request_close||(stack&&stack->view()->count==0)){close();return true;}
+190:   return character_panel->authored_source_display_v4(live,error);
+191:  }
+
+port/android-native/app/src/main/cpp/original_ui_movie_services_v1.inc:1-44
+1: // Included inside OriginalUiSession::Impl. A separate movie gets a separate
+2: // source font platform; the APK cache, actual GPU images and font readers are
+3: // shared. Every callback preserves its original application context.
+4: struct MoviePlatformLease {
+5:     std::shared_ptr<Impl> resources;
+6:     ui::SwfServices application;
+7:     std::unique_ptr<ui::GfntTextBackendV1> bitmap;
+8:     MoviePlatformLease(std::shared_ptr<Impl> owner,const ui::SwfServices& app)
+9:         :resources(std::move(owner)),application(app){
+10:         const ui::GfntTextServicesV1 source{resources.get(),&resources->source_bitmap_cache_width_v1,
+11:             &resources->source_bitmap_cache_height_v1,gfnt_resolve_v1,gfnt_read_v1,nullptr};
+12:         bitmap=std::make_unique<ui::GfntTextBackendV1>(source,resources);
+13:         ++resources->external_movies;
+14:     }
+15:     ~MoviePlatformLease(){--resources->external_movies;}
+16:     static Impl* resource(void* p){return static_cast<MoviePlatformLease*>(p)->resources.get();}
+17:     static bool read(void* p,const char* uri,std::vector<std::uint8_t>& b,std::string& e){return movie_read(resource(p),uri,b,e);}
+18:     static bool tex(void* p,const char* name,int w,int h,ui::SwfTexture& t,std::string& e){return texture(resource(p),name,w,h,t,e);}
+19:     static bool upload(void* p,int w,int h,unsigned c,const std::uint8_t* b,int pitch,ui::SwfTexture& t,std::string& e){return image(resource(p),w,h,c,b,pitch,t,e);}
+20:     static bool submit(void* p,const ui::SwfDraw& d,std::string& e){return draw(resource(p),d,e);}
+21:     static bool mask(void* p,const float b[4],std::uint8_t n,bool& v,std::string& e){return stencil(resource(p),b,n,v,e);}
+22:     static bool primitive(void* p,const char* name,const std::vector<ui::SwfValue>& args,ui::SwfValue& out,std::string& e){
+23:         auto& lease=*static_cast<MoviePlatformLease*>(p);
+24:         if(lease.application.native_call)return lease.application.native_call(lease.application.context,name,args,out,e);
+25:         return native(lease.resources.get(),name,args,out,e);
+26:     }
+27:     static bool action(void* p,const char* name,const gameswf::fn_call& call,std::string& e){
+28:         auto& lease=*static_cast<MoviePlatformLease*>(p);
+29:         return lease.application.native_action(lease.application.context,name,call,e);
+30:     }
+31:     static bool start(void* p,const ui::SwfAsLease& graph,std::string& e){
+32:         auto& lease=*static_cast<MoviePlatformLease*>(p);
+33:         return !lease.application.graph_start||lease.application.graph_start(lease.application.context,graph,e);
+34:     }
+35:     static void report(void* p,bool is_error,const char* message){
+36:         auto& lease=*static_cast<MoviePlatformLease*>(p);diagnostic(lease.resources.get(),is_error,message);
+37:         if(lease.application.diagnostic)lease.application.diagnostic(lease.application.context,is_error,message);
+38:     }
+39:     ui::SwfServices services(){
+40:         ui::SwfServices out;out.context=this;out.read=read;out.texture=tex;out.image=upload;
+41:         out.draw=submit;out.stencil=mask;out.native_call=primitive;out.native_action=action;
+42:         out.graph_start=start;out.diagnostic=report;out.native_actions=application.native_actions;
+43:         // The wrapping source platform retains this lease as platform_owner.
+44:         out.native_owner=application.native_owner;return out;
+
+port/engine-ui/swf_movie.cpp:117-118
+117:  void fail(const std::string&s){if(failure.empty())failure=s.empty()?"Required SWF provider rejected delivery":s;}
+118:  bool finish(std::string&e){if(!failure.empty()){e=failure;return false;}e.clear();return true;}
+
+port/engine-ui/swf_movie.cpp:134-155
+134:  void emit(SwfDraw d){std::string e;if(!service.draw||!service.draw(service.context,d,e))fail(e.empty()?"SWF draw sink unavailable":e);}
+135:  Bitmap*image(int w,int h,std::uint32_t channels,const std::uint8_t*pixels,int pitch){auto*b=new Bitmap(w,h);std::string e;
+136:   if(w>0&&h>0&&(!service.image||!service.image(service.context,w,h,channels,pixels,pitch,b->texture,e)||!b->texture.identity))fail(e.empty()?"Embedded SWF image upload unavailable":e);return b;
+137:  }
+138:  gameswf::bitmap_info*create_bitmap_info_empty()override{return new Bitmap;}
+139:  gameswf::bitmap_info*create_bitmap_info_alpha(int w,int h,unsigned char*d)override{return image(w,h,1,d,w);}
+140:  gameswf::bitmap_info*create_bitmap_info_rgb(image::rgb*i)override{return image(i->m_width,i->m_height,3,i->m_data,i->m_pitch);}
+141:  gameswf::bitmap_info*create_bitmap_info_rgba(image::rgba*i)override{return image(i->m_width,i->m_height,4,i->m_data,i->m_pitch);}
+142:  gameswf::video_handler*create_video_handler()override{fail("SWF video backend unavailable");return nullptr;}
+143:  void begin_display(gameswf::rgba c,int x,int y,int w,int h,float x0,float x1,float y0,float y1)override{SwfDraw d;d.kind=SwfDraw::begin;d.viewport[0]=x;d.viewport[1]=y;d.viewport[2]=w;d.viewport[3]=h;d.bounds[0]=x0;d.bounds[1]=x1;d.bounds[2]=y0;d.bounds[3]=y1;rgba(d.background,c);emit(d);}
+144:  void end_display()override{SwfDraw d;d.kind=SwfDraw::end;emit(d);}
+145:  void set_matrix(const gameswf::matrix&m)override{state.matrix=matrix(m);}void set_cxform(const gameswf::cxform&c)override{state.color_transform=cx(c);}
+146:  void vertices(const void*v,int n,SwfDraw::Kind kind){if(n<0||(!v&&n)){fail("Malformed upstream draw span");return;}SwfDraw d=state;d.kind=kind;auto*p=static_cast<const coord_component*>(v);d.xy.reserve(std::size_t(n)*2);for(int i=0;i<n*2;++i)d.xy.push_back(float(p[i]));emit(std::move(d));}
+147:  void draw_mesh_strip(const void*v,int n)override{vertices(v,n,SwfDraw::triangle_strip);}void draw_triangle_list(const void*v,int n)override{vertices(v,n,SwfDraw::triangles);}void draw_line_strip(const void*v,int n)override{vertices(v,n,SwfDraw::line_strip);}
+148:  void fill_style_disable(int side)override{if(side==0)state.fill.kind=SwfFill::disabled;}
+149:  void fill_style_color(int side,const gameswf::rgba&c)override{if(side==0){state.fill.kind=SwfFill::color;rgba(state.fill.rgba,c);}}
+150:  void fill_style_bitmap(int side,gameswf::bitmap_info*b,const gameswf::matrix&m,bitmap_wrap_mode w,bitmap_blend_mode blend)override{if(side!=0)return;auto*i=dynamic_cast<Bitmap*>(b);if(!i||!i->texture.identity){fail("SWF fill references unresolved bitmap");return;}state.fill.kind=SwfFill::bitmap;state.fill.texture=i->texture;state.fill.uv=matrix(m);state.fill.wrap=w;state.fill.blend=blend;}
+151:  void line_style_disable()override{state.line.kind=SwfFill::disabled;}void line_style_color(gameswf::rgba c)override{state.line.kind=SwfFill::color;rgba(state.line.rgba,c);}void line_style_width(float w)override{state.line_width=w;}
+152:  void draw_bitmap(const gameswf::matrix&m,gameswf::bitmap_info*b,const gameswf::rect&r,const gameswf::rect&uv,gameswf::rgba color)override{SwfDraw d=state;d.kind=SwfDraw::bitmap_quad;d.matrix=matrix(m);d.fill.kind=SwfFill::bitmap;auto*i=dynamic_cast<Bitmap*>(b);if(!i||!i->texture.identity){fail("SWF bitmap quad references unresolved bitmap");return;}d.fill.texture=i->texture;rgba(d.fill.rgba,color);rect(d.rect,r);rect(d.uv_rect,uv);emit(std::move(d));}
+153:  void set_antialiased(bool b)override{SwfDraw d;d.kind=SwfDraw::antialias;d.enabled=b;emit(d);}
+154:  bool test_stencil_buffer(const gameswf::rect&r,Uint8 pattern)override{float b[4];rect(b,r);bool result=false;std::string e;if(!service.stencil||!service.stencil(service.context,b,pattern,result,e))fail(e.empty()?"SWF stencil query backend unavailable":e);return result;}
+155:  void mask(SwfDraw::Kind k){SwfDraw d;d.kind=k;emit(d);}void begin_submit_mask()override{mask(SwfDraw::mask_begin);}void end_submit_mask()override{mask(SwfDraw::mask_end);}void disable_mask()override{mask(SwfDraw::mask_disable);}
+
+port/engine-ui/swf_movie.cpp:182-185
+182: bool SwfMovie::advance(float seconds,std::string&e){auto owner=impl_;if(!owner||!owner->root||!std::isfinite(seconds)||seconds<0){e="Invalid SWF advance";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->advance(seconds);return owner->finish(e);}
+183: bool SwfMovie::display(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::string&e){auto owner=impl_;if(!owner||!owner->root||w<=0||h<=0){e="Invalid SWF viewport";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->set_display_viewport(x,y,w,h);owner->root->display();return owner->finish(e);}
+184: bool SwfMovie::display_clip(const char*path,std::string&e){auto owner=impl_;if(!owner||!owner->root){e="SWF movie not loaded";return false;}auto&r=*owner->root;return display_clip(path,r.m_viewport_x0,r.m_viewport_y0,r.m_viewport_width,r.m_viewport_height,e);}
+185: bool SwfMovie::display_clip(const char*path,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::string&e){auto owner=impl_;if(w<=0||h<=0){e="Invalid SWF viewport";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}auto*c=owner->find(path);if(!c){e="SWF clip not found";return false;}auto&r=*owner->root;r.set_display_viewport(x,y,w,h);const auto&bounds=r.m_def->m_frame_size;owner->begin_display(r.m_background_color,x,y,w,h,bounds.m_x_min,bounds.m_x_max,bounds.m_y_min,bounds.m_y_max);c->display();owner->end_display();return owner->finish(e);}
+
+port/engine-ui/overlays/source-facade-v1/swf_movie.cpp:120-121
+120:  void fail(const std::string&s){if(failure.empty())failure=s.empty()?"Required SWF provider rejected delivery":s;}
+121:  bool finish(std::string&e){if(!failure.empty()){e=failure;return false;}e.clear();return true;}
+
+port/engine-ui/overlays/source-facade-v1/swf_movie.cpp:137-163
+137:  void emit(SwfDraw d){std::string e;if(!service.draw||!service.draw(service.context,d,e))fail(e.empty()?"SWF draw sink unavailable":e);}
+138:  Bitmap*image(int w,int h,std::uint32_t channels,const std::uint8_t*pixels,int pitch){auto*b=new Bitmap(w,h);std::string e;
+139:   if(w>0&&h>0&&(!service.image||!service.image(service.context,w,h,channels,pixels,pitch,b->texture,e)||!b->texture.identity))fail(e.empty()?"Embedded SWF image upload unavailable":e);return b;
+140:  }
+141:  gameswf::bitmap_info*create_bitmap_info_empty()override{return new Bitmap;}
+142:  gameswf::bitmap_info*create_bitmap_info_alpha(int w,int h,unsigned char*d)override{return image(w,h,1,d,w);}
+143:  gameswf::bitmap_info*create_bitmap_info_rgb(image::rgb*i)override{return image(i->m_width,i->m_height,3,i->m_data,i->m_pitch);}
+144:  gameswf::bitmap_info*create_bitmap_info_rgba(image::rgba*i)override{return image(i->m_width,i->m_height,4,i->m_data,i->m_pitch);}
+145:  gameswf::video_handler*create_video_handler()override{fail("SWF video backend unavailable");return nullptr;}
+146:  void begin_display(gameswf::rgba c,int x,int y,int w,int h,float x0,float x1,float y0,float y1)override{SwfDraw d;d.kind=SwfDraw::begin;d.viewport[0]=x;d.viewport[1]=y;d.viewport[2]=w;d.viewport[3]=h;d.bounds[0]=x0;d.bounds[1]=x1;d.bounds[2]=y0;d.bounds[3]=y1;rgba(d.background,c);emit(d);}
+147:  void end_display()override{
+148:   // Original root::display7755b8 -> flush_buffered_text7755c0 -> end7755cc.
+149:   // Keep the queued fields inside this same live renderer/core Scope.
+150:   if(root&&player){auto platform=SwfTextFontPlatformV1::for_player(player.get_ptr());std::string error;
+151:    if(platform&&!platform->flush_buffered_text(error))fail(error.empty()?"Source buffered text flush failed":error);}
+152:   SwfDraw d;d.kind=SwfDraw::end;emit(d);
+153:  }
+154:  void set_matrix(const gameswf::matrix&m)override{state.matrix=matrix(m);}void set_cxform(const gameswf::cxform&c)override{state.color_transform=cx(c);}
+155:  void vertices(const void*v,int n,SwfDraw::Kind kind){if(n<0||(!v&&n)){fail("Malformed upstream draw span");return;}SwfDraw d=state;d.kind=kind;auto*p=static_cast<const coord_component*>(v);d.xy.reserve(std::size_t(n)*2);for(int i=0;i<n*2;++i)d.xy.push_back(float(p[i]));emit(std::move(d));}
+156:  void draw_mesh_strip(const void*v,int n)override{vertices(v,n,SwfDraw::triangle_strip);}void draw_triangle_list(const void*v,int n)override{vertices(v,n,SwfDraw::triangles);}void draw_line_strip(const void*v,int n)override{vertices(v,n,SwfDraw::line_strip);}
+157:  void fill_style_disable(int side)override{if(side==0)state.fill.kind=SwfFill::disabled;}
+158:  void fill_style_color(int side,const gameswf::rgba&c)override{if(side==0){state.fill.kind=SwfFill::color;rgba(state.fill.rgba,c);}}
+159:  void fill_style_bitmap(int side,gameswf::bitmap_info*b,const gameswf::matrix&m,bitmap_wrap_mode w,bitmap_blend_mode blend)override{if(side!=0)return;auto*i=dynamic_cast<Bitmap*>(b);if(!i||!i->texture.identity){fail("SWF fill references unresolved bitmap");return;}state.fill.kind=SwfFill::bitmap;state.fill.texture=i->texture;state.fill.uv=matrix(m);state.fill.wrap=w;state.fill.blend=blend;}
+160:  void line_style_disable()override{state.line.kind=SwfFill::disabled;}void line_style_color(gameswf::rgba c)override{state.line.kind=SwfFill::color;rgba(state.line.rgba,c);}void line_style_width(float w)override{state.line_width=w;}
+161:  void draw_bitmap(const gameswf::matrix&m,gameswf::bitmap_info*b,const gameswf::rect&r,const gameswf::rect&uv,gameswf::rgba color)override{SwfDraw d=state;d.kind=SwfDraw::bitmap_quad;d.matrix=matrix(m);d.fill.kind=SwfFill::bitmap;auto*i=dynamic_cast<Bitmap*>(b);if(!i||!i->texture.identity){fail("SWF bitmap quad references unresolved bitmap");return;}d.fill.texture=i->texture;rgba(d.fill.rgba,color);rect(d.rect,r);rect(d.uv_rect,uv);emit(std::move(d));}
+162:  void set_antialiased(bool b)override{SwfDraw d;d.kind=SwfDraw::antialias;d.enabled=b;emit(d);}
+163:  bool test_stencil_buffer(const gameswf::rect&r,Uint8 pattern)override{float b[4];rect(b,r);bool result=false;std::string e;if(!service.stencil||!service.stencil(service.context,b,pattern,result,e))fail(e.empty()?"SWF stencil query backend unavailable":e);return result;}
+
+port/engine-ui/overlays/source-facade-v1/swf_movie.cpp:194-195
+194: bool SwfMovie::advance(float seconds,std::string&e){auto owner=impl_;if(!owner||!owner->root||!std::isfinite(seconds)||seconds<0){e="Invalid SWF advance";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->advance(seconds);return owner->finish(e);}
+195: bool SwfMovie::display(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::string&e){auto owner=impl_;if(!owner||!owner->root||w<=0||h<=0){e="Invalid SWF viewport";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->set_display_viewport(x,y,w,h);owner->root->display();return owner->finish(e);}
+
+port/engine-ui/swf_movie_stage_clip_v5.inc:1-28
+1: bool SwfMovie::display_source_stage_clip_v5(const char* path,std::string&e){
+2:  auto owner=impl_;auto connection=viewport_;if(!owner||!connection){e="Required source panel viewport connection";return false;}
+3:  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+4:  auto* clip=owner->find(path);if(!clip){e="SWF clip not found";return false;}
+5:  float r[4];if(!connection->display_rectangle(r,e))return false;
+6:  const auto& v=connection->state().viewport;const auto& stage=owner->root->m_def->m_frame_size;
+7:  if(v[2]<=0||v[3]<=0||!(r[1]>r[0])||!(r[3]>r[2])){e="Invalid source panel projection";return false;}
+8:  const float sx=float(v[2])/(r[1]-r[0]),sy=float(v[3])/(r[3]-r[2]);
+9:  const int left=std::max(v[0],int(std::ceil(v[0]+(stage.m_x_min-r[0])*sx)));
+10:  const int right=std::min(v[0]+v[2],int(std::floor(v[0]+(stage.m_x_max-r[0])*sx)));
+11:  const int top=std::max(v[1],int(std::ceil(v[1]+(stage.m_y_min-r[2])*sy)));
+12:  const int bottom=std::min(v[1]+v[3],int(std::floor(v[1]+(stage.m_y_max-r[2])*sy)));
+13:  if(right<=left||bottom<=top){e="Authored panel stage outside source viewport";return false;}
+14:  // Derive the cropped logical rectangle from integer pixel edges. This keeps
+15:  // the identical source-to-screen transform even at fractional stage edges.
+16:  owner->begin_display(owner->root->m_background_color,left,top,right-left,bottom-top,
+17:   r[0]+float(left-v[0])/sx,r[0]+float(right-v[0])/sx,
+18:   r[2]+float(top-v[1])/sy,r[2]+float(bottom-v[1])/sy);
+19:  clip->display();owner->end_display();return owner->finish(e);
+20: }
+
+port/engine-ui/swf_edit_text_connection_v1.cpp:19-31
+19: void checked(bool b,const std::string& e){if(!b)throw std::runtime_error(e.empty()?"Required source edit-text service unavailable":e);}
+20: struct InlineImage {gameswf::gc_ptr<gameswf::bitmap_info> bitmap;};
+21: std::shared_ptr<text_v1::DiagnosticState> process_diagnostics(){static auto p=std::make_shared<text_v1::DiagnosticState>();return p;}
+22: }
+23: struct SwfEditTextFieldV1::Impl {
+24:     gameswf::edit_text_character& field;
+25:     std::shared_ptr<SwfTextFontPlatformV1> platform;
+26:     edit_text_v1::State state;
+27:     std::map<std::weak_ptr<void>,std::shared_ptr<InlineImage>,std::owner_less<std::weak_ptr<void>>> inline_images;
+28:     Impl(gameswf::edit_text_character& f):field(f),platform(SwfTextFontPlatformV1::for_player(f.get_player())){
+29:         if(!platform)throw std::runtime_error("edit text requires its retained source font platform before construction");
+30:         state.definition=std::make_shared<edit_text_v1::Definition>();definition();
+31:     }
+
+port/engine-ui/swf_edit_text_connection_v1.cpp:128-143
+128: void SwfEditTextFieldV1::display_records(){display_records({},false);}
+129: void SwfEditTextFieldV1::display_records(const text_display_v2::Context& request,bool supplied_matrix){impl->import_simple();std::string e;text_display_v2::Services seed;
+130:     seed.resolve_font=[](auto& state,std::size_t i,std::string& error){if(i>=state.records.size()){error="source record removed";return false;}if(!state.records[i].font&&state.records[i].font_id>=0){error="required source record font resolver unavailable";return false;}return true;};
+131:     seed.transform_color=[this](unsigned input,unsigned& output,std::string&){auto cx=impl->field.get_world_cxform();output=packed(cx.transform(color(input)));return true;};
+132:     seed.shape=[this](const auto& m,const auto& font,std::int16_t index,float pixel,unsigned rgba,std::string& error){auto* f=impl->platform->core_font(font,impl->field.get_player(),error);if(!f)return false;
+133:         auto* shape=f->get_glyph_by_index(index);if(!shape)return true;array<gameswf::fill_style> fills;fills.resize(1);fills[0].set_color(color(rgba));array<gameswf::line_style> lines;
+134:         shape->display(core_matrix(m),impl->field.get_world_cxform(),pixel,fills,lines,gameswf::render_handler::BLEND_NORMAL);return true;};
+135:     auto source=impl->platform->display_services(std::move(seed));auto bind=source.bind_glyph;auto bitmap=source.bitmap;
+136:     source.bind_glyph=[this,bind](const auto& g,auto& out,std::string& error){auto found=impl->inline_images.find(std::weak_ptr<void>(g.image));if(found==impl->inline_images.end())return bind(g,out,error);
+137:         out.bitmap={g.image,found->second->bitmap->get_width(),found->second->bitmap->get_height()};return true;};
+138:     source.bitmap=[this,bitmap](const auto& m,const auto& b,const auto& r,const auto& uv,unsigned rgba,std::string& error){auto found=impl->inline_images.find(std::weak_ptr<void>(b.owner));if(found==impl->inline_images.end())return bitmap(m,b,r,uv,rgba,error);
+139:         gameswf::rect rect,tex;rect.m_x_min=r[0];rect.m_x_max=r[1];rect.m_y_min=r[2];rect.m_y_max=r[3];tex.m_x_min=uv[0];tex.m_x_max=uv[1];tex.m_y_min=uv[2];tex.m_y_max=uv[3];
+140:         gameswf::render::draw_bitmap(core_matrix(m),found->second->bitmap.get_ptr(),rect,tex,color(rgba));return true;};
+141:     text_display_v2::Context context=request;auto world=impl->field.get_world_matrix();if(supplied_matrix)world.concatenate(core_matrix(request.matrix));context.matrix=matrix(world);context.provider_scale=impl->platform->provider_scale();context.pixel_scale=impl->field.get_pixel_scale();
+142:     checked(text_display_v2::display(impl->state.layout,context,source,e),e);
+143: }
+
+port/engine-ui/swf_edit_text_connection_v1.cpp:155-176
+155:  edit_text_display_v1::Services services(){using Command=edit_text_display_v1::Command;edit_text_display_v1::Services s;
+156:   s.policy=[this](auto&out,auto&){refresh();auto&p=impl.platform->policy();out={p.buffering,p.flushing,p.render_cache,p.filter_engine,impl.platform->provider_scale()};return true;};
+157:   s.renderer_present=[this](bool&out,auto&){out=impl.platform->services().draw!=nullptr;return true;};
+158:   s.world_matrix=[this](auto&out,auto&){out=matrix(impl.field.get_world_matrix());return true;};
+159:   s.renderer=[this](const Command&c,std::string&e){auto service=impl.platform->services();
+160:    if(c.kind==Command::grid_fit||c.kind==Command::cache_set||c.kind==Command::cache_draw){auto&feature=impl.platform->policy().renderer_feature;if(!feature){e="source text renderer feature provider unavailable";return false;}const bool ok=feature(c,e);refresh();return ok;}
+161:    if(c.kind==Command::matrix){std::copy(c.transform.begin(),c.transform.end(),draw.matrix.value);return true;}
+162:    if(c.kind==Command::fill_color||c.kind==Command::line_color){auto&f=c.kind==Command::fill_color?draw.fill:draw.line;f.kind=SwfFill::color;for(unsigned i=0;i<4;++i)f.rgba[i]=std::uint8_t(c.rgba>>(i*8));return true;}
+163:    if(c.kind==Command::line_width){draw.line_width=c.width;return true;}
+164:    draw.kind=c.kind==Command::mesh?SwfDraw::triangle_strip:SwfDraw::line_strip;draw.xy=c.xy;
+165:    if(!service.draw){e="source text draw sink unavailable";return false;}const bool ok=service.draw(service.context,draw,e);refresh();return ok;
+166:   };
+167:   s.enqueue=[this](auto&e){return impl.platform->enqueue(impl.field.m_source_text_v1,e);};
+168:   s.cache_validate=[this](bool&out,std::string&e){auto&cache=impl.platform->policy().cache_validate;if(!cache){e="source text render-cache validator unavailable";return false;}const bool ok=cache(out,e);refresh();return ok;};
+169:   s.records=[this](const auto&ctx,bool supplied,std::string&){receiver.display_records(ctx,supplied);refresh();return true;};
+170:   s.cosine=[](float f,float&out,auto&){out=std::cos(f);return true;};s.sine=[](float f,float&out,auto&){out=std::sin(f);return true;};
+171:   s.display_callback=[this](auto&){impl.field.do_display_callback();refresh();return true;};return s;
+172:  }
+173: };
+174: }
+175: void SwfEditTextFieldV1::display(){OuterConnection connection{*this,*impl};connection.refresh();std::string e;checked(edit_text_display_v1::display(connection.state,connection.services(),e),e);}
+176: void SwfEditTextFieldV1::cursor(){OuterConnection connection{*this,*impl};connection.refresh();std::string e;checked(edit_text_display_v1::cursor(connection.state,connection.services(),e),e);}
+
+port/engine-ui/swf_text_font_platform_v1.cpp:119-131
+119:     static bool draw(void*c,const SwfDraw&d,std::string&e){auto&p=*static_cast<Impl*>(c);return require(bool(p.base.draw),"draw sink",e)&&p.base.draw(p.base.context,d,e);}
+120:     static bool native(void*c,const char*n,const std::vector<SwfValue>&a,SwfValue&o,std::string&e){auto&p=*static_cast<Impl*>(c);return require(bool(p.base.native_call),"native callback",e)&&p.base.native_call(p.base.context,n,a,o,e);}
+121:     static bool stencil(void*c,const float*r,std::uint8_t b,bool&o,std::string&e){auto&p=*static_cast<Impl*>(c);return require(bool(p.base.stencil),"stencil query",e)&&p.base.stencil(p.base.context,r,b,o,e);}
+122:     static void diagnostic(void*c,bool b,const char*n){auto&p=*static_cast<Impl*>(c);if(p.base.diagnostic)p.base.diagnostic(p.base.context,b,n);}
+123:     static bool action(void*c,const char*n,const gameswf::fn_call&f,std::string&e){auto&p=*static_cast<Impl*>(c);return require(bool(p.base.native_action),"typed native callback",e)&&p.base.native_action(p.base.context,n,f,e);}
+124:     static bool start(void*c,const SwfAsLease&l,std::string&e){auto&p=*static_cast<Impl*>(c);
+125:         if(!require(l.player&&bool(l.owner),"actual retained startup player",e))return false;
+126:         auto& table=players();for(auto it=table.begin();it!=table.end();)if(it->second.expired())it=table.erase(it);else++it;
+127:         auto old=table[l.player].lock();if(old&&old.get()!=&p)return require(false,"one text platform per player",e);
+128:         table[l.player]=p.shared_from_this();
+129:         if(p.base.graph_start&&!p.base.graph_start(p.base.context,l,e)){table.erase(l.player);return false;}return true;}
+130:     SwfServices service(){auto s=base;s.context=this;s.read=base.read?read:nullptr;s.texture=base.texture?texture:nullptr;
+131:         s.image=upload;s.draw=base.draw?draw:nullptr;s.native_call=base.native_call?native:nullptr;s.stencil=base.stencil?stencil:nullptr;
+
+port/engine-ui/swf_text_font_platform_v1.cpp:158-176
+158: std::shared_ptr<SwfTextFontPlatformV1> SwfTextFontPlatformV1::for_player(gameswf::player* player){auto it=Impl::players().find(player);auto p=it==Impl::players().end()?nullptr:it->second.lock();return p?std::shared_ptr<SwfTextFontPlatformV1>(new SwfTextFontPlatformV1(std::move(p))):nullptr;}
+159: SwfServices SwfTextFontPlatformV1::services()const{return impl_->service();}
+160: std::shared_ptr<text_v1::Font> SwfTextFontPlatformV1::font(gameswf::font* font,std::string& e){
+161:     if(!require(font!=nullptr,"actual core font",e))return {};
+162:     if(auto p=impl_->projected[font].lock()){
+163:         p->name=font->get_name().c_str();p->bold=font->is_bold();p->italic=font->is_italic();
+164:         p->define_font3=font->is_define_font3();p->metric58=font->get_descent();p->metric5c=font->get_leading();return p;}
+165:     auto pin=std::make_shared<FontPin>();pin->value=font;
+166:     auto p=std::make_shared<text_v1::Font>();p->native=pin;p->name=font->get_name().c_str();p->bold=font->is_bold();p->italic=font->is_italic();
+167:     p->define_font3=font->is_define_font3();p->metric58=font->get_descent();p->metric5c=font->get_leading();
+168:     impl_->projected[font]=p;impl_->font_pins[std::weak_ptr<void>(pin)]=pin;return p;
+169: }
+170: gameswf::font* SwfTextFontPlatformV1::core_font(const std::shared_ptr<text_v1::Font>& f,gameswf::player* player,std::string& e){
+171:     if(!require(bool(f)&&player,"owned font projection/player",e))return nullptr;
+172:     auto key=std::weak_ptr<void>(f->native);auto it=impl_->font_pins.find(key);
+173:     if(it!=impl_->font_pins.end())if(auto pin=it->second.lock())return pin->value.get_ptr();
+174:     for(auto i=impl_->cloned_core.begin();i!=impl_->cloned_core.end();)if(i->first.expired())i=impl_->cloned_core.erase(i);else++i;
+175:     auto& pin=impl_->cloned_core[key];if(!pin){pin=std::make_shared<FontPin>();pin->value=new gameswf::font(player);}
+176:     pin->value->set_name(f->name.c_str());pin->value->set_bold(f->bold);pin->value->set_italic(f->italic);pin->value->source_clone_metrics(f->metric58,f->metric5c);return pin->value.get_ptr();
+
+port/engine-ui/swf_text_font_platform_v1.cpp:188-205
+188: text_v1::Services SwfTextFontPlatformV1::layout_services(text_v1::Services seed)const{
+189:     auto p=impl_;auto result=p->text->layout_services(std::move(seed));
+190:     result.root_scale_word=[p](float& out,std::string&){out=p->scale;return true;};
+191:     result.glyph=[p](const auto& f,auto code,auto size,auto& g,bool& found,std::string& e){return p->glyph(f,code,size,g,found,e);};return result;
+192: }
+193: text_display_v2::Services SwfTextFontPlatformV1::display_services(text_display_v2::Services seed)const{return impl_->text->display_services(std::move(seed));}
+194: float SwfTextFontPlatformV1::provider_scale()const{return impl_->scale;}
+195: std::string SwfTextFontPlatformV1::error()const{return impl_->failure;}
+196: SwfTextPolicyV1& SwfTextFontPlatformV1::policy(){return impl_->policy;}
+197: bool SwfTextFontPlatformV1::diagnostic_available()const{return impl_->base.diagnostic!=nullptr;}
+198: bool SwfTextFontPlatformV1::enqueue(std::weak_ptr<SwfEditTextFieldV1> field,std::string&e){if(!require(!field.expired(),"live queued text receiver",e))return false;impl_->buffered.push_back(std::move(field));return true;}
+199: bool SwfTextFontPlatformV1::flush_buffered_text(std::string&e){
+200:  e.clear();if(impl_->buffered.empty())return true;
+201:  const bool previous_flushing=impl_->policy.flushing;impl_->policy.flushing=true;
+202:  struct RestoreFlushing{SwfTextPolicyV1& policy;bool previous;~RestoreFlushing(){policy.flushing=previous;}} restore{impl_->policy,previous_flushing};
+203:  for(std::size_t i=0;i<impl_->buffered.size();++i){auto field=impl_->buffered[i].lock();if(!require(bool(field),"live buffered text receiver",e))return false;
+204:   try{field->display();}catch(const std::exception&x){e=x.what();return false;}}
+205:  impl_->buffered.clear();return true;
+
+port/engine-ui/text_render_owner_v2.cpp:136-147
+136: text_display_v2::Services TextRenderOwnerV2::display_services(text_display_v2::Services s) const {
+137:     using namespace text_display_v2;auto p=impl_;
+138:     s.bind_glyph=[p](const auto& g,GlyphBinding& out,std::string& e){auto pin=p->lookup(g.image);if(!need(bool(pin),"registered owned glyph texture",e))return false;
+139:         out.bitmap={g.image,pin->texture.width,pin->texture.height};out.face=pin->face;return true;};
+140:     s.line=[p](const Matrix& m,unsigned rgba,const float* xy,std::size_t n,std::string& e){
+141:         SwfDraw d;d.kind=SwfDraw::line_strip;std::copy(m.begin(),m.end(),d.matrix.value);d.line.kind=SwfFill::color;color(d.line.rgba,rgba);
+142:         d.xy.assign(xy,xy+n*2);return p->emit(d,e);};
+143:     s.bitmap=[p](const Matrix& m,const Bitmap& b,const Rect& r,const Rect& uv,unsigned rgba,std::string& e){
+144:         auto pin=p->lookup(b.owner);if(!need(bool(pin),"registered bitmap draw owner",e))return false;
+145:         SwfDraw d;d.kind=SwfDraw::bitmap_quad;std::copy(m.begin(),m.end(),d.matrix.value);d.fill.kind=SwfFill::bitmap;d.fill.texture=pin->texture;
+146:         color(d.fill.rgba,rgba);std::copy(r.begin(),r.end(),d.rect);std::copy(uv.begin(),uv.end(),d.uv_rect);return p->emit(d,e);};return s;
+147: }
+
+port/engine-ui/overlays/edit-text-v1/gameswf_text.cpp:687-705
+687: 	edit_text_character::edit_text_character(player* player, character* parent,
+688: 			edit_text_character_def* def, int id)	:
+689: 		character(player, parent, id),
+690: 		m_def(def),
+691: 		m_has_focus(false), 
+692: 		m_password(def->m_password),
+693: 		m_cursor(0), 
+694: 		m_xcursor(0.0f), 
+695: 		m_ycursor(0.0f),
+696: 		m_x(0.0f), 
+697: 		m_y(0.0f)
+698: 	{
+699:         if(!m_def)throw std::runtime_error("source edit-text constructor requires definition");
+700:         initialize_key_to_ascii();
+701:         m_font=NULL;m_color.set(255,255,255,255);m_background_color.set(255,255,255,255);
+702:         m_source_text_v1=std::make_shared<dh2::ui::SwfEditTextFieldV1>(*this);
+703:         // Original C1 791804 calls init. Placement later calls it again.
+704:         source_initialize_v1();
+705:     }
+
+port/engine-ui/overlays/edit-text-v1/gameswf_text.cpp:1312-1330
+1312: 	character*	edit_text_character_def::create_character_instance(character* parent, int id)
+1313: 	{
+1314: 		if (m_font == NULL)
+1315: 		{
+1316: 			// Resolve the font, if possible.
+1317: 			if (m_root_def)
+1318: 			{
+1319: 				m_font = m_root_def->get_font(m_font_id);
+1320: 				if (m_font == NULL)
+1321: 				{
+1322: 					log_error("error: text style with undefined font; font_id = %d\n", m_font_id);
+1323: 				}
+1324: 			}
+1325: 		}
+1326: 
+1327: 		edit_text_character*	ch = new edit_text_character(get_player(), parent, this, id);
+1328: 		// instanciate_registered_class(ch);	//TODO: test it
+1329: 
+1330: 		return ch;
+
+port/engine-ui/overlays/frame-v1/gameswf_sprite.cpp:988-1049
+988: 	bool sprite_instance::hit_test(character* ch)
+989: 	{
+990: 		rect this_bound;
+991: 		get_bound(&this_bound);
+992: 		if (m_parent != NULL)
+993: 		{
+994: 			m_parent->get_world_matrix().transform(&this_bound);
+995: 		}
+996: 
+997: 		rect ch_bound;
+998: 		ch->get_bound(&ch_bound);
+999: 		if (ch->m_parent != NULL)
+1000: 		{
+1001: 			ch->m_parent->get_world_matrix().transform(&ch_bound);
+1002: 		}
+1003: 
+1004: 		rect r;		// intersection
+1005: 		r.m_x_min = tu_fmax(this_bound.m_x_min, ch_bound.m_x_min);
+1006: 		r.m_y_min = tu_fmax(this_bound.m_y_min, ch_bound.m_y_min);
+1007: 		r.m_x_max = tu_fmin(this_bound.m_x_max, ch_bound.m_x_max);
+1008: 		r.m_y_max = tu_fmin(this_bound.m_y_max, ch_bound.m_y_max);
+1009: 		r.twips_to_pixels();
+1010: 
+1011: 		if (r.m_x_min < r.m_x_max && r.m_y_min < r.m_y_max)
+1012: 		{
+1013: #if TU_USE_FLASH_COMPATIBLE_HITTEST == 1
+1014: 			return true;
+1015: #else
+1016: 
+1017: 			// this hitTest is not compatible with Flash but
+1018: 			// it works with absolutely accuracy 
+1019: 			// if you want hitTest two bitmaps you should trace they into shapes
+1020: 
+1021: 			rgba background_color(0, 0, 0, 0);
+1022: 			movie_def_impl* def = cast_to<movie_def_impl>(get_root()->get_movie_definition());
+1023: 
+1024: 			render::begin_display(background_color,
+1025: 				get_root()->m_viewport_x0, get_root()->m_viewport_y0,
+1026: 				get_root()->m_viewport_width, get_root()->m_viewport_height,
+1027: 				def->m_frame_size.m_x_min, def->m_frame_size.m_x_max,
+1028: 				def->m_frame_size.m_y_min, def->m_frame_size.m_y_max);
+1029: 
+1030: 			render::begin_submit_mask();
+1031: 			display();
+1032: 
+1033: 			render::begin_submit_mask();
+1034: 			ch->display();
+1035: 
+1036: 			bool hittest = render::test_stencil_buffer(r, 2);
+1037: 
+1038: 			render::disable_mask();
+1039: 			render::disable_mask();
+1040: 
+1041: 			render::end_display();
+1042: 
+1043: 			return hittest;
+1044: 
+1045: #endif
+1046: 
+1047: 		}
+1048: 		return false;
+1049: 	}
+
+port/engine-ui/overlays/frame-v1/gameswf_sprite.cpp:1051-1108
+1051: 	bool	sprite_instance::hit_test(double x, double y, bool test_shape)
+1052: 	{
+1053: 		rect this_bound;
+1054: 		
+1055: 		get_bound(&this_bound);
+1056: 		
+1057: 		if (m_parent != NULL)
+1058: 		{
+1059: 			m_parent->get_world_matrix().transform(&this_bound);
+1060: 		}
+1061: 		
+1062: 		this_bound.twips_to_pixels();
+1063: 
+1064: 		if (this_bound.point_test((float) x, (float) y))
+1065: 		{
+1066: 			if( !test_shape )
+1067: 			{
+1068: 				return true;
+1069: 			}
+1070: 			else
+1071: 			{
+1072: 				// this hitTest is not compatible with Flash but
+1073: 				// it works with absolutely accuracy 
+1074: 				// if you want hitTest two bitmaps you should trace they into shapes
+1075: 
+1076: 				rgba background_color(0, 0, 0, 0);
+1077: 				movie_def_impl* def = cast_to<movie_def_impl>(get_root()->get_movie_definition());
+1078: 
+1079: 				render::begin_display(background_color,
+1080: 					get_root()->m_viewport_x0, get_root()->m_viewport_y0,
+1081: 					get_root()->m_viewport_width, get_root()->m_viewport_height,
+1082: 					def->m_frame_size.m_x_min, def->m_frame_size.m_x_max,
+1083: 					def->m_frame_size.m_y_min, def->m_frame_size.m_y_max);
+1084: 
+1085: 				render::begin_submit_mask();
+1086: 				display();
+1087: 
+1088: 				rect r;
+1089: 
+1090: 				r.m_x_min = (float) x;
+1091: 				r.m_y_min = (float) y;
+1092: 
+1093: 				r.m_x_max = r.m_x_min + 1;
+1094: 				r.m_y_max = r.m_y_min + 1;
+1095: 
+1096: 
+1097: 				bool hittest = render::test_stencil_buffer(r, 1);
+1098: 
+1099: 				render::end_submit_mask();
+1100: 				render::disable_mask();
+1101: 
+1102: 				render::end_display();
+1103: 
+1104: 				return hittest;
+1105: 			}
+1106: 		}
+1107: 		return false;
+1108: 	}
+
+port/engine-ui/vendor/gameswf1714/gameswf/gameswf_player.cpp:653-656
+653: 	// library stuff, for sharing resources among different movies.
+654: 	string_hash<gc_ptr<character_def> >* player::get_chardef_library()
+655: 	{
+656: 		return &m_chardef_library;
+
+port/engine-ui/vendor/gameswf1714/gameswf/gameswf_player.cpp:696-740
+696: 	movie_definition*	player::create_movie(const char* filename)
+697: 	{
+698: 		assert(filename);
+699: 
+700: 		// Is the movie already in the library?
+701: 		if (s_use_cached_movie_def)
+702: 		{
+703: 			gc_ptr<character_def>	m;
+704: 			get_chardef_library()->get(filename, &m);
+705: 			if (m != NULL)
+706: 			{
+707: 				// Return cached movie.
+708: 				return cast_to<movie_definition>(m.get_ptr());
+709: 			}
+710: 		}
+711: 
+712: 		if (s_opener_function == NULL)
+713: 		{
+714: 			// Don't even have a way to open the file.
+715: 			log_error("error: no file opener function; can't create movie.	"
+716: 				"See gameswf::register_file_opener_callback\n");
+717: 			return NULL;
+718: 		}
+719: 
+720: 		tu_file* in = s_opener_function(filename);
+721: 		if (in == NULL)
+722: 		{
+723: 			log_error("failed to open '%s'; can't create movie.\n", filename);
+724: 			return NULL;
+725: 		}
+726: 		else if (in->get_error())
+727: 		{
+728: 			log_error("error: file opener can't open '%s'\n", filename);
+729: 			delete in;
+730: 			return NULL;
+731: 		}
+732: 
+733: 		ensure_loaders_registered();
+734: 
+735: 		movie_def_impl*	m = new movie_def_impl(this, DO_LOAD_BITMAPS, DO_LOAD_FONT_SHAPES);
+736: 
+737: 		if (s_use_cached_movie_def)
+738: 		{
+739: 			get_chardef_library()->add(filename, m);
+740: 		}

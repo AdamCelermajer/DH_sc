@@ -1,0 +1,33 @@
+port\android-native\app\src\main\cpp\model_renderer.cpp:142: AggroStorage aggro;std::uint64_t identity=0;unsigned target_alive=0,target_sight=0;bool target_seeking=false,ai_attack=false;
+port\android-native\app\src\main\cpp\model_renderer.cpp:329:   auto& c=*static_cast<EquipmentPlatform*>(p);identity=0;scalar=0;
+port\android-native\app\src\main\cpp\model_renderer.cpp:335:     case Q::current_player:identity=player->identity;return true;
+port\android-native\app\src\main\cpp\model_renderer.cpp:400:   a.character.identity=a.object->identity;a.character.resolved=a.object->properties->resolved.data();
+port\android-native\app\src\main\cpp\model_renderer.cpp:402:   a.search.identity=a.object->identity;std::copy(a.object->position.begin(),a.object->position.end(),a.search.position);
+port\android-native\app\src\main\cpp\model_renderer.cpp:403:   *out={};out->identity=a.object->identity;out->search=&a.search;out->character=&a.character;
+port\android-native\app\src\main\cpp\model_renderer.cpp:407:     if(a.object->identity==0x100000001ull){out->heading_angle=&prince_runtime.rotation.heading_angle;out->controller_heading_angle=&prince_runtime.controller.heading.angle;}
+port\android-native\app\src\main\cpp\model_renderer.cpp:692: dh2_script_value values[4]{};values[0].type=DH2_SCRIPT_SOURCE_OBJECT;values[0].identity=identity;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1187:  a.hud.identity=a.object->identity;a.hud.name_symbol=std::uint32_t(a.hud.resolved[18]);
+port\android-native\app\src\main\cpp\model_renderer.cpp:1210:    const auto identity=actor->object->target.target;if(!identity){r->identity=0;return 1;}
+port\android-native\app\src\main\cpp\model_renderer.cpp:1212:     if(t.targets->handle_borrow(identity,&shared,&registry))return 0;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1213:     const auto queries=t.targets->targets().query_services();
+port\android-native\app\src\main\cpp\model_renderer.cpp:1215:    auto found=t.world_actors.find(actual);r->identity=found==t.world_actors.end()?0:reinterpret_cast<std::uintptr_t>(&found->second.hud);return 1;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1224:  result={};result.identity=id;result.raw_hp=props[36];result.raw_max_hp=props[38];result.dead=object.life->dead!=0;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1270:  if(candidate.kind==1&&candidate.identity==target_id)target=&candidate;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1338:  for(const auto& group:object_groups)for(const auto& target:group.instances)if(target.identity==request->subject){
+port\android-native\app\src\main\cpp\model_renderer.cpp:1653: case mana_player_v5:out->identity=t.world->player_object->identity;return 0;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1656: case mana_debug_construct_v5:if(!request->name)return -1;out->identity=++t.debug_serial;t.debug_tokens[out->identity]=request->name;return 0;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1680:  for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.identity==a.object->identity)aggro=&actor.aggro;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1700: case skill_state_debug_construct_v4:{const auto* text=reinterpret_cast<const char*>(q->payload);if(!text)return -1;out->identity=++t.debug_serial;t.debug_tokens[out->identity]=text;return 0;}
+port\android-native\app\src\main\cpp\model_renderer.cpp:1718: case skill_state_row_v4:{if(q->index>=t.save->skills().size())return -1;const auto id=t.save->skill_id(q->index);const auto table=t.world->skills_owner->borrow();if(id<0||std::size_t(id)>=table.skills().size())return -1;out->identity=reinterpret_cast<std::uintptr_t>(&table.skills()[id].scalar);return 0;}
+port\android-native\app\src\main\cpp\model_renderer.cpp:1821:  a.search.identity=object->identity;a.search.visible=1;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1826:  registration.identity=object->identity;registration.handle_key=int(object->identity-0x100000000ull);
+port\android-native\app\src\main\cpp\model_renderer.cpp:1830:  if(t.targets->add(registration))throw std::runtime_error("Actual skill World registration failed: "+t.targets->error());
+port\android-native\app\src\main\cpp\model_renderer.cpp:1850: if(t.targets->refresh())throw std::runtime_error("Actual skill World projection refresh failed");
+port\android-native\app\src\main\cpp\model_renderer.cpp:1857: in.identity=id;in.name=live_script_world->player_object->name;in.source_is_character=1;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1864: t.native=std::make_unique<dh2::character::skills::CharacterSkillNativeReadOnlyBindingsV6>(*player_equipment->inventory(),t.fsm,mana,t.targets->native_world(id,in.objects));
+port\android-native\app\src\main\cpp\model_renderer.cpp:1872:  if(q->service==skill_apply_online_v6||q->service==skill_apply_party_count_v6){std::uintptr_t identity=0;std::int32_t scalar=0;std::string error;
+port\android-native\app\src\main\cpp\model_renderer.cpp:1992:  player_skills_runtime->targets->begin_frame(native_actor_frames);
+port\android-native\app\src\main\cpp\model_renderer.cpp:1993:   if(player_skills_runtime->targets->refresh())throw std::runtime_error("Skill World current-frame refresh failed");
+port\android-native\app\src\main\cpp\model_renderer.cpp:2087:        actor.identity=0x100000002ull+(&object-object_records.data());actor.aggro.initialize(object_records.size()+1);
+port\android-native\app\src\main\cpp\model_renderer.cpp:2235:        input.identity=actor.identity;input.name=actor.name;input.properties=actor.property_owner;input.combat=actor.combat_owner;
+port\android-native\app\src\main\cpp\model_renderer.cpp:2270:      dh2_script_value script_identity{},has_target{};std::uint32_t returned=0;

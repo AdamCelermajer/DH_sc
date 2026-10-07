@@ -1,0 +1,80 @@
+[
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "BlockColor",
+    "raw": 4294934272
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "CritDamageColor",
+    "raw": 4294967040
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "DamageColor",
+    "raw": 4294967295
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "DodgeColor",
+    "raw": 4294934272
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "FearColor",
+    "raw": 4294934272
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "MissColor",
+    "raw": 4294934272
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "PlayerCritDamageColor",
+    "raw": 4294967040
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "PlayerDamageColor",
+    "raw": 4294914096
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "QR_Gold",
+    "raw": 4294967040
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "QR_XP",
+    "raw": 4278255360
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "SlowColor",
+    "raw": 4294934272
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "StunColor",
+    "raw": 4294934272
+  },
+  {
+    "file": "port\\android-native\\app\\src\\main\\assets\\data\\design_pycst.bin",
+    "group": "ScrollingCombatText",
+    "key": "XPColor",
+    "raw": 4279163274
+  }
+]

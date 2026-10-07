@@ -1,0 +1,159 @@
+{
+  "scope": "Native syntax only; no link/execution/APK/emulator/WSL",
+  "rows": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/application_player_manager_bootstrap_v59.cpp",
+      "sha256": "84d89f7e85bbe96ea965b0b3cc0f4359b1010a60f265215f21ec3d53b3a97b64",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 120184832,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 289452,
+        "create_time_filetime": 134357899975415931
+      }
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/player_manager_owner_v1.cpp",
+      "sha256": "75d0713553fe47494f675051b33a243c4841f01ba2baf44dff8c439ba3e640a1",
+      "exit_code": 1,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 71852032,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 269456,
+        "create_time_filetime": 134357899984335214
+      }
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/player_manager_owner_v1.cpp",
+      "sha256": "75d0713553fe47494f675051b33a243c4841f01ba2baf44dff8c439ba3e640a1",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 71626752,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 190208,
+        "create_time_filetime": 134357900202995109
+      }
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/player_manager_combat_runtime_v2.cpp",
+      "sha256": "08307c5c6a0f6bea3d19b379b394440abfccdfefb33b50f80ce8c42758e0c1f0",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 88252416,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 185464,
+        "create_time_filetime": 134357900209292803
+      }
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/tests/application_player_manager_bootstrap_v59.cpp",
+      "sha256": "fe684d09b9e03cbdab019c034268b5704ae5a0f83febfb3b6f35419557bf4ee5",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 130478080,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 187244,
+        "create_time_filetime": 134357900216298674
+      }
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/application_player_manager_bootstrap_v59.cpp",
+      "sha256": "84d89f7e85bbe96ea965b0b3cc0f4359b1010a60f265215f21ec3d53b3a97b64",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 119377920,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 87980,
+        "create_time_filetime": 134357900225958435
+      }
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/player_manager_owner_v1.cpp",
+      "sha256": "75d0713553fe47494f675051b33a243c4841f01ba2baf44dff8c439ba3e640a1",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 71163904,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 291576,
+        "create_time_filetime": 134357900235076062
+      }
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/player_manager_combat_runtime_v2.cpp",
+      "sha256": "08307c5c6a0f6bea3d19b379b394440abfccdfefb33b50f80ce8c42758e0c1f0",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 87105536,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 290688,
+        "create_time_filetime": 134357900241519950
+      }
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/tests/application_player_manager_bootstrap_v59.cpp",
+      "sha256": "fe684d09b9e03cbdab019c034268b5704ae5a0f83febfb3b6f35419557bf4ee5",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 129937408,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 299968,
+        "create_time_filetime": 134357900248763441
+      }
+    }
+  ],
+  "status": "PASS"
+}

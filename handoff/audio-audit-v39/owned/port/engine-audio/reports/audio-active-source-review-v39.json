@@ -1,0 +1,13 @@
+{
+  "scope": "Read-only active source call review; root-owned changing files snapshot hashes, no APK/runtime claim",
+  "sources": {
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "44e5ee7adfb2b460aab316a0628195293d71df27e87a2639bfbe3b7663f6f579",
+    "port/android-native/app/src/main/cpp/renderer_npc_animation_v1.inc": "cfa2596c80eaaa091c799ead0b67fb36780f05cd728a93de8c5016e871442b99",
+    "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+    "port/android-native/app/src/main/cpp/renderer_combat_fx_runtime_v4.inc": "474a97258420fbd2a9bb35864b6136042854fad0e8895e46a13baab3f0bcfbd3",
+    "port/level-world/character_skill_state_v4.cpp": "3866f692392bcc01907edd583d3215351e4dfccc593e9525aa86dec76ada421a",
+    "port/level-world/character_melee_animation_event_v1.cpp": "eb05c4876a86ce8c6fbd15786aae05fae8bb6a6efb9eee9be3e3bb86404f78b3"
+  },
+  "review": "port/engine-audio/reports/audio-active-source-review-v39.md",
+  "remaining": "Ordinary source_animation_sound_v4 manager capture happens after position; original captures before. Positive Play3D endpoints remain required."
+}

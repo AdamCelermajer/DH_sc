@@ -1,0 +1,90 @@
+{
+  "validation": "SOURCE_STRINGS_AUDIT",
+  "rows": [
+    {
+      "actor": "skeleton",
+      "clip": 1194,
+      "asset": "animations/skeleton_idle_01.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "skeleton",
+      "clip": 1195,
+      "asset": "animations/skeleton_idle_02.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "skeleton",
+      "clip": 1179,
+      "asset": "animations/skeleton_attack_01_to_idle.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "skeleton",
+      "clip": 1181,
+      "asset": "animations/skeleton_attack_02_to_idle.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "skeleton",
+      "clip": 1192,
+      "asset": "animations/skeleton_hurt.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "skeleton",
+      "clip": 1193,
+      "asset": "animations/skeleton_hurt_02.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "slime",
+      "clip": 1258,
+      "asset": "animations/slime_idle.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "slime",
+      "clip": 1259,
+      "asset": "animations/slime_idle_02.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "slime",
+      "clip": 1247,
+      "asset": "animations/slime_attack_01_to_idle.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "slime",
+      "clip": 1249,
+      "asset": "animations/slime_attack_02_to_idle.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "slime",
+      "clip": 1256,
+      "asset": "animations/slime_hurt_01.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "slime",
+      "clip": 1257,
+      "asset": "animations/slime_hurt_02.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "ghost",
+      "clip": 706,
+      "asset": "animations/ghost_idle_01.bdae",
+      "named_strings": []
+    },
+    {
+      "actor": "ghost",
+      "clip": 705,
+      "asset": "animations/ghost_hurt_01.bdae",
+      "named_strings": []
+    }
+  ],
+  "scope": "Exact packaged clip bytes; names are raw authored strings, not event scheduling proof"
+}

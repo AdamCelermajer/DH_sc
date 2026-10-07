@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "scope": "Visible root emulator desktop frame fit and same-APK launch only; game reconstruction remains incomplete.",
+  "serial": "emulator-5554",
+  "pid": "3306",
+  "installed_apk_sha256": "d33c029f7bceee424b306c4b5be5bcca48821f9fafcc16fcdffa438520fc5ac0",
+  "boot_completed": "1",
+  "device_display": "Physical size: 1080x2400",
+  "desktop_window_observed": "Android Emulator - Medium_Phone_API_37.0:5554",
+  "desktop_window_id": 66520744,
+  "full_landscape_frame_observed": true,
+  "visible_controls": [
+    "player",
+    "HP/MP",
+    "Character",
+    "DEV",
+    "three skill slots",
+    "locked faery",
+    "potion",
+    "joystick",
+    "Attack"
+  ],
+  "launch_environment": {
+    "QT_ENABLE_HIGHDPI_SCALING": "0",
+    "QT_AUTO_SCREEN_SCALE_FACTOR": "0",
+    "QT_SCALE_FACTOR": "1",
+    "QT_FONT_DPI": "96"
+  },
+  "launch_helper_sha256": "9b935dbf728d31f55f2468ee852738dc2bf5061bf1e9fcebb671b5f0bd97ef25",
+  "landscape_restored_with": "adb -s emulator-5554 emu rotate",
+  "other_emulators_modified": false,
+  "new_apk_created": false
+}

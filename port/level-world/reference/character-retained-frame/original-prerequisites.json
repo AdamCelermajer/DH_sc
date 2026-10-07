@@ -1,0 +1,1627 @@
+{
+  "validation": "PASS",
+  "scope": "Original-only eligible Idle prerequisites, not complete Character frame parity.\n\nOuter constructors run with named allocation/base/container/property providers.\nCanUpdate runs its actual eligible visual-node branch with online/Player lookup\nfixtures. AI Update runs the actual zoned skip, FSM runs actual Idle OnUpdate,\nand state FX runs its actual unchanged/non-slow return. No native counterpart,\nscene/Step/navigation/timer-expiry/FX factory or whole application is claimed.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_cases": 41,
+  "native_comparisons": 0,
+  "full_frame": false,
+  "source_sha256": {
+    "port/level-world/reference/character-retained-frame/probe_original.py": "1b598ce8fb13124b1b46d96d1411b9123a55254c20cffefff8c9d6c5527fc8a6",
+    "port/level-world/reference/character-retained-frame/original-functions.json": "c5352c214d9111086abb88f4592ac0d35d1bbcdac7b0d0978cefef9fb3b9494c",
+    "port/level-world/reference/character-retained-frame/constructors/original-functions.json": "222093507d4f04ecef909594792fef3122ca59084e1251aaf7b28f3b8253a90d",
+    "port/level-world/reference/character-retained-frame/dependencies/original-functions.json": "74c7f1411f97a38a1145741635482cf75e2132e1ef8fa2333835d11349e14bb4",
+    "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json": "1ef792465930f2bca2fe1fa48a139a1d0bff92be60e8d72e50056359a8c6de4a",
+    "port/level-world/reference/character-retained-frame/fx-queries/original-functions.json": "110f4e4671c22c4a2b2513b579fa628868449c18ba1fc7a76dc96768730045a9"
+  },
+  "imports": {
+    "__aeabi_i2f": 4,
+    "__aeabi_fmul": 8,
+    "__aeabi_fadd": 4,
+    "__aeabi_fcmpgt": 4,
+    "__aeabi_fcmplt": 4
+  },
+  "records": [
+    {
+      "kind": "actual_outer_constructor",
+      "prefill": 0,
+      "raw_words": {
+        "0x14e0": 0,
+        "0x14fc": 3212836864,
+        "0x1484": 0,
+        "0x1488": 0,
+        "0x148c": 0,
+        "0x1490": 0,
+        "0x1494": 0,
+        "0x1498": 4294967295,
+        "0x149c": 0,
+        "0x14a0": 0,
+        "0x1500": 4294967295,
+        "0x1504": 4294967295
+      },
+      "forced_update_2fc": 0,
+      "zoned": 1,
+      "in_zone": 0,
+      "controller_update_key": "0x3a2f44",
+      "providers": [
+        {
+          "key": "0x33f310",
+          "fixture": "ObjectBase constructor backend"
+        },
+        {
+          "key": "0x524644",
+          "fixture": "PFObject storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x4a2730",
+          "fixture": "NetworkObject constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x38aac8",
+          "fixture": "PF radius update"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x3ff330",
+          "fixture": "Inventory constructor"
+        },
+        {
+          "key": "0x3dbb0c",
+          "fixture": "Timers constructor"
+        },
+        {
+          "key": "0x3df084",
+          "fixture": "Properties constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x310570",
+          "fixture": "allocation"
+        },
+        {
+          "key": "0x3db480",
+          "fixture": "Timers SetCharacter"
+        },
+        {
+          "key": "0x3cb7c0",
+          "fixture": "AI SetCharacter"
+        },
+        {
+          "key": "0x3c9890",
+          "fixture": "Animator SetCharacter"
+        },
+        {
+          "key": "0x3c1600",
+          "fixture": "FSM SetCharacter"
+        },
+        {
+          "key": "0x3dec0c",
+          "fixture": "Properties SetCharacter"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        }
+      ]
+    },
+    {
+      "kind": "actual_outer_constructor",
+      "prefill": 1,
+      "raw_words": {
+        "0x14e0": 0,
+        "0x14fc": 3212836864,
+        "0x1484": 0,
+        "0x1488": 0,
+        "0x148c": 0,
+        "0x1490": 0,
+        "0x1494": 0,
+        "0x1498": 4294967295,
+        "0x149c": 0,
+        "0x14a0": 0,
+        "0x1500": 4294967295,
+        "0x1504": 4294967295
+      },
+      "forced_update_2fc": 0,
+      "zoned": 1,
+      "in_zone": 0,
+      "controller_update_key": "0x3a2f44",
+      "providers": [
+        {
+          "key": "0x33f310",
+          "fixture": "ObjectBase constructor backend"
+        },
+        {
+          "key": "0x524644",
+          "fixture": "PFObject storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x4a2730",
+          "fixture": "NetworkObject constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x38aac8",
+          "fixture": "PF radius update"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x3ff330",
+          "fixture": "Inventory constructor"
+        },
+        {
+          "key": "0x3dbb0c",
+          "fixture": "Timers constructor"
+        },
+        {
+          "key": "0x3df084",
+          "fixture": "Properties constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x310570",
+          "fixture": "allocation"
+        },
+        {
+          "key": "0x3db480",
+          "fixture": "Timers SetCharacter"
+        },
+        {
+          "key": "0x3cb7c0",
+          "fixture": "AI SetCharacter"
+        },
+        {
+          "key": "0x3c9890",
+          "fixture": "Animator SetCharacter"
+        },
+        {
+          "key": "0x3c1600",
+          "fixture": "FSM SetCharacter"
+        },
+        {
+          "key": "0x3dec0c",
+          "fixture": "Properties SetCharacter"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        }
+      ]
+    },
+    {
+      "kind": "actual_outer_constructor",
+      "prefill": 85,
+      "raw_words": {
+        "0x14e0": 0,
+        "0x14fc": 3212836864,
+        "0x1484": 0,
+        "0x1488": 0,
+        "0x148c": 0,
+        "0x1490": 0,
+        "0x1494": 0,
+        "0x1498": 4294967295,
+        "0x149c": 0,
+        "0x14a0": 0,
+        "0x1500": 4294967295,
+        "0x1504": 4294967295
+      },
+      "forced_update_2fc": 0,
+      "zoned": 1,
+      "in_zone": 0,
+      "controller_update_key": "0x3a2f44",
+      "providers": [
+        {
+          "key": "0x33f310",
+          "fixture": "ObjectBase constructor backend"
+        },
+        {
+          "key": "0x524644",
+          "fixture": "PFObject storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x4a2730",
+          "fixture": "NetworkObject constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x38aac8",
+          "fixture": "PF radius update"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x3ff330",
+          "fixture": "Inventory constructor"
+        },
+        {
+          "key": "0x3dbb0c",
+          "fixture": "Timers constructor"
+        },
+        {
+          "key": "0x3df084",
+          "fixture": "Properties constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x310570",
+          "fixture": "allocation"
+        },
+        {
+          "key": "0x3db480",
+          "fixture": "Timers SetCharacter"
+        },
+        {
+          "key": "0x3cb7c0",
+          "fixture": "AI SetCharacter"
+        },
+        {
+          "key": "0x3c9890",
+          "fixture": "Animator SetCharacter"
+        },
+        {
+          "key": "0x3c1600",
+          "fixture": "FSM SetCharacter"
+        },
+        {
+          "key": "0x3dec0c",
+          "fixture": "Properties SetCharacter"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        }
+      ]
+    },
+    {
+      "kind": "actual_outer_constructor",
+      "prefill": 170,
+      "raw_words": {
+        "0x14e0": 0,
+        "0x14fc": 3212836864,
+        "0x1484": 0,
+        "0x1488": 0,
+        "0x148c": 0,
+        "0x1490": 0,
+        "0x1494": 0,
+        "0x1498": 4294967295,
+        "0x149c": 0,
+        "0x14a0": 0,
+        "0x1500": 4294967295,
+        "0x1504": 4294967295
+      },
+      "forced_update_2fc": 0,
+      "zoned": 1,
+      "in_zone": 0,
+      "controller_update_key": "0x3a2f44",
+      "providers": [
+        {
+          "key": "0x33f310",
+          "fixture": "ObjectBase constructor backend"
+        },
+        {
+          "key": "0x524644",
+          "fixture": "PFObject storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x4a2730",
+          "fixture": "NetworkObject constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x38aac8",
+          "fixture": "PF radius update"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x3ff330",
+          "fixture": "Inventory constructor"
+        },
+        {
+          "key": "0x3dbb0c",
+          "fixture": "Timers constructor"
+        },
+        {
+          "key": "0x3df084",
+          "fixture": "Properties constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x310570",
+          "fixture": "allocation"
+        },
+        {
+          "key": "0x3db480",
+          "fixture": "Timers SetCharacter"
+        },
+        {
+          "key": "0x3cb7c0",
+          "fixture": "AI SetCharacter"
+        },
+        {
+          "key": "0x3c9890",
+          "fixture": "Animator SetCharacter"
+        },
+        {
+          "key": "0x3c1600",
+          "fixture": "FSM SetCharacter"
+        },
+        {
+          "key": "0x3dec0c",
+          "fixture": "Properties SetCharacter"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        }
+      ]
+    },
+    {
+      "kind": "actual_outer_constructor",
+      "prefill": 255,
+      "raw_words": {
+        "0x14e0": 0,
+        "0x14fc": 3212836864,
+        "0x1484": 0,
+        "0x1488": 0,
+        "0x148c": 0,
+        "0x1490": 0,
+        "0x1494": 0,
+        "0x1498": 4294967295,
+        "0x149c": 0,
+        "0x14a0": 0,
+        "0x1500": 4294967295,
+        "0x1504": 4294967295
+      },
+      "forced_update_2fc": 0,
+      "zoned": 1,
+      "in_zone": 0,
+      "controller_update_key": "0x3a2f44",
+      "providers": [
+        {
+          "key": "0x33f310",
+          "fixture": "ObjectBase constructor backend"
+        },
+        {
+          "key": "0x524644",
+          "fixture": "PFObject storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x4a2730",
+          "fixture": "NetworkObject constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x38aac8",
+          "fixture": "PF radius update"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x3ff330",
+          "fixture": "Inventory constructor"
+        },
+        {
+          "key": "0x3dbb0c",
+          "fixture": "Timers constructor"
+        },
+        {
+          "key": "0x3df084",
+          "fixture": "Properties constructor"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x31167c",
+          "fixture": "FixedString storage"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x3a6a24",
+          "fixture": "network snapshot"
+        },
+        {
+          "key": "0x4a191c",
+          "fixture": "NetworkObject bind"
+        },
+        {
+          "key": "0x310570",
+          "fixture": "allocation"
+        },
+        {
+          "key": "0x3db480",
+          "fixture": "Timers SetCharacter"
+        },
+        {
+          "key": "0x3cb7c0",
+          "fixture": "AI SetCharacter"
+        },
+        {
+          "key": "0x3c9890",
+          "fixture": "Animator SetCharacter"
+        },
+        {
+          "key": "0x3c1600",
+          "fixture": "FSM SetCharacter"
+        },
+        {
+          "key": "0x3dec0c",
+          "fixture": "Properties SetCharacter"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        },
+        {
+          "key": "0x3c7318",
+          "fixture": "FSM StateInfo registration"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 0,
+      "initial_node200": 0,
+      "result": 1,
+      "final_node200": 0,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 0,
+      "initial_node200": 1,
+      "result": 1,
+      "final_node200": 0,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 0,
+      "initial_node200": 255,
+      "result": 1,
+      "final_node200": 0,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 1,
+      "initial_node200": 0,
+      "result": 1,
+      "final_node200": 1,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 1,
+      "initial_node200": 1,
+      "result": 1,
+      "final_node200": 1,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 1,
+      "initial_node200": 255,
+      "result": 1,
+      "final_node200": 1,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 255,
+      "initial_node200": 0,
+      "result": 1,
+      "final_node200": 1,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 255,
+      "initial_node200": 1,
+      "result": 1,
+      "final_node200": 1,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_CanUpdate_eligible_visual",
+      "enabled80": 255,
+      "initial_node200": 255,
+      "result": 1,
+      "final_node200": 1,
+      "providers": [
+        {
+          "fixture": "current online receiver",
+          "byte5": 0
+        },
+        {
+          "fixture": "GetPlayer(0,true) +660 character projection"
+        }
+      ]
+    },
+    {
+      "kind": "actual_default_controller_update",
+      "providers": []
+    },
+    {
+      "kind": "actual_outer_AI_zoned_skip",
+      "flags520": 9088,
+      "updated88_retained": 0,
+      "providers": [
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_outer_AI_zoned_skip",
+      "flags520": 9153,
+      "updated88_retained": 0,
+      "providers": [
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 0,
+      "dt": 0,
+      "elapsed": 0,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 0
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 0,
+      "dt": 1,
+      "elapsed": 1,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 0,
+      "dt": 16,
+      "elapsed": 16,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 16
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 0,
+      "dt": 1000,
+      "elapsed": 1000,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1000
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 0,
+      "dt": 4294967295,
+      "elapsed": 4294967295,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 4294967295
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 1,
+      "dt": 0,
+      "elapsed": 1,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 0
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 1,
+      "dt": 1,
+      "elapsed": 2,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 1,
+      "dt": 16,
+      "elapsed": 17,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 16
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 1,
+      "dt": 1000,
+      "elapsed": 1001,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1000
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 1,
+      "dt": 4294967295,
+      "elapsed": 0,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 4294967295
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967280,
+      "dt": 0,
+      "elapsed": 4294967280,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 0
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967280,
+      "dt": 1,
+      "elapsed": 4294967281,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967280,
+      "dt": 16,
+      "elapsed": 0,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 16
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967280,
+      "dt": 1000,
+      "elapsed": 984,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1000
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967280,
+      "dt": 4294967295,
+      "elapsed": 4294967279,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 4294967295
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967295,
+      "dt": 0,
+      "elapsed": 4294967295,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 0
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967295,
+      "dt": 1,
+      "elapsed": 0,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967295,
+      "dt": 16,
+      "elapsed": 15,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 16
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967295,
+      "dt": 1000,
+      "elapsed": 999,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 1000
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_FSM_then_Idle",
+      "previous": 4294967295,
+      "dt": 4294967295,
+      "elapsed": 4294967294,
+      "providers": [
+        {
+          "actual": "Application.GetDt",
+          "word": 4294967295
+        },
+        {
+          "fixture": "resolved current AI row",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_Idle_unchanged_stateFX",
+      "resolved_walk_modifier": 0,
+      "final_stateFX1490": 0,
+      "providers": []
+    },
+    {
+      "kind": "actual_Idle_unchanged_stateFX",
+      "resolved_walk_modifier": 1,
+      "final_stateFX1490": 0,
+      "providers": []
+    },
+    {
+      "kind": "actual_Idle_unchanged_stateFX",
+      "resolved_walk_modifier": 256,
+      "final_stateFX1490": 0,
+      "providers": []
+    },
+    {
+      "kind": "actual_Idle_unchanged_stateFX",
+      "resolved_walk_modifier": 2147483647,
+      "final_stateFX1490": 0,
+      "providers": []
+    }
+  ]
+}

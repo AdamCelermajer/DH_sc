@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "port/level-world/tests/player_info_skill_buffers_v26.cpp",
+        "port/level-world/player_info_skill_buffers_v26.cpp",
+        "port/level-world/player_network_local_owner_v4.cpp",
+        "-o",
+        ".local-inputs/player_info_skill_buffers_v26_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_info_skill_buffers_v26_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\":\"PASS\",\"checks\":19,\"source_final_Reset\":true,\"net_serialization_claimed\":false}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "port/level-world/tests/player_info_skill_buffers_v26.cpp",
+        "port/level-world/player_info_skill_buffers_v26.cpp",
+        "port/level-world/player_network_local_owner_v4.cpp",
+        "-o",
+        ".local-inputs/player_info_skill_buffers_v26_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_info_skill_buffers_v26_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\":\"PASS\",\"checks\":19,\"source_final_Reset\":true,\"net_serialization_claimed\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/level-world/tests/player_info_skill_buffers_v26.cpp",
+      "sha256": "9b31c79749235ece6bcc3f801a75102fca90328c9bf42d4d4fd2388378f5d30b"
+    },
+    {
+      "path": "port/level-world/player_info_skill_buffers_v26.cpp",
+      "sha256": "620c62ab9453ad01b57fd3c33932e6494028fdf07f1e13fc0bce6cd517529c8b"
+    },
+    {
+      "path": "port/level-world/player_network_local_owner_v4.cpp",
+      "sha256": "fe6854d9b73e8f71ad8c02f2a16fc5533e6eeb2b5b2af684bbacd1b11c9961f5"
+    }
+  ]
+}

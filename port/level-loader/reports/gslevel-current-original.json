@@ -1,0 +1,66 @@
+{
+  "validation": "PASS",
+  "scope": "Execute actual Application getter; capture original GSLevel publication/destruction, not whole lifecycle.",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "symbol": "_ZNK11Application15GetCurrentLevelEv",
+  "entry": "0x31f594",
+  "global_symbol": "_ZN7GSLevel7s_levelE",
+  "global_address": "0x9a2638",
+  "got_address": "0x9967fc",
+  "loader_relocation": {
+    "kind": "original R_ARM_RELATIVE addend at ELF base zero; unmodified GOT",
+    "elf_type": 23,
+    "target_symbol_verified": "_ZN7GSLevel7s_levelE",
+    "original_cell": 10102328,
+    "got_overridden": false
+  },
+  "cases": [
+    {
+      "application_argument": 0,
+      "s_level": 0,
+      "returned_level": 0
+    },
+    {
+      "application_argument": 3735928559,
+      "s_level": 0,
+      "returned_level": 0
+    },
+    {
+      "application_argument": 0,
+      "s_level": 33558528,
+      "returned_level": 33558528
+    },
+    {
+      "application_argument": 3735928559,
+      "s_level": 33558528,
+      "returned_level": 33558528
+    },
+    {
+      "application_argument": 0,
+      "s_level": 33574912,
+      "returned_level": 33574912
+    },
+    {
+      "application_argument": 3735928559,
+      "s_level": 33574912,
+      "returned_level": 33574912
+    }
+  ],
+  "publication_capture": {
+    "level_constructor_call": "0x386200",
+    "gslevel_field34_store": "0x386214",
+    "s_level_store": "0x386218"
+  },
+  "destruction_capture": {
+    "virtual_level_destruction": "0x386118",
+    "field34_clear": "0x386120",
+    "s_level_clear": "0x386130"
+  },
+  "capture_sha256": "9fd5526421dec9e9399b37b269251e247b9cb5847b3e548a673b4fb4fa1f1646",
+  "oracle_sha256": "fd9b9e8dbeb8415bf23ff6824de4d581edb1bb936ba8483f4228082b4fd7b093",
+  "cpu_helper_sha256": "04b7a600e9bfed2285ef273b9365780c5c86870b9350d796756673eeb1b41f4c",
+  "gslevel_constructor_executed": false,
+  "gslevel_destructor_executed": false,
+  "full_level_constructor_verified": false,
+  "gameplay_verified": false
+}

@@ -1,0 +1,41 @@
+{
+  "scope": "same canonical live loot actor + original Kill drop/XP connector; no live nonempty NPC award/pickup/Hit8 publication claim",
+  "sources": [
+    {
+      "path": "port/level-world/character_loot_actor_binding_v31.hpp",
+      "sha256": "ca0efd85c293feb981c92c9fa12c6445016a0b61287d1f8c04861773766ba64e"
+    },
+    {
+      "path": "port/level-world/character_loot_actor_binding_v31.cpp",
+      "sha256": "c2e85b5875d8585168aa5f3c1cb2dcb301fd478a5da40472d1e3f888551bd255"
+    },
+    {
+      "path": "port/level-world/character_kill_rewards_live_v31.hpp",
+      "sha256": "a44c1de29d5b992017b0431f359e91cd4a3bb43812dd78de752ba6c3889c003c"
+    },
+    {
+      "path": "port/level-world/character_kill_rewards_live_v31.cpp",
+      "sha256": "b174969bda9518db44ca4684fd931c71493181563cfb6a44b350b5ddf0adb8c8"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_character_loot_actor_v31.inc",
+      "sha256": "7cb9d0f6f97af69c40d0ca7886efe3c64271c8ebacea5203353cf3b00729421f"
+    },
+    {
+      "path": "port/level-world/tests/character_loot_actor_binding_v31.cpp",
+      "sha256": "26deef7a251a6308f59e694183557cedbe2cfadbbcb4c494999d7d22a856c32b"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v31/runtime-integration.md",
+      "sha256": "8965f9ea6734655c8e8c63076a6cfd0ad14f3de78b51cdf71b97e9f29874c26f"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/loot-actor-v31/receipt.json",
+      "sha256": "59de4705ff1b9eaa824b9d0b7bdfb77a16a125daf07982f36ae1779fbd653efd"
+    }
+  ],
+  "archive_sha256": "8913231a3ff24e6581af61877dc60d07148fe745ea33ab2ef574e149c865d49f",
+  "strict_both_abi": true,
+  "actor_native_checks": 14,
+  "predecessor_v23_unchanged": true
+}

@@ -1,0 +1,52 @@
+{
+  "status": "FROZEN_OPT_IN_LIFECYCLE_COMPONENT",
+  "tests": 136,
+  "actual_FPS_acceptance": false,
+  "default_continuous_unchanged": true,
+  "shared_apply_patch_only": [
+    "port/android-native/app/src/main/java/com/example/dh2/FramePacingControllerV44.java",
+    "port/android-native/app/src/main/java/com/example/dh2/FramePacingReportV46.java"
+  ],
+  "files": {
+    "port/android-native/tools/prepare_pacing_queue_v47.py": {
+      "sha256": "90b03792bd0d691184a88231908e3a4e92f8f9096076d915e05efd0af654858b",
+      "bytes": 2871
+    },
+    "port/android-native/tools/test_pacing_queue_v47.py": {
+      "sha256": "602094ed1b41d90cf01cfb61254d188cba7dcba9e9946632560d8a71dd0ca5c2",
+      "bytes": 1965
+    },
+    "port/android-native/tools/freeze_pacing_queue_v47.py": {
+      "sha256": "8a0f88620890c6c10da572c683ff02857a0ae66978b3fc1ce96cc28bf33a64a5",
+      "bytes": 1747
+    },
+    "port/android-native/tools/tests/FramePacingQueueV47Test.java": {
+      "sha256": "b7617117e82a18cf967c6c58abe8c047d6babee5a2c4338eb22b4b37353cef7d",
+      "bytes": 4798
+    },
+    "port/android-native/reports/pacing-request-lifetime-v47/FramePacingControllerV44.java": {
+      "sha256": "78b65a1c63cc1204d497ba94f39fa9c919def93fd4c5676f5160647c1cc1c5b3",
+      "bytes": 8457
+    },
+    "port/android-native/reports/pacing-request-lifetime-v47/FramePacingReportV46.java": {
+      "sha256": "5c2148a3463d090d3b08828ed8632fcbba1f741d7895bae5a79dcafe7ef5d957",
+      "bytes": 2270
+    },
+    "port/android-native/reports/pacing-request-lifetime-v47/README.md": {
+      "sha256": "28812a32d2a596c0c0a66493855ecfb6e790e0fac19282a7639c7d056e807d5b",
+      "bytes": 2373
+    },
+    "port/android-native/reports/pacing-request-lifetime-v47/integration.patch": {
+      "sha256": "c19c60906e4162bbe77105c5a98b278f56070e5bcd7b754b9f727b1d83c2864e",
+      "bytes": 4316
+    },
+    "port/android-native/reports/pacing-request-lifetime-v47/baseline-source-sha256.json": {
+      "sha256": "4f2324579f17e58821c0ae41454339d53d0f318fc51e38a656498d3d15a4eca3",
+      "bytes": 317
+    },
+    "port/android-native/reports/pacing-request-lifetime-v47/receipt.json": {
+      "sha256": "1621b9f3f33be7ba6e5a107fa0406455f782d68a9f8354b0229aad6038516cec",
+      "bytes": 7301
+    }
+  }
+}

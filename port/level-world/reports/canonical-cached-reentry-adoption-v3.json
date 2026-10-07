@@ -1,0 +1,19 @@
+{
+  "archive_sha256": "b0f8bfca22076750a474ba427e1b277732f7dc307f3ecdce6bd85181b245233f",
+  "verified_entries": 8,
+  "adopted": {
+    "port/level-loader/canonical_cached_file_v1.hpp": {
+      "bytes": 2695,
+      "sha256": "8f16fd825502f4208742d706cd877ff2ce65759a967fccc80dd44d6140817b7b"
+    },
+    "port/level-loader/canonical_cached_file_v1.cpp": {
+      "bytes": 3861,
+      "sha256": "f804d876a85f57881a166c98bc29a7952c0e53cf623209dfeb0e24addb57d815"
+    }
+  },
+  "prior_hashes": {
+    "port/level-loader/canonical_cached_file_v1.hpp": "fca6603e0dd307e759be4934a668bc4a6d78affa67854c770ff26a9a437a9d46",
+    "port/level-loader/canonical_cached_file_v1.cpp": "7adf073ddfb28ebe249c76e5574a884ed3b3d08941198b0b35c8ed5510903e34"
+  },
+  "scope": "exact cached receiver pair only; explicit native recursion guard; no original ARM guard claim"
+}

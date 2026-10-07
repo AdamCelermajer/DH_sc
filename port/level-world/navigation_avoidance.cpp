@@ -31,9 +31,12 @@ bool valid(const AvoidanceRequest* request){
  for(unsigned i=0;i<r->count;++i)if(r->entries[i].reserved||!find(s,r->entries[i].object)||!has_floor(*r,r->entries[i].floor))return false;
  const auto* b=request->records;if(b&&(b->count>b->capacity||(b->capacity&&!b->entries)))return false;return true;
 }
-bool contribution(const AvoidanceActor& a,const AvoidanceActor& b,std::uint64_t key,ObstacleForce& out){
+int contribution(const AvoidanceActor& a,const AvoidanceActor& b,std::uint64_t key,ObstacleForce& out,const AvoidanceScene* scene=nullptr,std::uint64_t own=0){
  if(!(b.object.motion.object_flags&4)||!(b.object.motion.object_flags&8))return false;
- if(a.object.user&&b.object.user&&a.physical.present&&b.physical.present&&!can_collide(a.physical,b.physical))return false;
+ if(a.object.user&&b.object.user&&a.physical.present&&b.physical.present){
+  if(scene&&scene->can_collide_v108){std::int32_t allowed{};if(scene->can_collide_v108(scene->collision_context,own,key,&allowed))return -1;if(!allowed)return 0;}
+  else if(!can_collide(a.physical,b.physical))return false;
+ }
  const auto* p=a.object.motion.position;const auto* q=b.object.motion.position;const float d=distance_xy(p,q);
  if(a.has_path&&d>=distance_xy(a.path_target,p))return false;
  if(d>=distance_xy(a.target,p))return false;
@@ -43,6 +46,21 @@ bool contribution(const AvoidanceActor& a,const AvoidanceActor& b,std::uint64_t 
 }
 int force(ForceResult& out,const AvoidanceRequest& request){
  const auto& s=*request.scene;auto& registry=*s.registry;const auto& actor=*find(s,request.object);const unsigned floor=actor.object.motion.floor;unsigned needed=0;ObstacleForce record{};
+ if(s.can_collide_v108){
+  //Admit bounded capacity before synchronous virtual calls. Each reached
+  //selected callback executes ONCE, in actual floor-list insertion order;
+  //the old pure-filter preflight must not replay Character/Debug callbacks.
+  if((!has_floor(registry,floor)&&registry.floor_count==registry.floor_capacity)||
+    (request.records&&registry.count>request.records->capacity-request.records->count))return 2;
+  if(!has_floor(registry,floor))registry.floors[registry.floor_count++]=floor;
+  out={{0,0,0},0};
+  for(unsigned i=0;i<registry.count;++i){const auto& entry=registry.entries[i];if(entry.floor!=floor||entry.object==request.object)continue;
+   const auto status=contribution(actor,*find(s,entry.object),entry.object,record,&s,request.object);
+   if(status<0)return 3;if(!status)continue;
+   if(request.records)request.records->entries[request.records->count++]=record;
+   for(unsigned k=0;k<3;++k)out.direction[k]=add(out.direction[k],record.direction[k]);++out.count;
+  }return 0;
+ }
  // Preflight avoids partial output/state writes when modern bounded storage
  // cannot represent the original vector/map mutation.
  for(unsigned i=0;i<registry.count;++i){const auto& entry=registry.entries[i];if(entry.floor==floor&&entry.object!=request.object&&contribution(actor,*find(s,entry.object),entry.object,record))++needed;}

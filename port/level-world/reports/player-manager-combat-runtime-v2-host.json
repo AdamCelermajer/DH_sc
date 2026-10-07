@@ -1,0 +1,82 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/player_manager_combat_runtime_v2.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "port/level-world/player_manager_loot_queries_v8.cpp",
+        "port/level-world/tests/player_manager_combat_runtime_v2.cpp",
+        "-o",
+        ".local-inputs/player_manager_combat_runtime_v2_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_manager_combat_runtime_v2_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":19,\"development_launch\":true,\"whole_add_character\":false}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/player_manager_combat_runtime_v2.cpp",
+        "port/level-world/player_manager_owner_v1.cpp",
+        "port/level-world/player_manager_loot_queries_v8.cpp",
+        "port/level-world/tests/player_manager_combat_runtime_v2.cpp",
+        "-o",
+        ".local-inputs/player_manager_combat_runtime_v2_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_manager_combat_runtime_v2_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":19,\"development_launch\":true,\"whole_add_character\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/player_manager_combat_runtime_v2.cpp": "cf4030bb1136fb57a686d8b99a3d8b9702c521d7d6f6ace0b644cd1d07e8b56b",
+    "port/level-world/player_manager_owner_v1.cpp": "75d0713553fe47494f675051b33a243c4841f01ba2baf44dff8c439ba3e640a1",
+    "port/level-world/player_manager_loot_queries_v8.cpp": "d6fe09b299b016510d6a3517dad46bcc6529b9d197106513e598ad2b7873d988",
+    "port/level-world/tests/player_manager_combat_runtime_v2.cpp": "e998705d53f10d8e47c9e38bb3d96296d1663ea650f69f8ddbc62a5971e06ec6"
+  },
+  "development_launch": true,
+  "whole_add_character": false,
+  "network_constructor": false
+}

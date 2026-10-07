@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNSs19_M_range_initializeEPKcS0_",
+      "elf_address": "0x3116e8",
+      "size": 72,
+      "sha256": "45075e105c133d266caf029231a17938018bb62a8a095f967f74e12f09d34d07"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+      "elf_address": "0x33f78c",
+      "size": 392,
+      "sha256": "519789b0ed5a1369c249c454406cd73a9006e48a4f59557628c7001ed4c79f32"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi14ObjectListItemENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+      "elf_address": "0x33f6b4",
+      "size": 216,
+      "sha256": "a40c1e321903d131f954debede27ebf54c6918d27855b0c2243834d308e15f37"
+    },
+    {
+      "original_symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv",
+      "elf_address": "0x3139ac",
+      "size": 52,
+      "sha256": "a253cd9243de86ccebdf90d3972ae68307d0585ee02ab438976b847e99b8bdda"
+    },
+    {
+      "original_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj",
+      "elf_address": "0x31167c",
+      "size": 108,
+      "sha256": "bd4931d0fa0bb58d37743dda6bcb4ea26f84fc82fc5901be1d2ade1dad8eac22"
+    }
+  ]
+}

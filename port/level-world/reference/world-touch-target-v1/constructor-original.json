@@ -1,0 +1,25 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_source_ranges": [
+    "3a96b4..3a96f0 pending fields",
+    "3cebf0..3cecfc CharAI ctor field prefix"
+  ],
+  "entry_register_ancestor_proofs": {
+    "r3": "0 at3a9584",
+    "r8": "0 at3a93cc",
+    "r6": "-1 at3a93d8"
+  },
+  "points": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "pending14c8": 0,
+  "skill14ca": -1,
+  "click413": 1,
+  "whole_Character_ctor_verified": false,
+  "CharAI_global_queue_insertion_verified": false
+}

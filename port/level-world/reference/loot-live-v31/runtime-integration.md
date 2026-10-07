@@ -1,0 +1,21 @@
+# Kill/drop/pickup supplemental production connection V31
+
+V23 actual-cache pool acceptance remains the immutable predecessor package and root supplemental positive receipt (1627 checks). V31 adds genuine live actor providers and the exact ordered Kill reward connector; it does not claim an accepted live NPC award or pickup.
+
+Production TUs: character_loot_actor_binding_v31.cpp and character_kill_rewards_live_v31.cpp, level-world target. Both ABI strict compilation passes. The actor binding borrows the registered canonical shared Handle, exact session PropertyView, resolved9 LootTable, actual AiProps getter (including source row8 fallback), source position160 and OOI14a4. It checks player Gear identity/property authority. It uses actual world source virtual_player and canonical AsCharacter; no class/name-derived virtual override. It allocates no actor/property/inventory state.
+
+Renderer supplement: include character_loot_actor_binding_v31.hpp globally, renderer_character_loot_actor_v31.inc after renderer_character_loot_gameplay_v23.inc. Retain RendererCharacterLootActorV31 alongside RendererCharacterLootGameplayV23. Populate RendererLootGameplayProvidersV23 with actual application/current-Level/presentation/creation/Item/frame/contacts/UI services, call actor.connect(providers,error), then construct/bind the gameplay adapter. Keep both alive through release. The provider uses canonical manager.object(actual shared handle key), preserving actual lease; it preserves the external status/remaining callback context. No shared renderer edit was made.
+
+CharacterKillRewardsLiveV31 borrows ONE WorldLootGameplayV23 and ONE CharacterProgressionWorldV23. Attach to CharacterKillProductionServicesV23.remaining after actual Item145 initialization. It routes ONLY kill_drop_loot to the original V23 source DropLoot, and ONLY kill_distribute_xp to the original progression owner; all other reached providers remain required. It adds no independent death observer, award ledger, retries or dead resets. Existing source wholeKill owns callback order and failed prefix. Do not publish Hit8 merely because attach succeeds: full source Level/events/XP/loot/pickup continuation readiness and positive graph proof remain required.
+
+APK-linked actor test: reports/android-native-owner-tests/loot-actor-v31/receipt.json PASS14, linked actual APK2334e8a84f1d5bd1cc0c9ea108175533711502b5575b468b59537697989a6b46. It covers live table mutation, actual shared Handle equality, PropertyView authority, source IsPlayer/AsCharacter, raw OOI and negative Gear/mismatched-field cases. Actor rows and external services are declared fixtures. This is not positive Gear pickup or actual monster award acceptance. Full current renderer include closure passes both ABIs.
+
+Remaining reached production contracts:
+
+* Current Level: same completed source C1 receiver lease, difficulty118, word phase130; C1 phase0 is a genuine Vox early exit. Never stamp38 or gate150=1 to avoid required work.
+* PM: actual source initialized AddCharacter publication/6c4, owned by progression lane; no map-count replacement or count1 direct store.
+* Temporary inventory: exact source assertion/full notifications/presentation ownership, same cache powers and Application RNG through Gear.
+* Item: source pending InitFinal, source frame/contact services over actual floor/obstacles/physical peer receivers, source actual scene clock and GPU V27 submit after frame.
+* Pickup: same StatusMsg4 queue; actual GS gathering quest tail; positive tutorials/transmute/network/trophy branches; positive glow/tooltip and loot_orb presentation.
+
+Important recovered pickup FX source: Item.Interact3ed5f0..614 supplies actual picker Character.position160, NULL parent/rotation and dictionary-file ID cached by a source static name lookup. The cached name is loot_orb_fx, dictionary index64 in supplied actual Effects data, path data/3D/interface/loot_orb_fx.bdae. It calls PlayOneShotIrrFX495d14, which is distinct from PlayAnimFXSet495888. Current CharacterMeshFxOwnerV4 exposes only the latter. A play_set alias is not a faithful positive provider. Whole one-shot file/template/emitter lifecycle must be recovered before claiming pickup completion.

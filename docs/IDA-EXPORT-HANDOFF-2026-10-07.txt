@@ -1,0 +1,119 @@
+Use the new IDA evidence pack for the Dungeon Hunter 2 reconstruction.
+
+The supplied APK has been analyzed with IDA Pro 9.3.260421 through a local IDA MCP server. The native functions and supporting analysis are exported, and a live MCP hook is available for follow-up queries. Please use this evidence to improve the ongoing reconstruction. Preserve the existing work and validate any implementation changes against the original instructions. Continue the current milestone and honor your existing scope and testing cadence; this is a reference/tooling handoff, not a request to interrupt integration or start unrelated validation jobs.
+
+LOCATION
+
+The complete export root is:
+C:\Users\adamc\Desktop\workspace\DH_sc\.local-inputs\ida-apk-export-2026-10-07
+
+The paired decompiler comparison is:
+C:\Users\adamc\Desktop\workspace\DH_sc\.local-inputs\ida-ghidra-review
+
+Start with input-manifest.json, export-summary.json, verification.json, and each library's coverage.json. These are machine-generated counts. SHA256SUMS.txt records the finalized static exports. The directories are machine-local and ignored by Git; this task did not publish them, commit them, or integrate new code into the Android reconstruction.
+
+The per-function pseudocode_sha256 field hashes the exported text normalized to LF line endings. Windows-written files may use CRLF. SHA256SUMS.txt hashes the actual stored bytes, while verification.json records the normalized text verification.
+
+INPUT IDENTITY AND SCOPE
+
+APK SHA-256:
+32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200
+
+Main engine SHA-256:
+36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80
+
+The original APK copy is inputs/Dungeon-Hunter-2-HD-v1-0-2.apk. All 225 APK entries were extracted under inputs/apk-unpacked and individually inventoried with sizes, CRCs, and SHA-256 in apk-inventory.json. The analyzed native inputs are lib/armeabi-v7a/libDungeonHunter2.so, libStormGLOFT.so, and libnativeinterface.so. The armeabi and armeabi-v7a libnativeinterface.so entries are byte-identical and share one analysis. classes.dex was also analyzed with IDA's Dalvik support. This pack covers the supplied APK; the separately supplied full game cache remains a separate input used by the reconstruction.
+
+EXPORT RESULTS
+
+- classes.dex: 2,310 IDA functions; 0 pseudocode files; 0 native body failures; 0 external import references without implementation bodies; 2,310 Dalvik methods unsupported by the native decompiler.
+- libDungeonHunter2.so: 31,725 IDA functions; 31,363 pseudocode files; 8 native body failures; 354 external import references without implementation bodies; 0 Dalvik methods unsupported by the native decompiler.
+- libStormGLOFT.so: 3,728 IDA functions; 3,602 pseudocode files; 2 native body failures; 124 external import references without implementation bodies; 0 Dalvik methods unsupported by the native decompiler.
+- libnativeinterface.so: 50 IDA functions; 32 pseudocode files; 0 native body failures; 18 external import references without implementation bodies; 0 Dalvik methods unsupported by the native decompiler.
+
+Native pseudocode export was attempted for every IDA-recognized function, including thunks and library/runtime code. A successful export means IDA produced pseudocode, not that it is correct or compilable C++. Failures were recorded rather than omitted. Dalvik has assembly and metadata exports; Hex-Rays' native ARM decompiler does not provide Java/C++ decompilation of the DEX. The DEX unsupported records must not be described as native engine failures.
+
+Original-symbol coverage:
+- libDungeonHunter2.so: 31,018 original named physical starts; 31,018 exact IDA starts; 0 without an exact IDA start; 0 outside every exported IDA function.
+- libStormGLOFT.so: 1,498 original named physical starts; 1,498 exact IDA starts; 0 without an exact IDA start; 0 outside every exported IDA function.
+- libnativeinterface.so: 10 original named physical starts; 10 exact IDA starts; 0 without an exact IDA start; 0 outside every exported IDA function.
+
+The coverage audit recognizes both ordinary ELF function symbols and ARM Thumb-function symbols. It preserves aliases and reports exact-start matches, symbols inside another IDA function, and unrecognized starts. Do not infer complete source recovery merely from the total function count. Inspect nonexact-symbol-mappings.json when an original symbol does not resolve to an exact exported function.
+
+Two initially missed original starts were recovered in copies of the IDA databases using the exact ELF symbol address/size/Thumb mode: the engine's two-byte std::_Locale_impl::_S_uninitialize leaf at 0x8a4950 (bytes 70 47, BX LR), and Storm's 508-byte zz_thumb_relocator_write_one at 0xa86d8. Recovery receipts are retained. This changed analysis metadata/function definitions, not original bytes. Scoped Storm analysis also recognized additional helper starts, which were exported. The final audits show exact matches for every original named physical start in all three native libraries.
+
+WHERE TO FIND EACH ARTIFACT
+
+For each library, use libraries/<input filename>/:
+
+- functions.jsonl: one record per exported IDA function, with address, name, demangled name, inferred prototype, flags, chunks, code hash, comments, decompilation status, local variables/types, and the relative pseudocode filename.
+- pseudocode/<address shard>/<eight-digit address>.c: complete per-function text exported directly from the IDA decompiler, with no chat-output truncation. This is inferred pseudocode, not original studio source.
+- pseudocode-all.c: all successful bodies concatenated with original-address/name markers for broad search.
+- assembly-functions.asm: IDA instruction listings for every recognized function, including its chunks and instruction bytes.
+- full-listing.asm and full-listing.lst: IDA's full database listings, including code, labels, and data.
+- xrefs.jsonl: outgoing code/data references from function items; it can be searched by either endpoint.
+- basic-blocks.jsonl: function control-flow blocks and successors.
+- names.jsonl, imports.json, entrypoints-and-exports.json, strings.jsonl, and segments.json: the corresponding database inventories.
+- local-types.json and local-types.h: IDA's local type inventory and declarations. Some are inferred or incomplete; these are not recovered original gameplay headers.
+- elf-symbols.jsonl, elf-relocations.jsonl, elf-sections.json: independent original ELF inventories. They retain aliases, original file symbols, relocation records, and exact serialized section locations.
+- vtables-and-rtti.json: original named vtable/RTTI/type-name candidates with serialized bytes and hashes. Use the relocation inventory when interpreting pointer slots; raw serialized bytes are not runtime-resolved native64 objects.
+- symbol-to-ida-function.jsonl, nonexact-symbol-mappings.json, and coverage.json: original-symbol mapping and coverage results.
+- decompile-failures.jsonl and decompile-failures-categorized.json: failures, expected external-import entries without bodies, and Dalvik unsupported records, with address/name and reason. Use the categorized inventory to distinguish these cases.
+- metadata.json, progress.json, summary.json: input identity, analysis state, and final counts.
+
+databases/ contains the saved baseline IDA .i64 databases and copied analysis inputs. These retain the interactive analysis state. mcp-working-databases/ contains separate copies used by the live MCP, preserving the baseline databases. receipts/ contains the actual MCP requests' responses and progress/finalization receipts. Export scripts are retained at the root for reproducibility; the exporter writes artifacts without patching the original engine bytes.
+
+WHY IDA SHOULD BE THE PREFERRED HIGH-LEVEL REFERENCE HERE
+
+The previous Ghidra math exports were documented as truncated at non-returning floating-point helper calls. We reproduced that problem with a fresh official Ghidra 11.0.3 analysis of the exact same ELF and compared 27 hashed functions: 20 math functions and seven gameplay functions.
+
+IDA produced all 27 selected bodies without the observed truncations. Ghidra also reported successful decompilation for all 27, but 17 output bodies contained 'Subroutine does not return': 16 math bodies and GameObject::SetPosition. Therefore decompiler/export success is not body-completeness proof.
+
+At original address 0x35e8e0, Ghidra normalization ends at the first __aeabi_fmul. The original assembly has 39 further instructions after that call. IDA shows the squared-length accumulation, zero-length test, inverse square root, three component stores, and pointer return. This is a material improvement, not merely prettier formatting. The Ghidra database incorrectly marks __aeabi_fmul, __aeabi_fadd, and __aeabi_fdiv as non-returning.
+
+The comparison files are ida-default/, ghidra-default/, comparison-results.json, REVIEW.md, and comparison.html under the comparison directory above. comparison.html presents the same functions side by side. Ghidra's image base is 0x10000; its effective addresses are offset by that amount, which is recorded in its per-function metadata. IDA uses image base zero. The final Ghidra comparison was exported after successful complete analysis, not from the initial timed-out pass.
+
+A small Ghidra metadata-repair experiment did not produce valid complete callers; its generic float declarations also selected the wrong register convention for this ARM32 soft-float input. Those artifacts are labeled experimental and are not a repaired-Ghidra benchmark. The conclusion is that IDA's current default output is the better starting point for this project, not a claim that every Ghidra version/configuration is incapable or that every IDA inference is correct.
+
+IDA still invents some declarations: it infers a VisualObject* return for CharAI::OnUpdate and a float return for a matrix-output routine. Neither should become a native-port contract without checking assembly and callers. The per-function failures and coverage gaps also remain explicit.
+
+LIVE IDA MCP HOOK
+
+Streamable HTTP endpoint:
+http://127.0.0.1:8746/mcp
+
+Connection description: mcp-hook.json.
+Restart helper: start-ida-mcp.ps1.
+Local JSON-RPC helper: ida_mcp_client.py.
+Profile: read-only-profile.txt.
+Latest connection/session verification: mcp-live-status.json.
+
+The restart helper reuses a responding endpoint and otherwise starts a hidden, loopback-only server. The final server exposes analysis/query tools; the temporary bulk-export Python execution mode has been disabled. The main engine and support-library databases are reopened for inspection. Use the exact session IDs returned by idb_list/idb_open rather than assuming a filename is a database ID.
+
+The Python runtime used by the helper is:
+C:\Users\adamc\Desktop\workspace\DH_sc\.local-inputs\ida-ghidra-review\venv\Scripts\python.exe
+
+Examples from this repository's PowerShell working directory:
+
+& .local-inputs/ida-ghidra-review/venv/Scripts/python.exe .local-inputs/ida-apk-export-2026-10-07/ida_mcp_client.py list
+
+& .local-inputs/ida-ghidra-review/venv/Scripts/python.exe .local-inputs/ida-apk-export-2026-10-07/ida_mcp_client.py call --database dh2-libdungeonhunter2 --tool decompile --arguments-file .local-inputs/ida-apk-export-2026-10-07/queries/decompile-normalize.json
+
+& .local-inputs/ida-ghidra-review/venv/Scripts/python.exe .local-inputs/ida-apk-export-2026-10-07/ida_mcp_client.py call --database dh2-libdungeonhunter2 --tool xrefs_to --arguments-file .local-inputs/ida-apk-export-2026-10-07/queries/xrefs-normalize.json
+
+If the session ID differs after restart, obtain it with 'list' or open the saved database using the helper's 'open --input <absolute database path> --database <preferred ID>' command. The database open response is authoritative. A JSON config file alone does not hot-load tools into an already-running chat; the local helper is usable immediately through the session's command tool, while a native MCP client can connect using the supplied endpoint.
+
+The MCP source is pinned at commit c133c3853faa111a9b00ee615c013b720d0c4acd of mrexodia/ida-pro-mcp. Its isolated environment lives in the comparison directory's venv. No global Codex configuration was changed. Keep the sibling comparison/tool directory if you want the restart helper to continue working.
+
+MCP-LOCAL-PATCH.txt documents a local HTTP error-path guard in the isolated MCP package. It avoids a missing-headers exception on malformed probes; it does not change IDA's analysis or any original game bytes.
+
+HOW TO APPLY THIS TO THE RECONSTRUCTION
+
+1. Search functions.jsonl or pseudocode-all.c for the current class/method, then inspect the exact per-function body and original-address assembly. Use symbol-to-ida-function.jsonl for ELF aliases or missing exact starts.
+2. Query callers, callees, references, and types through MCP when the static output leaves a receiver, field, virtual slot, or ownership relationship ambiguous.
+3. For newly reconstructed logic, prefer IDA's high-level output over the broken Ghidra export, but verify branch conditions, widths/signedness, float rounding, store order, hidden output arguments, callback ordering, and captured-versus-reloaded pointers against the original instructions.
+4. Keep the existing reconstructed modules and their differential fixtures. They are independently implemented native source, not automatic Ghidra output; a better reference does not imply previously validated implementations should be discarded.
+5. Preserve the native64 ownership model and serialized32 resource layouts. Original ARM32 casts, pointer widths, class offsets, and inferred decompiler signatures must not be copied into native64 ABI declarations blindly.
+6. Any annotation/type correction in an IDA working database should be treated as new analyst input. Preserve the default exports, regenerate only affected evidence, and test the reconstructed behavior through the project's original-instruction comparisons and relevant integration checks.
+
+This work adds reverse-engineering evidence and a working analysis hook. It did not change game source, rebuild/deploy the APK, or measure runtime performance. Use it to remove avoidable reconstruction effort; performance work still needs profiling of the actual native app.

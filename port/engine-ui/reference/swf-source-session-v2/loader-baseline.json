@@ -1,0 +1,7 @@
+{
+  "vendor_sha256": "b33c4b45d26be047919c7c69005d2847231f036b0b4beb1222165af25b193168",
+  "overlay_sha256": "8ab8c66adbc7f36dd035a13e1d5ebfc44f80fbeb9875dffd696c0fe1bb70ce0d",
+  "diff": "--- immutable vendor gameswf_impl.cpp\n+++ loader-lifetime-v1 gameswf_impl.cpp\n@@ -159,14 +159,15 @@\n \t// character\n \t//\n \n+\tbool get_tag_loader(int, loader_function*);\n \tvoid\tensure_loaders_registered()\n \t{\n-\t\tstatic bool\ts_registered = false;\n-\n-\t\tif (s_registered == false)\n+\t\t// Modern recreation safety: last-player teardown clears tag loaders.\n+\t\t// Read the actual registry instead of a stale once-only flag.\n+\t\tloader_function registered_loader = NULL;\n+\t\tif (!get_tag_loader(0, &registered_loader))\n \t\t{\n \t\t\t// Register the standard loaders.\n-\t\t\ts_registered = true;\n \t\t\tregister_tag_loader(0, end_loader);\n \t\t\tregister_tag_loader(2, define_shape_loader);\n \t\t\tregister_tag_loader(4, place_object_2_loader);\n",
+  "modern_safety_correction": true,
+  "original_ARM32_teardown_parity": false
+}

@@ -1,0 +1,73 @@
+// Complete source manager against the actual retained dqhud display list.
+// World/player/script/camera providers below are explicit fixtures. Potion and
+// saved skill slot reads use the original-backed native helpers. No GL claim.
+#include "swf_movie.hpp"
+#include "hud_manager_core.hpp"
+#include "hud_manager_backends.hpp"
+#include "hud_advance_owner.hpp"
+#include "renderfx_text_connection.hpp"
+#include "gameswf/gameswf_sprite.h"
+#include "gameswf/gameswf_function.h"
+#include "gameswf/gameswf_text.h"
+#pragma push_macro("main")
+#undef main
+#define main retained_font_resource_fixture_main
+#define Test HudFontResourceFixture
+#include "hud_freetype_provider.cpp"
+#undef Test
+#undef main
+#pragma pop_macro("main")
+#include "../swf_text_font_platform_v1.hpp"
+#include "../gfnt_text_backend_v1.hpp"
+#include "../hud_freetype_font_v2.hpp"
+#include <fstream>
+#include <iostream>
+#include <iterator>
+#include <cstring>
+#include <stdexcept>
+using namespace dh2::ui;
+namespace {
+constexpr const char*digest="a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238";
+void require(bool b,const std::string&e){if(!b)throw std::runtime_error(e);}
+struct Test {
+ std::shared_ptr<HudFontResourceFixture> font_resources;
+ std::string font_base,cache_base,font_constants;
+ std::unique_ptr<GfntTextBackendV1> bitmap_backend;
+ std::int32_t bitmap_width=0,bitmap_height=0;
+ static bool font_resolve(void* p,const text_v1::Font& f,std::string& uri,bool& found,std::string& e){auto& t=*static_cast<HudFontResourceFixture*>(p);char path[4096];FontResolveOutput32 out{path,sizeof path,0,0,0};FontResolveInput24 in{f.name.c_str(),"cache/",f.bold,f.italic};FontResolveServices16 svc{p,HudFontResourceFixture::resolver};if(dh2_swf_font_resolve(&out,&in,&svc)!=0){e="actual host font resolver failed";return false;}uri=path;found=out.found&&(uri.size()>=4&&uri.substr(uri.size()-4)==".fnt");t.resolved[f.name]=uri;return true;}
+ static bool font_bytes(void*,const char* uri,std::vector<std::uint8_t>& out,std::string& e){std::ifstream f(uri,std::ios::binary);if(!f){e="actual GFNT resource missing";return false;}out.assign(std::istreambuf_iterator<char>(f),{});return true;}
+ static bool source_font_read(void* p,const char* name,bool bold,bool italic,std::vector<std::uint8_t>& out,std::string& e){if(!HudFontResourceFixture::font_read(p,name,bold,italic,out,e))return false;if(out.size()>=4&&!std::memcmp(out.data(),"GFNT",4)){GfntFont gfnt;if(!gfnt.load(out.data(),out.size(),e))return false;HudFreetypeFontV2 ft;if(!ft.load(out.data(),out.size(),e)){if(e!="FreeType rejected font bytes")return false;e.clear();return false;}}return true;}
+ std::unique_ptr<SwfTextFontPlatformV1> retained_text_platform(){font_resources=std::make_shared<HudFontResourceFixture>();font_resources->fonts=font_base;font_resources->assets=cache_base;font_resources->initialize(font_constants.c_str());GfntTextServicesV1 gs{font_resources.get(),&bitmap_width,&bitmap_height,font_resolve,font_bytes,nullptr};bitmap_backend=std::make_unique<GfntTextBackendV1>(gs,font_resources);SwfFontServices fs{font_resources.get(),source_font_read,nullptr};auto platform=std::make_unique<SwfTextFontPlatformV1>(fs,services(),font_resources,bitmap_backend->backends(),1);platform->policy().renderer_feature=[](const auto& c,std::string& e){if(c.kind==edit_text_display_v1::Command::grid_fit)return true;e="host has no render cache";return false;};return platform;}
+ std::string base;HudManagerCore core;HudAdvanceOwner advance;SwfAsGraph*graph=nullptr;std::string*error=nullptr;unsigned calls=0,cache_gets=0,frames=0,visibility=0,texts=0,notifications=0,updates=0,guards=0,enemy_labels=0,allies=0,position_fixtures=0,native_settings=0,native_multiplayer=0,styles=0;int style=0;bool multiplayer=false,target=false;std::int32_t sheet[44]{};std::uintptr_t scripts[3]{},spells[1]{};HudManagerActor actor{},enemy{};HudManagerPlayer player{},other{};HudManagerState state{nullptr,0,-1,1};gameswf::character*root=nullptr;
+ Test(){sheet[38]=sheet[43]=sheet[34]=100;actor={sheet,44,0,nullptr,scripts,3,0,spells,1,10,"DebugEnemy",42,{1,2,3},1};enemy=actor;enemy.identity=2;player={&actor,-1,20,1,{0,0,0,0,0,0,0},"Prince",1};other=player;other.name="Ally";}
+ static bool read(void*p,const char*u,std::vector<std::uint8_t>&b,std::string&e){auto&t=*static_cast<Test*>(p);std::string name=u;name=name.substr(name.find_last_of('/')+1);std::ifstream f(t.base+"/"+name,std::ios::binary);if(!f){e="Actual HUD resource missing";return false;}b.assign(std::istreambuf_iterator<char>(f),{});return true;}
+ static bool texture(void*,const char*,int w,int h,SwfTexture&o,std::string&){o={123,w?w:1024,h?h:1024};return true;}
+ static bool image(void*,int w,int h,unsigned,const std::uint8_t*,int,SwfTexture&o,std::string&){o={456,w,h};return true;}
+ static bool draw(void*,const SwfDraw&,std::string&){return true;}
+ static bool stencil(void*,const float*,std::uint8_t,bool&o,std::string&){o=false;return true;}
+ static bool native(void*,const char*n,const std::vector<SwfValue>&a,SwfValue&o,std::string&e){if(std::strcmp(n,"NativeGetStringFromSymbol")){e="Missing required native callback";return false;}o.kind=SwfValue::text;o.string=a.empty()?"":a[0].string;return true;}
+ static bool native_as(void*p,const char*n,const gameswf::fn_call&fn,std::string&e){auto&t=*static_cast<Test*>(p);if(!std::strcmp(n,"NativeLoadSettings")){++t.native_settings;return true;}if(!std::strcmp(n,"NativeIsMultiplayerEnabled")){++t.native_multiplayer;fn.result->set_bool(false);return true;}e="Unexpected typed callback";return false;}
+ static bool notify(void*p,gameswf::sprite_instance*s,std::string&e){auto&t=*static_cast<Test*>(p);++t.notifications;return t.advance.notify(s,e);}
+ static bool sound(void*,std::uintptr_t&o,std::string&){o=reinterpret_cast<std::uintptr_t>(gameswf::get_sound_handler());return true;}
+ static int required_op(void*p,const HudManagerRequest&q,HudManagerResponse&,std::string&e){auto&t=*static_cast<Test*>(p);if(q.operation!=HudManagerOperation::text)return 0;SwfAsValue value;if(!t.graph->retain_object(reinterpret_cast<gameswf::as_object*>(q.subject),value,e))return 0;++t.texts;return renderfx_set_plain_text(*t.graph,value,q.text,q.value!=0,e)?1:0;}
+ static int service(void*p,HudManagerState*,const HudManagerRequest*q,HudManagerResponse*out){auto&t=*static_cast<Test*>(p);++t.calls;int core=t.core.dispatch(*q,*out,*t.error);if(core>=0){if(q->operation==HudManagerOperation::cache_get)++t.cache_gets;if(q->operation==HudManagerOperation::goto_frame)++t.frames;if(q->operation==HudManagerOperation::goto_label)++t.enemy_labels;if(q->operation==HudManagerOperation::visible)++t.visibility;if(q->operation==HudManagerOperation::allies_callback)++t.allies;return core;}
+  using Op=HudManagerOperation;switch(q->operation){case Op::current_level:out->identity=1;out->value=1;break;case Op::elapsed:out->value=16;break;case Op::saved_option:out->value=std::strcmp(q->text,"HUDStyle")?0:t.style;break;case Op::local_player:out->identity=reinterpret_cast<std::uintptr_t>(&t.player);break;case Op::player_class:out->value=290;break;case Op::potions:{std::int16_t quantity=12;return dh2_ui_hud_num_potions(&quantity,&out->value)==0;}case Op::property_int:out->value=0;break;case Op::skill_slot:{HudSkillSlotTree slots{nullptr,0,0};return dh2_ui_hud_skill_slot(&slots,q->index,&out->value)==0;}case Op::skill_usable:case Op::spell_usable:out->value=0;break;case Op::online:out->value=t.multiplayer;break;case Op::is_dead:out->value=0;break;case Op::target_character:out->identity=t.target?reinterpret_cast<std::uintptr_t>(&t.enemy):0;break;case Op::is_character:case Op::is_monster:out->value=1;break;case Op::string_symbol:out->text="Enemy";break;case Op::is_boss:out->value=0;break;case Op::level:out->value=20;break;case Op::debug_load:break;case Op::debug_switch:out->value=0;break;case Op::hp_fraction:out->fraction=.5f;break;case Op::player_count:out->value=2;break;case Op::player_at:out->identity=reinterpret_cast<std::uintptr_t>(q->index?&t.other:&t.player);break;case Op::player_remote:out->value=q->subject==reinterpret_cast<std::uintptr_t>(&t.player);break;case Op::format_multiplayer:out->text=q->text;break;case Op::project_position:out->xy[0]=10;out->xy[1]=20;break;case Op::inverse_pixel_x:case Op::inverse_pixel_y:out->fraction=1.f;break;case Op::position:++t.position_fixtures;break;default:*t.error="Unprovided required whole HUD service";return 0;}return 1;
+ }
+ gameswf::sprite_instance*clip(unsigned i){HudManagerResponse r;HudManagerRequest q{HudManagerOperation::cache_get,i,0,0,0,0,nullptr,nullptr,{0,0,0},0};require(core.dispatch(q,r,*error)==1&&r.identity,"Required cache missing");auto*c=reinterpret_cast<gameswf::character*>(r.identity);require(c->is(gameswf::sprite_instance::m_class_id),"Required clip type missing");return static_cast<gameswf::sprite_instance*>(c);}
+ static bool apply(void*p,SwfAsGraph&graph,std::string&e){auto&t=*static_cast<Test*>(p);t.graph=&graph;t.error=&e;SwfAsValue root;gameswf::as_object*object=nullptr;require(graph.root_value(root,e)&&graph.borrow_object(root,object,e),e);require(object&&object->is(gameswf::character::m_class_id),"Actual root character absent");t.root=static_cast<gameswf::character*>(object);require(t.core.bind(t.root,digest,{&t,notify,sound,nullptr},e),e);t.core.required_operations(&t,required_op);HudManagerServices services{&t,service};
+  for(int n=0;n<32;++n){t.sheet[36]=t.sheet[41]=t.sheet[33]=n*3;require(dh2_ui_hud_manager_v1(&t.state,0,&services)==0,e);require(t.state.initialized&&t.clip(0)->m_current_frame==std::max(n*3-1,0)&&t.clip(3)->m_current_frame==std::max(n*3-1,0)&&t.clip(4)->m_current_frame==n*3,"Full manager did not set actual status frames");++t.updates;}
+  for(int style=0;style<4;++style){t.style=style;t.state={nullptr,0,-1,1};t.sheet[36]=t.sheet[41]=t.sheet[33]=30;auto rc=dh2_ui_hud_manager_v1(&t.state,0,&services);if(style>1){require(rc==-1,"Uninitialized authored list buttons silently fabricated");++t.guards;e.clear();continue;}require(rc==0,e.empty()?"Authored HUD style "+std::to_string(style)+" manager returned "+std::to_string(rc):e);require(t.clip(0)->m_current_frame==29&&t.clip(3)->m_current_frame==29&&t.clip(4)->m_current_frame==30,"Authored HUD style status frames mismatch");HudManagerResponse quantity;HudManagerRequest get{HudManagerOperation::cache_get,5,0,0,0,0,nullptr,nullptr,{0,0,0},0};require(t.core.dispatch(get,quantity,e)==1&&quantity.identity,"Potion field missing");auto*field=reinterpret_cast<gameswf::character*>(quantity.identity);require(field->is(gameswf::edit_text_character::m_class_id)&&static_cast<gameswf::edit_text_character*>(field)->m_text=="12","Source potion producer did not mutate actual text field");++t.styles;++t.updates;}
+  t.style=0;t.state={nullptr,0,-1,1};require(dh2_ui_hud_manager_v1(&t.state,0,&services)==0,e);++t.updates;
+  t.target=true;t.actor.target=&t.enemy;require(dh2_ui_hud_manager_v1(&t.state,3,&services)==0,e);require(t.state.cached_target==&t.enemy&&t.clip(19)->get_visible()&&t.clip(22)->m_current_frame==49,"Actual enemy cache/show/HP branch mismatch");++t.updates;
+  t.target=false;t.actor.target=nullptr;require(dh2_ui_hud_manager_v1(&t.state,3,&services)==0,e);require(!t.state.cached_target&&!t.clip(19)->get_visible()&&t.clip(22)->m_current_frame==0,"Actual enemy hide branch mismatch");++t.updates;
+  t.multiplayer=true;require(dh2_ui_hud_manager_v1(&t.state,3,&services)==0,e);++t.updates;
+  gameswf::as_value original;require(t.root->get_member("AlliesBarDisplay",&original),"Original callback missing");t.root->set_member("AlliesBarDisplay",gameswf::as_value());require(dh2_ui_hud_manager_v1(&t.state,3,&services)==-2&&e=="Required authored HUD callback unavailable","Unavailable authored callback silently accepted");t.root->set_member("AlliesBarDisplay",original);++t.guards;e.clear();
+  // No silent backend acceptance: reached edit-text operation must fail absent.
+  t.core.required_operations(nullptr,nullptr);require(dh2_ui_hud_manager_v1(&t.state,3,&services)==-2&&e=="HUD source text provider unavailable","Required source text absence swallowed");++t.guards;t.core.required_operations(&t,required_op);e.clear();
+  require(!t.core.bind(t.root,"bad",{},e),"Unverified resource accepted");++t.guards;e.clear();return true;
+ }
+ SwfServices services(){SwfServices s;s.context=this;s.read=read;s.texture=texture;s.image=image;s.draw=draw;s.native_call=native;s.stencil=stencil;s.native_actions={"NativeLoadSettings","NativeIsMultiplayerEnabled"};s.native_owner=std::make_shared<int>(1);s.native_action=native_as;return s;}
+};
+}
+int main(int argc,char**argv){try{if(argc!=5){std::cerr<<"usage: hud_manager_core swfs fonts cache-data fonts-pycst\n";return 2;}Test t;t.base=argv[1];t.font_base=argv[2];t.cache_base=argv[3];t.font_constants=argv[4];auto platform=t.retained_text_platform();SwfMovie movie;std::string error;require(movie.load({"dqshared_droid.swf"},"dqhud_droid.swf",platform->services(),error),error);require(movie.advance(0,error),error);require(movie.action_script(&t,Test::apply,error),error);auto live=t.advance.live_nodes();require(live&&t.notifications&&t.texts,"Actual core deliveries missing");movie=SwfMovie();HudManagerResponse response;HudManagerRequest request{HudManagerOperation::cache_get,0,0,0,0,0,nullptr,nullptr,{0,0,0},0};require(t.core.dispatch(request,response,error)==0&&error=="HUD manager retained movie owner expired","Weak cache sidecar retained expired movie");++t.guards;require(t.advance.live_nodes()==0,"Advance owner retained expired movie");++t.guards;
+ std::cout<<"{\"validation\":\"PASS\",\"whole_manager_updates\":"<<t.updates<<",\"authored_hud_styles\":"<<t.styles<<",\"ordered_services\":"<<t.calls<<",\"weak_cache_gets\":"<<t.cache_gets<<",\"source_frame_calls\":"<<t.frames<<",\"visibility_calls\":"<<t.visibility<<",\"plain_text_calls\":"<<t.texts<<",\"notify_deliveries\":"<<t.notifications<<",\"enemy_labels\":"<<t.enemy_labels<<",\"allies_callbacks\":"<<t.allies<<",\"position_provider_fixtures\":"<<t.position_fixtures<<",\"ownership_failure_guards\":"<<t.guards<<",\"startup_settings_fixture\":"<<t.native_settings<<",\"startup_multiplayer_fixture\":"<<t.native_multiplayer<<"}\n";return 0;}catch(const std::exception&e){std::cerr<<e.what()<<'\n';return 1;}}

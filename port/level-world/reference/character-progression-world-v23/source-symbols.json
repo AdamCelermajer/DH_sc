@@ -1,0 +1,78 @@
+{
+  "0x36d730": {
+    "name": "_ZN18NetStructByteArrayILj3EE9GetBufferEPvi",
+    "size": 60
+  },
+  "0x36d7a8": {
+    "name": "_ZN13PlayerManager13GetNumPlayersEv",
+    "size": 108
+  },
+  "0x3bc4a8": {
+    "name": "_ZN9Character7SG_SaveEv",
+    "size": 20
+  },
+  "0x36d76c": {
+    "name": "_ZN18NetStructByteArrayILj30EE9GetBufferEPvi",
+    "size": 60
+  },
+  "0x3beb88": {
+    "name": "_ZN9Character7LevelUpEi",
+    "size": 2320
+  },
+  "0x3bf498": {
+    "name": "_ZN9Character7_GiveXPEib",
+    "size": 912
+  },
+  "0x3af0c8": {
+    "name": "_ZN9Character28F_ApplyScrollingCombatTextXPEPS_iii",
+    "size": 308
+  },
+  "0x80f7b4": {
+    "name": "_ZN14CNetPlayerInfoC1Ev",
+    "size": 1140
+  },
+  "0x3790e0": {
+    "name": "_ZN17PlayerStatManager12IncreaseStatE9EStatTypeii",
+    "size": 4
+  },
+  "0x37418c": {
+    "name": "_ZN10PlayerInfoC1Ev",
+    "size": 2460
+  },
+  "0x80f27c": {
+    "name": "_ZN14CNetPlayerInfo5ResetEv",
+    "size": 100
+  },
+  "0x372220": {
+    "name": "_ZN13PlayerManager13_AddCharacterEi",
+    "size": 1180
+  },
+  "0x3b35f0": {
+    "name": "_ZN9Character7InitAllEv",
+    "size": 40
+  },
+  "0x370608": {
+    "name": "_ZN18NetStructByteArrayILj3EEC1E9ByteArray",
+    "size": 184
+  },
+  "0x3bf828": {
+    "name": "_ZN9Character12DistributeXPEPS_S0_",
+    "size": 1972
+  },
+  "0x3706c0": {
+    "name": "_ZN18NetStructByteArrayILj30EEC1E9ByteArray",
+    "size": 184
+  },
+  "0x3b36b0": {
+    "name": "_ZN9Character24InitializePlayerSavegameEv",
+    "size": 52
+  },
+  "0x40407c": {
+    "name": "_ZN13ItemInventory7AddLootEiiiib",
+    "size": 1500
+  },
+  "0x37cbd8": {
+    "name": "_ZN9LuaScript14_GetNumPlayersERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "size": 40
+  }
+}

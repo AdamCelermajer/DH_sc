@@ -1,0 +1,101 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada19CModularSkinnedMesh11getModuleIdEPKc",
+      "elf_address": "0x6474b8",
+      "size": 128,
+      "sha256": "76dfab0751340fa8f016159801aa8af5e3dad129a9947f88251c2884662bbf93"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject14SetModularSkinEii",
+      "elf_address": "0x470e18",
+      "size": 68,
+      "sha256": "ccff73eb19e2c2dc692271198c2ec0c80d5d6b1641508af36f80a3884b6022c0"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada19CModularSkinnedMesh18getCurrentModuleIdEi",
+      "elf_address": "0x646a48",
+      "size": 12,
+      "sha256": "9bb77abdbafdace657217e774a8a6e6037f8fffc4da65f7b283b39ae6d246e49"
+    },
+    {
+      "original_symbol": "_ZNK12VisualObject18GetModularModuleIdEiPKc",
+      "elf_address": "0x474568",
+      "size": 236,
+      "sha256": "749d55fea4b3a1cf4effab1c1c60c93589277fbc295b18233b8865e6a3eec425"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CModularSkinnedMeshC2ERKNS0_16CColladaDatabaseEPNS0_20SInstanceModularSkinEPNS0_14CRootSceneNodeEibPNS_5video12IVideoDriverE",
+      "elf_address": "0x64928c",
+      "size": 364,
+      "sha256": "fcdceccfc5dee9bc3861b269be24a39b5cf066523b07dcfbe388fb5ef0bcfb0c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada19CModularSkinnedMesh13getModuleNameEii",
+      "elf_address": "0x6469e8",
+      "size": 64,
+      "sha256": "a5b6c17def635a72ef413f0841904e764d902a89930fb654b7d3a08f04db1db2"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverEPKcbPNS0_15CColladaFactoryE",
+      "elf_address": "0x61bbd4",
+      "size": 184,
+      "sha256": "eccacb94336d0d5e6c394099341e90dc725750fa95c5118c2718137d4e52bf7a"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada19CModularSkinnedMesh22getCategoryModuleCountEi",
+      "elf_address": "0x646a34",
+      "size": 20,
+      "sha256": "7405668e6d0bc75b6122b95c726c75d3d0553e39be570c1d61decb91ed95db2d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CModularSkinnedMesh17setCategoryModuleEiib",
+      "elf_address": "0x648fd0",
+      "size": 276,
+      "sha256": "39b642ef086bf5fb9b44797d8581101ed89a33c455bf09ff517acf79a1b8813a"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada19CModularSkinnedMesh13getCategoryIdEPKc",
+      "elf_address": "0x647538",
+      "size": 88,
+      "sha256": "10cb07d38a0981acce6aad8529e059ce51b3196fc152967c383ca07a1639bebb"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject13SetWeaponSkinEPKcii",
+      "elf_address": "0x473cd8",
+      "size": 456,
+      "sha256": "3d89a9a4921825c7eb03dbb24c1616dc5e41ee70e5ec3371968cc6c73233ad60"
+    },
+    {
+      "original_symbol": "_ZNK12VisualObject20GetModularCategoryIdEPKc",
+      "elf_address": "0x470e5c",
+      "size": 24,
+      "sha256": "210fcb2fc13df2c1f400551fea450c616e3b020a606ea956a8da2189b47e43e6"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CModularSkinnedMesh12updateBufferEb",
+      "elf_address": "0x6483c8",
+      "size": 2540,
+      "sha256": "014fddcef3986dce4f4998eee64a5edf67fc2e365086958bb1aa505350d50e4d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CModularSkinnedMesh4skinEj",
+      "elf_address": "0x647fcc",
+      "size": 896,
+      "sha256": "2ad197d8b51c193df13eaeb36f28adce7b13773430feda72c414814cac2aeee6"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CModularSkinnedMeshC1ERKNS0_16CColladaDatabaseEPNS0_20SInstanceModularSkinEPNS0_14CRootSceneNodeEibPNS_5video12IVideoDriverE",
+      "elf_address": "0x649120",
+      "size": 364,
+      "sha256": "1e1a0c7426d67b5ad7dc589e653dcf29c7e2e45097235ae0b5dc2491f6f7b799"
+    },
+    {
+      "original_symbol": "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPKcb",
+      "elf_address": "0x35a0e4",
+      "size": 164,
+      "sha256": "88d807d599a3f7a858f6e6ed40cb3bc274d91ba2abb18c498fb36ca5b37d6ff4"
+    }
+  ]
+}

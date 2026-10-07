@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "frozen": true,
+  "comparisons": 10463,
+  "ordered_callbacks": 3729,
+  "ordered_entries": 317163,
+  "synchronous_reentry_records": 110,
+  "native_safety_checks": 17,
+  "sanitizer_findings": 0,
+  "verified_complete_original_functions": 12,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_and_proof_sha256": {
+    "port/level-world/character_deferred_queue.hpp": "84eef0bb553bf211bc69f16cc8417a80da307f4eb898e28536158d989bffb852",
+    "port/level-world/character_deferred_queue.cpp": "e24db796b46773764565bb502d7164278fc089da396ee1463dbe4f60f95b4191",
+    "port/level-world/tests/character_deferred_queue.cpp": "437f80c61e5458c9faef0c7e33b284d40b5f5a8b43a537544c06fd6ec401dbd0",
+    "port/level-world/tests/character_deferred_queue_differential.py": "b5c8ef495ddb5ab38f64afe5f1ff965f7e4d9b335aae039bcda1213b0818f038",
+    "port/level-world/tests/character_deferred_queue_host.py": "df5b37c67f2f3ec0bb680bcd5eb5b096d06d321f79da817e46b1551f73d29dde",
+    "port/level-world/tools/build_character_deferred_queue_oracle.ps1": "1b29509f70a2186a166c4ae7d4def70fcb1dcfb6b238e7089fce47531c5deb95",
+    "port/level-world/reference/character-deferred-queue/NOTES.md": "f6ee53ce427f10278f0f50874d2bf3622a1a1f3f156fe6353414f4c3a5c6524b",
+    "port/level-world/reference/character-deferred-queue/original-functions.json": "6143b09f9e8ee49c4ea789bcbe7cab882375401eeb3c4023f32a14737f987d3e",
+    "port/level-world/reference/character-deferred-queue/reference/original-functions.asm": "85c483f5cef56242f8794de43989b31cd046027262da4782f157295c6f1fcd4f",
+    "port/level-world/reference/character-deferred-queue/deferred-queue-fixtures.bin": "ddf9cb187e9fd3f066ce3a031ab69a5a4256e1c09977dc273e3d7587da3cf627",
+    "port/level-world/reports/character-deferred-queue-arm64-differential.json": "c596d832ce8a4b79ca5f42c40510d8ed4bd530a0b1cb71473373f8698f868064",
+    "port/level-world/reports/character-deferred-queue-host-audit.json": "dcea946f9f3f4027a7c95efb08975791cb1e14a144a80da58272a84962cb1094"
+  },
+  "oracle_sha256": "cf8c104ac8c721aa430792f9c9c03f6fa6a1239d548126cb07761494b087d26a",
+  "host_executable_sha256": "0c2d69810e983a62caf75ea4880a569d7f674e10ffbe75b629909bdf3db4642a",
+  "test_target": "character_deferred_queue_audit",
+  "test_arguments": [
+    "port/level-world/reference/character-deferred-queue/deferred-queue-fixtures.bin"
+  ],
+  "central_CMake_changed": false,
+  "central_DSO_rebuilt": false,
+  "whole_Character_frame": false,
+  "whole_Application_constructor": false,
+  "ownership": "One caller-owned shared queue; borrowed immutable-identity actor projections pinned through nodes and synchronous callbacks; never owns Characters/controllers/AI/scripts",
+  "undefined_original_case": "Deleting captured RB node during Kill: source subsequently dereferences freed node. Native rejects erased/reinserted generation; safety-only, not source differential.",
+  "mandatory_provider_boundaries": [
+    "final controllable virtual58 Kill body",
+    "complete AIUnLoadScriptProcess body",
+    "manager Level and realTime producers"
+  ],
+  "startup_integration_proposal": "New complete pre-controller entry, exact queue sites; frozen prefix cannot be replayed/resumed from undifferentiated status2. See NOTES.md additive proposal."
+}

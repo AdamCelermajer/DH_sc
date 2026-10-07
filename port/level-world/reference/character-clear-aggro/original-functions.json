@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character11_ClearAggroERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b8648",
+      "size": 96,
+      "sha256": "0b3b77e4d0150abb135db50c152dba9803d47127a0c8d7a3f024e347a58ceed3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character",
+      "elf_address": "0x3d6d68",
+      "size": 388,
+      "sha256": "d59c80b01af4f6b38ff7a70f4eb21a3382a04edab27f4f6b51394c221f568040"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+      "elf_address": "0x3d5d9c",
+      "size": 60,
+      "sha256": "d5866cccdd18e3f36abcc65aa43174ddc28c4e979f712ff8ce4ba0663f329163"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value11getUserDataEv",
+      "elf_address": "0x31b5a0",
+      "size": 32,
+      "sha256": "d4a7df181f8af768787ede9a55eb13588a1bd0ed23f69d4964cf67c8655802fe"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+      "elf_address": "0x3d79ec",
+      "size": 636,
+      "sha256": "5544900c5708b0fb85538781b6f7cd4b04f4ff808a3fdff0127e643c0f357d83"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller8Cmd_StopEv",
+      "elf_address": "0x40559c",
+      "size": 92,
+      "sha256": "bbbd141037f03f7c7d46fb1b056d7a490dd4a368b9818c36a7976f5cda8da656"
+    },
+    {
+      "original_symbol": "_ZNSt4priv10_Rb_globalIbE20_Rebalance_for_eraseEPNS_18_Rb_tree_node_baseERS3_S4_S4_",
+      "elf_address": "0x336004",
+      "size": 1256,
+      "sha256": "e3116d3d77e0bc0fb36ce21b8a22542d74fd59c17f5c0d2c7ae32a8d06f23492"
+    }
+  ]
+}

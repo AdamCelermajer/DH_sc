@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 2048,
+  "ordered_provider_boundaries": 4096,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "73fa8c23f512a87e57ca1438a63a935436397928c0ee5987cd1065072d1b5cf4",
+  "gold_sha256": "e42e76945806ca0b6b8f8ae568140447c1b9ba63472b75e0c0b7a257b07eb2a0",
+  "scope": "Original SG_ReloadSkills + InitSkills instructions versus SAME native V1 Save.\nArray/node allocation, selected Character list and complete Load boundary are\ndeclared fixtures. Maps are really erased; this is not a production Load owner.\n"
+}

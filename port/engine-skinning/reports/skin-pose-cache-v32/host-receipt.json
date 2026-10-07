@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "sanitizers": true,
+  "scope": "Actual172 module bit parity, cache invalidation/lifetimes, 12 actor CPU benchmark, no device/FPS claim",
+  "receipts": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O2",
+        "-g",
+        "-Iport/game-data",
+        "-Iport/engine-animation",
+        "-Iport/engine-skinning",
+        "-Iport/scene-materials",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "port/engine-skinning/tests/skin_pose_cache_v32.cpp",
+        "port/engine-skinning/skin_pose_cache_v32.cpp",
+        "port/engine-skinning/visual_skin_owner_v6.cpp",
+        "port/engine-skinning/visual_skin_selection_v6.cpp",
+        "port/engine-skinning/skinning.cpp",
+        "port/engine-animation/animation.cpp",
+        "port/engine-animation/event_track.cpp",
+        "port/engine-animation/events.cpp",
+        "port/scene-materials/scene.cpp",
+        "port/engine-math/math.cpp",
+        "port/engine-resources/resources.cpp",
+        "port/asset-payloads/payloads.cpp",
+        "port/level-world/objects.cpp",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/skin_pose_cache_v32_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation:/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/skin_pose_cache_v32_O2",
+        "port/android-native/app/src/main/assets/models/prince_modular.bdae",
+        "port/android-native/app/src/main/assets/animations/prince_walk_1hand.bdae"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":28291,\"actual_modules\":172,\"parity\":\"bit-identical\",\"numeric_pose_parity_frames\":128,\"whole_object_parity_frames\":32,\"frozen_hits\":1200,\"animated_postwarm_storage_growths\":0,\"benchmark_actors\":12,\"benchmark_frames\":240,\"legacy_skin_ns\":250245653,\"cached_skin_ns\":187466541,\"cpu_ratio\":1.33488,\"legacy_pose_ns\":185054503,\"reused_pose_ns\":100861256,\"pose_cpu_ratio\":1.83474}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/engine-skinning/tests/skin_pose_cache_v32.cpp",
+      "sha256": "a1f18158df0522926c3b99fbcd2c301879e6643cbeccb5c2803c23ab99034007"
+    },
+    {
+      "path": "port/engine-skinning/skin_pose_cache_v32.cpp",
+      "sha256": "ba56e46c1f8a9be55ba1201d95a74abf9a5cb43f99d4a92f0fc807d3b54157ed"
+    },
+    {
+      "path": "port/engine-skinning/visual_skin_owner_v6.cpp",
+      "sha256": "10a0e2d2d0ec37e6a6dd9f8509473927ce8800866a339bbdaf8ff30e3fd92f82"
+    },
+    {
+      "path": "port/engine-skinning/visual_skin_selection_v6.cpp",
+      "sha256": "5fd4136601821c8cdc1ab5bacd1f17f30d0aaedbe708dbd03a82de5ccd9d968d"
+    },
+    {
+      "path": "port/engine-skinning/skinning.cpp",
+      "sha256": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102"
+    },
+    {
+      "path": "port/engine-animation/animation.cpp",
+      "sha256": "0e8a748b250650120870b2f1edd0dfeaef0175792ddc4f43dfb9d7c599ef5be4"
+    },
+    {
+      "path": "port/engine-animation/event_track.cpp",
+      "sha256": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792"
+    },
+    {
+      "path": "port/engine-animation/events.cpp",
+      "sha256": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35"
+    },
+    {
+      "path": "port/scene-materials/scene.cpp",
+      "sha256": "b769e7beaf346817d3ef4f243da299ff5c9d232fc89b3a212fcfe06460ec3556"
+    },
+    {
+      "path": "port/engine-math/math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    },
+    {
+      "path": "port/engine-resources/resources.cpp",
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+    },
+    {
+      "path": "port/asset-payloads/payloads.cpp",
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d"
+    },
+    {
+      "path": "port/level-world/objects.cpp",
+      "sha256": "c213da4f0714270b5cf9393e118e3ae0fdeff788b4caf56de0c4cb79b5315de3"
+    }
+  ]
+}

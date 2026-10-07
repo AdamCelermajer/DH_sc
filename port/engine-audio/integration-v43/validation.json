@@ -1,0 +1,15 @@
+{
+  "strict_abi": [
+    {
+      "abi": "arm64-v8a",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "exit_code": 0
+    }
+  ],
+  "scope": "Compile-only Stage0 endpoint; source StopAllSounds disassembly reused, no further audio fixture or device/FPS work",
+  "header_sha256": "93c8bff509791fc1a9ba01d1943d9206c7ba0b0350ebb948c75e3203b2dbdb7d",
+  "source_asm_sha256": "2923f771cbc833d439f5d33ada5eaff7080177f2585ffee80f37b01bc886bc27"
+}

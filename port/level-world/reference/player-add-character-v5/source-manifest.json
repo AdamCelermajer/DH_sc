@@ -1,0 +1,45 @@
+{
+  "scope": "Whole AddCharacter control order and explicitly staged development post-publication continuation; actual positive lifecycle services still required.",
+  "files": [
+    {
+      "path": "port/level-world/player_add_character_owner_v5.cpp",
+      "sha256": "598020b5dd7fafef4ca3e41f0d11f00a803842f86c6ffa540b3d2331b616bd8f",
+      "bytes": 7996
+    },
+    {
+      "path": "port/level-world/player_add_character_owner_v5.hpp",
+      "sha256": "339981e0344fc9d5c7cdeaa5e297c5b75732aa3e76070d489ef4758fb73c21d2",
+      "bytes": 3521
+    },
+    {
+      "path": "port/level-world/reference/player-add-character-v5/integration.md",
+      "sha256": "11d45da41a8b1ddfe5ec2a8e470fc9e9c8b254dcf91a30ab54a53a7d77577394",
+      "bytes": 4148
+    },
+    {
+      "path": "port/level-world/reference/player-add-character-v5/original-add-character.asm",
+      "sha256": "8c7c635cbbdc74fba238df1840239b509272f2a8f45b6033a96e5f740ddb7a94",
+      "bytes": 7832
+    },
+    {
+      "path": "port/level-world/reference/player-add-character-v5/original-gold.hpp",
+      "sha256": "7fcd7803bcca69b82cc8173053694c684e5601d5f6be3e893174bff624cee1fc",
+      "bytes": 38849
+    },
+    {
+      "path": "port/level-world/reference/player-add-character-v5/original-gold.json",
+      "sha256": "e021ff65995bc648bf237eca8933ad28f9107f4bb750eafbb65a3e30d1969751",
+      "bytes": 244173
+    },
+    {
+      "path": "port/level-world/tests/player_add_character_v5_native.cpp",
+      "sha256": "30ac0e4b899bb87ba6d575b5a705af8ea8986caacfed7d47db0f1ba53775f656",
+      "bytes": 7760
+    },
+    {
+      "path": "port/level-world/tools/produce_player_add_character_v5.py",
+      "sha256": "3a78aa18ecd0e6ea00d9a1a586d7c968ad81d2c92958be3b41e1df0fc749838a",
+      "bytes": 5611
+    }
+  ]
+}

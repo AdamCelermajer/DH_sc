@@ -1,0 +1,14 @@
+[
+  {
+    "optimization": "O1",
+    "exit": 0,
+    "stdout": "frontal target identity contrasts PASS 11; named eligibility callbacks are fixtures; real native search/heap/sort executed\n",
+    "stderr": ""
+  },
+  {
+    "optimization": "O2",
+    "exit": 0,
+    "stdout": "frontal target identity contrasts PASS 11; named eligibility callbacks are fixtures; real native search/heap/sort executed\n",
+    "stderr": ""
+  }
+]

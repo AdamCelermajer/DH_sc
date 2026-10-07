@@ -1,0 +1,150 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "constructor_default_store_cases": [
+    {
+      "previous_visible": 0,
+      "constructor_visible": 0,
+      "type_f4": 20,
+      "static84": 1,
+      "default_visible80": 1
+    },
+    {
+      "previous_visible": 1,
+      "constructor_visible": 1,
+      "type_f4": 20,
+      "static84": 1,
+      "default_visible80": 1
+    },
+    {
+      "previous_visible": 2,
+      "constructor_visible": 2,
+      "type_f4": 20,
+      "static84": 1,
+      "default_visible80": 1
+    },
+    {
+      "previous_visible": 255,
+      "constructor_visible": 255,
+      "type_f4": 20,
+      "static84": 1,
+      "default_visible80": 1
+    }
+  ],
+  "functions": [
+    {
+      "address": "0x3883cc",
+      "name": "_ZN14PhysicalObject15onCollisionEndsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "bytes": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "address": "0x3899d0",
+      "name": "_ZN5Decor17DeclarePropertiesEv",
+      "bytes": 156,
+      "sha256": "01d88f069a25debfee99294ad6865ca9a66e67ecf5e30c0ab4b9e47d393041b7"
+    },
+    {
+      "address": "0x46e6bc",
+      "name": "_ZN14PhysicalObject15onCollisionTestEP18PhysicalBaseObjectsttstt",
+      "bytes": 148,
+      "sha256": "7946f99f094475b482918fbe6eaa7cc40b09875624ca578de55eb3d0023d8116"
+    },
+    {
+      "address": "0x33e4ac",
+      "name": "_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_",
+      "bytes": 140,
+      "sha256": "83935b8602daae7a1c29a8a5b12895530d50223ca6b41264677329b9ab676db8"
+    },
+    {
+      "address": "0x33de80",
+      "name": "_ZN18SimpleTypePropertyIbE17SetToDefaultValueEPv",
+      "bytes": 16,
+      "sha256": "a74daad6b94e187a027bd60b7c2589b43466c55e478af1433742d44cf25bab3e"
+    },
+    {
+      "address": "0x389dd4",
+      "name": "_ZN13AnimatedDecor17DeclarePropertiesEv",
+      "bytes": 40,
+      "sha256": "34d09a40e69bfd3d3b514284b6cc31c5f2096fe327b5269e0819b8c4abe2d450"
+    },
+    {
+      "address": "0x342600",
+      "name": "_Z14GetNewInstanceI13AnimatedDecorEP10ObjectBasev",
+      "bytes": 144,
+      "sha256": "658079f089bcee1fb0b17a6385db1e03c0d1b0ef8a6a83a86ea5d8db7835bd8a"
+    },
+    {
+      "address": "0x46fd28",
+      "name": "_ZN11POCharacter15onCollisionEndsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "bytes": 260,
+      "sha256": "c58b102651002c2ffb4520856904c4e3ad5495fe044974be723c0c0edcbc86df"
+    },
+    {
+      "address": "0x46fb14",
+      "name": "_ZN11POCharacter18onCollisionResultsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "bytes": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "address": "0x33f014",
+      "name": "_ZN10ObjectBase17DeclarePropertiesEv",
+      "bytes": 328,
+      "sha256": "301524fd43f26e05df3d6e56e414b4d5b5aa7ba9fdf9719a42484c9f6cfb2067"
+    },
+    {
+      "address": "0x46ff6c",
+      "name": "_ZN11POCharacter19onCollisionPersistsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "bytes": 264,
+      "sha256": "72e88cfac04c4266d12396bfc37257cf53592290194b15876e8f67fc03ce8a77"
+    },
+    {
+      "address": "0x46fe68",
+      "name": "_ZN11POCharacter17onCollisionBeginsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "bytes": 260,
+      "sha256": "789fde89e603aa085d2ae35c74f2ec495053dbc120e73f5df4a22138e3015966"
+    },
+    {
+      "address": "0x3883d0",
+      "name": "_ZN14PhysicalObject18onCollisionResultsEP18PhysicalBaseObjectb",
+      "bytes": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "address": "0x46fb4c",
+      "name": "_ZN11POCharacter15onCollisionTestEP18PhysicalBaseObjectsttstt",
+      "bytes": 176,
+      "sha256": "1e61fefd1581d0bd47be9db390de3cab9437f2995c5598ef86693c18c10ca9b9"
+    },
+    {
+      "address": "0x3884f8",
+      "name": "_ZNK13AnimatedDecor9IsZonableEv",
+      "bytes": 4,
+      "sha256": "40513514668745e2911c29fdf4e5b143341e82f83f47388e6bbdca29a6e4bcba"
+    },
+    {
+      "address": "0x3883c4",
+      "name": "_ZN14PhysicalObject17onCollisionBeginsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "bytes": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "address": "0x33f310",
+      "name": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "bytes": 436,
+      "sha256": "e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67"
+    },
+    {
+      "address": "0x3883c8",
+      "name": "_ZN14PhysicalObject19onCollisionPersistsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "bytes": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    }
+  ],
+  "whole_constructor": false,
+  "allocator_string_XML_factory": false,
+  "source_visible_default_argument": "ObjectBase DeclareProperties33f03c r3=1; SimpleTypeProperty bool +20 then SetToDefaultValue33de80",
+  "source_decor_contact_bodies": "3883c4/c8/cc/d0 bx lr",
+  "source_player_contact": "POCharacter requires actual Character RaiseEvent; no accepted empty provider",
+  "source_AnimatedDecor_IsZonable": "3884f8 tailcalls MeetCondition38ab60; base byte shortcut unavailable"
+}

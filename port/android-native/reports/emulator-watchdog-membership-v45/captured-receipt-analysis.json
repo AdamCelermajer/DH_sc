@@ -1,0 +1,55 @@
+[
+  {
+    "receipt": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\emulator-guards-v36\\20261006-170248-9cb4586f.watchdog.json",
+    "sha256": "411ffe0c2228df9004d4e9a2f780d1a8681c30decf7dd0b1b552593a6b3b2970",
+    "elapsed_seconds": 2411.7340000000004,
+    "reason": [
+      "monitoring_unavailable"
+    ],
+    "final_pids": [
+      35188,
+      35664,
+      42216,
+      45656
+    ],
+    "metric_pids": [
+      35188,
+      35664,
+      42216,
+      45656
+    ],
+    "missing_final_metrics": [],
+    "owner_identity_valid": true,
+    "captured_per_pass_membership": false,
+    "historical_cause_exact_sequence_unknown": true
+  },
+  {
+    "receipt": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\emulator-guards-v36\\20261006-175037-ad586867.watchdog.json",
+    "sha256": "ca3b412148110dc0c282b27066ed301dd454e8b1eebbc83387810cdee6b425f8",
+    "elapsed_seconds": 265.5159999999996,
+    "reason": [
+      "monitoring_unavailable"
+    ],
+    "final_pids": [
+      25800,
+      34312,
+      34968,
+      37756,
+      41444,
+      43168
+    ],
+    "metric_pids": [
+      25800,
+      34968,
+      37756,
+      41444,
+      43168
+    ],
+    "missing_final_metrics": [
+      34312
+    ],
+    "owner_identity_valid": true,
+    "captured_per_pass_membership": false,
+    "historical_cause_exact_sequence_unknown": true
+  }
+]

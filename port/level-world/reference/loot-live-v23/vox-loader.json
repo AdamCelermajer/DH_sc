@@ -1,0 +1,326 @@
+[
+  {
+    "name": "_ZN15VoxSoundManager14BackToMainMenuEv",
+    "address": "0x3694d4",
+    "size": 64,
+    "sha256": "44a1121618144dc4dcd3be61eaa193c1377965ba17562b75d62fc4d49b9f91d9"
+  },
+  {
+    "name": "_ZN15VoxSoundManager15SetIPodPlaylistEi",
+    "address": "0x369484",
+    "size": 28,
+    "sha256": "8e10b12fd20131fd6b5ba276956706da8fba6b457e86bbfea6e7363baea43604"
+  },
+  {
+    "name": "_ZN15VoxSoundManager4PlayEibiib",
+    "address": "0x36b80c",
+    "size": 660,
+    "sha256": "9c6401e83c8e016dd489cf66a19f9b5ca7b0926db5ff8ec1ebd05f829215cbf9"
+  },
+  {
+    "name": "_ZN15VoxSoundManager21ShowPlayingMusicTitleEPc",
+    "address": "0x36b120",
+    "size": 428,
+    "sha256": "7aed20ffb854bd5f18e35cf9930d4be0cea7e8ae5dc8480cb5f933ca9f1fe6fc"
+  },
+  {
+    "name": "_ZN15VoxSoundManager12StopAllMusicEi",
+    "address": "0x3698f0",
+    "size": 160,
+    "sha256": "f8eef2efb3c34b287d1448decc4cc9ef20e43f86a3661063a568a842c1bcc0c2"
+  },
+  {
+    "name": "_ZN15VoxSoundManager5PauseEi",
+    "address": "0x36a664",
+    "size": 288,
+    "sha256": "f8deaac8c54f4ea43a843e4d90deb768cbe5b85c66158d1f2facc60efd608d64"
+  },
+  {
+    "name": "_ZN15VoxSoundManagerC1Ev",
+    "address": "0x36c7b0",
+    "size": 728,
+    "sha256": "1ad643a397de02256034d11d1a8d00beda93a0ecbb6c254d1f486b9c3042f994"
+  },
+  {
+    "name": "_ZN15VoxSoundManager9PlayMusicEibbi",
+    "address": "0x36bd78",
+    "size": 668,
+    "sha256": "37cba30568e456b4cf6174e0cb1f17796a548d5c96c464f954a4859abc3d3d6c"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14IsMusicPlayingEv",
+    "address": "0x369804",
+    "size": 236,
+    "sha256": "fdc5f042edf95026d849d55bae4998acff9d21dca64bedb339fa67c0f1791dbd"
+  },
+  {
+    "name": "_ZN15VoxSoundManager6Stop3DEiiP7Point3DIfEf",
+    "address": "0x36a218",
+    "size": 600,
+    "sha256": "cf03c75decc450abf8691944fca4cd262b3a80af2cf159d0df6204a5882a84ca"
+  },
+  {
+    "name": "_ZN15VoxSoundManager15UnloadAllSoundsEv",
+    "address": "0x369298",
+    "size": 88,
+    "sha256": "c40f85aaf16b228e200d3948dfd036559cf17473b6b944d8218fcf8ec630be09"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14CrossfadeMusicEii",
+    "address": "0x36baa0",
+    "size": 404,
+    "sha256": "ba4e2b805604a60c3e2259e010a221f84298c24040c2acad20fd6a53336333a7"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14DeleteInstanceEv",
+    "address": "0x36b048",
+    "size": 64,
+    "sha256": "15286070071db42d77f4ee81cf1d029ec99bb82bb0471590b888282695a6cbf4"
+  },
+  {
+    "name": "_ZN15VoxSoundManager9PlayEventEiRKN6glitch4core8vector3dIfEEff",
+    "address": "0x36b420",
+    "size": 440,
+    "sha256": "ee97bf00f68a5ca9f94f04edcd8518eabd1c18354816d5744fe3e725e5ecf2ee"
+  },
+  {
+    "name": "_ZN15VoxSoundManager16SetInitialVolumeEfff",
+    "address": "0x369c2c",
+    "size": 372,
+    "sha256": "8661d45defa3da124aa47c7677a7c9074efe21e4a68ad75a2132f130f3fe6601"
+  },
+  {
+    "name": "_ZN15VoxSoundManager8PlayMenuEibii",
+    "address": "0x36bc34",
+    "size": 36,
+    "sha256": "4b96c004a29be5c425510f9e96ac66d2adbdb5fcd7e6186db58d346673ac195a"
+  },
+  {
+    "name": "_ZN15VoxSoundManager9StopMusicEi",
+    "address": "0x36a1a0",
+    "size": 120,
+    "sha256": "caa14490775f3075c1b5ad503c951e25f0eee7a759521062e5589d6eba258120"
+  },
+  {
+    "name": "_ZN15VoxSoundManager15UpdateIPodAsyncEv",
+    "address": "0x36934c",
+    "size": 4,
+    "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+  },
+  {
+    "name": "_ZN15VoxSoundManager11IPodControlEPKc",
+    "address": "0x36cda8",
+    "size": 1104,
+    "sha256": "354eb9f39643e929973d880b60dd907052f5ccf030a9b2e68b31f8122aa09853"
+  },
+  {
+    "name": "_ZN15VoxSoundManager19GetIPodPlaylistNameEi",
+    "address": "0x36c734",
+    "size": 124,
+    "sha256": "7593ae070c00050b4c8c3b1dfaacaf0ec55f3b134d45eeba86139e0a6f5ab35f"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14GetSoundVolumeEi",
+    "address": "0x369b38",
+    "size": 244,
+    "sha256": "6ff03b55d40c9ea3e7287f08dabc5ab3e8100ecfa32b66b437353c73686f1c38"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14SetSoundVolumeEif",
+    "address": "0x369da0",
+    "size": 328,
+    "sha256": "5fa06dafb5b72d589b71504134bec5a8038e4d1605a8473253eab6272f4b73e6"
+  },
+  {
+    "name": "_ZN15VoxSoundManager13StopAllSoundsEi",
+    "address": "0x369990",
+    "size": 108,
+    "sha256": "29abfb9f5910a385c5f14d229440a9a4a31d96a901276e72d1cebc2939c6aa2e"
+  },
+  {
+    "name": "_ZN15VoxSoundManager13SetMusicStateEPKc",
+    "address": "0x369514",
+    "size": 224,
+    "sha256": "a58329d656dd607f2bf698d7480ba46144f0fa1c5e488faf82bd4eb49ed7ebad"
+  },
+  {
+    "name": "_ZN15VoxSoundManager15SetLevelRoutingEi",
+    "address": "0x3695f4",
+    "size": 232,
+    "sha256": "d7f7878d99f0fbcb1ec11480bc6e39ef666728f937f56bc014dd80857cf522ff"
+  },
+  {
+    "name": "_ZN15VoxSoundManager6ResumeEi",
+    "address": "0x36a470",
+    "size": 288,
+    "sha256": "c8a77173a1ff8132f1deedb8b59aca8cb354aa9538292cceeb02c7f189fed141"
+  },
+  {
+    "name": "_ZN15VoxSoundManager11UnloadSoundEi",
+    "address": "0x36921c",
+    "size": 124,
+    "sha256": "16160954ddbfec4263bd7aceb011a26d81a202af9dd5a10eee55c6f02714ad96"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14SetListenerPosERKN6glitch4core8vector3dIfEES5_S5_iif",
+    "address": "0x369f50",
+    "size": 156,
+    "sha256": "ed94e2ee3b58fb5b45fe1efa465b276fde6a3b0a9d33c2fce59d35784bcbb89f"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14CreateInstanceEv",
+    "address": "0x36ca88",
+    "size": 72,
+    "sha256": "f23a03f449486c254423c383b2ee34335af027d3120f084c769e75eb07fc410a"
+  },
+  {
+    "name": "_ZN15VoxSoundManager15ResumeAllSoundsEv",
+    "address": "0x36a590",
+    "size": 148,
+    "sha256": "150c8a1266980b14317a18099e5c06d279165d222f021906e9ecf09337366a1c"
+  },
+  {
+    "name": "_ZN15VoxSoundManager15GetMasterVolumeEv",
+    "address": "0x369ee8",
+    "size": 52,
+    "sha256": "2d01aaab54b3f9fdf0dfc5787420142b3804f70e2eec9a2fca2e8cba450af03c"
+  },
+  {
+    "name": "_ZN15VoxSoundManager11ResumeMusicEi",
+    "address": "0x36c164",
+    "size": 192,
+    "sha256": "d9b1e7f1c5f4e1ab157067befed3fbf01f30403aee4fddc6787377b7486088d2"
+  },
+  {
+    "name": "_ZN9Character11_InitSoundsEv",
+    "address": "0x3b3b00",
+    "size": 264,
+    "sha256": "30d6ceab61c7db2449f333d395997f9811d66004ecd248b20a3acdf1b1aabbfb"
+  },
+  {
+    "name": "_ZN15VoxSoundManager9LoadSoundEi",
+    "address": "0x3699fc",
+    "size": 316,
+    "sha256": "10991d1c979884027589d9de95365a5604b0b1e226e401b85e15de519dc2eae8"
+  },
+  {
+    "name": "_ZN15VoxSoundManager24ConvertVisual3DToSound3DERKN6glitch4core8vector3dIfEE",
+    "address": "0x3692f0",
+    "size": 88,
+    "sha256": "bb5bb69f45fe0208e7a68db98f073ea06ccf3447ffa9d578c124f99a6307ac76"
+  },
+  {
+    "name": "_ZN15VoxSoundManager10PauseMusicEv",
+    "address": "0x36a784",
+    "size": 60,
+    "sha256": "20930533a4709e46c30e4036c32b780711676da7996b508ae7bbb88e08bdaa51"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14SetIPodShuffleEv",
+    "address": "0x369348",
+    "size": 4,
+    "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+  },
+  {
+    "name": "_ZN15VoxSoundManager8PlayBeatEibb",
+    "address": "0x36bc58",
+    "size": 288,
+    "sha256": "d24fd7ef0674f1a1cf8c3deb2bf4eb38ae0c3183ec1165d22a52e38f2088bb39"
+  },
+  {
+    "name": "_ZN15VoxSoundManagerD1Ev",
+    "address": "0x36afb0",
+    "size": 152,
+    "sha256": "ab6bc1cf77e8ca9f7b500bc0c81360e92425b0aaac83bb21941bbc0e821905ce"
+  },
+  {
+    "name": "_ZN15VoxSoundManager16ReleaseLvlSoundsEv",
+    "address": "0x36b2cc",
+    "size": 340,
+    "sha256": "5dfa5d51a8cb5563c5ab7141361956d60223e7624eb630f03d1d4bcf093b6dc4"
+  },
+  {
+    "name": "_ZN15VoxSoundManager6Play3DEiRKN6glitch4core8vector3dIfEEbiff",
+    "address": "0x36b5d8",
+    "size": 564,
+    "sha256": "1492e1786523a969b7a9abcf0ca894acdfd72e3b31991b9bcf5c4d9eed3a0fd9"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14PauseAllSoundsEv",
+    "address": "0x36a624",
+    "size": 64,
+    "sha256": "8458617dbcd7eea4ffb943c25464e47219c666dc64f3eaa98675af7f1bf6fa69"
+  },
+  {
+    "name": "_ZN15VoxSoundManager18PlaySoundPackSoundEiPKcN3vox11FormatTypesEiiNS2_21VoxSourceLoadingFlagsERKN6glitch4core8vector3dIfEEff",
+    "address": "0x36a7c0",
+    "size": 1812,
+    "sha256": "6fa3f630a590ecdd661e62af47b91ecd7b7deb1bc57333430391c031f169aec1"
+  },
+  {
+    "name": "_ZN15VoxSoundManager14IsSoundPlayingEi",
+    "address": "0x3696dc",
+    "size": 296,
+    "sha256": "f8000a274eb0f38882b96a672b859a702be9d240b1918866501624ed9ddf6802"
+  },
+  {
+    "name": "_ZN15VoxSoundManager15SetMasterVolumeEf",
+    "address": "0x369f1c",
+    "size": 52,
+    "sha256": "fe58d1cc01303a710d1f93c884b0ebf792a0eed639eec51d1c27d41a52e87adc"
+  },
+  {
+    "name": "_ZN15VoxSoundManager10InitializeEv",
+    "address": "0x36c2e4",
+    "size": 1104,
+    "sha256": "d2cc477ea17d4ff8312f7ea9267a380fb88e1b4f5021d0d0412ce65fc1bfdab0"
+  },
+  {
+    "name": "_ZN15VoxSoundManagerC2Ev",
+    "address": "0x36cad0",
+    "size": 728,
+    "sha256": "0f509c7d58af93a0df1cd84c75f3cfb8f4bccc7c033973c6c7de97c58a33b373"
+  },
+  {
+    "name": "_ZN15VoxSoundManagerD2Ev",
+    "address": "0x36b088",
+    "size": 152,
+    "sha256": "e35f6c3e3b1fd5d5c04fdee2ef67109f09f15d6a8fbb6aa3b8604043f437b6e0"
+  },
+  {
+    "name": "_ZN15VoxSoundManager12RestartMusicEi",
+    "address": "0x36c224",
+    "size": 192,
+    "sha256": "0459a46298e041b9be291a9ac85602d2b5cc6b7b16f5ecd4db7cd0a832a35e9f"
+  },
+  {
+    "name": "_ZN15VoxSoundManager20GetIPodPlaylistCountEv",
+    "address": "0x369480",
+    "size": 4,
+    "sha256": "fe0c822c3c218679f905ac07b082ea0214b022327fc492c3798d72e5f5dbddf6"
+  },
+  {
+    "name": "_ZN15VoxSoundManager8StopBeatEv",
+    "address": "0x36a138",
+    "size": 104,
+    "sha256": "494e5a80361cc34dbdb06a335cfda878339a00590a8fcd9035b49c4db9e8e49e"
+  },
+  {
+    "name": "_ZN15VoxSoundManager18SetInSafeZoneMusicEb",
+    "address": "0x36c014",
+    "size": 336,
+    "sha256": "8ff78c87da982b57ffd16acbf2d61aeb626671bae412420863d53b05205e6943"
+  },
+  {
+    "name": "_ZN15VoxSoundManager4StopEii",
+    "address": "0x369fec",
+    "size": 332,
+    "sha256": "02363d7e44f190022d7516ecb03b30f17a564b653a12e7b2593220ad15fcffe4"
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Core_VOXSoundManager_VoxSoundManager.cpp",
+    "address": "0x36aed4",
+    "size": 220,
+    "sha256": "7f6db53ef108e674312a81c0116d72450e33654d22be1f77ca7ed3e5ae17fcc0"
+  }
+]

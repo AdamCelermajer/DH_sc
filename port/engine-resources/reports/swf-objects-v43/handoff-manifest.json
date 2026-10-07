@@ -1,0 +1,111 @@
+{
+  "status": "FROZEN_COMPONENT",
+  "shared_files_apply_via_patch_only": [
+    "port/engine-resources/resource_budget_v37.hpp",
+    "port/engine-resources/resource_budget_v37.cpp",
+    "port/engine-ui/swf_vertex_cache_v36.hpp",
+    "port/engine-ui/swf_vertex_cache_v36.cpp",
+    "port/android-native/app/src/main/cpp/authored_shader_program.hpp",
+    "port/android-native/app/src/main/cpp/authored_shader_program.cpp",
+    "port/android-native/app/src/main/cpp/swf_gpu.hpp",
+    "port/android-native/app/src/main/cpp/swf_gpu.cpp"
+  ],
+  "new_owned_files": [
+    "port/engine-resources/gpu_object_owner_v43.hpp",
+    "port/engine-resources/tests/swf_objects_consumer_v43.cpp",
+    "port/engine-resources/tools/prepare_swf_objects_v43.py",
+    "port/engine-resources/tools/test_swf_objects_v43_host.py",
+    "port/engine-resources/tools/compile_swf_objects_v43_android.py",
+    "port/engine-resources/tools/freeze_swf_objects_v43.py"
+  ],
+  "files": {
+    "port/engine-resources/resource_budget_v37.hpp": {
+      "sha256": "bbdbfcbe7e8776dd7e50bbe6b88ffa5dbbc495f2933e650512c0f69014ff3d88",
+      "bytes": 6472
+    },
+    "port/engine-resources/resource_budget_v37.cpp": {
+      "sha256": "7d645543087042a76d08a3d49dfc977be0d467a3551979374e5629b2f04ac23d",
+      "bytes": 17545
+    },
+    "port/engine-ui/swf_vertex_cache_v36.hpp": {
+      "sha256": "ad0f062a2f471877a2e242cb514d6074f7be6fe38db130b89240a392363ac5f1",
+      "bytes": 2397
+    },
+    "port/engine-ui/swf_vertex_cache_v36.cpp": {
+      "sha256": "f08045904d66f7dd0b144e4a91f29fa48945191ac83e86222aab863766b674be",
+      "bytes": 5105
+    },
+    "port/android-native/app/src/main/cpp/authored_shader_program.hpp": {
+      "sha256": "3f4f325e0eaccbda1b452eab59b3f0cdd162882637a66a54d4ca4d57f8c1c5ce",
+      "bytes": 1626
+    },
+    "port/android-native/app/src/main/cpp/authored_shader_program.cpp": {
+      "sha256": "f7c0cc40d71f5dd00c802bf83b36afe1378d7c576c43e73a86dfb5da04d30c58",
+      "bytes": 10380
+    },
+    "port/android-native/app/src/main/cpp/swf_gpu.hpp": {
+      "sha256": "5177f1287eeadb4ca5769546bf5a4718e248a144b8dfc5cc3f59d787d1f4f354",
+      "bytes": 4368
+    },
+    "port/android-native/app/src/main/cpp/swf_gpu.cpp": {
+      "sha256": "79e620a9b0949b7f2debe6050746986ba80a6c3e7ba69826fd0df547ee8e2a93",
+      "bytes": 35965
+    },
+    "port/engine-resources/gpu_object_owner_v43.hpp": {
+      "sha256": "ff9f8c92fe1e6a679b08a0551e48bf22e8ec9d925f80e527cf33157a9be1fd4e",
+      "bytes": 3221
+    },
+    "port/engine-resources/tests/swf_objects_consumer_v43.cpp": {
+      "sha256": "6fbef8328d5cb87435c1abab3ab20bdd8a064a92f4f3d26cb15df6a91cf5d166",
+      "bytes": 12547
+    },
+    "port/engine-resources/tools/prepare_swf_objects_v43.py": {
+      "sha256": "6b8a0f0bf8c36b2052076beb6fe4af7050ee088a569ab037dd0f74c587ea3e63",
+      "bytes": 16615
+    },
+    "port/engine-resources/tools/test_swf_objects_v43_host.py": {
+      "sha256": "41a73047518d553a1a7730f289f08047ace21ad9f2d7aadfd7fb8b89c02a1b68",
+      "bytes": 7318
+    },
+    "port/engine-resources/tools/compile_swf_objects_v43_android.py": {
+      "sha256": "0865ed4206ef5462681c6ee9f5205d3001b1366f37703f325aa0bfd0a9a6bff7",
+      "bytes": 1998
+    },
+    "port/engine-resources/tools/freeze_swf_objects_v43.py": {
+      "sha256": "a4a97207f5abdfa352de48828d5e78b8368a5d3dc6527af752098ab493f01b17",
+      "bytes": 2472
+    },
+    "port/engine-resources/reports/swf-objects-v43/README.md": {
+      "sha256": "88a75579501dd83ae4ae7e02d4467c0fb43c3575cb8379aa1bbd6fcee7b21322",
+      "bytes": 5448
+    },
+    "port/engine-resources/reports/swf-objects-v43/integration.patch": {
+      "sha256": "80365eb8b277345530b0da3067464836cc358e1a40bc48298e1db6f836fa559b",
+      "bytes": 29805
+    },
+    "port/engine-resources/reports/swf-objects-v43/baseline-source-sha256.json": {
+      "sha256": "8877699870c870425d0ed174b119641e18f637f04ac4c515abde46f8032cda06",
+      "bytes": 997
+    },
+    "port/engine-resources/reports/swf-objects-v43/host-receipt.json": {
+      "sha256": "a2d8c6a8b09223c00e8073605aaeab9ad4e94454caa75f323a5f839d9f9ff97a",
+      "bytes": 7085
+    },
+    "port/engine-resources/reports/swf-objects-v43/android-compile.json": {
+      "sha256": "81aaba759e2b97a3a1191f15dfff6c308956fd389cbaea5127eab379e1f4e58a",
+      "bytes": 27711
+    },
+    "port/engine-resources/reports/swf-objects-v43/android-overlay.json": {
+      "sha256": "cca8abd944c73a1105a2545e8dd10775a25a85ace0c82b5779c29ca1bb9e28e7",
+      "bytes": 2359
+    },
+    "port/engine-resources/reports/swf-objects-v43/patch-check.json": {
+      "sha256": "ff6b56353bdacc2b76e557e533f1bb1804b464ae3d2a54c2545d3e2587244e3c",
+      "bytes": 58
+    },
+    "port/engine-resources/reports/swf-objects-v43/test-layout/engine-resources/tests/swf_objects_source_v43.inc": {
+      "sha256": "143db36ee988eac805a9ab98e13b71430acf39dd4b5d35d759c4100a3139db8c",
+      "bytes": 7828
+    }
+  }
+}

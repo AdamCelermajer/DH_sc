@@ -1,0 +1,173 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch2ps9PSManager18createPCloudSystemEb",
+      "elf_address": "0x655314",
+      "size": 96,
+      "sha256": "480b4ad63c1076a69f76dbb11fcf9e64adffb4d6ffe951ee19d046d1e4b8f29f"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps16IParticleContextINS0_9SParticleEE10hashStringEPKc",
+      "elf_address": "0x64d0bc",
+      "size": 276,
+      "sha256": "eba49caf10024f0d28d1b3a0c7e34728a0ebd7185c8abc838a660bf16e3f7c64"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps16IParticleContextINS0_9SParticleEEC2Ev",
+      "elf_address": "0x64d1d0",
+      "size": 192,
+      "sha256": "29e544d9f4e46d9cf3c3a59bcb0603b79e204512078d09bd89386168c58f3eec"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase16constructEmitterEPNS0_16SInstanceEmitterEPNS_5video12IVideoDriverEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x61a888",
+      "size": 136,
+      "sha256": "e8b8380a87cd24f20c476e44c870d1761855b8e48f1eb6922d780271d5f5a65e"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase16constructEmitterEPNS0_8SEmitterEPNS_5video12IVideoDriverEPNS_3res6vectorINS7_6StringEEEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x60e79c",
+      "size": 68,
+      "sha256": "01ba34c6254254f6cd82535e8d993b31d94d9ff6214313a86336b10f1adc0d85"
+    },
+    {
+      "original_symbol": "_ZN14ColladaFactory20createParticleSystemERKN6glitch7collada16CColladaDatabaseEPNS0_5video12IVideoDriverEPNS1_8SEmitterEPNS0_3res6vectorINSA_6StringEEEPNS1_14CRootSceneNodeE",
+      "elf_address": "0x3507b8",
+      "size": 4,
+      "sha256": "b1490ba8e07ef382a13a6a2229089fcd3cfe63377f05c44a6741978f17ce4c64"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getEmitterEi",
+      "elf_address": "0x60e468",
+      "size": 28,
+      "sha256": "b3ef0c6e4a6c4f98f157f7e335613918a84b315b6afe17441ed20ee9bdf83bbe"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNode6attachEPNS_5scene10ISceneNodeE",
+      "elf_address": "0x64f6f8",
+      "size": 240,
+      "sha256": "90426e056231f7f6793d1a54f77c10d4aeb374eb7fcf1a4f87af21e2a0678026"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps12PMotionModelINS0_9SParticleEEC2Ev",
+      "elf_address": "0x6540ec",
+      "size": 300,
+      "sha256": "39ffbf48ba3254fa8a188eb2ff5320b660972dfe36ec30d5402cea47309e3e4a"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps10PSpinModelINS0_9SParticleEEC2Ev",
+      "elf_address": "0x654218",
+      "size": 480,
+      "sha256": "ded102e9ec5ff6e2cca69d2b1a6234106d2f5425dee56eb9c395d233039c80c9"
+    },
+    {
+      "original_symbol": "_ZZN6glitch2ps9PSManager20createParticleSystemINS0_9SParticleENS0_16PGenerationModelIS3_EENS0_10PSizeModelIS3_EENS0_11PColorModelIS3_EENS0_13PEmitterModelIS3_EENS0_12PMotionModelIS3_EENS0_12PForcesModelIS3_EENS0_10PSpinModelIS3_EENS0_10PLifeModelIS3_EENS0_25PRenderDataBillboardModelIS3_NS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS3_EENS0_20PSGenericNormalBakerIS3_EENS0_22PSGenericPositionBakerIS3_EENS0_23PSGenericTexCoordsBakerIS3_EEEEEEPNS0_15IParticleSystemIT_EEvEN5MixinC1Ev",
+      "elf_address": "0x654ec4",
+      "size": 1104,
+      "sha256": "0a4ca0a887ba5c05683319da2e70f576cd0f8077497b64d5c3130b51c93e9eae"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory20createParticleSystemERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_8SEmitterEPNS_3res6vectorINSA_6StringEEEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x634c64",
+      "size": 2876,
+      "sha256": "bbbb76f9cbcb13efefb18fa1b7ffbaf427aa40ce42264e406c795b6e41df20a4"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNode4initEv",
+      "elf_address": "0x64fd60",
+      "size": 1140,
+      "sha256": "d33d4d77a2856411ddda8f1d212ad80d048fd86889781e2fb2f27ed14cf11c79"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps11PColorModelINS0_9SParticleEEC2Ev",
+      "elf_address": "0x654690",
+      "size": 620,
+      "sha256": "358f41c9b71b4e612dae314449b21dec1969a0ffc75bfb0747b660334265f63d"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps10PSizeModelINS0_9SParticleEEC2Ev",
+      "elf_address": "0x6543f8",
+      "size": 308,
+      "sha256": "8e8cdfdcf11ce8cabfbe7f86475dabfba14eefae8976fba51da6378473378107"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getEmitterEPKc",
+      "elf_address": "0x61a7f4",
+      "size": 96,
+      "sha256": "11797c0002a4dd7b57feafe090caeeac000d7260c29f841349b1d3cec6e40f4c"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps13PEmitterModelINS0_9SParticleEEC2Ev",
+      "elf_address": "0x6548fc",
+      "size": 376,
+      "sha256": "08e7a18e26c238fe5ea6f1aeb597032a9a64712d81180c2150fcafb7e7e307fc"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps16IParticleContextINS0_9SParticleEE12setParameterIiEEvPKcT_",
+      "elf_address": "0x6501d4",
+      "size": 164,
+      "sha256": "2e3f891a6b03d44bf49c23fc67979bf9e30224ef89d35c24d93b9ca3789b04d5"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNode26getParticleSystemParameterEPKc",
+      "elf_address": "0x651924",
+      "size": 168,
+      "sha256": "d6c0b0ff253b9a520b553e0582b2db78d11bc1a95599fa4b8a5603a0d1bccbdc"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps16PGenerationModelINS0_9SParticleEEC2Ev",
+      "elf_address": "0x6545d0",
+      "size": 192,
+      "sha256": "8bc949c7d6165739bc9b3ba1ff1ed1cadd155d16c520baa7d4c866a575b0a4d7"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNode18initParticleSystemEPNS_5video12IVideoDriverEb",
+      "elf_address": "0x656450",
+      "size": 3688,
+      "sha256": "7a20247912f887ec68ba7ea5f2acc5ee7e2ea570ee532b8d68b29846895d8b9d"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjPvENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKS6_",
+      "elf_address": "0x63a8ec",
+      "size": 392,
+      "sha256": "b5e5a787dc6d56935f9c64529985c08061ab798e7e7a7723f83de6804cfb5e78"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps10PLifeModelINS0_9SParticleEEC2Ev",
+      "elf_address": "0x65452c",
+      "size": 164,
+      "sha256": "f96bf3f8c5012a29c2acd49d1e692156fa7a91c46efaf3c7aeafc869a3704cf6"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNode19onRegisterSceneNodeEv",
+      "elf_address": "0x64da1c",
+      "size": 164,
+      "sha256": "b33f36e17a820bab08215585f6ea7c246db8a1dfec64978345a2e3e7fe58f4e9"
+    },
+    {
+      "original_symbol": "_ZZN6glitch2ps9PSManager20createParticleSystemINS0_9SParticleENS0_16PGenerationModelIS3_EENS0_10PSizeModelIS3_EENS0_11PColorModelIS3_EENS0_13PEmitterModelIS3_EENS0_12PMotionModelIS3_EENS0_12PForcesModelIS3_EENS0_10PSpinModelIS3_EENS0_10PLifeModelIS3_EENS0_25PRenderDataBillboardModelIS3_NS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS3_EENS0_22PSBillboardNormalBakerIS3_EENS0_24PSBillboardPositionBakerIS3_EENS0_25PSBillboardTexCoordsBakerIS3_EEEEEEPNS0_15IParticleSystemIT_EEvEN5MixinC1Ev",
+      "elf_address": "0x654a74",
+      "size": 1104,
+      "sha256": "cc5b770252e9f9dde8ec4fef3e0ef3164b2284f54e4d9e791067a86a5e36f71a"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps16IParticleContextINS0_9SParticleEE12setParameterIfEEvPKcT_",
+      "elf_address": "0x650400",
+      "size": 164,
+      "sha256": "487fefeca3fb7c42ff58277cc2755a68e3991a1f45559ad6ac0f306c2640d2ed"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNode9onAnimateEj",
+      "elf_address": "0x64dac0",
+      "size": 224,
+      "sha256": "408d62ea453e60103639dd3cf03e9e766273bc43630b7aa599d08a71a472efb5"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNodeD1Ev",
+      "elf_address": "0x64ecac",
+      "size": 108,
+      "sha256": "8a02aa8c4225db5553b3b3bd0c409ca306f6ed463affa084be7e9b39f6fe6c18"
+    }
+  ]
+}

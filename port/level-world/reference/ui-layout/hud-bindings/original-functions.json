@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z23NativeGetPlayerHUDInfosRKN7gameswf7fn_callE",
+      "elf_address": "0x44e5cc",
+      "size": 3248,
+      "sha256": "69b6445174fe31555f5972f89483777293a8b57d21855fd5bf85a3dd783970e4"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager18applyOneTimeValuesEv",
+      "elf_address": "0x41d728",
+      "size": 344,
+      "sha256": "619ac953266d6e6fa89b9c162c3298e3037fe54fe701ae4f1230b9a5578c0236"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager15initCachedCharsEv",
+      "elf_address": "0x41d880",
+      "size": 1168,
+      "sha256": "03b8fbca873aba6d56d15339fb87b675fb511a31da8d6f2395d7a678603e7955"
+    },
+    {
+      "original_symbol": "_ZN7gameswf30create_render_handler_irrlichtEPv",
+      "elf_address": "0x7d6658",
+      "size": 40,
+      "sha256": "2906d426fd44ff684f768f8a3bad58142bde6cd02a0bf147f6e8899f3bdf0c75"
+    },
+    {
+      "original_symbol": "_ZN7gameswf27substitute_bitmap_characterERNS_9tu_stringEPNS_20bitmap_character_defEPNS_20movie_definition_subE",
+      "elf_address": "0x759cfc",
+      "size": 160,
+      "sha256": "8ffd1e33e3bc473e7fd973c5a8bd2e8c5fb6a1e4a8323b5503235784df0ab1e2"
+    },
+    {
+      "original_symbol": "_ZN7gameswf10scene_node24update_inverse_transformEv",
+      "elf_address": "0x777350",
+      "size": 452,
+      "sha256": "1446423f5982ba24363bd26bd814335d8e27c278e16ebe3732b3b729522f700c"
+    },
+    {
+      "original_symbol": "_ZN11HUDControls15initCachedCharsEv",
+      "elf_address": "0x419b4c",
+      "size": 3124,
+      "sha256": "d2b58b8d384b5d243efdb17ed73890798e6d582c86d1ba1f3a05ec1a5f1a70bc"
+    }
+  ]
+}

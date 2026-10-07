@@ -1,0 +1,177 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "28c2a972ab9ce801d81171937cfac4e450170f63035b2ef52f02a5f50566c959",
+  "strings": [
+    {
+      "label": "NumPotions.member1",
+      "address": "0x8cc728",
+      "value": "NumPotions"
+    },
+    {
+      "label": "NumPotions.member2",
+      "address": "0x8cc738",
+      "value": "MaxNumPotions"
+    },
+    {
+      "label": "StringPotions.group",
+      "address": "0x8bec30",
+      "value": "StrID"
+    },
+    {
+      "label": "StringPotions.key",
+      "address": "0x8cc138",
+      "value": "GAMEPLAYMENUS_POTIONS"
+    },
+    {
+      "label": "StringPotions.member",
+      "address": "0x8cc150",
+      "value": "StrNumPotions"
+    },
+    {
+      "label": "UpdateSavedValues.key",
+      "address": "0x8c1f58",
+      "value": "AutoOrientation"
+    },
+    {
+      "label": "loadSettings.file",
+      "address": "0x8cd5d8",
+      "value": "dh2_settings.savegame"
+    }
+  ],
+  "device_exclusions": [
+    {
+      "address": "0x9f6404",
+      "symbols": [
+        "SHARP_DEVICES"
+      ]
+    },
+    {
+      "address": "0x9f6403",
+      "symbols": [
+        "HTC_DEVICES"
+      ]
+    },
+    {
+      "address": "0x9a5b59",
+      "symbols": [
+        "Is_In_Multiplayer_Mode"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "address": "0x3fc690",
+      "symbols": [
+        {
+          "name": "_ZNK13ItemInventory13GetNumPotionsEv",
+          "size": 16
+        }
+      ]
+    },
+    {
+      "address": "0x43c388",
+      "symbols": [
+        {
+          "name": "_Z19NativeGetPlayerCharib",
+          "size": 124
+        }
+      ]
+    },
+    {
+      "address": "0x315ed8",
+      "symbols": [
+        {
+          "name": "_ZN8SavegameC1EPKcb",
+          "size": 112
+        }
+      ]
+    },
+    {
+      "address": "0x46e47c",
+      "symbols": [
+        {
+          "name": "_ZN15SavegameManager13_initSettingsEb",
+          "size": 264
+        }
+      ]
+    },
+    {
+      "address": "0x46d4a8",
+      "symbols": [
+        {
+          "name": "_ZNK15SavegameManager9hasOptionEPKc",
+          "size": 48
+        }
+      ]
+    },
+    {
+      "address": "0x46d474",
+      "symbols": [
+        {
+          "name": "_ZNK15SavegameManager9getOptionEPKc",
+          "size": 52
+        }
+      ]
+    },
+    {
+      "address": "0x46d8f4",
+      "symbols": [
+        {
+          "name": "_ZN15SavegameManager13__loadOptionsEP11IStreamBasePv",
+          "size": 196
+        }
+      ]
+    },
+    {
+      "address": "0x46c778",
+      "symbols": [
+        {
+          "name": "_ZN15SavegameManager15__loadTutorialsEP11IStreamBasePv",
+          "size": 32
+        }
+      ]
+    },
+    {
+      "address": "0x46c7b8",
+      "symbols": [
+        {
+          "name": "_ZN15SavegameManager28__loadLanguageAndOrientationEP11IStreamBasePv",
+          "size": 528
+        }
+      ]
+    },
+    {
+      "address": "0x31f748",
+      "symbols": [
+        {
+          "name": "_ZN11Application16ResetOrientationEi",
+          "size": 4
+        }
+      ]
+    }
+  ],
+  "settings_default_globals": [
+    {
+      "address": "0x9a64ac",
+      "symbols": [
+        "_ZN6Arrays15GameOptionTable4sizeE"
+      ],
+      "initial_word": "0x0"
+    },
+    {
+      "address": "0x9a64b0",
+      "symbols": [
+        "_ZN6Arrays15GameOptionTable7membersE"
+      ],
+      "initial_word": "0x0"
+    },
+    {
+      "address": "0x9a64b4",
+      "symbols": [
+        "_ZN6Arrays15GameOptionTable13m_memberNamesE"
+      ],
+      "initial_word": "0x0"
+    }
+  ],
+  "evidence": "Static ELF literal/symbol extraction only, no original instruction execution"
+}

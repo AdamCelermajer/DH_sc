@@ -1,0 +1,22 @@
+#include "gameplay_skybox_material_v25.hpp"
+#include <cstring>
+namespace {
+std::uint32_t word(const std::uint8_t*p){std::uint32_t w;std::memcpy(&w,p,4);return w;}
+bool str(const dh2::resources::BresView&v,std::uint32_t p,std::string&out,std::string&e){if(!p||p>=v.size){e="Invalid skybox effect technique string";return false;}auto*end=static_cast<const std::uint8_t*>(std::memchr(v.bytes+p,0,v.size-p));if(!end){e="Unterminated skybox effect string";return false;}out.assign(reinterpret_cast<const char*>(v.bytes+p),end-(v.bytes+p));return true;}
+}
+namespace dh2::camera {
+bool SkyboxMaterialV25::initialize(const SkyboxResourceV24&r,std::uint32_t material,std::string&e){if(ready_||!techniques_.empty()){e="Skybox material already constructed/attempted";return false;}if(material>=r.scene.materials.size()){e="Required actual skybox material index";return false;}const auto&authored=r.scene.materials[material];if(!authored.effect_file.empty()||authored.effect_uri.empty()||authored.effect_uri[0]!='#'){e="Required original external skybox material factory continuation";return false;}
+ const std::uint8_t*effect=nullptr;for(unsigned i=0;i<dh2_bres_library_count(&r.bres,resources::Library::effect);++i){const auto*p=dh2_bres_library_item(&r.bres,resources::Library::effect,i);std::string id;if(!p||!str(r.bres,word(p),id,e))return false;if(id==authored.effect_uri.substr(1)){if(effect){e="Duplicate actual skybox effect ID";return false;}effect=p;}}
+ if(!effect){e="Required actual skybox local effect";return false;}const auto count=word(effect+32),base=word(effect+36);if(!count||count>256||std::uint64_t(base)+std::uint64_t(count)*12>r.bres.size){e="Invalid actual skybox technique array";return false;}
+ for(unsigned i=0;i<count;++i){const auto*t=r.bres.bytes+base+i*12;SkyboxTechniqueV25 native;if(!str(r.bres,word(t),native.name,e))return false;if(word(t+4)!=1){e="Required original multi-pass skybox material backend";return false;}if(!scene::effect_render_pass_v4(r.bres,authored.id.c_str(),native.name.c_str(),native.authored,e))return false;native.flags4=word(native.authored.pass.data()+4);
+  // Native pre-bind diagnostic starts clean. The source wrapper immediately
+  // sets first pass dirty when it clears the authored depth-write flag.
+  native.dirty30=0;techniques_.push_back(std::move(native));}
+ material_=material;ready_=true;return true;
+}
+bool SkyboxMaterialV25::constructor_first_pass_borrow(SkyboxMaterialRendererBorrowV24&out,std::string&e){if(!ready_||techniques_.empty()){e="Required actual first skybox technique/pass";return false;}SkyboxMaterialRendererBorrowV24 b;b.owner=shared_from_this();b.flags4=&techniques_[0].flags4;b.dirty30=&techniques_[0].dirty30;out=std::move(b);return true;}
+bool SkyboxMaterialV25::state(std::uint32_t technique,scene::EffectRenderPassV4&out,std::string&e)const{if(!ready_||technique>=techniques_.size()){e="Required actual selected skybox technique ID";return false;}const auto&t=techniques_[technique];out=t.authored;std::memcpy(out.pass.data()+4,&t.flags4,4);const auto b=t.flags4;out.blend=b&(1<<16);out.cull=b&(1<<17);out.front_face=(b&(1<<18))?0x900:0x901;out.depth=b&(1<<19);out.depth_write=b&(1<<20);out.stencil=b&(1<<27);out.sample_coverage=b&(1<<25);out.polygon_offset=b&((1<<21)|(1<<22)|(1<<23));return true;}
+bool construct_skybox_material_v25(const std::shared_ptr<SkyboxResourceV24>&r,std::uint32_t index,std::shared_ptr<SkyboxMaterialV25>&owner,SkyboxMaterialRendererBorrowV24&borrow,std::string&e){if(!r){e="Required SAME actual skybox BRES resource";return false;}auto candidate=std::make_shared<SkyboxMaterialV25>();owner=candidate;if(!candidate->initialize(*r,index,e))return false;return candidate->constructor_first_pass_borrow(borrow,e);}
+GameplaySkyboxPipelineV25::GameplaySkyboxPipelineV25(SkyboxLoadServicesV24 actual){actual.material_renderer=[this](const auto&resource,std::uint32_t index,auto&out,auto&error){std::shared_ptr<SkyboxMaterialV25> owner;if(!construct_skybox_material_v25(resource,index,owner,out,error))return false;materials_[{resource.get(),index}]=owner;return true;};loader_=std::make_unique<GameplaySkyboxV24>(std::move(actual));}
+bool GameplaySkyboxPipelineV25::material(const SkyboxResourceV24&r,std::uint32_t index,std::shared_ptr<SkyboxMaterialV25>&out,std::string&e)const{auto i=materials_.find({&r,index});if(i==materials_.end()||!(out=i->second.lock())){e="Required SAME retained actual skybox material/pass table";return false;}return true;}
+}

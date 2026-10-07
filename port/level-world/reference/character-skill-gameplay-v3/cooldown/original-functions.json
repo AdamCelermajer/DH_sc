@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10AISDefault7OnTimerEPv",
+      "elf_address": "0x3dbedc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI25_OnAnimStepEnd_SkillSpellEv",
+      "elf_address": "0x3d3d68",
+      "size": 108,
+      "sha256": "d9e4b6a1c57d06ee04031759f4a2499e848514758d9b7c7455ff1197a1abb135"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14AI_CancelSkillEj",
+      "elf_address": "0x3d84e0",
+      "size": 244,
+      "sha256": "b304aa5ca13b9b51caf272960f8e93cfcad7b3fd364762b80130a6c50f6f0924"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript7OnSkillEv",
+      "elf_address": "0x3da794",
+      "size": 292,
+      "sha256": "2fccdd3a00f2be7c9649fb91e1d2e8d9085cc1767c8ab178a22f00830386c507"
+    },
+    {
+      "original_symbol": "_ZN6CharAI7OnTimerEPv",
+      "elf_address": "0x3d0c10",
+      "size": 36,
+      "sha256": "3a33c2e8ef4aa19218df1b5976e4ed38e41f2d3d69173d6a5fadee457081c675"
+    },
+    {
+      "original_symbol": "_ZN6CharAI27_OnAnimStepBegin_SkillSpellEv",
+      "elf_address": "0x3d3dd4",
+      "size": 112,
+      "sha256": "cfa02bc9fb8909976dc97a4b0419916416be7c894ef2f0801db6b95811870a16"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetSkillStateEjbPvb",
+      "elf_address": "0x3c6670",
+      "size": 180,
+      "sha256": "b11c1907a16535e572092626218432dbff1c90379821aa5091b2cf4bf1c678f9"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties18PROPS_GetFromSheetEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3b55d4",
+      "size": 164,
+      "sha256": "131099abb0a16a3590cd19fcb923b58dd3b7e220733cf18e46adda6d3125d5ac"
+    },
+    {
+      "original_symbol": "_ZN9Character24_SetSkillCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b97e0",
+      "size": 496,
+      "sha256": "1234fbc6dd51220781adfe8f45786e45bd9a18dc996acc98bc0751b36b76cede"
+    },
+    {
+      "original_symbol": "_ZN9Character24_SetSpellCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b90e4",
+      "size": 188,
+      "sha256": "844e05483f96db8ba8d91649737ecc5bb1644f56e291c7302354df9a7ff9011e"
+    }
+  ]
+}

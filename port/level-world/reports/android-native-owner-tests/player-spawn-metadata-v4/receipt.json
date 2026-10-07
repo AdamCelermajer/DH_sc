@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "cdae2b53f3ecece7c882c5c3993efe79bd615cdaa7ff21408459a8b081cb570a",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\player_spawn_metadata_v4.cpp",
+      "sha256": "53c45997f21a47cef5ebe728d15f2f08fcad8bf8b2c62f227357fe3ccac3d0ee"
+    },
+    {
+      "path": "port\\level-world\\player_spawn_metadata_v4.cpp",
+      "sha256": "255380cc365cb6bd56f6fd3c716a62b0f7f0082eabe68a677ca38de16a55cacf"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_factory_v1.cpp",
+      "sha256": "84eb8a2eb9aa8909f8d3f9918ec0fde83d92e434d69a4ce64978a8259bb08463"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_manager_v1.cpp",
+      "sha256": "3b778d37287bdbbf0c5c4c8e1d26f449e5fa25011e85e8f64b877629b552e154"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\player_spawn_metadata_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\player_spawn_metadata_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_factory_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_manager_v1.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\player-spawn-metadata-v4\\player-spawn-metadata-v4.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "player source Spawn metadata PASS6; no Spawn/AddCharacter success claimed\n",
+  "stderr": ""
+}

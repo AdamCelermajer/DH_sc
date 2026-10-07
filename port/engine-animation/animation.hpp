@@ -11,6 +11,16 @@ struct Track {
     assets::Animation accessor;
     assets::Vector values;
 };
+struct NodePoseSampleV32 {
+ float translation[3]{},quaternion[4]{},scale[3]{};
+ std::array<float,16> world{};
+};
+// Caller-owned scratch for one synchronous sampler. No scene/material/string
+// copies, no timeline/event changes; failures leave the live Scene unchanged.
+struct PoseSampleWorkspaceV32 {
+ std::vector<NodePoseSampleV32> nodes;
+ std::uint64_t calls{},storage_growths{};
+};
 class Player {
     friend class TransformSet;
     std::vector<std::uint8_t> bytes;
@@ -28,7 +38,9 @@ public:
     unsigned skipped=0;
     unsigned unbound=0;
     bool load(const std::uint8_t*,std::size_t,const scene::Scene&,std::string& error,MissingTargets=MissingTargets::reject);
+    bool bind_scene_v116(const scene::Scene&,std::string& error,MissingTargets=MissingTargets::reject);
     bool sample(scene::Scene&,std::int32_t milliseconds,std::string& error)const;
+    bool sample_reuse(scene::Scene&,std::int32_t milliseconds,PoseSampleWorkspaceV32&,std::string& error)const;
     unsigned track_count()const{return ranges.empty()?0:tracks.size()/ranges.size();}
     unsigned segment_count()const{return ranges.size();}
 };

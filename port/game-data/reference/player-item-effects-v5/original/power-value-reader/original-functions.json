@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIaEEvP11IStreamBasePT_",
+      "elf_address": "0x4db9fc",
+      "size": 176,
+      "sha256": "ea0dc44358bcd1753b66faa89e097ce4e831859120f16e333ed8fa3ba6cf7557"
+    },
+    {
+      "original_symbol": "_ZN7Structs9LootEntry8finalizeEv",
+      "elf_address": "0x4c6c08",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    }
+  ]
+}

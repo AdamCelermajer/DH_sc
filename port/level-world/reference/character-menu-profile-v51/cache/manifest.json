@@ -1,0 +1,21 @@
+[
+  {
+    "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2quests_pyarraynames.bin",
+    "bytes": 1357,
+    "sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4"
+  },
+  {
+    "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2quests_pycst.bin",
+    "bytes": 805
+  },
+  {
+    "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2quests_pystructnames.bin",
+    "bytes": 2070,
+    "sha256": "c2f7ef77cf21e790eb0b017c48ed8b057a606f1fac4cfe317241b5913fa42438"
+  },
+  {
+    "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2quests_pyarray.bin",
+    "bytes": 21817,
+    "sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36"
+  }
+]

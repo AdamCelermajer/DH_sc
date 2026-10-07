@@ -1,0 +1,347 @@
+{
+  "validation": "PASS",
+  "scope": "Actual Android native library build; owned player data and original text layout.",
+  "source_sha256": {
+    "port/engine-ui/text_layout_v1.cpp": "5f4aaeb895f6529a7681ccebe7a0df86ef05e9d9e18527ac3d347c48e72b8316",
+    "port/engine-ui/text_layout_v1.hpp": "73e9cbb6892cfd99b8d5cd9a03955ef6e6c41f251c5aa5bb02eab9f57ed4c6da",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/item_inventory_v1.cpp": "8659c2db2da2e361e6ab4353f85a3cd9859f452890426b8bf5fa07f8d98ecdd6",
+    "port/game-data/item_inventory_v1.hpp": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847",
+    "port/game-data/player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+    "port/game-data/player_profile_index_v1.hpp": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+    "port/engine-ui/CMakeLists.txt": "231fcc55b666d0d18257ca47e4c6f1fbee2bd53831535f442fccb9aa5aa2ee27",
+    "port/game-data/CMakeLists.txt": "99b8432583eaca60c7e9ad6ce8543e3fa3986ac51d7d0c5f7132fb6df40ebb92",
+    "port/level-world/CMakeLists.txt": "fe40e584c99cb7c3e8e90a9e9023dab657bed1181e7e7f59a8414a0524b38504"
+  },
+  "freeze_sha256": {
+    "port/engine-ui/reference/text-layout-v1/freeze-manifest.json": "d5cd935e9397754335f984949fe52953204c6d531048703bb57cd67cb99ea2c9",
+    "port/game-data/reference/player-inventory-v1/freeze-manifest.json": "7e8a83a886c052bf2c500d5ab039e68d179e8d4af2e817211ba9a74c05555f84"
+  },
+  "main_host_report_sha256": "8965ddef79377def8d57c48f021b66fd552136dce43045727839f425b69c5518",
+  "main_host_suites": 117,
+  "sanitizer_findings": 0,
+  "android_abis": {
+    "arm64-v8a": {
+      "libraries": {
+        "libdh2_engine_ui.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_engine_ui.so",
+          "sha256": "eff64dd6ec884df8d482181bff96d79bb5c7d1d91ff1c34fb558cb3df044f92a",
+          "bytes": 17014856,
+          "ELF64": true,
+          "machine": "EM_AARCH64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 3565456,
+              "address": 3581840,
+              "alignment": 16384
+            },
+            {
+              "offset": 3656976,
+              "address": 3689744,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "text_v1": [
+              "_ZNSt6__ndk16vectorIN3dh22ui7text_v16RecordENS_9allocatorIS4_EEE12emplace_backIJRKS4_EEERS4_DpOT_",
+              "_ZN3dh22ui7text_v110AttributesC2ERKS2_",
+              "_ZN3dh22ui7text_v15GlyphD2Ev",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh22ui7text_v16RecordEEEE7destroyB8ne210000IS5_TnNS_9enable_ifIXsr13__has_destroyIS6_PT_EE5valueEiE4typeELi0EEEvRS6_SB_",
+              "_ZNSt6__ndk19allocatorIN3dh22ui7text_v16RecordEE9constructB8ne210000IS4_JRKS4_EEEvPT_DpOT0_",
+              "_ZNSt6__ndk19allocatorIN3dh22ui7text_v110AttributesEE9constructB8ne210000IS4_JS4_EEEvPT_DpOT0_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh22ui7text_v15GlyphEEEE9constructB8ne210000IS5_JRS5_ETnNS_9enable_ifIXsr15__has_constructIS6_PT_DpT0_EE5valueEiE4typeELi0EEEvRS6_SC_DpOSD_",
+              "_ZNSt6__ndk19allocatorIN3dh22ui7text_v15GlyphEE9constructB8ne210000IS4_JRKS4_EEEvPT_DpOT0_"
+            ],
+            "format_text": [
+              "_ZN7gameswf19edit_text_character11format_textEv",
+              "_ZN3dh22ui7text_v111format_textERNS1_5StateEbRKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE"
+            ],
+            "append_image": [
+              "_ZN3dh22ui7text_v112append_imageERNS1_5StateERKNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEiiRKNS1_8ServicesERSA_"
+            ],
+            "parse_html": [
+              "_ZN3dh22ui7text_v110parse_htmlERNS1_5StateERKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE"
+            ]
+          }
+        },
+        "libdh2_game_data.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_game_data.so",
+          "sha256": "b6c011bd232e28df0405a567d483e3020b57edcbd0e41925bb0d7bf7c2081716",
+          "bytes": 7251496,
+          "ELF64": true,
+          "machine": "EM_AARCH64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 1104288,
+              "address": 1120672,
+              "alignment": 16384
+            },
+            {
+              "offset": 1129472,
+              "address": 1162240,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "PlayerSavegameV1": [
+              "_ZN3dh24data16PlayerSavegameV112load_faeriesENS0_5BytesERmRbRNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV110load_levelENS0_5BytesERmRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV117set_skill_in_slotEijRKNS0_26SavedSkillUpdateServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZNK3dh24data16PlayerSavegameV111faery_levelEjj",
+              "_ZN3dh24data16PlayerSavegameV111load_skillsENS0_5BytesENS0_11SkillTables6BorrowERmRNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV115set_faery_levelEjijRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV118load_current_faeryENS0_5BytesERmRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE",
+              "_ZNK3dh24data16PlayerSavegameV111skill_levelEj"
+            ],
+            "ItemInventoryV1": [
+              "_ZN3dh24data15ItemInventoryV126record_delivered_equipmentEjjjRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+              "_ZN3dh24data15ItemInventoryV112load_sectionENS0_5BytesERKNSt6__ndk16vectorINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEENS8_ISA_EEEERKNS0_19InventoryServicesV1ERNS0_22InventoryLoadReceiptV1ERSA_",
+              "_ZN3dh24data15ItemInventoryV114swap_equipmentEv",
+              "_ZN3dh24data15ItemInventoryV1C2ERKNS0_9ItemTableE",
+              "_ZN3dh24data15ItemInventoryV1C1ERKNS0_9ItemTableE",
+              "_ZN3dh24data15ItemInventoryV117remove_one_potionERKNS0_19InventoryServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZNK3dh24data15ItemInventoryV117current_equipmentEi",
+              "_ZNK3dh24data15ItemInventoryV111num_potionsEv"
+            ],
+            "PlayerProfileIndexV1": [
+              "_ZNK3dh24data20PlayerProfileIndexV16Borrow7sectionEPKc",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEED2Ev",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEEC2B8ne210000IJES6_TnNS_9enable_ifIXntsr7is_sameINT0_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEES6_DpOT_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh24data20PlayerProfileIndexV18SnapshotEEEE7destroyB8ne210000IS5_TnNS_9enable_ifIXsr13__has_destroyIS6_PT_EE5valueEiE4typeELi0EEEvRS6_SB_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEE21__on_zero_shared_implB8ne210000IS6_TnNS_9enable_ifIXntsr7is_sameINT_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEEvv",
+              "_ZN3dh24data20PlayerProfileIndexV14loadENS0_5BytesERNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE",
+              "_ZNSt6__ndk19allocatorIN3dh24data20PlayerProfileIndexV18SnapshotEE9constructB8ne210000IS4_JEEEvPT_DpOT0_",
+              "_ZNK3dh24data20PlayerProfileIndexV16Borrow7payloadEPKc"
+            ]
+          }
+        },
+        "libdh2_level_world.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_level_world.so",
+          "sha256": "ffd925695aa43e7d6855daf500b391b5beb7a9b72583daeb3bcaf60320bc89ee",
+          "bytes": 12870816,
+          "ELF64": true,
+          "machine": "EM_AARCH64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 2068272,
+              "address": 2084656,
+              "alignment": 16384
+            },
+            {
+              "offset": 2099336,
+              "address": 2132104,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "dh2_ui_hud_skill_query": [
+              "dh2_ui_hud_skill_query"
+            ]
+          }
+        }
+      },
+      "compiler_records": [
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_savegame_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\item_inventory_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_profile_index_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_layout_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp"
+        }
+      ],
+      "compile_commands_sha256": "ca74253e88da7d38cdb6f5c7b4407ffb46d84e598af220168abb30dac8fb573f"
+    },
+    "x86_64": {
+      "libraries": {
+        "libdh2_engine_ui.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_engine_ui.so",
+          "sha256": "95008d1a02ca7d4a4f9eadb4c93e7e0bac55799aea04a124cd6ab43b5146b3c7",
+          "bytes": 16379304,
+          "ELF64": true,
+          "machine": "EM_X86_64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 3413376,
+              "address": 3429760,
+              "alignment": 16384
+            },
+            {
+              "offset": 3504864,
+              "address": 3537632,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "text_v1": [
+              "_ZN3dh22ui7text_v15GlyphD2Ev",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh22ui7text_v16RecordEEEE8max_sizeB8ne210000IS6_TnNS_9enable_ifIXsr14__has_max_sizeIKT_EE5valueEiE4typeELi0EEEmRKS6_",
+              "_ZNSt6__ndk16vectorIN3dh22ui7text_v16RecordENS_9allocatorIS4_EEE26__add_alignment_assumptionB8ne210000IPS4_TnNS_9enable_ifIXsr10is_pointerIT_EE5valueEiE4typeELi0EEES9_SB_",
+              "_ZNSt6__ndk19allocatorIN3dh22ui7text_v16RecordEE9constructB8ne210000IS4_JS4_EEEvPT_DpOT0_",
+              "_ZNSt6__ndk16vectorIN3dh22ui7text_v110AttributesENS_9allocatorIS4_EEE16__init_with_sizeB8ne210000IPKS4_SA_EEvT_T0_m",
+              "_ZNSt6__ndk16vectorIN3dh22ui7text_v15GlyphENS_9allocatorIS4_EEE16__init_with_sizeB8ne210000IPS4_S9_EEvT_T0_m",
+              "_ZN3dh22ui7text_v16RecordC2EOS2_",
+              "_ZN3dh22ui7text_v15ImageD2Ev"
+            ],
+            "format_text": [
+              "_ZN7gameswf19edit_text_character11format_textEv",
+              "_ZN3dh22ui7text_v111format_textERNS1_5StateEbRKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE"
+            ],
+            "append_image": [
+              "_ZN3dh22ui7text_v112append_imageERNS1_5StateERKNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEiiRKNS1_8ServicesERSA_"
+            ],
+            "parse_html": [
+              "_ZN3dh22ui7text_v110parse_htmlERNS1_5StateERKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE"
+            ]
+          }
+        },
+        "libdh2_game_data.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_game_data.so",
+          "sha256": "d2f10d50b145e0b8848331e27213330edcfbf7ebff597d1bf8effd1c18946c5c",
+          "bytes": 6940320,
+          "ELF64": true,
+          "machine": "EM_X86_64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 1048528,
+              "address": 1064912,
+              "alignment": 16384
+            },
+            {
+              "offset": 1073616,
+              "address": 1106384,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "PlayerSavegameV1": [
+              "_ZNK3dh24data16PlayerSavegameV113current_faeryEj",
+              "_ZNK3dh24data16PlayerSavegameV110skill_slotEj",
+              "_ZN3dh24data16PlayerSavegameV111load_skillsENS0_5BytesENS0_11SkillTables6BorrowERmRNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV112load_faeriesENS0_5BytesERmRbRNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV118initialize_faeriesEv",
+              "_ZN3dh24data16PlayerSavegameV19load_nameENS0_5BytesERmRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV118load_current_faeryENS0_5BytesERmRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV117set_skill_in_slotEijRKNS0_26SavedSkillUpdateServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE"
+            ],
+            "ItemInventoryV1": [
+              "_ZN3dh24data15ItemInventoryV117remove_one_potionERKNS0_19InventoryServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZNK3dh24data15ItemInventoryV117current_equipmentEi",
+              "_ZN3dh24data15ItemInventoryV112load_sectionENS0_5BytesERKNSt6__ndk16vectorINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEENS8_ISA_EEEERKNS0_19InventoryServicesV1ERNS0_22InventoryLoadReceiptV1ERSA_",
+              "_ZN3dh24data15ItemInventoryV1C2ERKNS0_9ItemTableE",
+              "_ZN3dh24data15ItemInventoryV114swap_equipmentEv",
+              "_ZN3dh24data15ItemInventoryV119set_potion_quantityEiRKNS0_19InventoryServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data15ItemInventoryV17deliverERKNS0_19InventoryServicesV1ENS0_20InventoryOperationV1EPNS0_14ItemInstanceV1EijjRNS0_19InventoryResponseV1ERNSt6__ndk112basic_stringIcNSA_11char_traitsIcEENSA_9allocatorIcEEEE",
+              "_ZN3dh24data15ItemInventoryV126record_delivered_equipmentEjjjRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE"
+            ],
+            "PlayerProfileIndexV1": [
+              "_ZNSt6__ndk19allocatorIN3dh24data20PlayerProfileIndexV18SnapshotEE9constructB8ne210000IS4_JEEEvPT_DpOT0_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh24data20PlayerProfileIndexV18SnapshotEEEE7destroyB8ne210000IS5_TnNS_9enable_ifIXsr13__has_destroyIS6_PT_EE5valueEiE4typeELi0EEEvRS6_SB_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_20__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS1_IS6_EEEEEEE8max_sizeB8ne210000IS9_TnNS_9enable_ifIXsr14__has_max_sizeIKT_EE5valueEiE4typeELi0EEEmRKS9_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEE21__on_zero_shared_implB8ne210000IS6_TnNS_9enable_ifIXntsr7is_sameINT_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEEvv",
+              "_ZNSt6__ndk110shared_ptrIKN3dh24data20PlayerProfileIndexV18SnapshotEEaSB8ne210000IS4_TnNS_9enable_ifIXsr17__compatible_withIT_S5_EE5valueEiE4typeELi0EEERS6_ONS0_IS9_EE",
+              "_ZN3dh24data20PlayerProfileIndexV18SnapshotC2Ev",
+              "_ZNSt6__ndk110shared_ptrIN3dh24data20PlayerProfileIndexV18SnapshotEE27__create_with_control_blockB8ne210000IS4_NS_20__shared_ptr_emplaceIS4_NS_9allocatorIS4_EEEEEES5_PT_PT0_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEED0Ev"
+            ]
+          }
+        },
+        "libdh2_level_world.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_level_world.so",
+          "sha256": "4cae814ca77d263be9450a9812e7db8d84279eea033514c518c0d676768a1d71",
+          "bytes": 12412016,
+          "ELF64": true,
+          "machine": "EM_X86_64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 1948944,
+              "address": 1965328,
+              "alignment": 16384
+            },
+            {
+              "offset": 1980000,
+              "address": 2012768,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "dh2_ui_hud_skill_query": [
+              "dh2_ui_hud_skill_query"
+            ]
+          }
+        }
+      },
+      "compiler_records": [
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_savegame_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\item_inventory_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_profile_index_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_layout_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp"
+        }
+      ],
+      "compile_commands_sha256": "eb23ca11a53dee6af8d1e0117deca09335c75b43325b0f0cbc4a14bd6537031f"
+    }
+  },
+  "NDK_version": "29.0.14206865",
+  "linker_page_alignment": 16384,
+  "packaged_APK": false,
+  "live_complete_HUD": false,
+  "physical_arm64_verified": false
+}

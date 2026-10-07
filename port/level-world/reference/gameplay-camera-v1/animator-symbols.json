@@ -1,0 +1,672 @@
+[
+  {
+    "name": "_GLOBAL__I_.._source_glitch_collada_CColladaTimelineController.cpp",
+    "address": "0x667000",
+    "size": 32
+  },
+  {
+    "name": "_ZN11AnimatorSet10updateTimeEj",
+    "address": "0x3673e4",
+    "size": 60
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController8getScaleEv",
+    "address": "0x666c18",
+    "size": 8
+  },
+  {
+    "name": "_ZN11AnimatorSet7_CBAnimEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x367338",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController6jumpToEi",
+    "address": "0x666f10",
+    "size": 52
+  },
+  {
+    "name": "_ZN27AnimatorSynchronizedBlender12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x367b74",
+    "size": 196
+  },
+  {
+    "name": "_ZTTN6glitch5scene19ITimelineControllerE",
+    "address": "0x984e38",
+    "size": 16
+  },
+  {
+    "name": "_ZNK6glitch7collada21CSceneNodeAnimatorSet25getAnimationVisualSceneIDEi",
+    "address": "0x65f8ac",
+    "size": 28
+  },
+  {
+    "name": "_ZTCN6glitch5scene19ITimelineControllerE0_NS0_15ITimeControllerE",
+    "address": "0x984e48",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController7setClipEi",
+    "address": "0x666f7c",
+    "size": 132
+  },
+  {
+    "name": "_ZN4Door10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x3e8568",
+    "size": 240
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet13getTargetSizeEi",
+    "address": "0x65f188",
+    "size": 36
+  },
+  {
+    "name": "_ZN27AnimatorSynchronizedBlender7_CBAnimEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x367b68",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineControllerC1Ev",
+    "address": "0x666e40",
+    "size": 188
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetD0Ev",
+    "address": "0x65fb10",
+    "size": 28
+  },
+  {
+    "name": "_ZNK6glitch7collada21CSceneNodeAnimatorSet17getAnimationCountEv",
+    "address": "0x65f11c",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5scene19ITimelineController7getLoopEv",
+    "address": "0x666c04",
+    "size": 8
+  },
+  {
+    "name": "_ZN14AnimApplicator11SetCallbackEPFvPN6glitch5scene19ITimelineControllerEPvES4_",
+    "address": "0x364400",
+    "size": 12
+  },
+  {
+    "name": "_ZTv0_n12_N11AnimatorSetD0Ev",
+    "address": "0x367848",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationStartEi",
+    "address": "0x65f104",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene19ITimelineControllerD1Ev",
+    "address": "0x666da4",
+    "size": 4
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController17getCurrentClipEndEv",
+    "address": "0x666d54",
+    "size": 24
+  },
+  {
+    "name": "_ZN12CharAnimator10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x3c90ec",
+    "size": 12
+  },
+  {
+    "name": "_ZN11AnimatorSetC1ERKN5boost13intrusive_ptrI12AnimationSetEE",
+    "address": "0x3676b8",
+    "size": 216
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController10getClipEndEi",
+    "address": "0x666cec",
+    "size": 24
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetC2Ev",
+    "address": "0x662c90",
+    "size": 128
+  },
+  {
+    "name": "_ZN14LiftableObject10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x3ee434",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetD1Ev",
+    "address": "0x65fa08",
+    "size": 256
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet19setCurrentAnimationEi",
+    "address": "0x65f8c8",
+    "size": 312
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada19CTimelineControllerD1Ev",
+    "address": "0x667310",
+    "size": 16
+  },
+  {
+    "name": "_ZTTN6glitch7collada21CSceneNodeAnimatorSetE",
+    "address": "0x983f30",
+    "size": 32
+  },
+  {
+    "name": "_ZN8Animator7_CBAnimEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x366294",
+    "size": 16
+  },
+  {
+    "name": "_ZN11AnimatorSet12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x367510",
+    "size": 120
+  },
+  {
+    "name": "_ZN15AnimatorBlender17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+    "address": "0x366628",
+    "size": 160
+  },
+  {
+    "name": "_ZN11AnimatorSetD0Ev",
+    "address": "0x36761c",
+    "size": 28
+  },
+  {
+    "name": "_ZThn4_N11AnimatorSetD1Ev",
+    "address": "0x367588",
+    "size": 8
+  },
+  {
+    "name": "_ZTT11AnimatorSet",
+    "address": "0x962ae8",
+    "size": 40
+  },
+  {
+    "name": "_ZN6glitch5scene18ISceneNodeAnimator15setTimelineCtrlEPNS0_19ITimelineControllerE",
+    "address": "0x599818",
+    "size": 80
+  },
+  {
+    "name": "_ZTV11AnimatorSet",
+    "address": "0x962a18",
+    "size": 204
+  },
+  {
+    "name": "_ZTCN6glitch7collada33CSceneNodeAnimatorSynchronizedSetE0_NS0_21CSceneNodeAnimatorSetE",
+    "address": "0x9845a8",
+    "size": 184
+  },
+  {
+    "name": "_ZTCN6glitch7collada21CSceneNodeAnimatorSetE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x984080",
+    "size": 56
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController12getClipCountEv",
+    "address": "0x666cc4",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationValueEiiPv",
+    "address": "0x65f7b4",
+    "size": 248
+  },
+  {
+    "name": "_ZTC11AnimatorSet0_N6glitch2io26IAttributeExchangingObjectE",
+    "address": "0x962cf8",
+    "size": 56
+  },
+  {
+    "name": "_ZN17AnimSetController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x474fb0",
+    "size": 64
+  },
+  {
+    "name": "_ZNK11AnimatorSet7getTypeEv",
+    "address": "0x3672c0",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet18getAnimationLengthEi",
+    "address": "0x65f0fc",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController8setRangeEiib",
+    "address": "0x666c38",
+    "size": 140
+  },
+  {
+    "name": "_ZN11AnimatorSet20applyAnimationValuesEj",
+    "address": "0x36737c",
+    "size": 20
+  },
+  {
+    "name": "_ZN12CharAnimator18CalculateExtraTimeEPN6glitch5scene19ITimelineControllerE",
+    "address": "0x3c90f8",
+    "size": 112
+  },
+  {
+    "name": "_ZN8Animator17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+    "address": "0x366224",
+    "size": 112
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController19getCurrentClipStartEv",
+    "address": "0x666d3c",
+    "size": 24
+  },
+  {
+    "name": "_ZN11AnimatorSet17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+    "address": "0x3672c8",
+    "size": 112
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineControllerC2Ev",
+    "address": "0x666db8",
+    "size": 136
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada21CSceneNodeAnimatorSetD0Ev",
+    "address": "0x660d8c",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController6updateEi",
+    "address": "0x667104",
+    "size": 508
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet20applyAnimationValuesEj",
+    "address": "0x65f418",
+    "size": 452
+  },
+  {
+    "name": "_ZTC23AnimatorSynchronizedSet0_N6glitch7collada21CSceneNodeAnimatorSetE",
+    "address": "0x9633a0",
+    "size": 184
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController20getCurrentClipLengthEv",
+    "address": "0x666d6c",
+    "size": 24
+  },
+  {
+    "name": "_ZN15AnimatorBlender7_CBAnimEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x3666c8",
+    "size": 16
+  },
+  {
+    "name": "_ZTCN6glitch7collada21CSceneNodeAnimatorSetE0_NS_5scene18ISceneNodeAnimatorE",
+    "address": "0x984000",
+    "size": 124
+  },
+  {
+    "name": "_ZN11AnimatorSetC2ERKN5boost13intrusive_ptrI12AnimationSetEE",
+    "address": "0x367790",
+    "size": 184
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController4initEii",
+    "address": "0x666f04",
+    "size": 12
+  },
+  {
+    "name": "_ZNK6glitch7collada21CSceneNodeAnimatorSet19getCurrentAnimationEv",
+    "address": "0x65f114",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController13getClipLengthEi",
+    "address": "0x666d04",
+    "size": 56
+  },
+  {
+    "name": "_ZTVN6glitch7collada21CSceneNodeAnimatorSetE",
+    "address": "0x983e60",
+    "size": 204
+  },
+  {
+    "name": "_ZN11AnimatorSetD1Ev",
+    "address": "0x367590",
+    "size": 132
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada21CSceneNodeAnimatorSetD1Ev",
+    "address": "0x660d9c",
+    "size": 16
+  },
+  {
+    "name": "_ZTv0_n12_N11AnimatorSetD1Ev",
+    "address": "0x367858",
+    "size": 16
+  },
+  {
+    "name": "_ZTCN6glitch7collada19CTimelineControllerE0_NS_5scene19ITimelineControllerE",
+    "address": "0x984f18",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet16getAnimationDataEi",
+    "address": "0x65f364",
+    "size": 180
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController11getClipNameEi",
+    "address": "0x666d84",
+    "size": 24
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene19ITimelineControllerD1Ev",
+    "address": "0x666da8",
+    "size": 16
+  },
+  {
+    "name": "_ZTC11AnimatorSet0_N6glitch7collada18ISceneNodeAnimatorE",
+    "address": "0x962bc8",
+    "size": 176
+  },
+  {
+    "name": "_ZTCN6glitch7collada19CTimelineControllerE0_NS_5scene15ITimeControllerE",
+    "address": "0x984f98",
+    "size": 52
+  },
+  {
+    "name": "_ZN14AnimController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x474d10",
+    "size": 4
+  },
+  {
+    "name": "_ZNK6glitch5scene19ITimelineController8getScaleEv",
+    "address": "0x666c10",
+    "size": 8
+  },
+  {
+    "name": "_ZN10AnimatedFX7_CBLoopEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x4928a4",
+    "size": 8
+  },
+  {
+    "name": "_ZN11AnimatorSet22computeAnimationValuesEj",
+    "address": "0x367368",
+    "size": 20
+  },
+  {
+    "name": "_ZTTN6glitch7collada19CTimelineControllerE",
+    "address": "0x984f00",
+    "size": 24
+  },
+  {
+    "name": "_ZTVN6glitch7collada19CTimelineControllerE",
+    "address": "0x984e80",
+    "size": 124
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada19CTimelineControllerD0Ev",
+    "address": "0x667300",
+    "size": 16
+  },
+  {
+    "name": "_ZTCN6glitch7collada21CSceneNodeAnimatorSetE0_NS0_18ISceneNodeAnimatorE",
+    "address": "0x983f50",
+    "size": 176
+  },
+  {
+    "name": "_ZN24BlendedAnimSetController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x4766fc",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetsSizeEv",
+    "address": "0x65f1ac",
+    "size": 92
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController12getClipIndexEPKc",
+    "address": "0x6670a4",
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController7getLoopEv",
+    "address": "0x666c30",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController12getClipStartEi",
+    "address": "0x666cd4",
+    "size": 24
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE",
+    "address": "0x65f208",
+    "size": 104
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet10getBindURIEi",
+    "address": "0x65f15c",
+    "size": 32
+  },
+  {
+    "name": "_ZN11AnimatorSetD2Ev",
+    "address": "0x367638",
+    "size": 128
+  },
+  {
+    "name": "_ZN14AnimController17_CBAnim_DoNothingEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x47470c",
+    "size": 4
+  },
+  {
+    "name": "_ZN13AnimatedDecor19__CallbackRandomAllEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x388cec",
+    "size": 224
+  },
+  {
+    "name": "_ZThn4_N6glitch7collada21CSceneNodeAnimatorSetD1Ev",
+    "address": "0x65fa00",
+    "size": 8
+  },
+  {
+    "name": "_ZN11CameraLevel10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x40f8f8",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet19getAnimationTrackExEi",
+    "address": "0x65f140",
+    "size": 28
+  },
+  {
+    "name": "_ZN14AnimApplicator13CheckCallbackEPN6glitch5scene19ITimelineControllerE",
+    "address": "0x36440c",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineControllerD0Ev",
+    "address": "0x667088",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetCountEv",
+    "address": "0x65f17c",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController8setScaleEf",
+    "address": "0x666c20",
+    "size": 8
+  },
+  {
+    "name": "_ZN11AnimatorSet11animateNodeEPN6glitch5scene10ISceneNodeEj",
+    "address": "0x3673a4",
+    "size": 64
+  },
+  {
+    "name": "_ZN11AnimatorSet17getAnimationValueEiiPv",
+    "address": "0x367390",
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet22computeAnimationValuesEj",
+    "address": "0x65f5dc",
+    "size": 472
+  },
+  {
+    "name": "_ZN6glitch5scene19ITimelineController8setScaleEf",
+    "address": "0x666c0c",
+    "size": 4
+  },
+  {
+    "name": "_ZN11AnimatorSet19setCurrentAnimationEi",
+    "address": "0x367420",
+    "size": 100
+  },
+  {
+    "name": "_ZTVN6glitch5scene19ITimelineControllerE",
+    "address": "0x984db8",
+    "size": 124
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene19ITimelineControllerD0Ev",
+    "address": "0x667078",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet16getIdentityValueEiPv",
+    "address": "0x65f288",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet4initERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE",
+    "address": "0x660af4",
+    "size": 300
+  },
+  {
+    "name": "_ZN15AnimatorBlender12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x366eb8",
+    "size": 196
+  },
+  {
+    "name": "_ZThn4_N11AnimatorSetD0Ev",
+    "address": "0x367614",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController7setLoopEb",
+    "address": "0x666c28",
+    "size": 8
+  },
+  {
+    "name": "_ZN14AnimController17SetCallbacksOnAllEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x474cac",
+    "size": 100
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet11animateNodeEPNS_5scene10ISceneNodeEj",
+    "address": "0x65f270",
+    "size": 24
+  },
+  {
+    "name": "_ZN8Animator12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x366330",
+    "size": 120
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineControllerD2Ev",
+    "address": "0x666efc",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationTrackEi",
+    "address": "0x65f124",
+    "size": 28
+  },
+  {
+    "name": "_ZN11AnimatorSet19SetCurrentAnimationEi",
+    "address": "0x3674ac",
+    "size": 100
+  },
+  {
+    "name": "_ZNK6glitch7collada19CTimelineController19getCurrentClipIndexEv",
+    "address": "0x666d9c",
+    "size": 8
+  },
+  {
+    "name": "_ZTC11AnimatorSet0_N6glitch5scene18ISceneNodeAnimatorE",
+    "address": "0x962c78",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5scene19ITimelineController6jumpToEi",
+    "address": "0x666bfc",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSet15getAnimationEndEi",
+    "address": "0x65f10c",
+    "size": 8
+  },
+  {
+    "name": "_ZN11TriggerTrap10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x39e738",
+    "size": 428
+  },
+  {
+    "name": "_ZN14AnimController12SetCallbacksEPN6glitch7collada18ISceneNodeAnimatorEPFvPNS0_5scene19ITimelineControllerEPvES7_PFvRKNS1_15STriggeredEventES7_ES7_",
+    "address": "0x474c78",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene19ITimelineControllerD0Ev",
+    "address": "0x667044",
+    "size": 52
+  },
+  {
+    "name": "_ZN11AnimatorSet8onUnbindEPN6glitch5scene10ISceneNodeE",
+    "address": "0x367484",
+    "size": 40
+  },
+  {
+    "name": "_ZTC11AnimatorSet0_N6glitch7collada21CSceneNodeAnimatorSetE",
+    "address": "0x962b10",
+    "size": 184
+  },
+  {
+    "name": "_ZThn4_N6glitch7collada21CSceneNodeAnimatorSetD0Ev",
+    "address": "0x65fb08",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetC1ERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE",
+    "address": "0x660c20",
+    "size": 196
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineController7setClipEPKc",
+    "address": "0x666f44",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetD2Ev",
+    "address": "0x65fb2c",
+    "size": 252
+  },
+  {
+    "name": "_ZN6glitch7collada21CSceneNodeAnimatorSetC2ERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE",
+    "address": "0x660ce4",
+    "size": 168
+  },
+  {
+    "name": "_ZN6glitch7collada19CTimelineControllerD1Ev",
+    "address": "0x666f00",
+    "size": 4
+  },
+  {
+    "name": "_ZN9Container10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x39f44c",
+    "size": 204
+  }
+]

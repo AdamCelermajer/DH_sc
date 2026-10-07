@@ -1,0 +1,42 @@
+{
+  "validation": "PASS",
+  "comparisons": 1166,
+  "word_checks": 11450,
+  "native_guards": 12,
+  "mismatches": 0,
+  "source_bindings": {
+    "port\\level-world\\object_identity.cpp": "4d41ec703f8653cd9e4183727fd1e3e52d8e180087357e1983c31b82e0709499",
+    "port\\level-world\\object_identity.hpp": "ecffe87157463e169126f859d9a144b50ecb09b902b99787918f4262a44231bf",
+    "port\\level-world\\character_target_providers.hpp": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+    "port\\level-world\\character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+    "port\\level-world\\tests\\object_identity_host.py": "89eeee5fe83d1f19a2477e21d913c46d1eb9986914efaeadb04dca84fc30c9f1",
+    "port\\level-world\\tests\\object_identity.cpp": "e1b29eb4cd4d85fce7ef60b5f289d253985fe90dc2bcbe19d3078fcedf3e941f",
+    "port\\level-world\\tests\\object_identity_differential.py": "981a8787fd41f8a58b7755ad58fd2853f5f8409879482ddce3c8d40bc3788518",
+    "port\\level-world\\reference\\object-identity-lifecycle\\identity-fixtures.bin": "867d4ef2ae994a595f34a363ad2bb96ff72ac246a570a734122a64160fb9540f",
+    "port\\level-world\\reference\\object-identity-lifecycle\\original-functions.json": "4b8ef52ae1ea1fd2ef7878d0b6c17ed0d53f08a29a3c9b34ae44b663fd6165df",
+    "port\\level-world\\reports\\object-identity-arm64-differential.json": "d3946a5c9c05c02330060355a61e3c4824b6f03f4b9f2c4e10aa5891df05e25f"
+  },
+  "binary_bindings": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\object-identity-lifecycle\\object_identity_host": "f34141493f4f0e72c6ddb772604093fd1313a0c7b094da29d5ca8f99c82bd3be"
+  },
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/object_identity.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/object_identity.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/object-identity-lifecycle/object_identity_host"
+  ],
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Sanitizer replay; standalone build or unchanged actual central world linkage. No complete manager, VM lifetime, compiler provenance for prebuilt main-linked executable or live game parity claim."
+}

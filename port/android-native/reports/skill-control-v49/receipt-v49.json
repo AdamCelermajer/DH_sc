@@ -1,0 +1,53 @@
+{
+  "apk_prefix": "655f986",
+  "pid": "3845",
+  "foreground_assertion": "Exact single mCurrentFocus contains com.example.dh2/MainActivity and same pid before each screenshot; current world screenshot inspected.",
+  "quick_tap": {
+    "coordinate": [
+      2220,
+      885
+    ],
+    "command_updates": 0
+  },
+  "held": {
+    "duration_ms": 500,
+    "command_updates": 25
+  },
+  "cast": {
+    "skill": "Actual equipped BashDown",
+    "clip": 1234,
+    "event": "do_skill",
+    "lag": 9,
+    "actor": "100000006",
+    "name": "_prim_tmp_cultist07",
+    "hp_before": 25600,
+    "hp_after": 20994,
+    "source_status": 0,
+    "current408": 0,
+    "last40c": 0,
+    "ooi14a4": 0,
+    "fx_samples": 12,
+    "native_frame_failures": []
+  },
+  "alignment_observation": "Sample1 mesh XY basis is previous minus-pi while SAME sampled actor root has already turned to -3.1001904; sample2 mesh basis catches up. Current retained composite outer is copied in scene sampling before manager Sync. This proves one-frame mesh publication delay, not universal camera/slope correctness.",
+  "limits": [
+    "Bash Post legitimately clears target; its Pre captured Lua target never populated current408 here. No forced target retention accepted.",
+    "No attack cancel/multitouch acceptance yet.",
+    "No lethal skill acceptance; Hit8 remains known required boundary.",
+    "Screenshot captured after cast, not peak effect visual alignment acceptance."
+  ],
+  "artifacts": {
+    "approached.log": "eeaacfaa855834de8ab85bf61cb1198fd7bf8245f615db595b9db05793f29bb8",
+    "approached.png": "044f3bad33920a5e3972d4cc5b2c7728d24eae85c0e1aa2b654a2371d654ccdb",
+    "cast.log": "51cb2ab85b5746795cbd5c19f96987a3a11ccb165c3eece457fc0d999e3fedd6",
+    "cast.png": "0da9bf11c827f21ebe9d9bc5d626f2a504e34056d5f188b04220235db4a277fa",
+    "held.log": "4e9c47528a0f4de262aa5d999f38520ce45730fb1148e0248e27c87f9fd34367",
+    "held.png": "c974da6265a15a08d222899a94762294eaea4115bb57a43b6209789fcfde00a3",
+    "quick-tap.log": "47c5170ee115ea47dc1fc4961358469b3cc415bbe6e2a53436c80be314486e56",
+    "quick-tap.png": "90277b1d48304e7bc658b0d349d2d5f5666d7a628e142fb1ac0bfc17351dd48e",
+    "resumed.log": "ec2539e96524c28b627de99dc31484bd93c2870f9e677156089cb678210758bb",
+    "resumed.png": "27513541f8810403a9c503f1a2b8ab3c72d6f0f8b5a1b99de39939845aeb9629",
+    "world.log": "32a6c7ada06a843960e37217b27ffa673403e76ce8d9691689ea8e2c74e703dc",
+    "world.png": "3e761b52ce1208829af82570c8d3a99161343a29b860d76972bbae5872ea2e0d"
+  }
+}

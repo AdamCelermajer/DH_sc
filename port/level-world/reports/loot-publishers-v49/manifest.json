@@ -1,0 +1,185 @@
+{
+  "status": "SOURCE_FROZEN_HOST_PASS_RUNTIME_PENDING",
+  "payloads": [
+    {
+      "path": ".local-inputs/compile_loot_v49.py",
+      "sha256": "b830658c3b9915bd6075032c1fe2a2295edb8503714548cd26f706663a6295fb",
+      "bytes": 708
+    },
+    {
+      "path": ".local-inputs/compile_renderer_loot_v49.py",
+      "sha256": "afb53bc6712f3f2df3f3772752a3394ec6bf2060862e83e0beb3822a263b5ada",
+      "bytes": 2847
+    },
+    {
+      "path": ".local-inputs/freeze_loot_v49.py",
+      "sha256": "32c9d29d2ed16677c22f35f352037468567c1f60aa997dc28f347dd46bb93a4c",
+      "bytes": 3270
+    },
+    {
+      "path": ".local-inputs/run_loot_v49_host.py",
+      "sha256": "b51728510a1ace418ef8368a9a89253f29d9786f5cb7a6d827301dd3a135380a",
+      "bytes": 1676
+    },
+    {
+      "path": ".local-inputs/stage_loot_publishers_v49.py",
+      "sha256": "5df216a98f9ef49ab520a4c442b3816f6992e62644f299df5948092c5861a4bb",
+      "bytes": 1113
+    },
+    {
+      "path": ".local-inputs/stage_renderer_loot_publishers_v49.py",
+      "sha256": "272b51f952548fa512df8c978bb37a463a6fa64523f7bb007ec9177468248e80",
+      "bytes": 3107
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_loot_publishers_v49.inc",
+      "sha256": "981be1a3822b5f022de926b9ee1932206f8ff1526280b553ec830d0b20d26e7e",
+      "bytes": 2443
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_loot_root_providers_v49.inc",
+      "sha256": "5f3fc44ccd20a48f0b2f8528d47f28088310ecbf0335896092342c7f49e4699a",
+      "bytes": 18383
+    },
+    {
+      "path": "port/level-world/canonical_decor_physical_connection_v49.cpp",
+      "sha256": "6bf489a608e8b1be69161dcc407c3bfdd5f0c1ca34d4c5a00c01c1338b9537db",
+      "bytes": 4191
+    },
+    {
+      "path": "port/level-world/canonical_decor_physical_connection_v49.hpp",
+      "sha256": "8e8edc363fd73390bbec4e79632def9aa534c3ba32fd39683949e59475142534",
+      "bytes": 1540
+    },
+    {
+      "path": "port/level-world/canonical_podecor_body_v49.cpp",
+      "sha256": "bef881c9559e3475cd05ba62159a48c6664c50055037832c2323b000ff5822e0",
+      "bytes": 5676
+    },
+    {
+      "path": "port/level-world/canonical_podecor_body_v49.hpp",
+      "sha256": "047e996c52b6570b659b86239df17b96ecebabf25e09cf71dc519de97910e705",
+      "bytes": 1714
+    },
+    {
+      "path": "port/level-world/loot_root_publishers_v49.cpp",
+      "sha256": "c595f98323835d427f51429e9224d30e352b6add21c5cbb1b31b7c49e0a6bad9",
+      "bytes": 8064
+    },
+    {
+      "path": "port/level-world/loot_root_publishers_v49.hpp",
+      "sha256": "aac2f9373cca22eb63d5d8304c02c2a3be84965f94d0c1e65b351de637368cf3",
+      "bytes": 3454
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/canonical_decor_physical_connection_v49-arm64-v8a.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/canonical_decor_physical_connection_v49-x86_64.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/canonical_podecor_body_v49-arm64-v8a.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/canonical_podecor_body_v49-x86_64.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/compile.json",
+      "sha256": "2cbc88dff9bcbb45eee8de66dcafb0fb4b9e5bfc2f6503a7bac14c90295fb3c5",
+      "bytes": 15072
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/decor-owner-getter.patch",
+      "sha256": "59a94cc33012668cb00ffa850c2e1c670032d440a7df33aec5926f01dd02cca7",
+      "bytes": 245
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/header-stage.json",
+      "sha256": "65a5e58128a05ea08b4bf69d84703c2aaf528abf49dd1f1eb9a98efaf5a858fb",
+      "bytes": 253
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/host.json",
+      "sha256": "bc081a133b1e9f3aeee910a207cf86a0b86342cd8c558ae002c736c20a9550f1",
+      "bytes": 26547
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/loot_publishers_v49_test-arm64-v8a.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/loot_publishers_v49_test-x86_64.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/loot_root_publishers_v49-arm64-v8a.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/loot_root_publishers_v49-x86_64.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/model_renderer-player-hooks-v49.cpp",
+      "sha256": "95174f1ae6162e53f31ab229a998e614abca375510803ddde700276e631cd628",
+      "bytes": 258654
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/player-hooks.json",
+      "sha256": "802d94c37ee5fed5de59c6e46653678ee032ab590ec990b16911fa2f6ba5764c",
+      "bytes": 422
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/README.md",
+      "sha256": "1f5ad41b5d4f54063e8ee7fd8cb5958b979c0c78ca6321baeb2a21d121ad4bb4",
+      "bytes": 7330
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/renderer-arm64-v8a.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/renderer-compile.json",
+      "sha256": "80583e057a35a4c4af527e992e3a907bd5c493c6e793639f5d8965cd596df80b",
+      "bytes": 3804
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/renderer-x86_64.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/renderer_player_canonical_metadata_v4.inc",
+      "sha256": "601c76c4e5d9a18aaba263e76f03f7a24f7b35ea9c2b561704dadf2575dca517",
+      "bytes": 4415
+    },
+    {
+      "path": "port/level-world/reports/loot-publishers-v49/source-provenance.json",
+      "sha256": "1a7f640425f2dbc8b8d2b24e7df586eb20f7ae9be9464120105cbf4d2ef6ea81",
+      "bytes": 1631
+    },
+    {
+      "path": "port/level-world/tests/loot_publishers_v49.cpp",
+      "sha256": "33e150ff71563cd8ec0d7744a005dd0339be74ce0cd6b58ce60d388d9cc46caa",
+      "bytes": 8550
+    },
+    {
+      "path": "port/level-world/tests/loot_publishers_v49_cached.inc",
+      "sha256": "64663389ce8e97c7aed4a623aa3384823cd0c6130a39a8988eac50dc530a6b66",
+      "bytes": 12419
+    }
+  ]
+}

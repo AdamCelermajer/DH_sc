@@ -1,0 +1,252 @@
+{
+  "status": "PASS_COHERENT_NATIVE_SYSTEMS_BUILD_AND_CRYPT_REGRESSION",
+  "apk": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\build\\checkpoints\\dh2-native-actor-item-foundation-11c8219e.apk",
+  "apk_sha256": "11c8219e13e55e24dc3668c45821fb29b03627d6e5810b8a10e340bd86764908",
+  "apk_bytes": 619217869,
+  "checks": {
+    "menu_to_crypt": true,
+    "edge_portrait_menu": true,
+    "normal_attack": true,
+    "real_enemy_skill": true,
+    "skill_damage": true,
+    "skill_sequence_closed": true,
+    "skill_mesh_particles": true,
+    "actual_potion": true
+  },
+  "libraries": {
+    "lib/arm64-v8a/libdh2_scene_materials.so": "a46d14cac21927cf3203a035789af6ce151272590e6899f3d932fe148413201d",
+    "lib/arm64-v8a/libdh2_script_runtime.so": "8ff28cd4a9550fe64e41cd47e8ec20d2ad375d6bb20fe61c3074d16c7abc2181",
+    "lib/x86_64/libdh2_scene_materials.so": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9",
+    "lib/x86_64/libdh2_script_runtime.so": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c",
+    "lib/arm64-v8a/libdh2_engine_animation.so": "1d952b7a9c0882bfab9d34e0130e44cffddbefa0ee136d0e764847704112f66c",
+    "lib/arm64-v8a/libdh2_engine_skinning.so": "5b3e5e23b50c4da50219af63515020f67021a8a75578d4ddf27cfc07c513a45d",
+    "lib/x86_64/libdh2_engine_animation.so": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a",
+    "lib/x86_64/libdh2_engine_skinning.so": "2a8b8fdc9fcc69dfbe26d6b62a5c3b91f0db2fa132e4018f28e882172470d322",
+    "lib/arm64-v8a/libdh2_engine_textures.so": "86b4a8b8d67892ee78e5439b56521d998e967f67239b073a493e3cbe78c929bf",
+    "lib/x86_64/libdh2_engine_textures.so": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947",
+    "lib/arm64-v8a/libdh2_native.so": "22d617c89d18d0d956af0079f70ac54758df12d415ce586730c818af2a71842a",
+    "lib/x86_64/libdh2_native.so": "e2e71a859120c1395c464c29baf2db45793ef28e0a909fdb11c016153e2a5b02",
+    "lib/arm64-v8a/libdh2_engine_ui.so": "847e569905aecd80601b04486e917d7b24f1336ab68d887e8f65b024d47ddaec",
+    "lib/arm64-v8a/libdh2_game_data.so": "15a62a370e8aa17e3d67b8d3b0cf6ca75c66eee235a83b476222c576a18568db",
+    "lib/arm64-v8a/libdh2_level_world.so": "5b919a62cea95ec5756eb7eb137b6898dc204cf69f77fc999afca7f601b0b509",
+    "lib/x86_64/libdh2_engine_ui.so": "7cb0b14b5473dcade388ca1e5b3112cd8b2d7d82da10767b8ac8763a671b9664",
+    "lib/x86_64/libdh2_game_data.so": "bb51f89ebf10b4a58784251e3de79df563ec9f871912caef691af9176bcbdfe4",
+    "lib/x86_64/libdh2_level_world.so": "7d0b7ffa5406798d16c375bb205371d91ce2c655ca925ef60b57801804d55e4f"
+  },
+  "frozen_engine_sources": [
+    {
+      "path": "port/level-world/character_npc_animation_set_v6.hpp",
+      "bytes": 1064,
+      "sha256": "92cb277f4da806175f1b122630f80a9a80340944d2f4e60a4fe396e73b7adbcd"
+    },
+    {
+      "path": "port/level-world/character_npc_animation_set_v6.cpp",
+      "bytes": 3035,
+      "sha256": "d1b79b2aee0b522e809f22570102dc7741f5941fa10ec0c24b0890facad546d9"
+    },
+    {
+      "path": "port/level-world/character_visual_asset_owner_v6.hpp",
+      "bytes": 838,
+      "sha256": "20582060b51d01068fea4094af8e684d2b41e15415ca1186ae9cb2515b894a7c"
+    },
+    {
+      "path": "port/level-world/character_visual_asset_owner_v6.cpp",
+      "bytes": 1874,
+      "sha256": "692f8fa3ac1393d7d4ae5a6fbd3c9f114a01edc84c708ca71c9b86a40e5be8e3"
+    },
+    {
+      "path": "port/level-world/character_same_scene_animator_v6.hpp",
+      "bytes": 3366,
+      "sha256": "c80592a31f2101fe15c60c4fe33ae218ba1561ceb5be793aef1020ead83098f5"
+    },
+    {
+      "path": "port/level-world/character_same_scene_animator_v6.cpp",
+      "bytes": 5808,
+      "sha256": "1d3cd06967e9dd1bc1c0124f45e98b585201b408a1766771a3223a4f19530321"
+    },
+    {
+      "path": "port/level-world/character_live_body_projection_v6.hpp",
+      "bytes": 585,
+      "sha256": "6a34e82062b1c966999e8d0a1d6b313102d80e425a1def03d03b8cc3a677c734"
+    },
+    {
+      "path": "port/level-world/character_live_body_projection_v6.cpp",
+      "bytes": 2913,
+      "sha256": "68b917244556ee48a4398a7dc8a5c6eb7fa1b2cdabb0ae1118ed2ab9a3e9e2d0"
+    },
+    {
+      "path": "port/level-world/retained_character_family_visual_v6.hpp",
+      "bytes": 2504,
+      "sha256": "15bc477b8298abbd57e8b1be9c499ffbec1499a97596f24693de84bc9b5140b2"
+    },
+    {
+      "path": "port/level-world/retained_character_family_visual_v6.cpp",
+      "bytes": 3422,
+      "sha256": "05941fdd19f66833a078598b5648ea51a88a27c567a95096f813e734b28c8cc1"
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.hpp",
+      "bytes": 8622,
+      "sha256": "b31e86346cf06a4a12ab3710c65d82cc087f549018845af0111f0c74113f38ca"
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.cpp",
+      "bytes": 14155,
+      "sha256": "39623cb5169a6ecdbbe3a2bbe99163b4fe781293fd0b7fc9b41e88b48f03c7b4"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.hpp",
+      "bytes": 6049,
+      "sha256": "6db14e73f14a51df43505bcf5ac693a741fea63dfa1e0829dc6a41c2e184ddb4"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.cpp",
+      "bytes": 19894,
+      "sha256": "2e01538b2ce5cd5c70112d20149b0b71cc76884af1c2ce9378fb7239ff05de81"
+    },
+    {
+      "path": "port/level-world/character_world_npc_physical_v1.hpp",
+      "bytes": 4601,
+      "sha256": "007e5c17a01c9e61286ed2f92d03f8161753ff62b6153212a82b2e57301b8ff0"
+    },
+    {
+      "path": "port/level-world/character_world_npc_physical_v1.cpp",
+      "bytes": 8671,
+      "sha256": "0b4730b4f84d3978dd5d6192a5ebbfdb1c5e60ca552f753f9d390310514ecfc3"
+    },
+    {
+      "path": "port/level-world/retained_character_visual_connection_v5.hpp",
+      "bytes": 1948,
+      "sha256": "4a090d88fdfdda07979d2651af8e161a26064c32abc29cfe84e4bc00de1629bb"
+    },
+    {
+      "path": "port/level-world/retained_character_visual_connection_v5.cpp",
+      "bytes": 5114,
+      "sha256": "37cbc955747cd772bbb9dc1e5aefd8f06059a8ec369f92758d1a0dc7a50b5366"
+    },
+    {
+      "path": "port/level-world/gameobject_visual_field_borrow_v5.hpp",
+      "bytes": 933,
+      "sha256": "18c28b17363aed319eb2943a4a5d95a98cf688ae55d9358a54a3c71bdc40726c"
+    },
+    {
+      "path": "port/level-world/gameobject_scene_binding_v1.hpp",
+      "bytes": 1018,
+      "sha256": "9ed12bda8b9b9c2d43f3a24d2a90ba93c30d7de5a09da60f60366a3988a7b116"
+    },
+    {
+      "path": "port/level-world/tests/character_same_scene_animator_v6.cpp",
+      "bytes": 9986,
+      "sha256": "e8beae922c3992ffb2e0a98bf1b03ab6a7d008562ef2a0f97e2091c7d41519f0"
+    },
+    {
+      "path": "port/level-world/tests/character_npc_animation_set_v6.cpp",
+      "bytes": 3108,
+      "sha256": "22c200c03ea5e387848d9fe26d69b04c52e86fec516dcfe04c893ead5aece40e"
+    },
+    {
+      "path": "port/level-world/world_item_live_owner_v5.hpp",
+      "sha256": "30a781dd4c6200e13066ff911a9837ca874449e7f342cb57ba217aba903153c8"
+    },
+    {
+      "path": "port/level-world/world_item_live_owner_v5.cpp",
+      "sha256": "272f282de3c90ca8489c6cf21de03c4b75abc6bd15b7e2bfcfbd747d9f0dd0e0"
+    },
+    {
+      "path": "port/level-world/world_item_frame_v5.hpp",
+      "sha256": "30d565805493da17d5bb06a82823eec7521ad1daff8bc90f27f3482b78230183"
+    },
+    {
+      "path": "port/level-world/world_item_frame_v5.cpp",
+      "sha256": "271e8086bf416612c3aa3c19a3741b25146e5cb9c2b4c813586d41f84bc68912"
+    },
+    {
+      "path": "port/level-world/world_item_pickup_inventory_v10.hpp",
+      "sha256": "81259ea34f5d10d8bd274d4f3bcd5fffad48c66acff8da3ca6c0ec5802435f61"
+    },
+    {
+      "path": "port/level-world/world_item_pickup_inventory_v10.cpp",
+      "sha256": "51c1bd3dce354a376021071dab8157c702d44d6d09fb4423dfb961cd2e76ae0d"
+    },
+    {
+      "path": "port/level-world/world_item_loot_creation_v10.hpp",
+      "sha256": "5108abb4d1d087bfa692bfd2d762db4eff24c34c71ec22a28b79e7b1a7acaf60"
+    },
+    {
+      "path": "port/level-world/world_item_loot_creation_v10.cpp",
+      "sha256": "5e9d9e05799da2e7b385a11936165f4d214c905ed271bec9602a47c10db3bc59"
+    },
+    {
+      "path": "port/level-world/character_kill_loot_connection_v10.hpp",
+      "sha256": "f39d3c5fdf28ee50de2334063b661512470d97be3f7a8df24287a453a56d02ab"
+    },
+    {
+      "path": "port/level-world/character_kill_loot_connection_v10.cpp",
+      "sha256": "90f0988c8be9900696f23f7b3f6f2c5a31fcc2b8c3fc3fcd16041778f49fa419"
+    },
+    {
+      "path": "port/level-world/loot_pickup_quest_tail_v10.hpp",
+      "sha256": "833d88292bcb6534859dc4460ee42c5e7790e3b658b772ab2e04c0850e245718"
+    },
+    {
+      "path": "port/level-world/loot_pickup_quest_tail_v10.cpp",
+      "sha256": "8aab394b9e9f17fd3965f405cf2c369f6d279e24f4b8dda1cc5dacdd766830bc"
+    },
+    {
+      "path": "port/level-world/gameobject_online_update_v5.hpp",
+      "sha256": "5b734408eb0a1f895a3d4974f4915722bf9b8d9cb356f84bb00fed6432fef933"
+    },
+    {
+      "path": "port/level-world/gameobject_online_update_v5.cpp",
+      "sha256": "d738cef09105103dbaa98f6c58f4763341e7fbb54664d1742bb1fdf0aeab2214"
+    },
+    {
+      "path": "port/game-data/loot_inventory_transfer_v10.cpp",
+      "sha256": "45ea8592c0bbc838d0d7c3064cd23b9bcfb15fbf6723f16790af1352768fec32"
+    },
+    {
+      "path": "port/game-data/loot_temporary_inventory_v8.hpp",
+      "sha256": "2fbf25612dca62ab08c3d7a203c0d986e7afa63833b035cf46a5f3d9551def43"
+    },
+    {
+      "path": "port/level-world/player_equipment_render_owner_v1.hpp",
+      "sha256": "b8f5834f81b2aa8d788b08c32f0b4ea107895d6459e4a5e3e2d67d3dd94a7767"
+    },
+    {
+      "path": "port/level-world/player_equipment_render_owner_v1.cpp",
+      "sha256": "c86c777c96725311aed418e1722e8a274ece11f5d2605b73a75f7c66e5c3d7c9"
+    },
+    {
+      "path": "port/level-world/tests/world_item_live_owner_v5.cpp",
+      "sha256": "87752b589e4efe2b03c5b2766a7a4de3ea9cc662aa4fb2aa49c20c19222f217e"
+    },
+    {
+      "path": "port/level-world/tests/world_item_frame_v5.cpp",
+      "sha256": "834bab8d89cd06055d500190b8686efc2b938b3ebb3a490c029c069848b7db43"
+    },
+    {
+      "path": "port/level-world/tests/loot_pickup_quest_tail_v10.cpp",
+      "sha256": "27f1e4120245fc319acabe11eb3710766663962479c0b407578f813336b01b1a"
+    },
+    {
+      "path": "port/level-world/tests/gameobject_online_update_v5.cpp",
+      "sha256": "5db8a12db4d48e97ee3b1478ed0990f36ef34b603149dc170262bc570ef4440f"
+    },
+    {
+      "path": "port/game-data/tests/loot_inventory_transfer_v10.cpp",
+      "sha256": "f7e3b44e91d43f6da3625af8661db981ca311b6738fe1150ae9809c48b99bbba"
+    }
+  ],
+  "cmake_sha256": "f449a6843966423cb62fc1ec93dacae6f165801e2a29b7dde7e5b0ea956440ed",
+  "live_log_sha256": "99ae5c06ff086d28c93e503c8450e2bf8386c1e9e2fb9372d058989d06361782",
+  "scope": "NPC same-scene visual/animation and Item/pickup owners compiled coherently; existing Crypt runtime/menu/HUD/Bash/potion regression passed. Generic families/145 pool have isolated fixture proof; live Swamp/Drop/pickup/lethal Kill/camera integration remain pending.",
+  "remaining": [
+    "full Level construction and renderer graph binding",
+    "whole Character SetPosition shared hooks",
+    "source camera AnimSet/controller and live matrix binding",
+    "Item gathering and bounded nested Interact",
+    "actual quest/audio/FX providers",
+    "full campaign/save lifecycle",
+    "physical-device validation"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "original_arm_function": "Matrix4f::operator* 0x35e998",
+  "cases": 160,
+  "defined_bytes_compared": 65,
+  "native_optimization": "O2",
+  "sanitizers": ["address", "undefined"],
+  "padding65_67": "Not compared as original data; native value-initialized storage",
+  "native_command": ".local-inputs/fx-alignment-matrix-v39 port/level-world/reference/fx-alignment-v39/matrix-original.bin",
+  "gpu_live_acceptance": false
+}

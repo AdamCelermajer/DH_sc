@@ -1,0 +1,50 @@
+{
+  "status": "FROZEN_COMPONENT",
+  "tests": 12,
+  "runtime_acceptance": false,
+  "shared_apply_patch_only": [
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java"
+  ],
+  "files": {
+    "port/android-native/app/src/main/java/com/example/dh2/FramePacingReportV46.java": {
+      "sha256": "0d7e7a5cd6e2dca4fb64ef1b270ad7267b0090c69d597c95f76ad1dea4557d33",
+      "bytes": 2064
+    },
+    "port/android-native/tools/tests/FramePacingReportV46Test.java": {
+      "sha256": "3ad57caada69ea8df0c5d355b66ace2eb4d18334b54dcfa24877c8161a59cabb",
+      "bytes": 2643
+    },
+    "port/android-native/tools/prepare_pacing_report_v46.py": {
+      "sha256": "dbc5182656e8a051c4e73091f128f56ad5305945b650692678dd03dbe153de52",
+      "bytes": 1304
+    },
+    "port/android-native/tools/test_pacing_report_v46.py": {
+      "sha256": "62f1e8c4f779d1eb575ac5b853e910a19ef8354788657e49c56698b4376eb3de",
+      "bytes": 1707
+    },
+    "port/android-native/tools/freeze_pacing_report_v46.py": {
+      "sha256": "76351f6ab3b6b6c9ae737d2aaacb9133ef08180147458e29de971cc26f05554a",
+      "bytes": 1722
+    },
+    "port/android-native/reports/pacing-report-v46/README.md": {
+      "sha256": "85dae1e023a0ccdb40aafad43b78a2b9ef39f0a61cc9eb01408e14d73df1f46a",
+      "bytes": 1574
+    },
+    "port/android-native/reports/pacing-report-v46/MainActivity.java": {
+      "sha256": "88dc2dc3b73a7fe45ca06758c05e72302fa03566e9c898ecb7c4d6721fb5b84f",
+      "bytes": 38888
+    },
+    "port/android-native/reports/pacing-report-v46/integration.patch": {
+      "sha256": "34e84660c8d54ea44a9544c38c4d5b2635f974efd5e2ec30799a6300c66cb769",
+      "bytes": 832
+    },
+    "port/android-native/reports/pacing-report-v46/baseline-source-sha256.json": {
+      "sha256": "c28d9f60e2fbc9280003419f447b516b5f3ddfd31219a612146f8c0d2bc4d39a",
+      "bytes": 151
+    },
+    "port/android-native/reports/pacing-report-v46/receipt.json": {
+      "sha256": "6a340ff57456b313acca2a6d87adaa543e90e4b7af6f184b56459aa6309aa3cd",
+      "bytes": 4761
+    }
+  }
+}

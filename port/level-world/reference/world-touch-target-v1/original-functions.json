@@ -1,0 +1,855 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x320e44",
+      "symbol": "_ZN11Application14GetSavedOptionEPKc",
+      "size": 48
+    },
+    {
+      "address": "0x320e74",
+      "symbol": "_ZN11Application11IsUsingDPadEv",
+      "size": 32
+    },
+    {
+      "address": "0x328f40",
+      "symbol": "_ZN11Application10ResetTouchEv",
+      "size": 160
+    },
+    {
+      "address": "0x33a99c",
+      "symbol": "_ZN18EvTouchScreenPressD1Ev",
+      "size": 4
+    },
+    {
+      "address": "0x33a9a0",
+      "symbol": "_ZN17EvTouchScreenMoveD1Ev",
+      "size": 4
+    },
+    {
+      "address": "0x33a9a4",
+      "symbol": "_ZNK15TouchScreenBase13_IsQueueEmptyEv",
+      "size": 24
+    },
+    {
+      "address": "0x33a9bc",
+      "symbol": "_ZN15TouchScreenBase11_AddToQueueENS_10TouchEventERK7Point2DIfEl",
+      "size": 284
+    },
+    {
+      "address": "0x33aad8",
+      "symbol": "_ZNK15TouchScreenBase12getDimensionEv",
+      "size": 228
+    },
+    {
+      "address": "0x33abbc",
+      "symbol": "_ZNK15TouchScreenBase12getDimensionER3RctIsE",
+      "size": 104
+    },
+    {
+      "address": "0x33ac24",
+      "symbol": "_ZN15TouchScreenBase10touchBeganERK7Point2DIsEl",
+      "size": 260
+    },
+    {
+      "address": "0x33ad28",
+      "symbol": "_ZN15TouchScreenBase10touchMovedERK7Point2DIsEl",
+      "size": 276
+    },
+    {
+      "address": "0x33ae3c",
+      "symbol": "_ZN15TouchScreenBase14touchCancelledERK7Point2DIsEl",
+      "size": 124
+    },
+    {
+      "address": "0x33aeb8",
+      "symbol": "_ZN15TouchScreenBase10touchEndedERK7Point2DIsEl",
+      "size": 4
+    },
+    {
+      "address": "0x33aebc",
+      "symbol": "_ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE",
+      "size": 368
+    },
+    {
+      "address": "0x33b02c",
+      "symbol": "_ZNK15TouchScreenBase27getTouchIDInitiatedInRegionERKN6glitch4core4rectIfEE",
+      "size": 188
+    },
+    {
+      "address": "0x33b0e8",
+      "symbol": "_ZNK15TouchScreenBase18getTouchIDInRegionERKN6glitch4core4rectIfEE",
+      "size": 188
+    },
+    {
+      "address": "0x33b1a4",
+      "symbol": "_ZN15TouchScreenBase13getTouchPointEl",
+      "size": 60
+    },
+    {
+      "address": "0x33b1e0",
+      "symbol": "_ZN15TouchScreenBase18getFirstTouchPointEl",
+      "size": 60
+    },
+    {
+      "address": "0x33b21c",
+      "symbol": "_ZNK15TouchScreenBase20getTouchDisplacementEl",
+      "size": 160
+    },
+    {
+      "address": "0x33b2bc",
+      "symbol": "_ZNK15TouchScreenBase17getSwipeDirectionEl",
+      "size": 48
+    },
+    {
+      "address": "0x33b2ec",
+      "symbol": "_ZN15TouchScreenBase8hasTouchEv",
+      "size": 72
+    },
+    {
+      "address": "0x33b334",
+      "symbol": "_ZN15TouchScreenBase6updateEd",
+      "size": 168
+    },
+    {
+      "address": "0x33b3dc",
+      "symbol": "_ZN15TouchScreenBase5getIDEl",
+      "size": 92
+    },
+    {
+      "address": "0x33b43c",
+      "symbol": "_ZN17EvTouchScreenMoveD0Ev",
+      "size": 52
+    },
+    {
+      "address": "0x33b470",
+      "symbol": "_ZN18EvTouchScreenPressD0Ev",
+      "size": 52
+    },
+    {
+      "address": "0x33b4d8",
+      "symbol": "_ZN15TouchScreenBase5clearEv",
+      "size": 56
+    },
+    {
+      "address": "0x33b510",
+      "symbol": "_ZN15TouchScreenBase13_PopFromQueueEv",
+      "size": 176
+    },
+    {
+      "address": "0x33b5c0",
+      "symbol": "_ZNK15TouchScreenBase20_GetNextEventInQueueEv",
+      "size": 168
+    },
+    {
+      "address": "0x33b668",
+      "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenBase.cpp",
+      "size": 136
+    },
+    {
+      "address": "0x33bd2c",
+      "symbol": "_ZNK15TouchScreenBase14getTouchIDListEv",
+      "size": 128
+    },
+    {
+      "address": "0x33bdac",
+      "symbol": "_ZNSt6vectorIN15TouchScreenBase12_QueuedEventESaIS1_EED1Ev",
+      "size": 92
+    },
+    {
+      "address": "0x33be08",
+      "symbol": "_ZN15TouchScreenBaseD1Ev",
+      "size": 64
+    },
+    {
+      "address": "0x33be48",
+      "symbol": "_ZN15TouchScreenBaseD0Ev",
+      "size": 28
+    },
+    {
+      "address": "0x33be64",
+      "symbol": "_ZN15TouchScreenBaseD2Ev",
+      "size": 64
+    },
+    {
+      "address": "0x33bea4",
+      "symbol": "_ZNSaIN15TouchScreenBase12_QueuedEventEE11_M_allocateEjRj",
+      "size": 136
+    },
+    {
+      "address": "0x33bf2c",
+      "symbol": "_ZNSt6vectorIN15TouchScreenBase12_QueuedEventESaIS1_EE20_M_allocate_and_copyIPS1_EES5_RjT_S7_",
+      "size": 124
+    },
+    {
+      "address": "0x33bfa8",
+      "symbol": "_ZNSt6vectorIN15TouchScreenBase12_QueuedEventESaIS1_EE7reserveEj.clone.2",
+      "size": 316
+    },
+    {
+      "address": "0x33c0e4",
+      "symbol": "_ZNSt6vectorIN15TouchScreenBase12_QueuedEventESaIS1_EE22_M_insert_overflow_auxEPS1_RKS1_RKSt12__false_typejb.clone.5",
+      "size": 436
+    },
+    {
+      "address": "0x33c298",
+      "symbol": "_ZN15TouchScreenBaseC2Ess",
+      "size": 320
+    },
+    {
+      "address": "0x33c3d8",
+      "symbol": "_ZN15TouchScreenBaseC1Ess",
+      "size": 320
+    },
+    {
+      "address": "0x33c568",
+      "symbol": "_ZN15TouchScreenBase13ProcessEventsEv",
+      "size": 1776
+    },
+    {
+      "address": "0x33cc58",
+      "symbol": "_ZNK17TouchScreenIPhone12getLeftBoundEv",
+      "size": 12
+    },
+    {
+      "address": "0x33cc64",
+      "symbol": "_ZNK17TouchScreenIPhone13getRightBoundEv",
+      "size": 12
+    },
+    {
+      "address": "0x33cc70",
+      "symbol": "_ZNK17TouchScreenIPhone11getTopBoundEv",
+      "size": 12
+    },
+    {
+      "address": "0x33cc7c",
+      "symbol": "_ZNK17TouchScreenIPhone14getBottomBoundEv",
+      "size": 12
+    },
+    {
+      "address": "0x33cc88",
+      "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenIPhone.cpp",
+      "size": 32
+    },
+    {
+      "address": "0x33cca8",
+      "symbol": "_ZNK17TouchScreenIPhone18getTouchIDInRegionERKN6glitch4core4rectIfEE",
+      "size": 4
+    },
+    {
+      "address": "0x33ccac",
+      "symbol": "_ZNK17TouchScreenIPhone15isRegionPressedERKN6glitch4core4rectIfEE",
+      "size": 4
+    },
+    {
+      "address": "0x33ccb0",
+      "symbol": "_ZN17TouchScreenIPhoneD1Ev",
+      "size": 52
+    },
+    {
+      "address": "0x33cce4",
+      "symbol": "_ZN17TouchScreenIPhoneD0Ev",
+      "size": 28
+    },
+    {
+      "address": "0x33cd00",
+      "symbol": "_ZN17TouchScreenIPhoneD2Ev",
+      "size": 52
+    },
+    {
+      "address": "0x33cd34",
+      "symbol": "_ZN17TouchScreenIPhoneC1Efffff",
+      "size": 152
+    },
+    {
+      "address": "0x33cdcc",
+      "symbol": "_ZN17TouchScreenIPhoneC2Efffff",
+      "size": 152
+    },
+    {
+      "address": "0x33ceb4",
+      "symbol": "_ZN17TouchScreenIPhone10touchEndedEffdiffl",
+      "size": 208
+    },
+    {
+      "address": "0x33cf84",
+      "symbol": "_ZN17TouchScreenIPhone14touchCancelledEffdiffl",
+      "size": 208
+    },
+    {
+      "address": "0x33d054",
+      "symbol": "_ZN17TouchScreenIPhone10touchBeganEffdiffl",
+      "size": 208
+    },
+    {
+      "address": "0x33d124",
+      "symbol": "_ZN17TouchScreenIPhone10touchMovedEffdiffl",
+      "size": 208
+    },
+    {
+      "address": "0x33d1f4",
+      "symbol": "_ZNK14TouchScreenPS312getLeftBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d1fc",
+      "symbol": "_ZNK14TouchScreenPS313getRightBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d204",
+      "symbol": "_ZNK14TouchScreenPS311getTopBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d20c",
+      "symbol": "_ZNK14TouchScreenPS314getBottomBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d214",
+      "symbol": "_ZThn436_N14TouchScreenPS37onEventERKN6glitch6SEventE",
+      "size": 8
+    },
+    {
+      "address": "0x33d21c",
+      "symbol": "_ZN14TouchScreenPS37onEventERKN6glitch6SEventE",
+      "size": 252
+    },
+    {
+      "address": "0x33d318",
+      "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenPS3.cpp",
+      "size": 32
+    },
+    {
+      "address": "0x33d338",
+      "symbol": "_ZThn436_N14TouchScreenPS3D1Ev",
+      "size": 8
+    },
+    {
+      "address": "0x33d340",
+      "symbol": "_ZN14TouchScreenPS3D1Ev",
+      "size": 72
+    },
+    {
+      "address": "0x33d388",
+      "symbol": "_ZThn436_N14TouchScreenPS3D0Ev",
+      "size": 8
+    },
+    {
+      "address": "0x33d390",
+      "symbol": "_ZN14TouchScreenPS3D0Ev",
+      "size": 28
+    },
+    {
+      "address": "0x33d3ac",
+      "symbol": "_ZN14TouchScreenPS3D2Ev",
+      "size": 72
+    },
+    {
+      "address": "0x33d3f4",
+      "symbol": "_ZN14TouchScreenPS3C1Ev",
+      "size": 76
+    },
+    {
+      "address": "0x33d440",
+      "symbol": "_ZN14TouchScreenPS3C2Ev",
+      "size": 76
+    },
+    {
+      "address": "0x33d48c",
+      "symbol": "_ZNK16TouchScreenWin3212getLeftBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d494",
+      "symbol": "_ZNK16TouchScreenWin3213getRightBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d49c",
+      "symbol": "_ZNK16TouchScreenWin3211getTopBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d4a4",
+      "symbol": "_ZNK16TouchScreenWin3214getBottomBoundEv",
+      "size": 8
+    },
+    {
+      "address": "0x33d4ac",
+      "symbol": "_ZThn436_N16TouchScreenWin327onEventERKN6glitch6SEventE",
+      "size": 8
+    },
+    {
+      "address": "0x33d4b4",
+      "symbol": "_ZN16TouchScreenWin327onEventERKN6glitch6SEventE",
+      "size": 252
+    },
+    {
+      "address": "0x33d5b0",
+      "symbol": "_GLOBAL__I_.._.._sources_Core_IO_TouchScreen_TouchScreenWin32.cpp",
+      "size": 32
+    },
+    {
+      "address": "0x33d5d0",
+      "symbol": "_ZThn436_N16TouchScreenWin32D1Ev",
+      "size": 8
+    },
+    {
+      "address": "0x33d5d8",
+      "symbol": "_ZN16TouchScreenWin32D1Ev",
+      "size": 72
+    },
+    {
+      "address": "0x33d620",
+      "symbol": "_ZThn436_N16TouchScreenWin32D0Ev",
+      "size": 8
+    },
+    {
+      "address": "0x33d628",
+      "symbol": "_ZN16TouchScreenWin32D0Ev",
+      "size": 28
+    },
+    {
+      "address": "0x33d644",
+      "symbol": "_ZN16TouchScreenWin32D2Ev",
+      "size": 72
+    },
+    {
+      "address": "0x33d68c",
+      "symbol": "_ZN16TouchScreenWin32C1Ess",
+      "size": 68
+    },
+    {
+      "address": "0x33d6d0",
+      "symbol": "_ZN16TouchScreenWin32C2Ess",
+      "size": 68
+    },
+    {
+      "address": "0x3824a0",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE5eraseENS_17_Rb_tree_iteratorIS6_SA_EE",
+      "size": 60
+    },
+    {
+      "address": "0x3824dc",
+      "symbol": "_ZNSaINSt4priv13_Rb_tree_nodeISt4pairIKl9TouchDataEEEE8allocateEjPKv.clone.2",
+      "size": 32
+    },
+    {
+      "address": "0x3824fc",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+      "size": 316
+    },
+    {
+      "address": "0x382638",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueERKS6_",
+      "size": 392
+    },
+    {
+      "address": "0x3827c0",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+      "size": 884
+    },
+    {
+      "address": "0x382b34",
+      "symbol": "_ZNSt3mapIl9TouchDataSt4lessIlESaISt4pairIKlS0_EEEixIlEERS0_RKT_",
+      "size": 168
+    },
+    {
+      "address": "0x383084",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKl9TouchDataENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+      "size": 56
+    },
+    {
+      "address": "0x38ab68",
+      "symbol": "_ZNK10GameObject10IsTouchingERK7Point3DIfE",
+      "size": 164
+    },
+    {
+      "address": "0x38ac0c",
+      "symbol": "_ZNK10GameObject8IsNearbyERK7Point3DIfEf",
+      "size": 292
+    },
+    {
+      "address": "0x38b518",
+      "symbol": "_ZNK10GameObject10IsTouchingEPKS_",
+      "size": 280
+    },
+    {
+      "address": "0x38b630",
+      "symbol": "_ZNK10GameObject14IsHostTouchingEv",
+      "size": 164
+    },
+    {
+      "address": "0x38b6d4",
+      "symbol": "_ZNK10GameObject20GetNumPlayerTouchingEv",
+      "size": 132
+    },
+    {
+      "address": "0x390548",
+      "symbol": "_ZN10GameObject21_SetTargetListSortingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "size": 220
+    },
+    {
+      "address": "0x390624",
+      "symbol": "_ZN10GameObject26_SetTargetListObjectFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "size": 108
+    },
+    {
+      "address": "0x390690",
+      "symbol": "_ZN10GameObject29_SetTargetListCharacterFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "size": 108
+    },
+    {
+      "address": "0x3a9340",
+      "symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+      "size": 1448
+    },
+    {
+      "address": "0x3abb9c",
+      "symbol": "_ZN9Character22UpdateObjectOfInterestEv",
+      "size": 764
+    },
+    {
+      "address": "0x3ad430",
+      "symbol": "_ZNK9Character13CTRLIsAllowedEv",
+      "size": 64
+    },
+    {
+      "address": "0x3ad5ac",
+      "symbol": "_ZN9Character11ForceUseOOIEP10GameObject",
+      "size": 104
+    },
+    {
+      "address": "0x3ad614",
+      "symbol": "_ZN9Character6UseOOIEv",
+      "size": 116
+    },
+    {
+      "address": "0x3ad688",
+      "symbol": "_ZThn884_N9Character11Ctrl_UseOOIEP10GameObject",
+      "size": 8
+    },
+    {
+      "address": "0x3ad690",
+      "symbol": "_ZN9Character11Ctrl_UseOOIEP10GameObject",
+      "size": 88
+    },
+    {
+      "address": "0x3addc0",
+      "symbol": "_ZThn884_N9Character10Ctrl_ClickERK7Point3DIfEb",
+      "size": 8
+    },
+    {
+      "address": "0x3addc8",
+      "symbol": "_ZN9Character10Ctrl_ClickERK7Point3DIfEb",
+      "size": 1704
+    },
+    {
+      "address": "0x3b8f38",
+      "symbol": "_ZN9Character10_SetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "size": 100
+    },
+    {
+      "address": "0x3c02e8",
+      "symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "size": 24
+    },
+    {
+      "address": "0x3c0334",
+      "symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "size": 24
+    },
+    {
+      "address": "0x3cebf0",
+      "symbol": "_ZN6CharAIC2Ev",
+      "size": 352
+    },
+    {
+      "address": "0x3d49c4",
+      "symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "size": 12
+    },
+    {
+      "address": "0x3d574c",
+      "symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject",
+      "size": 844
+    },
+    {
+      "address": "0x3d5a98",
+      "symbol": "_ZNK6CharAI12AI_IsNeutralEPK10GameObject",
+      "size": 716
+    },
+    {
+      "address": "0x3d6890",
+      "symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "size": 556
+    },
+    {
+      "address": "0x3ec474",
+      "symbol": "_ZN10ItemObject17_DoAutoPickupHackEPS_PK10GameObjectS3_",
+      "size": 144
+    },
+    {
+      "address": "0x3ee3ac",
+      "symbol": "_ZN19QE_PickedUpLiftableD1Ev",
+      "size": 4
+    },
+    {
+      "address": "0x3ee5fc",
+      "symbol": "_ZN14LiftableObject6PickUpEP10GameObject",
+      "size": 884
+    },
+    {
+      "address": "0x3ee970",
+      "symbol": "_ZN19QE_PickedUpLiftableD0Ev",
+      "size": 52
+    },
+    {
+      "address": "0x3f9e34",
+      "symbol": "_ZNK12ItemInstance13GetPickUpTypeEv",
+      "size": 36
+    },
+    {
+      "address": "0x404d60",
+      "symbol": "_ZN14v2Controllable10Ctrl_ClickERK7Point3DIfEb",
+      "size": 4
+    },
+    {
+      "address": "0x404da8",
+      "symbol": "_ZN14v2Controllable11Ctrl_UseOOIEP10GameObject",
+      "size": 4
+    },
+    {
+      "address": "0x4051a8",
+      "symbol": "_ZN12v2Controller9Cmd_ClickERK7Point3DIfEb",
+      "size": 92
+    },
+    {
+      "address": "0x405260",
+      "symbol": "_ZN12v2Controller10Cmd_LookAtERK7Point3DIfE",
+      "size": 92
+    },
+    {
+      "address": "0x405318",
+      "symbol": "_ZN12v2Controller10Cmd_WarpToERK7Point3DIfE",
+      "size": 92
+    },
+    {
+      "address": "0x4054e4",
+      "symbol": "_ZN12v2Controller10Cmd_MoveToERK7Point3DIfE",
+      "size": 92
+    },
+    {
+      "address": "0x4057fc",
+      "symbol": "_ZN12v2Controller10Cmd_UseOOIEP10GameObject",
+      "size": 344
+    },
+    {
+      "address": "0x405f48",
+      "symbol": "_ZN15v2EmuController8_onEventEPK13EvMouseButtonPK12EventManager",
+      "size": 376
+    },
+    {
+      "address": "0x408b80",
+      "symbol": "_ZThn16_N17v2MixedController11Ctrl_UseOOIEP10GameObject",
+      "size": 8
+    },
+    {
+      "address": "0x408b88",
+      "symbol": "_ZN17v2MixedController11Ctrl_UseOOIEP10GameObject",
+      "size": 4
+    },
+    {
+      "address": "0x408c60",
+      "symbol": "_ZThn16_N17v2MixedController10Ctrl_ClickERK7Point3DIfEb",
+      "size": 8
+    },
+    {
+      "address": "0x408c68",
+      "symbol": "_ZN17v2MixedController10Ctrl_ClickERK7Point3DIfEb",
+      "size": 4
+    },
+    {
+      "address": "0x4119c4",
+      "symbol": "_ZN12CameraTarget9SetTargetEP10GameObjecti",
+      "size": 176
+    },
+    {
+      "address": "0x411b38",
+      "symbol": "_ZN12CameraTarget9SetTargetEPKci",
+      "size": 132
+    },
+    {
+      "address": "0x418bec",
+      "symbol": "_ZN11HUDControls5TouchEv",
+      "size": 92
+    },
+    {
+      "address": "0x41a780",
+      "symbol": "_ZN11HUDControls6UpdateEv",
+      "size": 636
+    },
+    {
+      "address": "0x43665c",
+      "symbol": "_ZNSaINSt4priv13_Rb_tree_nodeISt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEEEEE8allocateEjPKv.clone.4",
+      "size": 32
+    },
+    {
+      "address": "0x43667c",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS8_SG_SG_",
+      "size": 316
+    },
+    {
+      "address": "0x4367b8",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueERKS8_",
+      "size": 392
+    },
+    {
+      "address": "0x436940",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE13insert_uniqueENS_17_Rb_tree_iteratorIS8_SC_EERKS8_",
+      "size": 884
+    },
+    {
+      "address": "0x436cb4",
+      "symbol": "_ZNSt3mapIlN12MenuWorldMap12InputHandler9TouchDataESt4lessIlESaISt4pairIKlS2_EEEixIlEERS2_RKT_",
+      "size": 168
+    },
+    {
+      "address": "0x436d5c",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+      "size": 56
+    },
+    {
+      "address": "0x436e04",
+      "symbol": "_ZNSt4priv8_Rb_treeIlSt4lessIlESt4pairIKlN12MenuWorldMap12InputHandler9TouchDataEENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE5eraseENS_17_Rb_tree_iteratorIS8_SC_EE",
+      "size": 60
+    },
+    {
+      "address": "0x439ca4",
+      "symbol": "_Z17NativeTouchToMoveRKN7gameswf7fn_callE",
+      "size": 4
+    },
+    {
+      "address": "0x47a898",
+      "symbol": "_ZNK30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE12GetPositionsER13Vector3DFList",
+      "size": 4
+    },
+    {
+      "address": "0x47d0e4",
+      "symbol": "_Z24GetObjectiveImplInstanceI30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableEEP9Objectivev",
+      "size": 88
+    },
+    {
+      "address": "0x47d37c",
+      "symbol": "_ZThn24_N30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableED1Ev",
+      "size": 8
+    },
+    {
+      "address": "0x47d384",
+      "symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableED1Ev",
+      "size": 72
+    },
+    {
+      "address": "0x47d730",
+      "symbol": "_ZThn24_N30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableED0Ev",
+      "size": 8
+    },
+    {
+      "address": "0x47d738",
+      "symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableED0Ev",
+      "size": 80
+    },
+    {
+      "address": "0x47df64",
+      "symbol": "_ZNK30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE37DBG_TraceDetailedObjectiveInformationEP7__sFILE",
+      "size": 520
+    },
+    {
+      "address": "0x47eb90",
+      "symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE7CompileEv",
+      "size": 80
+    },
+    {
+      "address": "0x47f5a0",
+      "symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE11handleEventEPK6IEventPK12EventManager",
+      "size": 148
+    },
+    {
+      "address": "0x4cf570",
+      "symbol": "_ZN7Structs23v2QuestPickedUpLiftable8finalizeEv",
+      "size": 76
+    },
+    {
+      "address": "0x4cf884",
+      "symbol": "_ZN7Structs23v2QuestPickedUpLiftableD1Ev",
+      "size": 88
+    },
+    {
+      "address": "0x4cf8dc",
+      "symbol": "_ZN7Structs23v2QuestPickedUpLiftableD0Ev",
+      "size": 28
+    },
+    {
+      "address": "0x4cf8f8",
+      "symbol": "_ZN7Structs23v2QuestPickedUpLiftableD2Ev",
+      "size": 88
+    },
+    {
+      "address": "0x504804",
+      "symbol": "_ZN7Structs23v2QuestPickedUpLiftable4readEP11IStreamBase",
+      "size": 4
+    },
+    {
+      "address": "0x50ed8c",
+      "symbol": "_Z24GetWorldPosFromScreenPosRK7Point2DIfER7Point3DIfEf",
+      "size": 296
+    },
+    {
+      "address": "0x51b874",
+      "symbol": "_ZN7PFFloor14GetCollisionAtERK7Point3DIfES3_RS1_",
+      "size": 248
+    },
+    {
+      "address": "0x5212e0",
+      "symbol": "_ZN6PFRoom14GetCollisionAtERK7Point3DIfES3_RS1_b",
+      "size": 228
+    },
+    {
+      "address": "0x525800",
+      "symbol": "_ZN7PFWorld14GetCollisionAtERK7Point3DIfES3_RS1_b",
+      "size": 132
+    },
+    {
+      "address": "0x525884",
+      "symbol": "_ZN7PFWorld22TranslateScreenToWorldERK7Point2DIfER7Point3DIfE",
+      "size": 192
+    },
+    {
+      "address": "0x52f11c",
+      "symbol": "appOnTouch",
+      "size": 304
+    },
+    {
+      "address": "0x533440",
+      "symbol": "Java_com_gameloft_android_GAND_GloftD2SS_GameGLSurfaceView_nativeOnTouch",
+      "size": 156
+    },
+    {
+      "address": "0x6c59c0",
+      "symbol": "_ZN6glitch5scene22CSceneCollisionManager27getRayFromScreenCoordinatesENS_4core10position2dIiEEPNS0_16ICameraSceneNodeE",
+      "size": 896
+    },
+    {
+      "address": "0x6c5d40",
+      "symbol": "_ZN6glitch5scene22CSceneCollisionManager15getPickedNodeBBEPNS0_10ISceneNodeERKNS_4core6line3dIfEEibRfRS3_",
+      "size": 1344
+    },
+    {
+      "address": "0x7eb480",
+      "symbol": "_ZN12b2MouseJoint9SetTargetERK6b2Vec2",
+      "size": 48
+    }
+  ]
+}

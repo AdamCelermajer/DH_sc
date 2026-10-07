@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "cases": 896,
+  "mismatches": 0,
+  "scope": "Original plane/limited-line/three-plane, normalized frustum extraction, whole CollisionManager ray, CameraBase normalized screen and viewport quantization vs optimized ARM64. Actual virtual frustum/orthographic and driver matrix/viewport endpoints declared fixtures; bounding-box side effect excluded; imported softfloat/sqrt modeled. Not live picking acceptance.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "7b20f68404c369c93462a2ae17155af6a7c84dca3b0368e11ca079db74458191"
+}

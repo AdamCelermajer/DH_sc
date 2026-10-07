@@ -1,0 +1,85 @@
+{
+  "validation": "PASS",
+  "scope": "Bundle exact original level data and required Crypt initialization scripts.",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "projects": {
+    "repository": [
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\data\\levels_pyarray.bin",
+        "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+        "bytes": 5574,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/levels_pyarray.bin",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\data\\levels_pyarraynames.bin",
+        "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+        "bytes": 1943,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/levels_pyarraynames.bin",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\data\\levels_pystructnames.bin",
+        "sha256": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705",
+        "bytes": 337,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/levels_pystructnames.bin",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\data\\scripts\\ai\\_commons.luac",
+        "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+        "bytes": 13535,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\data\\scripts\\ai\\monster.luac",
+        "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+        "bytes": 7393,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/monster.luac",
+        "created": true
+      }
+    ],
+    "studio": [
+      {
+        "path": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\src\\main\\assets\\data\\levels_pyarray.bin",
+        "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+        "bytes": 5574,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/levels_pyarray.bin",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\src\\main\\assets\\data\\levels_pyarraynames.bin",
+        "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+        "bytes": 1943,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/levels_pyarraynames.bin",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\src\\main\\assets\\data\\levels_pystructnames.bin",
+        "sha256": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705",
+        "bytes": 337,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/levels_pystructnames.bin",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\src\\main\\assets\\data\\scripts\\ai\\_commons.luac",
+        "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+        "bytes": 13535,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+        "created": true
+      },
+      {
+        "path": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\src\\main\\assets\\data\\scripts\\ai\\monster.luac",
+        "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+        "bytes": 7393,
+        "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/monster.luac",
+        "created": true
+      }
+    ]
+  },
+  "files": 5,
+  "all_original_game_assets_bundled": false,
+  "original_scripts_executed_in_APK": false,
+  "source_Application_level_selection_verified": false
+}

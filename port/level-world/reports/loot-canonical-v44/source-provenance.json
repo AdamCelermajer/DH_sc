@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "port/level-world/world_item_live_owner_v5.cpp": "ae175c89f98043652fb679e044fcc8cbcbd408e627d6f856f2dc326874b92079",
+    "port/level-world/world_loot_gameplay_v23.cpp": "69679ecd964d9789365bbae5fa755b7905a0fd55f521d4f54e8e2cd76d49ae8d",
+    "port/level-world/world_item_graph_v3.cpp": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043",
+    "port/level-world/object_enable_condition_v2.cpp": "56fa9e790b7270593b1fc084893b5949d28496f356bb482f0c3b7869193de021",
+    "port/level-loader/canonical_level_context_v1.cpp": "c9c17c15305e0d600a44b406a7b5e243b9f8a9535a55b80fa65b83ba01bc789a",
+    "port/level-world/reference/character-script-collision/reference/original-functions.asm": "fbd2362f0f5159a4d2fff2e3fd8aca5546d5f0908187f0c39ddf9aeda6df8eb4",
+    "port/level-world/reference/world-item-object-owner-v1/original-source.json": "6338eb828f0d8d4bb1df3715d202efbde6ef4700903dd3db5caa17504151549c"
+  },
+  "loader_readonly": {
+    "port/level-loader/reports/source-stage-swamp-v40-f5fa70a46a371c1b.zip": "9cf552f9d1785c989a8a30a5671553162023c0183fc1702063de1e9620d1e7e5",
+    "port/level-loader/reports/native-gslevel-frame-v45-152539d3207d167f.zip": "b4ffa7c569738e2ec31d9c13727e956c8c83e6b291ef68de7d29ad050937c919",
+    "port/level-loader/reports/source-lifecycle-kill-item-v40-handoff.md": "bb3cded8e7967bc93a52bc21f0faa37c4cbe51a3764610b6980a0167f246b514",
+    "port/level-loader/reports/native-gslevel-frame-v45-handoff.md": "39395b07d5a38a5821f684cb15363c0c638efe46b4041e2ff717170ac46a809b"
+  },
+  "header_edit": "source_enabled_event_v44 passthrough only",
+  "world_item_live_cpp": "restored; no context fix needed",
+  "runtime_acceptance": false
+}

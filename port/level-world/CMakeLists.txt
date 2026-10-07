@@ -12,12 +12,249 @@ endif()
 if(NOT TARGET dh2_box2d_201)
  add_subdirectory(../physics-backend "${CMAKE_CURRENT_BINARY_DIR}/physics-backend")
 endif()
+if(NOT TARGET dh2_engine_ui)
+ add_subdirectory(../engine-ui "${CMAKE_CURRENT_BINARY_DIR}/engine-ui")
+endif()
 add_library(dh2_level_world SHARED world.cpp objects.cpp navigation.cpp navigation_search.cpp navigation_world.cpp navigation_path.cpp navigation_motion.cpp navigation_objects.cpp navigation_avoidance.cpp navigation_producers.cpp navigation_heading.cpp navigation_controller.cpp physical_controls.cpp body_transform.cpp subobjects_update.cpp controller_physical.cpp character_body_config.cpp collision.cpp octree.cpp selector.cpp floor_source.cpp floors.cpp)
+target_sources(dh2_level_world PRIVATE
+ event_manager_owner_v12.cpp application_services_owner_v5.cpp
+ source_input_manager_v60.cpp
+ source_process_objects_v121.cpp
+ application_player_manager_bootstrap_v59.cpp
+ application_save_files_owner_v61.cpp
+ native_conditions_table_v69.cpp native_conditions_runtime_v69.cpp quest_condition_compile_v70.cpp native_quest_runtime_v76.cpp source_assertion_process_v76.cpp quest_talk_marker_v76.cpp
+ condition_scoped_binding_v72.cpp
+ zone_startup_v76.cpp player_manager_death_queries_v70.cpp
+ canonical_zone_physical_v82.cpp
+ zone_collision_runtime_v83.cpp
+ checkpoint_save_runtime_v83.cpp
+  source_character_aggro_v84.cpp canonical_npc_skills_v84.cpp source_item_resources_v88.cpp
+ canonical_character_death_v84.cpp
+ character_oid_cache_v81.cpp character_register_summon_v81.cpp
+ scene_preload_owner_v81.cpp
+ player_local_controllers_v70.cpp player_manager_loading_clear_v70.cpp
+ player_controller_attachment_v70.cpp
+ campaign_frame_scratch_v76.cpp
+ camera_anchor_owner_v75.cpp
+ player_manage_characters_owner_v70.cpp player_info_profile_owner_v70.cpp
+ player_manager_offline_selectors_v70.cpp player_manager_update_owner_v70.cpp
+ player_manager_character_delivery_v70.cpp
+ ../level-loader/assigned_loadfile_kernel_v65.cpp
+ canonical_character_candidate_v60.cpp character_generic_initpost_owner_v61.cpp
+ player_info_skill_buffers_v26.cpp character_world_physical_v62.cpp
+ game_object_initialization_borrow_v62.cpp
+ character_dot_player_reaction_v7.cpp character_hit_player_tail_v7.cpp
+ character_world_npc_init_final_v1.cpp character_properties_temp_global_v62.cpp
+ character_props_id_owner_v1.cpp character_model_name_v62.cpp character_save_restore_v3.cpp
+ retained_character_save_connection_v3.cpp object_save_restore_v3.cpp
+ canonical_item_candidate_transport_v57.cpp character_world_ai_queue_v1.cpp
+ character_live_body_projection_v62.cpp player_add_character_owner_v5.cpp
+ campaign_save_filename_v45.cpp character_generic_animation_registration_v62.cpp
+ character_knockback_reaction_v1.cpp character_slow_reaction_v1.cpp
+ character_loot_creation_bindings_v22.cpp world_loot_gameplay_v23.cpp
+ character_loot_live_v22.cpp character_kill_production_v23.cpp
+ character_loot_actor_binding_v31.cpp character_loot_pickup_fx_v32.cpp
+ character_progression_world_v23.cpp character_kill_contributor_event_v23.cpp
+ character_kill_level_events_v23.cpp character_head_object_v2.cpp
+ canonical_character_pf_v62.cpp player_level_quicksave_v29.cpp
+ gameobject_update_prefix_v23.cpp character_candidate_cache_v62.cpp
+ player_xp_text_v1.cpp character_world_npc_physical_v1.cpp
+ character_world_npc_collision_v1.cpp player_progression_v1.cpp
+ character_ais_kill_vm_v23.cpp character_kill_live_v21.cpp
+ combat_ctrl_kill_owner_v1.cpp world_loot_pickup_v23.cpp
+ world_item_physical_contact_v4.cpp point3d_normalize_v2.cpp
+ character_profile_bootstrap_v59.cpp character_menu_profile_load_v51.cpp
+ character_menu_quests_v51.cpp
+ gameplay_camera_active_v13.cpp)
+# Additive generic animator callback methods are now present on the retained
+# visual; link their coherent implementation. Chest gameplay providers still
+# require explicit actual World connections before activation.
+target_sources(dh2_level_world PRIVATE generic_animation_callbacks_v21.cpp
+ base_index_animation_controller_v21.cpp retained_generic_animator_v21.cpp
+ container_animation_connection_v21.cpp canonical_openable_graph_v21.cpp)
+target_sources(dh2_level_world PRIVATE canonical_destructible_container_v16.cpp
+ destructible_container_data_v16.cpp)
+set_source_files_properties(canonical_destructible_container_v16.cpp destructible_container_data_v16.cpp
+ PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+set_source_files_properties(canonical_openable_graph_v21.cpp
+ PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+target_sources(dh2_level_world PRIVATE
+ gameplay_camera_damping_v1.cpp gameplay_camera_target_v2.cpp
+ gameplay_camera_scene_v3.cpp gameplay_camera_level_v4.cpp gameplay_camera_design_v5.cpp
+ gameplay_camera_anchor_v6.cpp gameplay_camera_matrix_v8.cpp gameplay_camera_device_v9.cpp
+ gameplay_camera_animator_v10.cpp gameplay_camera_runtime_v11.cpp
+ gameplay_camera_gpu_projection_v12.cpp gameplay_camera_layout_v14.cpp
+ gameplay_camera_scene_membership_v15.cpp gameplay_camera_factory_v16.cpp
+ gameplay_camera_zoom_v17.cpp gameplay_camera_overview_v18.cpp gameplay_camera_load_v19.cpp
+ gameplay_camera_picking_v20.cpp gameplay_camera_basis_v21.cpp authored_camera_basis_v22.cpp
+ gameplay_camera_application_v23.cpp)
+add_library(dh2_camera_xml_v20 STATIC
+ ../level-loader/vendor/tinyxml/tinyxml.cpp ../level-loader/vendor/tinyxml/tinyxmlparser.cpp
+ ../level-loader/vendor/tinyxml/tinyxmlerror.cpp ../level-loader/vendor/tinyxml/tinystr.cpp)
+set_target_properties(dh2_camera_xml_v20 PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_compile_definitions(dh2_camera_xml_v20 PUBLIC TIXML_USE_STL)
+target_include_directories(dh2_camera_xml_v20 PUBLIC ../level-loader/vendor/tinyxml)
+target_sources(dh2_level_world PRIVATE ../level-loader/xml_document_v1.cpp
+ canonical_level_config_module_v1.cpp selected_world_camera_config_v20.cpp)
+target_link_libraries(dh2_level_world PRIVATE dh2_camera_xml_v20)
+set_source_files_properties(canonical_level_config_module_v1.cpp selected_world_camera_config_v20.cpp
+ PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+set_source_files_properties(event_manager_owner_v12.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+
+# Complete native source constructor kernels and same-owner providers. The
+# loader still owns its canonical Level context/publication and map facade;
+# compiling these bodies does not activate an unready map in the application.
+target_sources(dh2_level_world PRIVATE
+ ../level-loader/level_constructor_v3.cpp
+ ../level-loader/level_constructor_bindings_v4.cpp
+ ../level-loader/native_level_application_v25.cpp
+ ../level-loader/canonical_level_loading_v26.cpp
+ ../level-loader/native_gslevel_runtime_v27.cpp
+ character_menu_faery_connection_v8.cpp
+ level_faery_placement_v8.cpp
+ retained_visual_draw_v27.cpp
+ ../level-loader/canonical_level_context_v1.cpp
+ generic_lua_script_owner_v13.cpp
+ level_savegame_owner_v1.cpp level_savegame_cache_v1.cpp level_savegame_runtime_v1.cpp
+ character_set_position_v7.cpp retained_character_position_owner_v7.cpp
+ objective_gathering_registration_v11.cpp openable_container_data_connection_v11.cpp)
+target_sources(dh2_game_data PRIVATE
+ ../game-data/inventory_gathering_ids_v11.cpp ../game-data/game_object_dictionary_v11.cpp)
+set_source_files_properties(generic_lua_script_owner_v13.cpp
+ level_savegame_owner_v1.cpp level_savegame_cache_v1.cpp level_savegame_runtime_v1.cpp
+ objective_gathering_registration_v11.cpp openable_container_data_connection_v11.cpp
+ PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+
+# Generic NPC visuals and animation borrow the existing canonical actor,
+# attached Scene/SceneBinding, animation cache and physical world. Required
+# Level/AI services remain explicit; this adds no substitute Crypt animation bank.
+target_sources(dh2_level_world PRIVATE
+ character_npc_animation_set_v6.cpp
+ character_visual_asset_owner_v6.cpp
+ character_same_scene_animator_v6.cpp
+ character_live_body_projection_v6.cpp
+ retained_character_family_visual_v6.cpp
+ retained_character_visual_connection_v5.cpp)
+
+# Retained world Item lifecycle, same-inventory pickup and source loot/quest
+# ordering. The application must bind actual Level, audio, quest and FX owners
+# before live Drop/pickup/Kill can report success.
+target_sources(dh2_level_world PRIVATE
+ world_item_live_owner_v5.cpp
+ world_item_frame_v5.cpp
+ world_item_pickup_inventory_v10.cpp
+ world_item_loot_creation_v10.cpp
+ character_kill_loot_connection_v10.cpp
+ loot_pickup_quest_tail_v10.cpp
+ gameobject_online_update_v5.cpp)
+target_sources(dh2_level_world PRIVATE
+ world_item_graph_v3.cpp
+ world_item_visual_v2.cpp
+ world_loot_item_runtime_v1.cpp
+ world_item_scene_services_v3.cpp
+ world_item_pf_connection_v4.cpp
+ item_frame_virtual_policy_v4.cpp
+ base_index_animation_controller_v2.cpp
+ item_color_lookup_v2.cpp
+ game_object_set_position_v2.cpp
+ object_enable_condition_v2.cpp
+ world_item_drop_sound_v2.cpp)
+target_sources(dh2_game_data PRIVATE ../game-data/loot_inventory_transfer_v10.cpp)
+target_sources(dh2_level_world PRIVATE character_world_target_frame_v2.cpp)
+target_sources(dh2_level_world PRIVATE character_ais_death_vm_v2.cpp canonical_spawn_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE authored_scene_subtree_v2.cpp
+ visual_mesh_box_fallback_v2.cpp visual_aabb_dispatch_scope_v3.cpp)
+target_sources(dh2_level_world PRIVATE canonical_item_factory_v2.cpp item_body_config_v2.cpp world_item_physical_v2.cpp world_item_object_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE player_spawn_metadata_v4.cpp canonical_player_facet_v3.cpp canonical_existing_actor_publication_v3.cpp)
+target_sources(dh2_level_world PRIVATE owned_equipment_queries_v4.cpp)
+target_sources(dh2_level_world PRIVATE character_menu_mutations_v4.cpp
+  player_network_local_owner_v4.cpp
+  ../game-data/player_save_write_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE object_manager_language_registry_v1.cpp
+  character_language_scene_connection_v1.cpp visual_anim_controller_owner_v4.cpp
+  ../engine-ui/authored_character_application_v1.cpp)
+set_source_files_properties(canonical_item_factory_v2.cpp item_body_config_v2.cpp world_item_physical_v2.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+set_source_files_properties(canonical_spawn_owner_v1.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+target_sources(dh2_level_world PRIVATE player_equipment_render_owner_v1.cpp player_equipment_queries_v1.cpp)
+set_source_files_properties(player_equipment_render_owner_v1.cpp player_equipment_queries_v1.cpp
+ PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+# Native HUD backend uses the existing source timer owner. Keep the world
+# dependency here; the retained UI coordinator has no engine-ui -> world cycle.
+target_sources(dh2_level_world PRIVATE ../engine-ui/hud_manager_backends.cpp)
+target_sources(dh2_level_world PRIVATE ../engine-ui/hud_initialization_owned_v1.cpp)
+target_sources(dh2_level_world PRIVATE ../engine-ui/authored_hud_options_bridge_v1.cpp)
+target_sources(dh2_level_world PRIVATE player_initial_grants_v2.cpp
+ character_skill_info_v1.cpp character_skill_info_session_v1.cpp
+ character_skill_properties_v1.cpp character_hud_skill_text_v1.cpp)
+target_sources(dh2_level_world PRIVATE
+ character_script_assets_v1.cpp
+ character_current_spell_v1.cpp
+ character_script_owner_v2.cpp
+ character_script_session_v2.cpp
+ character_skills_session_v2.cpp
+ character_skill_info_session_v2.cpp
+ character_script_player_vcb_v2.cpp
+ character_current_skill_v2.cpp
+ character_player_skills_v2.cpp)
+
+target_sources(dh2_level_world PRIVATE character_skill_callbacks_v3.cpp
+ character_skill_buff_bindings_v3.cpp character_script_session_v3.cpp
+ character_skills_session_v3.cpp character_skill_info_session_v3.cpp
+ character_player_skills_v3.cpp character_skills_owner_v3.cpp
+ character_skill_callback_session_v3.cpp character_skill_class_v3.cpp
+ character_skill_cooldown_v3.cpp character_faery_element_v3.cpp character_skill_ai_v3.cpp)
+set_source_files_properties(character_skill_callbacks_v3.cpp character_skill_buff_bindings_v3.cpp
+ character_script_session_v3.cpp character_skills_session_v3.cpp character_skill_info_session_v3.cpp
+ character_player_skills_v3.cpp character_skills_owner_v3.cpp character_skill_callback_session_v3.cpp
+ character_skill_class_v3.cpp character_skill_cooldown_v3.cpp character_faery_element_v3.cpp
+  character_skill_ai_v3.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+
+# One live V6 player shares the world's properties, life, inventory and Save.
+# The UI coordinators live here because their provider is the World; engine-ui
+# continues to own the rendering/AS core without a reverse World dependency.
+target_sources(dh2_level_world PRIVATE
+ character_player_skills_v6.cpp character_skills_owner_v6.cpp
+ character_skill_reload_v6.cpp character_skill_save_reload_v6.cpp
+ character_skill_state_v4.cpp
+ character_skill_mana_v5.cpp character_skill_context_v4.cpp character_skill_native_v5.cpp character_target_search_v5.cpp
+ character_hit_v6.cpp character_skill_combat_v6.cpp character_skill_attack_v6.cpp
+ character_skill_native_v6.cpp character_skill_readonly_v6.cpp character_skill_aggro_v6.cpp
+ character_skill_target_queries_v6.cpp character_combat_result_v6.cpp character_skill_application_v6.cpp
+ character_world_runtime_v1.cpp character_world_target_owner_v1.cpp character_world_skill_combat_v6.cpp character_world_npc_state_owner_v1.cpp character_world_npc_initialization_v1.cpp trophy_manager_owner_v1.cpp character_world_skill_execution_v6.cpp
+ character_world_ai_relationship_v1.cpp character_world_handle_v1.cpp
+ ../engine-ui/character_menu_stats_owner_v1.cpp
+ ../engine-ui/character_menu_actions_owner_v1.cpp
+ ../engine-ui/character_menu_queries_owner_v1.cpp
+ ../engine-ui/authored_character_menu_bridge_v1.cpp
+ ../engine-ui/character_menu_font_palette_v1.cpp
+ ../engine-ui/character_menu_inventory_order_v1.cpp
+ ../engine-ui/item_category_presentation_v1.cpp
+ ../engine-ui/character_menu_inventory_mutation_v1.cpp
+ ../engine-ui/character_menu_item_actions_v1.cpp
+ ../engine-ui/character_menu_save_actions_v1.cpp
+ ../engine-ui/character_menu_faery_actions_v1.cpp)
+set_source_files_properties(
+ character_player_skills_v6.cpp character_skills_owner_v6.cpp
+ character_skill_reload_v6.cpp character_skill_save_reload_v6.cpp character_skill_state_v4.cpp
+ character_skill_mana_v5.cpp character_skill_context_v4.cpp character_skill_native_v5.cpp character_target_search_v5.cpp
+ character_hit_v6.cpp character_skill_combat_v6.cpp character_skill_attack_v6.cpp
+ character_skill_native_v6.cpp character_skill_readonly_v6.cpp character_skill_aggro_v6.cpp
+ character_skill_target_queries_v6.cpp character_combat_result_v6.cpp character_skill_application_v6.cpp
+ character_world_runtime_v1.cpp character_world_target_owner_v1.cpp character_world_skill_combat_v6.cpp character_world_npc_state_owner_v1.cpp character_world_npc_initialization_v1.cpp trophy_manager_owner_v1.cpp character_world_skill_execution_v6.cpp
+ character_world_ai_relationship_v1.cpp character_world_handle_v1.cpp
+ ../engine-ui/character_menu_stats_owner_v1.cpp ../engine-ui/character_menu_actions_owner_v1.cpp
+ ../engine-ui/character_menu_queries_owner_v1.cpp ../engine-ui/character_menu_font_palette_v1.cpp
+ ../engine-ui/character_menu_inventory_order_v1.cpp ../engine-ui/character_menu_inventory_mutation_v1.cpp
+ ../engine-ui/character_menu_item_actions_v1.cpp ../engine-ui/character_menu_save_actions_v1.cpp
+ ../engine-ui/character_menu_faery_actions_v1.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+
 target_compile_features(dh2_level_world PUBLIC cxx_std_17)
 target_sources(dh2_level_world PRIVATE physical_world.cpp physical_lifecycle.cpp native_body.cpp visual_motion.cpp move_state.cpp decor_body_config.cpp visual_timeline.cpp actor_rotation.cpp actor_runtime.cpp actor_playback.cpp decor_scene.cpp character_scene.cpp)
 target_sources(dh2_level_world PRIVATE character_state.cpp animation_blender.cpp)
 target_sources(dh2_level_world PRIVATE character_timers.cpp character_stance.cpp)
 target_sources(dh2_level_world PRIVATE character_animation_events.cpp)
+target_sources(dh2_level_world PRIVATE character_animation_event_owner_v1.cpp
+ character_mesh_fx_owner_v1.cpp character_fx_state_v1.cpp character_fx_kernels_v1.cpp fx_texture_animation_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_animation_ai.cpp)
 target_sources(dh2_level_world PRIVATE character_script_selection.cpp)
 target_sources(dh2_level_world PRIVATE character_script_lifecycle.cpp character_combat_queries.cpp)
@@ -29,16 +266,323 @@ target_sources(dh2_level_world PRIVATE character_path_commands.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_frame.cpp)
 
 target_sources(dh2_level_world PRIVATE character_ai_attack.cpp)
+target_sources(dh2_level_world PRIVATE character_heading_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_collision_lifecycle_v1.cpp native_physical_filter_v1.cpp character_world_npc_object_v1.cpp)
+target_sources(dh2_level_world PRIVATE canonical_object_manager_v1.cpp canonical_object_factory_v1.cpp
+ retained_character_actor_v1.cpp openable_container_owner_v1.cpp openable_container_interaction_v2.cpp)
+target_sources(dh2_level_world PRIVATE canonical_property_map_v1.cpp canonical_gameobject_base_owner_v1.cpp
+ canonical_class_receiver_bindings_v1.cpp
+ character_npc_initpost_owner_v1.cpp game_object_initialization_owner_v1.cpp
+ game_object_visual_asset_owner_v1.cpp game_object_spawn_probability_v1.cpp
+ openable_container_property_connection_v1.cpp openable_container_loot_connection_v1.cpp
+ base_named_animation_controller_v1.cpp canonical_openable_container_v1.cpp
+ gameobject_scene_binding_v1.cpp retained_gameobject_visual_v1.cpp
+ retained_gameobject_visual_asset_connection_v1.cpp retained_gameobject_decor_v1.cpp
+ retained_gameobject_visual_asset_connection_v2.cpp gameobject_scene_root_registry_v1.cpp
+ retained_scene_visual_connection_v3.cpp
+ canonical_animated_decor_v1.cpp character_revive_owner_v1.cpp
+ player_manager_owner_v1.cpp player_manager_combat_runtime_v2.cpp
+ character_world_player_aggro_v2.cpp character_world_aggro_event_v1.cpp
+ character_player_aggro_owner_v1.cpp level_config_music_owner_v1.cpp
+ vox_music_state_owner_v1.cpp character_world_ai_neutral_v1.cpp
+ world_click_target_v1.cpp world_touch_projection_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_mesh_fx_owner_v2.cpp
+ character_blood_fx_resource_v2.cpp character_authored_particle_fx_v3.cpp character_combat_hit_fx_v2.cpp
+ character_animation_step_fx_v2.cpp character_animation_swoosh_v4.cpp
+ source_fx_node_matrix_v4.cpp authored_fx_mesh_graph_v4.cpp
+ character_authored_particle_fx_v4.cpp character_authored_fx_forces_v4.cpp
+    character_authored_resource_v5.cpp
+    character_authored_resource_v6.cpp authored_fx_mesh_graph_v6.cpp
+    authored_fx_geometry_packet_v7.cpp
+    authored_fx_transform_v5.cpp
+    authored_fx_mesh_graph_v5.cpp
+ character_mesh_fx_owner_v4.cpp character_combat_hit_fx_v4.cpp character_combat_fx_runtime_v4.cpp character_target_marker_v28.cpp character_fx_anchor_rotation_v28.cpp
+ character_combat_sound_v1.cpp character_combat_sound_tables_v2.cpp vox_play3d_owner_v2.cpp
+ character_combat_fx_runtime_v2.cpp character_combat_results_ai_v1.cpp character_fx_floor_query_v3.cpp character_defensive_state_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_loot_drop_award_v8.cpp character_loot_drop_v8.cpp
+ character_loot_interact_v8.cpp character_loot_item_manager_v8.cpp character_loot_scatter_v8.cpp
+ player_manager_loot_queries_v8.cpp)
+set_source_files_properties(character_loot_drop_award_v8.cpp character_loot_drop_v8.cpp
+ character_loot_interact_v8.cpp character_loot_item_manager_v8.cpp character_loot_scatter_v8.cpp
+ player_manager_loot_queries_v8.cpp PROPERTIES COMPILE_OPTIONS "-ffp-contract=off")
 
 target_sources(dh2_level_world PRIVATE character_script_timers.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_events.cpp)
 target_sources(dh2_level_world PRIVATE character_attack_geometry.cpp)
+target_sources(dh2_level_world PRIVATE character_attack_animation_v1.cpp
+ character_world_ai_can_attack_v1.cpp character_world_player_attack_owner_v1.cpp
+ character_world_attack_geometry_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_targetability_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_target_search.cpp)
+target_sources(dh2_level_world PRIVATE character_script_call_timer.cpp)
+target_sources(dh2_level_world PRIVATE character_script_owner.cpp)
+
+target_sources(dh2_level_world PRIVATE character_target_providers.cpp)
+
+target_sources(dh2_level_world PRIVATE character_script_virtual.cpp)
+target_sources(dh2_level_world PRIVATE character_relationships.cpp)
+target_sources(dh2_level_world PRIVATE character_property_bindings.cpp character_script_states.cpp)
+target_sources(dh2_level_world PRIVATE character_level.cpp character_native_fsm.cpp)
+target_sources(dh2_level_world PRIVATE character_native_effects.cpp)
+
+target_sources(dh2_level_world PRIVATE character_spatial_bindings.cpp character_host_context.cpp character_game_design.cpp)
+target_sources(dh2_level_world PRIVATE character_target_bindings.cpp)
+target_sources(dh2_level_world PRIVATE character_script_session.cpp)
+target_sources(dh2_level_world PRIVATE gameobject_lua_representation.cpp)
+
+target_sources(dh2_level_world PRIVATE character_timer_effects.cpp)
+
+target_sources(dh2_level_world PRIVATE object_identity.cpp)
+target_sources(dh2_level_world PRIVATE character_state_owner.cpp character_buffs.cpp)
+target_sources(dh2_level_world PRIVATE character_state_owner_behavior.cpp character_script_commands.cpp)
+target_sources(dh2_level_world PRIVATE character_state_owner_frame.cpp)
+target_sources(dh2_level_world PRIVATE character_target_update.cpp)
+target_sources(dh2_level_world PRIVATE character_target_events.cpp)
+target_sources(dh2_level_world PRIVATE character_dot_attack.cpp character_script_objects.cpp)
+target_sources(dh2_level_world PRIVATE character_state_empty.cpp)
+target_sources(dh2_level_world PRIVATE character_enemy_spotted.cpp character_pre_spawn.cpp)
+target_sources(dh2_level_world PRIVATE character_hit.cpp)
+target_sources(dh2_level_world PRIVATE character_state_owner_extensions.cpp)
+target_sources(dh2_level_world PRIVATE character_clear_aggro.cpp)
+target_sources(dh2_level_world PRIVATE character_aggro_clear_all_v2.cpp)
+target_sources(dh2_level_world PRIVATE npc_death_owner_v2.cpp)
+target_sources(dh2_level_world PRIVATE character_menu_recalc_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE npc_dead_state_v1.cpp)
+target_sources(dh2_level_world PRIVATE npc_attack_command_owner_v1.cpp npc_actor_frame_v1.cpp npc_animation_event_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_spawn_select.cpp character_spawn_permission.cpp character_spawn_body.cpp character_kill.cpp)
+target_sources(dh2_level_world PRIVATE character_spawn_owner_extensions.cpp character_ai_death.cpp character_cancel_sneaking.cpp)
+target_sources(dh2_level_world PRIVATE character_dead_select.cpp)
+target_sources(dh2_level_world PRIVATE character_sneaking_tables.cpp actor_initialization.cpp character_animation_instance.cpp)
+target_sources(dh2_level_world PRIVATE character_ai_state_changed.cpp character_ai_state_changed_vm.cpp)
+target_sources(dh2_level_world PRIVATE character_idle_update.cpp)
+target_sources(dh2_level_world PRIVATE character_npc_body.cpp)
+target_sources(dh2_level_world PRIVATE npc_script_commands_v1.cpp player_injure_state_v7.cpp npc_injury_runtime_v1.cpp
+ npc_controller_look_v1.cpp character_melee_animation_event_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_idle_events.cpp)
+target_sources(dh2_level_world PRIVATE character_combat_text_v1.cpp character_world_npc_bounds_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_combat_follower_v1.cpp)
+target_sources(dh2_level_world PRIVATE ../engine-ui/combat_flash_inputs_v1.cpp)
+target_sources(dh2_level_world PRIVATE visual_fx_preload.cpp)
+target_sources(dh2_level_world PRIVATE visual_fx_tables.cpp)
+target_sources(dh2_level_world PRIVATE character_init_fx.cpp)
+target_sources(dh2_level_world PRIVATE character_can_update.cpp)
+target_sources(dh2_level_world PRIVATE character_update_startup.cpp character_deferred_script.cpp character_deferred_script_session.cpp)
+target_sources(dh2_level_world PRIVATE character_script_init_vitals.cpp character_script_init_vitals_session.cpp)
+target_sources(dh2_level_world PRIVATE character_deferred_queue.cpp)
+target_sources(dh2_level_world PRIVATE character_update_queued.cpp)
+target_sources(dh2_level_world PRIVATE character_skills.cpp character_skills_owner.cpp character_skills_session.cpp)
 target_include_directories(dh2_level_world PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_options(dh2_level_world PRIVATE -Wall -Wextra -fno-fast-math -ffp-contract=off)
-target_link_libraries(dh2_level_world PUBLIC dh2_engine_skinning dh2_game_data dh2_box2d_201 PRIVATE dh2_script_runtime)
+target_link_libraries(dh2_level_world PUBLIC dh2_engine_skinning dh2_game_data dh2_box2d_201 PRIVATE dh2_script_runtime dh2_engine_ui)
 if(ANDROID)
- target_link_options(dh2_level_world PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
+ target_link_options(dh2_level_world PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined -Wl,--error-limit=0)
 else()
+ add_executable(source_input_manager_v60_audit tests/source_input_manager_v60.cpp)
+ target_link_libraries(source_input_manager_v60_audit PRIVATE dh2_level_world)
+ add_executable(player_equipment_render_owner_v1_audit tests/player_equipment_render_owner_v1.cpp)
+ target_link_libraries(player_equipment_render_owner_v1_audit PRIVATE dh2_level_world dh2_game_data
+  dh2_engine_ui dh2_engine_skinning dh2_engine_animation dh2_scene_materials dh2_script_runtime)
+ add_library(dh2_zip_asset_pack_v1 STATIC ../asset-payloads/zip_asset_pack_v1.cpp)
+ target_compile_features(dh2_zip_asset_pack_v1 PUBLIC cxx_std_17)
+ target_link_libraries(dh2_zip_asset_pack_v1 PUBLIC dh2_scene_materials z)
+ add_executable(character_player_skills_v3_audit tests/character_player_skills_v3.cpp)
+ target_link_libraries(character_player_skills_v3_audit PRIVATE dh2_level_world dh2_game_data dh2_engine_ui dh2_script_runtime dh2_zip_asset_pack_v1)
+ add_executable(character_skill_ai_v3_audit tests/character_skill_ai_v3.cpp)
+ target_link_libraries(character_skill_ai_v3_audit PRIVATE dh2_level_world)
+ add_executable(character_skill_callbacks_v3_audit tests/character_skill_callbacks_v3.cpp)
+ target_link_libraries(character_skill_callbacks_v3_audit PRIVATE dh2_level_world)
+ add_executable(character_current_spell_v1_audit tests/character_current_spell_v1.cpp)
+ target_link_libraries(character_current_spell_v1_audit PRIVATE dh2_level_world dh2_script_runtime)
+ add_executable(character_player_cache_bootstrap_v1_audit tests/character_player_cache_bootstrap_v1.cpp)
+ target_link_libraries(character_player_cache_bootstrap_v1_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime)
+ add_executable(character_script_assets_v1_audit tests/character_script_assets_v1.cpp)
+ target_link_libraries(character_script_assets_v1_audit PRIVATE dh2_level_world dh2_game_data dh2_zip_asset_pack_v1)
+ add_executable(character_skill_session_v2_audit tests/character_skill_session_v2.cpp)
+ target_link_libraries(character_skill_session_v2_audit PRIVATE dh2_level_world dh2_game_data dh2_engine_ui dh2_script_runtime)
+ add_executable(character_player_skills_v2_audit tests/character_player_skills_v2.cpp)
+ target_link_libraries(character_player_skills_v2_audit PRIVATE dh2_level_world dh2_game_data dh2_engine_ui dh2_script_runtime)
+ add_executable(character_skill_info_v1_audit tests/character_skill_info_v1.cpp)
+ target_link_libraries(character_skill_info_v1_audit PRIVATE dh2_level_world dh2_script_runtime)
+ add_executable(player_initial_grants_v2_audit tests/player_initial_grants_v2.cpp)
+ target_link_libraries(player_initial_grants_v2_audit PRIVATE dh2_level_world dh2_game_data)
+ add_executable(visual_fx_tables_audit tests/visual_fx_tables.cpp)
+ add_executable(character_init_fx_audit tests/character_init_fx.cpp)
+ target_link_libraries(character_init_fx_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_can_update_audit tests/character_can_update.cpp)
+ target_link_libraries(character_can_update_audit PRIVATE dh2_level_world)
+ add_executable(character_update_startup_audit tests/character_update_startup.cpp)
+ target_link_libraries(character_update_startup_audit PRIVATE dh2_level_world)
+ add_executable(character_deferred_queue_audit tests/character_deferred_queue.cpp)
+ target_link_libraries(character_deferred_queue_audit PRIVATE dh2_level_world)
+ add_executable(character_update_queued_audit tests/character_update_queued.cpp)
+ target_link_libraries(character_update_queued_audit PRIVATE dh2_level_world)
+ add_executable(character_update_queued_session_audit tests/character_update_queued_session.cpp)
+ target_link_libraries(character_update_queued_session_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime dh2_engine_animation dh2_scene_materials ${CMAKE_DL_LIBS})
+ add_executable(faery_tables_audit ../game-data/tests/faery_tables.cpp)
+ target_link_libraries(faery_tables_audit PRIVATE dh2_game_data)
+ add_executable(character_skills_audit tests/character_skills.cpp)
+ target_link_libraries(character_skills_audit PRIVATE dh2_level_world)
+ add_executable(character_skills_session_audit tests/character_skills_session.cpp)
+ target_link_libraries(character_skills_session_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_script_source_services_audit tests/character_script_source_services.cpp)
+ target_link_libraries(character_script_source_services_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_deferred_required_audit tests/character_deferred_required.cpp)
+ target_link_libraries(character_deferred_required_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_deferred_script_audit tests/character_deferred_script.cpp)
+ target_link_libraries(character_deferred_script_audit PRIVATE dh2_level_world)
+ add_executable(character_deferred_script_session_audit tests/character_deferred_script_session.cpp)
+ target_link_libraries(character_deferred_script_session_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_delayed_idle_audit tests/character_delayed_idle.cpp)
+ target_link_libraries(character_delayed_idle_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_script_init_vitals_audit tests/character_script_init_vitals_linked.cpp)
+ target_link_libraries(character_script_init_vitals_audit PRIVATE dh2_level_world dh2_game_data ${CMAKE_DL_LIBS})
+ target_link_options(character_script_init_vitals_audit PRIVATE -Wl,--export-dynamic-symbol=dh2_property_add)
+ add_executable(character_script_init_vitals_session_audit tests/character_script_init_vitals_session.cpp)
+ target_link_libraries(character_script_init_vitals_session_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_delayed_idle_vitals_audit tests/character_delayed_idle_vitals.cpp)
+ target_link_libraries(character_delayed_idle_vitals_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ target_link_libraries(visual_fx_tables_audit PRIVATE dh2_level_world dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(visual_fx_preload_audit tests/visual_fx_preload.cpp)
+ target_link_libraries(visual_fx_preload_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_idle_events_audit tests/character_idle_events.cpp)
+ target_link_libraries(character_idle_events_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_npc_body_audit tests/character_npc_body.cpp)
+ target_link_libraries(character_npc_body_audit PRIVATE dh2_level_world dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_idle_update_audit tests/character_idle_update.cpp)
+ target_link_libraries(character_idle_update_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(asset_sha256_audit ../asset-payloads/tests/sha256.cpp)
+ target_link_libraries(asset_sha256_audit PRIVATE dh2_scene_materials)
+ add_executable(character_ai_state_changed_audit tests/character_ai_state_changed.cpp)
+ target_link_libraries(character_ai_state_changed_audit PRIVATE dh2_level_world dh2_script_runtime)
+ add_executable(character_ai_state_changed_vm_audit tests/character_ai_state_changed_vm.cpp)
+ target_link_libraries(character_ai_state_changed_vm_audit PRIVATE dh2_level_world dh2_script_runtime)
+ add_executable(character_sneaking_tables_audit tests/character_sneaking_tables.cpp)
+ target_link_libraries(character_sneaking_tables_audit PRIVATE dh2_level_world dh2_game_data)
+ add_executable(actor_initialization_audit tests/actor_initialization.cpp)
+ target_link_libraries(actor_initialization_audit PRIVATE dh2_level_world)
+ add_executable(character_animation_instance_audit tests/character_animation_instance.cpp)
+ target_link_libraries(character_animation_instance_audit PRIVATE dh2_level_world dh2_game_data)
+ add_executable(character_dead_select_audit tests/character_dead_select.cpp)
+ target_link_libraries(character_dead_select_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ target_link_options(character_dead_select_audit PRIVATE -rdynamic)
+ add_executable(skill_tables_audit ../game-data/tests/skill_tables.cpp)
+ target_link_libraries(skill_tables_audit PRIVATE dh2_game_data dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_spawn_owner_extensions_audit tests/character_spawn_owner_extensions.cpp)
+ target_link_libraries(character_spawn_owner_extensions_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_ai_death_audit tests/character_ai_death.cpp)
+ target_link_libraries(character_ai_death_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_cancel_sneaking_audit tests/character_cancel_sneaking.cpp)
+ target_link_libraries(character_cancel_sneaking_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_owned_target_pipeline_audit tests/character_owned_target_pipeline.cpp)
+ target_link_libraries(character_owned_target_pipeline_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_object_position_audit tests/character_object_position.cpp)
+ target_link_libraries(character_object_position_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_spawn_select_audit tests/character_spawn_select.cpp)
+ target_link_libraries(character_spawn_select_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_spawn_body_audit tests/character_spawn_body.cpp)
+ target_link_libraries(character_spawn_body_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_kill_audit tests/character_kill.cpp)
+ target_link_libraries(character_kill_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(design_settings_audit ../game-data/tests/design_settings.cpp)
+ target_link_libraries(design_settings_audit PRIVATE dh2_game_data dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_player_objects_audit tests/character_player_objects.cpp)
+ target_link_libraries(character_player_objects_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_clear_aggro_audit tests/character_clear_aggro.cpp)
+ target_link_libraries(character_clear_aggro_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_state_owner_extensions_audit tests/character_state_owner_extensions.cpp)
+ target_link_libraries(character_state_owner_extensions_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_hit_audit tests/character_hit.cpp)
+ target_link_libraries(character_hit_audit PRIVATE dh2_level_world dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_enemy_spotted_audit tests/character_enemy_spotted.cpp)
+ target_link_libraries(character_enemy_spotted_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_pre_spawn_audit tests/character_pre_spawn.cpp)
+ target_link_libraries(character_pre_spawn_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_target_pipeline_audit tests/character_target_pipeline.cpp)
+ target_link_libraries(character_target_pipeline_audit PRIVATE dh2_level_world dh2_script_runtime dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_state_empty_audit tests/character_state_empty.cpp)
+ target_link_libraries(character_state_empty_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_dot_attack_audit tests/character_dot_attack.cpp)
+ target_link_libraries(character_dot_attack_audit PRIVATE dh2_level_world dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_target_event_route_audit tests/character_target_event_route.cpp)
+ target_link_libraries(character_target_event_route_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_script_objects_audit tests/character_script_objects.cpp)
+ target_link_libraries(character_script_objects_audit PRIVATE dh2_level_world dh2_script_runtime dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_state_owner_frame_audit tests/character_state_owner_frame.cpp)
+ target_link_libraries(character_state_owner_frame_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_target_events_audit tests/character_target_events.cpp)
+ target_link_libraries(character_target_events_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_target_update_audit tests/character_target_update.cpp)
+ target_link_libraries(character_target_update_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_script_commands_audit tests/character_script_commands.cpp)
+ target_link_libraries(character_script_commands_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_state_owner_behavior_audit tests/character_state_owner_behavior.cpp)
+ target_link_libraries(character_state_owner_behavior_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_state_owner_audit tests/character_state_owner.cpp)
+ target_link_libraries(character_state_owner_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_buffs_audit tests/character_buffs.cpp)
+ target_link_libraries(character_buffs_audit PRIVATE dh2_level_world dh2_game_data ${CMAKE_DL_LIBS})
+ target_link_options(character_buffs_audit PRIVATE -Wl,--export-dynamic)
+ add_executable(object_identity_audit tests/object_identity.cpp)
+ target_link_libraries(object_identity_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(object_target_events_audit tests/object_target_events.cpp)
+ target_link_libraries(object_target_events_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_script_session_targets_audit tests/character_script_session_targets.cpp)
+ target_link_libraries(character_script_session_targets_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_timer_effects_audit tests/character_timer_effects.cpp)
+ target_link_libraries(character_timer_effects_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(gameobject_lua_representation_audit tests/gameobject_lua_representation.cpp)
+ target_link_libraries(gameobject_lua_representation_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_design_services_audit tests/character_design_services.cpp)
+ target_link_libraries(character_design_services_audit PRIVATE dh2_level_world dh2_script_runtime dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_script_session_audit tests/character_script_session.cpp)
+ target_link_libraries(character_script_session_audit PRIVATE dh2_level_world dh2_script_runtime dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_target_bindings_audit tests/character_target_bindings.cpp)
+ target_link_libraries(character_target_bindings_audit PRIVATE dh2_level_world dh2_script_runtime dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_spatial_bindings_audit tests/character_spatial_bindings.cpp)
+ target_link_libraries(character_spatial_bindings_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_host_context_audit tests/character_host_context.cpp)
+ target_link_libraries(character_host_context_audit PRIVATE dh2_level_world dh2_script_runtime dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_game_design_audit tests/character_game_design.cpp)
+ target_link_libraries(character_game_design_audit PRIVATE dh2_level_world dh2_script_runtime dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(character_native_effects_audit tests/character_native_effects.cpp)
+ target_link_libraries(character_native_effects_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
+ add_executable(character_native_effects_focus_audit tests/character_native_effects_focus.cpp)
+ target_link_libraries(character_native_effects_focus_audit PRIVATE dh2_level_world dh2_game_data ${CMAKE_DL_LIBS})
+ add_executable(game_design_tables_audit ../game-data/tests/game_design_tables.cpp)
+ target_link_libraries(game_design_tables_audit PRIVATE dh2_game_data dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_script_owner_integers_audit tests/character_script_owner_integers.cpp)
+ target_link_libraries(character_script_owner_integers_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_level_audit tests/character_level.cpp)
+ target_link_libraries(character_level_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_level_constants_audit tests/character_level_constants.cpp)
+ target_link_libraries(character_level_constants_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_native_fsm_audit tests/character_native_fsm.cpp)
+ target_link_libraries(character_native_fsm_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_property_bindings_audit tests/character_property_bindings.cpp)
+ target_link_libraries(character_property_bindings_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_script_states_audit tests/character_script_states.cpp)
+ target_link_libraries(character_script_states_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_relationships_audit tests/character_relationships.cpp)
+ target_link_libraries(character_relationships_audit PRIVATE dh2_level_world)
+ add_executable(character_script_owner_include_audit tests/character_script_owner_include.cpp)
+ target_link_libraries(character_script_owner_include_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_script_owner_external_audit tests/character_script_owner_external.cpp)
+ target_link_libraries(character_script_owner_external_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_script_virtual_audit tests/character_script_virtual.cpp)
+ target_link_libraries(character_script_virtual_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_target_providers_audit tests/character_target_providers.cpp)
+ target_link_libraries(character_target_providers_audit PRIVATE dh2_level_world)
+ add_executable(character_script_owner_audit tests/character_script_owner.cpp)
+ target_link_libraries(character_script_owner_audit PRIVATE dh2_level_world dh2_script_runtime ${CMAKE_DL_LIBS})
+ add_executable(character_script_call_timer_audit tests/character_script_call_timer.cpp)
+ target_link_libraries(character_script_call_timer_audit PRIVATE dh2_level_world dh2_script_runtime)
+ add_executable(character_target_search_audit tests/character_target_search.cpp)
+ target_link_libraries(character_target_search_audit PRIVATE dh2_level_world)
+ # Only the gold replay executable exports captured caller-libm fixtures.
+ # Shared-library calls need dynamic interposition, not executable --wrap.
+ target_link_options(character_target_search_audit PRIVATE
+  -Wl,--export-dynamic-symbol=sinf -Wl,--export-dynamic-symbol=cosf
+  -Wl,--export-dynamic-symbol=sincosf -Wl,--export-dynamic-symbol=acosf)
  add_executable(character_attack_geometry_audit tests/character_attack_geometry.cpp)
  target_link_libraries(character_attack_geometry_audit PRIVATE dh2_level_world)
  add_executable(character_ai_events_audit tests/character_ai_events.cpp)
@@ -190,3 +734,56 @@ else()
  add_executable(player_combat_audit tests/player_combat.cpp)
  target_link_libraries(player_combat_audit PRIVATE dh2_level_world)
 endif()
+# Root source loading reuses this target's single canonical owners.
+include("${CMAKE_CURRENT_LIST_DIR}/../level-loader/native_loading_sources_v50.cmake")
+# Fixed-map native transport and authored non-Character constructors use this
+# existing canonical owner and its existing TinyXML library. No private test
+# target, selected snapshot owner or procedural implementation is linked.
+include("${CMAKE_CURRENT_LIST_DIR}/../level-loader/native_loading_sources_v65.cmake")
+dh2_loader_attach_native_sources_v65(dh2_level_world
+ LOADER_DIR "${CMAKE_CURRENT_LIST_DIR}/../level-loader"
+ WORLD_DIR "${CMAKE_CURRENT_LIST_DIR}"
+ XML_TARGET dh2_camera_xml_v20)
+include("${CMAKE_CURRENT_LIST_DIR}/../level-loader/native_noncharacter_sources_v67.cmake")
+dh2_loader_attach_noncharacter_catalog_v67(dh2_level_world
+ CATALOG_DIR "${CMAKE_CURRENT_LIST_DIR}/../level-loader"
+ LOADER_DIR "${CMAKE_CURRENT_LIST_DIR}/../level-loader"
+ WORLD_DIR "${CMAKE_CURRENT_LIST_DIR}")
+target_sources(dh2_level_world PRIVATE
+ character_menu_campaign_save_v50.cpp
+ campaign_save_profile_v45.cpp private_save_file_transport_v45.cpp
+ level_savegame_writer_v2.cpp savegame_jobs_owner_v2.cpp savegame_stream_v2.cpp
+ level_savegame_objects_v2.cpp player_save_metadata_writer_v45.cpp
+ player_save_inventory_writer_v45.cpp player_save_collections_writer_v45.cpp
+ world_loot_canonical_bindings_v44.cpp player_save_difficulty_global_v29.cpp
+ loot_source_fields_v47.cpp
+ loot_item_frame_source_v47.cpp
+ loot_item_target_source_v47.cpp
+ character_use_ooi_v47.cpp
+ loot_root_publishers_v49.cpp
+ canonical_podecor_body_v49.cpp
+ canonical_decor_physical_connection_v49.cpp
+ ../asset-payloads/zip_asset_pack_v1.cpp)
+target_link_libraries(dh2_level_world PRIVATE z)
+
+target_sources(dh2_level_world PRIVATE
+ character_death_owner_v56.cpp
+ character_dead_selection_owner_v56.cpp
+ character_ais_death_vm_v56.cpp
+ character_world_collision_v68.cpp
+ canonical_character_save_v86.cpp
+ character_ai_groups_v87.cpp
+ canonical_character_spawn_select_v87.cpp
+ canonical_container_target_v104.cpp
+ retained_visual_child_v91.cpp
+ retained_map_mesh_v93.cpp
+ canonical_room_lists_v105.cpp
+ level_fog_source_v103.cpp
+ canonical_gameobject_graph_v68.cpp
+ ../level-loader/game_event_manager_v50.cpp ../level-loader/game_event_runtime_v75.cpp)
+set_source_files_properties(canonical_gameobject_graph_v68.cpp
+ PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+
+target_sources(dh2_level_world PRIVATE native_batch_resources_v110.cpp native_batch_compiler_v111.cpp)
+target_sources(dh2_level_world PRIVATE native_batch_material_values_v113.cpp)
+target_sources(dh2_level_world PRIVATE native_scene_lights_v113.cpp)

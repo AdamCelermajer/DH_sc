@@ -1,0 +1,27 @@
+{
+  "apk_sha256": "58f6668a5fc1b9514add43460faf0911b9d6c46cc39d3254308177d99e05487f",
+  "pid": "7646",
+  "focus": "Exact single mCurrentFocus com.example.dh2/MainActivity checked for captures",
+  "quick_tap_command_updates": 1,
+  "hold500ms_command_updates": 26,
+  "skill": "BashDown clip1234 do_skill source FSM6 accepted nativeTargets0",
+  "native_frame_errors": [],
+  "enemy_damage_accepted": false,
+  "fx_probe_accepted": false,
+  "limits": [
+    "Warm amstart did not enable Java initial-surface cast_trace flag, so no12-sample post-fix probe.",
+    "Initial quicktap/hold genuinely altered pursuit; old movement route ended at another location with no captured enemy target.",
+    "Actual old blended slot clip1040 also delivered do_skill while state6 before1234; source event-group and blender delivery policy need investigation.",
+    "Menu persistence adapter authored after this APK; not included or accepted by this test."
+  ],
+  "files": {
+    "before.log": "ab6cd10b08447abfe6868926618f75db2e481eeeeb3d70eb935a72b925069755",
+    "before.png": "b2609a165f666455df3f7490dc9089d9bd64578dfa3cef3c16654cc323473391",
+    "cast.log": "6d3ae9c4a84c56d5943e15cd912bb8e6fadf9d5dd0728b0faa25ae0258b8e0f4",
+    "cast.png": "a06003933e6964d098d0a3d593a8d420a49ccdcfa229a15f28c1f17008fde79b",
+    "input.log": "15ca8cb6c46fc9089aa3b3773b7dd84872217075929a77fbe044cd01cc4df813",
+    "input.png": "e4042b42881adf425150a076e1e823ca06440edff4936c06c94120abedc24f18",
+    "world.log": "47fe09a83abcb14702206614e69d84a060e3c8255a4be0c7ddc29bddd6d3dfce",
+    "world.png": "c22367291924e1444ec732da3ba407e874a226d96e0428a5892efa2dd83e0814"
+  }
+}

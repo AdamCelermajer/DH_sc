@@ -1,0 +1,12 @@
+[
+  {
+    "optimization": "O1",
+    "checks": 9,
+    "scope": "Unpublished optional same-slot reload helper. Callback slot changes are contrasts, not observed live bugs. Current renderer selection already equals actual canonical2dc=&prince_body."
+  },
+  {
+    "optimization": "O2",
+    "checks": 9,
+    "scope": "Unpublished optional same-slot reload helper. Callback slot changes are contrasts, not observed live bugs. Current renderer selection already equals actual canonical2dc=&prince_body."
+  }
+]

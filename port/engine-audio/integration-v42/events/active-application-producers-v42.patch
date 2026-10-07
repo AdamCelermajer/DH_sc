@@ -1,0 +1,201 @@
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -90,6 +90,7 @@
+ #include "audio_animation_swoosh_v38.hpp"
+ #include "audio_world_producer_v38.hpp"
+ #include "audio_named_animation_sound_v38.hpp"
++#include "integration-v42/events/audio_application_transport_v42.hpp"
+ #include "audio_target_events_v38.hpp"
+ #include "character_world_clear_aggro_v40.hpp"
+ #include "canonical_point3d_globals_v1.hpp"
+@@ -192,6 +193,8 @@
+ #include "renderer_world_touch_live_v2.inc"
+ 
+ namespace model_renderer {
++// Focus/native owner provides this actual nullable process-global borrow.
++bool borrow_actual_application_audio_v42(dh2::audio::AudioApplicationBorrowV42&,std::string&);
+ namespace {
+ using Matrix=std::array<float,16>;
+ using Vertex=dh2::objects::Vertex;
+@@ -491,6 +494,7 @@
+  std::unique_ptr<dh2::fx::CharacterAuthoredResourceFactoryV6> combat_fx_particles;
+   dh2::character::CharacterCombatSoundTablesV2 combat_sound_tables;
+   dh2::audio::AudioSourceBindingsV38 audio_source_bindings_v38;
++  dh2::audio::AudioActualEventClockV42 audio_source_clock_v42; // REQUIRED actual authored event scope, never now()
+  std::unique_ptr<dh2::character::skills::CharacterCombatFxRuntimeV4> combat_fx;
+  std::unique_ptr<dh2::character::CharacterTargetMarkerV28> target_marker_v28;
+  std::map<std::uintptr_t,const dh2::actor::RotationState*> combat_fx_rotations;
+@@ -657,6 +661,7 @@
+ std::string source_player_attack_v1(int);
+ bool source_player_heading_v1(const float*,bool,std::string&);
+ static int source_named_animation_sound_v38(PlayerSkillsRuntime&,std::uintptr_t,const char*);
++static int source_player_named_prefix_v42(PlayerSkillsRuntime&,const char*,bool&);
+ extern std::uint32_t controller_global_blocked;
+ void MonsterScriptHandle::state_body(void* pointer,dh2::character::State* state,const dh2::character::Request* request){
+  auto& m=*static_cast<MonsterScriptHandle*>(pointer);
+@@ -1544,6 +1549,11 @@
+ }
+ namespace {
+ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip){
++ if(event.name&&!std::strncmp(event.name,"sfx_",4)){
++  if(!player_skills_runtime)throw std::runtime_error("Required actual player named-event owner");
++  bool handled=false;const int status=source_player_named_prefix_v42(*player_skills_runtime,event.name,handled);
++  if(!handled||status)throw std::runtime_error("Required source attack named sound: "+player_skills_runtime->error);return;
++ }
+  const auto& frames=prince_locomotion.scheduler.frames();
+  if(frames.empty())return;
+  const dh2::data::CombatEventContext context{prince_state.current,int(frames.front().step),int(frames.back().step),0,-1};
+@@ -1751,6 +1761,8 @@
+  // Preserve synchronous authored damage and the existing FSM close boundary.
+  if(event.handoff.event_id==0x28){
+    if(prince_state.current==7&&player_skills_runtime&&player_skills_runtime->cast){
++    bool handled=false;const int named_status=source_player_named_prefix_v42(*player_skills_runtime,static_cast<const char*>(event.handoff.payload),handled);
++    if(handled){if(named_status)throw std::runtime_error("Required source cast named sound: "+player_skills_runtime->error);return;}
+     if(player_skills_runtime->cast->animation_event(player_gameplay_binding(),event.handoff.payload))throw std::runtime_error("Original cast animation event: "+player_skills_runtime->cast->error());return;
+    }
+    if(prince_state.current!=5&&player_skills_runtime){
+@@ -1957,6 +1969,7 @@
+  }catch(const std::exception& failure){error=failure.what();return false;}
+ }
+ #include "renderer_authored_effect_scene_v5.inc"
++#include "integration-v42/events/renderer_application_audio_v42.inc"
+ #include "renderer_combat_sound_v2.inc"
+ #include "renderer_player_aggro_v2.inc"
+ #include "renderer_npc_death_v2.inc"
+@@ -1965,6 +1978,7 @@
+ void clear_npc_death_owners_v2(){for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.script)actor.script->death.reset();}
+ #include "renderer_combat_fx_runtime_v4.inc"
+ #include "renderer_animation_sound_v4.inc"
++#include "integration-v42/events/renderer_player_named_prefix_v42.inc"
+ #include "renderer_player_animation_step_fx_v2.inc"
+ PlayerSkillsRuntime::~PlayerSkillsRuntime(){
+  if(cast_fx_probe_v46.owner==this)cast_fx_probe_v46={};
+--- a/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc
++++ b/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc
+@@ -1,29 +1,23 @@
+ // Original CharAnimator callsite defaults: false, integer1, floats-1/-1.
+ // Uses SAME retained Vox and exact owner target position; reached bank/audio
+ // continuations stay mandatory, sharing the current combat sound boundary.
+-static int source_animation_request_v38(PlayerSkillsRuntime& t,const dh2::character::CombatSoundPlayV1& play){
+- if(!t.vox_music||!t.world){t.error="Required same animation Vox/World owner";return -1;}
+- dh2::sound::VoxPlay3DOwnerV2 owner({&t,[](void* raw,const dh2::sound::VoxPlay3DRequestV2& q,dh2::sound::VoxPlay3DResponseV2& out){
+-  auto& r=*static_cast<PlayerSkillsRuntime*>(raw);using O=dh2::sound::VoxPlay3DOperationV2;
+-  if(!q.play||!r.vox_music||q.play->manager!=r.vox_music->identity())return -1;
+-  if(q.operation==O::disabled){std::uint32_t value=0;if(dh2_character_debug_load(r.world->debug.get(),&r.world->debug_files)!=1||dh2_character_debug_get(&value,r.world->debug.get(),"IsDisablingSounds",&r.world->debug_files)!=1)return -1;out.value=value;return 0;}
+-  if(q.operation==O::current_level){out.identity=reinterpret_cast<std::uintptr_t>(&level);out.value=r.world->source_level_load_phase;return 0;}
+-  r.error="Required original animation Vox Play3D operation "+std::to_string(unsigned(q.operation));return -1;
+- }});
+- const int status=owner.play(play);if(status)t.error=owner.error()+"; "+t.error;return status;
+-}
++
+ static int source_animation_sound_v4(PlayerSkillsRuntime& t,std::int32_t id){
+- if(!t.vox_music||!t.world||!t.world->player_object){t.error="Required same animation Vox/Character owner";return -1;}
++ if(!t.world||!t.world->player_object){t.error="Required actual animation Character owner";return -1;}
++ CapturedProducerAudioV42 captured{t,{}};if(!borrow_actual_application_audio_v42(captured.application,t.error))return -1;
++ const auto captured_identity=captured.application.identity(); // BEFORE actual target position
+  const float* position=nullptr;if(!PlayerSkillsRuntime::heading_position(&t,t.world->player_object->identity,position,t.error))return -1;
+- return source_animation_request_v38(t,dh2::audio::audio_world_request_v38(t.vox_music->identity(),0,id,{position[0],position[1],position[2]}));
++ return source_animation_request_v42(captured,dh2::audio::audio_world_request_v38(captured_identity,0,id,{position[0],position[1],position[2]}));
+ }
+ static int source_named_animation_sound_v38(PlayerSkillsRuntime& t,std::uintptr_t character,const char* suffix){
+  if(t.audio_source_bindings_v38.rows().empty()){t.error="Required generated source sound-name table";return -1;}
+- dh2::audio::AudioNamedAnimationSoundServicesV38 services{};services.context=&t;services.actual_character=character;
+- services.manager=[](void* p,std::uintptr_t& out){auto& r=*static_cast<PlayerSkillsRuntime*>(p);if(!r.vox_music)return -1;out=r.vox_music->identity();return 0;};
+- services.target_position=[](void* p,std::uintptr_t id,std::array<float,3>& out){auto& r=*static_cast<PlayerSkillsRuntime*>(p);const float* position=nullptr;
++ CapturedProducerAudioV42 captured{t,{}};
++ dh2::audio::AudioNamedAnimationSoundServicesV38 services{};services.context=&captured;services.actual_character=character;
++ services.manager=[](void* p,std::uintptr_t& out){auto& c=*static_cast<CapturedProducerAudioV42*>(p);
++  if(!borrow_actual_application_audio_v42(c.application,c.t.error))return -1;out=c.application.identity();return 0;};
++ services.target_position=[](void* p,std::uintptr_t id,std::array<float,3>& out){auto& r=static_cast<CapturedProducerAudioV42*>(p)->t;const float* position=nullptr;
+   if(!PlayerSkillsRuntime::heading_position(&r,id,position,r.error))return -1;std::copy_n(position,3,out.begin());return 0;};
+- services.play=[](void* p,const dh2::character::CombatSoundPlayV1& request){return source_animation_request_v38(*static_cast<PlayerSkillsRuntime*>(p),request);};
++ services.play=[](void* p,const dh2::character::CombatSoundPlayV1& request){return source_animation_request_v42(*static_cast<CapturedProducerAudioV42*>(p),request);};
+  dh2::audio::AudioNamedAnimationSoundResultV38 result{};
+  const int status=dh2::audio::audio_named_animation_sound_v38(suffix,t.audio_source_bindings_v38,services,result);
+  if(status)t.error=std::string(result.required?result.required:"Required original named animation sound")+" phase "+std::to_string(result.phase)+"; "+t.error;
+--- a/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc
++++ b/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc
+@@ -6,34 +6,26 @@
+  const dh2::character::skills::SkillApplyRequestV6& q,const dh2::data::CombatResult& result){
+  using namespace dh2::character;using namespace dh2::character::skills;
+  if(q.service!=skill_apply_sound_v6)return 0;
+- CombatSoundServicesV1 s{};s.context=&t;
+- s.row=[](void* p,std::uintptr_t id,const CombatSoundRowV1** out){auto& r=*static_cast<PlayerSkillsRuntime*>(p);
++ CapturedProducerAudioV42 captured{t,{}};
++ CombatSoundServicesV1 s{};s.context=&captured;
++ s.row=[](void* p,std::uintptr_t id,const CombatSoundRowV1** out){auto& r=static_cast<CapturedProducerAudioV42*>(p)->t;
+   auto actor=r.world_actors.find(id);if(!out||actor==r.world_actors.end()||!actor->second.object||!actor->second.object->properties)return -1;
+   *out=r.combat_sound_tables.get(actor->second.object->properties->resolved[9]);return *out?0:-1;};
+- s.minimal_randoms=[](void* p,std::uint32_t* out){auto& r=*static_cast<PlayerSkillsRuntime*>(p);if(!out||!r.world->debug)return -1;
++ s.minimal_randoms=[](void* p,std::uint32_t* out){auto& r=static_cast<CapturedProducerAudioV42*>(p)->t;if(!out||!r.world->debug)return -1;
+   if(dh2_character_debug_load(r.world->debug.get(),&r.world->debug_files)!=1)return -1;
+   return dh2_character_debug_get(out,r.world->debug.get(),"MP_MinimalRandoms",&r.world->debug_files)==1?0:-1;};
+- s.dead=[](void* p,std::uintptr_t id,bool* out){auto& r=*static_cast<PlayerSkillsRuntime*>(p);WorldTargetActorBorrowV1 a{};
++ s.dead=[](void* p,std::uintptr_t id,bool* out){auto& r=static_cast<CapturedProducerAudioV42*>(p)->t;WorldTargetActorBorrowV1 a{};
+   if(!out||!r.targets||r.targets->actor(id,&a)||!a.life)return -1;*out=a.life->dead!=0;return 0;};
+- s.manager=[](void* p,std::uintptr_t* out){auto& r=*static_cast<PlayerSkillsRuntime*>(p);
+-  // Same retained Vox music-domain projection identity. This does not assert
+-  // native bank/device initialization; Play3D checks actual Level phase first.
+-  if(!out||!r.vox_music)return -1;*out=r.vox_music->identity();return 0;};
++ s.manager=[](void* p,std::uintptr_t* out){auto& c=*static_cast<CapturedProducerAudioV42*>(p);
++  if(!out||!borrow_actual_application_audio_v42(c.application,c.t.error))return -1;*out=c.application.identity();return 0;};
+  s.random=[](void*,std::uint32_t count,std::uint32_t* out){if(!out)return -1;*out=dh2_combat_random(&combat_random,count);return 0;};
+- s.position=[](void* p,std::uintptr_t id,std::array<float,3>* out){auto& r=*static_cast<PlayerSkillsRuntime*>(p);WorldTargetActorBorrowV1 a{};
++ s.position=[](void* p,std::uintptr_t id,std::array<float,3>* out){auto& r=static_cast<CapturedProducerAudioV42*>(p)->t;WorldTargetActorBorrowV1 a{};
+   if(!out||!r.targets||r.targets->actor(id,&a)||!a.target_node)return -1;
+   if(*a.target_node&&!a.target_enabled)return -1;
+   const float* position=dh2_world_target_position_v1(a.position,a.cached_target_position,*a.target_node,a.target_enabled?*a.target_enabled:0);
+   if(!position)return -1;std::copy_n(position,3,out->begin());return 0;};
+- s.play=[](void* p,const CombatSoundPlayV1* play){auto& r=*static_cast<PlayerSkillsRuntime*>(p);if(!play)return -1;
+-  dh2::sound::VoxPlay3DOwnerV2 owner({&r,[](void* raw,const dh2::sound::VoxPlay3DRequestV2& request,dh2::sound::VoxPlay3DResponseV2& out){
+-   auto& runtime=*static_cast<PlayerSkillsRuntime*>(raw);using O=dh2::sound::VoxPlay3DOperationV2;
+-   if(!runtime.vox_music||request.play->manager!=runtime.vox_music->identity())return -1;
+-   if(request.operation==O::disabled){std::uint32_t value=0;if(dh2_character_debug_load(runtime.world->debug.get(),&runtime.world->debug_files)!=1||dh2_character_debug_get(&value,runtime.world->debug.get(),"IsDisablingSounds",&runtime.world->debug_files)!=1)return -1;out.value=std::int32_t(value);return 0;}
+-   if(request.operation==O::current_level){out.identity=reinterpret_cast<std::uintptr_t>(&level);out.value=std::int32_t(runtime.world->source_level_load_phase);return 0;}
+-   runtime.error="Required original Vox Play3D reached operation "+std::to_string(unsigned(request.operation));return -1;
+-  }});
+-  const int status=owner.play(*play);if(status)r.error=owner.error()+"; "+r.error;return status;};
++ s.play=[](void* p,const CombatSoundPlayV1* play){if(!play)return -1;
++  return source_animation_request_v42(*static_cast<CapturedProducerAudioV42*>(p),*play);};
+  CombatSoundOutputV1 out{};const int status=character_combat_sound_v1(&out,&result,q.attacker,q.target,true,&s);
+  if(status){t.error="Required source combat sound phase "+std::to_string(out.phase)+"; "+t.error;return -2;}return 1;
+ }
+--- a/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc
++++ b/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc
+@@ -103,7 +103,7 @@
+ }
+ struct PlayerTargetEventContextV2 {
+  PlayerSkillsRuntime& t;dh2::character::TargetEventState32* state{};std::string debug_name;
+- bool committed{};
++ bool committed{};dh2::audio::AudioApplicationBorrowV42 application;
+ };
+ static int player_target_event_service_v2(void* raw,dh2::character::TargetEventState32* state,
+  const dh2::character::TargetEventRequest64* q,dh2::character::TargetEventResponse24* out){
+@@ -129,14 +129,7 @@
+  case target_event_clear_aggro:return player_target_clear_aggro_v40(t,q->subject,q->other);
+  case target_event_play_sound:{
+   CombatSoundPlayV1 play{};play.manager=q->subject;play.sound_id=q->sound;std::copy_n(q->position,3,play.position.begin());play.source_bool=q->flag!=0;play.source_integer=q->integer;play.source_float0=q->parameters[0];play.source_float1=q->parameters[1];
+-  dh2::sound::VoxPlay3DOwnerV2 owner({&t,[](void* r,const dh2::sound::VoxPlay3DRequestV2& request,dh2::sound::VoxPlay3DResponseV2& response){
+-   auto& runtime=*static_cast<PlayerSkillsRuntime*>(r);using O=dh2::sound::VoxPlay3DOperationV2;
+-   if(!runtime.vox_music||request.play->manager!=runtime.vox_music->identity())return -1;
+-   if(request.operation==O::disabled){std::uint32_t value=0;if(dh2_character_debug_load(runtime.world->debug.get(),&runtime.world->debug_files)!=1||dh2_character_debug_get(&value,runtime.world->debug.get(),"IsDisablingSounds",&runtime.world->debug_files)!=1)return -1;response.value=std::int32_t(value);return 0;}
+-   if(request.operation==O::current_level){response.identity=reinterpret_cast<std::uintptr_t>(&level);response.value=std::int32_t(runtime.world->source_level_load_phase);return 0;}
+-   runtime.error="Required target sound Vox Play3D operation "+std::to_string(unsigned(request.operation));return -1;
+-  }});
+-  const int result=owner.play(play);if(result)t.error=owner.error()+"; "+t.error;return result;
++  return dh2::audio::audio_submit_application_v42(c.application,t.audio_source_clock_v42,play,t.error)?0:-1;
+  }
+  case target_event_active_dispatch:
+   if(q->event==0xa)t.attack_fields.continued=state->continued;c.committed=true;
+@@ -154,8 +147,9 @@
+ int PlayerSkillsRuntime::target_ai_event(unsigned event,std::uintptr_t callee){
+  using namespace dh2::character;if(event<0xa||event>0x11||callee!=ai_virtuals[event-0xa+0x40/4])return -1;
+  auto& target=world->player_object->target;TargetEventState32 state{&target,events.active,std::uint8_t(attack_fields.continued),{},0};
+- PlayerTargetEventContextV2 context{*this,&state,{}};
+- TargetEventServices40 services{&context,player_target_event_service_v2,target_ai_sounds.data(),unsigned(target_ai_sounds.size()),0,vox_music?vox_music->identity():0};
++ PlayerTargetEventContextV2 context{*this,&state,{},false,{}};
++ if(!borrow_actual_application_audio_v42(context.application,error))return -1;
++ TargetEventServices40 services{&context,player_target_event_service_v2,target_ai_sounds.data(),unsigned(target_ai_sounds.size()),0,context.application.identity()};
+  const int result=dh2_audio_target_event_v38(&state,event,&services);
+  if(!result&&event==0xa&&!context.committed)attack_fields.continued=state.continued;
+  return result?-1:0;

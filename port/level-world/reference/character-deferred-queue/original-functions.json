@@ -1,0 +1,77 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNSaINSt4priv13_Rb_tree_nodeISt4pairIKiP9CharacterEEEE8allocateEjPKv.clone.8",
+      "elf_address": "0x3aa75c",
+      "size": 32,
+      "sha256": "124a0681983f1ec709b4673cf8178efd4a85fbca531c7c94797215987ae23070"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2",
+      "elf_address": "0x3aa77c",
+      "size": 312,
+      "sha256": "47b2fcfaebfa2a472a1065a165214df5be39297ce80ef5b509649802307b2f70"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_.clone.7",
+      "elf_address": "0x3aa8b4",
+      "size": 384,
+      "sha256": "cc9ca71bc16e80715d7730735878d390e593b41e0004c6fd90bb75ff911f686d"
+    },
+    {
+      "original_symbol": "_GLOBAL__I_.._.._sources_Game_Objects_Characters_Character.cpp",
+      "elf_address": "0x3aaa34",
+      "size": 2408,
+      "sha256": "cbe42bceb32d3ef025fcf2b95f62870e45e925a0ae5a9545303f9d3c2a4f1196"
+    },
+    {
+      "original_symbol": "_ZN9Character6UpdateEv",
+      "elf_address": "0x3abe98",
+      "size": 3776,
+      "sha256": "b74b4f3405a8456ce440b642e97f1b0c028c29e9e74abaa1be0aaf1534e1f8c2"
+    },
+    {
+      "original_symbol": "_ZNSt3mapIiP9CharacterSt4lessIiESaISt4pairIKiS1_EEED1Ev",
+      "elf_address": "0x3a7968",
+      "size": 52,
+      "sha256": "b8e49fcd24da872f8fe48770d935d29de0d6cf358ee178bb6cc935aee415ae63"
+    },
+    {
+      "original_symbol": "_ZNSt4priv10_Rb_globalIbE10_RebalanceEPNS_18_Rb_tree_node_baseERS3_",
+      "elf_address": "0x313760",
+      "size": 564,
+      "sha256": "0a1bb9bda722f66a440cb9a9f791fc0e2d907fcc703e68ceede36de19e054a32"
+    },
+    {
+      "original_symbol": "_ZN9Character19UnLoadScriptProcessENSt4priv17_Rb_tree_iteratorISt4pairIKiPS_ENS0_11_MapTraitsTIS5_EEEEb",
+      "elf_address": "0x3a7b24",
+      "size": 280,
+      "sha256": "016d378fc1722c5c90fa2e4a9fa9abac4ad2a45914a65a033b795da7eff47b43"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb",
+      "elf_address": "0x40570c",
+      "size": 28,
+      "sha256": "0a2c77862173fe1e153fc8803367a7ef0de280e3ec56f1102133d9b273fb9f28"
+    },
+    {
+      "original_symbol": "_ZNSt4priv10_Rb_globalIbE20_Rebalance_for_eraseEPNS_18_Rb_tree_node_baseERS3_S4_S4_",
+      "elf_address": "0x336004",
+      "size": 1256,
+      "sha256": "e3116d3d77e0bc0fb36ce21b8a22542d74fd59c17f5c0d2c7ae32a8d06f23492"
+    },
+    {
+      "original_symbol": "_ZN6CharAI21AIUnLoadScriptProcessEb",
+      "elf_address": "0x3cc9dc",
+      "size": 280,
+      "sha256": "28d98bde99f30223e5a33795e19cf4b86f0a545cd434fa2afdb451b401d0c4cf"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+      "elf_address": "0x3a7930",
+      "size": 56,
+      "sha256": "8792eb67874e20536c63b0ad3579fb55658072188d092dcf1cadf0c4be12d5d8"
+    }
+  ]
+}

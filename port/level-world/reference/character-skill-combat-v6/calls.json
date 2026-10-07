@@ -1,0 +1,3188 @@
+[
+  {
+    "caller": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+    "instruction": "0x379b1c",
+    "target": "0x36d7a8",
+    "symbol": "_ZN13PlayerManager13GetNumPlayersEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+    "instruction": "0x379b48",
+    "target": "0x379824",
+    "symbol": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+    "instruction": "0x379bc8",
+    "target": "0x37942c",
+    "symbol": "_ZNSt4priv16__introsort_loopIPSt4pairIiiES2_iN17PlayerStatManager9_StatCompEEEvT_S6_PT0_T1_T2_"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+    "instruction": "0x379c04",
+    "target": "0x379a2c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+    "instruction": "0x379c1c",
+    "target": "0x30e76c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+    "instruction": "0x379c4c",
+    "target": "0x30ea3c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb",
+    "instruction": "0x379c80",
+    "target": "0x379a2c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN17PlayerStatManager18ResetAllStatValuesEi",
+    "instruction": "0x37914c",
+    "target": "0x379108",
+    "symbol": "_ZN17PlayerStatManager14ResetStatValueE9EStatTypei"
+  },
+  {
+    "caller": "_ZNK6CharAI11AI_GetAggroEP9Character",
+    "instruction": "0x3d4b9c",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN14PlayerSavegame11_InitSkillsEv",
+    "instruction": "0x469780",
+    "target": "0x3bc5fc",
+    "symbol": "_ZNK9Character16GetCharSkillListEv"
+  },
+  {
+    "caller": "_ZN14PlayerSavegame11_InitSkillsEv",
+    "instruction": "0x469798",
+    "target": "0x31056c",
+    "symbol": "_Znaj15MemoryHintState"
+  },
+  {
+    "caller": "_ZN14PlayerSavegame11_InitSkillsEv",
+    "instruction": "0x469864",
+    "target": "0x345c94",
+    "symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE"
+  },
+  {
+    "caller": "_ZSt10__pop_heapIPSt4pairIiiES1_N17PlayerStatManager9_StatCompEiEvT_S5_S5_T0_T1_PT2_",
+    "instruction": "0x379348",
+    "target": "0x3791d4",
+    "symbol": "_ZSt13__adjust_heapIPSt4pairIiiEiS1_N17PlayerStatManager9_StatCompEEvT_T0_S6_T1_T2_"
+  },
+  {
+    "caller": "_ZN14PlayerSavegame15SG_ReloadSkillsEv",
+    "instruction": "0x467338",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN14PlayerSavegame15SG_ReloadSkillsEv",
+    "instruction": "0x467348",
+    "target": "0x469764",
+    "symbol": "_ZN14PlayerSavegame11_InitSkillsEv"
+  },
+  {
+    "caller": "_ZNK6CharAI16AI_GetAggroEntryEiRP9CharacterRf",
+    "instruction": "0x3d72f0",
+    "target": "0x3d7208",
+    "symbol": "_ZNK6CharAI26AI_GetRelationsConverseMapERKSt3mapIP9CharacterfSt4lessIS2_ESaISt4pairIKS2_fEEE"
+  },
+  {
+    "caller": "_ZNK6CharAI16AI_GetAggroEntryEiRP9CharacterRf",
+    "instruction": "0x3d738c",
+    "target": "0x3d5d64",
+    "symbol": "_ZNSt4priv8_Rb_treeIfSt4lessIfESt4pairIKfP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE"
+  },
+  {
+    "caller": "_ZNSt4priv16__introsort_loopIPSt4pairIiiES2_iN17PlayerStatManager9_StatCompEEEvT_S6_PT0_T1_T2_",
+    "instruction": "0x379504",
+    "target": "0x37942c",
+    "symbol": "_ZNSt4priv16__introsort_loopIPSt4pairIiiES2_iN17PlayerStatManager9_StatCompEEEvT_S6_PT0_T1_T2_"
+  },
+  {
+    "caller": "_ZN9Character8_RegenMPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3b77c8",
+    "target": "0x37baf8",
+    "symbol": "_ZNK3sfc6script3lua9ArgumentsixEj"
+  },
+  {
+    "caller": "_ZN9Character8_RegenMPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3b77cc",
+    "target": "0x31bbf0",
+    "symbol": "_ZNK3sfc6script3lua5Value9getNumberEv"
+  },
+  {
+    "caller": "_ZN9Character8_RegenMPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3b77d0",
+    "target": "0x30e4cc",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptD0Ev",
+    "instruction": "0x3cc468",
+    "target": "0x319228",
+    "symbol": "_ZN3sfc6script3lua9ArgumentsD1Ev"
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptD0Ev",
+    "instruction": "0x3cc470",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2674",
+    "target": "0x3136b4",
+    "symbol": "_Z20PushProfilingContextPKc"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b267c",
+    "target": "0x3af3b0",
+    "symbol": "_ZN9Character14_F_ResetResultERNS_12AttackResultE"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b26a8",
+    "target": "0x3b059c",
+    "symbol": "_Z16CF_SetCombatantsP9CharacterS0_ibb"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b271c",
+    "target": "0x3b0e8c",
+    "symbol": "_Z12CF__CalcHurtP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b277c",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2790",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b279c",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b27a4",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b27c8",
+    "target": "0x3136b8",
+    "symbol": "_Z19PopProfilingContextPKc"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b27ec",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b282c",
+    "target": "0x3b1df0",
+    "symbol": "_Z19CF__CalcMissOrDodgeP9CharacterS0_iiib"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2874",
+    "target": "0x3136b8",
+    "symbol": "_Z19PopProfilingContextPKc"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b28b4",
+    "target": "0x3b0e8c",
+    "symbol": "_Z12CF__CalcHurtP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2914",
+    "target": "0x3b1fb8",
+    "symbol": "_Z14CF__CalcDamageP9CharacterS0_iiibb"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b294c",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b297c",
+    "target": "0x3b0fa0",
+    "symbol": "_Z12CF__CalcStunP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2998",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b29c8",
+    "target": "0x3b0c64",
+    "symbol": "_Z12CF__CalcFearP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b29e4",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2a14",
+    "target": "0x3b0ad4",
+    "symbol": "_Z12CF__CalcSlowP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2a2c",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2a5c",
+    "target": "0x3b0d78",
+    "symbol": "_Z12CF__CalcPushP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2a74",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2aa4",
+    "target": "0x3b0868",
+    "symbol": "_Z12CF__CalcCritP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2ac4",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2af4",
+    "target": "0x3b0918",
+    "symbol": "_Z13CF__CalcBlockP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2b0c",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2b3c",
+    "target": "0x3b0868",
+    "symbol": "_Z12CF__CalcCritP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2b48",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2b88",
+    "target": "0x3b1df0",
+    "symbol": "_Z19CF__CalcMissOrDodgeP9CharacterS0_iiib"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2c44",
+    "target": "0x3b1fb8",
+    "symbol": "_Z14CF__CalcDamageP9CharacterS0_iiibb"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2c74",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2ca4",
+    "target": "0x3b0ad4",
+    "symbol": "_Z12CF__CalcSlowP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2cb0",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2ce0",
+    "target": "0x3b0c64",
+    "symbol": "_Z12CF__CalcFearP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2cec",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2d1c",
+    "target": "0x3b0fa0",
+    "symbol": "_Z12CF__CalcStunP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2d28",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2d58",
+    "target": "0x3b0d78",
+    "symbol": "_Z12CF__CalcPushP9CharacterS0_ii"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2da8",
+    "target": "0x3b1fb8",
+    "symbol": "_Z14CF__CalcDamageP9CharacterS0_iiibb"
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2de4",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2df4",
+    "target": "0x3af6d8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "instruction": "0x3b2e00",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddba0",
+    "target": "0x3dbea4",
+    "symbol": "_ZN10AISDefault7OnAggroEP9Character"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddbac",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddbc0",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddbcc",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddbf8",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddc10",
+    "target": "0x7fd794",
+    "symbol": "_Z9GetOnlinev"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddc34",
+    "target": "0x31f594",
+    "symbol": "_ZNK11Application15GetCurrentLevelEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddc44",
+    "target": "0x3a3024",
+    "symbol": "_ZNK9Character9GetCharAIEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddc80",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddc94",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddca0",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddccc",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddcf4",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddd24",
+    "target": "0x36effc",
+    "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddd50",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddd58",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddd94",
+    "target": "0x369514",
+    "symbol": "_ZN15VoxSoundManager13SetMusicStateEPKc"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3ddda4",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3dddf8",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer7OnAggroEP9Character",
+    "instruction": "0x3dde04",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZSt13__adjust_heapIPSt4pairIiiEiS1_N17PlayerStatManager9_StatCompEEvT_T0_S6_T1_T2_",
+    "instruction": "0x379260",
+    "target": "0x37915c",
+    "symbol": "_ZSt11__push_heapIPSt4pairIiiEiS1_N17PlayerStatManager9_StatCompEEvT_T0_S6_T1_T2_"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8c54",
+    "target": "0x36e478",
+    "symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8c70",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8c84",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8c90",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8ca0",
+    "target": "0x318254",
+    "symbol": "_ZNSsD1Ev"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8ca4",
+    "target": "0x7fd794",
+    "symbol": "_Z9GetOnlinev"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8d10",
+    "target": "0x3e0708",
+    "symbol": "_ZN14CharProperties9PROPS_AddEii"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8d24",
+    "target": "0x320e14",
+    "symbol": "_ZN11Application15IsSavedOptionOnEPKc"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8d54",
+    "target": "0x3e07a0",
+    "symbol": "_ZN14CharProperties9PROPS_SetEii"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8da4",
+    "target": "0x7fd794",
+    "symbol": "_Z9GetOnlinev"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8e28",
+    "target": "0x30e31c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8e50",
+    "target": "0x36b80c",
+    "symbol": "_ZN15VoxSoundManager4PlayEibiib"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8e60",
+    "target": "0x33dd2c",
+    "symbol": "_ZN10ObjectBase9GetHandleEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8e68",
+    "target": "0x33ff54",
+    "symbol": "_ZN12ObjectHandlecvP9CharacterEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8eac",
+    "target": "0x36effc",
+    "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8f08",
+    "target": "0x3a3158",
+    "symbol": "_ZNK9Character6IsBossEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8f1c",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8f28",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8f94",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8fa4",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8fac",
+    "target": "0x30ed6c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8fb8",
+    "target": "0x30e4b4",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8fdc",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8fec",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a8ff8",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9004",
+    "target": "0x318254",
+    "symbol": "_ZNSsD1Ev"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9018",
+    "target": "0x3a3064",
+    "symbol": "_ZNK9Character9IsMonsterEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a902c",
+    "target": "0x318254",
+    "symbol": "_ZNSsD1Ev"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9064",
+    "target": "0x3bb8e4",
+    "symbol": "_ZN9Character20SG_GetGameDifficultyEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a90a0",
+    "target": "0x4591f0",
+    "symbol": "_ZNK13ScriptManager13GetIDFromNameEPKcb"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a90bc",
+    "target": "0x4605c0",
+    "symbol": "_ZN13ScriptManager11StartScriptEiib"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a90e0",
+    "target": "0x317e98",
+    "symbol": "_ZN16updateJob_thread6Start2Ev"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a90f4",
+    "target": "0x3e07a0",
+    "symbol": "_ZN14CharProperties9PROPS_SetEii"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9104",
+    "target": "0x40570c",
+    "symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9140",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a914c",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9158",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9164",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9170",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a917c",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9188",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9194",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a91f4",
+    "target": "0x30e31c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9208",
+    "target": "0x3a3144",
+    "symbol": "_ZNK9Character10IsMiniBossEv"
+  },
+  {
+    "caller": "_ZN9Character6HitForEjP10GameObject",
+    "instruction": "0x3a9218",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x379700",
+    "target": "0x36dfb0",
+    "symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x379708",
+    "target": "0x42ca8c",
+    "symbol": "_ZN11MenuManager11GetInstanceEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x37970c",
+    "target": "0x42cb8c",
+    "symbol": "_ZN11MenuManager10GetHUDRootEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x379728",
+    "target": "0x30ed30",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x37974c",
+    "target": "0x80f164",
+    "symbol": "_ZN14CNetPlayerInfo8IsRemoteEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x37976c",
+    "target": "0x3795c8",
+    "symbol": "_ZN17PlayerStatManager10GetStatStrE9EStatType"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x379780",
+    "target": "0x797350",
+    "symbol": "_ZN7gameswf8as_value10set_stringEPKc"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x379788",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x379798",
+    "target": "0x30ed30",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x3797b0",
+    "target": "0x7a7cac",
+    "symbol": "_ZNK8RenderFX7GetRootEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x3797b4",
+    "target": "0x774154",
+    "symbol": "_ZN7gameswf4root14get_root_movieEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x3797d4",
+    "target": "0x7abe0c",
+    "symbol": "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x3797dc",
+    "target": "0x797124",
+    "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x3797e4",
+    "target": "0x797124",
+    "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x3797ec",
+    "target": "0x797124",
+    "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x3797f4",
+    "target": "0x797124",
+    "symbol": "_ZN7gameswf8as_value9drop_refsEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii",
+    "instruction": "0x379810",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character8_RegenHPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3b7840",
+    "target": "0x37baf8",
+    "symbol": "_ZNK3sfc6script3lua9ArgumentsixEj"
+  },
+  {
+    "caller": "_ZN9Character8_RegenHPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3b7844",
+    "target": "0x31bbf0",
+    "symbol": "_ZNK3sfc6script3lua5Value9getNumberEv"
+  },
+  {
+    "caller": "_ZN9Character8_RegenHPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3b7848",
+    "target": "0x30e4cc",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b10e4",
+    "target": "0x7fd794",
+    "symbol": "_Z9GetOnlinev"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1120",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1134",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1140",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1150",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b115c",
+    "target": "0x3bdca4",
+    "symbol": "_ZN9Character7RegenHPEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1168",
+    "target": "0x3bdbb8",
+    "symbol": "_ZN9Character7RegenMPEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1188",
+    "target": "0x3bc6b8",
+    "symbol": "_ZN9Character14CancelSneakingEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1198",
+    "target": "0x3af77c",
+    "symbol": "_ZN9Character26F_ApplyScrollingCombatTextERKNS_12AttackResultEPS_S3_"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b11a8",
+    "target": "0x3afee0",
+    "symbol": "_ZN9Character18F_ApplyCombatSoundERKNS_12AttackResultEPS_S3_"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1228",
+    "target": "0x3e2720",
+    "symbol": "_ZN14CharProperties12PROPS_AddDotEiii"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b12a0",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b12c4",
+    "target": "0x3c5ffc",
+    "symbol": "_ZN16CharStateMachine15SM_SetStunStateEjbPvb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b12d4",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b12e8",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b12f4",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b12fc",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1328",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1340",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1354",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1360",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1368",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1394",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b13a0",
+    "target": "0x3e2a5c",
+    "symbol": "_ZN14CharProperties16PROPS_DebuffSlowEj"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b13b0",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b13c4",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b13d0",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b13d8",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b13f4",
+    "target": "0x36eea8",
+    "symbol": "_ZN13PlayerManager20GetPlayerByCharacterEPK9Characterb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1438",
+    "target": "0x3790e0",
+    "symbol": "_ZN17PlayerStatManager12IncreaseStatE9EStatTypeii"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b14a0",
+    "target": "0x80b1bc",
+    "symbol": "_ZN10CMessaging3GetEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b14b8",
+    "target": "0x3af330",
+    "symbol": "_ZN16CMsgAttackResult6CreateEiiRKN9Character12AttackResultEb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b14c4",
+    "target": "0x80e2a4",
+    "symbol": "_ZN10CMessaging7SendMsgEP8CMessage"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b14e4",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b14f8",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1504",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1540",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1548",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1584",
+    "target": "0x3a3064",
+    "symbol": "_ZNK9Character9IsMonsterEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1594",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15a8",
+    "target": "0x30ed6c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15b0",
+    "target": "0x30eba4",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15b4",
+    "target": "0x30e4cc",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15c8",
+    "target": "0x3bd394",
+    "symbol": "_ZNK9Character27GetEffectiveThreatPerDamageEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15d4",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15dc",
+    "target": "0x30ed6c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15e8",
+    "target": "0x30ed6c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b15fc",
+    "target": "0x3d7c68",
+    "symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1604",
+    "target": "0x30e2f8",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1658",
+    "target": "0x3935dc",
+    "symbol": "_ZNK10GameObject17GetTargetPositionEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b167c",
+    "target": "0x495888",
+    "symbol": "_ZN15VisualFXManager13PlayAnimFXSetEiRK7Point3DIfES3_PK10GameObjectPNS_13AnimFXSetDataE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b16e0",
+    "target": "0x31f594",
+    "symbol": "_ZNK11Application15GetCurrentLevelEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1700",
+    "target": "0x40f980",
+    "symbol": "_ZNK11CameraLevel16CanPlayShakeAnimEP9Character"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1724",
+    "target": "0x393ae4",
+    "symbol": "_ZNK10GameObject12GetLookAtVecER7Point3DIfE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1750",
+    "target": "0x40f904",
+    "symbol": "_ZN11CameraLevel8PlayAnimEiib"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1770",
+    "target": "0x36eea8",
+    "symbol": "_ZN13PlayerManager20GetPlayerByCharacterEPK9Characterb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1780",
+    "target": "0x3790ec",
+    "symbol": "_ZN17PlayerStatManager13IncrementStatE9EStatTypei"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b17dc",
+    "target": "0x320e14",
+    "symbol": "_ZN11Application15IsSavedOptionOnEPKc"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b17f8",
+    "target": "0x3c0260",
+    "symbol": "_ZNK16CharStateMachine9SM_IsIdleEb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1844",
+    "target": "0x3c5b3c",
+    "symbol": "_ZN16CharStateMachine18SM_SetDodgingStateEPvb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b186c",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1880",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b188c",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1894",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b18b4",
+    "target": "0x3c5c60",
+    "symbol": "_ZN16CharStateMachine19SM_SetBlockingStateEPvb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b18dc",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b18f0",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b18fc",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1904",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1924",
+    "target": "0x3c5d84",
+    "symbol": "_ZN16CharStateMachine17SM_SetInjureStateEPvb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1934",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1948",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1954",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b195c",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1984",
+    "target": "0x3c5ea0",
+    "symbol": "_ZN16CharStateMachine20SM_SetKnockBackStateEbPvb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b19ac",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b19c0",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b19cc",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b19d4",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b19f8",
+    "target": "0x3c6144",
+    "symbol": "_ZN16CharStateMachine16SM_SetScareStateEjbPvb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a24",
+    "target": "0x3fe164",
+    "symbol": "_ZN13ItemInventory7AddGoldEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a30",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a44",
+    "target": "0x3790ec",
+    "symbol": "_ZN17PlayerStatManager13IncrementStatE9EStatTypei"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a5c",
+    "target": "0x3790ec",
+    "symbol": "_ZN17PlayerStatManager13IncrementStatE9EStatTypei"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a74",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a88",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1a98",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1aa0",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1af4",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b08",
+    "target": "0x30ed6c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b10",
+    "target": "0x30eba4",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b14",
+    "target": "0x30e4cc",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b20",
+    "target": "0x30e2a4",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b3c",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b50",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b60",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b68",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b78",
+    "target": "0x3a8bc4",
+    "symbol": "_ZN9Character6HitForEjP10GameObject"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1b90",
+    "target": "0x3e0798",
+    "symbol": "_ZN14CharProperties12PROPS_AddIntEii"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1bac",
+    "target": "0x3df6e0",
+    "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1bc8",
+    "target": "0x36effc",
+    "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1bdc",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1be8",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c00",
+    "target": "0x3e0798",
+    "symbol": "_ZN14CharProperties12PROPS_AddIntEii"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c1c",
+    "target": "0x3df6e0",
+    "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c38",
+    "target": "0x36effc",
+    "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c4c",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c58",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c70",
+    "target": "0x3e0798",
+    "symbol": "_ZN14CharProperties12PROPS_AddIntEii"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1c8c",
+    "target": "0x3df6e0",
+    "symbol": "_ZNK14CharProperties12PROPS_GetIntEib"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1ca8",
+    "target": "0x36effc",
+    "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1cbc",
+    "target": "0x3a3f70",
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1cc8",
+    "target": "0x3813b8",
+    "symbol": "_ZN13TrophyManager12UnlockTrophyEi"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1cec",
+    "target": "0x3a3368",
+    "symbol": "_ZNK9Character15GetFXBloodDeathEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1cfc",
+    "target": "0x3a33d0",
+    "symbol": "_ZNK9Character10GetFXBloodEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1d34",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1d68",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "instruction": "0x3b1d70",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3dde78",
+    "target": "0x3dbea8",
+    "symbol": "_ZN10AISDefault9OnDeAggroEP9Character"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3dde84",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3dde98",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddea4",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3dded0",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddee8",
+    "target": "0x7fd794",
+    "symbol": "_Z9GetOnlinev"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf10",
+    "target": "0x31f594",
+    "symbol": "_ZNK11Application15GetCurrentLevelEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf1c",
+    "target": "0x3a3024",
+    "symbol": "_ZNK9Character9GetCharAIEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf50",
+    "target": "0x369514",
+    "symbol": "_ZN15VoxSoundManager13SetMusicStateEPKc"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf7c",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf90",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddf9c",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddfc8",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3ddff0",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3de020",
+    "target": "0x36effc",
+    "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3de04c",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3de054",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3de07c",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3de088",
+    "target": "0x31f594",
+    "symbol": "_ZNK11Application15GetCurrentLevelEv"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3de0ac",
+    "target": "0x36bd78",
+    "symbol": "_ZN15VoxSoundManager9PlayMusicEibbi"
+  },
+  {
+    "caller": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "instruction": "0x3de0b4",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character14CancelSneakingEv",
+    "instruction": "0x3bc6e0",
+    "target": "0x3bc690",
+    "symbol": "_ZNK9Character10IsSneakingEv"
+  },
+  {
+    "caller": "_ZN9Character14CancelSneakingEv",
+    "instruction": "0x3bc6f4",
+    "target": "0x3bc5fc",
+    "symbol": "_ZNK9Character16GetCharSkillListEv"
+  },
+  {
+    "caller": "_ZN9Character14CancelSneakingEv",
+    "instruction": "0x3bc76c",
+    "target": "0x3e101c",
+    "symbol": "_ZN14CharProperties13PROPS_DelBuffEiPN7Structs19CharacterPropertiesE"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379d48",
+    "target": "0x379ac4",
+    "symbol": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379d5c",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379d70",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379d7c",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379d84",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379d94",
+    "target": "0x36d7a8",
+    "symbol": "_ZN13PlayerManager13GetNumPlayersEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379dbc",
+    "target": "0x3796c4",
+    "symbol": "_ZNK17PlayerStatManager6InvokeE9EStatTypeii"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager13UpdateRankingE9EStatType",
+    "instruction": "0x379de4",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2eb4",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2ec8",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2ed4",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2edc",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2f08",
+    "target": "0x3b2638",
+    "symbol": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii"
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2f74",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2fc8",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b2fd0",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager9GetLeaderE9EStatType",
+    "instruction": "0x379e04",
+    "target": "0x379ac4",
+    "symbol": "_ZNK17PlayerStatManager10GetRankingE9EStatTypeb"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeERKSs",
+    "instruction": "0x379574",
+    "target": "0x42ca8c",
+    "symbol": "_ZN11MenuManager11GetInstanceEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeERKSs",
+    "instruction": "0x379578",
+    "target": "0x42cb8c",
+    "symbol": "_ZN11MenuManager10GetHUDRootEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeERKSs",
+    "instruction": "0x379580",
+    "target": "0x7a7cac",
+    "symbol": "_ZNK8RenderFX7GetRootEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeERKSs",
+    "instruction": "0x379584",
+    "target": "0x774154",
+    "symbol": "_ZN7gameswf4root14get_root_movieEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager6InvokeERKSs",
+    "instruction": "0x3795a0",
+    "target": "0x7abe0c",
+    "symbol": "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b31f4",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b3208",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b3214",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b321c",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b3230",
+    "target": "0x3ffe3c",
+    "symbol": "_ZN13ItemInventory15GetEquippedItemEj"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b3240",
+    "target": "0x3f9e08",
+    "symbol": "_ZNK12ItemInstance7GetItemEv"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b326c",
+    "target": "0x3b2638",
+    "symbol": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii"
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b32d8",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b332c",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "instruction": "0x3b3334",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdbf4",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc08",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc38",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc4c",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc58",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc60",
+    "target": "0x318254",
+    "symbol": "_ZNSsD1Ev"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc70",
+    "target": "0x3e0708",
+    "symbol": "_ZN14CharProperties9PROPS_AddEii"
+  },
+  {
+    "caller": "_ZN9Character7RegenMPEi",
+    "instruction": "0x3bdc90",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI15AI_ReloadSkillsEv",
+    "instruction": "0x3d8d58",
+    "target": "0x3bbe2c",
+    "symbol": "_ZN9Character15SG_ReloadSkillsEv"
+  },
+  {
+    "caller": "_ZN6CharAI15AI_ReloadSkillsEv",
+    "instruction": "0x3d8d60",
+    "target": "0x3ce044",
+    "symbol": "_ZN6CharAI18SetSkillsAndSpellsEv"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager14ResetStatValueE9EStatTypei",
+    "instruction": "0x379120",
+    "target": "0x379104",
+    "symbol": "_ZN17PlayerStatManager12SetStatValueE9EStatTypeiib"
+  },
+  {
+    "caller": "_ZN17PlayerStatManagerD0Ev",
+    "instruction": "0x3795b4",
+    "target": "0x3790d0",
+    "symbol": "_ZN17PlayerStatManagerD1Ev"
+  },
+  {
+    "caller": "_ZN17PlayerStatManagerD0Ev",
+    "instruction": "0x3795bc",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZSt11__make_heapIPSt4pairIiiEN17PlayerStatManager9_StatCompES1_iEvT_S5_T0_PT1_PT2_",
+    "instruction": "0x3792ec",
+    "target": "0x3791d4",
+    "symbol": "_ZSt13__adjust_heapIPSt4pairIiiEiS1_N17PlayerStatManager9_StatCompEEvT_T0_S6_T1_T2_"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua9ArgumentsD1Ev",
+    "instruction": "0x31924c",
+    "target": "0x31d194",
+    "symbol": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei",
+    "instruction": "0x3798a8",
+    "target": "0x36dfb0",
+    "symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei",
+    "instruction": "0x3798ec",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei",
+    "instruction": "0x379920",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+    "instruction": "0x3d7b38",
+    "target": "0x3d7678",
+    "symbol": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_"
+  },
+  {
+    "caller": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+    "instruction": "0x3d7bbc",
+    "target": "0x3d7678",
+    "symbol": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_"
+  },
+  {
+    "caller": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+    "instruction": "0x3d7c20",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN13TrophyManager12UnlockTrophyEi",
+    "instruction": "0x3813cc",
+    "target": "0x380058",
+    "symbol": "_ZN13TrophyManager16IsTrophyUnlockedEi"
+  },
+  {
+    "caller": "_ZN13TrophyManager12UnlockTrophyEi",
+    "instruction": "0x3813e8",
+    "target": "0x37f9e4",
+    "symbol": "_ZN13TrophyManager17IsTrophyUnlockingEi"
+  },
+  {
+    "caller": "_ZN13TrophyManager12UnlockTrophyEi",
+    "instruction": "0x381418",
+    "target": "0x380e48",
+    "symbol": "_ZN13TrophyManager16TrophyUnlockedCBEi"
+  },
+  {
+    "caller": "_ZN13TrophyManager12UnlockTrophyEi",
+    "instruction": "0x381454",
+    "target": "0x35fd5c",
+    "symbol": "_ZNSaIiE11_M_allocateEjRj"
+  },
+  {
+    "caller": "_ZN13TrophyManager12UnlockTrophyEi",
+    "instruction": "0x381470",
+    "target": "0x30df38",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN13TrophyManager12UnlockTrophyEi",
+    "instruction": "0x38149c",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN13TrophyManager12UnlockTrophyEi",
+    "instruction": "0x3814c0",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_Z16CF_SetCombatantsP9CharacterS0_ibb",
+    "instruction": "0x3b05d0",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_Z16CF_SetCombatantsP9CharacterS0_ibb",
+    "instruction": "0x3b05e8",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZNSt4priv14__partial_sortIPSt4pairIiiES2_N17PlayerStatManager9_StatCompEEEvT_S6_S6_PT0_T1_",
+    "instruction": "0x379378",
+    "target": "0x379290",
+    "symbol": "_ZSt11__make_heapIPSt4pairIiiEN17PlayerStatManager9_StatCompES1_iEvT_S5_T0_PT1_PT2_"
+  },
+  {
+    "caller": "_ZNSt4priv14__partial_sortIPSt4pairIiiES2_N17PlayerStatManager9_StatCompEEEvT_S6_S6_PT0_T1_",
+    "instruction": "0x3793c4",
+    "target": "0x379304",
+    "symbol": "_ZSt10__pop_heapIPSt4pairIiiES1_N17PlayerStatManager9_StatCompEiEvT_S5_S5_T0_T1_PT2_"
+  },
+  {
+    "caller": "_ZNSt4priv14__partial_sortIPSt4pairIiiES2_N17PlayerStatManager9_StatCompEEEvT_S6_S6_PT0_T1_",
+    "instruction": "0x379418",
+    "target": "0x379304",
+    "symbol": "_ZSt10__pop_heapIPSt4pairIiiES1_N17PlayerStatManager9_StatCompEiEvT_S5_S5_T0_T1_PT2_"
+  },
+  {
+    "caller": "_ZNK9Character37GetEffectiveThreatPerDamageToFriendlyEv",
+    "instruction": "0x3bd3f8",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZNK9Character37GetEffectiveThreatPerDamageToFriendlyEv",
+    "instruction": "0x3bd3fc",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK9Character37GetEffectiveThreatPerDamageToFriendlyEv",
+    "instruction": "0x3bd404",
+    "target": "0x30ed6c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI9OnDeAggroEP9Character",
+    "instruction": "0x3d2048",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN6CharAI9OnDeAggroEP9Character",
+    "instruction": "0x3d2060",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN6CharAI9OnDeAggroEP9Character",
+    "instruction": "0x3d206c",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN6CharAI9OnDeAggroEP9Character",
+    "instruction": "0x3d2074",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN6CharAI9OnDeAggroEP9Character",
+    "instruction": "0x3d20b4",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "instruction": "0x3cde68",
+    "target": "0x3192b4",
+    "symbol": "_ZN3sfc6script3lua9ArgumentsC1Ev"
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "instruction": "0x3cde90",
+    "target": "0x39ec10",
+    "symbol": "_ZN3sfc6script3lua9Arguments10pushStringEPKc"
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "instruction": "0x3cde9c",
+    "target": "0x3cdd78",
+    "symbol": "_ZN3sfc6script3lua9Arguments11pushIntegerEi"
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "instruction": "0x3cdef8",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "instruction": "0x3cdf4c",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b01e8",
+    "target": "0x7fd794",
+    "symbol": "_Z9GetOnlinev"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0210",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0224",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0230",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0240",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b026c",
+    "target": "0x3bc6b8",
+    "symbol": "_ZN9Character14CancelSneakingEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b027c",
+    "target": "0x3af1fc",
+    "symbol": "_ZN9Character26F_ApplyScrollingCombatTextERKNS_12AttackResultEP10GameObjectPS_"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b028c",
+    "target": "0x3afd38",
+    "symbol": "_ZN9Character18F_ApplyCombatSoundERKNS_12AttackResultEP10GameObjectPS_"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0320",
+    "target": "0x80b1bc",
+    "symbol": "_ZN10CMessaging3GetEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0338",
+    "target": "0x3af330",
+    "symbol": "_ZN16CMsgAttackResult6CreateEiiRKN9Character12AttackResultEb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0344",
+    "target": "0x80e2a4",
+    "symbol": "_ZN10CMessaging7SendMsgEP8CMessage"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0358",
+    "target": "0x3c5d84",
+    "symbol": "_ZN16CharStateMachine17SM_SetInjureStateEPvb"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0368",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b037c",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0388",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0390",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b039c",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b03b8",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b03c4",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b03e4",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b03ec",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b041c",
+    "target": "0x3935dc",
+    "symbol": "_ZNK10GameObject17GetTargetPositionEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b043c",
+    "target": "0x495d14",
+    "symbol": "_ZN15VisualFXManager13PlayAnimFXSetEiRK7Point3DIfEPK10GameObjectPNS_13AnimFXSetDataE"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b04a8",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b04fc",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0510",
+    "target": "0x3a8bc4",
+    "symbol": "_ZN9Character6HitForEjP10GameObject"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b051c",
+    "target": "0x3a33d0",
+    "symbol": "_ZNK9Character10GetFXBloodEv"
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b0554",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "instruction": "0x3b055c",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba024",
+    "target": "0x708eb0",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba038",
+    "target": "0x37baf8",
+    "symbol": "_ZNK3sfc6script3lua9ArgumentsixEj"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba03c",
+    "target": "0x38d798",
+    "symbol": "_ZNK3sfc6script3lua5Value11getUIntegerEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba048",
+    "target": "0x3bc5fc",
+    "symbol": "_ZNK9Character16GetCharSkillListEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba094",
+    "target": "0x708eb0",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba0e0",
+    "target": "0x708eb0",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba0fc",
+    "target": "0x37baf8",
+    "symbol": "_ZNK3sfc6script3lua9ArgumentsixEj"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba100",
+    "target": "0x38d798",
+    "symbol": "_ZNK3sfc6script3lua5Value11getUIntegerEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba110",
+    "target": "0x37baf8",
+    "symbol": "_ZNK3sfc6script3lua9ArgumentsixEj"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba114",
+    "target": "0x31b5a0",
+    "symbol": "_ZNK3sfc6script3lua5Value11getUserDataEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba12c",
+    "target": "0x33dd2c",
+    "symbol": "_ZN10ObjectBase9GetHandleEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba134",
+    "target": "0x33ff54",
+    "symbol": "_ZN12ObjectHandlecvP9CharacterEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba148",
+    "target": "0x3bc784",
+    "symbol": "_ZNK9Character12GetCharSkillEi"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba164",
+    "target": "0x3ffe8c",
+    "symbol": "_ZNK13ItemInventory17HasMainHandWeaponEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba174",
+    "target": "0x400158",
+    "symbol": "_ZNK13ItemInventory16HasOffHandWeaponEv"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba19c",
+    "target": "0x3b31a4",
+    "symbol": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba1b0",
+    "target": "0x3b10b4",
+    "symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba1bc",
+    "target": "0x37cb24",
+    "symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba1e0",
+    "target": "0x3b31a4",
+    "symbol": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba1f4",
+    "target": "0x3b10b4",
+    "symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba200",
+    "target": "0x37cb24",
+    "symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba224",
+    "target": "0x3b31a4",
+    "symbol": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba238",
+    "target": "0x3b10b4",
+    "symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba244",
+    "target": "0x37cb24",
+    "symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi"
+  },
+  {
+    "caller": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "instruction": "0x3ba284",
+    "target": "0x37c7e4",
+    "symbol": "_ZN3sfc6script3lua12ReturnValues11pushBooleanEb"
+  },
+  {
+    "caller": "_ZN6CharAI15UpdateAllSkillsEv",
+    "instruction": "0x3d88a8",
+    "target": "0x3c02e8",
+    "symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv"
+  },
+  {
+    "caller": "_ZN6CharAI15UpdateAllSkillsEv",
+    "instruction": "0x3d88c4",
+    "target": "0x3c0334",
+    "symbol": "_ZNK16CharStateMachine12SM_IsCastingEv"
+  },
+  {
+    "caller": "_ZN6CharAI15UpdateAllSkillsEv",
+    "instruction": "0x3d88fc",
+    "target": "0x3dabd0",
+    "symbol": "_ZN17CharAISkillScript13OnSkillUpdateEv"
+  },
+  {
+    "caller": "_ZN6CharAI15UpdateAllSkillsEv",
+    "instruction": "0x3d8938",
+    "target": "0x3dabd0",
+    "symbol": "_ZN17CharAISkillScript13OnSkillUpdateEv"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager18GetNumLeadingStatsEi",
+    "instruction": "0x379e2c",
+    "target": "0x379dfc",
+    "symbol": "_ZNK17PlayerStatManager9GetLeaderE9EStatType"
+  },
+  {
+    "caller": "_ZNK17PlayerStatManager18GetNumLeadingStatsEi",
+    "instruction": "0x379e58",
+    "target": "0x379824",
+    "symbol": "_ZNK17PlayerStatManager12GetStatValueE9EStatTypei"
+  },
+  {
+    "caller": "_ZN6CharAI7OnAggroEP9Character",
+    "instruction": "0x3d20fc",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN6CharAI7OnAggroEP9Character",
+    "instruction": "0x3d2114",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN6CharAI7OnAggroEP9Character",
+    "instruction": "0x3d2120",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN6CharAI7OnAggroEP9Character",
+    "instruction": "0x3d2128",
+    "target": "0x3139ac",
+    "symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+  },
+  {
+    "caller": "_ZN6CharAI7OnAggroEP9Character",
+    "instruction": "0x3d2168",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d210",
+    "target": "0x31b65c",
+    "symbol": "_ZNSt4priv6__findINS_15_Deque_iteratorIPSt6vectorIN3sfc6script3lua5ValueESaIS6_EESt16_Nonconst_traitsIS9_EEES9_EET_SD_SD_RKT0_RKSt26random_access_iterator_tag"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d270",
+    "target": "0x31b618",
+    "symbol": "_ZNKSt4priv20_Deque_iterator_baseIPSt6vectorIN3sfc6script3lua5ValueESaIS5_EEE11_M_subtractERKS9_"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d28c",
+    "target": "0x31b618",
+    "symbol": "_ZNKSt4priv20_Deque_iterator_baseIPSt6vectorIN3sfc6script3lua5ValueESaIS5_EEE11_M_subtractERKS9_"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d308",
+    "target": "0x31b8dc",
+    "symbol": "_ZNSt4priv15__copy_backwardINS_15_Deque_iteratorIPSt6vectorIN3sfc6script3lua5ValueESaIS6_EESt16_Nonconst_traitsIS9_EEESC_iEET0_T_SE_SD_RKSt26random_access_iterator_tagPT1_"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d340",
+    "target": "0x31bad0",
+    "symbol": "_ZNSt4priv20_Deque_iterator_baseIPSt6vectorIN3sfc6script3lua5ValueESaIS5_EEE10_M_advanceEi"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d388",
+    "target": "0x31c3cc",
+    "symbol": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE8_M_eraseEPS3_S6_RKSt12__false_type"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d404",
+    "target": "0x31b9d8",
+    "symbol": "_ZNSt4priv6__copyINS_15_Deque_iteratorIPSt6vectorIN3sfc6script3lua5ValueESaIS6_EESt16_Nonconst_traitsIS9_EEESC_iEET0_T_SE_SD_RKSt26random_access_iterator_tagPT1_"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d42c",
+    "target": "0x31bb44",
+    "symbol": "_ZNSt12__node_alloc10deallocateEPvj"
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d46c",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d4e8",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d540",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "instruction": "0x31d54c",
+    "target": "0x31cd00",
+    "symbol": "_ZNSt5dequeIPSt6vectorIN3sfc6script3lua5ValueESaIS4_EESaIS7_EE18_M_push_back_aux_vERKS7_"
+  },
+  {
+    "caller": "_ZNK9Character10IsSneakingEv",
+    "instruction": "0x3bc6a4",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce088",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce09c",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce0a8",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce0d0",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce0f0",
+    "target": "0x3116e8",
+    "symbol": "_ZNSs19_M_range_initializeEPKcS0_"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce108",
+    "target": "0x3109e0",
+    "symbol": "_ZNSs9_M_assignEPKcS0_"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce14c",
+    "target": "0x3109e0",
+    "symbol": "_ZNSs9_M_assignEPKcS0_"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce15c",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce170",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce17c",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce1a4",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce1e0",
+    "target": "0x708f00",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce210",
+    "target": "0x3ae5dc",
+    "symbol": "_ZNK9Character16GetCharFaeryListEv"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce224",
+    "target": "0x3cd584",
+    "symbol": "_ZNSt6vectorIP17CharAISkillScriptSaIS1_EE7reserveEj"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce22c",
+    "target": "0x3192b4",
+    "symbol": "_ZN3sfc6script3lua9ArgumentsC1Ev"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce23c",
+    "target": "0x39ec10",
+    "symbol": "_ZN3sfc6script3lua9Arguments10pushStringEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce248",
+    "target": "0x3cdd78",
+    "symbol": "_ZN3sfc6script3lua9Arguments11pushIntegerEi"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce2a4",
+    "target": "0x37b574",
+    "symbol": "_ZN9LuaScript4LoadEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce2dc",
+    "target": "0x708eb0",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce2e8",
+    "target": "0x31c46c",
+    "symbol": "_ZN3sfc6script3lua5Value9setStringEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce320",
+    "target": "0x708eb0",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce334",
+    "target": "0x31b5e8",
+    "symbol": "_ZN3sfc6script3lua5Value9setNumberEf"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce344",
+    "target": "0x37c41c",
+    "symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsE"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce350",
+    "target": "0x37b574",
+    "symbol": "_ZN9LuaScript4LoadEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce364",
+    "target": "0x310570",
+    "symbol": "_Znwj15MemoryHintState"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce378",
+    "target": "0x3cde2c",
+    "symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce3a8",
+    "target": "0x37c514",
+    "symbol": "_ZN9LuaScript4CallEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce3c4",
+    "target": "0x3aeac0",
+    "symbol": "_ZNK9Character12GetCharFaeryEi"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce418",
+    "target": "0x319228",
+    "symbol": "_ZN3sfc6script3lua9ArgumentsD1Ev"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce454",
+    "target": "0x3bc5fc",
+    "symbol": "_ZNK9Character16GetCharSkillListEv"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce468",
+    "target": "0x3cd584",
+    "symbol": "_ZNSt6vectorIP17CharAISkillScriptSaIS1_EE7reserveEj"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce470",
+    "target": "0x3192b4",
+    "symbol": "_ZN3sfc6script3lua9ArgumentsC1Ev"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce480",
+    "target": "0x39ec10",
+    "symbol": "_ZN3sfc6script3lua9Arguments10pushStringEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce48c",
+    "target": "0x3cdd78",
+    "symbol": "_ZN3sfc6script3lua9Arguments11pushIntegerEi"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce4e8",
+    "target": "0x37b574",
+    "symbol": "_ZN9LuaScript4LoadEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce520",
+    "target": "0x708eb0",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce52c",
+    "target": "0x31c46c",
+    "symbol": "_ZN3sfc6script3lua5Value9setStringEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce564",
+    "target": "0x708eb0",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce574",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce580",
+    "target": "0x31b5e8",
+    "symbol": "_ZN3sfc6script3lua5Value9setNumberEf"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce590",
+    "target": "0x37c41c",
+    "symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsE"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce59c",
+    "target": "0x37b574",
+    "symbol": "_ZN9LuaScript4LoadEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce5b0",
+    "target": "0x310570",
+    "symbol": "_Znwj15MemoryHintState"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce5c4",
+    "target": "0x3cde2c",
+    "symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce5f4",
+    "target": "0x37c514",
+    "symbol": "_ZN9LuaScript4CallEPKc"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce610",
+    "target": "0x3bc784",
+    "symbol": "_ZNK9Character12GetCharSkillEi"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce664",
+    "target": "0x319228",
+    "symbol": "_ZN3sfc6script3lua9ArgumentsD1Ev"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce694",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce69c",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce6a4",
+    "target": "0x310440",
+    "symbol": "_Z10CustomFreePv"
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce6f8",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce708",
+    "target": "0x3cd89c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce718",
+    "target": "0x3cd89c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce728",
+    "target": "0x3cd89c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce738",
+    "target": "0x3cd89c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce748",
+    "target": "0x3cd89c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce758",
+    "target": "0x3cd89c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "instruction": "0x3ce760",
+    "target": "0x30e310",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379608",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379624",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379638",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x37964c",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379660",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379674",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x379688",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN17PlayerStatManager10GetStatStrE9EStatType",
+    "instruction": "0x37969c",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZNK9Character27GetEffectiveThreatPerDamageEv",
+    "instruction": "0x3bd3a8",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZNK9Character27GetEffectiveThreatPerDamageEv",
+    "instruction": "0x3bd3ac",
+    "target": "0x30e964",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZNK9Character27GetEffectiveThreatPerDamageEv",
+    "instruction": "0x3bd3b4",
+    "target": "0x30ed6c",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+    "instruction": "0x3d7cec",
+    "target": "0x30eba4",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+    "instruction": "0x3d7cfc",
+    "target": "0x3d79ec",
+    "symbol": "_ZN6CharAI11AI_SetAggroEP9Characterf"
+  },
+  {
+    "caller": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+    "instruction": "0x3d7d04",
+    "target": "0x30e3ac",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+    "instruction": "0x3d7d64",
+    "target": "0x30e004",
+    "symbol": ""
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdce0",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdcf4",
+    "target": "0x3dedb4",
+    "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdd24",
+    "target": "0x337888",
+    "symbol": "_ZN13DebugSwitches4loadEv"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdd38",
+    "target": "0x3140ec",
+    "symbol": "_ZNSsC1EPKcRKSaIcE"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdd44",
+    "target": "0x337a88",
+    "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdd4c",
+    "target": "0x318254",
+    "symbol": "_ZNSsD1Ev"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdd5c",
+    "target": "0x3e0708",
+    "symbol": "_ZN14CharProperties9PROPS_AddEii"
+  },
+  {
+    "caller": "_ZN9Character7RegenHPEi",
+    "instruction": "0x3bdd7c",
+    "target": "0x30e310",
+    "symbol": ""
+  }
+]

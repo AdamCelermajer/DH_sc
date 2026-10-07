@@ -1,0 +1,30 @@
+{
+  "scope": "Actual41 image names referenced by38 accepted authored FX resources; existing source View/Open/Decode bytes to modernRGBA GLES.164realuploads and82realGPUmipmap generations over2contexts, exactpixelreadback, actualoriginalsampler policy/readiness/cleanup. No live skill/event/damage acceptance.",
+  "linked_test_apk_sha256": "8cf2fd13ba7cf75c3be781ba51fa571d4392810b8efb1bd51a16f92dfe6ed14a",
+  "sources": [
+    {
+      "path": "port/engine-textures/general_fx_texture_image_v2.hpp",
+      "sha256": "c33dbb05b29f6ed9c5c57cece77da0318639168617a4047b5b0b01b5726f09b5"
+    },
+    {
+      "path": "port/engine-textures/general_fx_texture_image_v2.cpp",
+      "sha256": "11b948496bb3e16e401b3d1bd0a482bd48e61f6b1c7828796599656572344503"
+    },
+    {
+      "path": "port/engine-textures/tests/general_fx_texture_image_v2.cpp",
+      "sha256": "631bd8ff69532eab7df6d95cfa9b9a618fe503ce29b00b3bca6a396e0f2af679"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
+      "sha256": "4d1adbcef7a2391b0d91e93f87ddbbff8c498d382b5e045e2c9ba484a10c5947"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc",
+      "sha256": "6363e9147aa3c1fd27c0ab01cc75c0165fa10859badd7c53d25135f7517d1e51"
+    }
+  ],
+  "actual_image_names": 41,
+  "native_gpu_uploads": 164,
+  "actual_gl_mipmap_generations": 82,
+  "live_acceptance": false
+}

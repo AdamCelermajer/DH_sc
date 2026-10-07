@@ -1,0 +1,328 @@
+--- a/port/android-native/app/src/main/cpp/swf_gpu.hpp
++++ b/port/android-native/app/src/main/cpp/swf_gpu.hpp
+@@ -2,6 +2,10 @@
+ #include "authored_shader_program.hpp"
+ #include "../engine-ui/swf_movie.hpp"
+ #include "swf_vertex_cache_v36.hpp"
++#include "native_resource_budget_v38.hpp"
++#include "../../../../../engine-resources/retained_bytes_v39.hpp"
++#include <array>
++#include <stdexcept>
+ #include <unordered_map>
+ #include <vector>
+ 
+@@ -14,7 +18,7 @@
+     StatsV36 stats_v36()const noexcept{return {primitives_v36_,scratch_growths_v36_,stream_uploads_v36_,stream_bytes_v36_,displays_v36_,empty_displays_v36_,materializations_v36_,vertex_cache_v36_.stats()};}
+     struct StatsV37 {std::uint64_t transparent_noops{},error_queries{},capability_queries{},commands{};};
+     StatsV37 stats_v37()const noexcept{return {transparent_noops_v37_,error_queries_v37_,capability_queries_v37_,command_serial_v37_};}
+-    void initialize(AAssetManager*); // new context: abandon old GL names
++    void initialize(AAssetManager*,resources::ResourceScopeV37); // new context: abandon old GL names
+     bool image(std::int32_t width,std::int32_t height,unsigned channels,
+                const std::uint8_t* pixels,std::size_t pitch,ui::SwfTexture&,std::string&);
+     bool draw(const ui::SwfDraw&,std::string&);
+@@ -22,9 +26,10 @@
+     void set_grid_fit(bool value) noexcept {grid_fit_=value;}
+     bool stencil(const float bounds[4],std::uint8_t pattern,bool&,std::string&);
+     void abort() noexcept; // restore destination after a failed command/provider
++    std::shared_ptr<resources::ContextResourceBudgetV37> resource_budget_lease_v39()const noexcept{return budget_v39_;}
+     bool reset_images(std::string&); // only after all dependent movies/fonts die
+ private:
+-    struct Texture {GLuint name{};int width{},height{};unsigned channels{};std::vector<std::uint8_t> pixels;GLenum wrap=GL_CLAMP_TO_EDGE;};
++    struct Texture {GLuint name{};int width{},height{};unsigned channels{};resources::RetainedBytesV39 pixels;resources::ResourceTokenV37 gpu_budget_v39;std::uint64_t generation_v39{};GLenum wrap=GL_CLAMP_TO_EDGE;};
+     ui::SwfVertexCacheV36 vertex_cache_v36_;
+     std::vector<float> vertices_v36_;
+     std::uint64_t primitives_v36_{},scratch_growths_v36_{},stream_uploads_v36_{},stream_bytes_v36_{};
+@@ -44,6 +49,13 @@
+     GLfloat line_width_range_v37_[2]{};
+     std::uint64_t transparent_noops_v37_{},error_queries_v37_{},capability_queries_v37_{},command_serial_v37_{},checked_serial_v37_{};
+     void barrier_v37(const char* action);
++    std::shared_ptr<resources::ContextResourceBudgetV37> budget_v39_;
++    resources::ResourceScopeV37 scope_v39_=resources::ResourceScopeV37::other;
++    std::array<resources::ResourceTokenV37,5> target_budget_v39_{};
++    std::uint64_t target_generation_v39_{};
++    void release_charge_v39(resources::ResourceTokenV37& token){if(token){std::string error;if(!budget_v39_||!budget_v39_->release(token,error))throw std::runtime_error(error);}}
++    void release_texture_v39(Texture&,bool);
++    void release_targets_v39(bool);
+     void upload(Texture&);
+     void primitive(const ui::SwfDraw&,const ui::SwfFill&,GLenum,float line_width=0);
+     void mask_rectangle();
+--- a/port/android-native/app/src/main/cpp/swf_gpu.cpp
++++ b/port/android-native/app/src/main/cpp/swf_gpu.cpp
+@@ -22,7 +22,14 @@
+         std::to_string(command_serial_v37_)+"]");
+     checked_serial_v37_=command_serial_v37_;
+ }
+-void SwfGpu::initialize(AAssetManager* assets){
++void SwfGpu::initialize(AAssetManager* assets,resources::ResourceScopeV37 scope){
++    if(!budget_v39_)budget_v39_=android_resources::budget_lease_v39();
++    if(scope!=resources::ResourceScopeV37::swf_front&&scope!=resources::ResourceScopeV37::swf_gameplay)
++        throw std::runtime_error("V39 explicit front/gameplay UI resource scope required");
++    if(!textures_.empty()&&scope_v39_!=scope)throw std::runtime_error("V39 retained UI scope cannot change");
++    scope_v39_=scope;
++    release_targets_v39(true);
++    for(auto& pair:textures_)release_texture_v39(pair.second,true);
+     // Retained CPU texture identities survive GL recreation; old names must not
+     // be deleted in a new context whose names may have already been recycled.
+     normal_={};premultiplied_={};buffer_=0;frame_=false;mask_level_=0;submitting_mask_=false;begin_pending_=false;
+@@ -46,73 +53,136 @@
+     for(auto& pair:textures_)if(!pair.second.name)upload(pair.second);
+     barrier_v37("SWF context initialization");
+ }
++void SwfGpu::release_texture_v39(Texture& texture,bool discard_context){
++    const auto current=budget_v39_->snapshot();
++    const bool same=current.context_ready&&current.context_generation==texture.generation_v39;
++    if(texture.name&&discard_context&&same)throw std::runtime_error("V39 live texture context cannot be abandoned");
++    if(texture.name&&!discard_context&&same)glDeleteTextures(1,&texture.name);
++    texture.name=0;texture.generation_v39=0;
++    release_charge_v39(texture.gpu_budget_v39);
++}
++void SwfGpu::release_targets_v39(bool discard_context){
++    const auto current=budget_v39_->snapshot();
++    const bool same=current.context_ready&&current.context_generation==target_generation_v39_;
++    if((target_||query_target_||target_color_||query_color_||stencil_buffer_)&&discard_context&&same)
++        throw std::runtime_error("V39 live target context cannot be abandoned");
++    if(!discard_context&&same){
++        if(target_)glDeleteFramebuffers(1,&target_);
++        if(query_target_)glDeleteFramebuffers(1,&query_target_);
++        if(target_color_)glDeleteTextures(1,&target_color_);
++        if(query_color_)glDeleteTextures(1,&query_color_);
++        if(stencil_buffer_)glDeleteRenderbuffers(1,&stencil_buffer_);
++    }
++    target_=query_target_=target_color_=query_color_=stencil_buffer_=0;
++    target_width_=target_height_=0;target_generation_v39_=0;
++    for(auto& token:target_budget_v39_)release_charge_v39(token);
++}
+ void SwfGpu::upload(Texture& texture){
+     barrier_v37("SWF bitmap resource entry");
+     if(texture.width>max_texture_size_v37_||texture.height>max_texture_size_v37_)throw std::runtime_error("SWF bitmap exceeds GPU dimensions");
++    std::uint64_t bytes;std::string error;
++    if(!resources::swf_bitmap_bytes_v39(texture.width,texture.height,texture.channels,bytes,error))throw std::runtime_error(error);
++    if(texture.name||texture.gpu_budget_v39)throw std::runtime_error("V39 bitmap upload requires unpublished GPU owner");
++    auto& ledger=*budget_v39_;resources::ResourceReservationV37 reservation;
++    if(!ledger.reserve_create({resources::ResourceKindV37::texture,scope_v39_,bytes,0},reservation,error))throw std::runtime_error(error);
++    const auto generation=ledger.snapshot().context_generation;
+     const GLenum format=texture.channels==1?GL_ALPHA:texture.channels==3?GL_RGB:GL_RGBA;
+-    GLuint candidate=0;glGenTextures(1,&candidate);glBindTexture(GL_TEXTURE_2D,candidate);
+-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+-    glTexImage2D(GL_TEXTURE_2D,0,format,texture.width,texture.height,0,format,GL_UNSIGNED_BYTE,texture.pixels.data());
+-    try{barrier_v37("SWF bitmap upload");}catch(...){if(candidate)glDeleteTextures(1,&candidate);throw;}
+-    texture.name=candidate;
+-    texture.wrap=GL_CLAMP_TO_EDGE;
++    GLuint candidate=0;
++    try{
++        glGenTextures(1,&candidate);if(!candidate)throw std::runtime_error("SWF bitmap GL name unavailable");
++        glBindTexture(GL_TEXTURE_2D,candidate);glPixelStorei(GL_UNPACK_ALIGNMENT,1);
++        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
++        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
++        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
++        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
++        glTexImage2D(GL_TEXTURE_2D,0,format,texture.width,texture.height,0,format,GL_UNSIGNED_BYTE,texture.pixels.data());
++        barrier_v37("SWF bitmap upload");
++        if(!reservation.commit(texture.gpu_budget_v39,error))throw std::runtime_error(error);
++    }catch(...){
++        const auto current=ledger.snapshot();
++        if(candidate&&current.context_ready&&current.context_generation==generation)glDeleteTextures(1,&candidate);
++        throw;
++    }
++    texture.name=candidate;texture.generation_v39=generation;texture.wrap=GL_CLAMP_TO_EDGE;
+ }
+ void SwfGpu::target(int width,int height){
+     if(target_width_==width&&target_height_==height)return;
+     barrier_v37("SWF framebuffer resource entry");
+     if(width<=0||height<=0||width>max_texture_size_v37_||height>max_texture_size_v37_)throw std::runtime_error("Invalid SWF framebuffer size");
+-    if(target_)glDeleteFramebuffers(1,&target_);
+-    if(query_target_)glDeleteFramebuffers(1,&query_target_);
+-    if(target_color_)glDeleteTextures(1,&target_color_);
+-    if(query_color_)glDeleteTextures(1,&query_color_);
+-    if(stencil_buffer_)glDeleteRenderbuffers(1,&stencil_buffer_);
+-    target_=query_target_=target_color_=query_color_=stencil_buffer_=0;target_width_=target_height_=0;
+-    glGenRenderbuffers(1,&stencil_buffer_);glBindRenderbuffer(GL_RENDERBUFFER,stencil_buffer_);
+-    glRenderbufferStorage(GL_RENDERBUFFER,0x88f0,width,height);
+-    auto make=[&](GLuint& texture,GLuint& framebuffer){
+-        glGenTextures(1,&texture);glBindTexture(GL_TEXTURE_2D,texture);
+-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+-        glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,nullptr);
+-        glGenFramebuffers(1,&framebuffer);glBindFramebuffer(GL_FRAMEBUFFER,framebuffer);
+-        glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,texture,0);
+-        // Both color targets share the actual stencil owner. Queries never need
+-        // unsupported GLES2 stencil readback or modifications to displayed color.
+-        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_STENCIL_ATTACHMENT,GL_RENDERBUFFER,stencil_buffer_);
+-        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,stencil_buffer_);
+-        if(glCheckFramebufferStatus(GL_FRAMEBUFFER)!=GL_FRAMEBUFFER_COMPLETE)
+-            throw std::runtime_error("SWF shared-stencil framebuffer incomplete");
+-    };
+-    make(target_color_,target_);make(query_color_,query_target_);
+-    // Query the owned DEPTH24_STENCIL8 format after allocation, once per
+-    // context. Resizing recreates the same validated format, not a new capability.
+-    if(!stencil_bits_v37_){glGetIntegerv(GL_STENCIL_BITS,&stencil_bits_v37_);++capability_queries_v37_;}
+-    if(stencil_bits_v37_<8)throw std::runtime_error("SWF masks require an eight-bit stencil framebuffer");
+-    barrier_v37("SWF framebuffer allocation");target_width_=width;target_height_=height;
++    std::uint64_t color_bytes;std::string error;
++    if(!resources::rgba_texture_bytes_v37(width,height,false,color_bytes,error))throw std::runtime_error(error);
++    auto& ledger=*budget_v39_;
++    using Kind=resources::ResourceKindV37;
++    const std::array<Kind,5> kinds{Kind::texture,Kind::texture,Kind::framebuffer,Kind::framebuffer,Kind::renderbuffer};
++    std::array<resources::ResourceReservationV37,5> admissions;
++    std::array<resources::ResourceTokenV37,5> tokens{};
++    // Full separate candidate is admitted while the old target remains valid.
++    // Packed DEPTH24_STENCIL8 uses four bytes per pixel, same as each RGBA color.
++    for(std::size_t i=0;i<admissions.size();++i)
++        if(!ledger.reserve_create({kinds[i],scope_v39_,i==2||i==3?0:color_bytes,0},admissions[i],error))throw std::runtime_error(error);
++    const auto generation=ledger.snapshot().context_generation;
++    GLuint colors[2]{},framebuffers[2]{},stencil=0;
++    try{
++        glGenRenderbuffers(1,&stencil);if(!stencil)throw std::runtime_error("SWF stencil GL name unavailable");
++        glBindRenderbuffer(GL_RENDERBUFFER,stencil);glRenderbufferStorage(GL_RENDERBUFFER,0x88f0,width,height);
++        for(unsigned i=0;i<2;++i){
++            glGenTextures(1,&colors[i]);if(!colors[i])throw std::runtime_error("SWF target color GL name unavailable");
++            glBindTexture(GL_TEXTURE_2D,colors[i]);
++            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
++            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
++            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
++            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
++            glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,nullptr);
++            glGenFramebuffers(1,&framebuffers[i]);if(!framebuffers[i])throw std::runtime_error("SWF framebuffer GL name unavailable");
++            glBindFramebuffer(GL_FRAMEBUFFER,framebuffers[i]);
++            glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,colors[i],0);
++            glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_STENCIL_ATTACHMENT,GL_RENDERBUFFER,stencil);
++            glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,stencil);
++            if(glCheckFramebufferStatus(GL_FRAMEBUFFER)!=GL_FRAMEBUFFER_COMPLETE)throw std::runtime_error("SWF shared-stencil framebuffer incomplete");
++        }
++        if(!stencil_bits_v37_){glGetIntegerv(GL_STENCIL_BITS,&stencil_bits_v37_);++capability_queries_v37_;}
++        if(stencil_bits_v37_<8)throw std::runtime_error("SWF masks require an eight-bit stencil framebuffer");
++        barrier_v37("SWF framebuffer allocation");
++        for(std::size_t i=0;i<tokens.size();++i)if(!admissions[i].commit(tokens[i],error))throw std::runtime_error(error);
++        release_targets_v39(false);
++    }catch(...){
++        const auto current=ledger.snapshot();
++        if(current.context_ready&&current.context_generation==generation){
++            for(auto name:framebuffers)if(name)glDeleteFramebuffers(1,&name);
++            for(auto name:colors)if(name)glDeleteTextures(1,&name);
++            if(stencil)glDeleteRenderbuffers(1,&stencil);
++        }
++        for(auto& token:tokens)release_charge_v39(token);
++        throw;
++    }
++    target_=framebuffers[0];query_target_=framebuffers[1];target_color_=colors[0];query_color_=colors[1];stencil_buffer_=stencil;
++    target_budget_v39_=tokens;target_generation_v39_=generation;target_width_=width;target_height_=height;
+ }
+ bool SwfGpu::image(std::int32_t width,std::int32_t height,unsigned channels,const std::uint8_t* pixels,
+                    std::size_t pitch,ui::SwfTexture& out,std::string& error){
++    bool inserted=false;std::uintptr_t id=0;
+     try{
+         ++command_serial_v37_;
+-        if(!pixels||width<=0||height<=0||width>16384||height>16384||(channels!=1&&channels!=3&&channels!=4))
+-            throw std::runtime_error("Invalid SWF bitmap request");
++        if(!pixels||width<=0||height<=0||width>16384||height>16384||(channels!=1&&channels!=3&&channels!=4))throw std::runtime_error("Invalid SWF bitmap request");
+         const auto row=std::size_t(width)*channels;
+-        if(pitch<row||pitch>64*1024*1024||std::size_t(height)>64*1024*1024/row)
+-            throw std::runtime_error("SWF bitmap storage exceeds bounds");
++        if(pitch<row||pitch>64*1024*1024||std::size_t(height)>64*1024*1024/row)throw std::runtime_error("SWF bitmap storage exceeds bounds");
+         if(next_identity_==std::numeric_limits<std::uintptr_t>::max())throw std::runtime_error("SWF texture identity exhausted");
++        if(scope_v39_!=resources::ResourceScopeV37::swf_front&&scope_v39_!=resources::ResourceScopeV37::swf_gameplay)throw std::runtime_error("V39 UI resource scope is unavailable");
++        if(max_texture_size_v37_>0&&(width>max_texture_size_v37_||height>max_texture_size_v37_))throw std::runtime_error("SWF bitmap exceeds GPU dimensions");
+         Texture candidate;candidate.width=width;candidate.height=height;candidate.channels=channels;
+-        candidate.pixels.resize(row*height);
++        if(!candidate.pixels.allocate(budget_v39_,scope_v39_,row*height,error))throw std::runtime_error(error);
+         for(int y=0;y<height;++y)std::memcpy(candidate.pixels.data()+row*y,pixels+pitch*y,row);
+-        if(normal_.name)upload(candidate);
+-        const auto id=next_identity_++;
+-        textures_.emplace(id,std::move(candidate));out={id,width,height};error.clear();return true;
+-    }catch(const std::exception& e){error=e.what();return false;}
++        // Allocate the map node BEFORE creating a GL owner: map allocation failure
++        // cannot lose an uploaded GLuint through a moved temporary's destruction.
++        id=next_identity_;auto entry=textures_.try_emplace(id);
++        if(!entry.second)throw std::runtime_error("V39 duplicate UI bitmap identity");
++        inserted=true;entry.first->second=std::move(candidate);
++        if(normal_.name)upload(entry.first->second);
++        ++next_identity_;out={id,width,height};error.clear();return true;
++    }catch(const std::exception& e){
++        if(inserted){release_texture_v39(textures_.at(id),false);textures_.erase(id);}
++        error=e.what();return false;
++    }
+ }
+ void SwfGpu::primitive(const ui::SwfDraw& command,const ui::SwfFill& style,GLenum mode,float line_width){
+     if(style.kind==ui::SwfFill::disabled&&!submitting_mask_)return;
+@@ -260,7 +330,7 @@
+     abort();
+     try{barrier_v37("SWF image reset entry");}catch(const std::exception& e){error=e.what();return false;}
+     vertex_cache_v36_.clear([](std::uintptr_t value){const GLuint name=GLuint(value);glDeleteBuffers(1,&name);});
+-    for(auto& pair:textures_)if(pair.second.name)glDeleteTextures(1,&pair.second.name);
++    for(auto& pair:textures_)release_texture_v39(pair.second,false);
+     textures_.clear();white_=0;next_identity_=1;
+     ui::SwfTexture out;const std::uint8_t white[4]{255,255,255,255};
+     if(!image(1,1,4,white,4,out,error))return false;
+@@ -381,7 +451,9 @@
+             glClearColor(0,0,0,0);glClear(GL_COLOR_BUFFER_BIT);
+             glEnable(GL_STENCIL_TEST);glStencilFunc(GL_EQUAL,pattern,0xff);glStencilOp(GL_KEEP,GL_KEEP,GL_KEEP);
+             mask_rectangle();
+-            std::vector<std::uint8_t> pixels(std::size_t(x1-x0)*(y1-y0)*4);
++            resources::RetainedBytesV39 pixels;std::uint64_t readback_bytes;
++            if(!resources::swf_bitmap_bytes_v39(x1-x0,y1-y0,4,readback_bytes,error)||
++               !pixels.allocate(budget_v39_,scope_v39_,static_cast<std::size_t>(readback_bytes),error))throw std::runtime_error(error);
+             glPixelStorei(GL_PACK_ALIGNMENT,1);
+             glReadPixels(x0,target_height_-y1,x1-x0,y1-y0,GL_RGBA,GL_UNSIGNED_BYTE,pixels.data());
+             for(std::size_t i=3;i<pixels.size();i+=4)if(pixels[i]){result=true;break;}
+--- a/port/android-native/app/src/main/cpp/original_ui_session.cpp
++++ b/port/android-native/app/src/main/cpp/original_ui_session.cpp
+@@ -319,7 +319,9 @@
+         std::vector<std::uint8_t> encoded;if(!self.assets.read(uri,encoded,error))return false;
+         textures::View view{};auto status=dh2_texture_open(encoded.data(),encoded.size(),&view);
+         if(status!=textures::Error::ok){error=dh2_texture_error(status);return false;}
+-        std::vector<std::uint8_t> rgba(std::size_t(view.width)*view.height*4);
++        resources::RetainedBytesV39 rgba;std::uint64_t rgba_bytes;
++        if(!resources::swf_bitmap_bytes_v39(view.width,view.height,4,rgba_bytes,error)||
++           !rgba.allocate(self.gpu.resource_budget_lease_v39(),resources::ResourceScopeV37::swf_gameplay,static_cast<std::size_t>(rgba_bytes),error))return false;
+         status=dh2_texture_decode(&view,rgba.data(),rgba.size());
+         if(status!=textures::Error::ok){error=dh2_texture_error(status);return false;}
+         if(!self.gpu.image(view.width,view.height,4,rgba.data(),std::size_t(view.width)*4,out,error))return false;
+@@ -466,7 +468,7 @@
+     impl_->gameplay.reset();impl_->combat_flash.reset();impl_->enemy.reset();impl_->status.reset();impl_->movie.reset();impl_->fonts.reset();impl_->gfnt_text_backend_v1.reset();impl_->gameplay_bridge.reset();impl_->gameplay_queries.reset();
+ }
+ bool OriginalUiSession::initialize(AAssetManager* manager,std::string& error) {
+-    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager);impl_->report_frame=true;error.clear();return true;}
++    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager,resources::ResourceScopeV37::swf_gameplay);impl_->report_frame=true;error.clear();return true;}
+     catch(const std::exception& e){error=e.what();impl_->selected=false;return false;}
+ }
+ void OriginalUiSession::bind_platform_music(std::function<bool(std::int32_t&,std::string&)> callback){impl_->platform_music=std::move(callback);}
+--- a/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
++++ b/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
+@@ -439,7 +439,9 @@
+         std::vector<std::uint8_t> encoded;if(!self.assets.read(uri,encoded,error))return false;
+         textures::View view{};auto status=dh2_texture_open(encoded.data(),encoded.size(),&view);
+         if(status!=textures::Error::ok){error=dh2_texture_error(status);return false;}
+-        std::vector<std::uint8_t> rgba(std::size_t(view.width)*view.height*4);
++        resources::RetainedBytesV39 rgba;std::uint64_t rgba_bytes;
++        if(!resources::swf_bitmap_bytes_v39(view.width,view.height,4,rgba_bytes,error)||
++           !rgba.allocate(self.gpu.resource_budget_lease_v39(),resources::ResourceScopeV37::swf_front,static_cast<std::size_t>(rgba_bytes),error))return false;
+         status=dh2_texture_decode(&view,rgba.data(),rgba.size());
+         if(status!=textures::Error::ok){error=dh2_texture_error(status);return false;}
+         if(!self.gpu.image(view.width,view.height,4,rgba.data(),std::size_t(view.width)*4,out,error))return false;
+@@ -1257,7 +1259,7 @@
+     out=impl_->menu_device;error.clear();return true;
+ }
+ bool FrontUiSessionV87::initialize(AAssetManager* manager,std::string& error) {
+-    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager);impl_->report_frame=true;error.clear();return true;}
++    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager,resources::ResourceScopeV37::swf_front);impl_->report_frame=true;error.clear();return true;}
+     catch(const std::exception& e){error=e.what();impl_->selected=false;return false;}
+ }
+ bool FrontUiSessionV87::show_game_loading(std::string& error){
+--- a/port/android-native/app/src/main/cpp/CMakeLists.txt
++++ b/port/android-native/app/src/main/cpp/CMakeLists.txt
+@@ -21,7 +21,8 @@
+ add_subdirectory("${DH2_SOURCE_DIR}/port/engine-skinning" "${CMAKE_CURRENT_BINARY_DIR}/engine-skinning")
+ add_subdirectory("${DH2_SOURCE_DIR}/port/level-world" "${CMAKE_CURRENT_BINARY_DIR}/level-world")
+ add_subdirectory("${DH2_SOURCE_DIR}/port/engine-audio" "${CMAKE_CURRENT_BINARY_DIR}/engine-audio")
+-target_sources(dh2_scene_materials PRIVATE "${DH2_SOURCE_DIR}/port/engine-resources/resource_budget_v37.cpp")
++target_sources(dh2_scene_materials PRIVATE "${DH2_SOURCE_DIR}/port/engine-resources/resource_budget_v37.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-resources/retained_bytes_v39.cpp")
+ target_sources(dh2_level_world PRIVATE "${DH2_SOURCE_DIR}/port/level-world/vox_audio_bridge_v34.cpp")
+ target_sources(dh2_level_world PRIVATE "${DH2_SOURCE_DIR}/port/level-world/character_close_range_v38.cpp")
+ target_sources(dh2_level_world PRIVATE "${DH2_SOURCE_DIR}/port/level-world/character_world_clear_aggro_v40.cpp")

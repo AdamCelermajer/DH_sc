@@ -1,0 +1,326 @@
+{
+  "version": "gameplay-camera-successor-v23",
+  "created_utc": "2026-10-06T05:22:05.035981+00:00",
+  "scope": "original oracle and composed native subsystem proof; live renderer acceptance pending",
+  "base_archive": {
+    "path": "port/level-world/reports/gameplay-camera-outer-v19/gameplay-camera-outer-v19-688cc15a4e699045.zip",
+    "sha256": "671ded51e696a0ec7dc6893218b4e907d0f9331f860daf2e6e8df3982e29e544"
+  },
+  "files": [
+    {
+      "path": ".local-inputs/audit_camera_debug_v23.py",
+      "bytes": 957,
+      "sha256": "5ca5366fee0af67ca41cf184a8cf0b8f6f04cb1f63d9e42f7fcb3981b9cc1df3"
+    },
+    {
+      "path": ".local-inputs/audit_camera_frame_v22.py",
+      "bytes": 1810,
+      "sha256": "8cbbdf62964b862054ba04926ab02ed749f2dc1b56b5f040d3d9f2264acd70a2"
+    },
+    {
+      "path": ".local-inputs/audit_camera_picking_v20.py",
+      "bytes": 1326,
+      "sha256": "8a3d00dd0013a018d0cac2a2f9a742deb6ad0be449a36b5918a01f806fc7d25f"
+    },
+    {
+      "path": ".local-inputs/prepare_camera_application_test_v23.py",
+      "bytes": 3665,
+      "sha256": "66987a7c0bbaad7630e0fb823dc163ae3bc4e4354e6b31d7052f1124f5bd7fe0"
+    },
+    {
+      "path": ".local-inputs/root_android_linked_owner_test.py",
+      "bytes": 3423,
+      "sha256": "d2a48120fd790587e4c231d36f7d728dedbbc1be66d215269748fd516d5a97d1"
+    },
+    {
+      "path": ".local-inputs/run_gameplay_camera_application_v23.py",
+      "bytes": 1844,
+      "sha256": "6178038c1b87acddab18d85477ceb0781b5b6dd281bd646234bd603978692081"
+    },
+    {
+      "path": ".local-inputs/run_gameplay_camera_picking_cache_v20.py",
+      "bytes": 1816,
+      "sha256": "707137dc3a9a927acae34c6b14271ccc5fd40d45a80453435845dd16d208d28f"
+    },
+    {
+      "path": ".local-inputs/test_gameplay_camera_basis_v21.py",
+      "bytes": 4206,
+      "sha256": "1138e7ed50dd2a4139b4cbfcc3cffef04a1c28073cf9ce257b79dacaaeef874d"
+    },
+    {
+      "path": ".local-inputs/test_gameplay_camera_picking_v20.py",
+      "bytes": 10202,
+      "sha256": "fc8f75955937abceb0c9bd857f2aa252129f9c44e03e1b33329f120f67c78fe1"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/animations_dictionary_pyarraynames.bin",
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/animations_pyarraynames.bin",
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/design_pyarray.bin",
+      "bytes": 692,
+      "sha256": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/design_pyarraynames.bin",
+      "bytes": 272,
+      "sha256": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/design_pystructnames.bin",
+      "bytes": 1443,
+      "sha256": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_gameplay_camera_services_v20.inc",
+      "bytes": 2478,
+      "sha256": "2a2ca6f0b71fb5ec24df548f029a127ef0a065f722962b85f39d68ca96dbf4c8"
+    },
+    {
+      "path": "port/level-world/application_services_owner_v5.cpp",
+      "bytes": 870,
+      "sha256": "6f83250101738fab8173d56e6166cf383be70d747814f376fbdf57d1ae7958f4"
+    },
+    {
+      "path": "port/level-world/application_services_owner_v5.hpp",
+      "bytes": 2013,
+      "sha256": "87b12842824f64f8a1a61a9c122a410a25f5104c33b05db29f0f0005d940c055"
+    },
+    {
+      "path": "port/level-world/authored_camera_basis_v22.cpp",
+      "bytes": 1493,
+      "sha256": "7de8cfd14d0743951adfc495ea57b608e0422f8535c040f5cd68ee348fbec470"
+    },
+    {
+      "path": "port/level-world/authored_camera_basis_v22.hpp",
+      "bytes": 463,
+      "sha256": "a62dc2fe17784d3bcbb597a0b6ca9c9587c1074bbcaa645bf76bd2b6659fbf04"
+    },
+    {
+      "path": "port/level-world/gameplay_camera_application_v23.cpp",
+      "bytes": 6382,
+      "sha256": "e2ac8964d54a8414f91e9f9bf049e4617a0749d3233ce94ced682310bd9373a4"
+    },
+    {
+      "path": "port/level-world/gameplay_camera_application_v23.hpp",
+      "bytes": 3672,
+      "sha256": "58c9d1f11312bbf35d348e5b77d6aa2c53c086c9425b8c7dc7ecacea1a55704e"
+    },
+    {
+      "path": "port/level-world/gameplay_camera_basis_v21.cpp",
+      "bytes": 2760,
+      "sha256": "5a32419cdd3108c32d62819a35e313cd1dc2dd91bd342cd2acff87654951f6fc"
+    },
+    {
+      "path": "port/level-world/gameplay_camera_basis_v21.hpp",
+      "bytes": 853,
+      "sha256": "b7b9afde481d5c2d488f9692fb66c547f4cd3b41b353a93031ed6801eeeeda27"
+    },
+    {
+      "path": "port/level-world/gameplay_camera_picking_v20.cpp",
+      "bytes": 7677,
+      "sha256": "3c011ca3400b0f54c328b7232dd77466204750dac470d236b68ede0a92cae188"
+    },
+    {
+      "path": "port/level-world/gameplay_camera_picking_v20.hpp",
+      "bytes": 1990,
+      "sha256": "f22999ae56c6578cd9a772c386db2789dfa7fa30bba25dab28ed2dc87dcaac32"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-basis-v21/original-receipt.json",
+      "bytes": 536,
+      "sha256": "5900284e2e140a12c7f661f005197f3e334beb3ec6aa3364c5497d1fdc2868cb"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-basis-v21/original-source.asm",
+      "bytes": 10634,
+      "sha256": "de94f88c0b074ada62291567938ae6fc89e7e994427854162a66f13dfcdaa14f"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-picking-v20/debug-after-add-v23.json",
+      "bytes": 218,
+      "sha256": "8e6f422b544beab7b171de6a35ac2163befd9c7e47ce56265dd0f4d865e1a580"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-picking-v20/frame-original-source.asm",
+      "bytes": 32222,
+      "sha256": "ba7d4f58ae87a24a780c3bd355517966fbbf7bcea318540f7f714c8cbaf1ab43"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-picking-v20/frame-vtable-receipt.json",
+      "bytes": 1494,
+      "sha256": "33fd70b56b09e33ce1b48888a4d83f31d57d147e94a946ea879cc28f9b66f3cc"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-picking-v20/integration-v23.md",
+      "bytes": 7852,
+      "sha256": "366c26440d8083b1331329291273ff1b80ec7f17869b3ca7626d36eaf471854c"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-picking-v20/original-receipt.json",
+      "bytes": 618,
+      "sha256": "c12c0bb9ee473e911df0e8aba1f09d7ba04f45171d596ad2c74b0233991dbd5a"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-picking-v20/original-source.asm",
+      "bytes": 33528,
+      "sha256": "c85dc086738b2cfbfdf40f898460b6a46c9521c2c2301febc740f4f9cc20ef66"
+    },
+    {
+      "path": "port/level-world/reference/gameplay-camera-picking-v20/symbols.json",
+      "bytes": 4555,
+      "sha256": "4fd621a6ccad58f7699fe534765508812231235165d0b6a94f7036368fc64da7"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/gameplay-camera-application-v23.bin",
+      "bytes": 2409536,
+      "sha256": "1ef3bdf668d2863c140584bf4d44f4c5419f33ce5bfd28c74db44cd6864bdfab"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_engine_animation.so",
+      "bytes": 584528,
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_engine_skinning.so",
+      "bytes": 329960,
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_engine_textures.so",
+      "bytes": 412032,
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_engine_ui.so",
+      "bytes": 6130056,
+      "sha256": "0ab86803dd44c86921fc37431072658a4f4687613e32b1066508a7ac23c2a708"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_game_data.so",
+      "bytes": 1589704,
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_level_world.so",
+      "bytes": 6690736,
+      "sha256": "130428ba4982ed980112088e81f09eb8a58584a580c5a1574f672881b40e92df"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_native.so",
+      "bytes": 4646144,
+      "sha256": "2c74ae150bc9bec903ff0a2fc786d13e43bc4e25492180ce4940de4078f244b5"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_scene_materials.so",
+      "bytes": 723712,
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/linked-libs/libdh2_script_runtime.so",
+      "bytes": 654680,
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-application-v23/receipt.json",
+      "bytes": 10479,
+      "sha256": "d4d0d5535257a700e193593858917d61b276d9f179181a5cb73e99a249e83768"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/gameplay-camera-picking-cache-v20.bin",
+      "bytes": 2136336,
+      "sha256": "12f863e30085d17013aa9be5d85d1cabec448dff5df02cec21676342ca2f4a44"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_engine_animation.so",
+      "bytes": 584528,
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_engine_skinning.so",
+      "bytes": 329960,
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_engine_textures.so",
+      "bytes": 412032,
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_engine_ui.so",
+      "bytes": 6130056,
+      "sha256": "0ab86803dd44c86921fc37431072658a4f4687613e32b1066508a7ac23c2a708"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_game_data.so",
+      "bytes": 1589704,
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_level_world.so",
+      "bytes": 6690736,
+      "sha256": "130428ba4982ed980112088e81f09eb8a58584a580c5a1574f672881b40e92df"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_native.so",
+      "bytes": 4646144,
+      "sha256": "2c74ae150bc9bec903ff0a2fc786d13e43bc4e25492180ce4940de4078f244b5"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_scene_materials.so",
+      "bytes": 723712,
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/linked-libs/libdh2_script_runtime.so",
+      "bytes": 654680,
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/gameplay-camera-picking-cache-v20/receipt.json",
+      "bytes": 9846,
+      "sha256": "cf1b906a3064c3b9f7782c663d91052a35a6ea2c0ab72b64422afe2a5d1fe233"
+    },
+    {
+      "path": "port/level-world/tests/gameplay_camera_application_v23.cpp",
+      "bytes": 11291,
+      "sha256": "39c8de531c9de360d1806dec1302be7e38ccbc70c6c2b22f983cff89699fa8c2"
+    },
+    {
+      "path": "port/level-world/tests/gameplay_camera_picking_cache_v20.cpp",
+      "bytes": 8483,
+      "sha256": "e4a87e19a7c43c51331425264f63a5e3787297a614d1627b50a6db918e3c16c4"
+    }
+  ]
+}

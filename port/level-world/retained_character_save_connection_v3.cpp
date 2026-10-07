@@ -1,0 +1,30 @@
+#include "retained_character_save_connection_v3.hpp"
+#include <algorithm>
+namespace dh2::character {
+void RetainedCharacterSaveConnectionV3::publish(void* p){auto& a=static_cast<RetainedCharacterSaveConnectionV3*>(p)->actor_;if(!a.object)return;std::copy_n(a.object->position.data(),3,a.runtime.subobjects.position);std::copy_n(a.object->position.data(),3,a.runtime.controller.position);std::copy_n(a.object->position.data(),3,a.runtime.object.motion.position);a.runtime.subobjects.rotation=a.runtime.rotation.rotation[2];}
+bool RetainedCharacterSaveConnectionV3::borrow(CharacterSaveRestoreBorrowV3& out,std::string& e){
+ RetainedCharacterSaveExtraV3 x;if(receiver_.expired()||!extra_||!extra_(x,e)){if(e.empty())e="Required retained same Character serialization field provider";return false;}
+ auto object=actor_.object;if(!object||!object->properties||!object->life||actor_.shared_handle().cached!=object->identity||x.inherited.identity!=object->identity||!actor_.machine){e="Required same published Character save graph";return false;}
+ auto* checkpoint=actor_.checkpoint1468_v83();auto* save_position=actor_.save_position1474_v83();
+ CharacterLegacyPropertyTagsV3* tags=x.metadata?&x.metadata->tags:nullptr;
+ if(checkpoint||save_position){
+  if(!checkpoint||!save_position){e="Incomplete actual Character C1 checkpoint/save cells";return false;}
+ }else{
+  // Observed actors retain their original external metadata; fresh actors
+  // serialize the actual C1 fields used by Level.CheckpointSave.
+  if(!x.metadata||!x.metadata->pose_produced){e="Required actual produced Character respawn/save metadata";return false;}
+  checkpoint=x.metadata->respawn_rotation1468.data();save_position=x.metadata->respawn_position1474.data();
+ }
+ if(!actor_.position_fields_v7().constructed){e="Required same produced physical/camera anchor slot owner";return false;}
+ if(x.same_controller&&(!actor_.controller||x.same_controller->controller!=actor_.controller->identity()||x.same_controller->owner!=object->identity)){e="Required same retained Character controller";return false;}
+ out={x.inherited,object->properties.get(),tags,object->life.get(),x.same_buffs,&actor_.machine->owner().machine(),object->position.data(),actor_.runtime.rotation.rotation,x.initial_position1450,x.initial_rotation145c,checkpoint,save_position,&actor_.source_ai_group34,&actor_.position_fields_v7().physical2dc,&actor_.position_fields_v7().attached2e0,x.same_controller?&x.same_controller->locked:nullptr,&object->target,&object->binding.services,this,publish};
+ if(out.base.visual2d8!=&actor_.source_visual()){e="Required sole retained Character visual2d8 slot";return false;}return true;
+}
+bool RetainedCharacterSaveConnectionV3::serialize(level::SavegameStreamV2& stream,std::string& e){auto pin=receiver_.lock();if(!pin||busy_||failed_){e="Character serialization retained prefix is unavailable";return false;}busy_=true;struct Guard{bool& b;~Guard(){b=false;}}guard{busy_};CharacterSaveRestoreBorrowV3 fields;const bool ok=borrow(fields,e)&&character_serialize_v3(result_,stream,fields,services_,e);if(!ok)failed_=true;return ok;}
+bool RetainedCharacterSaveConnectionV3::deserialize(level::SavegameStreamV2& stream,std::string& e){auto pin=receiver_.lock();if(!pin||busy_||failed_){e="Character restore retained prefix cannot replay";return false;}busy_=true;struct Guard{bool& b;~Guard(){b=false;}}guard{busy_};CharacterSaveRestoreBorrowV3 fields;const bool ok=borrow(fields,e)&&character_deserialize_v3(result_,stream,fields,services_,e);if(!ok)failed_=true;return ok;}
+bool RetainedCharacterSaveConnectionV3::bind_methods(level::LevelSaveObjectBorrowV2& b,std::string& e){auto pin=receiver_.lock();if(!pin){e="Required live retained Character receiver lease";return false;}if(!actor_.object||b.identity!=reinterpret_cast<const void*>(actor_.object->identity)||!b.is_character||!b.is_player){e="Required SAME actual manager Character projection";return false;}
+ if(b.context==this)return true;query_context_=b.context;is_character_=b.is_character;is_player_=b.is_player;b.context=this;
+ b.is_character=[](void* p,bool& value,std::string& error){auto& t=*static_cast<RetainedCharacterSaveConnectionV3*>(p);auto pin=t.receiver_.lock();if(!pin){error="Required live retained Character query receiver";return false;}return t.is_character_(t.query_context_,value,error);};b.is_player=[](void* p,bool& value,std::string& error){auto& t=*static_cast<RetainedCharacterSaveConnectionV3*>(p);auto pin=t.receiver_.lock();if(!pin){error="Required live retained Character query receiver";return false;}return t.is_player_(t.query_context_,value,error);};
+ b.save=[](void* p,level::SavegameStreamV2& s,std::string& error){return static_cast<RetainedCharacterSaveConnectionV3*>(p)->serialize(s,error);};b.load=[](void* p,level::SavegameStreamV2& s,std::string& error){return static_cast<RetainedCharacterSaveConnectionV3*>(p)->deserialize(s,error);};return true;
+}
+}

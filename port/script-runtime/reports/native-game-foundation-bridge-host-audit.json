@@ -1,0 +1,289 @@
+{
+  "validation": "PASS",
+  "scope": "Observe the corrected native-storage central bridge without rebuilding it.\n\nThis is source/binary-bound host evidence for the current integration stage,\nnot Android packaging, complete design-manager ownership or gameplay proof.\n",
+  "audits": {
+    "scalar": {
+      "validation": "PASS",
+      "original_gold_cases": 13978,
+      "ordered_identity_division_services": 836,
+      "actual_VM_checks": 37,
+      "guard_reload_checks": 13,
+      "mismatches": 0
+    },
+    "scalar_source": {
+      "validation": "PASS",
+      "original_gold_cases": 13978,
+      "ordered_identity_division_services": 836,
+      "actual_VM_checks": 40,
+      "guard_reload_checks": 13,
+      "mismatches": 0
+    },
+    "design": {
+      "validation": "PASS",
+      "original_gold_cases": 1200,
+      "ordered_lookup_calls": 60,
+      "actual_VM_checks": 457,
+      "native_boundary_checks": 9,
+      "actual_character_fields": 224,
+      "full_manager_lookup_proved": false,
+      "mismatches": 0
+    },
+    "scope": {
+      "validation": "PASS",
+      "actual_scoped_callbacks": 16,
+      "actual_discarded_Lua_calls": 85,
+      "scope_busy_guards": 543,
+      "cross_Include_calls": 1,
+      "source_argument_table_projections": 33,
+      "source_return_table_projections": 162,
+      "positive_Lua_error_cases": 5,
+      "unsupported_error_object_cases": 1,
+      "native_argument_storage_checks": 1,
+      "argument_projection_error_cleanup_cases": 64,
+      "mismatches": 0
+    },
+    "include": {
+      "validation": "PASS",
+      "mismatches": 0,
+      "original_Include_guard_cases": 80,
+      "actual_include_callbacks": 34,
+      "actual_source_load_operations": 56,
+      "source_root_file_checks": 17,
+      "handled_source_errors": 6,
+      "unsupported_error_objects": 1,
+      "atomic_scope_and_generic_busy_checks": 341,
+      "unused_argument_projections": 40,
+      "private_vms_verified": true,
+      "allocation_failure_protected": true,
+      "generic_busy_guards_preserved": true
+    },
+    "owner_include": {
+      "validation": "PASS",
+      "checks": 2005,
+      "include_callbacks": 19,
+      "atomic_and_busy_guards": 114,
+      "nested_callbacks": 4,
+      "same_file_preinsert_recursion": true,
+      "retained_source_stack": 5,
+      "actual_follower_flags": 962,
+      "fake_game_globals": false,
+      "owner_library": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+      "runtime_library": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+      "virtual_library": "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+    }
+  },
+  "source_sha256": {
+    "port\\script-runtime\\script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+    "port\\script-runtime\\script_runtime.c": "cfb4aaa0585188731c76d3ed86e346bd2d48d6a2024c1f453c4bd038e8e835d1",
+    "port\\script-runtime\\CMakeLists.txt": "2b4a680c8c4d9038f7b5198fa984785a03e0ec07215255b4703f45d85e3c6b18",
+    "port\\script-runtime\\script_design_bindings.h": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9",
+    "port\\script-runtime\\script_design_bindings.c": "d3fa2b17d974aec16a130ab9f6ffd547e89f5cc24b26f18e98f970ad8b931e0a",
+    "port\\script-runtime\\tests\\script_design.cpp": "4eba4535eb4f8b2b71b2743360d134415e7be9857ec76c2ca23ae07e09b44528",
+    "port\\script-runtime\\tests\\script_callback_scope.cpp": "5ab8fe8f0169e4ac9bcb538492829ec2e6f3814b04b83af5c4813c6d5723af61",
+    "port\\script-runtime\\tests\\script_include.cpp": "9c59af225fe9f6a0861e0dddcd432397b75cf8356dbaa6868e4b4e466e047767",
+    "port\\script-runtime\\tests\\central_script_bridge_native_host.py": "6f0aa4e49aa9eb5d46013a82426c8a5676b474d01e492cd4b5f3a0cea65a07e7",
+    "port\\script-runtime\\tests\\script_scalar.cpp": "63955e42ddc20d996dcb253400981b8bf72a67e8885b1f61872c631afa3b29cc",
+    "port\\script-runtime\\tests\\script_scalar_source.cpp": "18eaf57fb40915f888de6ffc5a515dca0bcd4cde2484a17891168f0bd33a818e",
+    "port\\script-runtime\\script_scalar_bindings.h": "378f06afa5311644a89a5d2d057e8e490dcf23e3ff2a555a5fc73b06a3833a3b",
+    "port\\script-runtime\\script_scalar_bindings.c": "de37788729dabcd53afa6ca9bf5f918229979b8624ae20e11dd1499b267ead61",
+    "port\\script-runtime\\reference\\scalar-bindings\\scalar-original-gold.bin": "1db4e59bb1aa052fb538bd25b4bd9f5d0ff4a8ce82fd702b39f411c1979c8898",
+    "port\\script-runtime\\reference\\design-bindings\\registry-probe.json": "05974adf75fcf85c4db06faefe3f39c3e1a759e67c8042ee030d7022a68dd16a",
+    "port\\script-runtime\\reference\\design-bindings\\differential.json": "1931dd663c96d4ba87c283cde02dd3d86837896d84387231fd45d57451476c9e",
+    "port\\script-runtime\\reference\\design-bindings\\design-original-gold.bin": "4452a49ba54a15b21cafb8659e54f533b14722e7c144dc0e0c2129c1f362f34c",
+    "port\\level-world\\CMakeLists.txt": "b9312f681f6df409c5df04daf0852fa29acc7853c827af1685237d78f9870a15",
+    "port\\level-world\\character_script_owner.hpp": "84eb02a90c945b9c0845bcddd7dcb52d75e62b6c8f210c088deb285dfeb06050",
+    "port\\level-world\\character_script_owner.cpp": "d63c031dfc521bc98ff4cd50358cfb0c1bbfb7de307c69d087e6a8f220e10e82",
+    "port\\level-world\\tests\\character_script_owner_include.cpp": "a8c57e14303ef196d5e873971376d26a748bc638d78a2e4f3e590b6291761853",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "port\\game-data\\data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "port\\game-data\\data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "9b3d2343bce8348b6a8ff22c9a49aed56f2655eada9b512480bc9833c9e62ae2",
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c",
+    "/home/adampalace/dh2-world-build/script-runtime/script_scalar_audit": "07ec8932a748f0152a14481782a6e7da33d35e05688f500c14f84397f91667b3",
+    "/home/adampalace/dh2-world-build/script-runtime/script_scalar_source_audit": "46d372490bc520a9b12b113dfbacf8619822d683767fb587fb9c3d821e93380c",
+    "/home/adampalace/dh2-world-build/script-runtime/script_design_audit": "3d75a7bfbfdd165ce3b6bfc835c77e036a65c43e997bc692d531061e54b37559",
+    "/home/adampalace/dh2-world-build/script-runtime/script_callback_scope_audit": "fd4da4818a59e6f35a4703c04f391be827ec2fb7d20c5c4a12310214ab434990",
+    "/home/adampalace/dh2-world-build/script-runtime/script_include_audit": "f989f6cd0fd7140f50367efc7188618c5d72bfd978d455c34e43615f24517943",
+    "/home/adampalace/dh2-world-build/character_script_owner_include_audit": "029e2f3910a9c18f60e4139b73c6468c7d9c8ecf239683b73d62bde215cccc0f"
+  },
+  "linked_dependencies": {
+    "scalar": "\tlinux-vdso.so.1 (0x0000701c398b3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000701c39000000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x0000701c38a00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000701c38600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000701c38eda000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000701c37e00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000701c397f5000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000701c37a00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000701c398b5000)\n",
+    "scalar_source": "\tlinux-vdso.so.1 (0x0000720b672b3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000720b66a00000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x0000720b66400000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000720b66000000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000720b668da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000720b65800000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000720b671f4000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000720b65400000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000720b672b5000)\n",
+    "design": "\tlinux-vdso.so.1 (0x00007d54d5e05000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007d54d5600000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007d54d5000000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007d54d4c00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007d54d54da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007d54d4400000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007d54d54ac000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007d54d4000000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007d54d5e07000)\n",
+    "scope": "\tlinux-vdso.so.1 (0x00007592e7168000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007592e6800000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007592e6200000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007592e5e00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007592e6fb7000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007592e5600000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007592e6f87000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007592e5200000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007592e716a000)\n",
+    "include": "\tlinux-vdso.so.1 (0x00007d872bb9c000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007d872b200000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007d872ac00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007d872a800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007d872b9c0000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007d872a000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007d872b990000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007d8729c00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007d872bb9e000)\n",
+    "owner_include": "\tlinux-vdso.so.1 (0x000071e8385ed000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x000071e837c00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x000071e836800000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x000071e836200000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x000071e8383fb000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x000071e835e00000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x000071e83666b000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x000071e835800000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x000071e835400000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x000071e8356da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x000071e834c00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000071e8383c9000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000071e834800000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000071e8385ef000)\n"
+  },
+  "sanitizer_findings": 0,
+  "authored_resource_sha256": {
+    "_commons.luac": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+    "follower.luac": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d"
+  },
+  "full_game_verified": false,
+  "physical_arm64_verified": false,
+  "apk_executed": false,
+  "commands": [
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_source_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_design_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_callback_scope_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_include_audit",
+        "/home/adampalace/dh2-world-build/character_script_owner_include_audit"
+      ],
+      "returncode": 0,
+      "stdout": "9b3d2343bce8348b6a8ff22c9a49aed56f2655eada9b512480bc9833c9e62ae2  /home/adampalace/dh2-world-build/libdh2_level_world.so\n55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n07ec8932a748f0152a14481782a6e7da33d35e05688f500c14f84397f91667b3  /home/adampalace/dh2-world-build/script-runtime/script_scalar_audit\n46d372490bc520a9b12b113dfbacf8619822d683767fb587fb9c3d821e93380c  /home/adampalace/dh2-world-build/script-runtime/script_scalar_source_audit\n3d75a7bfbfdd165ce3b6bfc835c77e036a65c43e997bc692d531061e54b37559  /home/adampalace/dh2-world-build/script-runtime/script_design_audit\nfd4da4818a59e6f35a4703c04f391be827ec2fb7d20c5c4a12310214ab434990  /home/adampalace/dh2-world-build/script-runtime/script_callback_scope_audit\nf989f6cd0fd7140f50367efc7188618c5d72bfd978d455c34e43615f24517943  /home/adampalace/dh2-world-build/script-runtime/script_include_audit\n029e2f3910a9c18f60e4139b73c6468c7d9c8ecf239683b73d62bde215cccc0f  /home/adampalace/dh2-world-build/character_script_owner_include_audit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_audit"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x0000701c398b3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000701c39000000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x0000701c38a00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000701c38600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000701c38eda000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000701c37e00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000701c397f5000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000701c37a00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000701c398b5000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/reference/scalar-bindings/scalar-original-gold.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_gold_cases\":13978,\"ordered_identity_division_services\":836,\"actual_VM_checks\":37,\"guard_reload_checks\":13,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_source_audit"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x0000720b672b3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000720b66a00000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x0000720b66400000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000720b66000000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000720b668da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000720b65800000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000720b671f4000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000720b65400000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000720b672b5000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_source_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/reference/scalar-bindings/scalar-original-gold.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_gold_cases\":13978,\"ordered_identity_division_services\":836,\"actual_VM_checks\":40,\"guard_reload_checks\":13,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/script-runtime/script_design_audit"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007d54d5e05000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007d54d5600000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007d54d5000000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007d54d4c00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007d54d54da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007d54d4400000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007d54d54ac000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007d54d4000000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007d54d5e07000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/script-runtime/script_design_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/reference/design-bindings/design-original-gold.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/assets/data"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_gold_cases\":1200,\"ordered_lookup_calls\":60,\"actual_VM_checks\":457,\"native_boundary_checks\":9,\"actual_character_fields\":224,\"full_manager_lookup_proved\":false,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/script-runtime/script_callback_scope_audit"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007592e7168000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007592e6800000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007592e6200000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007592e5e00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007592e6fb7000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007592e5600000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007592e6f87000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007592e5200000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007592e716a000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/script-runtime/script_callback_scope_audit"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_scoped_callbacks\":16,\"actual_discarded_Lua_calls\":85,\"scope_busy_guards\":543,\"cross_Include_calls\":1,\"source_argument_table_projections\":33,\"source_return_table_projections\":162,\"positive_Lua_error_cases\":5,\"unsupported_error_object_cases\":1,\"native_argument_storage_checks\":1,\"argument_projection_error_cleanup_cases\":64,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/script-runtime/script_include_audit"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007d872bb9c000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007d872b200000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007d872ac00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007d872a800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007d872b9c0000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007d872a000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007d872b990000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007d8729c00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007d872bb9e000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/script-runtime/script_include_audit"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"mismatches\":0,\"original_Include_guard_cases\":80,\"actual_include_callbacks\":34,\"actual_source_load_operations\":56,\"source_root_file_checks\":17,\"handled_source_errors\":6,\"unsupported_error_objects\":1,\"atomic_scope_and_generic_busy_checks\":341,\"unused_argument_projections\":40,\"private_vms_verified\":true,\"allocation_failure_protected\":true,\"generic_busy_guards_preserved\":true}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/character_script_owner_include_audit"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x000071e8385ed000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x000071e837c00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x000071e836800000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x000071e836200000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x000071e8383fb000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x000071e835e00000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x000071e83666b000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x000071e835800000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x000071e835400000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x000071e8356da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x000071e834c00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000071e8383c9000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000071e834800000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000071e8385ef000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/character_script_owner_include_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-owner-extension/_commons.luac",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-owner-extension/follower.luac"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":2005,\"include_callbacks\":19,\"atomic_and_busy_guards\":114,\"nested_callbacks\":4,\"same_file_preinsert_recursion\":true,\"retained_source_stack\":5,\"actual_follower_flags\":962,\"fake_game_globals\":false,\"owner_library\":\"/home/adampalace/dh2-world-build/libdh2_level_world.so\",\"runtime_library\":\"/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\",\"virtual_library\":\"/home/adampalace/dh2-world-build/libdh2_level_world.so\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_scalar_source_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_design_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_callback_scope_audit",
+        "/home/adampalace/dh2-world-build/script-runtime/script_include_audit",
+        "/home/adampalace/dh2-world-build/character_script_owner_include_audit"
+      ],
+      "returncode": 0,
+      "stdout": "9b3d2343bce8348b6a8ff22c9a49aed56f2655eada9b512480bc9833c9e62ae2  /home/adampalace/dh2-world-build/libdh2_level_world.so\n55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n07ec8932a748f0152a14481782a6e7da33d35e05688f500c14f84397f91667b3  /home/adampalace/dh2-world-build/script-runtime/script_scalar_audit\n46d372490bc520a9b12b113dfbacf8619822d683767fb587fb9c3d821e93380c  /home/adampalace/dh2-world-build/script-runtime/script_scalar_source_audit\n3d75a7bfbfdd165ce3b6bfc835c77e036a65c43e997bc692d531061e54b37559  /home/adampalace/dh2-world-build/script-runtime/script_design_audit\nfd4da4818a59e6f35a4703c04f391be827ec2fb7d20c5c4a12310214ab434990  /home/adampalace/dh2-world-build/script-runtime/script_callback_scope_audit\nf989f6cd0fd7140f50367efc7188618c5d72bfd978d455c34e43615f24517943  /home/adampalace/dh2-world-build/script-runtime/script_include_audit\n029e2f3910a9c18f60e4139b73c6468c7d9c8ecf239683b73d62bde215cccc0f  /home/adampalace/dh2-world-build/character_script_owner_include_audit\n",
+      "stderr": ""
+    }
+  ]
+}

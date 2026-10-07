@@ -1,0 +1,40 @@
+{
+  "version": 43,
+  "scope": "Header-only exact Stage0 StopAllSounds500 binding and immediate root API map; no shared build/runtime/driver claim",
+  "owned": [
+    {
+      "path": "port/engine-audio/integration-v43/audio_stage0_sound_v43.hpp",
+      "sha256": "93c8bff509791fc1a9ba01d1943d9206c7ba0b0350ebb948c75e3203b2dbdb7d"
+    },
+    {
+      "path": "port/engine-audio/integration-v43/original-stop-all-sounds.asm",
+      "sha256": "3bbc6a6cbc5f66704ddecd327bc3c008064e1cee041530583f05cd20d53e6179"
+    },
+    {
+      "path": "port/engine-audio/integration-v43/ROOT-BINDINGS.md",
+      "sha256": "af7e83937adbca32835bc41fdd2e8ce289ff6b87aa5067a128e1484bfcd65172"
+    },
+    {
+      "path": "port/engine-audio/integration-v43/validation.json",
+      "sha256": "c7b236fc1ae2b25e4372717c21322dc8076184b33ebcbf02d1e50e56482e0a62"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "handoff/audio-v42/manifest.json",
+      "sha256": "5b51da42d76a7447c06cfba439f7dbb6190549d8dfeaae148f441e271e8d46a2"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/audio_application_manager_v42.hpp",
+      "sha256": "0ae96d3b0bdbcc0f64a5046295861ef9f56ad33d7a39a018965f79e17461323a"
+    },
+    {
+      "path": "port/engine-audio/audio_mixer_v34.hpp",
+      "sha256": "9d0f92b4a7287ad9957642579fc4383e11483b65d38bdd54dc3b594d7fba57c7"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/vox-loader.asm",
+      "sha256": "2923f771cbc833d439f5d33ada5eaff7080177f2585ffee80f37b01bc886bc27"
+    }
+  ]
+}

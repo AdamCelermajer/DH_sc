@@ -1,0 +1,101 @@
+{
+  "validation": "FAIL",
+  "apk_sha256": "136e924a7f9f9d73bca38d6c55f05778b0b8df42e7b0bb5821f13a0f1c8be70f",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "370295293fc462300d2e14a0939c6fec3c456b7047c5ee79bfaded2eec75e74b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "fa261fb376a49796c19529ceb38833f5d344ba118662a597bdd71c4c382eb9a0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "d59803e3a4739c7faf1ca47d46fbc4479cd2c9c585250c82704134bb83dbec11",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "1e1ccb2783a4ed1691416d978036dc7de85841f82fb08b738cafe0a51831f603",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "41ac012b447f161d4185fd7314162a2567d34c79fa3304052239613a442bf2b4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "636fd01174bb912a242c6c204929cd87110b215ce66bbc377483b736f484356b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "beb22a596b2c16c9cce9773f4f51f1556ce8c25149598d2dbbca9b2178a01d39",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "d5ce015efbe062e7a6e6555e94a00a7757bfd0abdb76711a111892e5bf2b94c1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "b1be2bc2f9fae6cb7e147c7a6f775985e37d418c7b2e0e4a13106a443f64226e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "fd0598f82673f5d6040cadb6482765788431e8c8972000559b21a92a2f58539d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "7a970e8a41e9c9c3bd56f198d1a57d0d131f3d676ea6bdf384c3a931539f88cc",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "443592a1218ad95af867e5ade67273667dbd52f6b23d97d8f9c9f6e74675c988",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "24a5c431b93fd8ba524a577e430a8f1023d71c9ee078ce63ebc2109712d08691",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "3855eb4b6a768c492ece7230e79623fc0857100191073373b23db58cb1576d3f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "8d75fabd7b0ff938a5ab703185b4e1c90d65ddfc2d1e941fa60a6cbfc7943d35",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "scope": "Connected world/status HUD: real touch, scripted authored damage and resume.\n\nEnemy attack selection is an explicit debug scenario using the existing native\nauthored-animation/combat pipeline. It does not establish full enemy AI, potion\nactions, skills, portraits, campaign or physical ARM64 behavior.\n",
+  "physical_arm64_verified": false,
+  "cases": {},
+  "installed_apk_sha256": "ad2462c92386bbb467744f2d7717f3b187ed5f048724b8bd9ad92a74cc7d5b0e",
+  "error": "Installed APK differs"
+}

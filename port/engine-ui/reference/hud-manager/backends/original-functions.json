@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI16AI_IsSkillUsableEj",
+      "elf_address": "0x3d8358",
+      "size": 284,
+      "sha256": "26c060734fdea9266a673b4a585a9ef49a17b51e552002edf6b4bc853743873e"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI16AI_IsSpellUsableEv",
+      "elf_address": "0x3d80b4",
+      "size": 268,
+      "sha256": "cad28c83a55093e64a22daea9298eb4e98c2c1d540c4591a9a1e6379a3bc5084"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_SkillInfoEjjRf",
+      "elf_address": "0x3d7e88",
+      "size": 216,
+      "sha256": "9bde47dcc7073218e29b54f0ecbec3f1d2fb0a0baed0eeee25675f39fe0280e1"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame16SG_GetSkillLevelEj",
+      "elf_address": "0x4668dc",
+      "size": 300,
+      "sha256": "6bd05dec5b1e23ef228c9fdacf875ac281a49c0d75779cae5d69a1671cbb6d67"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript11GetCooldownEv",
+      "elf_address": "0x3da3d0",
+      "size": 108,
+      "sha256": "ce93c2131435534d0ec7ed5ad2765134145afc28e881cca89ce9cb7573768b1f"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame17SG_GetSkillInSlotEi",
+      "elf_address": "0x467488",
+      "size": 164,
+      "sha256": "687fc181f4d032966fc375361f4e692169e4af57ca50b9fbbaa8b3045f8414b3"
+    },
+    {
+      "original_symbol": "_ZNK10CharTimers12TMR_TimeLeftEjRjS0_",
+      "elf_address": "0x3db344",
+      "size": 68,
+      "sha256": "e2319098a2a413795b7a921dda15594fb2e23d328b97aeaa082028c29d4ccc38"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_SpellInfoERf",
+      "elf_address": "0x3d7da8",
+      "size": 224,
+      "sha256": "efee3bef33f6a21dc6786321f73916f4adfff744e71d8a3afae8127583049506"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory13GetNumPotionsEv",
+      "elf_address": "0x3fc690",
+      "size": 16,
+      "sha256": "20d3f617d112f999ec656bc0718c4827316ef920b41eea08bb60694d3a716e3f"
+    }
+  ]
+}

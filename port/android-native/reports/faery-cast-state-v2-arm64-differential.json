@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "scope": "Actual original ARM versus optimized native ARM64 cast semantic bodies.\nProfiler instrumentation is excluded; actual flags/shared bytes and ordered\nCharacter/Animator/cancel services are compared, with declared fixture stubs.\n",
+  "cases": 1824,
+  "ordered_body_services": 768,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "55afcc4451b458368b5180510e4f2d06d5032bc2e2e600bf740c6a222067c5cf"
+}

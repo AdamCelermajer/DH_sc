@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "abi": "arm64-v8a",
+      "argv": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-none-linux-android24",
+        "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+        "-DDH2_ENABLE_LOAD_DIAGNOSTICS=0",
+        "-Ddh2_native_EXPORTS",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio",
+        "-isystem",
+        "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-DANDROID",
+        "-D_FORTIFY_SOURCE=2",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp",
+        "-std=c++17",
+        "-Werror",
+        "-Wno-unused-function",
+        "-fsyntax-only",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\model_renderer_loot_v47.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "argv": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-none-linux-android24",
+        "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+        "-DDH2_ENABLE_LOAD_DIAGNOSTICS=0",
+        "-Ddh2_native_EXPORTS",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-audio",
+        "-isystem",
+        "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-DANDROID",
+        "-D_FORTIFY_SOURCE=2",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp",
+        "-std=c++17",
+        "-Werror",
+        "-Wno-unused-function",
+        "-fsyntax-only",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\model_renderer_loot_v47.cpp"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "production_model_source_sha256": "db185068b38010ab880d7b246c37a6df460de14b2a36dbc031213767b4882426",
+  "additive_fixture_sha256": "6ca95c1520a6403a8fad817f2866d6a8ebce5ffd1731f2f1d1ac900a9707e04a"
+}

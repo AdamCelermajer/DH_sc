@@ -1,0 +1,16 @@
+{
+  "production_packet_sha256": "a0acfe2bd9f651660bc7324780b03b8b758a93b44fbf8366dc798586d1b0130b",
+  "actual_cache_checks": 526,
+  "asan_ubsan": "PASS",
+  "scope": "Current V32 resource closure; actual assets, synthetic headings/slopes/camera; no after-fix live visual acceptance. Existing snapshot dependency libraries listed by host runner.",
+  "files": [
+    {
+      "path": "port/level-world/reports/authored-fx-v32-publication-v49-v32.json",
+      "sha256": "3635022c1929a80d8d58df9fe45c34688d422f9d0947e7dea190754f9a02ebd2"
+    },
+    {
+      "path": "port/android-native/reports/skill-control-v49/receipt-v49.json",
+      "sha256": "e70ed9b7859448fe7880edde5a82e4a68153bbf603a889b497dc502f9aca2138"
+    }
+  ]
+}

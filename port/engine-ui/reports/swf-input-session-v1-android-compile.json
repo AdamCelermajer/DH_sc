@@ -1,0 +1,177 @@
+{
+  "validation": "PASS",
+  "compile_only": true,
+  "Android_link_or_GPU_test": false,
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "compiler_version": "Android (13989888, based on r563880c) clang version 21.0.0 (https://android.googlesource.com/toolchain/llvm-project 5e96669f06077099aa41290cdb4c5e6fa0f59349)\r\nTarget: x86_64-w64-windows-gnu\r\nThread model: posix\r\nInstalledDir: C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin",
+  "source_sha256": {
+    "port/engine-ui/swf_input_session_v1.cpp": "44ed1e13800f30348244bbb283ef5a9c7063d1384ec4d5cd44cf226c0084a772",
+    "port/engine-ui/swf_input_connection_v2.cpp": "d0856a537dbd676c16eeb53bb0ffbff37b59215576b8f2ad2e7fc23bbece5692",
+    "port/engine-ui/overlays/player-lifetime-v1/gameswf_player.cpp": "a7236e70f0f5dfe97059b94e9db7906591c7b63272f052bdc552f3368fdf258d",
+    "port/engine-ui/swf_input_session_v1.hpp": "910e4d6d41b80564fc1e19cc71c69fd2dbc42f6f958f7f7e5b000f00d0645441",
+    "port/engine-ui/swf_input_connection_v2.hpp": "4734d16f9bad46c098894d237ccf0f6bd67cec32ec8e40c356edcbc219080bb1",
+    "port/engine-ui/gameswf_player_lifetime_overlay_v1.cmake": "0e3f5284f7169535e2e04767ae292a65716b848453985bac0d4ef5dcb6797b0a"
+  },
+  "abis": {
+    "arm64-v8a": {
+      "port/engine-ui/swf_input_session_v1.cpp": {
+        "object_sha256": "f3d33ab13f15aa4d78d4275040c853e92f925ee5d16461a0b438be104d71d015",
+        "dependency_file_sha256": "f29a451e851a7759823a45178efd66f11ede902e46c7c3ae4801fc5e9b7c25ee",
+        "arguments": [
+          "--target=aarch64-linux-android26",
+          "-std=c++17",
+          "-O2",
+          "-w",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fPIC",
+          "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+          "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+          "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+          "-DTU_CONFIG_LINK_TO_THREAD=0",
+          "-Iport/engine-ui",
+          "-Iport/engine-ui/vendor/gameswf1714",
+          "-MD",
+          "-MF",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_session_v1-arm64-v8a.o.d",
+          "-c",
+          "port/engine-ui/swf_input_session_v1.cpp",
+          "-o",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_session_v1-arm64-v8a.o"
+        ]
+      },
+      "port/engine-ui/swf_input_connection_v2.cpp": {
+        "object_sha256": "48267e594a1494b36704c9c9cfb11c1d41ca88b8f443cafabe8e6645f9f568b7",
+        "dependency_file_sha256": "87e6c993bbad2aa89c273305d7bc18c81a36c539fd3e8fd8dcf4418936fa0ef4",
+        "arguments": [
+          "--target=aarch64-linux-android26",
+          "-std=c++17",
+          "-O2",
+          "-w",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fPIC",
+          "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+          "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+          "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+          "-DTU_CONFIG_LINK_TO_THREAD=0",
+          "-Iport/engine-ui",
+          "-Iport/engine-ui/vendor/gameswf1714",
+          "-MD",
+          "-MF",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_connection_v2-arm64-v8a.o.d",
+          "-c",
+          "port/engine-ui/swf_input_connection_v2.cpp",
+          "-o",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_connection_v2-arm64-v8a.o"
+        ]
+      },
+      "port/engine-ui/overlays/player-lifetime-v1/gameswf_player.cpp": {
+        "object_sha256": "b5041628443df544c5249c4a0dc4587bd5206e813b160ec26e09550e2f8c77f1",
+        "dependency_file_sha256": "bbf37059da2123a5fbf8985883111523976bd4ca49c6025eed58ec05c5194b60",
+        "arguments": [
+          "--target=aarch64-linux-android26",
+          "-std=c++17",
+          "-O2",
+          "-w",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fPIC",
+          "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+          "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+          "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+          "-DTU_CONFIG_LINK_TO_THREAD=0",
+          "-Iport/engine-ui",
+          "-Iport/engine-ui/vendor/gameswf1714",
+          "-MD",
+          "-MF",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\gameswf_player-arm64-v8a.o.d",
+          "-c",
+          "port/engine-ui/overlays/player-lifetime-v1/gameswf_player.cpp",
+          "-o",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\gameswf_player-arm64-v8a.o"
+        ]
+      }
+    },
+    "x86_64": {
+      "port/engine-ui/swf_input_session_v1.cpp": {
+        "object_sha256": "572d3a3909d076656b2e43f4ed08a099ce153aa728efb5dd1a41294570ee2286",
+        "dependency_file_sha256": "0e46d73ac215ac8d67d43127644571b8a33ee65ed62b7375a580d4e18a5e75cf",
+        "arguments": [
+          "--target=x86_64-linux-android26",
+          "-std=c++17",
+          "-O2",
+          "-w",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fPIC",
+          "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+          "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+          "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+          "-DTU_CONFIG_LINK_TO_THREAD=0",
+          "-Iport/engine-ui",
+          "-Iport/engine-ui/vendor/gameswf1714",
+          "-MD",
+          "-MF",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_session_v1-x86_64.o.d",
+          "-c",
+          "port/engine-ui/swf_input_session_v1.cpp",
+          "-o",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_session_v1-x86_64.o"
+        ]
+      },
+      "port/engine-ui/swf_input_connection_v2.cpp": {
+        "object_sha256": "22b5ca6a18fd56b526f05affcb9f566886afb5f0a523001463d933a27c19d64a",
+        "dependency_file_sha256": "a631c692bf997ea94f23196794a604ce9d15a727085518eb18f49eba13fd501c",
+        "arguments": [
+          "--target=x86_64-linux-android26",
+          "-std=c++17",
+          "-O2",
+          "-w",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fPIC",
+          "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+          "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+          "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+          "-DTU_CONFIG_LINK_TO_THREAD=0",
+          "-Iport/engine-ui",
+          "-Iport/engine-ui/vendor/gameswf1714",
+          "-MD",
+          "-MF",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_connection_v2-x86_64.o.d",
+          "-c",
+          "port/engine-ui/swf_input_connection_v2.cpp",
+          "-o",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\swf_input_connection_v2-x86_64.o"
+        ]
+      },
+      "port/engine-ui/overlays/player-lifetime-v1/gameswf_player.cpp": {
+        "object_sha256": "07903a6a91e1328256aff0d6093fabb1717722bc0c5aca647bf265045fb9c4cf",
+        "dependency_file_sha256": "2069f4a448618c064d3fcc3a484b74ac8dfa20825d72a793e18ae2e6dfa5f078",
+        "arguments": [
+          "--target=x86_64-linux-android26",
+          "-std=c++17",
+          "-O2",
+          "-w",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fPIC",
+          "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+          "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+          "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+          "-DTU_CONFIG_LINK_TO_THREAD=0",
+          "-Iport/engine-ui",
+          "-Iport/engine-ui/vendor/gameswf1714",
+          "-MD",
+          "-MF",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\gameswf_player-x86_64.o.d",
+          "-c",
+          "port/engine-ui/overlays/player-lifetime-v1/gameswf_player.cpp",
+          "-o",
+          "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swf-input-session-v1-android\\gameswf_player-x86_64.o"
+        ]
+      }
+    }
+  }
+}

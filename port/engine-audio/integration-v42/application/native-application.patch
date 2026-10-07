@@ -1,0 +1,87 @@
+--- a/port/android-native/app/src/main/cpp/native_app.cpp
++++ b/port/android-native/app/src/main/cpp/native_app.cpp
+@@ -5,6 +5,7 @@
+ #include <GLES2/gl2.h>
+ #include "textures.hpp"
+ #include "model_renderer.hpp"
++#include "port/engine-audio/integration-v42/application/native_audio_application_v42.hpp"
+ #include "authored_shader_program.hpp"
+ #include "original_ui_session.hpp"
+ #include "front_ui_session_v87.hpp"
+@@ -70,6 +71,21 @@
+ bool model_renderer::borrow_actual_menu_device_v1(dh2::ui::MenuDeviceFactsV1& facts,std::string& error){
+  return front_ui.menu_device_borrow_v4(facts,error);
+ }
++bool model_renderer::borrow_actual_application_audio_v42(dh2::audio::AudioApplicationBorrowV42& out,std::string& error){
++ return dh2::android_audio::borrow_application_audio_v42(out,error);
++}
++extern "C" JNIEXPORT jlong JNICALL Java_com_example_dh2_NativeBridge_audioApplicationReserveV42(JNIEnv*,jclass){
++ return static_cast<jlong>(dh2::android_audio::reserve_application_audio_v42());
++}
++extern "C" JNIEXPORT jlong JNICALL Java_com_example_dh2_NativeBridge_audioApplicationOwnerV42(JNIEnv*,jclass){
++ return static_cast<jlong>(dh2::android_audio::application_audio_owner_v42());
++}
++extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_audioApplicationCloseV42(JNIEnv*,jclass,jlong owner){
++ if(owner>0)dh2::android_audio::request_application_audio_close_v42(static_cast<std::uint64_t>(owner));
++}
++extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_audioApplicationShutdownV42(JNIEnv* env,jclass,jlong owner){
++ std::string error;return dh2::android_audio::shutdown_application_audio_v42(owner>0?static_cast<std::uint64_t>(owner):0,error)?nullptr:result(env,error);
++}
+ bool model_renderer::borrow_actual_application_services_v5(std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& out,std::string& error){
+  if(!application_services_v5||!application_services_v5->events14()){
+   error="Required actual Application PostInit EventManager publication";return false;
+@@ -111,6 +127,10 @@
+      if(!application_services_v5->events14()&&!application_services_v5->post_init_events_v5(application_error))throw std::runtime_error(application_error);
+      auto* manager=assets?AAssetManager_fromJava(env,assets):nullptr;
+       gameplay_assets=manager;
++      // Original GSInit phase0 CreateInstance audio seam; exact pack bootstrap.
++      // Full GSInit phase9 Vox settings/general/World initialization is separate.
++      std::string audio_error;
++      if(!dh2::android_audio::ensure_application_audio_v42(env,assets,audio_error))throw std::runtime_error(audio_error);
+       character_panel.reset();authored_character_menu.reset();
+     ui_program=dh2::android_ui::create(manager,false);
+     premultiplied=dh2::android_ui::create(manager,true);
+--- a/port/android-native/app/src/main/cpp/model_renderer.hpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.hpp
+@@ -2,6 +2,7 @@
+ #include "renderer_loot_gpu_v27.hpp"
+ #include "renderer_native_gslevel_v27.hpp"
+ #include "application_services_owner_v5.hpp"
++#include "audio_application_manager_v42.hpp"
+ #include <android/asset_manager.h>
+ #include <cstddef>
+ #include <cstdint>
+@@ -16,6 +17,8 @@
+ namespace dh2::android_ui {struct CharacterPanelMovieRuntimeV3;struct CharacterPanelGameplayServicesV2;}
+ namespace dh2::ui {class HudTextV1;class AuthoredCharacterApplicationV1;class MenuStatusMessagesV26;}
+ namespace model_renderer {
++// True captures actual nullable global; false reports unknown/failed construction.
++bool borrow_actual_application_audio_v42(dh2::audio::AudioApplicationBorrowV42&,std::string&);
+ // Sole retained native Application service receiver; required before camera
+ // Zoom/Overview attach to Application14. Level has a distinct event base.
+ bool borrow_actual_application_services_v5(std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
+--- a/port/android-native/app/src/main/cpp/CMakeLists.txt
++++ b/port/android-native/app/src/main/cpp/CMakeLists.txt
+@@ -42,6 +42,22 @@
+   gameplay_hud.cpp gameplay_icons.cpp character_panel_session_v1.cpp character_panel_presentation_v1.cpp character_panel_authored_v2.cpp character_panel_reload_v3.cpp character_panel_runtime_v3.cpp faery_gameplay_v1.cpp
+   faery_cast_owner_v2.cpp faery_cast_state_v2.cpp player_ai_callables_v1.cpp player_timer_helpers_v1.cpp player_recurring_effects_v7.cpp
+   "${DH2_SOURCE_DIR}/port/asset-payloads/zip_asset_pack_v1.cpp")
++
++# Persistent Application audio: V42 only, never a second V40 session owner.
++target_sources(dh2_native PRIVATE
++  "${DH2_SOURCE_DIR}/port/engine-audio/audio_clock_v40.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/audio_source_command_v40.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/audio_gameplay_runtime_v42.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v42/audio_native_session_v42.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v42/audio_application_manager_v42.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v42/application/native_audio_application_v42.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v40/focus/audio_lifecycle_jni_v40.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v40/focus/audio_output_v40.cpp"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v40/focus/audio_control_v40.cpp")
++target_include_directories(dh2_native PRIVATE "${DH2_SOURCE_DIR}"
++  "${DH2_SOURCE_DIR}/port/engine-audio/integration-v42")
++
+ target_compile_features(dh2_native PRIVATE cxx_std_17)
+ target_compile_definitions(dh2_native PRIVATE DH2_ENABLE_LOAD_DIAGNOSTICS=$<BOOL:${DH2_ENABLE_LOAD_DIAGNOSTICS}>)
+ if(DH2_ENABLE_LOAD_DIAGNOSTICS)

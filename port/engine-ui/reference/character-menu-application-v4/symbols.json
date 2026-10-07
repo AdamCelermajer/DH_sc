@@ -1,0 +1,297 @@
+[
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Menus_MenuMessageManager.cpp",
+    "address": "0x434624",
+    "size": 1948
+  },
+  {
+    "name": "_ZNK18MenuMessageManagerI19CharMenuTutorialMsgLi1EE6InvokeEPKci.clone.50",
+    "address": "0x442734",
+    "size": 260
+  },
+  {
+    "name": "_ZNK18MenuMessageManagerI19CharMenuTutorialMsgLi1EE6InvokeEPKci.clone.31",
+    "address": "0x45a0fc",
+    "size": 204
+  },
+  {
+    "name": "_ZNSaI19CharMenuTutorialMsgE8allocateEjPKv.clone.3",
+    "address": "0x45b654",
+    "size": 32
+  },
+  {
+    "name": "_ZN13StringManager5parseERSsPKcz",
+    "address": "0x508ef4",
+    "size": 2836
+  },
+  {
+    "name": "_Z19NativeShowStatusBarRKN7gameswf7fn_callE",
+    "address": "0x43aa18",
+    "size": 64
+  },
+  {
+    "name": "_ZN7Structs31SkipAllCharMenuTutorialMessages8finalizeEv",
+    "address": "0x4c7b2c",
+    "size": 4
+  },
+  {
+    "name": "_ZN7Structs31SkipAllCharMenuTutorialMessagesD1Ev",
+    "address": "0x4c7af8",
+    "size": 52
+  },
+  {
+    "name": "_ZN7Structs27SkipCharMenuTutorialMessageD2Ev",
+    "address": "0x4c7a58",
+    "size": 52
+  },
+  {
+    "name": "_ZN7Structs27SkipCharMenuTutorialMessage4readEP11IStreamBase",
+    "address": "0x4ff8a0",
+    "size": 4
+  },
+  {
+    "name": "_ZN18MenuMessageManagerI19CharMenuTutorialMsgLi1EED0Ev",
+    "address": "0x329ec4",
+    "size": 84
+  },
+  {
+    "name": "_Z19NativeSetMultitouchRKN7gameswf7fn_callE",
+    "address": "0x43a124",
+    "size": 72
+  },
+  {
+    "name": "_ZN8MenuBase19FS_GetParsedString2EPKcS1_Pv",
+    "address": "0x424ef0",
+    "size": 1376
+  },
+  {
+    "name": "_ZN11Application13ShowStatubBarEb",
+    "address": "0x31f668",
+    "size": 4
+  },
+  {
+    "name": "_ZN11MenuManagerC1Ev",
+    "address": "0x431c38",
+    "size": 620
+  },
+  {
+    "name": "_ZSt19__destroy_range_auxINSt4priv15_Deque_iteratorI19CharMenuTutorialMsgSt16_Nonconst_traitsIS2_EEES2_EvT_S6_PT0_RKSt12__false_type",
+    "address": "0x31fe38",
+    "size": 120
+  },
+  {
+    "name": "_ZN38Script_SkipAllCharMenuTutorialMessages7ExecuteEbi",
+    "address": "0x460428",
+    "size": 76
+  },
+  {
+    "name": "_ZN18MenuMessageManagerI19CharMenuTutorialMsgLi1EED1Ev",
+    "address": "0x329e78",
+    "size": 76
+  },
+  {
+    "name": "_ZN7Structs27SkipCharMenuTutorialMessageD1Ev",
+    "address": "0x4c7a8c",
+    "size": 52
+  },
+  {
+    "name": "_ZN7Structs30EnqueueCharMenuTutorialMessage4readEP11IStreamBase",
+    "address": "0x4fff54",
+    "size": 448
+  },
+  {
+    "name": "_ZNSt4priv11_Deque_baseI19CharMenuTutorialMsgSaIS1_EED2Ev",
+    "address": "0x329d8c",
+    "size": 132
+  },
+  {
+    "name": "_ZN7Structs30EnqueueCharMenuTutorialMessageD2Ev",
+    "address": "0x4d1340",
+    "size": 88
+  },
+  {
+    "name": "_ZN11MenuManagerC2Ev",
+    "address": "0x4319cc",
+    "size": 620
+  },
+  {
+    "name": "_Z19NativeGetNumPotionsRKN7gameswf7fn_callE",
+    "address": "0x44996c",
+    "size": 420
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs27SkipCharMenuTutorialMessageEEPNS0_9ScriptCmdEv",
+    "address": "0x456488",
+    "size": 60
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs31SkipAllCharMenuTutorialMessagesEEPNS0_9ScriptCmdEv",
+    "address": "0x45644c",
+    "size": 60
+  },
+  {
+    "name": "_ZNSt5dequeI19CharMenuTutorialMsgSaIS0_EE18_M_push_back_aux_vERKS0_",
+    "address": "0x45b674",
+    "size": 384
+  },
+  {
+    "name": "_ZN19CharMenuTutorialMsgC1EiRKSsS1_",
+    "address": "0x433b44",
+    "size": 44
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI37Script_EnqueueCharMenuTutorialMessageEP13ScriptCmdImplv",
+    "address": "0x45787c",
+    "size": 72
+  },
+  {
+    "name": "_ZN7Structs30EnqueueCharMenuTutorialMessageD0Ev",
+    "address": "0x4d1324",
+    "size": 28
+  },
+  {
+    "name": "_ZNSt5dequeI19CharMenuTutorialMsgSaIS0_EED1Ev",
+    "address": "0x329e10",
+    "size": 104
+  },
+  {
+    "name": "_ZNK38Script_SkipAllCharMenuTutorialMessages10IsBlockingEv",
+    "address": "0x455960",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Structs30EnqueueCharMenuTutorialMessageD1Ev",
+    "address": "0x4d12cc",
+    "size": 88
+  },
+  {
+    "name": "_Z21NativeGetParsedStringRKN7gameswf7fn_callE",
+    "address": "0x44de4c",
+    "size": 1060
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI34Script_SkipCharMenuTutorialMessageEP13ScriptCmdImplv",
+    "address": "0x457834",
+    "size": 72
+  },
+  {
+    "name": "_ZN37Script_EnqueueCharMenuTutorialMessage7ExecuteEbi",
+    "address": "0x460b1c",
+    "size": 276
+  },
+  {
+    "name": "_ZNK37Script_EnqueueCharMenuTutorialMessage10IsBlockingEv",
+    "address": "0x455950",
+    "size": 8
+  },
+  {
+    "name": "_ZN8MenuBase16FS_GetNumPotionsEPKcS1_Pv",
+    "address": "0x421aac",
+    "size": 172
+  },
+  {
+    "name": "_Z33NativeSkipCharMenuTutorialMessageRKN7gameswf7fn_callE",
+    "address": "0x442838",
+    "size": 88
+  },
+  {
+    "name": "_Z32NativeGetCharMenuTutorialMessageRKN7gameswf7fn_callE",
+    "address": "0x44c7a0",
+    "size": 700
+  },
+  {
+    "name": "_ZN7Structs31SkipAllCharMenuTutorialMessagesD2Ev",
+    "address": "0x4c7ac4",
+    "size": 52
+  },
+  {
+    "name": "_ZN7Structs27SkipCharMenuTutorialMessageD0Ev",
+    "address": "0x4cdda8",
+    "size": 28
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs30EnqueueCharMenuTutorialMessageEEPNS0_9ScriptCmdEv",
+    "address": "0x4564c4",
+    "size": 64
+  },
+  {
+    "name": "_ZN19CharMenuTutorialMsgC2EiRKSsS1_",
+    "address": "0x433b70",
+    "size": 44
+  },
+  {
+    "name": "_ZNKSt4priv20_Deque_iterator_baseI19CharMenuTutorialMsgE11_M_subtractERKS2_",
+    "address": "0x4562dc",
+    "size": 80
+  },
+  {
+    "name": "_ZN7gameswf7cast_toINS_9as_objectEEEPT_PNS_19as_object_interfaceE",
+    "address": "0x439cb4",
+    "size": 52
+  },
+  {
+    "name": "_ZNSaIP19CharMenuTutorialMsgE8allocateEjPKv",
+    "address": "0x3293c8",
+    "size": 96
+  },
+  {
+    "name": "_ZNK34Script_SkipCharMenuTutorialMessage10IsBlockingEv",
+    "address": "0x455958",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Structs31SkipAllCharMenuTutorialMessages4readEP11IStreamBase",
+    "address": "0x4ff89c",
+    "size": 4
+  },
+  {
+    "name": "_ZN7Structs31SkipAllCharMenuTutorialMessagesD0Ev",
+    "address": "0x4cdd8c",
+    "size": 28
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI38Script_SkipAllCharMenuTutorialMessagesEP13ScriptCmdImplv",
+    "address": "0x4577ec",
+    "size": 72
+  },
+  {
+    "name": "_ZN7Structs27SkipCharMenuTutorialMessage8finalizeEv",
+    "address": "0x4c7ac0",
+    "size": 4
+  },
+  {
+    "name": "_ZN19CharMenuTutorialMsgC1ERKS_",
+    "address": "0x45a780",
+    "size": 72
+  },
+  {
+    "name": "_ZNSt5dequeI19CharMenuTutorialMsgSaIS0_EE9pop_frontEv",
+    "address": "0x441d58",
+    "size": 116
+  },
+  {
+    "name": "_ZN7Structs30EnqueueCharMenuTutorialMessage8finalizeEv",
+    "address": "0x4d1280",
+    "size": 76
+  },
+  {
+    "name": "_ZNK13ItemInventory13GetNumPotionsEv",
+    "address": "0x3fc690",
+    "size": 16
+  },
+  {
+    "name": "_ZNSt5dequeI19CharMenuTutorialMsgSaIS0_EE9push_backERKS0_",
+    "address": "0x45b7f4",
+    "size": 60
+  },
+  {
+    "name": "_Z25NativeGetStringNumPotionsRKN7gameswf7fn_callE",
+    "address": "0x446978",
+    "size": 388
+  },
+  {
+    "name": "_ZN34Script_SkipCharMenuTutorialMessage7ExecuteEbi",
+    "address": "0x4603d0",
+    "size": 88
+  }
+]

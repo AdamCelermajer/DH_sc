@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "scope": "Tiny source-bound generic GPU buffer, FX capacity and real skin fixtures.",
+  "bindings_sha256": {
+    "port/engine-resources/tests/buffer_resource_consumer_v41.cpp": "661b491fed11e3fe6f8fdd9b4c5f0e265b8e2ef3d80156d47cc0935470f831d4",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/resource_budget_v37.cpp": "cb9fca1579fea9e751c8ca5889ad4b5ffcd6a9f04794a23ee51317c8a16f493f",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/level-world/authored_fx_geometry_packet_v7.cpp": "5f6fb5bc95a98e248e576e86abdc392b440428410afd80f99c28ce1f3738f85d",
+    "port/engine-skinning/skinning.cpp": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/resource_budget_v37.hpp": "17497774d82e05cb420003c2a0312c34e3092abd63d579a65d6e1ef879a6eba7",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/cpu_vector_capacity_v41.hpp": "d0c81038d660c2d8d660a1976bea866ad96dd6acefbbc76bde67b6c9dc9e24f3",
+    "port/engine-resources/reports/buffer-resource-v41/test-layout/level-world/authored_fx_geometry_packet_v7.hpp": "e6d0107842daa9e00d6c9d5349c0b5077cc3a3b816e0ea20502f65d1092ad180",
+    "port/android-native/app/src/main/cpp/renderer_buffer_budget_v41.inc": "3e19b3629518fe048e66518cb39dba5c4b8fe3ae277ad423fc1a241bdbf405be",
+    "port/engine-resources/cpu_vector_capacity_v41.hpp": "d0c81038d660c2d8d660a1976bea866ad96dd6acefbbc76bde67b6c9dc9e24f3"
+  },
+  "receipts": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-pthread",
+        "-Iport/level-world",
+        "-Iport/game-data",
+        "-Iport/scene-materials",
+        "-Iport/engine-skinning",
+        "-Iport/engine-animation",
+        "-Iport/script-runtime",
+        "-Iport/engine-ui/reports/swf-gpu-host-v38/headers",
+        "port/engine-resources/tests/buffer_resource_consumer_v41.cpp",
+        "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/resource_budget_v37.cpp",
+        "port/engine-resources/reports/buffer-resource-v41/test-layout/level-world/authored_fx_geometry_packet_v7.cpp",
+        "port/engine-skinning/skinning.cpp",
+        "-Wl,--gc-sections",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/fixture-O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=2",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/fixture-O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\":\"PASS\",\"checks\":76,\"actual_skin_update\":true,\"actual_FX_cache_parity\":true,\"fake_GL_only\":true,\"final_records\":0}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-pthread",
+        "-Iport/level-world",
+        "-Iport/game-data",
+        "-Iport/scene-materials",
+        "-Iport/engine-skinning",
+        "-Iport/engine-animation",
+        "-Iport/script-runtime",
+        "-Iport/engine-ui/reports/swf-gpu-host-v38/headers",
+        "port/engine-resources/tests/buffer_resource_consumer_v41.cpp",
+        "port/engine-resources/reports/buffer-resource-v41/test-layout/engine-resources/resource_budget_v37.cpp",
+        "port/engine-resources/reports/buffer-resource-v41/test-layout/level-world/authored_fx_geometry_packet_v7.cpp",
+        "port/engine-skinning/skinning.cpp",
+        "-Wl,--gc-sections",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/fixture-O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=2",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/fixture-O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\":\"PASS\",\"checks\":76,\"actual_skin_update\":true,\"actual_FX_cache_parity\":true,\"fake_GL_only\":true,\"final_records\":0}\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z17UpdateSavedValuesv",
+      "elf_address": "0x43a8f0",
+      "size": 64,
+      "sha256": "b88d15813b92879affd0c1da37f316c8562a07dfc2206574047ddd551831c453"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager11setLanguageEi",
+      "elf_address": "0x46d104",
+      "size": 380,
+      "sha256": "d1ef66513d257ab9814661a1477c538862480c5231ad106d755cc3c088978c9e"
+    },
+    {
+      "original_symbol": "_ZN15VoxSoundManager16SetInitialVolumeEfff",
+      "elf_address": "0x369c2c",
+      "size": 372,
+      "sha256": "8661d45defa3da124aa47c7677a7c9074efe21e4a68ad75a2132f130f3fe6601"
+    },
+    {
+      "original_symbol": "_ZN11Application14GetSavedOptionEPKc",
+      "elf_address": "0x320e44",
+      "size": 48,
+      "sha256": "8331be7f3725447f70f125af44c323ea99e75cf792de5db166837e9d1cc3010c"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager12loadSettingsEb",
+      "elf_address": "0x46e584",
+      "size": 296,
+      "sha256": "ffaeb99fcf890c2f924f061b4631d6a75091780be3131f1b664e8a53455e23c4"
+    },
+    {
+      "original_symbol": "_ZN6Device17IsHighPerformanceEv",
+      "elf_address": "0x38174c",
+      "size": 4,
+      "sha256": "c11ab25add44e64f239c78efb5370a2e9719bfb3a033eb3547e7bc9be832b015"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_value8set_boolEb",
+      "elf_address": "0x797230",
+      "size": 32,
+      "sha256": "80b9a963db6b4873b4b4c565f565de3cf9dfca605d3aaa85b5ccd7041b0b4f62"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager11getLanguageEv",
+      "elf_address": "0x46d514",
+      "size": 100,
+      "sha256": "5dd77850e19415e4605757b1b236a5e4a426b22fba229997f1071f851e1fd95b"
+    }
+  ]
+}

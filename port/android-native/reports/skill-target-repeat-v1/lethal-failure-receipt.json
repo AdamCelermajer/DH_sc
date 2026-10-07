@@ -1,0 +1,8 @@
+{
+  "status": "FAIL",
+  "scope": "live lethal targeted FIRE; required original hit_controller_kill callback remains unconnected",
+  "apk_sha256": "f51c4c26fd58560520735e7145c075565c28abc378154abb3c0f5fd9760fbd4f",
+  "errors": [
+    "E/DH2Native(16168): Native frame failed: Required source SkillState animation event: Required source AI_Event: [string \"loadFile()\"]:178: Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8; Required original Hit source service 8; Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8; [string \"loadFile()\"]:178: Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8"
+  ]
+}

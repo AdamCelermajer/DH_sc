@@ -1,0 +1,1646 @@
+[
+  {
+    "actor": 263,
+    "stat": 0,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 0,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 0,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 0,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 0,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 1,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 1,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 1,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 1,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 1,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 2,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 2,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 2,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 2,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 2,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 3,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 3,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 3,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 3,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 263,
+    "stat": 3,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        263
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 0,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 0,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 0,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 0,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 0,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 1,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 1,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 1,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 1,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 1,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 2,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 2,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 2,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 2,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 2,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 3,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 3,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 3,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 3,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 290,
+    "stat": 3,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        290
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 0,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 0,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 0,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 0,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 0,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        149,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 1,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 1,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 1,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 1,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 1,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        150,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 2,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 2,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 2,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 2,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 2,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        151,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 3,
+    "points": -1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 3,
+    "points": 0,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 3,
+    "points": 1,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 3,
+    "points": 2,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  },
+  {
+    "actor": 325,
+    "stat": 3,
+    "points": 2147483647,
+    "services": [
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        148,
+        0
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        148,
+        -1
+      ],
+      [
+        "_ZN14CharProperties12PROPS_AddIntEii",
+        152,
+        1
+      ],
+      [
+        "_ZN14CharProperties20UpdateBasePropertiesEi",
+        325
+      ],
+      [
+        "_ZN13DebugSwitches4loadEv"
+      ],
+      [
+        "_ZN13DebugSwitches9GetSwitchERKSs",
+        "isTracingChar_Stats"
+      ]
+    ]
+  }
+]

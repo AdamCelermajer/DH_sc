@@ -1,0 +1,68 @@
+{
+  "validation": "PASS",
+  "scope": "Verify physical movement-pad touch reaches real player footstep consumers.\n\nChecks the source player Move/Idle cycle and ev_ relay on emulator-5554.\nAccepted Crypt floors have constructor-empty types and footprint FX -1.\nPositive FX, complete NPC locomotion, combat damage and devices are untested.\n",
+  "apk_sha256": "3db7cac414584e97d6968a778a5374a21e1203046003d61057c4731bf2cebcf2",
+  "installed_apk_sha256": "3db7cac414584e97d6968a778a5374a21e1203046003d61057c4731bf2cebcf2",
+  "pid": "3306",
+  "physical_touch_swipes": 2,
+  "source_state_cycle": [
+    3,
+    4,
+    3
+  ],
+  "source_footstep_deliveries": [
+    [
+      "step_left",
+      "7",
+      "0"
+    ],
+    [
+      "step_right",
+      "16",
+      "0"
+    ],
+    [
+      "step_left",
+      "11",
+      "0"
+    ],
+    [
+      "step_right",
+      "18",
+      "0"
+    ],
+    [
+      "step_left",
+      "15",
+      "0"
+    ],
+    [
+      "step_right",
+      "18",
+      "0"
+    ],
+    [
+      "step_left",
+      "8",
+      "0"
+    ],
+    [
+      "step_right",
+      "0",
+      "0"
+    ]
+  ],
+  "source_lua_statuses": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "positive_visual_fx_tested": false,
+  "physical_arm64_tested": false,
+  "full_game_playable": false
+}

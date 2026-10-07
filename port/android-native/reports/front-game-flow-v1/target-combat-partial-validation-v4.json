@@ -1,0 +1,31 @@
+{
+  "scope": "Development live combat regression; not original skill-effect, reward, all-skill or chapter acceptance",
+  "apk_sha256": "023f238e261b7e9fdb679811f8bedb1bd3ccd9398b178c44cc086084ad51dc96",
+  "serial": "emulator-5554",
+  "pid": "496",
+  "observed": [
+    "Original main menu -> Single Player -> Crypt",
+    "Same twelve actors published before target registration",
+    "NPC normal attacks and normal player hits render without the prior combat-text failure",
+    "Normal legacy damage reduces enemy HP to zero/dead and source target frame clears display",
+    "BashDown Pre acquires one living enemy; clip1234/state6 returns to idle/state3 without native frame error",
+    "Later genuine player death rejects another skill request"
+  ],
+  "not_accepted": [
+    "General authored mesh/particle effects not yet GPU-bound",
+    "Skill hit callback, damage and exact timing not verified by activation counter",
+    "Normal attack still uses legacy direct damage; CtrlKill reward/loot/quest pipeline remains pending",
+    "All skills and original target-ring visuals",
+    "Swamp chapter and physical Android device"
+  ],
+  "evidence": [
+    "49-combat-text-fixed-main.json",
+    "50-combat-text-fixed-start.json",
+    "51-combat-text-fixed-play.json",
+    "52-combat-text-fixed-attack.json",
+    "53-combat-text-fixed-skill.json",
+    "54-live-enemy-skill.json",
+    "55-live-enemy-close-skill.json"
+  ],
+  "checkpoint_accepted": false
+}

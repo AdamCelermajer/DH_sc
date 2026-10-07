@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "comparisons": 1496,
+  "actual_fx_frames": 402,
+  "emitted_particles": [
+    6,
+    7
+  ],
+  "retained_resource_and_generation": true,
+  "atomic_guards": 2,
+  "source_sha256": {
+    "port/engine-animation/particle_emission.cpp": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/particle_parameter.cpp": "6ce02670d379a7103936049226972314ec9edbad0e4581cc50b4ccc174219e38",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/engine-animation/particle_emission.hpp": "068c6b40fffb2f48761eef6d07f72077631704ea5652120abd3292e1b96cae46",
+    "port/engine-animation/tests/particle_emission.cpp": "df62e2997e768aa4bbd69939dceb421cc082b28f8e0c2c49357298315f1ae0c0",
+    "port/engine-animation/tests/particle_emission_host.py": "85dd07e5ec669c3acc24d2d44d5f686649582237fd637e3857e13a506f8449b7"
+  },
+  "library_sha256": "f2f7a89f4d2bb674b526ad700a2a2fad82caa20f76639187cc80641d1b8d7e4f",
+  "executable_sha256": "c373b51a2ac1428ab58d47319cf996f28f492cfa418782a85fdd4ad8581e571c",
+  "reference_sha256": "dc899640d5d8f7fab5b5f44ece48da3445a02bdf1cf57624ed1eec7da5ab8125",
+  "original_instruction_report_sha256": "1e5860ff8b2f4e6cd0335b9574dcaa0e12d31e8dfe03825ef5eb3cf3f037bb0d",
+  "isolated_particle_emission_dso_executed": true,
+  "main_animation_library_executed": false,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation"
+  ],
+  "scope": "Original vector/cached accessor gold, owned actual FX BirthRate\u2192generation storage, retained lifetimes. Required remaining model initialization/simulation/render providers are not supplied."
+}

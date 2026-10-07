@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "cases": 8,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Whole original CharAI._OnAnimEvent3d4434 over genuine638 source names; step/count/position/Play3D/string compare services are observers. Original manager snapshot precedes position; observer mutates actual global to9 and captured1 survives. No runtime playback claim.",
+  "fixtures": [
+    {
+      "event": "sfx_AbbeyRuinsOneAmbientMusic",
+      "source_id": 0,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count",
+        "position",
+        "play"
+      ],
+      "played": [
+        0
+      ],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    },
+    {
+      "event": "sfx_vfx_mp_retreat",
+      "source_id": 637,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count",
+        "position",
+        "play"
+      ],
+      "played": [
+        637
+      ],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    },
+    {
+      "event": "sfx_ChestOpen",
+      "source_id": 33,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count",
+        "position",
+        "play"
+      ],
+      "played": [
+        33
+      ],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    },
+    {
+      "event": "sfx_SlamSkill",
+      "source_id": 190,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count",
+        "position",
+        "play"
+      ],
+      "played": [
+        190
+      ],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    },
+    {
+      "event": "sfx_sfx_mage_staff_elemental_earth",
+      "source_id": 478,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count",
+        "position",
+        "play"
+      ],
+      "played": [
+        478
+      ],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    },
+    {
+      "event": "sfx_not_an_authored_sound_v38",
+      "source_id": -1,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count"
+      ],
+      "played": [],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    },
+    {
+      "event": "sfx_",
+      "source_id": -1,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count"
+      ],
+      "played": [],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    },
+    {
+      "event": "sfx_abbeyruinsoneambientmusic",
+      "source_id": -1,
+      "source_return": 1,
+      "trace": [
+        "step_index",
+        "step_count"
+      ],
+      "played": [],
+      "manager_capture": "1 remains captured when GetTargetPosition changes actual global to9"
+    }
+  ]
+}

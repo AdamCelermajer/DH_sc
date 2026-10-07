@@ -1,0 +1,263 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "classes": [
+    {
+      "kind": "DestructibleContainer",
+      "entry": "0x3a1270",
+      "declarations": [
+        {
+          "name": "static",
+          "register_leaf": "0x33e4ac",
+          "offset": "0x84",
+          "kind": "bool",
+          "default": 0
+        },
+        {
+          "name": "visible",
+          "register_leaf": "0x33e4ac",
+          "offset": "0x80",
+          "kind": "bool",
+          "default": 1
+        },
+        {
+          "name": "name",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x30",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "gametype",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x48",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "roomname",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x68",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "isUnderlay",
+          "register_leaf": "0x33e4ac",
+          "offset": "0x83",
+          "kind": "bool",
+          "default": 0
+        },
+        {
+          "name": "isGlobal",
+          "register_leaf": "0x33e4ac",
+          "offset": "0x87",
+          "kind": "bool",
+          "default": 0
+        },
+        {
+          "name": "activate_cond",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x90",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "deactivate_cond",
+          "register_leaf": "0x33ef7c",
+          "offset": "0xb4",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "min_difficulty",
+          "register_leaf": "0x33ef7c",
+          "offset": "0xd4",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "is_tutorial_only",
+          "register_leaf": "0x33e4ac",
+          "offset": "0xf0",
+          "kind": "bool",
+          "default": 0
+        },
+        {
+          "name": "is_demo_only",
+          "register_leaf": "0x33e4ac",
+          "offset": "0xf1",
+          "kind": "bool",
+          "default": 0
+        },
+        {
+          "name": "position",
+          "register_leaf": "0x389894",
+          "offset": "0x160",
+          "kind": "vector3",
+          "default_raw": [
+            0,
+            0,
+            0
+          ],
+          "global_reference": {
+            "address": "0x99f854",
+            "symbols": [
+              "Vec3f_Origin"
+            ]
+          }
+        },
+        {
+          "name": "rotation",
+          "register_leaf": "0x389894",
+          "offset": "0x16c",
+          "kind": "vector3",
+          "default_raw": [
+            0,
+            0,
+            0
+          ],
+          "global_reference": {
+            "address": "0x99f854",
+            "symbols": [
+              "Vec3f_Origin"
+            ]
+          }
+        },
+        {
+          "name": "dae",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x290",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "xrefobject",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x2a8",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "xrefmax",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x2c0",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "scale",
+          "register_leaf": "0x389894",
+          "offset": "0x120",
+          "kind": "vector3",
+          "default_raw": [
+            1065353216,
+            1065353216,
+            1065353216
+          ],
+          "global_reference": {
+            "address": "0x99f854",
+            "symbols": [
+              "Vec3f_Origin"
+            ]
+          }
+        },
+        {
+          "name": "alwaysVisible",
+          "register_leaf": "0x33e4ac",
+          "offset": "0x2ed",
+          "kind": "bool",
+          "default": 0
+        },
+        {
+          "name": "skip_checkpoint",
+          "register_leaf": "0x33e4ac",
+          "offset": "0x15c",
+          "kind": "bool",
+          "default": 0
+        },
+        {
+          "name": "spawn_prob",
+          "register_leaf": "0x513ce4",
+          "offset": "0x274",
+          "descriptor_vtable": "0x964708",
+          "descriptor_default_raw": [
+            100,
+            0
+          ]
+        },
+        {
+          "name": "lightset",
+          "register_leaf": "0x33e404",
+          "offset": "0x278",
+          "kind": "string",
+          "default": "PlayerLight"
+        },
+        {
+          "name": "idle_sound",
+          "register_leaf": "0x33ef7c",
+          "offset": "0x358",
+          "kind": "string",
+          "default": "",
+          "default_source": "source wrapper33ef7c constructs empty CString"
+        },
+        {
+          "name": "facultative",
+          "register_leaf": "0x33e4ac",
+          "offset": "0x60",
+          "kind": "bool",
+          "default": 1
+        },
+        {
+          "name": "data",
+          "register_leaf": "0x513ce4",
+          "offset": "0x374",
+          "descriptor_vtable": "0x964708",
+          "descriptor_default_raw": [
+            4294967295,
+            0
+          ]
+        },
+        {
+          "name": "data_desc",
+          "register_leaf": "0x513ce4",
+          "offset": "0x378",
+          "descriptor_vtable": "0x95c5c8",
+          "descriptor_default_raw": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "death_reset",
+          "register_leaf": "0x513ce4",
+          "offset": "0x390",
+          "descriptor_vtable": "0x95c608",
+          "descriptor_default_raw": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "fixture_services": [
+    "AddProperty typed registration leaves capture actual arguments",
+    "operator new allocation",
+    "CString constructor/destructor used only descriptor name/default presentation"
+  ],
+  "excludes": [
+    "constructor-backed defaults for implicit fields",
+    "vector global dynamic initialization",
+    "generic PropertyMap storage execution"
+  ],
+  "production_property_map_verified": false
+}

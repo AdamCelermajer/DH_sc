@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "cases": 24119,
+  "mismatches": 0,
+  "scope": "Original draw_bitmap7d9114..7d9134 instructions; compiler float conversion imports modeled. Negative truncation asymmetry, NaN/infinity and wrapping +10/multiply preserved.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "3b1cb8f79e8d7628aef3d2150b36f2ac39ce7afb6939b6509880452d4f882350"
+}

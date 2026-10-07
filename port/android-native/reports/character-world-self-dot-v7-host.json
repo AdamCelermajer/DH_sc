@@ -1,0 +1,87 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/character_world_skill_combat_v6.cpp",
+        "port/level-world/character_world_runtime_v1.cpp",
+        "port/level-world/character_world_target_owner_v1.cpp",
+        "port/level-world/character_world_ai_relationship_v1.cpp",
+        "port/level-world/character_world_handle_v1.cpp",
+        "port/level-world/character_skill_target_queries_v6.cpp",
+        "port/level-world/character_skill_application_v6.cpp",
+        "port/level-world/character_hit_v6.cpp",
+        "port/level-world/character_skill_attack_v6.cpp",
+        "port/level-world/character_combat_result_v6.cpp",
+        "port/level-world/character_world_skill_execution_v6.cpp",
+        "port/level-world/character_world_aggro_event_v1.cpp",
+        "port/level-world/trophy_manager_owner_v1.cpp",
+        "port/level-world/character_skill_native_v6.cpp",
+        "port/level-world/character_skill_readonly_v6.cpp",
+        "port/level-world/character_skill_combat_v6.cpp",
+        "port/level-world/character_skill_mana_v5.cpp",
+        "port/level-world/character_target_search_v5.cpp",
+        "port/level-world/tests/character_world_self_dot_v7_host.cpp",
+        "port/level-world/character_dot_hit_v7.cpp",
+        "port/level-world/character_dot_application_v7.cpp",
+        "port/level-world/character_hit_player_tail_v7.cpp",
+        "port/level-world/character_dot_player_reaction_v7.cpp",
+        "port/level-world/character_world_self_dot_v7.cpp",
+        "port/level-world/character_dot_calculate_services_v7.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_self_dot_v7_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_self_dot_v7_host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":458,\"same_world_self_dot_native_hp_prefix\":true,\"missing_actual_injure\":true,\"full_player_application\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_dot_hit_v7.cpp": "1611d95b086b6272213b34b67f19cfc4daffb2e874ba94c5eef4c2b04953960f",
+    "port/level-world/character_dot_application_v7.cpp": "7aab9e4372dd61c7493ee28b67846755d8160aee878dbb2b688ece6f2e4cff8e",
+    "port/level-world/character_hit_player_tail_v7.cpp": "e3e984e7ab3baafb7e9a974f3362b28323371a7f5369df8912c41898f3f94e6e",
+    "port/level-world/character_dot_player_reaction_v7.cpp": "c13b0e4998c01b583b0463f1577ae773cd2d9b27e9def2aa5f74d4e36c43b4ab",
+    "port/level-world/character_world_self_dot_v7.cpp": "50edbc60a2196db6ab053fa096af5d57fd3e156ac6a138779350d1d6c6628ad9",
+    "port/level-world/character_dot_calculate_services_v7.cpp": "ccc95494c7b731964bc95f094c73057a289461cc4e4e945632ab8e848521d91a",
+    "port/level-world/tests/character_world_self_dot_v7_host.cpp": "0ebd69b9b1f16d85238dc672626002db4d0bc0e15a1fa1685d592c3ada97e167"
+  },
+  "scope": "Actual cache player/World/Property/HP/Aggro/Debug/Trophy kernels; named Idle/player/provider fixtures; missing genuine Injure required tail; private historical linked dependencies",
+  "full_player_dot": false,
+  "production_renderer_connection": false,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ]
+}

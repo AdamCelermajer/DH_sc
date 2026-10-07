@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax generic Lua owner/test only",
+  "sources": [
+    {
+      "path": "port/level-world/generic_animation_callbacks_v21.cpp",
+      "sha256": "b8ab26f78de7ca8f9048791fdc043c2cff2a577632fd5756c5ece4b73627c991"
+    },
+    {
+      "path": "port/level-world/base_index_animation_controller_v21.cpp",
+      "sha256": "b424ee80875cca81baf938ec6c187f4bb6e96dafdc459a789f3cd9ad9de704a0"
+    },
+    {
+      "path": "port/level-world/retained_generic_animator_v21.cpp",
+      "sha256": "b7fac61ccf5bb4acde4c61c07bae992f8715fd5e483960f9e6aca2d0acb6b3ee"
+    },
+    {
+      "path": "port/level-world/container_animation_connection_v21.cpp",
+      "sha256": "351a5b796e256dc9896839603d15a7e5f62fd306d0effa09a4aa9c87260a7d5b"
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.cpp",
+      "sha256": "a9ae0d500930bfc565740e3fdd021a1215d232fbef5c19f40fc8c60f9e2f40d5"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

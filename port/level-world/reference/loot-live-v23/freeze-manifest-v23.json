@@ -1,0 +1,143 @@
+{
+  "version": 23,
+  "status": "SOURCE_STRICT_COMPILED_POSITIVE_RUNTIME_PENDING",
+  "source_entries": [
+    {
+      "path": "port/level-world/gameobject_update_prefix_v23.hpp",
+      "sha256": "bfc175e43d76daea24845193ca3275cecfbec9870b4fb6ae99fca80cc8a8710a"
+    },
+    {
+      "path": "port/level-world/gameobject_update_prefix_v23.cpp",
+      "sha256": "4670fee5bc83bf2c02f7aa94d49caa1453e295245bf0e67bf7565411a60099b8"
+    },
+    {
+      "path": "port/level-world/world_loot_pickup_v23.hpp",
+      "sha256": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe"
+    },
+    {
+      "path": "port/level-world/world_loot_pickup_v23.cpp",
+      "sha256": "e77f2501eb9a864172840ac03bbad2cca8eccc3c678986f4b36de08423e8b14c"
+    },
+    {
+      "path": "port/level-world/world_loot_gameplay_v23.hpp",
+      "sha256": "704cbf601be501a9ee3bb95baedc7eb044954c9df03e4b3e60f06107453a77d2"
+    },
+    {
+      "path": "port/level-world/world_loot_gameplay_v23.cpp",
+      "sha256": "69679ecd964d9789365bbae5fa755b7905a0fd55f521d4f54e8e2cd76d49ae8d"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.hpp",
+      "sha256": "5081202d2351b59912ad2ffb376a0b6d4e5fb01f3c1e7d599fbb3aac30644545"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.cpp",
+      "sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549"
+    },
+    {
+      "path": "port/level-world/world_item_visual_v2.hpp",
+      "sha256": "3b8bfbc9907ff330e2b64ec90b5e10c29fb960fc3362fdf81d5ded4391720e45"
+    },
+    {
+      "path": "port/level-world/world_item_visual_v2.cpp",
+      "sha256": "6141fd912ad504e2da83c5ced5d2610fff951ffc444b0e15092a13aa66e9926e"
+    },
+    {
+      "path": "port/level-world/world_item_live_owner_v5.hpp",
+      "sha256": "3d856d2583f63c7ed01e7362f20a35b3e4cf46dc9e2403da343b6c593dbcd773"
+    },
+    {
+      "path": "port/level-world/world_item_live_owner_v5.cpp",
+      "sha256": "ae175c89f98043652fb679e044fcc8cbcbd408e627d6f856f2dc326874b92079"
+    },
+    {
+      "path": "port/level-world/world_item_graph_v3.hpp",
+      "sha256": "35ed779c0ff054da8657481a85f4b1ba9a2d3140d652e743b71a8baa8747fc46"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_item_graph_v4.inc",
+      "sha256": "c46e09db056490dc5ca990dc72ac82a00ca2762b169d8f1aab0c6d6bb87c9737"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_character_loot_gameplay_v23.inc",
+      "sha256": "55e3af66d01efd7fd475bdcb30b2957e1e8c411aac0821ccf478b02b13bf78e8"
+    },
+    {
+      "path": "port/level-world/status_message_owner_v23.hpp",
+      "sha256": "a34e329bd27dc8a9293584ca071bdceca069668af4220081ba5317f7de796362"
+    },
+    {
+      "path": "port/level-world/status_message_owner_v23.cpp",
+      "sha256": "43f59be500567e6697dd8d855769da78d2aa6597c5340e9ef6daf4555679799d"
+    },
+    {
+      "path": "port/level-world/tests/status_message_owner_v23.cpp",
+      "sha256": "b3a39343d871040ecafa8ffd94c45057373b5d279df96848e4f605fd7fbb378a"
+    },
+    {
+      "path": "port/level-world/tests/world_loot_positive_v23.cpp",
+      "sha256": "57224beecdbf5b84f4b411787cd7e6ae6386e898ba64bc98a113c8fb56015eca"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/runtime-integration.md",
+      "sha256": "b92ac63526f9e97733a52b21042668889d763610e80baf29c16192b59fe895f2"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/gameobject-frame-prefix.json",
+      "sha256": "293c018bf3789d956aafb6a0108dd27689efb48a7dd624b1116d9a5b3a69326d"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/audio-assets.json",
+      "sha256": "d67001f33886f3b7399891b245521644dbd97033291420aaa0bb8e5e470b0bf6"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/item-interaction.asm",
+      "sha256": "cf7d401979cbab0840877afb424724b1d3922e2c09fa52d02157264368f95406"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/item-interaction.json",
+      "sha256": "5fcd22df93db84a4dbf698030ad9f68252bad2b61045c165999476bc1bdb84a1"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/status-source.asm",
+      "sha256": "0a5acbcefa15f1dbb32e7dedccde8682f28447bbd1c97d204df5c31c689a9e3a"
+    },
+    {
+      "path": "port/level-world/reference/loot-live-v23/status-source.json",
+      "sha256": "26d99f6c287b0c549f4751f81f191010d7d14be33eb5540c44c09e1fd0ddf3cf"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/status-message/receipt.json",
+      "sha256": "5f9d64deb35be804d98d31c338ffcebd28ea1eed330f8aff42708b98c04cbe78"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/positive/build-only.json",
+      "sha256": "c694bbca248deb816115e39484b7ece6acf17374320c9387db6bce16bc8e8da6"
+    },
+    {
+      "path": ".local-inputs/run_world_loot_positive_v23.py",
+      "sha256": "3d1b666700d9930201d10fed4f2a1264a51762a40ff948876af0fb43dfa18a4a"
+    },
+    {
+      "path": ".local-inputs/compile_world_loot_v23.py",
+      "sha256": "0d69abacc774f7a13f6299edfe5a0506f192fbd817ecc6426f2ed9e532fd4811"
+    },
+    {
+      "path": ".local-inputs/compile_renderer_loot_gameplay_v23.py",
+      "sha256": "47a65c93e1509eaa8ca33939e7976350c4deb968c349f21b7c923740631984a8"
+    }
+  ],
+  "strict_abi": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "strict_tu_checks": 12,
+  "complete_renderer_syntax_checks": 2,
+  "source_status_queue_fixture_checks": 31,
+  "production_status_owner": "SAME MenuStatusMessagesV26 singleton",
+  "positive_runtime_accepted": false,
+  "reason": "Corrected positive executable compiled; emulator5554 went offline before corrected execution",
+  "npc_award_pickup_live": false,
+  "audible_loot_accepted": false,
+  "layout_change": "CanonicalObjectManagerV1 adds sole source ctor-zero update_count58; coherent rebuild required"
+}

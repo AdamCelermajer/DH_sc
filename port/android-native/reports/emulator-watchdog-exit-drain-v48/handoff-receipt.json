@@ -1,0 +1,8 @@
+{
+  "zip_sha256": "fc2121de96fba6f2153ec9bfb9a617cbb91290c3ec8ed12591ec3b67bef68f54",
+  "watchdog_sha256": "6bfa25f98ca82729878e50313af0af2c54c7f33cf9c38346b8146aab093b93ba",
+  "files": 14,
+  "bytes": 32028,
+  "tests": 49,
+  "actual_native_job": "PASS_REAL_EXIT_NOTIFICATION_LAG"
+}

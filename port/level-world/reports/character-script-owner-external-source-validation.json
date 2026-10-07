@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "scope": "Owned AISExternal constructor/initial/VCB/load-stage composition; genuine follower initialization and explicit monster/rene provider-failure prefixes; loader stream/chunk-name boundary remains.",
+  "source_sha256": {
+    "port\\level-world\\character_script_owner.cpp": "ca6af2f03a1825fa9962a8150a4bc38db66a251bde756a304bc7daabdb61dc1b",
+    "port\\level-world\\character_script_owner.hpp": "c260e05061e7439ff01b7f42369fee74babaac840dc46243ae927f2540bc7b61",
+    "port\\level-world\\character_script_owner_bindings.inc": "0a428c0126d314d664a4af687619e0ce22de1ed6c9d1a56b1fb056fc0f814f14",
+    "port\\level-world\\character_script_virtual.cpp": "08c8dc9c57258227392a0afa1f44ab0551d5fa716533d1b5c743c2f7945608a3",
+    "port\\level-world\\character_script_virtual.hpp": "d8648e61d063878823b09d12ac6f3ab52281c207bb078ed31357493f75ee538b",
+    "port\\level-world\\tests\\character_script_owner.cpp": "acc1f751efce734724a8542ada99962fbd0a25837463985a2dde907c7e36bcce",
+    "port\\level-world\\tests\\character_script_owner_external.cpp": "b330d15388448457437b8b3d65f9c24c9c206ea5f6c885ed180ac38fcb0c97ba",
+    "port\\level-world\\tests\\character_script_owner_external_host.py": "9bfef15a625eaf670ce07067e71b922500dd6b40bff5de32d8443aeee97e406f"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_order_cases": 12,
+  "arm64_helper_comparisons": 304,
+  "host_extension_checks": 2863,
+  "legacy_host_checks": 6283,
+  "sanitizer_findings": 0,
+  "actual_follower_callback_flags": 962,
+  "fake_gameplay_globals": false,
+  "full_AI_dispatch": false,
+  "proof_sha256": {
+    "port\\level-world\\reference\\character-script-owner-extension\\external-owner-probe.json": "e1ebb8012c056b4f951b0e4793414d933d45b3d7d03242635b79ec149ffd4c4e",
+    "port\\level-world\\reports\\character-script-owner-external-arm64-differential.json": "a1fd866a3eeb348b3b2d5a0a8dfe3e023b3668c3c62effa7c4f5a9bf2e16ebc6",
+    "port\\level-world\\reports\\character-script-owner-external-host-audit.json": "71d87cf1beb22ac71b416da0cdd692415ba7fb620b70604cb1ff3add80259873"
+  },
+  "notes_sha256": "e606e00b5ac99e7ad10bfb92eb0586e2e6a81745ce71a700d3c3de4009358d03",
+  "historical_gold_sha256": "d915ddba84c15b936748537fe3f77b3a64a43155f7a1a157810174dffe028b12",
+  "exact_root_loader_bound": false
+}

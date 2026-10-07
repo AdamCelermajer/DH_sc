@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "tests": 13,
+  "errors": 0,
+  "failures": 0,
+  "watchdog_sha256": "a1e0007f2165ded04d0e4c594ba7b0c99f609016712d7c102091765f4b2fb018",
+  "test_sha256": "2eb6246b966012829690c7459219c6d6549cd7e1fb95b0377f71f4d553c22d86",
+  "injected_API_only": true,
+  "live_process_device_or_emulator_operations": false,
+  "membership_metric_pass_bound": 3,
+  "membership_query_bound": 5
+}

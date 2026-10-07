@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "cases": 2304,
+  "ordered_services": 3629,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "150261551f4a4b66c010fe7ec3a95f12805a67f6a932176449170add304d61af",
+  "gold_sha256": "dfbc90ebb5c29575c5001f1f0d3adbb2df96c4bf11784d7571a54b2789ab5727",
+  "source_sha256": {
+    "port/level-world/character_skill_ai_v3.hpp": "09bc15ca1b49042b7f0eb007e5d8ddabcb382e6df1af7c69b7b7dafa4591f286",
+    "port/level-world/character_skill_ai_v3.cpp": "c735b19f0f190807d7ff88e7788bc36db8681432555e2ec6c289123ddedefd69",
+    "port/level-world/tests/character_skill_ai_v3_differential.py": "33192d7d183e849e0f4319b8f1b51bda72f046637e1448177c395cd68a7d0a53"
+  },
+  "scope": "Complete original skill AI commands/focus vs O2 ARM64.\n\nThe actual nested AI_IsSkillUsable/Active/Begin/End bodies execute. FSM queries,\nrow getter, script callbacks, source SetSkillState, owner IsPlayer/property,\nnetwork and trophy effects are explicit synchronous service projections here.\nTrophy pointer capture, name-loop ordering and AI fields execute natively.\n"
+}

@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "6927921c805cf453fa154a8d1fdcca85ab848d0d66e59641f33d219db2633082",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\module_floor_append_v2.cpp",
+      "sha256": "c1f36e315b286a9b5ce9840cdbe7f1f51ce418120aae3688ad2785aa2197414e"
+    },
+    {
+      "path": "port\\level-world\\module_floor_append_v2.cpp",
+      "sha256": "3634214235ebbc49e4ca0bc38b8acd6e69db7187dab12584d1c4f81898f3aa93"
+    },
+    {
+      "path": "port\\level-world\\module_selected_scene_v2.cpp",
+      "sha256": "cb03c8c01cb87c2a2eb2f0a2342e3e6393208ae2ab08ed7968bcb15c3d727dc1"
+    },
+    {
+      "path": "port\\level-world\\user_properties_v2.cpp",
+      "sha256": "9a5e7ef71b5e16aa9510cdd5f32eae1aede513ef67c721793800873187b66aa4"
+    },
+    {
+      "path": "port\\level-world\\floor_source.cpp",
+      "sha256": "d5b1975107ad31a889cf0d37c25bd13bebf01969bf41b412a74bae64d1d4b706"
+    },
+    {
+      "path": "port\\level-world\\octree.cpp",
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a"
+    },
+    {
+      "path": "port\\level-world\\collision.cpp",
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378"
+    },
+    {
+      "path": "port\\scene-materials\\scene.cpp",
+      "sha256": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d"
+    },
+    {
+      "path": "port\\engine-resources\\resources.cpp",
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+    },
+    {
+      "path": "port\\asset-payloads\\payloads.cpp",
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d"
+    },
+    {
+      "path": "port\\engine-math\\math.cpp",
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\module_floor_append_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_floor_append_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\module_selected_scene_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\user_properties_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\floor_source.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\octree.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\collision.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\scene.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-resources\\resources.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\payloads.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-math\\math.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\module-floor-append-v2\\module-floor-append-v2.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "PASS actual SWAMP authored-floor records 16 in 9 modules\n",
+  "stderr": ""
+}

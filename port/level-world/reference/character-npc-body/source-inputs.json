@@ -1,0 +1,497 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "descriptor_sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca",
+  "source_members": [
+    {
+      "room": 0,
+      "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    {
+      "room": 3,
+      "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    {
+      "room": 7,
+      "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    }
+  ],
+  "authoring": [
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist01",
+      "character": "Crypt_Skeleton",
+      "model": "skeleton.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_tmp_cultist01",
+        "position": "-1234.43,497.979,596.723",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "_templateName": "Monster",
+        "charpropsname_pydata": "CharacterTable",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_Monster",
+        "charpropsname": "Crypt_Skeleton"
+      },
+      "DACT_position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist03",
+      "character": "Crypt_Skeleton",
+      "model": "skeleton.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_tmp_cultist03",
+        "position": "821.287,-1452.16,-356.073",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "_templateName": "Monster",
+        "charpropsname_pydata": "CharacterTable",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_Monster",
+        "charpropsname": "Crypt_Skeleton"
+      },
+      "DACT_position": [
+        821.287,
+        -1452.16,
+        -356.073
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist05",
+      "character": "CryptSlime",
+      "model": "slime_green_v2.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_tmp_cultist05",
+        "position": "168.605,1606.04,36.495",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "charpropsname": "CryptSlime",
+        "_templateName": "Monster",
+        "charpropsname_pydata": "CharacterTable",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_Monster"
+      },
+      "DACT_position": [
+        168.605,
+        1606.04,
+        36.495
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist06",
+      "character": "CryptSlime",
+      "model": "slime_green_v2.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_tmp_cultist06",
+        "position": "-200.063,1659.26,36.495",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "charpropsname": "CryptSlime",
+        "_templateName": "Monster",
+        "charpropsname_pydata": "CharacterTable",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_Monster"
+      },
+      "DACT_position": [
+        -200.063,
+        1659.26,
+        36.495
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist07",
+      "character": "Crypt_Skeleton",
+      "model": "skeleton.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_tmp_cultist07",
+        "position": "-1234.43,-369.638,198.437",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "_templateName": "Monster",
+        "charpropsname_pydata": "CharacterTable",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_Monster",
+        "charpropsname": "Crypt_Skeleton"
+      },
+      "DACT_position": [
+        -1234.43,
+        -369.638,
+        198.437
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist08",
+      "character": "Crypt_Skeleton",
+      "model": "skeleton.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_tmp_cultist08",
+        "position": "821.287,-651.691,-356.073",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "_templateName": "Monster",
+        "charpropsname_pydata": "CharacterTable",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_Monster",
+        "charpropsname": "Crypt_Skeleton"
+      },
+      "DACT_position": [
+        821.287,
+        -651.691,
+        -356.073
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster",
+      "character": "CryptSlime",
+      "model": "slime_green_v2.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Monster",
+        "position": "-1220.0,530.0,800.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "spawn_prob": "100",
+        "ai_state": "Idle",
+        "starting_waypoint": "",
+        "char_template": "",
+        "char_group": "",
+        "char_group_role": "Normal",
+        "_templateName": "Monster",
+        "charpropsname": "CryptSlime"
+      },
+      "DACT_position": [
+        -6020.0,
+        10130.0,
+        800.0
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster02",
+      "character": "CryptSlime_RE",
+      "model": "slime_green_v2.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Monster02",
+        "position": "-1000.0,-1170.0,450.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,90.0",
+        "gametype": "Character",
+        "spawn_prob": "100",
+        "ai_state": "Idle",
+        "starting_waypoint": "",
+        "char_template": "",
+        "char_group": "",
+        "char_group_role": "Normal",
+        "_templateName": "Monster",
+        "charpropsname": "CryptSlime_RE"
+      },
+      "DACT_position": [
+        -5800.0,
+        8430.0,
+        450.0
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster05",
+      "character": "CryptSlime",
+      "model": "slime_green_v2.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Monster05",
+        "position": "-830.0,530.0,800.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "spawn_prob": "100",
+        "ai_state": "Idle",
+        "starting_waypoint": "",
+        "char_template": "",
+        "char_group": "",
+        "char_group_role": "Normal",
+        "_templateName": "Monster",
+        "charpropsname": "CryptSlime"
+      },
+      "DACT_position": [
+        -5630.0,
+        10130.0,
+        800.0
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 7,
+      "name": "_prim_Monster_Ghost05",
+      "character": "Crypt_Ghost",
+      "model": "ghost.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Monster_Ghost05",
+        "position": "161.588,1028.05,607.5",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "spawn_prob": "100",
+        "starting_waypoint": "",
+        "char_template": "",
+        "char_group": "",
+        "char_group_role": "Normal",
+        "_templateName": "Monster",
+        "charpropsname": "Crypt_Ghost",
+        "ai_state": "Idle"
+      },
+      "DACT_position": [
+        161.588,
+        20228.05,
+        607.5
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "room": 7,
+      "name": "_prim_Monster_Ghost06",
+      "character": "Crypt_Ghost",
+      "model": "ghost.bdae",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Monster_Ghost06",
+        "position": "-316.752,1112.02,607.5",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "spawn_prob": "100",
+        "starting_waypoint": "",
+        "char_template": "",
+        "char_group": "",
+        "char_group_role": "Normal",
+        "_templateName": "Monster",
+        "charpropsname": "Crypt_Ghost",
+        "ai_state": "Idle"
+      },
+      "DACT_position": [
+        -316.752,
+        20312.02,
+        607.5
+      ],
+      "DACT_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "DACT_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "raw_rows": [
+    {
+      "character": "CryptSlime",
+      "row": 33,
+      "raw_properties": {
+        "AI": 40,
+        "Scale_X": 100,
+        "Scale_Y": 100,
+        "Scale_Z": 100,
+        "Collision_Scale": 85
+      }
+    },
+    {
+      "character": "CryptSlime_RE",
+      "row": 34,
+      "raw_properties": {
+        "AI": 40,
+        "Scale_X": 100,
+        "Scale_Y": 100,
+        "Scale_Z": 100,
+        "Collision_Scale": 85
+      }
+    },
+    {
+      "character": "Crypt_Ghost",
+      "row": 35,
+      "raw_properties": {
+        "AI": 68,
+        "Scale_X": 100,
+        "Scale_Y": 100,
+        "Scale_Z": 100,
+        "Collision_Scale": 85
+      }
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "row": 38,
+      "raw_properties": {
+        "AI": 40,
+        "Scale_X": 100,
+        "Scale_Y": 100,
+        "Scale_Z": 100,
+        "Collision_Scale": 85
+      }
+    }
+  ],
+  "AI_rows": [
+    {
+      "row": 40,
+      "name": "Monster",
+      "script": "monster",
+      "type": 4
+    },
+    {
+      "row": 68,
+      "name": "Ugly_Dog",
+      "script": "monster",
+      "type": 4
+    }
+  ],
+  "scope": "Static ARM source and direct XML/raw table inspection; no executed original factory or pose claim."
+}

@@ -1,0 +1,101 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x3eff98",
+      "symbol": "_ZN5Level15_LoadCharStatesEv",
+      "size": 128,
+      "sha256": "81c5d94fc88d610cefd462d248923217433ba719c13a97d4459449eb0ea16dc3"
+    },
+    {
+      "address": "0x3b4d60",
+      "symbol": "_ZN9Character8InitPostEv",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "address": "0x3a59ac",
+      "symbol": "_ZN9Character6ReviveEP10GameObjectb",
+      "size": 312,
+      "sha256": "c17b6b9ee8943802d089fd8c928f391574e0a8134a4c2c8d32b741d6827ce680"
+    },
+    {
+      "address": "0x3a4d5c",
+      "symbol": "_ZN9Character10RaiseEventEiPv",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "address": "0x3d0b80",
+      "symbol": "_ZN6CharAI10OnInitPostEv",
+      "size": 36,
+      "sha256": "f86bb7eae1aa9e52645b14f2af513f072eb57af451dce79a5b51767687896d61"
+    },
+    {
+      "address": "0x3d0bec",
+      "symbol": "_ZN6CharAI14OnStateChangedEii",
+      "size": 36,
+      "sha256": "6b77a2b9a1797ffad40e31858b3ad939c8e8f12347408a908ac79ee44eeae330"
+    },
+    {
+      "address": "0x3a5784",
+      "symbol": "_ZNK9Character16GetPreSetAIStateEv",
+      "size": 112,
+      "sha256": "bb03b30ddae9e5fcd0daba70144aee87c04d81c0bf761ad72d415f8d8cba9498"
+    },
+    {
+      "address": "0x3b4978",
+      "symbol": "_ZN9Character9InitFinalEv",
+      "size": 588,
+      "sha256": "41df759e7f4d5ab4926dae5f67e304b6e67d2a2ec4d3f4d555080878fca6e44f"
+    },
+    {
+      "address": "0x3ce7c0",
+      "symbol": "_ZN6CharAI17InitScriptProcessEb",
+      "size": 80,
+      "sha256": "2c61c145a786157363337b77b877321f1c0c8804d5dcc606963d355f2dab5c5f"
+    },
+    {
+      "address": "0x3dbe8c",
+      "symbol": "_ZN10AISDefault14OnStateChangedEii",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "address": "0x3b35f0",
+      "symbol": "_ZN9Character7InitAllEv",
+      "size": 40,
+      "sha256": "a0cb579c5d560843ef584d20f1564de1e6e507f661201dfef7b63b6d0b6a2d9b"
+    },
+    {
+      "address": "0x3b4088",
+      "symbol": "_ZN9Character18InitPhysicalObjectEv",
+      "size": 856,
+      "sha256": "1793958ab90b0c33330288678f3e05fc198d7f49d8cc5d1c468e65c532e058a4"
+    },
+    {
+      "address": "0x3a3228",
+      "symbol": "_ZNK9Character18GetCharAnimTableIdEv",
+      "size": 60,
+      "sha256": "d8d60d8d2fdb2d9246a68f44712f30b28285a80460573e4fc7c9e07a008dfd29"
+    }
+  ],
+  "level_entry": "Level::_LoadCharStates0x3eff98 reads GetPreSetAIState0x3a5784 and calls SM_SetIdleState(false)0x3c1a00 unless preset0/17 then SM_SetPreSpawnState0x3c1a64",
+  "source_Crypt_presets": {
+    "absent_empty_string": 6,
+    "authored_Idle": 5,
+    "selected_idle3": 11
+  },
+  "source_actual_CAI1": "port/level-world/reference/actor-initialization/crypt01-actor-initialization.bin",
+  "production_required_idle_services": [
+    "actual Character animation SetAnimation",
+    "synchronous Character RaiseEvent1d with previous source state payload"
+  ],
+  "full_InitPost": false,
+  "full_NPC_AI": false,
+  "missing_producer_continuations": [
+    "retained per-NPC actor RuntimeState and NativeBody/controller lifecycle",
+    "whole source Character RaiseEvent\u2192CharAI routing",
+    "idleCommonUpdate and source target discovery/pursuit/attack services"
+  ]
+}

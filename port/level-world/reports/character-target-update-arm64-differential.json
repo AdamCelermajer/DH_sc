@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "comparisons": 2225,
+  "ordered_services": 10567,
+  "raise_events": 1625,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "255b3ac35a55e85a69fd4e64a16332f49e2db456b30978d2889d836169f62f76",
+  "manifest_sha256": "3b5099509b6dbc93648f87888a4a56b6be95644dca2f0735afe549f735d7efc7",
+  "corpus_sha256": "854ddc5c7b7e681be831862fc0ebe21c699027f04958a1d47332096f89731fce",
+  "source_sha256": {
+    "port\\level-world\\character_target_update.hpp": "9de6394fe589e5d9329427e8018a1e6a4782e67f1bbda546cbc4d828ba5aa179",
+    "port\\level-world\\character_target_update.cpp": "364d22574f816442b579aed892342afd395370d0f8d9a777bc35417cd9ca8998",
+    "port\\level-world\\tests\\character_target_update_differential.py": "da847917bd362092e97b6e118d785ad5f97b68efc671338a25b3adfe8be2737a"
+  },
+  "scope": "Complete original _UpdateTarget instructions against native ARM64 coordinator.\n\nSM, interaction/dead/sight/range queries and Character RaiseEvent are explicit\nsynchronous services, not supplied successful target/range acceptance policy.\n"
+}

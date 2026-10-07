@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "whole_original_Character_PF_provider_calls": 4,
+  "whole_original_LoadDefaultProperties_calls": 4,
+  "whole_original_method_calls": 145,
+  "whole_original_room_method_calls": 52,
+  "whole_original_physical_filter_calls": 16,
+  "explicit_dependency_services": true,
+  "native_differential": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_null_floor_UpdatePFObject": true,
+  "SetEnable_true_ctor_no_visible_write": true,
+  "room_entry_does_not_write_byte80": true
+}

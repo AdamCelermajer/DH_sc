@@ -1,0 +1,167 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "table_address": "0x9666c0",
+  "table_bytes_sha256": "03ffc5bb0fd918957af059e159598a5afa575ad606b00a7de8645557ecb83d30",
+  "rows": [
+    {
+      "index": 0,
+      "state": 0,
+      "function": "0x3c0454",
+      "symbols": [
+        "_Z11GetNewStateI8CSLimbusEP9CharStatev"
+      ]
+    },
+    {
+      "index": 1,
+      "state": 1,
+      "function": "0x3c0470",
+      "symbols": [
+        "_Z11GetNewStateI7CSSpawnEP9CharStatev"
+      ]
+    },
+    {
+      "index": 2,
+      "state": 2,
+      "function": "0x3c048c",
+      "symbols": [
+        "_Z11GetNewStateI9CSDespawnEP9CharStatev"
+      ]
+    },
+    {
+      "index": 3,
+      "state": 3,
+      "function": "0x3c04a8",
+      "symbols": [
+        "_Z11GetNewStateI6CSIdleEP9CharStatev"
+      ]
+    },
+    {
+      "index": 4,
+      "state": 4,
+      "function": "0x3c04c4",
+      "symbols": [
+        "_Z11GetNewStateI6CSMoveEP9CharStatev"
+      ]
+    },
+    {
+      "index": 5,
+      "state": 5,
+      "function": "0x3c04e0",
+      "symbols": [
+        "_Z11GetNewStateI8CSAttackEP9CharStatev"
+      ]
+    },
+    {
+      "index": 6,
+      "state": 6,
+      "function": "0x3c04fc",
+      "symbols": [
+        "_Z11GetNewStateI7CSSkillEP9CharStatev"
+      ]
+    },
+    {
+      "index": 7,
+      "state": 7,
+      "function": "0x3c0518",
+      "symbols": [
+        "_Z11GetNewStateI6CSCastEP9CharStatev"
+      ]
+    },
+    {
+      "index": 8,
+      "state": 8,
+      "function": "0x3c0534",
+      "symbols": [
+        "_Z11GetNewStateI8CSScaredEP9CharStatev"
+      ]
+    },
+    {
+      "index": 9,
+      "state": 9,
+      "function": "0x3c0550",
+      "symbols": [
+        "_Z11GetNewStateI9CSStunnedEP9CharStatev"
+      ]
+    },
+    {
+      "index": 10,
+      "state": 10,
+      "function": "0x3c056c",
+      "symbols": [
+        "_Z11GetNewStateI13CSKnockedBackEP9CharStatev"
+      ]
+    },
+    {
+      "index": 11,
+      "state": 11,
+      "function": "0x3c0588",
+      "symbols": [
+        "_Z11GetNewStateI9CSInjuredEP9CharStatev"
+      ]
+    },
+    {
+      "index": 12,
+      "state": 12,
+      "function": "0x3c05a4",
+      "symbols": [
+        "_Z11GetNewStateI6CSDeadEP9CharStatev"
+      ]
+    },
+    {
+      "index": 13,
+      "state": 13,
+      "function": "0x3c05c0",
+      "symbols": [
+        "_Z11GetNewStateI10CSInteractEP9CharStatev"
+      ]
+    },
+    {
+      "index": 14,
+      "state": 14,
+      "function": "0x3c05dc",
+      "symbols": [
+        "_Z11GetNewStateI6CSAnimEP9CharStatev"
+      ]
+    },
+    {
+      "index": 15,
+      "state": 15,
+      "function": "0x3c05f8",
+      "symbols": [
+        "_Z11GetNewStateI10CSRevivingEP9CharStatev"
+      ]
+    },
+    {
+      "index": 16,
+      "state": 16,
+      "function": "0x3c0614",
+      "symbols": [
+        "_Z11GetNewStateI9CSRevivedEP9CharStatev"
+      ]
+    },
+    {
+      "index": 17,
+      "state": 17,
+      "function": "0x3c0630",
+      "symbols": [
+        "_Z11GetNewStateI10CSPreSpawnEP9CharStatev"
+      ]
+    },
+    {
+      "index": 18,
+      "state": 18,
+      "function": "0x3c064c",
+      "symbols": [
+        "_Z11GetNewStateI13CSLiftingIdleEP9CharStatev"
+      ]
+    },
+    {
+      "index": 19,
+      "state": 19,
+      "function": "0x3c0668",
+      "symbols": [
+        "_Z11GetNewStateI13CSLiftingMoveEP9CharStatev"
+      ]
+    }
+  ]
+}

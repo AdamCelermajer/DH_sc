@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 4096,
+  "ordered_services": 7424,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "7f3d79053998440a1052b224880efd1807daf237b609d2da3c0449da2a3a6210",
+  "gold_sha256": "0bd40c97c296a2086a4b277207cecce6ef675285496e8665754e3631660fed97",
+  "scope": "Actual Add/Set aggression map instructions and ordered virtual boundaries.\nAllocator, actor virtual policy and target OnAggro are explicit observers;\nOnAggro snapshots both maps before insertion. No full AIS backend claim.\n"
+}

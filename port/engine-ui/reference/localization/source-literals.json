@@ -1,0 +1,608 @@
+{
+  "source_literals": [
+    {
+      "symbol": "_Z25NativeGetStringFromSymbolRKN7gameswf7fn_callE",
+      "address": "0x444ebc",
+      "literals": [
+        {
+          "instruction": "0x444ecc",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x444f00",
+          "address": "0x8cbf58",
+          "text": "MENU_ERROR_NO_USERNAME"
+        },
+        {
+          "instruction": "0x444f18",
+          "address": "0x8cbf70",
+          "text": "MENU_ERROR_NO_PASSWORD"
+        },
+        {
+          "instruction": "0x445034",
+          "address": "0x8cbf88",
+          "text": "notfound"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZNK13StringManager19getStringFromSymbolEPKc",
+      "address": "0x508c74",
+      "literals": [
+        {
+          "instruction": "0x508c84",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x508cb8",
+          "address": "0x8dbc70",
+          "text": "isTracingStringManager"
+        },
+        {
+          "instruction": "0x508dc8",
+          "address": "0x8dbc70",
+          "text": "isTracingStringManager"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN13StringManager16preloadPackSheetEjjb",
+      "address": "0x50851c",
+      "literals": [
+        {
+          "instruction": "0x508528",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x5087fc",
+          "address": "0x8dbc70",
+          "text": "isTracingStringManager"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZNK13StringManager16getSheetFilenameEjjPci",
+      "address": "0x507bbc",
+      "literals": [
+        {
+          "instruction": "0x507bc8",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x507bec",
+          "address": "0x8dbbf0",
+          "text": "text/%s"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN13StringManager5parseERSsPKcz",
+      "address": "0x508ef4",
+      "literals": [
+        {
+          "instruction": "0x508f08",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x508f84",
+          "address": "0x8bec30",
+          "text": "StrID"
+        },
+        {
+          "instruction": "0x508f88",
+          "address": "0x8dbda8",
+          "text": "GLOBAL_DECIMAL_SEPERATOR"
+        },
+        {
+          "instruction": "0x508fb4",
+          "address": "0x8dbdc8",
+          "text": "GLOBAL_THOUSANDS_SEPERATOR"
+        },
+        {
+          "instruction": "0x508fd8",
+          "address": "0x8dbde8",
+          "text": "GLOBAL_THOUSANDS_GROUP_AT"
+        },
+        {
+          "instruction": "0x509014",
+          "address": "0x8dbe08",
+          "text": "<null>"
+        },
+        {
+          "instruction": "0x509028",
+          "address": "0x8cb9f8",
+          "text": "\n"
+        },
+        {
+          "instruction": "0x50903c",
+          "address": "0x8dbe38",
+          "text": "%.1f"
+        },
+        {
+          "instruction": "0x50904c",
+          "address": "0x8dbe30",
+          "text": "%.2f"
+        },
+        {
+          "instruction": "0x5092bc",
+          "address": "0x8dbc20",
+          "text": "%c"
+        },
+        {
+          "instruction": "0x5094b0",
+          "address": "0x8dbe20",
+          "text": "%d%s%03d"
+        },
+        {
+          "instruction": "0x5095e0",
+          "address": "0x8dbe20",
+          "text": "%d%s%03d"
+        },
+        {
+          "instruction": "0x50975c",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "instruction": "0x50977c",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "instruction": "0x50984c",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "instruction": "0x50986c",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "instruction": "0x509890",
+          "address": "0x8dbe10",
+          "text": "%d%s%03d%s%03d"
+        },
+        {
+          "instruction": "0x5098bc",
+          "address": "0x8dbe10",
+          "text": "%d%s%03d%s%03d"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN13StringManager11parseColorsERSsPKc",
+      "address": "0x507ea4",
+      "literals": [
+        {
+          "instruction": "0x507eb4",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x507eec",
+          "address": "0x8dbc68",
+          "text": "^"
+        },
+        {
+          "instruction": "0x507efc",
+          "address": "0x8cb9f8",
+          "text": "\n"
+        },
+        {
+          "instruction": "0x507f08",
+          "address": "0x8c6350",
+          "text": "</font>"
+        },
+        {
+          "instruction": "0x507f14",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x508188",
+          "address": "0x8dbc20",
+          "text": "%c"
+        },
+        {
+          "instruction": "0x5081c8",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x5081cc",
+          "address": "0x8c7090",
+          "text": "zero"
+        },
+        {
+          "instruction": "0x5081e4",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x508228",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x50822c",
+          "address": "0x8dbc40",
+          "text": "five"
+        },
+        {
+          "instruction": "0x508244",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x508268",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x50826c",
+          "address": "0x8dbc48",
+          "text": "six"
+        },
+        {
+          "instruction": "0x508284",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x5082a8",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x5082ac",
+          "address": "0x8dbc50",
+          "text": "seven"
+        },
+        {
+          "instruction": "0x5082c4",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x5082e8",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x5082ec",
+          "address": "0x8dbc58",
+          "text": "eight"
+        },
+        {
+          "instruction": "0x508304",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x508328",
+          "address": "0x8dbc60",
+          "text": "nine"
+        },
+        {
+          "instruction": "0x508344",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x508394",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x508398",
+          "address": "0x8c0518",
+          "text": "one"
+        },
+        {
+          "instruction": "0x5083b0",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x5083d4",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x5083d8",
+          "address": "0x8c7098",
+          "text": "two"
+        },
+        {
+          "instruction": "0x5083f0",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x508414",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x508418",
+          "address": "0x8c70a0",
+          "text": "three"
+        },
+        {
+          "instruction": "0x508430",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        },
+        {
+          "instruction": "0x508454",
+          "address": "0x8c9020",
+          "text": "FontTextColors"
+        },
+        {
+          "instruction": "0x508458",
+          "address": "0x8c70a8",
+          "text": "four"
+        },
+        {
+          "instruction": "0x508470",
+          "address": "0x8dbc28",
+          "text": "<font color=\"#%06X\">"
+        }
+      ]
+    },
+    {
+      "symbol": "_Z15ParsePlayerNameRKSs",
+      "address": "0x433d00",
+      "literals": [
+        {
+          "instruction": "0x433d2c",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x433d84",
+          "address": "0x8cb558",
+          "text": "$player"
+        },
+        {
+          "instruction": "0x433d88",
+          "address": "0x8cb550",
+          "text": "^$"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN13StringManagerC1Ev",
+      "address": "0x507d10",
+      "literals": [
+        {
+          "instruction": "0x507d1c",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZNK13StringManager12getStringIdxEiij",
+      "address": "0x5088c4",
+      "literals": [
+        {
+          "instruction": "0x5088d4",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x5089e0",
+          "address": "0x8dbd18",
+          "text": "#!WTF!#"
+        },
+        {
+          "instruction": "0x508a04",
+          "address": "0x8be3e0",
+          "text": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "0x508a08",
+          "address": "0x8dbb50",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\Text\\StringManager.cpp"
+        },
+        {
+          "instruction": "0x508a10",
+          "address": "0x8dbd20",
+          "text": "stringIdx < m_list_count[packIdx][sheetIdx]"
+        },
+        {
+          "instruction": "0x508a64",
+          "address": "0x8dbd50",
+          "text": "#!SNL!#"
+        },
+        {
+          "instruction": "0x508b00",
+          "address": "0x8be3e0",
+          "text": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "0x508b04",
+          "address": "0x8dbcd8",
+          "text": "m_lists[packIdx][sheetIdx]"
+        },
+        {
+          "instruction": "0x508b08",
+          "address": "0x8dbb50",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\Text\\StringManager.cpp"
+        },
+        {
+          "instruction": "0x508b3c",
+          "address": "0x8be3e0",
+          "text": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "0x508b40",
+          "address": "0x8dbca8",
+          "text": "sheetIdx >= 0"
+        },
+        {
+          "instruction": "0x508b44",
+          "address": "0x8dbb50",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\Text\\StringManager.cpp"
+        },
+        {
+          "instruction": "0x508b64",
+          "address": "0x8dbd18",
+          "text": "#!WTF!#"
+        },
+        {
+          "instruction": "0x508b84",
+          "address": "0x8be3e0",
+          "text": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "0x508b88",
+          "address": "0x8dbc88",
+          "text": "packIdx < NUMBER_OF_LANGUAGES"
+        },
+        {
+          "instruction": "0x508b8c",
+          "address": "0x8dbb50",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\Text\\StringManager.cpp"
+        },
+        {
+          "instruction": "0x508bb8",
+          "address": "0x8be3e0",
+          "text": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "0x508bbc",
+          "address": "0x8dbb50",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\Text\\StringManager.cpp"
+        },
+        {
+          "instruction": "0x508bc4",
+          "address": "0x8dbcf8",
+          "text": "m_list_count[packIdx][sheetIdx]"
+        },
+        {
+          "instruction": "0x508bf0",
+          "address": "0x8be3e0",
+          "text": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "0x508bf4",
+          "address": "0x8dbcb8",
+          "text": "sheetIdx < NUMBER_OF_SHEETS"
+        },
+        {
+          "instruction": "0x508bf8",
+          "address": "0x8dbb50",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\Text\\StringManager.cpp"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZNK13StringManager13getSymbolPackEv",
+      "address": "0x5075b0",
+      "literals": []
+    },
+    {
+      "symbol": "_ZNK13StringManager12getSheetNameEj",
+      "address": "0x507568",
+      "literals": [
+        {
+          "instruction": "0x507574",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZNK13StringManager18getNumberOfStringsEii",
+      "address": "0x507550",
+      "literals": []
+    },
+    {
+      "symbol": "_ZN13StringManager10switchPackEjb",
+      "address": "0x507a94",
+      "literals": []
+    },
+    {
+      "symbol": "_ZNK13StringManager9getStringEij",
+      "address": "0x508e1c",
+      "literals": [
+        {
+          "instruction": "0x508e28",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        },
+        {
+          "instruction": "0x508e3c",
+          "address": "0x8dbd58",
+          "text": "StringConfig"
+        },
+        {
+          "instruction": "0x508e50",
+          "address": "0x8dbd68",
+          "text": "PackIDShift"
+        },
+        {
+          "instruction": "0x508e6c",
+          "address": "0x8dbd78",
+          "text": "PackIDMask"
+        },
+        {
+          "instruction": "0x508e84",
+          "address": "0x8dbd88",
+          "text": "StrIDShift"
+        },
+        {
+          "instruction": "0x508e9c",
+          "address": "0x8dbd98",
+          "text": "StrIDMask"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN7Structs13LangSheetList4readEP11IStreamBase",
+      "address": "0x4dc2ac",
+      "literals": [
+        {
+          "instruction": "0x4dc2d8",
+          "address": "0x994a98",
+          "text": "\ufffdI\ufffd"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZNK13StringManager9getStringEi",
+      "address": "0x508edc",
+      "literals": []
+    },
+    {
+      "symbol": "_ZNK9Character16SG_GetPlayerNameEv",
+      "address": "0x3bb7e8",
+      "literals": []
+    },
+    {
+      "symbol": "_ZN7gameswf15format_utf_textEPKcPcib",
+      "address": "0x752a18",
+      "literals": []
+    },
+    {
+      "symbol": "_ZN13StringManager8addSpaceEv",
+      "address": "0x50750c",
+      "literals": []
+    },
+    {
+      "symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "address": "0x36e478",
+      "literals": []
+    }
+  ],
+  "common_text_prefix": "0900000025000000110000006461726b776f6f64732e656e676c697368090000004461726b776f6f64730e000000676c6c6976652e656e676c69736806000000474c4c6976650d00000067617465642e656e676c6973680500000047617465640e000000",
+  "common_text_bytes": 10167
+}

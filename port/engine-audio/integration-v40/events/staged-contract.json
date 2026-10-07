@@ -1,0 +1,155 @@
+{
+  "captured_utc": "2026-10-06T15:21:47.310747+00:00",
+  "scope": "Prospective diffs only; no shared/live/frozen source edited. Apply01 then02;03/04 held for genuine gameplay prerequisites.",
+  "staged_files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "base_sha256": "f5e18dc288f614f7aaf0ce8dfff34da15acf0f2613d16edb3135a532396a5d62",
+      "base_normalized_sha256": "74f71200f5cffcfe1d12db3d44deaa908d2fa879906d5941abd05d3852c36460",
+      "staged_sha256": "150f06f4548b524d8832d2ae4edad7a7ef15325aef51ce5c0cf3859fde205804"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "base_sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "base_normalized_sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "staged_sha256": "255d208a00d682965cc49415e970389fcee2b2286f0db2f47f6e61196b4efefe"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "base_sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "base_normalized_sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "staged_sha256": "552dc44556bdd216208bebf32a1918175e7a1a1cfa6d2b4ba91857344cc7c8b3"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "base_sha256": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3",
+      "base_normalized_sha256": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3",
+      "staged_sha256": "e6b88a62f150c978256ab63560dad26bbba1ff1fe6fc07852203143f7472d76c"
+    },
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.cpp",
+      "base_sha256": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995",
+      "base_normalized_sha256": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995",
+      "staged_sha256": "9ffefa3a7c1c89facdffec612fc5f05f28be306f69fef36f1a5e48b2ede278ff"
+    },
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.hpp",
+      "base_sha256": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "base_normalized_sha256": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "staged_sha256": "5a685488837ca22c0b302bd636261eb47a9f577534d511700d17362fa5186e51"
+    },
+    {
+      "path": "port/level-world/openable_container_owner_v1.cpp",
+      "base_sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "base_normalized_sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "staged_sha256": "9a4d7b63b4e3186f8ddd874b1e72a77a1f5a838f5d724fa532807b0090b7a781"
+    },
+    {
+      "path": "port/level-world/openable_container_owner_v1.hpp",
+      "base_sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf",
+      "base_normalized_sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf",
+      "staged_sha256": "6f13fa03dce718b57ad9f3b80c816503bbd977def0e71110a1d8a89c84ed1124"
+    },
+    {
+      "path": "port/level-world/world_item_graph_v3.cpp",
+      "base_sha256": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043",
+      "base_normalized_sha256": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043",
+      "staged_sha256": "4db908678921b97a5a9b0c49fb779d9f7429aef416f65a4897f9f81365f42b00"
+    },
+    {
+      "path": "port/level-world/world_item_graph_v3.hpp",
+      "base_sha256": "54eccdd1fc64b0b0450607a05e32f34b81cf99d259268eceb8b2e5bc3b75bb76",
+      "base_normalized_sha256": "54eccdd1fc64b0b0450607a05e32f34b81cf99d259268eceb8b2e5bc3b75bb76",
+      "staged_sha256": "245bdcd0fcab3c0faeb3c232ad74ffcdeb10c97b4f2cb3e5e3a2215e9aca88d8"
+    },
+    {
+      "path": "port/level-world/world_loot_pickup_v23.cpp",
+      "base_sha256": "e77f2501eb9a864172840ac03bbad2cca8eccc3c678986f4b36de08423e8b14c",
+      "base_normalized_sha256": "e77f2501eb9a864172840ac03bbad2cca8eccc3c678986f4b36de08423e8b14c",
+      "staged_sha256": "ad78c086b24d8e5b5667a4093bc16fa1d6f105a4479b5c442d23981acd1f2938"
+    },
+    {
+      "path": "port/level-world/world_loot_pickup_v23.hpp",
+      "base_sha256": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe",
+      "base_normalized_sha256": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe",
+      "staged_sha256": "20a7d398834ab139e436a0d19f174b9b236b6f3adaf100dd1dd96bfe483926bd"
+    }
+  ],
+  "patches": {
+    "01-active-transport": [
+      "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc"
+    ],
+    "02-player-named-prefix": [
+      "port/android-native/app/src/main/cpp/model_renderer.cpp"
+    ],
+    "03-prerequisite-item-sites": [
+      "port/level-world/world_item_graph_v3.cpp",
+      "port/level-world/world_item_graph_v3.hpp",
+      "port/level-world/world_loot_pickup_v23.cpp",
+      "port/level-world/world_loot_pickup_v23.hpp"
+    ],
+    "04-prerequisite-container-site": [
+      "port/level-world/canonical_destructible_container_v16.cpp",
+      "port/level-world/canonical_destructible_container_v16.hpp",
+      "port/level-world/openable_container_owner_v1.cpp",
+      "port/level-world/openable_container_owner_v1.hpp"
+    ]
+  },
+  "patch_base_sha256": {
+    "01-active-transport": {
+      "port/android-native/app/src/main/cpp/model_renderer.cpp": "479c9313940e58d8ca1a7eebd25b7a0781454e0f2baee3d574f05686a2ea52a8",
+      "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3"
+    },
+    "02-player-named-prefix": {
+      "port/android-native/app/src/main/cpp/model_renderer.cpp": "0854afd31ab37334713ccd7551d86fbeda698c0a9147f7e20827188984e7ebf7"
+    },
+    "03-prerequisite-item-sites": {
+      "port/level-world/world_item_graph_v3.cpp": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043",
+      "port/level-world/world_item_graph_v3.hpp": "54eccdd1fc64b0b0450607a05e32f34b81cf99d259268eceb8b2e5bc3b75bb76",
+      "port/level-world/world_loot_pickup_v23.cpp": "e77f2501eb9a864172840ac03bbad2cca8eccc3c678986f4b36de08423e8b14c",
+      "port/level-world/world_loot_pickup_v23.hpp": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe"
+    },
+    "04-prerequisite-container-site": {
+      "port/level-world/canonical_destructible_container_v16.cpp": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995",
+      "port/level-world/canonical_destructible_container_v16.hpp": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "port/level-world/openable_container_owner_v1.cpp": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "port/level-world/openable_container_owner_v1.hpp": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf"
+    }
+  },
+  "patch_base_normalized_sha256": {
+    "01-active-transport": {
+      "port/android-native/app/src/main/cpp/model_renderer.cpp": "74f71200f5cffcfe1d12db3d44deaa908d2fa879906d5941abd05d3852c36460",
+      "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3"
+    },
+    "02-player-named-prefix": {
+      "port/android-native/app/src/main/cpp/model_renderer.cpp": "e86f3a8fe80cdb05cfb47817a22008f4a96fda96cb5f3c160b2325d6e9007e9e"
+    },
+    "03-prerequisite-item-sites": {
+      "port/level-world/world_item_graph_v3.cpp": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043",
+      "port/level-world/world_item_graph_v3.hpp": "54eccdd1fc64b0b0450607a05e32f34b81cf99d259268eceb8b2e5bc3b75bb76",
+      "port/level-world/world_loot_pickup_v23.cpp": "e77f2501eb9a864172840ac03bbad2cca8eccc3c678986f4b36de08423e8b14c",
+      "port/level-world/world_loot_pickup_v23.hpp": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe"
+    },
+    "04-prerequisite-container-site": {
+      "port/level-world/canonical_destructible_container_v16.cpp": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995",
+      "port/level-world/canonical_destructible_container_v16.hpp": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "port/level-world/openable_container_owner_v1.cpp": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "port/level-world/openable_container_owner_v1.hpp": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf"
+    }
+  },
+  "changed_during_capture": [],
+  "requires": {
+    "runtime": "ONE root AudioGameplayRuntimeV40 and source gate/command/listener/RNG authorities",
+    "event_clock": "actual positive source-event monotonic timestamp; scheduler lag resolved in actual producer scope, no helper now()",
+    "root_publication": "bind PlayerSkillsRuntime.audio_producers_v40 callbacks before reached play; contexts outlive synchronous delivery",
+    "item": "genuine Item145/WorldLoot lifecycle/inventory/physical/quest/tooltip/trophy/FX owners and source preloader",
+    "container": "genuine canonical factory/interact/animation/quest/loot owners; complete sound manager->getter->position leaf; proven XML UID preload, no event RNG precache"
+  }
+}

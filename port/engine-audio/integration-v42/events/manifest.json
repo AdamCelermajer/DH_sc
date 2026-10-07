@@ -1,0 +1,148 @@
+{
+  "scope": "NEW source-only V42 active producer packet; no shared source edits or runtime/device execution",
+  "generated_utc": "2026-10-06T15:59:15.607180+00:00",
+  "owned": [
+    {
+      "path": "port/engine-audio/integration-v42/events/active-application-producers-v42.patch",
+      "bytes": 17054,
+      "sha256": "b29b151f0a6061436809156a181dc499593a8066809e6838c4121c34b0a2fd8a"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/audio_application_transport_v42.hpp",
+      "bytes": 1105,
+      "sha256": "b29a8197f5a81b24d78b9ea89c8555f5594cd1c6a810af3676def3e75f9da77b"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/handoff.md",
+      "bytes": 5177,
+      "sha256": "29a21f45fd16c6f79675d71e23f490c0e03e3d9e3ba7c8975859fc85d3fe670e"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/patch-receipt.json",
+      "bytes": 280,
+      "sha256": "1c9c6531543334e32ddcaea06c8f98012cba807b0cb06e401a0200ebd6acfd86"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 256818,
+      "sha256": "59fc041aea67e1b6e2ea3c742b593ea09947912aedf7f9d3636cf3542640bd4c"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 2333,
+      "sha256": "430c6fcf35919685cfdc4d22af66abc33eda739a314c9c911045869a02c3fdaa"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 2789,
+      "sha256": "b9d5a62b9f9aef356216b02001e523b3dd2943a5dae7e3da445953638caa92b4"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 14566,
+      "sha256": "cf0c096626cfbc3e363f4a755ab05b449f2808122919d258f038bda6ecf78ce6"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/renderer_application_audio_v42.inc",
+      "bytes": 445,
+      "sha256": "7a5f691b29952e5cd52aaea81af3b56bce9eaa2322b3772f295a1d573a810d34"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/renderer_player_named_prefix_v42.inc",
+      "bytes": 965,
+      "sha256": "256e45b694496c1c99139f91e0df3c098d36a76f505f420ecbf32493248bd9af"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/seal_v42.py",
+      "bytes": 1032,
+      "sha256": "0c15952e0fbced0914a461e10d55f9fa92b52843a2c1b63053946e2dc7927aaf"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 258480,
+      "sha256": "db185068b38010ab880d7b246c37a6df460de14b2a36dbc031213767b4882426"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 3137,
+      "sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 3806,
+      "sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 15367,
+      "sha256": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/stage_v42.py",
+      "bytes": 8005,
+      "sha256": "874239b84ac5b2a7fbb2f42bd3b71ae0d98c4c0532be9603543fce46495a30e8"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/staged-contract.json",
+      "bytes": 1911,
+      "sha256": "8c566c1231572a70f1bbcf2ddbc4dc9cdc373e31d816ef30d244d3482889f302"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/syntax-receipt.json",
+      "bytes": 501,
+      "sha256": "80074db14d934939ac4d20882647457074afdb50d3626daf1e64ec98d7d1052d"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 259755,
+      "sha256": "465392df843d45892acde1d8e68ffd1dffb7e68656fa9d8179a5fe2eb274a278"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 2344,
+      "sha256": "863cf0a42f2bf955e096e6bd726479feedcefdd312267ae326187a661fb1884f"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 2799,
+      "sha256": "1f4fd11deb29e533d3a513bc662ea450c82e9923d5fba2738cbeea3af7fc00b7"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 14571,
+      "sha256": "8f687ad3f6c2e6ed44239a64218ed08899a594574259028ecb64d8e89b45a612"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify_live_base_v42.py",
+      "bytes": 542,
+      "sha256": "22ac5dc395aeca7730a5bdea4302237d7b1315ec4173866b80828f6aec6e70fd"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify_patch_v42.py",
+      "bytes": 1351,
+      "sha256": "c44981b5967c1ea3474e1ecb24cd949774bac51dccbffa5db68d800b735b70f0"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify_v42.py",
+      "bytes": 1247,
+      "sha256": "15ddb110e2ea557615244a8ebb9de1802e68cae950bf893754c389ce0be4f5fe"
+    }
+  ],
+  "external_dependencies": [
+    {
+      "path": "port/engine-audio/integration-v42/audio_application_manager_v42.hpp",
+      "bytes": 2191,
+      "sha256": "0ae96d3b0bdbcc0f64a5046295861ef9f56ad33d7a39a018965f79e17461323a"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/audio_native_session_v42.hpp",
+      "bytes": 3253,
+      "sha256": "7c60ab4c8ec1f79dd2b63ec57bb0cd5a8eac381dc807f67942a41a57115a9810"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v42.hpp",
+      "bytes": 2849,
+      "sha256": "450fe899498f0590361f5a9b5d4b8a2c66fd0ba4585f40c3cd43dc8b6e37ed92"
+    }
+  ]
+}

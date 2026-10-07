@@ -1,0 +1,545 @@
+{
+  "version": 42,
+  "scope": "Concrete Application manager constructor/nullable lifetime/decoded raw-UID precache, source-basis proofs and prospective Application/loader/active producer patches. No shared app installation/build/link/World/driver/audible claim.",
+  "owned": [
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v42.cpp",
+      "bytes": 8860,
+      "sha256": "49e94b285967966416debd79cc2c3b979686fd98c2526328c100f930ae03edd7"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v42.hpp",
+      "bytes": 2849,
+      "sha256": "450fe899498f0590361f5a9b5d4b8a2c66fd0ba4585f40c3cd43dc8b6e37ed92"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/application-java-v42.patch",
+      "bytes": 10642,
+      "sha256": "5feb7ae5af8650ebc7366e7319cd653aa578961ff7fdf6bad30f31bc9dbccdd8"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/application-java.patch",
+      "bytes": 9649,
+      "sha256": "e3aa812361dc58c995ce7823c652e78473d151739468b06d73ce4f96f9641960"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/application_audio_serial_v42.hpp",
+      "bytes": 585,
+      "sha256": "ec1b1f0b37559da53f2fde5264358401cb15533c99560bc111bedfc841167cd3"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/AudioApplicationLifecycleV42.java",
+      "bytes": 1394,
+      "sha256": "c4456c84b50048fe4393d36cb4084ac5469ddc5cf93331e6f4b246bb727caa72"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/AudioFocusPolicyV40.java",
+      "bytes": 2686,
+      "sha256": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/captured-root.json",
+      "bytes": 1151,
+      "sha256": "0effda73286e3f49eca2d76339eae60dba1f5badd3fa9e55fc1a2acad9d3e842"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/captured-source-sha256.json",
+      "bytes": 2655,
+      "sha256": "69c0c7603baab3938024853bfb055747f96f71e3e445d2c9cc265281a97f1d96"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/disabled-bootstrap-proof.json",
+      "bytes": 267,
+      "sha256": "965fd87ac540fee0f63628d55bfdd3bc9bb63c7868aaed2d06d94241665dacce"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/disabled_bootstrap_v42.hpp",
+      "bytes": 187,
+      "sha256": "1852aedfe917d3261e4484c378f6d12db005120c56fd63bfd785ee0b04511fd7"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/native-application.patch",
+      "bytes": 5765,
+      "sha256": "3d394522c84108e834aff49657752b57a50dcf243601a589d219e833d8ed4358"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/native_audio_application_v42.cpp",
+      "bytes": 9279,
+      "sha256": "9d3317577bf132a37e0a6b4cded24176e5818874036d3475f14fe587cf63a62d"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/native_audio_application_v42.hpp",
+      "bytes": 857,
+      "sha256": "938c3ef5f81929051f578656ee6eae843d0749b1757b97d1e8d80ad2029f1645"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/prepare_hooks.py",
+      "bytes": 7974,
+      "sha256": "630d26d031b07b4e5a8838c32bcc5b6613e0270356cb855d825ed22c8922bbd9"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/prepare_java.py",
+      "bytes": 6098,
+      "sha256": "35d3b88876d93c29f8043f033068dcc35cce7e0f934d32d3260386ee22054e5e"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/README.md",
+      "bytes": 7158,
+      "sha256": "74460429ea088c19cd527c144d788f9e33b87f0b2cd6e818b07c519189d8704d"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/serial-fixture.cpp",
+      "bytes": 1156,
+      "sha256": "8ad8e06db47e83a730394455ea5a02a12f747d1abd659320408abde340f5d588"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/serial-validation.json",
+      "bytes": 330,
+      "sha256": "8e71ac714beee7dd4ec4217df803b4f6cfa321bcb7623f3605218fdd3f9cac00"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/SharedAudioFocusV40.java",
+      "bytes": 2950,
+      "sha256": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/AudioApplicationLifecycleV42.java",
+      "bytes": 1394,
+      "sha256": "c4456c84b50048fe4393d36cb4084ac5469ddc5cf93331e6f4b246bb727caa72"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/AudioFocusPolicyV40.java",
+      "bytes": 2686,
+      "sha256": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/FrontAudio.java",
+      "bytes": 10319,
+      "sha256": "862daacb09306153cdadeaec83fa20699420ac0a10d4460767e9e0edfff7b466"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/MainActivity.java",
+      "bytes": 40075,
+      "sha256": "fc04d7969ff14002ab8da4940ef445b381f00956181b4a1a85c5648e02b671ee"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/NativeBridge.java",
+      "bytes": 3127,
+      "sha256": "39ccdbde57212291b9a05a0d2328a683b8ac2dc4512310b41ee25e41327534f9"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/java/com/example/dh2/SharedAudioFocusV40.java",
+      "bytes": 2950,
+      "sha256": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "bytes": 5653,
+      "sha256": "718dd3d0c0cb5b84ae3c0aae62b99e3ae6698d52d35f411025aa1a2f3fe321b4"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/cpp/model_renderer.hpp",
+      "bytes": 5941,
+      "sha256": "9ecf110fb76e72dedd5669c99e9717be6ed8354e48c20633e0e4303480e5b503"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/cpp/native_app.cpp",
+      "bytes": 31922,
+      "sha256": "93fe3c70c921c8f744b83a4db1a29e46463658ffb74ed4207d4e91e65de9292d"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java",
+      "bytes": 10319,
+      "sha256": "862daacb09306153cdadeaec83fa20699420ac0a10d4460767e9e0edfff7b466"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "bytes": 40072,
+      "sha256": "9e68266500a38ed27d0f4b3df16552b6e5a4125e5be5f54e414ab540eab9185c"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/staged/port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java",
+      "bytes": 3089,
+      "sha256": "986762a3f308e78cfa234dc0c2ec6a58bd15e34bf74609a2345317ae88273692"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/validate_hooks.py",
+      "bytes": 3407,
+      "sha256": "48b1daf41c030e65965e45ab73c7464f647700fce19df2f024004cc1301d7ede"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application/validation.json",
+      "bytes": 5537,
+      "sha256": "c8ac992cf064a55f5054318bf4f2914c4f4ca3b7fdb7be1f81a1e38838eb3e88"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application-fixture.cpp",
+      "bytes": 4078,
+      "sha256": "7bda2d5368f07d82e31653bea7fd5a37494b89e12608337ac98d4e45f4132796"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/application-validation.json",
+      "bytes": 3085,
+      "sha256": "3626cc0bfa182a880bc350379bd154fe13752d560dc5adf71c14963778e3e883"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/audio_application_manager_v42.cpp",
+      "bytes": 3997,
+      "sha256": "b8b808b2458f2d3f8067993119c2eab537129113b41b4e1b74a2df5d7c115e20"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/audio_application_manager_v42.hpp",
+      "bytes": 2191,
+      "sha256": "0ae96d3b0bdbcc0f64a5046295861ef9f56ad33d7a39a018965f79e17461323a"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/audio_container_precache_v42.hpp",
+      "bytes": 854,
+      "sha256": "e5356dcf927a848bf307624423b1f92e98af97e56809a8b9c2bf31b8939fa16f"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/audio_native_session_v42.cpp",
+      "bytes": 10753,
+      "sha256": "4fa51239292536591836546465082fb2067ca352b43c4c08e0cde304decb1c4c"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/audio_native_session_v42.hpp",
+      "bytes": 3253,
+      "sha256": "7c60ab4c8ec1f79dd2b63ec57bb0cd5a8eac381dc807f67942a41a57115a9810"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/active-application-producers-v42.patch",
+      "bytes": 17054,
+      "sha256": "b29b151f0a6061436809156a181dc499593a8066809e6838c4121c34b0a2fd8a"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/audio_application_transport_v42.hpp",
+      "bytes": 1105,
+      "sha256": "b29a8197f5a81b24d78b9ea89c8555f5594cd1c6a810af3676def3e75f9da77b"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/handoff.md",
+      "bytes": 5177,
+      "sha256": "29a21f45fd16c6f79675d71e23f490c0e03e3d9e3ba7c8975859fc85d3fe670e"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/manifest.json",
+      "bytes": 6580,
+      "sha256": "f957acaccdf0048acdbe48ccd451a4e3a371bd7627b29053291dcfd0234895bb"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/patch-receipt.json",
+      "bytes": 280,
+      "sha256": "1c9c6531543334e32ddcaea06c8f98012cba807b0cb06e401a0200ebd6acfd86"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 256818,
+      "sha256": "59fc041aea67e1b6e2ea3c742b593ea09947912aedf7f9d3636cf3542640bd4c"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 2333,
+      "sha256": "430c6fcf35919685cfdc4d22af66abc33eda739a314c9c911045869a02c3fdaa"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 2789,
+      "sha256": "b9d5a62b9f9aef356216b02001e523b3dd2943a5dae7e3da445953638caa92b4"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/prospective/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 14566,
+      "sha256": "cf0c096626cfbc3e363f4a755ab05b449f2808122919d258f038bda6ecf78ce6"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/renderer_application_audio_v42.inc",
+      "bytes": 445,
+      "sha256": "7a5f691b29952e5cd52aaea81af3b56bce9eaa2322b3772f295a1d573a810d34"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/renderer_player_named_prefix_v42.inc",
+      "bytes": 965,
+      "sha256": "256e45b694496c1c99139f91e0df3c098d36a76f505f420ecbf32493248bd9af"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/seal_v42.py",
+      "bytes": 1032,
+      "sha256": "0c15952e0fbced0914a461e10d55f9fa92b52843a2c1b63053946e2dc7927aaf"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 258480,
+      "sha256": "db185068b38010ab880d7b246c37a6df460de14b2a36dbc031213767b4882426"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 3137,
+      "sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 3806,
+      "sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 15367,
+      "sha256": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/stage_v42.py",
+      "bytes": 8005,
+      "sha256": "874239b84ac5b2a7fbb2f42bd3b71ae0d98c4c0532be9603543fce46495a30e8"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/staged-contract.json",
+      "bytes": 1911,
+      "sha256": "8c566c1231572a70f1bbcf2ddbc4dc9cdc373e31d816ef30d244d3482889f302"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/syntax-receipt.json",
+      "bytes": 501,
+      "sha256": "80074db14d934939ac4d20882647457074afdb50d3626daf1e64ec98d7d1052d"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "bytes": 259755,
+      "sha256": "465392df843d45892acde1d8e68ffd1dffb7e68656fa9d8179a5fe2eb274a278"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "bytes": 2344,
+      "sha256": "863cf0a42f2bf955e096e6bd726479feedcefdd312267ae326187a661fb1884f"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "bytes": 2799,
+      "sha256": "1f4fd11deb29e533d3a513bc662ea450c82e9923d5fba2738cbeea3af7fc00b7"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify-tree/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "bytes": 14571,
+      "sha256": "8f687ad3f6c2e6ed44239a64218ed08899a594574259028ecb64d8e89b45a612"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify_live_base_v42.py",
+      "bytes": 542,
+      "sha256": "22ac5dc395aeca7730a5bdea4302237d7b1315ec4173866b80828f6aec6e70fd"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify_patch_v42.py",
+      "bytes": 1351,
+      "sha256": "c44981b5967c1ea3474e1ecb24cd949774bac51dccbffa5db68d800b735b70f0"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/events/verify_v42.py",
+      "bytes": 1247,
+      "sha256": "15ddb110e2ea557615244a8ebb9de1802e68cae950bf893754c389ce0be4f5fe"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/container-precache-complete-v42.patch",
+      "bytes": 1415,
+      "sha256": "abdc1d951b7307d8419ba4e6b83dd48225b5af077f9fb1cd25c725f49bd60aee"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/prospective/port/level-world/openable_container_owner_v1.cpp",
+      "bytes": 9229,
+      "sha256": "470e970b51d80406b5dbaf4a0681a03a497444f52570e206b3cedc171680cda1"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/prospective/port/level-world/openable_container_owner_v1.hpp",
+      "bytes": 4072,
+      "sha256": "425c4ce934290f355f0db42dee37e2a443eb33b1e3d20e9395a7206f58f786f8"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/README.md",
+      "bytes": 2005,
+      "sha256": "9d6e736b67cbf1bd143579572d8f9eeb0ea47733a5520b8af0d4812fc177d195"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/source-snapshot/port/level-world/openable_container_owner_v1.cpp",
+      "bytes": 9357,
+      "sha256": "9aa543a503001a2f84d6d74d86166608e5981f71d3d1f2a44858075fd3e6dce8"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/source-snapshot/port/level-world/openable_container_owner_v1.hpp",
+      "bytes": 3936,
+      "sha256": "896d49b827204e0334c2895bba537516ab38a5d987e252bbbc2e501747e9e39c"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/staged-contract.json",
+      "bytes": 652,
+      "sha256": "902b6272ff92f66a26c1dc20143ae79d9d1decd672e405194430e1ff93191350"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/validation.json",
+      "bytes": 823,
+      "sha256": "bb74c47bab4130da51c9bab8487e26b6458f4ba4f731bc6a464b38fdbbca29e4"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/verify-tree/port/level-world/openable_container_owner_v1.cpp",
+      "bytes": 9088,
+      "sha256": "5a95b2fa4db7d383ddc8d1df3aea3684d1f12d845a34df965f97ac1631f7d8e1"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/loader/verify-tree/port/level-world/openable_container_owner_v1.hpp",
+      "bytes": 3993,
+      "sha256": "b55c40ebe44ce527dc33578936b86cb4065217cb0a7d487441b3cb4b39ac1198"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/original-application-census.json",
+      "bytes": 677,
+      "sha256": "f923fb655d24486714fee6cf29fc80b4cbc9d5819760be6c36335739636a94bb"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/original-gsinit-audio.asm",
+      "bytes": 1613,
+      "sha256": "f6d3a703ff62990390f00a28762c1931b96ec02dedfe1f7170b8488f0cdf04f5"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/README.md",
+      "bytes": 7097,
+      "sha256": "aa4fff6e2659618c8ff9ed0c3d46d9b26e9ba6584e49c335493dcdde5c131414"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/session-equivalence.json",
+      "bytes": 472,
+      "sha256": "4ab2f450e960f155d870c8f3634ce1f2253e39e211993d084524f8d9de0451f5"
+    },
+    {
+      "path": "port/engine-audio/integration-v42/validate_application_v42.py",
+      "bytes": 2621,
+      "sha256": "562bc3c6c067fe55469cbeec602b6b69b7b08292b6a0e7645e72ff85ba6dfc7d"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp",
+      "bytes": 943,
+      "sha256": "79db2a5dd189cdefe766c0ccf8f4330189c91637ebfb37ed1a626185dee51082"
+    },
+    {
+      "path": "port/engine-audio/audio_bank_v34.hpp",
+      "bytes": 1659,
+      "sha256": "376d0e168f1a6ef2db2ca4ad3913ce14394a73a335ca7f81e7d51bd048b3c4e0"
+    },
+    {
+      "path": "port/engine-audio/audio_catalog_v34.hpp",
+      "bytes": 1755,
+      "sha256": "cb1892fbd9088780707f428d07fb8c8c1ab916931862257bc5ea724a8f50f428"
+    },
+    {
+      "path": "port/engine-audio/audio_clock_v40.hpp",
+      "bytes": 884,
+      "sha256": "66a3cd763f0e85546fc998de39308870561c26daf2dbc58b7a554c7fb1801d96"
+    },
+    {
+      "path": "port/engine-audio/audio_gameplay_runtime_v40.hpp",
+      "bytes": 3271,
+      "sha256": "e76ef00051e442abb61a9972e0bf41564abd80ef312aece440c9ef7eef7843bc"
+    },
+    {
+      "path": "port/engine-audio/audio_mixer_v34.hpp",
+      "bytes": 3444,
+      "sha256": "9d0f92b4a7287ad9957642579fc4383e11483b65d38bdd54dc3b594d7fba57c7"
+    },
+    {
+      "path": "port/engine-audio/audio_native_envelope_v34.hpp",
+      "bytes": 561,
+      "sha256": "bd4330a3ca10099b941e2ac65b81783eac94e63fb4d4c32c337c37688e61914e"
+    },
+    {
+      "path": "port/engine-audio/audio_sample_v34.hpp",
+      "bytes": 1850,
+      "sha256": "fbc6cccd2b4c197fb1122c428e322bcf9803721eca7707a0341bdc5f8c8e26ac"
+    },
+    {
+      "path": "port/engine-audio/audio_source_bindings_v38.hpp",
+      "bytes": 1102,
+      "sha256": "aaa03aa7462ae98a8286d67bfa6c5e2f70bab1d16823f1ad82b1877f6522606d"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_control_v40.hpp",
+      "bytes": 1100,
+      "sha256": "e818d6d7f6038e449c5c360a6bde2fdcbf9284812b6e7044b61b7cb14f8e53f0"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.hpp",
+      "bytes": 1101,
+      "sha256": "6a59c6be965abdf11f94bd5083bc9fea650924451d5231360cbf302c00dc2ebf"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_native_session_v40.hpp",
+      "bytes": 3382,
+      "sha256": "2869ff35607812641710b4ad82ba7778e137dc5faf472e53552207b259bc9814"
+    },
+    {
+      "path": "port/engine-audio/integration-v40/focus/audio_output_v40.hpp",
+      "bytes": 3038,
+      "sha256": "dd92da706abf09e230a1da7bc0ce09455cf25c75497cfd80032cf7874df5c230"
+    },
+    {
+      "path": "port/game-data/combat.hpp",
+      "bytes": 1242,
+      "sha256": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958"
+    },
+    {
+      "path": "port/game-data/combat_result.hpp",
+      "bytes": 1263,
+      "sha256": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120"
+    },
+    {
+      "path": "port/level-world/character_combat_sound_v1.hpp",
+      "bytes": 1808,
+      "sha256": "73a686daebea0f9d619be3bde0f8bba9a2b349757c7dadd3eee09dca4a108a53"
+    },
+    {
+      "path": "port/level-world/vox_play3d_owner_v2.hpp",
+      "bytes": 1220,
+      "sha256": "a073edeec74610b44afbae5eaa8571d6ddf173ec4f50543c700b60da58d47a8b"
+    }
+  ],
+  "frozen_prior_handoffs": [
+    {
+      "path": "handoff/audio-audit-v39/manifest.json",
+      "bytes": 29630,
+      "sha256": "25928ed4fa451fb0d04a1d433d4b36d14df4b3aed7c141d90c095692933fee60"
+    },
+    {
+      "path": "handoff/audio-v34/manifest.json",
+      "bytes": 94517,
+      "sha256": "23dfa4c00b1828aba1a557e7fc85e47ecddd814a8e756bc86bdfc2a696770ae6"
+    },
+    {
+      "path": "handoff/audio-v38/manifest.json",
+      "bytes": 141653,
+      "sha256": "b9d8a681218c4c06ed58d0e55667e9afb9f3093084bba2c9337ce05132662b9f"
+    },
+    {
+      "path": "handoff/audio-v40/manifest.json",
+      "bytes": 44053,
+      "sha256": "0f1740dcedc1661fa40c07bab5c97f7a681b654683cbc913759cc925c11e5693"
+    },
+    {
+      "path": "handoff/audio-v41/manifest.json",
+      "bytes": 3784,
+      "sha256": "50b46ee7efdbebc4c4a0afcbd82708fafa75908e25a53c6d3435df707a51eb8a"
+    },
+    {
+      "path": "handoff/authored-fx-v32/manifest.json",
+      "bytes": 88691,
+      "sha256": "e70b525dcf072b082cb0afc3f2a13de00a3f2f1d23d479b7a552eb4c766e9de1"
+    }
+  ],
+  "acceptance": {
+    "real_selected_pack_constructor": true,
+    "raw_uid33_decoded_preload": true,
+    "host_checks_per_optimization": 18,
+    "serial_policy_sanitizer_checks": 3010,
+    "actual_root_integration": false,
+    "actual_aaudio": false,
+    "full_gsinit_phase9": false,
+    "all_categories_audible": false
+  }
+}

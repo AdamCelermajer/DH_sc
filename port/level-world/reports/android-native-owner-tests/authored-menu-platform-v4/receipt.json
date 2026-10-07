@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "effeb0108935d01fb397162881c3d5b6f28b1d6194c26353f3f8a05c416f9396",
+  "sources": [
+    {
+      "path": "port\\engine-ui\\tests\\authored_character_panel_platform_v4.cpp",
+      "sha256": "4e6c0e83b26127a9eb0b3f4a318530776b9db1ab7511214cb415d8ae42b942f0"
+    },
+    {
+      "path": "port\\engine-ui\\authored_character_panel_platform_v4.cpp",
+      "sha256": "5d55d8b2f2840f848576909ca03cc8d237a364fa18602d0d6e97f27c28a1aac7"
+    },
+    {
+      "path": "port\\engine-ui\\authored_menu_application_fields_v3.cpp",
+      "sha256": "93754a4075b9b98c91d506f85760f257b370c65ace02c60353dc08e3a1850ae0"
+    },
+    {
+      "path": "port\\engine-ui\\authored_menu_touchscreen_v3.cpp",
+      "sha256": "872f75765716c2132fae85a5ac569b9fa16c78ef0c2ef2be596328862f5a86c4"
+    },
+    {
+      "path": "port\\engine-ui\\authored_menu_deadzones_v3.cpp",
+      "sha256": "80a721187f5667cac545796ac126f46f2727f007450e44eab28a1959961918b1"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\tests\\authored_character_panel_platform_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\authored_character_panel_platform_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\authored_menu_application_fields_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\authored_menu_touchscreen_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\authored_menu_deadzones_v3.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\authored-menu-platform-v4\\authored-menu-platform-v4.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "Menu platform SAME fields/listeners/touch and required failure prefixes PASS; declared fixtures, no live movie claim\n",
+  "stderr": ""
+}

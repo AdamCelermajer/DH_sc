@@ -1,0 +1,120 @@
+{
+  "scope": "Source skill target store, actual authored Post contrasts, held HUD dispatch/prefix, staged SAME actor adapter and bounded read-only FX traces. No live visual or whole HUD controls acceptance.",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_cast_fx_probe_v46.inc",
+      "sha256": "c930443ea96819da0d6d0345f6f52ba9ec5706649282a01b1d6ef9a0e731d3ef",
+      "bytes": 3719
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_cast_target_trace_v46.inc",
+      "sha256": "551fae58d37505df2211ae6d732e0765138828008fcfbb6aa17f68c9e5234176",
+      "bytes": 3038
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_hud_attack_actor_v46.inc",
+      "sha256": "bd6238c188bf2c2bd51d8f84ef1cc05dbd0b48f9cf6ae6647a00dcc47e54037a",
+      "bytes": 1819
+    },
+    {
+      "path": "port/engine-ui/hud_attack_control_v46.cpp",
+      "sha256": "d442c05703234fe324d414a2943a4aa19fef046de8bed0079b3c0cc0844c6745",
+      "bytes": 2510
+    },
+    {
+      "path": "port/engine-ui/hud_attack_control_v46.hpp",
+      "sha256": "9a1774850efb4136423205981552966f44599f6b848d6e473b54fe74839b997b",
+      "bytes": 2053
+    },
+    {
+      "path": "port/engine-ui/reference/hud-attack-control-v46/gold.bin",
+      "sha256": "7a5f71f4b6690e4efdccfc3695c936ecb16299b19c6a7493f71cfcf14330425e",
+      "bytes": 17924
+    },
+    {
+      "path": "port/engine-ui/reference/hud-attack-control-v46/integration.md",
+      "sha256": "c7c101a3740aebe5cd55b663f2d4dedaa2dd6c95ea5a4d83b5af268935154bcf",
+      "bytes": 5545
+    },
+    {
+      "path": "port/engine-ui/reports/hud-attack-control-v46-host.json",
+      "sha256": "2dd1642acb3907787a5e6a5cbeb6a72fece8045c9051703f7880ec0c25c20d38",
+      "bytes": 884
+    },
+    {
+      "path": "port/engine-ui/reports/hud-attack-control-v46-original.json",
+      "sha256": "c314647aa7833cbb58617b8730f8aba08b93875bf6b697b30ead2fdf6e8e28d0",
+      "bytes": 445
+    },
+    {
+      "path": "port/engine-ui/tests/hud_attack_control_v46.cpp",
+      "sha256": "618d577ea0533ecf265d31564d92a18702381fd43c2b8417c46ca997d69a91bf",
+      "bytes": 4287
+    },
+    {
+      "path": "port/engine-ui/tests/hud_attack_control_v46_original.py",
+      "sha256": "239c1bf7d61c792db5c1c50e54a10643b8dd00af55072a6010457f77063bdb27",
+      "bytes": 2825
+    },
+    {
+      "path": "port/level-world/character_skill_target_binding_v46.cpp",
+      "sha256": "b9f7bf3d770c5571bb3424ae12f3a8eb8213e644a9c3747fc84ddd4e7ff322d4",
+      "bytes": 1525
+    },
+    {
+      "path": "port/level-world/character_skill_target_binding_v46.hpp",
+      "sha256": "a7263371a0070ccbe432e2dfb82baf3baee6a7722b81a8f284158f41a346af54",
+      "bytes": 477
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/cast-lifecycle-v46.md",
+      "sha256": "865deaf518a43e7847904b5dc0286dcd1e380112f0e20a7833edf4385973e090",
+      "bytes": 3120
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/original/reference/original-functions.asm",
+      "sha256": "fe7def41fb9c74599dbafee5a8d059acded72d2a6f131e2be281b50395bf755e",
+      "bytes": 10371
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/skill-lua-v46.json",
+      "sha256": "4aa20bb8bc68c8c2667d25f35739253ff8bb771e5288e8e590b9be5de4140981",
+      "bytes": 12819
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/target-binding-v46.md",
+      "sha256": "4bc63c6649652d7777eeebd36c6f3e086189f2c9e7a421f32a61a1477fedce78",
+      "bytes": 2287
+    },
+    {
+      "path": "port/level-world/reports/hud-attack-v46-strict.json",
+      "sha256": "42ae841b0e690e531a6db736f1b0640bcde6d9310e9fb7603a943ab68ebb5e44",
+      "bytes": 523
+    },
+    {
+      "path": "port/level-world/reports/skill-post-v46-host.json",
+      "sha256": "da3e9a0cb200c1c0f4fee9f9cf0c0c4c0bd3fcde912acf45ed6d22b9267eeef6",
+      "bytes": 529
+    },
+    {
+      "path": "port/level-world/reports/skill-target-v46-host.json",
+      "sha256": "b713a5b6c436a4cb684c0f698feb507b1e8018b491a0661ee298c6e4d3d7f756",
+      "bytes": 527
+    },
+    {
+      "path": "port/level-world/reports/skill-target-v46-strict.json",
+      "sha256": "32cabfbc9aee6a207273802207cc912717ef822cf53e216271cf12c9af00defd",
+      "bytes": 519
+    },
+    {
+      "path": "port/level-world/tests/character_skill_target_binding_v46.cpp",
+      "sha256": "988d7aac113078630735249e12987ccd013024305dbb0df8b13e6b2273b1ef19",
+      "bytes": 1928
+    },
+    {
+      "path": "port/level-world/tests/skill_post_target_v46.cpp",
+      "sha256": "c70312d65345d6d07e1da28274f9848faf2602b99efafa6dd07be0cd2dcf43a0",
+      "bytes": 1885
+    }
+  ]
+}

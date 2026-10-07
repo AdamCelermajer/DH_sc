@@ -1,0 +1,300 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-05T00:43:56.879191+00:00",
+  "scope": "Whole SG_Load -> _Load -> _LoadVolatileQuestsLog coordinator with the same retained Save and sole owned profile field",
+  "original_binary_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_complete_functions": [
+    {
+      "symbol": "_ZN14PlayerSavegame7SG_LoadEi",
+      "address": "0x465430",
+      "size": 32,
+      "sha256": "e1733c6af3054e499ed2a742b42bbb25ff574f857df8aa0de897752035ac99b3",
+      "direct_calls": {
+        "0x464f4c": "_ZN14PlayerSavegame5_LoadEi",
+        "0x468574": "_ZN14PlayerSavegame22_LoadVolatileQuestsLogEi"
+      },
+      "literal_strings": []
+    },
+    {
+      "symbol": "_ZN14PlayerSavegame5_LoadEi",
+      "address": "0x464f4c",
+      "size": 1252,
+      "sha256": "1bfef539dee0894ff774c62cb342cc9af7366684c5bb21de2181c8a9e4b50261",
+      "direct_calls": {
+        "0x315848": "_ZN8Savegame4loadEPKcPFvP11IStreamBasePvES6_S4_",
+        "0x7fd794": "_Z9GetOnlinev",
+        "0x46c1a8": "_ZN13QuestSavegame10InitQuestsEv",
+        "0x46954c": "_ZN14PlayerSavegame16_InitLevelStatesEv",
+        "0x469764": "_ZN14PlayerSavegame11_InitSkillsEv",
+        "0x4694c8": "_ZN14PlayerSavegame12_InitFaeriesEv",
+        "0x31167c": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj",
+        "0x463c84": "_ZN14PlayerSavegame14SG_GetFilenameEjRSsbb",
+        "0x310570": "_Znwj15MemoryHintState",
+        "0x315ed8": "_ZN8SavegameC1EPKcb",
+        "0x3139ac": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+      },
+      "literal_strings": [
+        {
+          "pc": "0x464fa8",
+          "address": "0x8cd1f0",
+          "text": "PNAM"
+        },
+        {
+          "pc": "0x464fc8",
+          "address": "0x8cd1f8",
+          "text": "PLVL"
+        },
+        {
+          "pc": "0x464fec",
+          "address": "0x8cd200",
+          "text": "PCLS"
+        },
+        {
+          "pc": "0x465010",
+          "address": "0x8cd208",
+          "text": "PDFL"
+        },
+        {
+          "pc": "0x465034",
+          "address": "0x8cd210",
+          "text": "LNAM"
+        },
+        {
+          "pc": "0x465058",
+          "address": "0x8cd218",
+          "text": "LEPT"
+        },
+        {
+          "pc": "0x46507c",
+          "address": "0x8cd220",
+          "text": "LUSP"
+        },
+        {
+          "pc": "0x4650bc",
+          "address": "0x8cd228",
+          "text": "LVLS"
+        },
+        {
+          "pc": "0x4650dc",
+          "address": "0x8cd230",
+          "text": "SKIL"
+        },
+        {
+          "pc": "0x465100",
+          "address": "0x8cd238",
+          "text": "FAES"
+        },
+        {
+          "pc": "0x46515c",
+          "address": "0x8cd240",
+          "text": "CFEE"
+        },
+        {
+          "pc": "0x46517c",
+          "address": "0x8cd248",
+          "text": "QEST"
+        },
+        {
+          "pc": "0x4651a0",
+          "address": "0x8cd250",
+          "text": "PROP"
+        },
+        {
+          "pc": "0x4651c4",
+          "address": "0x8cd258",
+          "text": "GEAR"
+        },
+        {
+          "pc": "0x4651e8",
+          "address": "0x8cd260",
+          "text": "FTVL"
+        },
+        {
+          "pc": "0x465220",
+          "address": "0x8cd230",
+          "text": "SKIL"
+        },
+        {
+          "pc": "0x465254",
+          "address": "0x8cd250",
+          "text": "PROP"
+        },
+        {
+          "pc": "0x465298",
+          "address": "0x8cd248",
+          "text": "QEST"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN14PlayerSavegame22_LoadVolatileQuestsLogEi",
+      "address": "0x468574",
+      "size": 188,
+      "sha256": "fa8721402ea98819d67a38d99d65234cbc6c045bc0bf069d69cfb7c5367ecc42",
+      "direct_calls": {
+        "0x7fd794": "_Z9GetOnlinev",
+        "0x36f074": "_ZN13PlayerManager20IsLocalPlayerHostingEv",
+        "0x46c48c": "_ZN13QuestSavegame12UnpackQuestsEiP11IStreamBaseb"
+      },
+      "literal_strings": []
+    }
+  ],
+  "original": {
+    "validation": "PASS",
+    "original_complete_cases": 1780,
+    "ordered_boundaries": 23017,
+    "gold_sha256": "bb181cbe095003851c8fb2fb49e2256fcb5472bd41d7ff2e4498e4c8de659c74",
+    "component_and_global_services_are_fixtures": true,
+    "source_masks_and_slot_profile_guards_executed": true,
+    "whole_Savegame_file_class_proven": false
+  },
+  "native": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "original_complete_cases": 1780,
+        "ordered_boundaries": 23017,
+        "required_failure_prefixes": 23017,
+        "genuine_null_profile_startup_masks": 2,
+        "component_and_global_services_are_fixtures": true,
+        "whole_Savegame_file_class_proven": false
+      },
+      "result_sha256": "56dadcd84e9a887a58f0c2fe789952dbc4ecee629b9e4d78208922ce17b88276",
+      "executable_sha256": "8c811ffd434f9328be33b9fe7434a96c6676d3c08da1f8c5f150c55fb6b9be54"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "original_complete_cases": 1780,
+        "ordered_boundaries": 23017,
+        "required_failure_prefixes": 23017,
+        "genuine_null_profile_startup_masks": 2,
+        "component_and_global_services_are_fixtures": true,
+        "whole_Savegame_file_class_proven": false
+      },
+      "result_sha256": "56dadcd84e9a887a58f0c2fe789952dbc4ecee629b9e4d78208922ce17b88276",
+      "executable_sha256": "d42a09d464a97be70a49df8fc5241167d2a6beaf17b7077a06822ce8fb2f1a3e"
+    }
+  },
+  "gold_sha256": "bb181cbe095003851c8fb2fb49e2256fcb5472bd41d7ff2e4498e4c8de659c74",
+  "original_section_callbacks": {
+    "PNAM": [
+      {
+        "first": "_ZN14PlayerSavegame16__LoadPlayerNameEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame16__SavePlayerNameEP11IStreamBasePv"
+      }
+    ],
+    "PLVL": [
+      {
+        "first": "_ZN14PlayerSavegame17__LoadPlayerLevelEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame17__SavePlayerLevelEP11IStreamBasePv"
+      }
+    ],
+    "PCLS": [
+      {
+        "first": "_ZN14PlayerSavegame17__LoadPlayerClassEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame17__SavePlayerClassEP11IStreamBasePv"
+      }
+    ],
+    "PDFL": [
+      {
+        "first": "_ZN14PlayerSavegame21__LoadDifficultyLevelEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame21__SaveDifficultyLevelEP11IStreamBasePv"
+      }
+    ],
+    "LNAM": [
+      {
+        "first": "_ZN14PlayerSavegame15__LoadLevelNameEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame15__SaveLevelNameEP11IStreamBasePv"
+      }
+    ],
+    "LEPT": [
+      {
+        "first": "_ZN14PlayerSavegame21__LoadLevelEntryPointEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame21__SaveLevelEntryPointEP11IStreamBasePv"
+      }
+    ],
+    "LUSP": [
+      {
+        "first": "_ZN14PlayerSavegame19__LoadUseSpawnPointEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame19__SaveUseSpawnPointEP11IStreamBasePv"
+      }
+    ],
+    "LVLS": [
+      {
+        "first": "_ZN14PlayerSavegame17__LoadLevelStatesEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame17__SaveLevelStatesEP11IStreamBasePv"
+      }
+    ],
+    "SKIL": [
+      {
+        "first": "_ZN14PlayerSavegame12__LoadSkillsEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame12__SaveSkillsEP11IStreamBasePv"
+      }
+    ],
+    "FAES": [
+      {
+        "first": "_ZN14PlayerSavegame13__LoadFaeriesEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame13__SaveFaeriesEP11IStreamBasePv"
+      }
+    ],
+    "CFEE": [
+      {
+        "first": "0x0",
+        "second": "_ZN14PlayerSavegame18__SaveCurrentFaeryEP11IStreamBasePv"
+      },
+      {
+        "first": "_ZN14PlayerSavegame18__LoadCurrentFaeryEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame18__SaveCurrentFaeryEP11IStreamBasePv"
+      }
+    ],
+    "QEST": [
+      {
+        "first": "_ZN14PlayerSavegame12__LoadQuestsEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame12__SaveQuestsEP11IStreamBasePv"
+      }
+    ],
+    "PROP": [
+      {
+        "first": "_ZN14PlayerSavegame16__LoadPropertiesEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame16__SavePropertiesEP11IStreamBasePv"
+      }
+    ],
+    "GEAR": [
+      {
+        "first": "_ZN14PlayerSavegame15__LoadInventoryEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame15__SaveInventoryEP11IStreamBasePv"
+      }
+    ],
+    "FTVL": [
+      {
+        "first": "_ZN14PlayerSavegame20__LoadFastTravelListEP11IStreamBasePv",
+        "second": "_ZN14PlayerSavegame20__SaveFastTravelListEP11IStreamBasePv"
+      }
+    ]
+  },
+  "source_hashes": {
+    "port/game-data/player_save_load_owner_v1.hpp": "b53f8d983f3b0a3c94574a58415728785cfc0d0c035132e31b5a69bd08efcb33",
+    "port/game-data/player_save_load_owner_v1.cpp": "89420de82ddfc4c2efb8b6d6b6dd7d8b8b2d82fbe0d6be89f134dc3baeb95037",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/tests/player_save_load_owner_v1.cpp": "676be96732af9501c0b99191f41c44e7c7920361888742a681b974e5434e5e7d",
+    "port/game-data/tests/player_save_load_owner_original_v1.py": "43e70df842119af5520020c79ecacd2511c893435c9e3323f9fe67413aa7bb65",
+    "port/game-data/tools/build_player_save_load_owner_v1.sh": "4ac887c0e7ebea3291168d9891e71b427c31bf9330c08b05ef6c53e951c37240",
+    "port/game-data/tools/audit_player_save_load_owner_v1.py": "391ddf9082330d377aceae1c08f58558b4f8aab2e14b4e35e93c8598a46afac6"
+  },
+  "Android_compile": {
+    "sha256": "51669a4bc57619dab523994cd602e9bae1c271846dc8f86130dda1f3b53f1513",
+    "ELF64_AArch64": true,
+    "scope": "Compile only; not linked or run on Android"
+  },
+  "limits": {
+    "filename_profile_file_class_and_section_readers_are_fixtures": true,
+    "initializers_global_game_and_online_quest_producers_are_fixtures": true,
+    "owned_null_profile_startup_mask8_and_mask32_need_no_provider": true,
+    "slot_minus1_alone_does_not_imply_null_profile": true,
+    "synchronous_profile_mutation_differential_coverage": false,
+    "full_save_file_serialization_proven": false,
+    "live_Android_graph_bound": false,
+    "APK_or_emulator_modified": false
+  }
+}

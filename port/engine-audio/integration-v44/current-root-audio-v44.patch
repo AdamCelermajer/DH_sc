@@ -1,0 +1,42 @@
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -98,6 +98,7 @@
+ #include "audio_world_producer_v38.hpp"
+ #include "audio_named_animation_sound_v38.hpp"
+ #include "audio_target_events_v38.hpp"
++#include "port/engine-audio/integration-v44/root_audio_loader_v44.hpp"
+ #include "character_world_clear_aggro_v40.hpp"
+ #include "canonical_point3d_globals_v1.hpp"
+ #include "object_manager_language_registry_v1.hpp"
+--- a/port/android-native/app/src/main/cpp/renderer_source_campaign_v55.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_campaign_v55.inc
+@@ -71,6 +71,7 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
+   }
+   return model_renderer::clean_native_graphics_v50(e);
+  };
++ if(!dh2::android_audio::bind_root_stage0_sound_v44(out.stage0,error))return false;
+  // This aliases the SAME process backend already used by native bodies. Stage5
+  // invokes its actual load exactly once; no second PhysicalWorld is allocated.
+  out.physical_world=std::shared_ptr<physical::NativeWorld>(application,&actor_world);
+--- a/port/level-world/canonical_destructible_container_v16.hpp
++++ b/port/level-world/canonical_destructible_container_v16.hpp
+@@ -16,6 +16,7 @@ struct ContainerPresentationServicesV16 {
+  std::function<bool(std::string&)> source_on_interact,create_attach_po_decor,detach_physical;
+  std::function<bool(std::int32_t,std::uintptr_t,std::int32_t,bool,std::string&)> drop_loot_table;
+  std::function<bool(const char*,std::uintptr_t,const char*,std::string&)> script_call;
++ std::function<bool(std::string&)> precache_complete_source_v42;
+ };
+ struct DestructibleContainerServicesV16 {
+  std::shared_ptr<void> owner;std::shared_ptr<const DestructibleContainerTableV16> table;
+--- a/port/level-world/canonical_destructible_container_v16.cpp
++++ b/port/level-world/canonical_destructible_container_v16.cpp
+@@ -27,8 +27,7 @@ bool CanonicalDestructibleContainerV16::container_init_post(std::string& e){
+    if(played){if(!set_state(1,e))return false;}else{if(!required(services_.common.play_animation,"idle",e,"idle",played))return false;if(played&&!set_state(2,e))return false;}}
+   if(!required(services_.visual_sync,"VisualObject Sync470a54",e))return false;
+  }
+- bool sound{};if(!required(services_.common.has_sound_manager,"actual sound manager presence",e,sound))return false;
+- if(sound){row=current_row();if(!required(services_.common.load_sound,"LoadSound3699fc",e,row?row->sound():-1))return false;}
++ if(!required(services_.common.precache_complete_source_v42,"complete captured-manager LoadSound3699fc",e))return false;
+  row=data_produced_?services_.table->row(data374_):nullptr;
+  return required(services_.common.load_object_script,"LoadScript38ef60",e,row?row->script30.c_str():nullptr,"data/scripts/objects/");
+ }

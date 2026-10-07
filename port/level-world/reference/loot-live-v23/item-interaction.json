@@ -1,0 +1,32 @@
+[
+  {
+    "name": "_ZN10ItemObject17OnCollisionBeginsEP9Character",
+    "address": "0x3ec048",
+    "size": 168
+  },
+  {
+    "name": "_ZNK10ItemObject18GetInteractionTypeEP10GameObject",
+    "address": "0x3ebeb4",
+    "size": 48
+  },
+  {
+    "name": "_ZN13PlayerManager20IsLocalPlayerHostingEv",
+    "address": "0x36f074",
+    "size": 104
+  },
+  {
+    "name": "_ZN13PlayerManager13IsLocalPlayerEPK9Character",
+    "address": "0x36effc",
+    "size": 44
+  },
+  {
+    "name": "_ZNK10ItemObject13IsInteractiveEP10GameObject",
+    "address": "0x3ec014",
+    "size": 52
+  },
+  {
+    "name": "_ZN10ItemObject15OnCollisionEndsEP9Character",
+    "address": "0x3ebd2c",
+    "size": 48
+  }
+]

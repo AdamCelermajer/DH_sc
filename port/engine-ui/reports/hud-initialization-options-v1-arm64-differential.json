@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "comparisons": 512,
+  "ordered_services": 2583,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "6434907e12d25e950df122696fad085a8fc479115e78485eb146433e632be38d",
+  "gold_sha256": "1491d6e28015a8ea64a2d1d23462d821af5cef1d78f039c2142c153ff1dd9209",
+  "source_sha256": {
+    "hud_initialization_v1.cpp": "7dc9b8f94fe0b86dba991ffea98e668b7c95f4e0750dccecdc04c7812551301c",
+    "hud_initialization_v1.hpp": "6191714964d44e28177bd97d44a29597dc1b0af636516232bc0f9670447afe9f"
+  },
+  "scope": "Complete original option/iPod wrapper ordering vs native O2.\nAS, settings, integer localization and JNI services are explicit fixtures.\nGenuine original global reads/stores and reentrant AS setter reloads execute.\n"
+}

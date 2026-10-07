@@ -1,0 +1,49 @@
+// Frozen helper remains unchanged; this new test supplies a genuine retained
+// resource owner and explicit selected-world projection instead of null Visual.
+#define main frozen_v5_cache_fixture_main
+#include "../../game-data/tests/player_gear_cache_v5.cpp"
+#undef main
+#include "../player_equipment_render_owner_v1.hpp"
+#include "../player_equipment_queries_v1.hpp"
+#include <filesystem>
+#include <cctype>
+using namespace dh2::player;
+struct DesignInput {std::array<std::array<Raw,3>,5> tables;std::vector<Raw> constants;std::vector<Bytes> cviews;dh2::character::GameDesignInputs256 view;};
+static std::string rd_string(Reader& r){auto n=r.u();std::string s(n,'\0');r.copy(s.data(),n);return s;}
+static Raw rd_blob(Reader& r){auto n=r.u();Raw b(n);r.copy(b.data(),n);return b;}
+static DesignInput design_input(const char* p){auto b=file(p);Reader r{b};ck(r.u()==0x314f4447);DesignInput out;for(auto& t:out.tables)for(auto& a:t)a=rd_blob(r);auto n=r.u();for(unsigned i=0;i<n;++i){rd_string(r);out.constants.push_back(rd_blob(r));}n=r.u();for(unsigned i=0;i<n;++i)rd_string(r);ck(r.at==b.size());return out;}
+static void views(DesignInput& v){dh2::character::GameDesignTableInput48* t[]{&v.view.characters,&v.view.classes,&v.view.ai,&v.view.factions,&v.view.levels};for(unsigned i=0;i<5;++i)*t[i]={{v.tables[i][0].data(),v.tables[i][0].size()},{v.tables[i][1].data(),v.tables[i][1].size()},{v.tables[i][2].data(),v.tables[i][2].size()}};v.cviews.clear();for(auto& b:v.constants)v.cviews.push_back({b.data(),b.size()});v.view.constants=v.cviews.data();v.view.constant_count=v.cviews.size();}
+struct Platform {TextEnvironment env;std::string items,powers,weapons;unsigned assets{},world{},notifications{};bool asset_failure{},reentry{};PlayerEquipmentRenderOwnerV1* owner{};};
+static dh2::skinning::VisualAssetResultV6 asset(void* p,const char* name,Raw& b,std::string& e){auto& c=*static_cast<Platform*>(p);++c.assets;if(c.asset_failure){e="Deliberate real provider rejection";return dh2::skinning::VisualAssetResultV6::failed;}std::string uri=name,full;if(uri.find("data/pydata/loot_table_")==0)full=c.items+"/"+uri.substr(12);else if(uri.find("data/pydata/item_powers_")==0)full=c.powers+"/"+uri.substr(12);else if(uri.find("data/3d/characters/prince/weapons/")==0){auto base=uri.substr(uri.find_last_of('/')+1);for(auto& a:base)a=char(std::tolower(static_cast<unsigned char>(a)));full=c.weapons+"/"+base;}else full=c.env.assets+"/original-cache/"+uri;if(!std::filesystem::exists(full))return dh2::skinning::VisualAssetResultV6::missing;b=file(full);return dh2::skinning::VisualAssetResultV6::found;}
+static bool world(void* p,EquipmentWorldQueryV1 q,std::uintptr_t subject,std::uintptr_t& id,std::int32_t& value,std::string&){auto& c=*static_cast<Platform*>(p);ck(subject==0x100000001ULL);++c.world;id=0;value=0;if(q==EquipmentWorldQueryV1::current_player)id=subject;if(q==EquipmentWorldQueryV1::player_count)value=1;if(c.reentry&&c.owner){std::string e;ck(!c.owner->swap(e));}return true;}
+static bool required(void* p,FreshInventoryOwnedV4&,const OwnedInventoryRequestV4&,OwnedInventoryResponseV4&,std::string& e){++static_cast<Platform*>(p)->notifications;e="Required remaining source continuation deliberately unavailable";return false;}
+static std::string e;
+#define ck(v) ((v) ? ++checks : throw std::runtime_error(std::string("Check ")+ #v + "; " + e))
+int main(int argc,char** argv){try{ck(argc==9);auto raw=design_input(argv[1]);views(raw);dh2::character::CharacterGameDesign design;std::string e;ck(design.initialize(raw.view,e));dh2::skinning::VisualSkinResourcesV6 resources;ck(resources.load(file(argv[7]),e));unsigned classes=0,operations=0,rebinds=0,pruned=0,guards=0;std::vector<dh2::skinning::VisualDrawPartV6> retained;auto gold=file(argv[8]);Reader original{gold};ck(original.u()==0x35564547&&original.u()==6);
+ for(unsigned k=0;k<6;++k){auto baseid=original.u(),selected=original.u(),n=original.u();PropertyState initial;original.copy(&initial,sizeof initial);std::vector<PropertyState> sheets;for(unsigned j=0;j<n;++j){for(unsigned w=0;w<5;++w)original.u();PropertyState state;original.copy(&state,sizeof state);sheets.push_back(state);}if(selected)continue;
+  Platform p;p.items=argv[2];p.powers=argv[3];p.env.assets=argv[4];p.env.private_files=argv[5];p.weapons=argv[6];auto constants=file(p.env.assets+"/original-cache/data/pydata/common_text_pycst.bin");dh2_script_constants_reload receipt{};ck(!dh2_script_constants_load(p.env.constants,constants.data(),constants.size(),&receipt));
+  auto props=std::make_shared<PropertyState>(initial);auto scene=resources.borrow().factory_scene();LootRandom8V2 rng{1,0};auto make_input=[&](){PlayerEquipmentRenderInputsV1 input;input.design=design.borrow();input.properties=props;input.random=&rng;input.character=0x100000001ULL;input.potion_capacity=12;input.language_pack=0;input.resources=resources.borrow();input.live_scene=&scene;input.assets={&p,asset};input.debug=p.env.debug;input.debug_files={&p.env,debug_open,debug_close};input.text_environment.localization={&p.env,text_open,text_close,text_debug,text_constant,nullptr,nullptr};input.world={&p,world};input.required={&p,required};return input;};
+  {
+   auto missing=make_input();missing.world.invoke=nullptr;PlayerEquipmentRenderOwnerV1 failed(std::move(missing));auto calls=p.assets;ck(!failed.initialize(e)&&!failed.inventory()&&p.assets==calls&&rng.calls==0);++guards;
+  }
+  {
+   p.asset_failure=true;PlayerEquipmentRenderOwnerV1 failed(make_input());auto before=*props;ck(!failed.initialize(e)&&!failed.inventory()&&rng.calls==0&&props->resolved==before.resolved);ck(e=="Deliberate real provider rejection");p.asset_failure=false;++guards;
+  }
+  auto input=make_input();PlayerEquipmentRenderOwnerV1 owner(std::move(input));p.owner=&owner;ck(owner.initialize(e)&&owner.ready());ck(!owner.initialize(e));auto* inv=owner.inventory();ck(inv&&inv->properties()==props&&owner.properties()==props);auto count=inv->items().size();ck(count==(baseid==325?6:5));ck(rng.calls==count);ck(props->resolved==sheets[count-1].resolved&&props->gear==sheets[count-1].gear);ck(owner.draw_parts(retained,e)&&retained.size()>4);const auto* first=inv->items()[0]->item.get();auto name=first->name;auto saved=*props;auto saved_rng=rng;
+  dh2::character::StanceFacts16 stance;ck(owner.stance_facts(true,5,stance,e));dh2::data::CombatantView combat{};combat.state=3;combat.combo_hits=7;ck(owner.combat_view(combat,e)&&combat.properties==props->resolved.data()&&combat.state==3&&combat.combo_hits==7);ck(owner.swap(e));++operations;ck(owner.swap(e));++operations;ck(owner.inventory()==inv&&inv->items()[0]->item.get()==first&&first->name==name&&rng.calls==saved_rng.calls);
+  saved=*props;owner.detach_visual();ck(owner.ready()&&!owner.draw_parts(retained,e));std::int32_t result;ck(!owner.auto_equip(0,result,e));auto fresh=resources.borrow().factory_scene();scene={};ck(owner.rebind_visual(resources.borrow(),fresh,e));++rebinds;ck(owner.inventory()==inv&&inv->items()[0]->item.get()==first&&owner.draw_parts(retained,e)&&!retained.empty());ck(rng.seed==saved_rng.seed&&rng.calls==saved_rng.calls);ck(props->base==saved.base&&props->saved==saved.saved&&props->resolved==saved.resolved);ck(!owner.unequip(9,e));p.reentry=true;ck(owner.equip(0,0,e));p.reentry=false;++operations;ck(owner.unequip(0,e));++operations;ck(owner.auto_equip(0,result,e));++operations;
+  // Genuine CheckItemsRequirements: a source-low level removes every equipped
+  // starter requiring a nonnegative level, rather than accepting a stale slot.
+  auto baseline=*props;props->base[19]=-256;ck(owner.refresh_effects(e));
+  ck(owner.equip(0,0,e));for(const auto& set:inv->equipment())for(auto* cell:set)if(cell)ck(item(inv->table(),cell->item->id)->record.words[29]<=-1);
+  ++pruned;*props=baseline;ck(owner.refresh_effects(e));
+  ck(!owner.rebind_visual({},fresh,e));ck(owner.draw_parts(retained,e));++guards;
+  auto before_items=inv->items().size();ck(!owner.equip(9,0,e)&&inv->items().size()==before_items);++guards;
+  ck(p.notifications==0);ck(p.env.opened==p.env.closed);++classes;
+ }
+ auto qgold=file("port/level-world/reference/player-equipment-render-owner-v1/query-fixtures.bin");Reader qr{qgold};ck(qr.u()==0x31515245);auto reqcount=qr.u(),weaponcount=qr.u();
+ for(unsigned j=0;j<reqcount;++j){EquipmentRequirements32V1 facts;qr.copy(&facts,sizeof facts);ItemRecord164 row;qr.copy(&row,sizeof row);std::int32_t expected;qr.copy(&expected,4);std::int32_t actual;ck(!dh2_equipment_requirements_v1(&actual,&facts,facts.present?&row:nullptr)&&actual==expected);}
+ for(unsigned j=0;j<weaponcount;++j){qr.u();std::int32_t flag;qr.copy(&flag,4);auto main=qr.u(),off=qr.u();ItemRecord164 rows[2];qr.copy(rows,sizeof rows);EquipmentQueries12V1 expected,actual;qr.copy(&expected,sizeof expected);ck(!dh2_equipment_queries_v1(&actual,main?rows:nullptr,off?rows+1:nullptr,flag)&&!std::memcmp(&actual,&expected,sizeof actual));}ck(qr.at==qgold.size());
+ std::int32_t accepted=123;EquipmentRequirements32V1 bad{};bad.present=2;ck(dh2_equipment_requirements_v1(&accepted,&bad,nullptr)==-1&&accepted==123);bad.present=0;ck(dh2_equipment_requirements_v1(nullptr,&bad,nullptr)==-1);EquipmentQueries12V1 q{-12,-13,55};ck(dh2_equipment_queries_v1(nullptr,nullptr,nullptr,0)==-1);ck(dh2_equipment_queries_v1(&q,reinterpret_cast<const ItemRecord164*>(UINTPTR_MAX-3),nullptr,0)==-1&&q.flags==55);guards+=4;
+ ck(original.at==gold.size()&&classes==3&&!retained.empty()&&retained[0].geometry&&!retained[0].geometry->positions.empty());std::cout<<"{\"validation\":\"PASS\",\"actual_classes\":"<<classes<<",\"same_inventory_mutations\":"<<operations<<",\"same_inventory_scene_rebindings\":"<<rebinds<<",\"requirement_pruning_cases\":"<<pruned<<",\"atomic_failure_guards\":"<<guards<<",\"original_query_gold_cases\":"<<reqcount+weaponcount<<",\"checks\":"<<checks<<",\"mismatches\":0}\n";return 0;
+}catch(const std::exception& x){std::cerr<<x.what()<<'\n';return 1;}}

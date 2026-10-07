@@ -1,0 +1,331 @@
+{
+  "validation": "PASS",
+  "scope": "Source/binary-bound production Include audit plus existing VM regressions.",
+  "host_audits": {
+    "script_include_audit": {
+      "validation": "PASS",
+      "mismatches": 0,
+      "original_Include_guard_cases": 80,
+      "actual_include_callbacks": 34,
+      "actual_source_load_operations": 56,
+      "source_root_file_checks": 17,
+      "handled_source_errors": 6,
+      "unsupported_error_objects": 1,
+      "atomic_scope_and_generic_busy_checks": 341,
+      "unused_argument_projections": 40,
+      "private_vms_verified": true,
+      "allocation_failure_protected": true,
+      "generic_busy_guards_preserved": true
+    },
+    "script_vm_ownership_audit": {
+      "validation": "PASS",
+      "checks": 921,
+      "source_library_stack_steps": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "repeated_stack_top": 10,
+      "private_vms_verified": true,
+      "eager_policy_preserved": true,
+      "allocation_failure_protected": true,
+      "successful_bounded_opens": 412
+    },
+    "lua514_audit": {
+      "validation": "PASS",
+      "checks": 438,
+      "header_rejections": 12,
+      "truncation_rejections": 265,
+      "actual_empty_callbacks": 29,
+      "actual_commons_loaded": true,
+      "pure_anim_event_callbacks": 2,
+      "required_game_bindings_installed": 0,
+      "full_game_bindings": false,
+      "mismatches": 0
+    },
+    "script_game_bindings_audit": {
+      "validation": "PASS",
+      "checks": 123,
+      "genuine_timer_start_calls": 17,
+      "genuine_timer_stop_calls": 5,
+      "actual_commons_timer_dispatches": 6,
+      "source_one_shot_replacement_cleanup_preserved": true,
+      "source_table_this_lookup_preserved": true,
+      "discarded_return_arity": 256,
+      "discarded_return_metatable_order_exact": true,
+      "game_timer_service_stubs": false,
+      "full_CharAI_lifecycle_integration": false,
+      "mismatches": 0
+    },
+    "script_game_bindings_replay": {
+      "validation": "PASS",
+      "original_callback_cases": 5493,
+      "ordered_timer_service_calls": 3194,
+      "borrowed_identities_above_4GiB": true,
+      "timer_services": "controlled original boundary fixture",
+      "mismatches": 0
+    }
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leaks": true,
+    "diagnostics": 0
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe": {
+    "path": "port/script-runtime/reference/base-bindings/include-original-probe.json",
+    "sha256": "1357fa9039650778547f2069d0960db1b6800c6de579cf6356847f42d31da38a",
+    "service_boundary_cases": 188,
+    "native_guard_cases": 80
+  },
+  "original_gold_sha256": "e0321df7fd14b73fc6e6fd094bc3f0acd28baad24112a58bd75c728af3547a1c",
+  "actual_commons_sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+  "source_sha256": {
+    "port/level-world/character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+    "port/level-world/character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+    "port/script-runtime/CMakeLists.txt": "b69d3a5850ea14aab301d7211dc7ef5250a25e352244fa5a21b1665acedc5d14",
+    "port/script-runtime/lua/lapi.c": "6aa0d9fdd88b13fe46568ad6722ecf44164fb84476cfdf6480cf05b5704935f8",
+    "port/script-runtime/lua/lapi.h": "4aea4c1b975d43184f4f1fd1a42c79cf11d74d2801315740cec07fe9abebb56d",
+    "port/script-runtime/lua/lauxlib.c": "b564650bf4aca2757b9966311d32c8d5fea8803f6f33d72a856448d3b5d6d992",
+    "port/script-runtime/lua/lauxlib.h": "c741f9c1587f29fd08a79acbe0c46884768a47f89bee4147669f774c5cf50fc0",
+    "port/script-runtime/lua/lbaselib.c": "703b8c0de8142d486bc6d6082cf6427583189319a4aed3a02dd8c1653e0fd42b",
+    "port/script-runtime/lua/lcode.c": "f8026741a3e6ea3520c751ef2e7f6c0b88e0e36b4dab93a238d2a5ef0dab18a5",
+    "port/script-runtime/lua/lcode.h": "97d5a37f3b1b19eda1ef39607b3358aa0f7e917568ccd27ed0f14bc6a70d4b17",
+    "port/script-runtime/lua/ldblib.c": "961946ac6f3d0ffbf9d4c8e845bcb57a407c6b98e26ca881144933d0c53051fa",
+    "port/script-runtime/lua/ldebug.c": "afa5840195befaec55177273c8168748026b38df3243767fc740cc7ced0c4c8f",
+    "port/script-runtime/lua/ldebug.h": "d036f0dbb996bdecd48d505746f72c31b82fb2fc38f111b780568338d4ed9e9c",
+    "port/script-runtime/lua/ldo.c": "1839bd9227430c5344b348f57e5cd680f56e854932abde31f402282d95882326",
+    "port/script-runtime/lua/ldo.h": "591ad9a90098d3fbf06839da3de752d2c2585cbf5801dde4cdaffe12b23a182e",
+    "port/script-runtime/lua/ldump.c": "661d499262e9808732b2bf67d2d0cedafcaf0b4eefb54c922959af450fd2b87b",
+    "port/script-runtime/lua/lfunc.c": "525681d79098958530e5c937f7cbe94a4dafa679746ffdb16258f82b7ece29ce",
+    "port/script-runtime/lua/lfunc.h": "3cea0071ffda94eac378adb5f1ecb467ef2ffafff4315459e4ccdf05b5119da4",
+    "port/script-runtime/lua/lgc.c": "c0876e9ed23c43aa2de1ee3f77bdf6933b163a41456e2367a39880a7ea39ab96",
+    "port/script-runtime/lua/lgc.h": "fbab2b989515377729d4c029dd58b3b6242877a88a7c4cfa703ea0deeb069a1e",
+    "port/script-runtime/lua/linit.c": "c0c97c45862f6c978620a9682cd2201f0fc29c2afbcab824ba20d26cc1745e56",
+    "port/script-runtime/lua/liolib.c": "0ced9012bfb8e579f6fbb0090ba875ee1dfb202ff4cff7ff8ac1f9eefd63b3e5",
+    "port/script-runtime/lua/llex.c": "aecb5f00908832222e62fb1b970825278dc460a65a080d79a3693f82438e52c8",
+    "port/script-runtime/lua/llex.h": "0f3715d22b025727ef11debd641600a123b81718d195cd8445ac6378814458e6",
+    "port/script-runtime/lua/llimits.h": "1910669296681d9d2814ca46c325063724bb634c0428dae4e5ff59be54e0b758",
+    "port/script-runtime/lua/lmathlib.c": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
+    "port/script-runtime/lua/lmem.c": "e63c50cb1c75356bd4123c9ca05f77bd0cd99e05c099cf6d1bf472086761e9c5",
+    "port/script-runtime/lua/lmem.h": "abd1258418486c69bf5a93ceea3a1b9f8af2c7497a4fa6c27b442ffec2c5bbb1",
+    "port/script-runtime/lua/loadlib.c": "de790bfe4d23caa69cf5b9f164c7c2445e7380c9b5881c58ea55df81011dc2ea",
+    "port/script-runtime/lua/lobject.c": "d704915c79c721556cc5850d741ed3bef1611221356f0e3a2f0ee5cfd5fd3632",
+    "port/script-runtime/lua/lobject.h": "274c18373fbbad71bfebd534cae4b2d2e49934abf6672f44735edc6646fb6a8b",
+    "port/script-runtime/lua/lopcodes.c": "63cd74edc75970092a8ce078c4ab970efa1ee18de960d00eb826d49fe98d8a76",
+    "port/script-runtime/lua/lopcodes.h": "a15fe349da7c1e73b563e8c3249fe7d535eccc844cb30ec80b4e335b0699279b",
+    "port/script-runtime/lua/loslib.c": "f0d5892f152cf7e1001b086e48774ccb6e567d11f1bf521f27050c15d9a0f040",
+    "port/script-runtime/lua/lparser.c": "61c85a7c4f5387d36b91d53a60df3802d7639928b1d76675ede6fb0868ad2510",
+    "port/script-runtime/lua/lparser.h": "84512d6540b83ab599cd8de5a1c8c4deaf71ff353f8e4fbc2e4ca135ba4e9ef0",
+    "port/script-runtime/lua/lstate.c": "c36d6b9354aaa30b5323b4984f3172783f69e0deb3186c2ef6f16a8281c59c29",
+    "port/script-runtime/lua/lstate.h": "dc64ea7ec74d7c1efaeaf6a9e2257f0b7856a5c988747948af2e76cf079d20fe",
+    "port/script-runtime/lua/lstring.c": "aa7e934c435d870b9d937ac2fb03dbfa15d367012d46e7e995a2ad8d440f2f6d",
+    "port/script-runtime/lua/lstring.h": "c0e8af4eb33e3357be79f906e7e1191ba53a3a790d36ca15b50471d3a339e1f0",
+    "port/script-runtime/lua/lstrlib.c": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
+    "port/script-runtime/lua/ltable.c": "3a853ce89bf5e834ec53f2a0dd2386eb8b84accbe5fdc18dabd7515b819f0f7c",
+    "port/script-runtime/lua/ltable.h": "219e6ac2bf43aaa93093c6bcd571c012660325e6b87ea3d6c1b40679a0acfd64",
+    "port/script-runtime/lua/ltablib.c": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
+    "port/script-runtime/lua/ltm.c": "9759ae5d1aa3b11e1c7faa6c0f65e05c7126417f7f8f3f989d82fc170b07f891",
+    "port/script-runtime/lua/ltm.h": "54f4c2fa76b8ed8d48163e31807a19999f5d65b009ae862cb757e0773f2aa485",
+    "port/script-runtime/lua/lua.c": "eb9ad1894926f0f807934ae52147cf9767ede0fbd01e9a1044dc4847caa9b73d",
+    "port/script-runtime/lua/lua.h": "c2a78484b53d115d9229a62e8d16db8309f1c68415b56ad5672e00674119bebb",
+    "port/script-runtime/lua/luac.c": "b22ad97edb37c2a4b117ef81489bfc6eee15d58d4476ea149abbef7aabf8773d",
+    "port/script-runtime/lua/luaconf.h": "b3ec2e1f0d42e099157cc0adc8a4ef5c62afa09f5fefad9c95de3ef3be89cf23",
+    "port/script-runtime/lua/lualib.h": "13f880e9dd997a0f7fd0b17ccd949c98f33e95bd120f084de66084e888217413",
+    "port/script-runtime/lua/lundump.c": "611fdad9c97d2b81c918d08bc610c830dc6b8f1167b718cb32b5d1eb76149f21",
+    "port/script-runtime/lua/lundump.h": "9f3a2924d1585620993a70eea6cf3def34acb8322b2d9c3629bcdacc037edc64",
+    "port/script-runtime/lua/lvm.c": "f9f0979df389c571193c4b5d20ae80180d9857ca5a9873c601c42055583cf19d",
+    "port/script-runtime/lua/lvm.h": "db4b79dc7f4e7656078aa527350fbf14b2fde5d136ccf1cb4f3dc397def5fb67",
+    "port/script-runtime/lua/lzio.c": "892bc24d898c19cbedceba419c68f910b99321c0b462be2c2c00b9d763563173",
+    "port/script-runtime/lua/lzio.h": "0ec77d0179bf29c1ccab97028fed761944d5c21c02808e10cd7b5883b58b2ca6",
+    "port/script-runtime/lua/print.c": "3c3b1c1dd17896e428b9742614c90ec10776ced65813eb648f02dee649892f2f",
+    "port/script-runtime/reference/base-bindings/run_include_audit.py": "2c99254939c77c6b323f314495617b363a3e10c3d6864e69edc0f493e25c3194",
+    "port/script-runtime/script_function_alias.cpp": "28117cd5fbfe1c15ed14dc2ef5fbf8ec6a23379b5f9450d15e194f67ba2a0fec",
+    "port/script-runtime/script_function_alias.h": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e",
+    "port/script-runtime/script_game_bindings.c": "779f245eb5b5b738381bd003f622f84e83390af254cd2268dc9f81503e3df482",
+    "port/script-runtime/script_game_bindings.h": "3772bc95bcb5e26fe4969586705c89912ed468b301f40c1fcd35d628bd257266",
+    "port/script-runtime/script_runtime.c": "d01b55dbebaf3cca978b61a498ff9c4b07e6ca186cc4216231e26b5bd6281ed9",
+    "port/script-runtime/script_runtime.h": "35b57c2e5bf9625eebd6fd0c4e35d1e8880856ac9e2caaa5c1e437ad539ffa71",
+    "port/script-runtime/tests/lua514.cpp": "d2df50692d3e730f59660bf94d3bb98c2b817f1b54a8f023c0a5af704ca6c264",
+    "port/script-runtime/tests/script_game_bindings.cpp": "bd6bc32148bd1974a7d95b9f27f6c576e65611808edfcbda9fbb35e0dc019a05",
+    "port/script-runtime/tests/script_game_bindings_replay.cpp": "b1a508dfc7eb303b494587d4142d8862bda55de19c5044547415873526b9123e",
+    "port/script-runtime/tests/script_include.cpp": "9c59af225fe9f6a0861e0dddcd432397b75cf8356dbaa6868e4b4e466e047767",
+    "port/script-runtime/tests/script_vm_ownership.cpp": "c092f3c8b4e85db74fea97206f3571a564697332b090f8a473dd5e476a5865f9"
+  },
+  "library": {
+    "path": ".local-inputs/lua514-source/include-production/libdh2_script_runtime.so",
+    "sha256": "b5a3c4db3c6ce80d6f8f670adb8ebbb5198d8deb4dbb93a4729f94d545fa56c5"
+  },
+  "executables": {
+    "script_include_audit": {
+      "path": ".local-inputs/lua514-source/include-production/script_include_audit",
+      "sha256": "446888cde04433155db717b2878dbde213130cd6a702e428977684cd89675a44"
+    },
+    "script_vm_ownership_audit": {
+      "path": ".local-inputs/lua514-source/include-production/script_vm_ownership_audit",
+      "sha256": "8ca43dee27e856f8ca7d94e770db409460de349778d6396a0eb081f86a19fad9"
+    },
+    "lua514_audit": {
+      "path": ".local-inputs/lua514-source/include-production/lua514_audit",
+      "sha256": "ae476bfb49cf87cb4909f16234bea6f148a16050295ee184bf28c3e1720b0c89"
+    },
+    "script_game_bindings_audit": {
+      "path": ".local-inputs/lua514-source/include-production/script_game_bindings_audit",
+      "sha256": "d80644c878bf9375149adaabfe128599dd9c4cd0d7c542f8e3d17bdf87274e75"
+    },
+    "script_game_bindings_replay": {
+      "path": ".local-inputs/lua514-source/include-production/script_game_bindings_replay",
+      "sha256": "67e8e95a81bbd352b8e630ec7e180d52710cbecc4ddd0b0718eba16a6c58be27"
+    }
+  },
+  "commands": [
+    {
+      "arguments": [
+        "cmake",
+        "-S",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+        "-B",
+        "/home/adampalace/dh2-script-include-build",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DDH2_SCRIPT_SANITIZERS=ON"
+      ],
+      "stdout": "-- Configuring done (0.1s)\n-- Generating done (0.1s)\n-- Build files have been written to: /home/adampalace/dh2-script-include-build\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cmake",
+        "--build",
+        "/home/adampalace/dh2-script-include-build",
+        "--parallel",
+        "6"
+      ],
+      "stdout": "[  2%] Building CXX object CMakeFiles/dh2_script_runtime.dir/script_function_alias.cpp.o\n[  5%] Building C object CMakeFiles/dh2_script_runtime.dir/script_game_bindings.c.o\n[  7%] Building C object CMakeFiles/dh2_script_runtime.dir/script_runtime.c.o\n[ 10%] Linking CXX shared library libdh2_script_runtime.so\n[ 71%] Built target dh2_script_runtime\n[ 82%] Building CXX object CMakeFiles/lua514_audit.dir/tests/lua514.cpp.o\n[ 82%] Building CXX object CMakeFiles/script_vm_ownership_audit.dir/tests/script_vm_ownership.cpp.o\n[ 82%] Building CXX object CMakeFiles/script_include_audit.dir/tests/script_include.cpp.o\n[ 82%] Building CXX object CMakeFiles/script_game_bindings_replay.dir/tests/script_game_bindings_replay.cpp.o\n[ 84%] Building CXX object CMakeFiles/script_game_bindings_audit.dir/tests/script_game_bindings.cpp.o\n[ 87%] Linking CXX executable script_vm_ownership_audit\n[ 89%] Linking CXX executable script_game_bindings_replay\n[ 89%] Built target script_vm_ownership_audit\n[ 89%] Built target script_game_bindings_replay\n[ 92%] Linking CXX executable script_include_audit\n[ 94%] Linking CXX executable script_game_bindings_audit\n[ 94%] Built target script_include_audit\n[ 97%] Built target script_game_bindings_audit\n[100%] Linking CXX executable lua514_audit\n[100%] Built target lua514_audit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-script-include-build/script_include_audit"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"mismatches\":0,\"original_Include_guard_cases\":80,\"actual_include_callbacks\":34,\"actual_source_load_operations\":56,\"source_root_file_checks\":17,\"handled_source_errors\":6,\"unsupported_error_objects\":1,\"atomic_scope_and_generic_busy_checks\":341,\"unused_argument_projections\":40,\"private_vms_verified\":true,\"allocation_failure_protected\":true,\"generic_busy_guards_preserved\":true}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-include-build/script_include_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/include-production/script_include_audit"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-script-include-build/script_vm_ownership_audit"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"checks\":921,\"source_library_stack_steps\":[2,3,4,5],\"repeated_stack_top\":10,\"private_vms_verified\":true,\"eager_policy_preserved\":true,\"allocation_failure_protected\":true,\"successful_bounded_opens\":412}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-include-build/script_vm_ownership_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/include-production/script_vm_ownership_audit"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-script-include-build/lua514_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-script-update/lua-inputs/ai-commons.luac",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/include-production/commons-roundtrip.luac"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"checks\":438,\"header_rejections\":12,\"truncation_rejections\":265,\"actual_empty_callbacks\":29,\"actual_commons_loaded\":true,\"pure_anim_event_callbacks\":2,\"required_game_bindings_installed\":0,\"full_game_bindings\":false,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-include-build/lua514_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/include-production/lua514_audit"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-script-include-build/script_game_bindings_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-script-update/lua-inputs/ai-commons.luac"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"checks\":123,\"genuine_timer_start_calls\":17,\"genuine_timer_stop_calls\":5,\"actual_commons_timer_dispatches\":6,\"source_one_shot_replacement_cleanup_preserved\":true,\"source_table_this_lookup_preserved\":true,\"discarded_return_arity\":256,\"discarded_return_metatable_order_exact\":true,\"game_timer_service_stubs\":false,\"full_CharAI_lifecycle_integration\":false,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-include-build/script_game_bindings_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/include-production/script_game_bindings_audit"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-script-include-build/script_game_bindings_replay",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/reference/game-bindings/callback-reference.bin"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"original_callback_cases\":5493,\"ordered_timer_service_calls\":3194,\"borrowed_identities_above_4GiB\":true,\"timer_services\":\"controlled original boundary fixture\",\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-include-build/script_game_bindings_replay",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/include-production/script_game_bindings_replay"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-include-build/libdh2_script_runtime.so",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/include-production/libdh2_script_runtime.so"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "production_Include_binding_implemented": true,
+  "generic_busy_guards_preserved": true,
+  "full_LuaManager_backend": false,
+  "ScriptOwner_nested_extension": false,
+  "actual_external_AI_acceptance": false,
+  "optimized_ARM64_instructions_verified": false,
+  "packaged_APK": false,
+  "physical_ARM64": false,
+  "boundaries": [
+    "Genuine receiver-owned cache/loaded-set provider fixture, no fake accepted game functions.",
+    "Positive Lua load errors are source AddFile false; unsupported non-string/non-number error objects return explicit -4.",
+    "Include from coroutine/VM-close is explicitly rejected.",
+    "Owner session/provider lifetime integration remains parent-owned."
+  ]
+}

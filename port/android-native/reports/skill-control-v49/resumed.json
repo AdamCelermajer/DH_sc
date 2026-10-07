@@ -1,0 +1,9 @@
+{
+  "focus": [
+    "mCurrentFocus=Window{86db5f2 u0 com.example.dh2/com.example.dh2.MainActivity}"
+  ],
+  "pid": "3845",
+  "errors": [
+    "E/DH2Native( 3845): Native frame failed: Required source SkillState animation event: Required source AI_Event: [string \"loadFile()\"]:178: Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8; Required original Hit source service 8; Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8; [string \"loadFile()\"]:178: Required source SkillV6 execution: ; Required V6 source combat provider failed at phase 8; Required source Hit service 8"
+  ]
+}

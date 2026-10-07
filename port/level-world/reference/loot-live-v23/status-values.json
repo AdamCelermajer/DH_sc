@@ -1,0 +1,12 @@
+[
+  {
+    "field": "0x999810",
+    "pointer": "0x8c3208",
+    "value": "_root"
+  },
+  {
+    "field": "0x999814",
+    "pointer": "0x8cb620",
+    "value": "onStatusMessage"
+  }
+]

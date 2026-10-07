@@ -1,0 +1,220 @@
+{
+  "validation": "PASS",
+  "scope": "AI death original-gold replay plus genuine AI/debug/target failure prefix.\n\nIsolated source coordinator invokes actual sanitizer world/data/runtime DSOs.\nTimerStop is observed through a test interposer forwarding to the genuine DSO.\nRequired SM_SetDeadState is not faked; composed event2 stops at that boundary.\n",
+  "host_audit": {
+    "validation": "PASS",
+    "original_gold_cases": 1600,
+    "synchronous_reentry_cases": 20,
+    "checks": 161578,
+    "service_failure_prefixes": 896,
+    "atomic_guards": 8,
+    "genuine_AI_event2_calls": 1,
+    "genuine_debug_target_services": 2,
+    "genuine_SM_SetDeadState_failure_prefixes": 1,
+    "module_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so",
+    "world_library": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+    "timer_stop_library": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+    "full_group_state_aggro_skill_spell_bodies": false
+  },
+  "source_sha256": {
+    "port\\level-world\\character_ai_death.hpp": "ac58296442ef14808c56146a721e5c0ce1593be6c9b102b8a10b2fdc820dc1ba",
+    "port\\level-world\\character_ai_death.cpp": "14206766ea488707cef90c45e864e732f5999f160742ba2100d5b48878daeb6c",
+    "port\\level-world\\tests\\character_ai_death.cpp": "0f64b9183392097b48b7cef7ee2e75f49cb6d73364db5a3cff7b7782eafd6850",
+    "port\\level-world\\tests\\character_ai_death_host.py": "49396f8c2e4edda5e99f517dd26572ab67a34ab442565627904c0ba36629fcb3",
+    "port\\level-world\\tests\\character_ai_death_differential.py": "0e62a647fc773a9b05462e016a33365bb2cce5eadd800b5fd6a3bce240f92002"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "73a0cf6bcfdec32c8bddb8723744c668311845119b2f789f5ef4f79ba114af4e",
+    "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so": "13c9499376f16fdddf0639987a7cc735b12d57a14c68b1f1ba23694a5ab35569",
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so": "aaa39fded0776b52c9dd48d04ade246d19b7e3831e68cf0c2731acd8f70f6514",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/host": "d200bb83fc571ca59c73e5904d5de68bdfee18d270e4569591f690d9fcb28125"
+  },
+  "input_sha256": {
+    "port\\level-world\\reference\\character-ai-death\\death-fixtures.json": "28adf6f64701250877c02f9baa85551735274f13ccc9c4d0ec313aa1f32456d3",
+    ".local-inputs\\character-ai-death-discovery\\host-fixtures.bin": "0bf5289ea4cbea3650b85ab29cce118429034a3f4ae66a777d328bb66fb1ab2f"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_report_sha256": "72d0486f8c8acb4664b275a7284226ce83f091bf80c877bca7253c3e32d0b125",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "main_world_library_executed": true,
+  "module_in_main_world": false,
+  "full_group_state_aggro_skill_spell_bodies": false,
+  "packaged_APK": false,
+  "commands": [
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "returncode": 0,
+      "stdout": "73a0cf6bcfdec32c8bddb8723744c668311845119b2f789f5ef4f79ba114af4e  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so"
+      ],
+      "returncode": 0,
+      "stdout": "13c9499376f16fdddf0639987a7cc735b12d57a14c68b1f1ba23694a5ab35569  /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fPIC",
+        "-shared",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_ai_death.cpp",
+        "-L/home/adampalace/dh2-world-build",
+        "-ldh2_level_world",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-ldh2_game_data",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-Wl,--no-undefined",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_ai_death.cpp",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery",
+        "-lcharacter_ai_death_audit",
+        "-L/home/adampalace/dh2-world-build",
+        "-ldh2_level_world",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-ldh2_game_data",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery",
+        "-ldl",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/script-runtime:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/host-fixtures.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/actually-missing-DebugSwitches.savegame"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_gold_cases\":1600,\"synchronous_reentry_cases\":20,\"checks\":161578,\"service_failure_prefixes\":896,\"atomic_guards\":8,\"genuine_AI_event2_calls\":1,\"genuine_debug_target_services\":2,\"genuine_SM_SetDeadState_failure_prefixes\":1,\"module_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so\",\"world_library\":\"/home/adampalace/dh2-world-build/libdh2_level_world.so\",\"timer_stop_library\":\"/home/adampalace/dh2-world-build/libdh2_level_world.so\",\"full_group_state_aggro_skill_spell_bodies\":false}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/script-runtime:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ldd",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x000079825e237000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x000079825da00000)\n\tlibcharacter_ai_death_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so (0x000079825e14b000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x000079825c000000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x000079825b800000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x000079825b200000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x000079825ae00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x000079825b6da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x000079825a600000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000079825e11b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000079825a200000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x000079825bf36000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x0000798259e00000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x000079825ac6b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000079825e239000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "returncode": 0,
+      "stdout": "73a0cf6bcfdec32c8bddb8723744c668311845119b2f789f5ef4f79ba114af4e  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so"
+      ],
+      "returncode": 0,
+      "stdout": "13c9499376f16fdddf0639987a7cc735b12d57a14c68b1f1ba23694a5ab35569  /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so"
+      ],
+      "returncode": 0,
+      "stdout": "aaa39fded0776b52c9dd48d04ade246d19b7e3831e68cf0c2731acd8f70f6514  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "d200bb83fc571ca59c73e5904d5de68bdfee18d270e4569591f690d9fcb28125  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/host\n",
+      "stderr": ""
+    }
+  ],
+  "linked_dependencies": "linux-vdso.so.1 (0x000079825e237000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x000079825da00000)\n\tlibcharacter_ai_death_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-ai-death-discovery/libcharacter_ai_death_audit.so (0x000079825e14b000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x000079825c000000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x000079825b800000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x000079825b200000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x000079825ae00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x000079825b6da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x000079825a600000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000079825e11b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000079825a200000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x000079825bf36000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x0000798259e00000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x000079825ac6b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000079825e239000)"
+}

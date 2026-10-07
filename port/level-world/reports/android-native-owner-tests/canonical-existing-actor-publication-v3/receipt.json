@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "6e965f37b1f470e8b4f618c02372ab4170e2ac053b236ff4abb3e840e84fed1b",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\canonical_existing_actor_publication_v3.cpp",
+      "sha256": "72be187116d72dbd18fdffa46113dc24f74ce9992a60bdd0b8b89ac751f028a7"
+    },
+    {
+      "path": "port\\level-world\\canonical_existing_actor_publication_v3.cpp",
+      "sha256": "8a2d4ddb2ff754a9431d60bd310f303cfb1a3fe375e2065e12fd9b836f2ce29c"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_manager_v1.cpp",
+      "sha256": "3b778d37287bdbbf0c5c4c8e1d26f449e5fa25011e85e8f64b877629b552e154"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\canonical_existing_actor_publication_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_existing_actor_publication_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_manager_v1.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-existing-actor-publication-v3\\canonical-existing-actor-publication-v3.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "canonical existing actor adoption fixture PASS: preflight, same Handle, Add prefix, no replay\n",
+  "stderr": ""
+}

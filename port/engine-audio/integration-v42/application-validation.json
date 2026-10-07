@@ -1,0 +1,62 @@
+{
+  "strict_abi": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-audio/audio_gameplay_runtime_v42.cpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-audio/integration-v42/audio_native_session_v42.cpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-audio/integration-v42/audio_application_manager_v42.cpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-audio/audio_gameplay_runtime_v42.cpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-audio/integration-v42/audio_native_session_v42.cpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-audio/integration-v42/audio_application_manager_v42.cpp",
+      "exit_code": 0
+    }
+  ],
+  "runs": [
+    {
+      "optimization": "O1",
+      "output": "PASS 18 actual parsed manager/raw-UID bank/lifetime checks; explicit fake control, no World/driver acceptance\n",
+      "exit_code": 0
+    },
+    {
+      "optimization": "O2",
+      "output": "PASS 18 actual parsed manager/raw-UID bank/lifetime checks; explicit fake control, no World/driver acceptance\n",
+      "exit_code": 0
+    }
+  ],
+  "scope": "Real exact source parsing and decoded raw UID bank, borrowed control fixture; no Android output/World/audible acceptance",
+  "source_sha256": {
+    "port/engine-audio/audio_gameplay_runtime_v42.cpp": "49e94b285967966416debd79cc2c3b979686fd98c2526328c100f930ae03edd7",
+    "port/engine-audio/integration-v42/audio_native_session_v42.cpp": "4fa51239292536591836546465082fb2067ca352b43c4c08e0cde304decb1c4c",
+    "port/engine-audio/integration-v42/audio_application_manager_v42.cpp": "b8b808b2458f2d3f8067993119c2eab537129113b41b4e1b74a2df5d7c115e20",
+    "port/engine-audio/integration-v42/application-fixture.cpp": "7bda2d5368f07d82e31653bea7fd5a37494b89e12608337ac98d4e45f4132796",
+    "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.cpp": "67ea34a45610592d807c30b65ecfbbb3eb3915ae250c4b397a1c379973962512",
+    "port/level-world/vox_play3d_owner_v2.cpp": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc",
+    "port/engine-audio/audio_clock_v40.cpp": "02f7e96ad26e8f3dfb49b50195d6a08efbaf256f037b638b6dd796d6f5e63b71",
+    "port/engine-audio/audio_source_bindings_v38.cpp": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6",
+    "port/engine-audio/audio_sample_v34.cpp": "7a31d0493ae300a23be3b269badc20c47d617d88ddd364f43b622a8d4636fd32",
+    "port/engine-audio/audio_mixer_v34.cpp": "f220ca05e94ef8a172e5cd5297168bb00d82a5aa1d571b617d6d7f555bba63c6",
+    "port/engine-audio/audio_catalog_v34.cpp": "7cf74934301d2d8b5cf4bdefd8d86c31a9078edd333b9889f22afd5c4fe1b5c0",
+    "port/engine-audio/audio_bank_v34.cpp": "0b045772219c8f8b76404614dd46412f6cb9d7e984bcc176edbea8436684226a",
+    "port/engine-audio/audio_native_envelope_v34.cpp": "9c62269d40d01521f91e4c74111d38d6dbba913f671d7fc4216c1fc18e87e31a"
+  }
+}

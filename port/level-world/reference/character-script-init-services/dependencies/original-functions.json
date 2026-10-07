@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript13OnSkillUpdateEv",
+      "elf_address": "0x3dabd0",
+      "size": 212,
+      "sha256": "3e2a6acf63219164a028600245e8c709fddef3ab25a1ed9c36f6584a1ab9d7b7"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+      "elf_address": "0x3cde2c",
+      "size": 336,
+      "sha256": "e755548faab63d7cf4f2cb9b89529661532ef7752e67019871d075623daa2959"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharFaeryListEv",
+      "elf_address": "0x3ae5dc",
+      "size": 48,
+      "sha256": "05234890042d96d3204fdd2ad4e37847b3c5a92150438c3dc1c40f13ac502b07"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "4279966170b624f5b478a79719b267fcd61cd1f1d7a939a8eb96572fa8493eec",
+  "sources": [
+    {
+      "path": "port\\engine-textures\\tests\\blood_texture_image_v1_test.cpp",
+      "sha256": "c2f8f6201e337f015f723c50644b2f4eaaaa1699c210b0147617b139b1067f14"
+    },
+    {
+      "path": "port\\engine-textures\\blood_texture_image_v1.cpp",
+      "sha256": "eb26bbb9fef7880265eb6eedc6521187a40a2fe6dbe3874e3f41001e44ac12fb"
+    },
+    {
+      "path": "port\\engine-textures\\texture_owner_v1.cpp",
+      "sha256": "e5063f93412716e93b7981ca40632b2a082582b54872d0bc718eba57cdf179f0"
+    },
+    {
+      "path": "port\\engine-textures\\textures.cpp",
+      "sha256": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb"
+    },
+    {
+      "path": "port\\engine-textures\\pvrtc.cpp",
+      "sha256": "dd88a34faff7b5741da77be72a49c0668e75f5aa57c146a3ea7c51817228d575"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\tests\\blood_texture_image_v1_test.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\blood_texture_image_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\texture_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\textures.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\pvrtc.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\blood-texture-image-v1\\blood-texture-image-v1.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "PASS 19 actual blood image preparation checks; both source-selected27/14, exact original mip offsets, callback upload domain (GPU not executed)\n",
+  "stderr": ""
+}

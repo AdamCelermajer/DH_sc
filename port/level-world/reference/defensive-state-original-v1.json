@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "cases": 2880,
+  "source": [
+    "SM_SetBlockingState3c5c60",
+    "SM_SetDodgingState3c5b3c"
+  ],
+  "scope": "Whole original ARM control flow and ordered service calls; table/constant/event successors declared fixtures",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "02a3048731390f000cd1fa3db0c3ec6da2e829f1e6a9c710e765f509d9b813f6"
+}

@@ -1,0 +1,59 @@
+{
+  "status": "PASS_NATIVE_INITIALIZATION_BUILD_AND_CRYPT_REGRESSION",
+  "apk": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\build\\checkpoints\\dh2-native-level-initialization-b3708a7e.apk",
+  "apk_sha256": "b3708a7ee51486db36d687aed577729f8ff10f2e1051ee00d05c5560e31df6fa",
+  "apk_bytes": 613409757,
+  "checks": {
+    "main_to_demo": true,
+    "portrait_connected": true,
+    "real_targeted_skill": true,
+    "real_enemy_damage": true,
+    "skill_closes": true,
+    "potion": true,
+    "no_native_error": true,
+    "immediate_inventory_avatar_visual_review": true,
+    "unequip_requip_same_avatar_visual_review": true
+  },
+  "libraries": {
+    "lib/arm64-v8a/libdh2_scene_materials.so": "a46d14cac21927cf3203a035789af6ce151272590e6899f3d932fe148413201d",
+    "lib/arm64-v8a/libdh2_script_runtime.so": "8ff28cd4a9550fe64e41cd47e8ec20d2ad375d6bb20fe61c3074d16c7abc2181",
+    "lib/x86_64/libdh2_scene_materials.so": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9",
+    "lib/x86_64/libdh2_script_runtime.so": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c",
+    "lib/arm64-v8a/libdh2_engine_animation.so": "1d952b7a9c0882bfab9d34e0130e44cffddbefa0ee136d0e764847704112f66c",
+    "lib/x86_64/libdh2_engine_animation.so": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a",
+    "lib/arm64-v8a/libdh2_engine_textures.so": "86b4a8b8d67892ee78e5439b56521d998e967f67239b073a493e3cbe78c929bf",
+    "lib/x86_64/libdh2_engine_textures.so": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947",
+    "lib/arm64-v8a/libdh2_engine_skinning.so": "7d0f470031226fdd3d86fe8655a1deafbb23b6d0beb2aa0f5c30eb3734fa0eff",
+    "lib/arm64-v8a/libdh2_engine_ui.so": "4bd4ffce66a9cb796b7d7ac29eb99b6afb3cad1de1e897ad9beb6488c8a73a93",
+    "lib/arm64-v8a/libdh2_game_data.so": "89e2af358ea3e5458daf69eea04c1671eb3697379efd71cdfd2ec9cbf200a739",
+    "lib/arm64-v8a/libdh2_level_world.so": "e7271b0073170c9cdd8de038ed72d69a3d1a37e64b2ca0db5258c13e044f025a",
+    "lib/x86_64/libdh2_engine_skinning.so": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae",
+    "lib/x86_64/libdh2_engine_ui.so": "0ab86803dd44c86921fc37431072658a4f4687613e32b1066508a7ac23c2a708",
+    "lib/x86_64/libdh2_game_data.so": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb",
+    "lib/x86_64/libdh2_level_world.so": "130428ba4982ed980112088e81f09eb8a58584a580c5a1574f672881b40e92df",
+    "lib/arm64-v8a/libdh2_native.so": "ee61a83116b08af052be39e8fbbb821c1e86e10a01a607367694652ab89d1faa",
+    "lib/x86_64/libdh2_native.so": "2c74ae150bc9bec903ff0a2fc786d13e43bc4e25492180ce4940de4078f244b5"
+  },
+  "large_bundled_assets": [
+    {
+      "path": "assets/dh2-original-cache.zip",
+      "bytes": 433189197
+    }
+  ],
+  "source_snapshot": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-level-initialization-v5\\native-source-snapshot-b3708a7e.zip",
+  "source_snapshot_sha256": "800063eba22cb7c0cfeb8dd0c68c7119e0c01ad2e50639c405594949a939e77a",
+  "source_entries": 1662,
+  "pid": "25265",
+  "runtime_log_sha256": "695e33f36c02d0834e98c5d51e4889b52c692116a2cce6711f3853afe42eca90",
+  "source_Level_C1_original_cases": 3180,
+  "native_Level_C1_failure_guards": 48,
+  "same_Level_lifetime_checks": 53,
+  "real_design_script_Save_composition_checks": 459,
+  "whole_Level_C1_native_bindings_compiled": true,
+  "live_demo_uses_complete_Level_C1": false,
+  "live_original_camera_connected": false,
+  "full_Swamp_gameplay": false,
+  "full_game_persistence": false,
+  "physical_device_tested": false,
+  "visual_limit": "Immediate avatar now visible in genuine current rest pose before gameplay sampling; dedicated menu idle/timing fidelity remains unverified. Existing development gameplay camera unchanged."
+}

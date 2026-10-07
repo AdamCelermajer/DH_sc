@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK10CharTimers6_Timer5GetIDEv",
+      "elf_address": "0x3db288",
+      "size": 8,
+      "sha256": "68a639b2dffac301817461b8b1e1e2fbca60e4b4db136a34b582411c8b7d17ba"
+    }
+  ]
+}

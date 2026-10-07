@@ -1,0 +1,10 @@
+{
+  "predecessors_and_successors_sha256": {
+    "character_hit_v6.cpp": "d50a7963f8cf44d13cc2e0d54e239f15dc9f32ad82d5c8983760766ca88cd924",
+    "character_skill_application_v6.cpp": "2712a3fbdd6f4ad23b1e45d4684104fda501f7422250e79d085c075eba759a42",
+    "character_dot_hit_v7.cpp": "1611d95b086b6272213b34b67f19cfc4daffb2e874ba94c5eef4c2b04953960f",
+    "character_dot_application_v7.cpp": "7aab9e4372dd61c7493ee28b67846755d8160aee878dbb2b688ece6f2e4cff8e"
+  },
+  "scope": "Self/self canonical DoT only; exact player HitFor low-health and Apply Idle reaction continuations; existing guarded GOD related-character, network/co-op, nonpositive dodge player branches remain unsupported",
+  "frozen_v6_unchanged": true
+}

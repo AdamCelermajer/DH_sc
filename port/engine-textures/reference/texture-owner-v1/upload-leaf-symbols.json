@@ -1,0 +1,282 @@
+[
+  {
+    "address": "0x608048",
+    "size": 240,
+    "symbol": "_ZNK6glitch5video8ITexture12setDataDirtyEb.clone.0"
+  },
+  {
+    "address": "0x5e840c",
+    "size": 52,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEEC2Ev"
+  },
+  {
+    "address": "0x566ea0",
+    "size": 220,
+    "symbol": "_ZN6glitch2io17CTextureAttributeC1EPKcRKN5boost13intrusive_ptrINS_5video8ITextureEEEPNS6_12IVideoDriverEb"
+  },
+  {
+    "address": "0x66e6b8",
+    "size": 92,
+    "symbol": "_ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechniqueC2ERNS0_5SSkinERNS0_10SSkinCacheEb"
+  },
+  {
+    "address": "0x5fdf28",
+    "size": 76,
+    "symbol": "_ZN6glitch5video8ITexture15generateMipmapsEv"
+  },
+  {
+    "address": "0x5b280c",
+    "size": 208,
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture19generateMipmapsImplEv"
+  },
+  {
+    "address": "0x5b9558",
+    "size": 52,
+    "symbol": "_ZN6glitch5video11CNullDriver8CTextureC1EPKcPS1_RKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x773a5c",
+    "size": 112,
+    "symbol": "_ZN7gameswf6render26create_bitmap_info_textureEPN6glitch5video8ITextureE"
+  },
+  {
+    "address": "0x5e8498",
+    "size": 16,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE5SNameC2EPKc"
+  },
+  {
+    "address": "0x5b388c",
+    "size": 400,
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE18createRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEj"
+  },
+  {
+    "address": "0x5e86f4",
+    "size": 76,
+    "symbol": "_ZN6glitch5video15CTextureManager11createImageERKN5boost13intrusive_ptrINS0_6CImageEEERKNS_4core10position2dIiEERKNS8_11dimension2dIiEE"
+  },
+  {
+    "address": "0x5aa5f8",
+    "size": 680,
+    "symbol": "_ZN6glitch5video12IVideoDriver13createTextureEPKcRKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x5eaed8",
+    "size": 1116,
+    "symbol": "_ZN6glitch5video15CTextureManagerC2EPNS0_12IVideoDriverE"
+  },
+  {
+    "address": "0x607654",
+    "size": 84,
+    "symbol": "_ZN6glitch5video12IImageLoader19ITextureDataLoadingC2Ev"
+  },
+  {
+    "address": "0x5b958c",
+    "size": 80,
+    "symbol": "_ZN6glitch5video11CNullDriver17createTextureImplEPKcRKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x5b95dc",
+    "size": 52,
+    "symbol": "_ZN6glitch5video11CNullDriver8CTextureC2EPKcPS1_RKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x5aaf1c",
+    "size": 988,
+    "symbol": "_ZN6glitch5video12IVideoDriverC2EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE"
+  },
+  {
+    "address": "0x6dd734",
+    "size": 336,
+    "symbol": "_ZN6glitch5video19CCommonGLDriverBase14initExtensionsEPKh"
+  },
+  {
+    "address": "0x5e84cc",
+    "size": 16,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE6SEntryC2Ev"
+  },
+  {
+    "address": "0x5e913c",
+    "size": 92,
+    "symbol": "_ZN6glitch5video15CTextureManager19createImageFromFileEPNS_2io9IReadFileE"
+  },
+  {
+    "address": "0x5fdae8",
+    "size": 264,
+    "symbol": "_ZNK6glitch5video8ITexture12setDataDirtyEb"
+  },
+  {
+    "address": "0x7d4c74",
+    "size": 140,
+    "symbol": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEPNS1_8ITextureE"
+  },
+  {
+    "address": "0x5e868c",
+    "size": 104,
+    "symbol": "_ZNSt4priv8_Rb_treeIN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS1_5video8ITextureEEEtLb0ENS7_6detail14texturemanager18STexturePropertiesENS3_15sidedcollection12SValueTraitsEE5SNameESt4lessISG_ESt4pairIKSG_NSF_8SIdValueEENS_10_Select1stISM_EENS_11_MapTraitsTISM_EENS2_10SAllocatorISM_LNS1_6memory13E_MEMORY_HINTE0EEEE14_M_create_nodeERKSM_"
+  },
+  {
+    "address": "0x66e714",
+    "size": 92,
+    "symbol": "_ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechniqueC1ERNS0_5SSkinERNS0_10SSkinCacheEb"
+  },
+  {
+    "address": "0x5b5f6c",
+    "size": 1032,
+    "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE17createTextureImplEPKcRKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x6cde54",
+    "size": 64,
+    "symbol": "_ZN6glitch5scene25CSceneNodeAnimatorTexture11createCloneEv"
+  },
+  {
+    "address": "0x5afff0",
+    "size": 1116,
+    "symbol": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture10updateDataEb"
+  },
+  {
+    "address": "0x5fe404",
+    "size": 732,
+    "symbol": "_ZN6glitch5video8ITextureC1EPKcPNS0_12IVideoDriverERKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x5e84dc",
+    "size": 16,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE6SEntryC1Ev"
+  },
+  {
+    "address": "0x5e85b4",
+    "size": 60,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE8SIdValueC1Et"
+  },
+  {
+    "address": "0x5fe6e0",
+    "size": 732,
+    "symbol": "_ZN6glitch5video8ITextureC2EPKcPNS0_12IVideoDriverERKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x5e9198",
+    "size": 184,
+    "symbol": "_ZN6glitch5video15CTextureManager19createImageFromFileEPKc"
+  },
+  {
+    "address": "0x5fdf74",
+    "size": 352,
+    "symbol": "_ZN6glitch5video8ITexture7setDataEPvbb"
+  },
+  {
+    "address": "0x5eaa7c",
+    "size": 1116,
+    "symbol": "_ZN6glitch5video15CTextureManagerC1EPNS0_12IVideoDriverE"
+  },
+  {
+    "address": "0x5b8dd4",
+    "size": 4,
+    "symbol": "_ZN6glitch5video11CNullDriver8CTexture19generateMipmapsImplEv"
+  },
+  {
+    "address": "0x7d4d30",
+    "size": 140,
+    "symbol": "_ZN15bitmap_info_oglC2EPN6glitch5video12IVideoDriverEPNS1_8ITextureE"
+  },
+  {
+    "address": "0x6dded8",
+    "size": 64,
+    "symbol": "_ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC2EPKcPS1_RKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x50aaec",
+    "size": 144,
+    "symbol": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsN12AssetManager7TextureEENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_"
+  },
+  {
+    "address": "0x6cdcd8",
+    "size": 380,
+    "symbol": "_ZN6glitch5scene25CSceneNodeAnimatorTextureC1ERKSt6vectorIN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core10SAllocatorIS7_LNS_6memory13E_MEMORY_HINTE0EEEEibj"
+  },
+  {
+    "address": "0x6ce084",
+    "size": 372,
+    "symbol": "_ZN6glitch5scene25CSceneNodeAnimatorTextureC2ERKSt6vectorIN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core10SAllocatorIS7_LNS_6memory13E_MEMORY_HINTE0EEEEibj"
+  },
+  {
+    "address": "0x5e8788",
+    "size": 72,
+    "symbol": "_ZN6glitch5video15CTextureManager11createImageENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEE"
+  },
+  {
+    "address": "0x5e8740",
+    "size": 72,
+    "symbol": "_ZN6glitch5video15CTextureManager11createImageENS0_14E_PIXEL_FORMATERKN5boost13intrusive_ptrINS0_6CImageEEE"
+  },
+  {
+    "address": "0x7d4d00",
+    "size": 48,
+    "symbol": "_ZN21render_handler_glitch26create_bitmap_info_textureEPN6glitch5video8ITextureE"
+  },
+  {
+    "address": "0x6076a8",
+    "size": 84,
+    "symbol": "_ZN6glitch5video12IImageLoader19ITextureDataLoadingC1Ev"
+  },
+  {
+    "address": "0x6dde98",
+    "size": 64,
+    "symbol": "_ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC1EPKcPS1_RKNS0_12STextureDescE"
+  },
+  {
+    "address": "0x5ec460",
+    "size": 1604,
+    "symbol": "_ZN6glitch5video15CTextureManager22createTextureFromImageEPKcRKN5boost13intrusive_ptrINS0_6CImageEEENS0_16E_TEXTURE_LAYOUTE"
+  },
+  {
+    "address": "0x5b90d8",
+    "size": 12,
+    "symbol": "_ZN6glitch5video11CNullDriver18createRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEj"
+  },
+  {
+    "address": "0x5e87d0",
+    "size": 100,
+    "symbol": "_ZN6glitch5video15CTextureManager19createImageFromDataENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvbb"
+  },
+  {
+    "address": "0x5e8518",
+    "size": 44,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE6SEntryC1ERKS7_NSt4priv17_Rb_tree_iteratorISt4pairIKNSD_5SNameENSD_8SIdValueEENSH_11_MapTraitsTISN_EEEE"
+  },
+  {
+    "address": "0x5e85f0",
+    "size": 60,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE8SIdValueC2Et"
+  },
+  {
+    "address": "0x5e84a8",
+    "size": 16,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE5SNameC1EPKc"
+  },
+  {
+    "address": "0x5e8440",
+    "size": 52,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEEC1Ev"
+  },
+  {
+    "address": "0x6cebc8",
+    "size": 2460,
+    "symbol": "_ZN6glitch5scene16CSkyBoxSceneNodeC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i"
+  },
+  {
+    "address": "0x5e84ec",
+    "size": 44,
+    "symbol": "_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video8ITextureEEEtLb0ENS5_6detail14texturemanager18STexturePropertiesENS1_15sidedcollection12SValueTraitsEE6SEntryC2ERKS7_NSt4priv17_Rb_tree_iteratorISt4pairIKNSD_5SNameENSD_8SIdValueEENSH_11_MapTraitsTISN_EEEE"
+  },
+  {
+    "address": "0x6cf564",
+    "size": 2508,
+    "symbol": "_ZN6glitch5scene16CSkyBoxSceneNodeC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i"
+  },
+  {
+    "address": "0x5ab2f8",
+    "size": 988,
+    "symbol": "_ZN6glitch5video12IVideoDriverC1EPNS_7IDeviceEPNS0_14IShaderManagerEPNS0_24CMaterialRendererManagerEPNS0_15CTextureManagerEPNS0_31CGlobalMaterialParameterManagerERKN5boost13intrusive_ptrINS0_6CLightEEE"
+  }
+]

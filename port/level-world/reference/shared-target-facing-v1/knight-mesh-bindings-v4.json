@@ -1,0 +1,307 @@
+[
+  {
+    "file": "skill_dh2_prince_warrior_bash_down.bdae",
+    "meshes": [
+      {
+        "node": "_mesh_cracks_nobatch-node",
+        "geometry": "#_mesh_cracks_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              9884,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#Standard_9",
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "node": "_mesh_shockwave_nobatch-node_PIVOT",
+        "geometry": "#_mesh_shockwave_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              10012,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#asde",
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "node": "_mesh_swoosh_nobatch-node",
+        "geometry": "#_mesh_swoosh_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              10056,
+              4,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#swoosh_MH",
+              null
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "skill_dh2_prince_warrior_charge.bdae",
+    "meshes": [
+      {
+        "node": "_mesh_blastwave_nobatch-node",
+        "geometry": "#_mesh_blastwave_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              6424,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#Standard_8",
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "node": "_mesh_trail_nobatch-node",
+        "geometry": "#_mesh_trail_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              6472,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#_1_-_Default",
+              null
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "skill_dh2_prince_warrior_ground_slam.bdae",
+    "meshes": [
+      {
+        "node": "_mesh_billboard-node_PIVOT",
+        "geometry": "#_mesh_billboard-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              9980,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#HandGlow",
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "node": "_mesh_blastwave_01_nobatch-node",
+        "geometry": "#_mesh_blastwave_01_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              10036,
+              4,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#blastwave",
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "node": "_mesh_star_01_nobatch-node",
+        "geometry": "#_mesh_star_01_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              10116,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#GLOW",
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "node": "_mesh_star_02_nobatch-node",
+        "geometry": "#_mesh_star_02_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              10192,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#GLOW2",
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "node": "_mesh_swoosh_nobatch-node",
+        "geometry": "#_mesh_swoosh_nobatch-mesh",
+        "bindings": [
+          {
+            "words": [
+              0,
+              10268,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "strings": [
+              "#Standard_181",
+              null
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

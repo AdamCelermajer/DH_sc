@@ -1,0 +1,134 @@
+--- a/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
+@@ -24,7 +24,8 @@
+ import javax.microedition.khronos.opengles.GL10;
+ 
+ public final class MainActivity extends Activity {
+-    private GLSurfaceView surface;
++    private VsyncSurfaceViewV44 surface;
++    private volatile FramePacingControllerV44 framePacer;
+     private FrontAudio frontAudio;
+     private TextView status;
+     private String[] assets=new String[0];
+@@ -94,7 +95,7 @@
+         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);picker.setAdapter(adapter);
+         picker.setSelection(selected);
+         developerPanel.addView(picker);developerPanel.addView(status);
+-        surface=new GLSurfaceView(this);surface.setContentDescription("Dungeon Hunter 2 world and player HUD");surface.setEGLContextClientVersion(2);
++        surface=new VsyncSurfaceViewV44(this);surface.setContentDescription("Dungeon Hunter 2 world and player HUD");surface.setEGLContextClientVersion(2);
+         surface.setEGLConfigChooser(8,8,8,8,16,0);
+         surface.setOnTouchListener(new View.OnTouchListener(){
+             float x,y;
+@@ -119,6 +120,7 @@
+         surface.setRenderer(new GLSurfaceView.Renderer(){
+             private boolean initialLoadPending;
+             @Override public void onSurfaceCreated(GL10 gl,EGLConfig config){
++                if(framePacer!=null)framePacer.onRendererContextCreated();
+                 FrameBoundaryV42.configure((getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0&&getIntent().getBooleanExtra("frame_trace",false));
+                 Log.i("DH2Native",NativeBridge.initialize(getAssets()));loadedAsset=null;ready=false;initialLoadPending=true;
+                 NativeBridge.configureFrontDevice(android.os.Build.MANUFACTURER,android.os.Build.MODEL);
+@@ -133,10 +135,13 @@
+                     initialLoadPending=false;ready=true;
+                     if(assets.length>0)loadSelected();else show("No bundled asset fixtures");
+                 }
++                if(framePacer!=null)framePacer.onRendererSurfaceReady(w,h);
+             }
+             @Override public void onDrawFrame(GL10 gl){
+-                final long frameTicket=FrameBoundaryV42.beginFrame();
++                final long pacingTicket=framePacer==null?0:framePacer.frameStarted();
++                long frameTicket=0;
+                 try {
++                frameTicket=FrameBoundaryV42.beginFrame();
+                 FrameBoundaryV42.beginNative(frameTicket);
+                 try { NativeBridge.draw(); }
+                 finally { FrameBoundaryV42.endNative(frameTicket); }
+@@ -171,10 +176,18 @@
+                 }
+                 String error=NativeBridge.consumeOriginalUiError();
+                 if(error!=null){Log.e("DH2Native",error);show(error);}
+-                } finally { FrameBoundaryV42.endFrame(frameTicket); }
+-            }
+-        });
+-        surface.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
++                } finally {
++                    try { FrameBoundaryV42.endFrame(frameTicket); }
++                    finally { if(framePacer!=null)framePacer.frameFinished(pacingTicket); }
++                }
++            }
++        });
++        final boolean debugPacing=(getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0&&"vsync60".equals(getIntent().getStringExtra("frame_pacing"));
++        if(debugPacing)framePacer=surface.enableVsync60();
++        else {
++            surface.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
++            if(getIntent().hasExtra("frame_pacing"))Log.i("DH2Pacing","V44 opt-in refused or unknown; continuous default retained");
++        }
+         FrameLayout viewport=new FrameLayout(this);viewport.addView(surface,new FrameLayout.LayoutParams(-1,-1));
+         viewportOverlay=viewport;
+         loadError=new TextView(this);loadError.setTextColor(Color.WHITE);loadError.setBackgroundColor(Color.argb(230,85,25,25));loadError.setPadding(20,12,20,12);loadError.setVisibility(View.GONE);
+@@ -255,12 +268,12 @@
+                     }
+                     if("com.example.dh2.DEBUG_EQUIPMENT".equals(intent.getAction())){
+                         final int operation=intent.getIntExtra("operation",-1),index=intent.getIntExtra("index",-1),slot=intent.getIntExtra("slot",-1);
+-                        surface.queueEvent(()->{String report=NativeBridge.playerEquipmentAction(operation,index,slot);Log.i("DH2Native","Equipment command applied | "+report);show(baseReport+"\n"+report);surface.requestRender();});
++                        surface.queueEvent(()->{String report=NativeBridge.playerEquipmentAction(operation,index,slot);Log.i("DH2Native","Equipment command applied | "+report);show(baseReport+"\n"+report);requestFrameV44();});
+                         return;
+                     }
+                     if("com.example.dh2.DEBUG_ANIMATION_TIME".equals(intent.getAction())){
+                         final int time=intent.getIntExtra("time_ms",-1);
+-                        surface.queueEvent(()->{NativeBridge.animationTime(time);Log.i("DH2Native","Animation time command applied | time "+time);surface.requestRender();});
++                        surface.queueEvent(()->{NativeBridge.animationTime(time);Log.i("DH2Native","Animation time command applied | time "+time);requestFrameV44();});
+                         return;
+                     }
+                     final int target=intent.getIntExtra("player_target_index",-1);
+@@ -384,8 +397,12 @@
+             String report=accepted?(state==null?"Actor state unchanged":NativeBridge.objectState(index,state)):targetReport;
+             Log.i("DH2Native","Actor command applied | index "+index+" | state "+state+" | time "+time+" | "+report);
+             pendingActorCommand=false;
+-            show(baseReport+"\n"+report);surface.requestRender();
+-        });
++            show(baseReport+"\n"+report);requestFrameV44();
++        });
++    }
++    private void requestFrameV44(){
++        final FramePacingControllerV44 pacing=framePacer;
++        if(pacing!=null)pacing.requestUpdate();else surface.requestRender();
+     }
+     private void loadSelected(){
+         String name=assets[selected];
+@@ -394,13 +411,13 @@
+         if(name.equals("ui/original-main-menu")){
+             String report=NativeBridge.loadOriginalFrontScreen(getFilesDir().getAbsolutePath(),"main");
+             if(!report.contains("failed"))loadedAsset=name;
+-            baseReport=report;Log.i("DH2Native",report);show(report);surface.requestRender();return;
++            baseReport=report;Log.i("DH2Native",report);show(report);requestFrameV44();return;
+         }
+         runOnUiThread(()->frontAudio.stop());
+         if(name.equals("ui/original-health-panel")){
+             String report=NativeBridge.loadOriginalHealthPanel(getFilesDir().getAbsolutePath());
+             if(!report.contains("failed"))loadedAsset=name;
+-            baseReport=name+"\n"+report;Log.i("DH2Native",baseReport);show(baseReport);surface.requestRender();return;
++            baseReport=name+"\n"+report;Log.i("DH2Native",baseReport);show(baseReport);requestFrameV44();return;
+         }
+         try(InputStream input=getAssets().open(name);ByteArrayOutputStream out=new ByteArrayOutputStream()){
+             byte[] block=new byte[8192];int n;
+@@ -435,7 +452,7 @@
+                 Log.i("DH2Native","Actor command applied | index "+getIntent().getIntExtra("object_index",-1)+" | state "+getIntent().getStringExtra("object_state")+" | time "+getIntent().getIntExtra("time_ms",-1)+" | "+report);
+                 pendingActorCommand=false;
+             }
+-            show(name+"\n"+report);surface.requestRender();
++            show(name+"\n"+report);requestFrameV44();
+         }catch(Exception e){Log.e("DH2Native","Asset load failed: "+name,e);show(name+"\n"+e);}
+     }
+     private final class MovementControl extends View {
+@@ -457,8 +474,8 @@
+         @Override public boolean performClick(){super.performClick();return true;}
+         void stop(){axisX=axisY=0;invalidate();surface.queueEvent(()->NativeBridge.moveAxis(0,0));}
+     }
+-    @Override protected void onPause(){super.onPause();queueHudPointer(3,-1,0,0);if("ui/original-main-menu".equals(loadedAsset))surface.queueEvent(()->NativeBridge.originalMenuTouch(0,0,3));ready=false;frontAudio.pause();movement.stop();gameplayHud.cancelPress();surface.onPause();}
+-    @Override protected void onResume(){super.onResume();frontAudio.resume();surface.onResume();surface.queueEvent(()->{if(loadedAsset!=null)ready=true;});}
+-    @Override protected void onDestroy(){if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);frontAudio.stop();super.onDestroy();}
++    @Override protected void onPause(){if(framePacer!=null)framePacer.onPause();super.onPause();queueHudPointer(3,-1,0,0);if("ui/original-main-menu".equals(loadedAsset))surface.queueEvent(()->NativeBridge.originalMenuTouch(0,0,3));ready=false;frontAudio.pause();movement.stop();gameplayHud.cancelPress();surface.onPause();}
++    @Override protected void onResume(){super.onResume();frontAudio.resume();surface.onResume();if(framePacer!=null)framePacer.onResume();surface.queueEvent(()->{if(loadedAsset!=null)ready=true;});}
++    @Override protected void onDestroy(){if(surface!=null)surface.destroyPacingV44();if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);frontAudio.stop();super.onDestroy();}
+     @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingActorCommand",pendingActorCommand);state.putBoolean("enemyAi",enemyAi);state.putBoolean("developerOpen",developerOpen);}
+ }

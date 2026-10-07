@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "scope": "Actual SM_SetSpawnState and Random clone versus optimized native source; transition/timer services explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "b6c0e98803e8b296c6480e07e4d3ddadfd5f17f6ea408ae9364b11eeacda86cf",
+  "source_sha256": {
+    "port/level-world/character_spawn_select.hpp": "e6e6e7064610f1e652b538c956d7de49a5a8dde43b00f630e9b20acf02a85bbd",
+    "port/level-world/character_spawn_select.cpp": "472201d0a0d31387882e8a950a462a837888b3374a48888571059c1608a6df24",
+    "port/level-world/character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/game-data/combat.hpp": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958",
+    "port/game-data/combat.cpp": "cd7adcea012ce9a7f4e8fba10a3bd16f515cea8bd66848c374bc6f5d42db1312",
+    "port/level-world/tests/character_spawn_select_differential.py": "876f97c5aeaea0da6a08ef07ce5a97c0bbf17facea55fd8d70ba71460a9806a4"
+  },
+  "original_capture_sha256": "74e7e0435099a455716ddc59c50b2cb0ead9ca6cc91ecf307222692b91fc9ac0",
+  "reference_sha256": "2b3300fb372b3379d9c4a88c79a2db16f4fc637f98613dc8d4dd7462b3e0734a",
+  "comparisons": 3456,
+  "ordered_requests": 3456,
+  "actual_original_random_executions": 1080,
+  "zero_duration_timer_cases": 243,
+  "mismatches": 0,
+  "compiler_division_helper": "Exact signed quotient/remainder service only; original RNG multiply/unsigned reduction/state/counter instructions execute.",
+  "registered_state_and_timer_backends": false,
+  "APK": false
+}

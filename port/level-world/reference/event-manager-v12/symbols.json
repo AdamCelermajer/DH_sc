@@ -1,0 +1,590 @@
+[
+  {
+    "name": "_ZN30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateE11handleEventEPK6IEventPK12EventManager",
+    "address": 4714900,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManagerD1Ev",
+    "address": 4692972,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManagerD2Ev",
+    "address": 4693812,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+    "address": 4714752,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectE11handleEventEPK6IEventPK12EventManager",
+    "address": 4715492,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+    "address": 3376184,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN15v2EmuController8_onEventEPK13EvMouseButtonPK12EventManager",
+    "address": 4218696,
+    "size": 376,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK6IEvent10getEventIDEv",
+    "address": 3266780,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTV14IEventReceiver",
+    "address": 9814824,
+    "size": 20,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSA_SI_SI_",
+    "address": 3376836,
+    "size": 216,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTV6IEvent",
+    "address": 9811024,
+    "size": 20,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN12EventManager13DelayedDetachEiP14IEventReceiver",
+    "address": 3375780,
+    "size": 208,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt3mapIiSt4listIN12EventManager12ReceiverInfoESaIS2_EESt4lessIiESaISt4pairIKiS4_EEEixIiEERS4_RKT_",
+    "address": 3378328,
+    "size": 264,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManager6UpdateEd",
+    "address": 3379212,
+    "size": 132,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManagerD2Ev",
+    "address": 3376528,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK12EventManager10RaiseAsyncERK6IEvent",
+    "address": 3379344,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectE11handleEventEPK6IEventPK12EventManager",
+    "address": 4715640,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch7IDevice16setEventReceiverEPNS_14IEventReceiverE",
+    "address": 6755528,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+    "address": 4715048,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN20Objective_GatherLoot11handleEventEPK6IEventPK12EventManager",
+    "address": 4700764,
+    "size": 136,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn4_N12MenuWorldMap12InputHandler7onEventEPK6IEventPK12EventManager",
+    "address": 4420276,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Console7onEventEPK6IEventPK12EventManager",
+    "address": 3365652,
+    "size": 1152,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16OnScreenKeyboard7onEventEPK6IEventPK12EventManager",
+    "address": 5354564,
+    "size": 324,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11Application25RegisterForIrrlichtEventsEPN6glitch14IEventReceiverE",
+    "address": 3340924,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN14IEventReceiverD1Ev",
+    "address": 3341756,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManager6UnloadEv",
+    "address": 4692328,
+    "size": 84,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+    "address": 4715344,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+    "address": 4715196,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv10_List_baseIN12EventManager17DelayedDetachInfoESaIS2_EE5clearEv",
+    "address": 3376052,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManager6AttachEiP14IEventReceiveri",
+    "address": 3378592,
+    "size": 284,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch7CLoggerC2EPNS_14IEventReceiverE",
+    "address": 6949044,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11ZoomHandler7onEventEPK6IEventPK12EventManager",
+    "address": 3681244,
+    "size": 1192,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN15v2EmuController7onEventEPK6IEventPK12EventManager",
+    "address": 4219984,
+    "size": 96,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManager6ReInitEv",
+    "address": 4692268,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch3gui15CGUIEnvironment20setUserEventReceiverEPNS_14IEventReceiverE",
+    "address": 5461864,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv10_List_baseIPK6IEventSaIS3_EE5clearEv",
+    "address": 3375988,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManager4LoadEv",
+    "address": 4693596,
+    "size": 216,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueERKSA_",
+    "address": 3377052,
+    "size": 392,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManager6DetachEiP14IEventReceiver",
+    "address": 3375388,
+    "size": 172,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11MenuManager7onEventEPK6IEventPK12EventManager",
+    "address": 4393684,
+    "size": 2388,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN6glitch14IEventReceiverE",
+    "address": 9814776,
+    "size": 20,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN12EventManager5FlushEv",
+    "address": 3376300,
+    "size": 76,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManagerC1Ev",
+    "address": 4693256,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN14IEventReceiverD0Ev",
+    "address": 3343988,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch7collada14IEventsManagerD0Ev",
+    "address": 6354128,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManager15LoopOnAllEventsEM9GameEventFvvE",
+    "address": 4691736,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch7CLoggerC1EPNS_14IEventReceiverE",
+    "address": 6949104,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK12EventManager5RaiseERK6IEvent",
+    "address": 3378876,
+    "size": 336,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK16GameEventManager14GetEventByNameEPKc",
+    "address": 4692040,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN23Objective_EventReceiver27CheckMustSendThroughNetworkEPK6IEvent",
+    "address": 4697236,
+    "size": 84,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch7collada14IEventsManagerD1Ev",
+    "address": 6348840,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK16GameEventManager12GetEventByIDEi",
+    "address": 4691696,
+    "size": 40,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch12createDeviceENS_5video13E_DRIVER_TYPEERKNS_4core11dimension2dIiEEjbbbPNS_14IEventReceiverE",
+    "address": 5456044,
+    "size": 204,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn24_N23Objective_EventReceiver7onEventEPK6IEventPK12EventManager",
+    "address": 4697320,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManagerD0Ev",
+    "address": 3376500,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11HUDControls7onEventEPK6IEventPK12EventManager",
+    "address": 4293208,
+    "size": 212,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv10_List_baseIPN6glitch14IEventReceiverESaIS3_EE5clearEv",
+    "address": 3313408,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManagerC1Ev",
+    "address": 3375292,
+    "size": 96,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManager7CompileEv",
+    "address": 4691836,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN14CameraOverview7onEventEPK6IEventPK12EventManager",
+    "address": 4262192,
+    "size": 404,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch14IEventReceiverD0Ev",
+    "address": 3276172,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManagerD1Ev",
+    "address": 3376376,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN15v2EmuController8_onEventEPK10EvKeyboardPK12EventManager",
+    "address": 4219072,
+    "size": 904,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManagerC2Ev",
+    "address": 4693236,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE11handleEventEPK6IEventPK12EventManager",
+    "address": 4715936,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN6glitch7collada14IEventsManagerE",
+    "address": 9931456,
+    "size": 32,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZThn16_N15v2EmuController7onEventEPK6IEventPK12EventManager",
+    "address": 4219976,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6glitch14IEventReceiverD1Ev",
+    "address": 3266764,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManagerC2Ev",
+    "address": 3375196,
+    "size": 96,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6CharAI12RaiseAIEventEiPv",
+    "address": 3980084,
+    "size": 1764,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTalkToNPCE12QE_TalkToNPCE11handleEventEPK6IEventPK12EventManager",
+    "address": 4715788,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE13insert_uniqueENS_17_Rb_tree_iteratorISA_SE_EERKSA_",
+    "address": 3377444,
+    "size": 884,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager",
+    "address": 4697328,
+    "size": 204,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11Application27UnRegisterForIrrlichtEventsEPN6glitch14IEventReceiverE",
+    "address": 3314448,
+    "size": 88,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12EventManager17DropDelayedDetachEv",
+    "address": 3376116,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6IEventD1Ev",
+    "address": 3266776,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK16GameEventManager15LoopOnAllEventsEM9GameEventKFvvE",
+    "address": 4691888,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN19GS_InterruptLoading7onEventEPK6IEventPK12EventManager",
+    "address": 4289572,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt4listIN12EventManager12ReceiverInfoESaIS7_EEENS_10_Select1stISA_EENS_11_MapTraitsTISA_EESaISA_EE14_M_create_nodeERKSA_",
+    "address": 3376684,
+    "size": 152,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN20Objective_MoveInZone11handleEventEPK6IEventPK12EventManager",
+    "address": 4701396,
+    "size": 172,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6IEventD0Ev",
+    "address": 3275808,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnE11handleEventEPK6IEventPK12EventManager",
+    "address": 4716084,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12MenuWorldMap12InputHandler7onEventEPK6IEventPK12EventManager",
+    "address": 4420284,
+    "size": 1640,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN16GameEventManager6UpdateEv",
+    "address": 4692168,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTV12EventManager",
+    "address": 9814872,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN6glitch7CLogger11setReceiverEPNS_14IEventReceiverE",
+    "address": 6949180,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn12_N14CameraOverview7onEventEPK6IEventPK12EventManager",
+    "address": 4262184,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Console16onEventNotOpenedEPK6IEventPK12EventManager",
+    "address": 3352348,
+    "size": 4528,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK16GameEventManager28DBG_TraceDetailedInformationEv",
+    "address": 4691988,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSaINSt4priv10_List_nodeIPN6glitch14IEventReceiverEEEE8allocateEjPKv.clone.20",
+    "address": 3340892,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4listIPN6glitch14IEventReceiverESaIS2_EE6resizeEjRKS2_.clone.30",
+    "address": 3341408,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "EventManager.cpp",
+    "address": 0,
+    "size": 0,
+    "type": "STT_FILE"
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Core_EventManager_EventManager.cpp",
+    "address": 3375560,
+    "size": 220,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSaINSt4priv10_List_nodeIN12EventManager12ReceiverInfoEEEE8allocateEjPKv.clone.1",
+    "address": 3376652,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZZN11MenuManager7onEventEPK6IEventPK12EventManagerE12s_cachedRoot",
+    "address": 10113468,
+    "size": 192,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZGVZN11MenuManager7onEventEPK6IEventPK12EventManagerE12s_cachedRoot",
+    "address": 10113724,
+    "size": 4,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "GameEventManager.cpp",
+    "address": 0,
+    "size": 0,
+    "type": "STT_FILE"
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Progression_GameEventManager.cpp",
+    "address": 4693028,
+    "size": 136,
+    "type": "STT_FUNC"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "scope": "Native syntax only; no link/execution/APK/emulator/WSL",
+  "rows": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "98a96d75c362a13d80c82d8bcfdd78bdc0e206bc96fd70031ac1d0f10e0c85be",
+      "exit_code": 1,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 538394624,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 286472,
+        "create_time_filetime": 134357900532234387
+      }
+    }
+  ],
+  "status": "FAILED",
+  "error": "Native syntax check failed"
+}

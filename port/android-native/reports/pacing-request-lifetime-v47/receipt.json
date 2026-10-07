@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "scope": "Actual staged queue ownership and prior real-controller regressions; real SDK compile.",
+  "receipts": [
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\javac.exe",
+        "-J-Xmx256m",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\host-classes",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\FramePacingControllerV44.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\FramePacingReportV46.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\tools\\tests\\FramePacingQueueV47Test.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\tools\\tests\\FramePacingV44Test.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\tools\\tests\\FramePacingReportV46Test.java"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\java.exe",
+        "-Xms16m",
+        "-Xmx64m",
+        "-cp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\host-classes",
+        "com.example.dh2.FramePacingQueueV47Test"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS V47 queued/in-flight ownership: checks=43 single queued successor preserved across completion/epoch/context/close; no FPS claim\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\java.exe",
+        "-Xms16m",
+        "-Xmx64m",
+        "-cp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\host-classes",
+        "com.example.dh2.FramePacingV44Test"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS V44 actual controller: checks=81 warm_callbacks=100000 warm_allocated_bytes=0 cadence=30/60/90/120/144/240Hz lifecycle=window/surface/context/pause/close stale_ticket_safe=true\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\java.exe",
+        "-Xms16m",
+        "-Xmx64m",
+        "-cp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\host-classes",
+        "com.example.dh2.FramePacingReportV46Test"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS V46 one-shot pacing report: checks=12 no scheduling/clock/IO mutation; no presented FPS claim\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\javac.exe",
+        "-J-Xmx256m",
+        "-Xlint:all",
+        "-Werror",
+        "-classpath",
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\platforms\\android-37.0\\android.jar",
+        "-d",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\android-classes",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\FramePacingControllerV44.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\FramePacingReportV46.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\VsyncSurfaceViewV44.java"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\javac.exe",
+        "-J-Xmx256m",
+        "-classpath",
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\platforms\\android-37.0\\android.jar",
+        "-d",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\android-classes",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\FramePacingControllerV44.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\pacing-request-lifetime-v47\\FramePacingReportV46.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\AudioLifecycleV34.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\CharacterPanel.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\CinematicActivity.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\FaeryPressLifecycleV1.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\FrameBoundaryV42.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\FrontAudio.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\GameplayHud.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\MainActivity.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\NativeBridge.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\OriginalCatalogActivity.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\OriginalCatalogUrl.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\StartupStagesV41.java",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\VsyncSurfaceViewV44.java"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Note: Some input files use or override a deprecated API.\nNote: Recompile with -Xlint:deprecation for details.\n"
+    }
+  ],
+  "source_sha256": {
+    "port/android-native/reports/pacing-request-lifetime-v47/FramePacingControllerV44.java": "78b65a1c63cc1204d497ba94f39fa9c919def93fd4c5676f5160647c1cc1c5b3",
+    "port/android-native/reports/pacing-request-lifetime-v47/FramePacingReportV46.java": "5c2148a3463d090d3b08828ed8632fcbba1f741d7895bae5a79dcafe7ef5d957",
+    "port/android-native/tools/tests/FramePacingQueueV47Test.java": "b7617117e82a18cf967c6c58abe8c047d6babee5a2c4338eb22b4b37353cef7d",
+    "port/android-native/tools/tests/FramePacingV44Test.java": "43b865628ef50484da4c93978a05d7aac90e503b8b60f6f29e6e20f25de2548b",
+    "port/android-native/tools/tests/FramePacingReportV46Test.java": "3ad57caada69ea8df0c5d355b66ace2eb4d18334b54dcfa24877c8161a59cabb"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "effects": [
+    {
+      "name": "ProfileCOMMON__1_-_Defaultjh-fx1302961775_spell_dh2_hurt_fire",
+      "profile": "ProfileCOMMON__1_-_Defaultjh",
+      "parameters": [
+        {
+          "name": "diffuse-sampler",
+          "type": 11,
+          "semantic": 2,
+          "count": 1,
+          "data": 5048
+        },
+        {
+          "name": "diffuse-sampler-matrix",
+          "type": 10,
+          "semantic": 3,
+          "count": 1,
+          "data": 5060,
+          "values": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "ambient-color",
+          "type": 16,
+          "semantic": 5,
+          "count": 1,
+          "data": 5128,
+          "values": [
+            0.5843137502670288,
+            0.5843137502670288,
+            0.5843137502670288,
+            1.0
+          ]
+        },
+        {
+          "name": "diffuse-color",
+          "type": 15,
+          "semantic": 6,
+          "count": 1,
+          "data": 5148,
+          "packed_color": "0xff000000"
+        },
+        {
+          "name": "specular-color",
+          "type": 16,
+          "semantic": 7,
+          "count": 1,
+          "data": 5156,
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "emission-color",
+          "type": 16,
+          "semantic": 8,
+          "count": 1,
+          "data": 5176,
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "shininess",
+          "type": 4,
+          "semantic": 9,
+          "count": 1,
+          "data": 5196
+        }
+      ],
+      "techniques": [
+        {
+          "name": "default",
+          "passes": [
+            {
+              "vertex": "ProfileCOMMON_emul_VS.glsl",
+              "vertex_defines": "#define TEXTURED\n",
+              "fragment": "ProfileCOMMON_emul_FS.glsl",
+              "fragment_defines": "#define TEXTURED\n#define ADDITIVEBLEND\n ",
+              "render_source": "111100ffff00ffff000f1c00073058010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+            }
+          ]
+        },
+        {
+          "name": "fog",
+          "passes": [
+            {
+              "vertex": "ProfileCOMMON_emul_VS.glsl",
+              "vertex_defines": "#define TEXTURED\n#define FOG\n ",
+              "fragment": "ProfileCOMMON_emul_FS.glsl",
+              "fragment_defines": "#define TEXTURED\n#define FOG\n #define ADDITIVEBLEND\n ",
+              "render_source": "111100ffff00ffff000f1c00073058010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+            }
+          ]
+        },
+        {
+          "name": "lighting",
+          "passes": [
+            {
+              "vertex": "ProfileCOMMON_emul_VS.glsl",
+              "vertex_defines": "#define TEXTURED\n#define LIGHTING\n",
+              "fragment": "ProfileCOMMON_emul_FS.glsl",
+              "fragment_defines": "#define TEXTURED\n#define LIGHTING\n#define ADDITIVEBLEND\n ",
+              "render_source": "111100ffff00ffff000f1c00073058010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+            }
+          ]
+        },
+        {
+          "name": "fog & lighting",
+          "passes": [
+            {
+              "vertex": "ProfileCOMMON_emul_VS.glsl",
+              "vertex_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+              "fragment": "ProfileCOMMON_emul_FS.glsl",
+              "fragment_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n#define ADDITIVEBLEND\n ",
+              "render_source": "111100ffff00ffff000f1c00073058010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": "_1_-_Defaultjh",
+      "effect": "#ProfileCOMMON__1_-_Defaultjh-fx1302961775_spell_dh2_hurt_fire"
+    }
+  ],
+  "geometry_count": 0,
+  "animations": [
+    [
+      {
+        "target": "GL_pcloud-emitter",
+        "type": 28,
+        "property": ""
+      }
+    ],
+    [
+      {
+        "target": "_1_-_Defaultjh",
+        "type": 86,
+        "property": "diffuse-color"
+      }
+    ]
+  ]
+}

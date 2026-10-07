@@ -1,0 +1,11 @@
+{
+  "buffer": "0xa2ca7c",
+  "format_address": "0x90a098",
+  "format": "0x%p",
+  "buffer_limit": 16,
+  "number_tag": 2,
+  "as_string_tag": 3,
+  "owned_string_tag": 4,
+  "object_tag": 5,
+  "property_tag": 6
+}

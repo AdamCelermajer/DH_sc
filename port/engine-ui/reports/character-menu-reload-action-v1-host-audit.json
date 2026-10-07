@@ -1,0 +1,141 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-05T00:18:31.440328+00:00",
+  "scope": "Whole NativeReloadSkills AS entry point composed with whole Character.ReloadSkills coordinator",
+  "original_binary_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_complete_caller": {
+    "symbol": "_Z18NativeReloadSkillsRKN7gameswf7fn_callE",
+    "address": "0x43dbb8",
+    "size": 80,
+    "sha256": "e2e848c419bc4c1652922363d401cc436c08a37c789529330a912a1d439e7432",
+    "direct_calls": {
+      "0x43c388": "_Z19NativeGetPlayerCharib",
+      "0x3a9db4": "_ZN9Character12ReloadSkillsEv",
+      "0x797a54": "_ZNK7gameswf8as_value9to_numberEv"
+    },
+    "literal_strings": []
+  },
+  "original": {
+    "validation": "PASS",
+    "original_complete_cases": 480,
+    "ordered_boundaries": 912,
+    "gold_sha256": "c4b2e0818451823d0b35a4987e626f677c6cb80cefe016ed320aabbb0237af55",
+    "AS_EABI_player_reload_services_are_fixtures": true,
+    "nonfinite_or_out_of_range_EABI_semantics_proven": false,
+    "live_character_menu": false
+  },
+  "native_caller": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "original_complete_cases": 480,
+        "ordered_original_boundaries": 912,
+        "required_guards": 7,
+        "full_reload_coordinator_composed": true,
+        "AS_EABI_and_component_services_are_fixtures": true,
+        "live_character_menu": false
+      },
+      "result_sha256": "0be1e5777a61c95a05f97ede14cafbd0e731066f0d721452b3ca120e9ce73526",
+      "executable_sha256": "89f0e6c4721ffb2d8a72117a7255a197947c93a7e47c3c5b6f7f13c5600c9f5e"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "original_complete_cases": 480,
+        "ordered_original_boundaries": 912,
+        "required_guards": 7,
+        "full_reload_coordinator_composed": true,
+        "AS_EABI_and_component_services_are_fixtures": true,
+        "live_character_menu": false
+      },
+      "result_sha256": "0be1e5777a61c95a05f97ede14cafbd0e731066f0d721452b3ca120e9ce73526",
+      "executable_sha256": "2c886c0952ae28162cd7bc3f98b44d61a02575d0ca8f6815e93ec1d359fac359"
+    }
+  },
+  "actual_AS_transport": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "actual_AS_reload_callbacks": 11,
+        "fresh_player_selections": 10,
+        "finite_EABI_fixture_conversions": 5,
+        "ordered_reload_services": 74,
+        "bound_property_and_result_checks": 3,
+        "required_or_null_guards": 3,
+        "whole_reload_coordinator_composed": true,
+        "component_and_platform_services_are_fixtures": true,
+        "authored_character_menu_flow": false
+      },
+      "result_sha256": "b6b616524c13bede2771e7f4a42607b88e51a3fc5c06259abf3df1e3136edeec",
+      "executable_sha256": "4dee4c9bf3e5b58e49fb59df9bc6ea501218b71f5adeaf5105e426127f7250a3"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "actual_AS_reload_callbacks": 11,
+        "fresh_player_selections": 10,
+        "finite_EABI_fixture_conversions": 5,
+        "ordered_reload_services": 74,
+        "bound_property_and_result_checks": 3,
+        "required_or_null_guards": 3,
+        "whole_reload_coordinator_composed": true,
+        "component_and_platform_services_are_fixtures": true,
+        "authored_character_menu_flow": false
+      },
+      "result_sha256": "b6b616524c13bede2771e7f4a42607b88e51a3fc5c06259abf3df1e3136edeec",
+      "executable_sha256": "5d81b1ff8ca1b202c385ea58a465e396f47af61d8ac0f036d5df4adb8d8686dc"
+    }
+  },
+  "Android_compile": {
+    "reload-action-arm64.o": {
+      "sha256": "4583f02fa322b34bc93bf04d44d896588a8b8c5d07a5ea37e79ab1423bb4fe06",
+      "ELF64_AArch64": true,
+      "scope": "Compile only; not linked or run on Android"
+    },
+    "reload-coordinator-arm64.o": {
+      "sha256": "a35134a01845b3f42fd5c658bf9cfbfbd0e971221d402ef7b1d5c4f4548af097",
+      "ELF64_AArch64": true,
+      "scope": "Compile only; not linked or run on Android"
+    }
+  },
+  "source_hashes": {
+    "port/engine-ui/character_menu_reload_action_v1.hpp": "f7978aaf595987028a59a8cf38b5e55149fcede53e2fcd78d1cbc969bac13102",
+    "port/engine-ui/character_menu_reload_action_v1.cpp": "96562d2c9439597dc67a4d1432bb7cdaf4dffdbef907f469b2f81f142a331d79",
+    "port/engine-ui/character_menu_reload_v1.hpp": "9beeec496465df107a163b8e687d45fcb0eb426ac8118891c5021d1115ae63c6",
+    "port/engine-ui/character_menu_reload_v1.cpp": "891ccca8b8a3dae9d505ecf6a37c9362520edce23112ea7d082d2aa69603796f",
+    "port/engine-ui/character_menu_as_bridge_v1.hpp": "5f9d355c8beea575c15549fae6eae5475994eb619c05c911274e3a3486927a9c",
+    "port/engine-ui/character_menu_as_bridge_v1.cpp": "166b9b854d8de0ba3a2c538b7ae221180c34c6facb7adc233ef82ac92b5dea20",
+    "port/engine-ui/character_menu_queries_owner_v1.hpp": "3f47284cca99c7f9d718f28e4ba76f83e5b10eee8813e8b8e382a46b12f1bd6d",
+    "port/engine-ui/tests/character_menu_reload_action_v1.cpp": "c1b5d512a25ed1e355854519109722646dd02d23c95b4f9a69440b6378cdc1b3",
+    "port/engine-ui/tests/character_menu_reload_action_original_v1.py": "f98def38eb90b942b6c5ebcdd186b387905394b4d4980070d783871ed861af20",
+    "port/engine-ui/tests/character_menu_reload_as_v1.cpp": "209093f44abfca81cab6761270823bf5b21b92b31519058a2200feac6b00909b",
+    "port/engine-ui/tests/swf_movie.cpp": "9ec73a680fb527317bd6ee2906fcceb5d8475e2a14dcfe67b313082d3ffe964e",
+    "port/engine-ui/tools/build_character_menu_reload_action_v1.sh": "95b7fdddb76ed380eb8303df84aaa63f2274ee7cace8f7e5c8e06f13bf2cf637",
+    "port/engine-ui/tools/build_character_menu_reload_as_v1.sh": "5884d0f439b4888a454f4d01919e0072d9003a81b33cd6c73bc6d517d26d4857",
+    "port/engine-ui/tools/audit_character_menu_reload_action_v1.py": "d0fdddd8a6f7570a703bd2f9cea94bfce6da25918401741407b73ea9c2c6bad3"
+  },
+  "gold_sha256": "c4b2e0818451823d0b35a4987e626f677c6cb80cefe016ed320aabbb0237af55",
+  "linked_private_snapshot": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  },
+  "original_SWF_inputs": {
+    "dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    "dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "limits": {
+    "component_implementations_proven_by_this_audit": false,
+    "AS_conversion_in_original_ARM_caller_test_is_a_fixture": true,
+    "EABI_conversion_is_a_finite_representable_fixture_and_required_live_provider": true,
+    "nonfinite_out_of_range_EABI_behavior_proven": false,
+    "shared_HUD_SWFs_used_for_transport": true,
+    "authored_character_menu_navigation_exercised": false,
+    "live_Android_graph_bound": false,
+    "APK_or_emulator_modified": false
+  }
+}

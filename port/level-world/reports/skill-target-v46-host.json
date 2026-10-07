@@ -1,0 +1,14 @@
+[
+  {
+    "optimization": "O1",
+    "exit": 0,
+    "checks": 7,
+    "scope": "Actual source SkillState blur and sole TargetState; debug and Stop callback reentry, null/dead-cleared target, required failure prefixes. No live cast or visual acceptance."
+  },
+  {
+    "optimization": "O2",
+    "exit": 0,
+    "checks": 7,
+    "scope": "Actual source SkillState blur and sole TargetState; debug and Stop callback reentry, null/dead-cleared target, required failure prefixes. No live cast or visual acceptance."
+  }
+]

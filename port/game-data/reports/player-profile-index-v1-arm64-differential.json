@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "88e0df66ce8710cdd35f510d439669e1b1f9a548ec6dc12e1d613ff252c0ea0f",
+  "gold_sha256": "de3278c2a812dc55227ea4276c149008b1d129fa286eb24410b14dd9047e6f90",
+  "source_sha256": {
+    "port/game-data/player_profile_index_v1.hpp": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+    "port/game-data/player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a"
+  },
+  "script_sha256": "8038676fbedbc3114e7c0453dc29e6a39f40ac8133511684b9236b0e73a80bb4",
+  "comparisons": 96,
+  "section_checks": 344,
+  "mismatches": 0,
+  "scope": "Actual original campaign-index fixtures versus optimized ARM64 index kernel.\nSection-storage callback is a borrowed 64-bit caller service; original STL\nindexing was executed to produce these fixtures. Invalid seek is a native\nsafety guard rather than original backup/file-open parity.\n"
+}

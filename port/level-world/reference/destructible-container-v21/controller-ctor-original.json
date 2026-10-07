@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "constructors": [
+    "AnimControllerC1 474d30",
+    "C2 474e44"
+  ],
+  "root_reference_after": 2,
+  "SetCallbacksOnAll_args": [
+    [
+      33558528,
+      4671244,
+      33558528,
+      4671248,
+      33558528
+    ],
+    [
+      33558528,
+      4671244,
+      33558528,
+      4671248,
+      33558528
+    ]
+  ],
+  "callback_bodies": "Both exact source endpoints bx lr; return bool in native adapter means delivered, not a fabricated original result",
+  "scope": "Original whole normal non-null-root bool=false C1/C2; SetCallbacksOnAll service interception only, root reference mutation executes."
+}

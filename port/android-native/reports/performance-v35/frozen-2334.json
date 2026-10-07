@@ -1,0 +1,15 @@
+{
+  "name": "frozen-2334",
+  "layer": "fed43fb SurfaceView[com.example.dh2/com.example.dh2.MainActivity](BLAST)#396",
+  "device_backend": "visible x86_64 emulator5554, swiftshader software GPU",
+  "workload": "12 seconds stationary live Crypt, unchanged AI, no screen recording",
+  "samples": 375,
+  "median_ms": 34.1905,
+  "p95_ms": 49.9324,
+  "p99_ms": 52.2829,
+  "mean_ms": 37.4278112,
+  "over_25ms": 375,
+  "over_50ms": 18,
+  "native_perf": [],
+  "errors": []
+}

@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 2,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "trace": [
+    "filesystem",
+    "actual_file_open_NULL"
+  ],
+  "scope": "Whole original StreamCFile::Init with explicit filesystem OpenFile NULL boundary; whole CreateNewCursor proves NULL from constructor-backed zero size. LoadDataSource invalid-handle and Play IsReady early-return are preserved original body inspection, not a whole Vox runtime differential."
+}

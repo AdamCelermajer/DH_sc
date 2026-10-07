@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 256,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "corpus_sha256": "347b698ff6d4b75a2488bf07e7dc300a8aab2f4a495baf72df00188ac7dc0f61",
+  "script_sha256": "d688ffcfcc0f2bf144e083cf0145fe092ff9810007b77ef83d849b77f5493fa3",
+  "scope": "Whole original AI_DoRangeAttack; named capability/search/LookAt/FSM endpoints.",
+  "original_ctor_sort_and_state_predicate_execute": true,
+  "whole_projectile_runtime": false
+}

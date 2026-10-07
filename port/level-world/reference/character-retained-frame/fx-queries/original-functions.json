@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_IsScaredEb",
+      "elf_address": "0x3c034c",
+      "size": 44,
+      "sha256": "8b19e37a701dfe1ae6bb21288c6871518a76f27cb47b8b3248d22b9265715176"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsStunnedEb",
+      "elf_address": "0x3c0378",
+      "size": 44,
+      "sha256": "46b68984d27f375d89551b4f1423c51d7c6a051e14d045f5f2dd5e3624aa5735"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "elf_address": "0x3de6c4",
+      "size": 68,
+      "sha256": "6974c0763d694f245ae787a7a7308728d0b6fc4daf24aab43e15039574e18f8c"
+    }
+  ]
+}

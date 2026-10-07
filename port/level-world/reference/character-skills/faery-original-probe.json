@@ -1,0 +1,314 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "326e7f5f7adfbd78468431b6e0df9ef43af42ab1a1030e5d8a33c9a02dd3db41",
+  "capture_sha256": "3b5a5bcbf9b34d39485ec46436c394f563c0f2de74f1bb71b5b96c6e0f4e046a",
+  "input_sha256": {
+    "faeries_pyarray.bin": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+    "faeries_pyarraynames.bin": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+    "faeries_pystructnames.bin": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b"
+  },
+  "sections": [
+    [
+      "0x4bc12c",
+      0,
+      100
+    ],
+    [
+      "0x4bbfe0",
+      100,
+      699
+    ]
+  ],
+  "lists": [
+    [
+      2,
+      4,
+      5,
+      6,
+      3
+    ],
+    [
+      1,
+      13,
+      14,
+      15,
+      7
+    ],
+    [
+      1,
+      13,
+      14,
+      15,
+      7
+    ],
+    [
+      1,
+      13,
+      14,
+      15,
+      7
+    ]
+  ],
+  "rows": [
+    {
+      "id": 0,
+      "name": "AAA_DONT_DELETE",
+      "words": [
+        0,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        0,
+        0,
+        0,
+        4294967295
+      ],
+      "script": ""
+    },
+    {
+      "id": 1,
+      "name": "Celest",
+      "words": [
+        0,
+        1245252,
+        2,
+        34,
+        1245250,
+        13,
+        0,
+        0,
+        0
+      ],
+      "script": "faerie_celest"
+    },
+    {
+      "id": 2,
+      "name": "Fake_Celest",
+      "words": [
+        0,
+        1245252,
+        2,
+        34,
+        1245250,
+        0,
+        0,
+        0,
+        0
+      ],
+      "script": ""
+    },
+    {
+      "id": 3,
+      "name": "Fake_Hotty",
+      "words": [
+        0,
+        1245272,
+        0,
+        32,
+        1245270,
+        0,
+        0,
+        0,
+        4
+      ],
+      "script": ""
+    },
+    {
+      "id": 4,
+      "name": "Fake_Rocky",
+      "words": [
+        0,
+        1245267,
+        3,
+        35,
+        1245265,
+        0,
+        0,
+        0,
+        1
+      ],
+      "script": ""
+    },
+    {
+      "id": 5,
+      "name": "Fake_Wetty",
+      "words": [
+        0,
+        1245257,
+        1,
+        33,
+        1245255,
+        0,
+        0,
+        0,
+        2
+      ],
+      "script": ""
+    },
+    {
+      "id": 6,
+      "name": "Fake_Windy",
+      "words": [
+        0,
+        1245262,
+        4,
+        36,
+        1245260,
+        0,
+        0,
+        0,
+        3
+      ],
+      "script": ""
+    },
+    {
+      "id": 7,
+      "name": "Hotty",
+      "words": [
+        0,
+        1245272,
+        0,
+        32,
+        1245270,
+        12,
+        0,
+        0,
+        4
+      ],
+      "script": "faerie_hotty"
+    },
+    {
+      "id": 8,
+      "name": "Mage_Celest",
+      "words": [
+        0,
+        1245252,
+        2,
+        34,
+        1245250,
+        18,
+        0,
+        0,
+        0
+      ],
+      "script": "faerie_celest_mage"
+    },
+    {
+      "id": 9,
+      "name": "Mage_Hotty",
+      "words": [
+        0,
+        1245272,
+        0,
+        32,
+        1245270,
+        17,
+        0,
+        0,
+        4
+      ],
+      "script": "faerie_hotty_mage"
+    },
+    {
+      "id": 10,
+      "name": "Mage_Rocky",
+      "words": [
+        0,
+        1245267,
+        3,
+        35,
+        1245265,
+        17,
+        0,
+        0,
+        1
+      ],
+      "script": "faerie_rocky_mage"
+    },
+    {
+      "id": 11,
+      "name": "Mage_Wetty",
+      "words": [
+        0,
+        1245257,
+        1,
+        33,
+        1245255,
+        17,
+        0,
+        0,
+        2
+      ],
+      "script": "faerie_wetty_mage"
+    },
+    {
+      "id": 12,
+      "name": "Mage_Windy",
+      "words": [
+        0,
+        1245262,
+        4,
+        36,
+        1245260,
+        17,
+        0,
+        0,
+        3
+      ],
+      "script": "faerie_windy_mage"
+    },
+    {
+      "id": 13,
+      "name": "Rocky",
+      "words": [
+        0,
+        1245267,
+        3,
+        35,
+        1245265,
+        12,
+        0,
+        0,
+        1
+      ],
+      "script": "faerie_rocky"
+    },
+    {
+      "id": 14,
+      "name": "Wetty",
+      "words": [
+        0,
+        1245257,
+        1,
+        33,
+        1245255,
+        12,
+        0,
+        0,
+        2
+      ],
+      "script": "faerie_wetty"
+    },
+    {
+      "id": 15,
+      "name": "Windy",
+      "words": [
+        0,
+        1245262,
+        4,
+        36,
+        1245260,
+        12,
+        0,
+        0,
+        3
+      ],
+      "script": "faerie_windy"
+    }
+  ],
+  "stream_read_calls": 154,
+  "allocations": 22,
+  "scope": "Actual original FaeryListTable/FaeryTable and record readers executed on authorized cache bytes; stream/allocation fixture services. Names parsed from genuine companion stream. No native decoder claim."
+}

@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "scope": "Owned exact original effects tables and preload backing; no FX factory or full source frame.",
+  "source_and_proof_sha256": {
+    "port/game-data/effects_tables.hpp": "8e0b1eb1ce1f7f581ed59283a65fbceee9ebea0515daab220605903a5ab69fac",
+    "port/game-data/effects_tables.cpp": "3c067f603ce7dada9f1d61664d32ed9f7e9215ab52ea888c2a915c5e58647c72",
+    "port/level-world/visual_fx_tables.hpp": "fbc3e1397c0365085789cd88b7d02cb988432ebe745804a95d514409d7bc0cfb",
+    "port/level-world/visual_fx_tables.cpp": "cee00a2235e1f3ee7d21052c052687e406722b7522913021978e40f47d3d82db",
+    "port/level-world/tests/visual_fx_tables.cpp": "c4be26592cf675c75a17bcd44d5d3a3f299112b6ea1c70acea87345e2d1788f6",
+    "port/game-data/reference/effects-tables/NOTES.md": "d7ec59b91402d5d00e773fd1043a35bb90a314343cd0b86f6f529df7391e059c",
+    "port/game-data/reference/effects-tables/prepare_original.py": "0883099c774efaed274a65f5ce41b0ff65f708feec36db648bd18a2bc1504e0b",
+    "port/game-data/reference/effects-tables/original-reader-projection.json": "4e4074003625cd7f9e2c99d0bb8533ee6d5e61a16790fe373964322a4720b570",
+    "port/game-data/reference/effects-tables/original-reader-projection.bin": "677cdf71dedf72d95cb4398cab55cb8b5d82a5c76ecd97fc543c7480b274cacb",
+    "port/level-world/reports/character-effects-tables-main-linked-host-audit.json": "b14cffac8e844305cc13d06f5d4aa29f6523a01e193bbb8f1759eee549bd9016",
+    "port/level-world/reports/character-init-fx-main-linked-host-audit.json": "af67670cba8943051a76bb4d54bd4d1ce7cd512ff42638cc4d0cccd6c5632ac3",
+    "port/android-native/reports/effects-tables-stage.json": "fef1fdd151d60aa4d36d3c8bd76b7212611746375c14a2352a3de0bde4463ab4",
+    "port/android-native/reports/native-effects-tables-source-build-inspection.json": "834d5b629d4cc18e6e9a177e3801c5a033838f812d715e87851c78bbc6969b49"
+  },
+  "original_instruction_reader_projection": true,
+  "original_row_and_dictionary_counts": [
+    276,
+    3,
+    7,
+    284
+  ],
+  "native_checks": 1712,
+  "atomic_rejections": 650,
+  "real_FX77_registrations": 200,
+  "sanitizer_findings": 0,
+  "FX_factory_ready": false,
+  "physical_arm64_verified": false
+}

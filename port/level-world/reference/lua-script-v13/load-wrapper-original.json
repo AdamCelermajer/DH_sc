@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "level/combat_formulas",
+      "present": true,
+      "lua_status": 0,
+      "result": 1,
+      "requested": [
+        "data/scripts/level/combat_formulas.luac"
+      ],
+      "seek_calls": 1,
+      "parse_calls": 1,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac"
+      ]
+    },
+    {
+      "name": "level/death_scripts.lua",
+      "present": true,
+      "lua_status": 0,
+      "result": 1,
+      "requested": [
+        "data/scripts/level/death_scripts.luac"
+      ],
+      "seek_calls": 1,
+      "parse_calls": 1,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac"
+      ]
+    },
+    {
+      "name": "level/death_scripts.luac",
+      "present": true,
+      "lua_status": 0,
+      "result": 1,
+      "requested": [],
+      "seek_calls": 0,
+      "parse_calls": 0,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac"
+      ]
+    },
+    {
+      "name": "level/x.lua.tail",
+      "present": true,
+      "lua_status": 0,
+      "result": 1,
+      "requested": [
+        "data/scripts/level/x.lua.tailc"
+      ],
+      "seek_calls": 1,
+      "parse_calls": 1,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac",
+        "data/scripts/level/x.lua.tailc"
+      ]
+    },
+    {
+      "name": "level/x.luac.tail",
+      "present": true,
+      "lua_status": 0,
+      "result": 1,
+      "requested": [
+        "data/scripts/level/x.luac.tail"
+      ],
+      "seek_calls": 1,
+      "parse_calls": 1,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac",
+        "data/scripts/level/x.lua.tailc",
+        "data/scripts/level/x.luac.tail"
+      ]
+    },
+    {
+      "name": "level/fail",
+      "present": true,
+      "lua_status": 2,
+      "result": 0,
+      "requested": [
+        "data/scripts/level/fail.luac"
+      ],
+      "seek_calls": 1,
+      "parse_calls": 1,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac",
+        "data/scripts/level/x.lua.tailc",
+        "data/scripts/level/x.luac.tail"
+      ]
+    },
+    {
+      "name": "level/fail",
+      "present": true,
+      "lua_status": 0,
+      "result": 1,
+      "requested": [
+        "data/scripts/level/fail.luac"
+      ],
+      "seek_calls": 1,
+      "parse_calls": 1,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac",
+        "data/scripts/level/fail.luac",
+        "data/scripts/level/x.lua.tailc",
+        "data/scripts/level/x.luac.tail"
+      ]
+    },
+    {
+      "name": "level/combat_formulas",
+      "present": true,
+      "lua_status": 0,
+      "result": 1,
+      "requested": [],
+      "seek_calls": 0,
+      "parse_calls": 0,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac",
+        "data/scripts/level/fail.luac",
+        "data/scripts/level/x.lua.tailc",
+        "data/scripts/level/x.luac.tail"
+      ]
+    },
+    {
+      "name": "",
+      "present": true,
+      "lua_status": 0,
+      "result": 0,
+      "requested": [],
+      "seek_calls": 0,
+      "parse_calls": 0,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac",
+        "data/scripts/level/fail.luac",
+        "data/scripts/level/x.lua.tailc",
+        "data/scripts/level/x.luac.tail"
+      ]
+    },
+    {
+      "name": "missing",
+      "present": false,
+      "lua_status": 0,
+      "result": 0,
+      "requested": [
+        "data/scripts/missing.luac"
+      ],
+      "seek_calls": 0,
+      "parse_calls": 0,
+      "loaded": [
+        "data/scripts/level/combat_formulas.luac",
+        "data/scripts/level/death_scripts.luac",
+        "data/scripts/level/fail.luac",
+        "data/scripts/level/x.lua.tailc",
+        "data/scripts/level/x.luac.tail"
+      ]
+    }
+  ],
+  "scope": "Whole LuaScript.Load37b574 and LuaManager.AddFile37b23c extension/membership/cache-hit/seek/load-status/insert/return bodies. CString/libc primitives, loaded/cache tree lookups/insertion, source file-openNULL and Instance loader/error disposal are declared receivers; native positive VM/assets validated separately."
+}

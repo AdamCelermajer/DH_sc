@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays19AnimatedEffectTable4readEP11IStreamBase",
+      "elf_address": "0x4bc504",
+      "size": 328,
+      "sha256": "561417c5d52e4768e503a26845fc7ee259a56eeb8b48a0f7cc4984488615339d"
+    },
+    {
+      "original_symbol": "_ZN7Structs9AnimFXTpl4readEP11IStreamBase",
+      "elf_address": "0x4ed73c",
+      "size": 572,
+      "sha256": "4aae48ee2b6862e44d9ef5c3a513331c875a50f7e0dfa608f4fbc7c58ae68f0f"
+    },
+    {
+      "original_symbol": "_ZN7Structs6AnimFX4readEP11IStreamBase",
+      "elf_address": "0x506990",
+      "size": 800,
+      "sha256": "20ed98a533aa34166790c7ec522ede25ec75e741b1e4c64b86fd46f65676759b"
+    },
+    {
+      "original_symbol": "_ZN6Arrays15CharEffectTable4readEP11IStreamBase",
+      "elf_address": "0x4bc3c0",
+      "size": 324,
+      "sha256": "59da35562df2f2d3c4d9913de820d10d1dcceeedda1f19a5ccafd740abb876b8"
+    },
+    {
+      "original_symbol": "_ZN7Structs10CharEffect4readEP11IStreamBase",
+      "elf_address": "0x4ed5a8",
+      "size": 404,
+      "sha256": "050278612ffb30b2d32ab0d413e6cb3aef5df297fe8c376b871b04e4ea6bcc5f"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19FootstepEffectTable4readEP11IStreamBase",
+      "elf_address": "0x4bc278",
+      "size": 328,
+      "sha256": "0a433cd5ecf7ca2e8814fa435de1eb1ee2a0596700e2f1d6426c04a4c9cae594"
+    },
+    {
+      "original_symbol": "_ZN7Structs14FootstepEffect4readEP11IStreamBase",
+      "elf_address": "0x506660",
+      "size": 816,
+      "sha256": "773e2ef12478c6b0a99bdee1b18bf8b4f741114700f7e02109fa54f7538d78b6"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10EffectDict4readEP11IStreamBase",
+      "elf_address": "0x4b8458",
+      "size": 332,
+      "sha256": "192bc4020982bf938394ff90e4026a7f514f5109e939943d28eee632e1125acf"
+    },
+    {
+      "original_symbol": "_ZN7Structs11ColladaFile4readEP11IStreamBase",
+      "elf_address": "0x4dc424",
+      "size": 188,
+      "sha256": "a01168ee07d4979f9a555b1fffc97e4a1e03b7f26c8791ff83c18c950cf94bef"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "strict_abi": [
+    {
+      "abi": "arm64-v8a",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "exit_code": 0
+    }
+  ],
+  "host_output": "PASS 35 precache lease/order/raw-UID/gate checks; fixture providers only\n",
+  "scope": "Isolated synchronous provider fixtures, no actual manager/World/backend",
+  "source_sha256": {
+    "port/engine-audio/integration-v41/host.cpp": "2495bbb3d5cc0019b8e9e0136d7e5ebf9a4a01f14cac080a4edc778fb87d441f",
+    "port/engine-audio/integration-v41/audio_precache_v41.hpp": "20e13c2c0cadc2ea6da098f318191fc547e29b8d02cf8a49e8084af3cc234172"
+  }
+}

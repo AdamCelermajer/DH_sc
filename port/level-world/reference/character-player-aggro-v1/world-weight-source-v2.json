@@ -1,0 +1,546 @@
+{
+  "source_GetCharAIId": "3a2fec Character+ffc/resolved[2], fallback8",
+  "source_GetCharAI": "3a3024 source stride0x44",
+  "source_OnAggro_load": "3ddc44 GetCharAI; 3ddc48 row+0x14",
+  "decoded_field": "AiProps.flags",
+  "embedded_runtime_CharAI14_is_not_source": true,
+  "rows": [
+    {
+      "index": 0,
+      "name": "AAA_DONT_DELETE",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": ""
+    },
+    {
+      "index": 1,
+      "name": "Assassin1",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "Assassin1"
+    },
+    {
+      "index": 2,
+      "name": "Assassin2",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "Assassin2"
+    },
+    {
+      "index": 3,
+      "name": "Assassin3",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "Assassin3"
+    },
+    {
+      "index": 4,
+      "name": "AssassinDemon",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "AssassinDemon"
+    },
+    {
+      "index": 5,
+      "name": "AttackingFollower",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "attacking_follower"
+    },
+    {
+      "index": 6,
+      "name": "Balrog",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "Balrog"
+    },
+    {
+      "index": 7,
+      "name": "Bandit",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 8,
+      "name": "Basic",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": ""
+    },
+    {
+      "index": 9,
+      "name": "BigMonster",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 10,
+      "name": "CastleDefender",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 11,
+      "name": "Celest",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 12,
+      "name": "Coward_Dog",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "coward"
+    },
+    {
+      "index": 13,
+      "name": "Cultists_Ranged",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 14,
+      "name": "DW_Statue",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "DW_Statue"
+    },
+    {
+      "index": 15,
+      "name": "DarkQueen1",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "DarkQueen1"
+    },
+    {
+      "index": 16,
+      "name": "DarkQueen2",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "DarkQueen2"
+    },
+    {
+      "index": 17,
+      "name": "Dummy",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "Dummy"
+    },
+    {
+      "index": 18,
+      "name": "EdwardBoss",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "EdwardBoss"
+    },
+    {
+      "index": 19,
+      "name": "Emissary",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "Emissary"
+    },
+    {
+      "index": 20,
+      "name": "Faery",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "follower"
+    },
+    {
+      "index": 21,
+      "name": "FauxReferee",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 22,
+      "name": "Flaminite",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "Flaminite"
+    },
+    {
+      "index": 23,
+      "name": "Flaminite_ED",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "FlaminiteED"
+    },
+    {
+      "index": 24,
+      "name": "Follower",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "attacking_follower"
+    },
+    {
+      "index": 25,
+      "name": "GenericBoss",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "monster"
+    },
+    {
+      "index": 26,
+      "name": "Hotty",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 27,
+      "name": "InvisibleMan",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 28,
+      "name": "LargePlant",
+      "flags": 3,
+      "signed_aggro_word": 3,
+      "script": "largeplant"
+    },
+    {
+      "index": 29,
+      "name": "LizadManLarge",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 30,
+      "name": "LizardMan",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 31,
+      "name": "LizardManMultiPlayer",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 32,
+      "name": "MachineRoomMonster",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 33,
+      "name": "MachineRoom_Monster",
+      "flags": 3,
+      "signed_aggro_word": 3,
+      "script": "monster"
+    },
+    {
+      "index": 34,
+      "name": "Madruk",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "madruk"
+    },
+    {
+      "index": 35,
+      "name": "MadrukBufferMinion",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "madruk_buffer"
+    },
+    {
+      "index": 36,
+      "name": "MadrukEnergySpawner",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "energyspawner"
+    },
+    {
+      "index": 37,
+      "name": "MadrukHealerMinion",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "madruk_healer"
+    },
+    {
+      "index": 38,
+      "name": "MadrukTorso",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "madruk_torso"
+    },
+    {
+      "index": 39,
+      "name": "Merchant",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 40,
+      "name": "Monster",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 41,
+      "name": "Moth",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "monster"
+    },
+    {
+      "index": 42,
+      "name": "MothCocoon",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "mothcocoon"
+    },
+    {
+      "index": 43,
+      "name": "MothKing",
+      "flags": 3,
+      "signed_aggro_word": 3,
+      "script": "monster"
+    },
+    {
+      "index": 44,
+      "name": "Player",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "__player__"
+    },
+    {
+      "index": 45,
+      "name": "QueenCocoon",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "mothcocoon"
+    },
+    {
+      "index": 46,
+      "name": "QueenSlime",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "monster"
+    },
+    {
+      "index": 47,
+      "name": "Referee",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "machineroom/referee_vip_escort"
+    },
+    {
+      "index": 48,
+      "name": "RefereeSoundTest",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "soundtest/referee_sdd"
+    },
+    {
+      "index": 49,
+      "name": "Referee_Big",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "machineroom/referee_vip_escort_big"
+    },
+    {
+      "index": 50,
+      "name": "Rene",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "rene"
+    },
+    {
+      "index": 51,
+      "name": "ResurrectingGod",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "resurrectinggod"
+    },
+    {
+      "index": 52,
+      "name": "RisenZombies",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "attacking_follower"
+    },
+    {
+      "index": 53,
+      "name": "Rocky",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 54,
+      "name": "RootTroll",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "RootTroll"
+    },
+    {
+      "index": 55,
+      "name": "SandWorm01",
+      "flags": 3,
+      "signed_aggro_word": 3,
+      "script": "sandworm01"
+    },
+    {
+      "index": 56,
+      "name": "SandWorm02",
+      "flags": 3,
+      "signed_aggro_word": 3,
+      "script": "sandworm02"
+    },
+    {
+      "index": 57,
+      "name": "SandWormQueen",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "sandworm_queen"
+    },
+    {
+      "index": 58,
+      "name": "SandWormSmall",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "sandworm01"
+    },
+    {
+      "index": 59,
+      "name": "SittingVillager",
+      "flags": 8,
+      "signed_aggro_word": 8,
+      "script": "__npc__"
+    },
+    {
+      "index": 60,
+      "name": "Skeleton",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 61,
+      "name": "Slime",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 62,
+      "name": "Spider",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 63,
+      "name": "SwampKing",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "swampking_core"
+    },
+    {
+      "index": 64,
+      "name": "SwordGuardian",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "attacking_follower"
+    },
+    {
+      "index": 65,
+      "name": "Trap",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "attacking_follower"
+    },
+    {
+      "index": 66,
+      "name": "TreeThingMiniBoss",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "AssassinDemon"
+    },
+    {
+      "index": 67,
+      "name": "Troll",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "monster"
+    },
+    {
+      "index": 68,
+      "name": "Ugly_Dog",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 69,
+      "name": "Ugly_Dog_Big",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    },
+    {
+      "index": 70,
+      "name": "Villager",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 71,
+      "name": "Wetty",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 72,
+      "name": "WindDragon",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "windDragon"
+    },
+    {
+      "index": 73,
+      "name": "Windy",
+      "flags": 0,
+      "signed_aggro_word": 0,
+      "script": "__npc__"
+    },
+    {
+      "index": 74,
+      "name": "Witch",
+      "flags": 5,
+      "signed_aggro_word": 5,
+      "script": "witch"
+    },
+    {
+      "index": 75,
+      "name": "Zombie",
+      "flags": 1,
+      "signed_aggro_word": 1,
+      "script": "monster"
+    }
+  ],
+  "source_sha256": {
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+    ".local-inputs\\libDungeonHunter2.so": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+  }
+}

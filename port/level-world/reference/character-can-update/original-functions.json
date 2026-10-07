@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObject15UpdateIdleSoundEv",
+      "elf_address": "0x38ae2c",
+      "size": 708,
+      "sha256": "ce603dc81be7cebf0b4be3eb83b1d00629ba242532a9f5cb399b8c7e5d9d5649"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller6UpdateEv",
+      "elf_address": "0x3a2f44",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateAggroEv",
+      "elf_address": "0x3cf3f0",
+      "size": 2052,
+      "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692"
+    },
+    {
+      "original_symbol": "_ZN9TimerUtil6UpdateEv",
+      "elf_address": "0x317ae4",
+      "size": 68,
+      "sha256": "ce279389d1ba83d65d1ed5f8f980e80fe8fd5b7f1c9f55dd5a7ce5e3ba2a1c8c"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers6UpdateEv",
+      "elf_address": "0x3db640",
+      "size": 612,
+      "sha256": "9de6ea9eecf3a80b360e1088589d15d4a49373c922fc4eb1cd83b0792b5d67de"
+    },
+    {
+      "original_symbol": "_ZN10GameObject19RequireOnlineUpdateEv",
+      "elf_address": "0x38b8b8",
+      "size": 92,
+      "sha256": "d4d361601b35deb6a49d33057bc44f6a64686f60d10d17775e9e9560b78da7c6"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_UpdateMasterEv",
+      "elf_address": "0x3cc5a4",
+      "size": 444,
+      "sha256": "c9ce018b17bc2a9f1580a52e932fb40124914af1053028b16aeb40b1d0610fa9"
+    },
+    {
+      "original_symbol": "_ZN9Character9CanUpdateEv",
+      "elf_address": "0x3a52a4",
+      "size": 316,
+      "sha256": "8ab1ce0602bf7ecb8f54e165b150844dfe3931539ac1f2e708dd8369af879d35"
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "types": [
+    [
+      "Music",
+      0
+    ],
+    [
+      "Music",
+      0
+    ],
+    [
+      "Music",
+      0
+    ],
+    [
+      "SFX",
+      1
+    ],
+    [
+      "SFX",
+      1
+    ],
+    [
+      "Amb_loop_omni",
+      0
+    ],
+    [
+      "SFX",
+      1
+    ],
+    [
+      "sfx_int",
+      0
+    ]
+  ],
+  "loot_sound_rows": [
+    {
+      "id": 51,
+      "name": "DropArmor",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_drop_armor.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 52,
+      "name": "DropGold",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_drop_gold.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 53,
+      "name": "DropPotion",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_drop_potion.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 54,
+      "name": "DropSword",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_drop_sword.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 105,
+      "name": "PickupArmor",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_pickup_armor.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 106,
+      "name": "PickupGold",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_pickup_gold.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 107,
+      "name": "PickupItem",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_pickup_item.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 108,
+      "name": "PickupPotion",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_pickup_potion.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    },
+    {
+      "id": 109,
+      "name": "PickupWeapon",
+      "bank": 4294967295,
+      "channel": 1,
+      "file": "sfx_pickup_weapon.wav",
+      "words": [
+        0,
+        4294967295,
+        2,
+        32,
+        0,
+        100
+      ],
+      "present": false
+    }
+  ],
+  "related_asset_uris": []
+}

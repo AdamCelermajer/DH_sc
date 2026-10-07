@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf4root18notify_mouse_stateEiii",
+      "elf_address": "0x774128",
+      "size": 16,
+      "sha256": "134f70de8dc3b63c8d3bbdae37e48e2f564f1833899c11a053d489b5dcc5fc4d"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4rootC1EPNS_6playerEPNS_14movie_def_implE",
+      "elf_address": "0x775da0",
+      "size": 464,
+      "sha256": "794108f9059226f7aa40c241ce567db8212c060675c6f9f98ccd9c48789d9446"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root15get_mouse_stateEPiS1_S1_",
+      "elf_address": "0x774138",
+      "size": 28,
+      "sha256": "c4d0e6bc019ceac533a2e9740d13b73c4bd3920e3f9e2eec5d71e1732fa8d711"
+    }
+  ]
+}

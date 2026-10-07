@@ -1,0 +1,48 @@
+{
+  "flags": [
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-fast-math",
+    "-ffp-contract=off"
+  ],
+  "results": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-audio/audio_clock_v40.cpp",
+      "exit_code": 0,
+      "sha256": "02f7e96ad26e8f3dfb49b50195d6a08efbaf256f037b638b6dd796d6f5e63b71"
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-audio/audio_gameplay_runtime_v40.cpp",
+      "exit_code": 0,
+      "sha256": "6bed25a433331c723ebe5c99af02b073836a3966a2b28d6d1045260a1b883225"
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-audio/audio_source_command_v40.cpp",
+      "exit_code": 0,
+      "sha256": "be2dc7d524f9040142699585e924fc99fd445dedd0b330d7944b864ae863f496"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-audio/audio_clock_v40.cpp",
+      "exit_code": 0,
+      "sha256": "02f7e96ad26e8f3dfb49b50195d6a08efbaf256f037b638b6dd796d6f5e63b71"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-audio/audio_gameplay_runtime_v40.cpp",
+      "exit_code": 0,
+      "sha256": "6bed25a433331c723ebe5c99af02b073836a3966a2b28d6d1045260a1b883225"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-audio/audio_source_command_v40.cpp",
+      "exit_code": 0,
+      "sha256": "be2dc7d524f9040142699585e924fc99fd445dedd0b330d7944b864ae863f496"
+    }
+  ]
+}

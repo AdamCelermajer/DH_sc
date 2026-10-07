@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "87174944c313ac60dc3114c587b6907cf83e3ca63be9bcd7ad5dffe76c684e49",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\canonical_object_factory_v1.cpp",
+      "sha256": "ac197e541de4b6f25adc421820e684a8f7dbd8e524d6ab9e5370b7c86a301600"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_manager_v1.cpp",
+      "sha256": "e60783260d9891e7c521f91976c788aad0abaa81a7d4ce10f2ceb95efbe17780"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_factory_v1.cpp",
+      "sha256": "6cd1c27feb628ed730a7f163bd8095069ae0880a5c16d33d0d5bbd51784b2638"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\canonical_object_factory_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_manager_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_factory_v1.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-object-factory-v1\\canonical-object-factory-v1.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "canonical source map/Add tests PASS; receiver/network fixtures; production factory unavailable\n",
+  "stderr": ""
+}

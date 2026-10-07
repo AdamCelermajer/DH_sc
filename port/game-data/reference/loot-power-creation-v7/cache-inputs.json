@@ -1,0 +1,103 @@
+{
+  "validation": "PASS",
+  "files": {
+    "item_powers_pyarray.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/item_powers_pyarray.bin",
+      "bytes": 54443,
+      "sha256": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e"
+    },
+    "item_powers_pyarraynames.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/item_powers_pyarraynames.bin",
+      "bytes": 23714,
+      "sha256": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66"
+    },
+    "item_powers_pystructnames.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/item_powers_pystructnames.bin",
+      "bytes": 5747,
+      "sha256": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444"
+    },
+    "item_powers_monopoly_pyarray.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/item_powers_monopoly_pyarray.bin",
+      "bytes": 476,
+      "sha256": "6591e5ca591b63d3c81eb0d4d3811a2f8409f4b835cb64f35dde87bee4f63d4b"
+    },
+    "item_powers_monopoly_pyarraynames.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/item_powers_monopoly_pyarraynames.bin",
+      "bytes": 1021,
+      "sha256": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633"
+    },
+    "item_powers_monopoly_pystructnames.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/item_powers_monopoly_pystructnames.bin",
+      "bytes": 20,
+      "sha256": "79dab4b044f7f7f614dab597fc280d8d5947b96b3ed672aac1339316ed7d6400"
+    },
+    "loot_table_pyarray.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarray.bin",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+    },
+    "loot_table_pyarraynames.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarraynames.bin",
+      "bytes": 39604,
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+    },
+    "loot_table_pystructnames.bin": {
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pystructnames.bin",
+      "bytes": 8858,
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+    },
+    "num_prob_records_v7.bin": {
+      "source": "loot_table_pyarray.bin",
+      "begin": 283108,
+      "end": 284104,
+      "sha256": "e548fb2ca7d6ccb8ebe7a194899c8b82950b9cc85110ec6864275742b8ad623c",
+      "bytes": 996
+    }
+  },
+  "loot_readers": [
+    {
+      "address": "0x4ba4fc",
+      "begin": 0,
+      "end": 44
+    },
+    {
+      "address": "0x4ba3c8",
+      "begin": 44,
+      "end": 54
+    },
+    {
+      "address": "0x4ba27c",
+      "begin": 54,
+      "end": 6486
+    },
+    {
+      "address": "0x4ba12c",
+      "begin": 6486,
+      "end": 229006
+    },
+    {
+      "address": "0x4b9fe0",
+      "begin": 229006,
+      "end": 229060
+    },
+    {
+      "address": "0x4b9e8c",
+      "begin": 229060,
+      "end": 282872
+    },
+    {
+      "address": "0x4b9d40",
+      "begin": 282872,
+      "end": 283108
+    },
+    {
+      "address": "0x4b9bf4",
+      "begin": 283108,
+      "end": 284104
+    }
+  ],
+  "power_list_end": 12578,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "tool_sha256": "79bd8891917e603f2acd1fb033895c337ad701807c1879d96228776df3ec9fd9",
+  "scope": "Extract exact original cache inputs; original readers identify NumProb span.\n\nOriginal code executes only in this offline evidence tool, never in the game.\nThe emitted records are verbatim cache bytes, not reconstructed values.\n"
+}

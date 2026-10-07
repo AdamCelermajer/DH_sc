@@ -1,0 +1,2047 @@
+[
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Cameras_CameraBase.cpp",
+    "address": "0x40f81c",
+    "size": 220
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Cameras_CameraLevel.cpp",
+    "address": "0x4100e8",
+    "size": 304
+  },
+  {
+    "name": "_ZGVZN11CameraLevel6UpdateEvE5cos45",
+    "address": "0x9a3230",
+    "size": 4
+  },
+  {
+    "name": "_ZZN11CameraLevel6UpdateEvE5cos45",
+    "address": "0x9a3234",
+    "size": 4
+  },
+  {
+    "name": "_ZGVZN11CameraLevel6UpdateEvE5sin45",
+    "address": "0x9a3238",
+    "size": 4
+  },
+  {
+    "name": "_ZZN11CameraLevel6UpdateEvE5sin45",
+    "address": "0x9a323c",
+    "size": 4
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Cameras_CameraOverview.cpp",
+    "address": "0x410d18",
+    "size": 304
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Cameras_CameraTarget.cpp",
+    "address": "0x411d78",
+    "size": 220
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_ObjectsSub_Visual_Animations_AnimSetController.cpp",
+    "address": "0x4752dc",
+    "size": 136
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_ObjectsSub_Visual_Animations_AnimSetManager.cpp",
+    "address": "0x47557c",
+    "size": 32
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_ObjectsSub_Visual_Animations_BlendedAnimSetController.cpp",
+    "address": "0x476a14",
+    "size": 136
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_scene_CCameraSceneNode.cpp",
+    "address": "0x582140",
+    "size": 32
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_scene_CSceneNodeAnimatorCameraFPS.cpp",
+    "address": "0x6c7974",
+    "size": 32
+  },
+  {
+    "name": "_ZNSt6vectorIN6glitch5scene27CSceneNodeAnimatorCameraFPS10SCamKeyMapENS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE22_M_insert_overflow_auxEPS3_RKS3_RKSt12__false_typejb.clone.1",
+    "address": "0x6c8ad4",
+    "size": 228
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_scene_CSceneNodeAnimatorCameraMaya.cpp",
+    "address": "0x6c961c",
+    "size": 32
+  },
+  {
+    "name": "_GLOBAL__I_.._source_glitch_collada_CColladaCameraSceneNode.cpp",
+    "address": "0x6e5180",
+    "size": 32
+  },
+  {
+    "name": "_ZN7Structs10PlayCameraD0Ev",
+    "address": "0x4ce10c",
+    "size": 28
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI16Script_SetCameraEP13ScriptCmdImplv",
+    "address": "0x458c20",
+    "size": 72
+  },
+  {
+    "name": "_ZN12MenuMainMenu19DestroyAvatarCameraEv",
+    "address": "0x42baec",
+    "size": 88
+  },
+  {
+    "name": "_ZTCN6glitch5scene27CSceneNodeAnimatorCameraFPSE0_NS0_18ISceneNodeAnimatorE",
+    "address": "0x988c68",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5scene16ICameraSceneNodeC2EiRKNS_4core8vector3dIfEES6_S6_",
+    "address": "0x582b18",
+    "size": 192
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya20updateAnimationStateEv",
+    "address": "0x6c97f4",
+    "size": 320
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNodeD2Ev",
+    "address": "0x6e51a0",
+    "size": 152
+  },
+  {
+    "name": "_ZThn12_N14CameraOverviewD1Ev",
+    "address": "0x410c5c",
+    "size": 8
+  },
+  {
+    "name": "_ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE",
+    "address": "0x42cf30",
+    "size": 56
+  },
+  {
+    "name": "_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya12getMoveSpeedEv",
+    "address": "0x6c960c",
+    "size": 8
+  },
+  {
+    "name": "_ZN12CameraTarget6UpdateEv",
+    "address": "0x411a7c",
+    "size": 188
+  },
+  {
+    "name": "_ZThn304_N6glitch5scene16ICameraSceneNodeD0Ev",
+    "address": "0x35dba0",
+    "size": 8
+  },
+  {
+    "name": "_ZTv0_n20_N6glitch5scene16CCameraSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+    "address": "0x58398c",
+    "size": 16
+  },
+  {
+    "name": "_ZN17MenuFlash2DCamera6UpdateEv",
+    "address": "0x42cd84",
+    "size": 428
+  },
+  {
+    "name": "_ZN17Script_PlayCamera7ExecuteEbi",
+    "address": "0x460110",
+    "size": 244
+  },
+  {
+    "name": "_ZThn304_N6glitch7collada16CCameraSceneNodeD1Ev",
+    "address": "0x6e5410",
+    "size": 8
+  },
+  {
+    "name": "_ZN11CameraLevel8PlayAnimEiib",
+    "address": "0x40f904",
+    "size": 124
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene27ISceneNodeAnimatorCameraFPSD0Ev",
+    "address": "0x6c8c1c",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS11createCloneEv",
+    "address": "0x6c91bc",
+    "size": 112
+  },
+  {
+    "name": "_ZNK17AnimSetController7HasClipEPKcj",
+    "address": "0x474f58",
+    "size": 8
+  },
+  {
+    "name": "_ZN11CameraLevel15HandleCenteringER7Point3DIfE",
+    "address": "0x40fa68",
+    "size": 688
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode14getBoundingBoxEv",
+    "address": "0x582130",
+    "size": 8
+  },
+  {
+    "name": "_ZTCN6glitch5scene27ISceneNodeAnimatorCameraFPSE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x988ad0",
+    "size": 56
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada16CCameraSceneNodeD0Ev",
+    "address": "0x6e59fc",
+    "size": 16
+  },
+  {
+    "name": "_ZTCN6glitch5scene16ICameraSceneNodeE0_NS0_10ISceneNodeE",
+    "address": "0x95fc70",
+    "size": 300
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI22Script_SetCameraTargetEP13ScriptCmdImplv",
+    "address": "0x458b00",
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch7collada16CCameraSceneNodeC1ERKNS0_16CColladaDatabaseERNS0_7SCameraE",
+    "address": "0x6e5550",
+    "size": 608
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode6removeEv",
+    "address": "0x582290",
+    "size": 56
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode12getNearValueEv",
+    "address": "0x58202c",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTarget11m_dataNamesE",
+    "address": "0x9f288c",
+    "size": 96
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode19getProjectionMatrixEv",
+    "address": "0x581f50",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode19recalculateMatricesEv",
+    "address": "0x583280",
+    "size": 692
+  },
+  {
+    "name": "_ZN11CameraLevelC1Ev",
+    "address": "0x40ff70",
+    "size": 188
+  },
+  {
+    "name": "_ZNK22Script_SetCameraTarget10IsBlockingEv",
+    "address": "0x4592cc",
+    "size": 96
+  },
+  {
+    "name": "_ZN6glitch5scene28ISceneNodeAnimatorCameraMayaC2Ev",
+    "address": "0x6ca290",
+    "size": 168
+  },
+  {
+    "name": "_ZN11CameraLevel30CalculateDefaultTargetDistanceEv",
+    "address": "0x40fd18",
+    "size": 356
+  },
+  {
+    "name": "_ZThn12_N14CameraOverviewD0Ev",
+    "address": "0x410cac",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTarget13m_dataOffsetsE",
+    "address": "0x99aaf4",
+    "size": 16
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTargetD1Ev",
+    "address": "0x4d373c",
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode21onChangedSceneManagerEv",
+    "address": "0x582aa0",
+    "size": 120
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager15setActiveCameraEPNS0_16ICameraSceneNodeE",
+    "address": "0x5890c0",
+    "size": 104
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch7collada16CCameraSceneNodeD1Ev",
+    "address": "0x6e5a1c",
+    "size": 16
+  },
+  {
+    "name": "_ZN12MenuMainMenu18CreateAvatarCameraEv",
+    "address": "0x42bf3c",
+    "size": 404
+  },
+  {
+    "name": "_ZN12CameraTarget16HandleTransitionEv",
+    "address": "0x411830",
+    "size": 404
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode11setUpVectorERKNS_4core8vector3dIfEE",
+    "address": "0x582008",
+    "size": 28
+  },
+  {
+    "name": "_ZN14AnimSetManager23GetSynchronizedAnimatorEi",
+    "address": "0x4761cc",
+    "size": 248
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene28CSceneNodeAnimatorCameraMayaD0Ev",
+    "address": "0x6c9740",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya14setRotateSpeedEf",
+    "address": "0x6c95ec",
+    "size": 8
+  },
+  {
+    "name": "_ZN12CameraTargetD0Ev",
+    "address": "0x411bf0",
+    "size": 28
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode11getUpVectorEv",
+    "address": "0x582024",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch7collada16CColladaDatabase15constructCameraEiPNS0_14CRootSceneNodeE",
+    "address": "0x6193e0",
+    "size": 36
+  },
+  {
+    "name": "_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS12getMoveSpeedEv",
+    "address": "0x6c7960",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene27ISceneNodeAnimatorCameraFPSC2Ev",
+    "address": "0x6c8a2c",
+    "size": 168
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode17setFarToInifinityEb",
+    "address": "0x5820cc",
+    "size": 24
+  },
+  {
+    "name": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+    "address": "0x975400",
+    "size": 424
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode14getViewFrustumEv",
+    "address": "0x582138",
+    "size": 8
+  },
+  {
+    "name": "_ZN14AnimSetManagerC1Ev",
+    "address": "0x4753b4",
+    "size": 80
+  },
+  {
+    "name": "_ZN24BlendedAnimSetController8StopClipEbj",
+    "address": "0x476780",
+    "size": 140
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI20Script_SetCameraClipEP13ScriptCmdImplv",
+    "address": "0x458b90",
+    "size": 72
+  },
+  {
+    "name": "_ZN16MenuCharMenu_Map16DestroyMapCameraEv",
+    "address": "0x453488",
+    "size": 148
+  },
+  {
+    "name": "_ZTV17MenuFlash2DCamera",
+    "address": "0x9680a0",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS9setKeyMapEPNS_7SKeyMapEj",
+    "address": "0x6c8c2c",
+    "size": 740
+  },
+  {
+    "name": "_ZN14AnimSetManagerD2Ev",
+    "address": "0x475728",
+    "size": 100
+  },
+  {
+    "name": "_ZTV12CameraTarget",
+    "address": "0x967ba0",
+    "size": 28
+  },
+  {
+    "name": "_ZN7Structs9SetCameraD0Ev",
+    "address": "0x4d388c",
+    "size": 28
+  },
+  {
+    "name": "_ZN14AnimSetManager15AddTemplateAnimEii",
+    "address": "0x476398",
+    "size": 204
+  },
+  {
+    "name": "_ZN10CameraBase9SetActiveEv",
+    "address": "0x40f45c",
+    "size": 128
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya12setMoveSpeedEf",
+    "address": "0x6c95f4",
+    "size": 8
+  },
+  {
+    "name": "_ZN12CameraTarget12HandleOffsetER7Point3DIfE",
+    "address": "0x4117bc",
+    "size": 116
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene28CSceneNodeAnimatorCameraMayaD0Ev",
+    "address": "0x6ca674",
+    "size": 16
+  },
+  {
+    "name": "_ZNK10CameraBase14GetCameraUpVecEv",
+    "address": "0x40e928",
+    "size": 128
+  },
+  {
+    "name": "_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya7getTypeEv",
+    "address": "0x6c94e0",
+    "size": 8
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene16CCameraSceneNodeD1Ev",
+    "address": "0x35c3ac",
+    "size": 16
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+    "address": "0x582160",
+    "size": 236
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNode9addCameraEPNS0_16CCameraSceneNodeE",
+    "address": "0x65b2ac",
+    "size": 52
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPSD0Ev",
+    "address": "0x6c7ab0",
+    "size": 28
+  },
+  {
+    "name": "_ZN7Structs10WaitCamera11m_dataNamesE",
+    "address": "0x9f285c",
+    "size": 48
+  },
+  {
+    "name": "_ZN12CameraTargetD1Ev",
+    "address": "0x411bbc",
+    "size": 52
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene28ISceneNodeAnimatorCameraMayaD1Ev",
+    "address": "0x6c963c",
+    "size": 8
+  },
+  {
+    "name": "_ZTTN6glitch5scene16CCameraSceneNodeE",
+    "address": "0x9755a8",
+    "size": 44
+  },
+  {
+    "name": "_ZN14AnimSetManager5FlushEv",
+    "address": "0x475664",
+    "size": 68
+  },
+  {
+    "name": "_ZN5Level16UpdateCameraZoomEv",
+    "address": "0x3f9870",
+    "size": 800
+  },
+  {
+    "name": "_ZN10CameraBase13GetWorldCoordERK7Point2DIiER7Point3DIfEf",
+    "address": "0x40f2f0",
+    "size": 164
+  },
+  {
+    "name": "_ZN11MenuMinimap16DisableMapCameraEv",
+    "address": "0x434df8",
+    "size": 64
+  },
+  {
+    "name": "_ZN7Console15_setMenuCamerasEv",
+    "address": "0x3301d8",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch4core23buildCameraLookAtMatrixIfEENS0_8CMatrix4IT_EERKNS0_8vector3dIS3_EES8_S8_",
+    "address": "0x582e64",
+    "size": 1052
+  },
+  {
+    "name": "_ZN24BlendedAnimSetControllerC1EP13RootSceneNodei",
+    "address": "0x476ddc",
+    "size": 656
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya14isMouseKeyDownEi",
+    "address": "0x6c95cc",
+    "size": 12
+  },
+  {
+    "name": "_ZN20MenuCharMenu_InvMain18CreateAvatarCameraEv",
+    "address": "0x4528d0",
+    "size": 588
+  },
+  {
+    "name": "_ZThn304_N6glitch5scene16CCameraSceneNodeD1Ev",
+    "address": "0x35c310",
+    "size": 8
+  },
+  {
+    "name": "_ZN14AnimSetManagerD1Ev",
+    "address": "0x4756a8",
+    "size": 100
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+    "address": "0x582948",
+    "size": 344
+  },
+  {
+    "name": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+    "address": "0x98b5e0",
+    "size": 424
+  },
+  {
+    "name": "_ZN5Level11_LoadCameraEv",
+    "address": "0x3f1008",
+    "size": 908
+  },
+  {
+    "name": "_ZTTN6glitch5scene27CSceneNodeAnimatorCameraFPSE",
+    "address": "0x988bb0",
+    "size": 32
+  },
+  {
+    "name": "_ZN10CameraBaseC1Ev",
+    "address": "0x40e750",
+    "size": 48
+  },
+  {
+    "name": "_ZTTN6glitch7collada16CCameraSceneNodeE",
+    "address": "0x98b788",
+    "size": 56
+  },
+  {
+    "name": "_ZTCN6glitch5scene16ICameraSceneNodeE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x95fda0",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch7collada16CCameraSceneNode19onRegisterSceneNodeEv",
+    "address": "0x6e5238",
+    "size": 472
+  },
+  {
+    "name": "_ZN14CameraOverviewD1Ev",
+    "address": "0x410c64",
+    "size": 72
+  },
+  {
+    "name": "_ZTTN6glitch5scene27ISceneNodeAnimatorCameraFPSE",
+    "address": "0x988a38",
+    "size": 24
+  },
+  {
+    "name": "_ZN7Structs9SetCamera4readEP11IStreamBase",
+    "address": "0x5027f0",
+    "size": 460
+  },
+  {
+    "name": "_ZN22Script_SetCameraTarget7ExecuteEbi",
+    "address": "0x460004",
+    "size": 268
+  },
+  {
+    "name": "_ZThn304_N6glitch5scene16ICameraSceneNodeD1Ev",
+    "address": "0x35c3bc",
+    "size": 8
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene28ISceneNodeAnimatorCameraMayaD0Ev",
+    "address": "0x6ca600",
+    "size": 8
+  },
+  {
+    "name": "_ZThn304_N6glitch7collada16CCameraSceneNodeD0Ev",
+    "address": "0x6e549c",
+    "size": 8
+  },
+  {
+    "name": "_ZN17AnimSetControllerC2EP13RootSceneNodei",
+    "address": "0x475248",
+    "size": 148
+  },
+  {
+    "name": "_ZN17AnimSetControllerC1EP13RootSceneNodei",
+    "address": "0x4751b4",
+    "size": 148
+  },
+  {
+    "name": "_ZNK14AnimSetManager12DBG_DumpInfoEv",
+    "address": "0x475488",
+    "size": 244
+  },
+  {
+    "name": "_ZN7Structs13SetCameraClipD2Ev",
+    "address": "0x4c6db0",
+    "size": 52
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene27CSceneNodeAnimatorCameraFPS7onEventERKNS_6SEventE",
+    "address": "0x6c77f4",
+    "size": 8
+  },
+  {
+    "name": "_ZTV20Script_SetCameraClip",
+    "address": "0x968b58",
+    "size": 24
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode19recalculateViewAreaEv",
+    "address": "0x582904",
+    "size": 68
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene16ICameraSceneNodeD1Ev",
+    "address": "0x35c434",
+    "size": 16
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraD0Ev",
+    "address": "0x42cd50",
+    "size": 52
+  },
+  {
+    "name": "_ZN12MenuMerchant19DestroyAvatarCameraEv",
+    "address": "0x432b38",
+    "size": 132
+  },
+  {
+    "name": "_ZN7Structs13SetCameraClip11m_dataNamesE",
+    "address": "0x9f280c",
+    "size": 72
+  },
+  {
+    "name": "_ZN14CameraOverviewD0Ev",
+    "address": "0x410cb4",
+    "size": 28
+  },
+  {
+    "name": "_ZTTN6glitch5scene16ICameraSceneNodeE",
+    "address": "0x95fc50",
+    "size": 32
+  },
+  {
+    "name": "_ZN6glitch5scene16ICameraSceneNodeD1Ev",
+    "address": "0x35c3c4",
+    "size": 96
+  },
+  {
+    "name": "_ZGVN9SingletonI14AnimSetManagerE6s_instE",
+    "address": "0x9a263c",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode14setAspectRatioEf",
+    "address": "0x582084",
+    "size": 24
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs10PlayCameraEEPNS0_9ScriptCmdEv",
+    "address": "0x4575a0",
+    "size": 68
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTargetD2Ev",
+    "address": "0x4d37a0",
+    "size": 72
+  },
+  {
+    "name": "_ZTV22Script_SetCameraTarget",
+    "address": "0x968b28",
+    "size": 24
+  },
+  {
+    "name": "_ZN24BlendedAnimSetController8PlayClipEPKcbij",
+    "address": "0x476690",
+    "size": 8
+  },
+  {
+    "name": "_ZN11CameraLevelD0Ev",
+    "address": "0x40fee8",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS12setMoveSpeedEf",
+    "address": "0x6c7950",
+    "size": 8
+  },
+  {
+    "name": "_ZN10CameraBase6UpdateEv",
+    "address": "0x40ea50",
+    "size": 4
+  },
+  {
+    "name": "_ZN7Structs9SetCameraD2Ev",
+    "address": "0x4d38a8",
+    "size": 88
+  },
+  {
+    "name": "_ZNK17AnimSetController15GetClipDurationEj",
+    "address": "0x474f60",
+    "size": 8
+  },
+  {
+    "name": "_ZThn304_N6glitch5scene16CCameraSceneNodeD0Ev",
+    "address": "0x58224c",
+    "size": 8
+  },
+  {
+    "name": "_ZN24BlendedAnimSetControllerD0Ev",
+    "address": "0x4769c4",
+    "size": 28
+  },
+  {
+    "name": "_ZN12CameraTargetC2Ev",
+    "address": "0x411cdc",
+    "size": 156
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraC1EP6MenuFX",
+    "address": "0x42ccd0",
+    "size": 128
+  },
+  {
+    "name": "_ZN11CameraLevel6UpdateEv",
+    "address": "0x410390",
+    "size": 764
+  },
+  {
+    "name": "_ZN17AnimSetController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x474fb0",
+    "size": 64
+  },
+  {
+    "name": "_ZN14AnimSetManager7AddAnimEii",
+    "address": "0x47653c",
+    "size": 324
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode27recalculateProjectionMatrixEv",
+    "address": "0x58364c",
+    "size": 232
+  },
+  {
+    "name": "_ZN14CameraOverview11DeactivatedEv",
+    "address": "0x410ac4",
+    "size": 40
+  },
+  {
+    "name": "_ZNK10CameraBase18GetCameraLookAtVecEv",
+    "address": "0x40e8a8",
+    "size": 128
+  },
+  {
+    "name": "_ZNK6glitch7collada16CCameraSceneNode6getUIDEv",
+    "address": "0x6e5174",
+    "size": 12
+  },
+  {
+    "name": "_ZN17AnimSetController8PlayClipEjbij",
+    "address": "0x474ff0",
+    "size": 292
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode12setNearValueEf",
+    "address": "0x582054",
+    "size": 24
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS9allKeysUpEv",
+    "address": "0x6c7928",
+    "size": 32
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPSC1EPNS_3gui14ICursorControlEfffPNS_7SKeyMapEjb",
+    "address": "0x6c8f10",
+    "size": 684
+  },
+  {
+    "name": "_ZTCN6glitch5scene28CSceneNodeAnimatorCameraMayaE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x989078",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya7onEventERKNS_6SEventE",
+    "address": "0x6c94f0",
+    "size": 220
+  },
+  {
+    "name": "_ZN17AnimSetController8PlayClipEPKcbij",
+    "address": "0x474f68",
+    "size": 8
+  },
+  {
+    "name": "_ZN12CameraTarget17GetTargetPositionEv",
+    "address": "0x411a74",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNodeC2EiRKNS_4core8vector3dIfEES6_b",
+    "address": "0x583878",
+    "size": 276
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode6getFOVEv",
+    "address": "0x582044",
+    "size": 8
+  },
+  {
+    "name": "_ZTVN7Structs10PlayCameraE",
+    "address": "0x96ab98",
+    "size": 24
+  },
+  {
+    "name": "_ZTV17Script_PlayCamera",
+    "address": "0x968b70",
+    "size": 24
+  },
+  {
+    "name": "_ZN11MenuManager14GetRootCamera2Ev",
+    "address": "0x42cbb0",
+    "size": 12
+  },
+  {
+    "name": "_ZTV10CameraBase",
+    "address": "0x967b28",
+    "size": 28
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTargetD0Ev",
+    "address": "0x4d3784",
+    "size": 28
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene27ISceneNodeAnimatorCameraFPSD1Ev",
+    "address": "0x6c7994",
+    "size": 8
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch5scene16ICameraSceneNodeD0Ev",
+    "address": "0x35dc38",
+    "size": 16
+  },
+  {
+    "name": "_ZTVN6glitch5scene28CSceneNodeAnimatorCameraMayaE",
+    "address": "0x988e98",
+    "size": 168
+  },
+  {
+    "name": "_ZTV24BlendedAnimSetController",
+    "address": "0x9690d8",
+    "size": 56
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs15SetCameraTargetEEPNS0_9ScriptCmdEv",
+    "address": "0x4574dc",
+    "size": 60
+  },
+  {
+    "name": "_ZTVN7Structs9SetCameraE",
+    "address": "0x96abb0",
+    "size": 24
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene16ICameraSceneNodeD0Ev",
+    "address": "0x35dc48",
+    "size": 16
+  },
+  {
+    "name": "_ZN12CameraTarget13HandleDampingER7Point3DIfE",
+    "address": "0x41165c",
+    "size": 352
+  },
+  {
+    "name": "_ZNK20Script_SetCameraClip10IsBlockingEv",
+    "address": "0x455684",
+    "size": 8
+  },
+  {
+    "name": "_ZN11MenuManager13GetRootCameraEv",
+    "address": "0x42cb98",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode6setMAGEf",
+    "address": "0x5820b4",
+    "size": 24
+  },
+  {
+    "name": "_ZN10CameraBaseD2Ev",
+    "address": "0x40e780",
+    "size": 148
+  },
+  {
+    "name": "_ZN17AnimSetControllerD2Ev",
+    "address": "0x475180",
+    "size": 52
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraD1Ev",
+    "address": "0x42ca88",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5scene13CSceneManager11setupCameraEv",
+    "address": "0x589e18",
+    "size": 100
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene28CSceneNodeAnimatorCameraMayaD1Ev",
+    "address": "0x6ca684",
+    "size": 16
+  },
+  {
+    "name": "_ZN11CameraLevelD2Ev",
+    "address": "0x40ff04",
+    "size": 108
+  },
+  {
+    "name": "_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya22isEventReceiverEnabledEv",
+    "address": "0x6c94d8",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada16CCameraSceneNodeD2Ev",
+    "address": "0x6e54c0",
+    "size": 144
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode11getFarValueEv",
+    "address": "0x582034",
+    "size": 8
+  },
+  {
+    "name": "_ZN10CameraBase14GetScreenCoordERK7Point3DIfER7Point2DIfE",
+    "address": "0x40f714",
+    "size": 264
+  },
+  {
+    "name": "_ZNK6glitch7collada16CColladaDatabase15constructCameraEPNS0_7SCameraEPNS0_14CRootSceneNodeE",
+    "address": "0x619398",
+    "size": 72
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch5scene16ICameraSceneNodeD1Ev",
+    "address": "0x35c424",
+    "size": 16
+  },
+  {
+    "name": "_ZN20MenuCharMenu_InvMain19DestroyAvatarCameraEv",
+    "address": "0x452810",
+    "size": 144
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode14getAspectRatioEv",
+    "address": "0x58203c",
+    "size": 8
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene27ISceneNodeAnimatorCameraFPSD0Ev",
+    "address": "0x6c8bb8",
+    "size": 8
+  },
+  {
+    "name": "_ZTCN6glitch5scene27ISceneNodeAnimatorCameraFPSE0_NS0_18ISceneNodeAnimatorE",
+    "address": "0x988a50",
+    "size": 124
+  },
+  {
+    "name": "_ZN10CameraBase11DeactivatedEv",
+    "address": "0x40e71c",
+    "size": 4
+  },
+  {
+    "name": "_ZNK16Script_SetCamera10IsBlockingEv",
+    "address": "0x45567c",
+    "size": 8
+  },
+  {
+    "name": "_ZN16Script_SetCamera7ExecuteEbi",
+    "address": "0x455678",
+    "size": 4
+  },
+  {
+    "name": "_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya14getRotateSpeedEv",
+    "address": "0x6c9604",
+    "size": 8
+  },
+  {
+    "name": "_ZTCN6glitch5scene27CSceneNodeAnimatorCameraFPSE0_NS0_27ISceneNodeAnimatorCameraFPSE",
+    "address": "0x988bd0",
+    "size": 148
+  },
+  {
+    "name": "_ZTVN6glitch5scene27CSceneNodeAnimatorCameraFPSE",
+    "address": "0x988b08",
+    "size": 168
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene27ISceneNodeAnimatorCameraFPSD1Ev",
+    "address": "0x6c79f0",
+    "size": 16
+  },
+  {
+    "name": "_ZTCN6glitch5scene16CCameraSceneNodeE0_NS0_10ISceneNodeE",
+    "address": "0x975768",
+    "size": 300
+  },
+  {
+    "name": "_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya12getZoomSpeedEv",
+    "address": "0x6c9614",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS22isEventReceiverEnabledEv",
+    "address": "0x6c77e4",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager34getScreenCoordinatesFrom3DPositionENS_4core8vector3dIfEEPNS0_16ICameraSceneNodeE",
+    "address": "0x6c57d8",
+    "size": 488
+  },
+  {
+    "name": "_ZThn304_N6glitch5scene16CCameraSceneNode7onEventERKNS_6SEventE",
+    "address": "0x581f60",
+    "size": 8
+  },
+  {
+    "name": "_ZN11CameraLevelD1Ev",
+    "address": "0x40fe7c",
+    "size": 108
+  },
+  {
+    "name": "_ZN7Structs10WaitCamera8finalizeEv",
+    "address": "0x4c6e84",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch7collada16CCameraSceneNodeC2ERKNS0_16CColladaDatabaseERNS0_7SCameraE",
+    "address": "0x6e57b0",
+    "size": 572
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMayaD2Ev",
+    "address": "0x6c9764",
+    "size": 144
+  },
+  {
+    "name": "_ZNK14AnimSetManager6ExistsEi",
+    "address": "0x475404",
+    "size": 92
+  },
+  {
+    "name": "_ZN7Structs10PlayCamera4readEP11IStreamBase",
+    "address": "0x4ffba0",
+    "size": 132
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager27getRayFromScreenCoordinatesENS_4core10position2dIiEEPNS0_16ICameraSceneNodeE",
+    "address": "0x6c59c0",
+    "size": 896
+  },
+  {
+    "name": "_ZN11MenuManager16GetHUDRootCameraEv",
+    "address": "0x42cba4",
+    "size": 12
+  },
+  {
+    "name": "_ZN7Structs13SetCameraClip8finalizeEv",
+    "address": "0x4c6e18",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS14setRotateSpeedEf",
+    "address": "0x6c7948",
+    "size": 8
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI17Script_WaitCameraEP13ScriptCmdImplv",
+    "address": "0x458b48",
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNodeD0Ev",
+    "address": "0x582254",
+    "size": 28
+  },
+  {
+    "name": "_ZN11CameraLevel4LoadEPKciS1_",
+    "address": "0x41068c",
+    "size": 668
+  },
+  {
+    "name": "_ZN14AnimSetManager9GetClipIdEii",
+    "address": "0x47559c",
+    "size": 136
+  },
+  {
+    "name": "_ZN14AnimSetManager11DBG_SetNameEiPKc",
+    "address": "0x475460",
+    "size": 40
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs9SetCameraEEPNS0_9ScriptCmdEv",
+    "address": "0x4575e4",
+    "size": 64
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode9setTargetERKNS_4core8vector3dIfEE",
+    "address": "0x581fe4",
+    "size": 28
+  },
+  {
+    "name": "_ZN10HUDMinimap15CreateMapCameraEv",
+    "address": "0x41be88",
+    "size": 464
+  },
+  {
+    "name": "_ZN10HUDMinimap16DestroyMapCameraEv",
+    "address": "0x41b4a8",
+    "size": 48
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch5scene16CCameraSceneNodeD0Ev",
+    "address": "0x582270",
+    "size": 16
+  },
+  {
+    "name": "_ZN10CameraBaseD1Ev",
+    "address": "0x40e814",
+    "size": 148
+  },
+  {
+    "name": "_ZN14AnimSetManager11GetAnimatorEi",
+    "address": "0x4762c4",
+    "size": 212
+  },
+  {
+    "name": "_ZN12CameraTarget14HandleGhostCamER7Point3DIfE",
+    "address": "0x4115d8",
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch7collada16CCameraSceneNodeD0Ev",
+    "address": "0x6e54a4",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene16ICameraSceneNodeD0Ev",
+    "address": "0x35dba8",
+    "size": 144
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager24getSceneNodeFromCameraBBEPNS0_16ICameraSceneNodeEib",
+    "address": "0x6c5674",
+    "size": 308
+  },
+  {
+    "name": "_ZN24BlendedAnimSetControllerC2EP13RootSceneNodei",
+    "address": "0x476b4c",
+    "size": 656
+  },
+  {
+    "name": "_ZTVN6glitch5scene16ICameraSceneNodeE",
+    "address": "0x95fab0",
+    "size": 416
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya12setZoomSpeedEf",
+    "address": "0x6c95fc",
+    "size": 8
+  },
+  {
+    "name": "_ZTV17Script_WaitCamera",
+    "address": "0x968b40",
+    "size": 24
+  },
+  {
+    "name": "_ZN12CameraTargetD2Ev",
+    "address": "0x411c0c",
+    "size": 52
+  },
+  {
+    "name": "_ZTVN7Structs13SetCameraClipE",
+    "address": "0x96ab80",
+    "size": 24
+  },
+  {
+    "name": "_ZN24BlendedAnimSetController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+    "address": "0x4766fc",
+    "size": 64
+  },
+  {
+    "name": "_ZN7Structs10PlayCamera11m_dataNamesE",
+    "address": "0x9f27c4",
+    "size": 72
+  },
+  {
+    "name": "_ZTVN7Structs15SetCameraTargetE",
+    "address": "0x96ab50",
+    "size": 24
+  },
+  {
+    "name": "_ZNK6glitch7collada16CCameraSceneNode7getTypeEv",
+    "address": "0x6e5168",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPSC2EPNS_3gui14ICursorControlEfffPNS_7SKeyMapEjb",
+    "address": "0x6c922c",
+    "size": 652
+  },
+  {
+    "name": "_ZN7Structs13SetCameraClipD1Ev",
+    "address": "0x4c6de4",
+    "size": 52
+  },
+  {
+    "name": "_ZN14AnimSetManagerD0Ev",
+    "address": "0x47570c",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene27ISceneNodeAnimatorCameraFPSD1Ev",
+    "address": "0x6c799c",
+    "size": 84
+  },
+  {
+    "name": "_ZN12CameraTarget13EnableDampingEb",
+    "address": "0x41161c",
+    "size": 56
+  },
+  {
+    "name": "_ZN17AnimSetControllerD1Ev",
+    "address": "0x475130",
+    "size": 52
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs13SetCameraClipEEPNS0_9ScriptCmdEv",
+    "address": "0x45755c",
+    "size": 68
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch5scene16CCameraSceneNodeD1Ev",
+    "address": "0x35c39c",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS11animateNodeEPNS0_10ISceneNodeEj",
+    "address": "0x6c7f1c",
+    "size": 2832
+  },
+  {
+    "name": "_ZN12CameraTargetC1Ev",
+    "address": "0x411c40",
+    "size": 156
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNodeC1EiRKNS_4core8vector3dIfEES6_b",
+    "address": "0x583734",
+    "size": 324
+  },
+  {
+    "name": "_ZN10CameraBase9ActivatedEv",
+    "address": "0x40e718",
+    "size": 4
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode6setFOVEf",
+    "address": "0x58209c",
+    "size": 24
+  },
+  {
+    "name": "_ZN6glitch7collada14CRootSceneNode13attachCamerasEv",
+    "address": "0x65b350",
+    "size": 48
+  },
+  {
+    "name": "_ZTVN6glitch5scene27ISceneNodeAnimatorCameraFPSE",
+    "address": "0x988990",
+    "size": 168
+  },
+  {
+    "name": "_ZN7Structs9SetCamera8finalizeEv",
+    "address": "0x4d37e8",
+    "size": 76
+  },
+  {
+    "name": "_ZN6glitch7collada15CColladaFactory16createCameraNodeERKNS0_16CColladaDatabaseEPNS0_7SCameraE",
+    "address": "0x6317d0",
+    "size": 48
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene27CSceneNodeAnimatorCameraFPSD1Ev",
+    "address": "0x6c7a00",
+    "size": 8
+  },
+  {
+    "name": "_ZN10HUDMinimap15EnableMapCameraEv",
+    "address": "0x41be78",
+    "size": 16
+  },
+  {
+    "name": "_ZTTN6glitch5scene28ISceneNodeAnimatorCameraMayaE",
+    "address": "0x988dc8",
+    "size": 24
+  },
+  {
+    "name": "_ZTCN6glitch7collada16CCameraSceneNodeE0_NS_5scene16ICameraSceneNodeE",
+    "address": "0x98b958",
+    "size": 396
+  },
+  {
+    "name": "_ZN11CameraLevel10HandleZoomEv",
+    "address": "0x410218",
+    "size": 376
+  },
+  {
+    "name": "_Z27GetNewScriptCmdImplInstanceI17Script_PlayCameraEP13ScriptCmdImplv",
+    "address": "0x458bd8",
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPSD2Ev",
+    "address": "0x6c7acc",
+    "size": 160
+  },
+  {
+    "name": "_ZNK6glitch5scene10ISceneNode15getCameraOffsetEv",
+    "address": "0x5974e4",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya9allKeysUpEv",
+    "address": "0x6c95d8",
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch5scene28ISceneNodeAnimatorCameraMayaD0Ev",
+    "address": "0x6ca608",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch7collada16CCameraSceneNode6attachEPNS_5scene10ISceneNodeE",
+    "address": "0x65b2e0",
+    "size": 112
+  },
+  {
+    "name": "_ZN10HUDMinimap16EnableGameCameraEv",
+    "address": "0x41be34",
+    "size": 68
+  },
+  {
+    "name": "_ZTV17AnimSetController",
+    "address": "0x969090",
+    "size": 56
+  },
+  {
+    "name": "_ZTv0_n16_NK6glitch5scene16CCameraSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+    "address": "0x58399c",
+    "size": 16
+  },
+  {
+    "name": "_ZN10GameObject21SetCameraAnchorObjectEP10AnchorBase",
+    "address": "0x394378",
+    "size": 64
+  },
+  {
+    "name": "_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS14getRotateSpeedEv",
+    "address": "0x6c7958",
+    "size": 8
+  },
+  {
+    "name": "_ZN13RootSceneNode16s_enlargedCameraE",
+    "address": "0x9a1f24",
+    "size": 908
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene28ISceneNodeAnimatorCameraMayaD0Ev",
+    "address": "0x6ca664",
+    "size": 16
+  },
+  {
+    "name": "_ZNK10CameraBase15GetCenterOffsetER7Point3DIfEf",
+    "address": "0x40f4dc",
+    "size": 540
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode6renderEPv",
+    "address": "0x5820e4",
+    "size": 76
+  },
+  {
+    "name": "_ZNK17Script_PlayCamera10IsBlockingEv",
+    "address": "0x459370",
+    "size": 84
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya11createCloneEv",
+    "address": "0x6ca48c",
+    "size": 64
+  },
+  {
+    "name": "_ZN14AnimSetManager6CreateEv",
+    "address": "0x476464",
+    "size": 216
+  },
+  {
+    "name": "_ZN14AnimSetManagerC2Ev",
+    "address": "0x475364",
+    "size": 80
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode13getViewMatrixEv",
+    "address": "0x581f58",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode7getTypeEv",
+    "address": "0x581f34",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch5scene16ICameraSceneNode13getTargetNodeEv",
+    "address": "0x35beb8",
+    "size": 8
+  },
+  {
+    "name": "_ZTCN6glitch5scene16CCameraSceneNodeE0_NS0_16ICameraSceneNodeE",
+    "address": "0x9755d8",
+    "size": 396
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode11setFarValueEf",
+    "address": "0x58206c",
+    "size": 24
+  },
+  {
+    "name": "_ZTCN6glitch5scene16CCameraSceneNodeE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x975898",
+    "size": 56
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene28CSceneNodeAnimatorCameraMaya7onEventERKNS_6SEventE",
+    "address": "0x6c94e8",
+    "size": 8
+  },
+  {
+    "name": "_ZN14CameraOverview6UpdateEv",
+    "address": "0x411234",
+    "size": 932
+  },
+  {
+    "name": "_ZN14CameraOverview7onEventEPK6IEventPK12EventManager",
+    "address": "0x410930",
+    "size": 404
+  },
+  {
+    "name": "_ZTCN6glitch7collada16CCameraSceneNodeE0_NS_5scene16CCameraSceneNodeE",
+    "address": "0x98b7c0",
+    "size": 404
+  },
+  {
+    "name": "_ZTV16Script_SetCamera",
+    "address": "0x968b88",
+    "size": 24
+  },
+  {
+    "name": "_ZN7Structs10WaitCamera4readEP11IStreamBase",
+    "address": "0x4ffdc0",
+    "size": 120
+  },
+  {
+    "name": "_ZTVN6glitch5scene28ISceneNodeAnimatorCameraMayaE",
+    "address": "0x988d20",
+    "size": 168
+  },
+  {
+    "name": "_ZN14CameraOverviewC2Ev",
+    "address": "0x410ea4",
+    "size": 456
+  },
+  {
+    "name": "_ZN7Structs10PlayCameraD1Ev",
+    "address": "0x4c6d78",
+    "size": 52
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTarget4readEP11IStreamBase",
+    "address": "0x5026c8",
+    "size": 296
+  },
+  {
+    "name": "_ZN24BlendedAnimSetController8SetScaleEfj",
+    "address": "0x47673c",
+    "size": 68
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch7collada16CCameraSceneNodeD0Ev",
+    "address": "0x6e59ec",
+    "size": 16
+  },
+  {
+    "name": "_ZN24BlendedAnimSetControllerD1Ev",
+    "address": "0x476990",
+    "size": 52
+  },
+  {
+    "name": "_ZN11CameraLevel10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": "0x40f8f8",
+    "size": 12
+  },
+  {
+    "name": "_ZN6glitch5scene28ISceneNodeAnimatorCameraMayaD1Ev",
+    "address": "0x6c9644",
+    "size": 84
+  },
+  {
+    "name": "_ZN7Structs9SetCamera11m_dataNamesE",
+    "address": "0x9f274c",
+    "size": 120
+  },
+  {
+    "name": "_ZN12CameraTarget15SetDampingRatioEf",
+    "address": "0x411654",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch7collada16CCameraSceneNodeD1Ev",
+    "address": "0x6e5418",
+    "size": 132
+  },
+  {
+    "name": "_ZN7Structs10WaitCameraD1Ev",
+    "address": "0x4c6e50",
+    "size": 52
+  },
+  {
+    "name": "_ZTV14CameraOverview",
+    "address": "0x967b68",
+    "size": 52
+  },
+  {
+    "name": "_ZN16MenuCharMenu_Map15CreateMapCameraEv",
+    "address": "0x45351c",
+    "size": 676
+  },
+  {
+    "name": "_ZN10HUDMinimap16DisableMapCameraEv",
+    "address": "0x41b4d8",
+    "size": 20
+  },
+  {
+    "name": "_ZNK6glitch5scene16ICameraSceneNode13getTargetNodeEv",
+    "address": "0x35beb0",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Structs13SetCameraClip13m_dataOffsetsE",
+    "address": "0x99aae8",
+    "size": 12
+  },
+  {
+    "name": "_ZN14CameraOverviewD2Ev",
+    "address": "0x410cd0",
+    "size": 72
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMayaC2EPNS_3gui14ICursorControlEfff",
+    "address": "0x6ca4cc",
+    "size": 308
+  },
+  {
+    "name": "_ZN14CameraOverviewC1Ev",
+    "address": "0x41106c",
+    "size": 456
+  },
+  {
+    "name": "_ZNK6glitch7collada16CColladaDatabase9getCameraEi",
+    "address": "0x60e390",
+    "size": 28
+  },
+  {
+    "name": "_ZNK24BlendedAnimSetController15GetClipDurationEj",
+    "address": "0x476688",
+    "size": 8
+  },
+  {
+    "name": "_ZTCN6glitch5scene27CSceneNodeAnimatorCameraFPSE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x988ce8",
+    "size": 56
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraC2EP6MenuFX",
+    "address": "0x42cc50",
+    "size": 128
+  },
+  {
+    "name": "_ZN7Structs13SetCameraClipD0Ev",
+    "address": "0x4ce0f0",
+    "size": 28
+  },
+  {
+    "name": "_ZN7Structs10WaitCameraD0Ev",
+    "address": "0x4ce0d4",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene27ISceneNodeAnimatorCameraFPSD0Ev",
+    "address": "0x6c8bc0",
+    "size": 92
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode19onRegisterSceneNodeEv",
+    "address": "0x583534",
+    "size": 104
+  },
+  {
+    "name": "_ZN11MenuMinimap15CreateMapCameraEv",
+    "address": "0x434e38",
+    "size": 468
+  },
+  {
+    "name": "_ZN7Structs13SetCameraClip4readEP11IStreamBase",
+    "address": "0x4ff8d8",
+    "size": 212
+  },
+  {
+    "name": "_ZTCN6glitch7collada16CCameraSceneNodeE0_NS_5scene10ISceneNodeE",
+    "address": "0x98bae8",
+    "size": 300
+  },
+  {
+    "name": "_ZTv0_n24_N6glitch7collada16CCameraSceneNodeD1Ev",
+    "address": "0x6e5a0c",
+    "size": 16
+  },
+  {
+    "name": "_ZN12CameraTarget9SetTargetEP10GameObjecti",
+    "address": "0x4119c4",
+    "size": 176
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode19setProjectionMatrixERKNS_4core8CMatrix4IfEEb",
+    "address": "0x5823ac",
+    "size": 40
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene27CSceneNodeAnimatorCameraFPSD0Ev",
+    "address": "0x6c7aa8",
+    "size": 8
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene16CCameraSceneNodeD0Ev",
+    "address": "0x582280",
+    "size": 16
+  },
+  {
+    "name": "_ZNK6glitch5scene16ICameraSceneNode12isOrthogonalEv",
+    "address": "0x35bec0",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS19setVerticalMovementEb",
+    "address": "0x6c7968",
+    "size": 12
+  },
+  {
+    "name": "_ZN24BlendedAnimSetControllerD2Ev",
+    "address": "0x4769e0",
+    "size": 52
+  },
+  {
+    "name": "_ZTCN6glitch5scene28ISceneNodeAnimatorCameraMayaE0_NS0_18ISceneNodeAnimatorE",
+    "address": "0x988de0",
+    "size": 124
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNodeD1Ev",
+    "address": "0x35c318",
+    "size": 132
+  },
+  {
+    "name": "_ZN10CameraBaseC2Ev",
+    "address": "0x40e720",
+    "size": 48
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene27CSceneNodeAnimatorCameraFPSD0Ev",
+    "address": "0x6c94b8",
+    "size": 16
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMayaD1Ev",
+    "address": "0x6c96b0",
+    "size": 144
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMayaC1EPNS_3gui14ICursorControlEfff",
+    "address": "0x6ca338",
+    "size": 340
+  },
+  {
+    "name": "_ZN17Script_WaitCamera7ExecuteEbi",
+    "address": "0x45c5e8",
+    "size": 136
+  },
+  {
+    "name": "_ZN10CameraBase7SetDataEffffb",
+    "address": "0x40e9a8",
+    "size": 168
+  },
+  {
+    "name": "_ZN24BlendedAnimSetController15GetAnimationSetEv",
+    "address": "0x476698",
+    "size": 100
+  },
+  {
+    "name": "_ZN7Structs10PlayCameraD2Ev",
+    "address": "0x4c6d44",
+    "size": 52
+  },
+  {
+    "name": "_ZNK17Script_WaitCamera10IsBlockingEv",
+    "address": "0x45932c",
+    "size": 68
+  },
+  {
+    "name": "_ZTTN6glitch5scene28CSceneNodeAnimatorCameraMayaE",
+    "address": "0x988f40",
+    "size": 32
+  },
+  {
+    "name": "_ZTCN6glitch5scene28CSceneNodeAnimatorCameraMayaE0_NS0_28ISceneNodeAnimatorCameraMayaE",
+    "address": "0x988f60",
+    "size": 148
+  },
+  {
+    "name": "_ZNK6glitch7collada16CColladaDatabase9getCameraEPKc",
+    "address": "0x61b270",
+    "size": 96
+  },
+  {
+    "name": "_ZTV11CameraLevel",
+    "address": "0x967b48",
+    "size": 28
+  },
+  {
+    "name": "_ZN7Structs10WaitCamera13m_dataOffsetsE",
+    "address": "0x9f2854",
+    "size": 8
+  },
+  {
+    "name": "_ZNK24BlendedAnimSetController10GetNumClipEj",
+    "address": "0x47695c",
+    "size": 52
+  },
+  {
+    "name": "_ZN10CameraBase14s_activeCameraE",
+    "address": "0x9a3220",
+    "size": 4
+  },
+  {
+    "name": "_ZN16MenuCharMenu_Map15UpdateMapCameraEv",
+    "address": "0x45310c",
+    "size": 280
+  },
+  {
+    "name": "_ZN11CameraLevelC2Ev",
+    "address": "0x41002c",
+    "size": 188
+  },
+  {
+    "name": "_ZN17AnimSetController15GetAnimationSetEv",
+    "address": "0x474f70",
+    "size": 64
+  },
+  {
+    "name": "_Z27GetNewScriptCmdDataInstanceIN7Structs10WaitCameraEEPNS0_9ScriptCmdEv",
+    "address": "0x457518",
+    "size": 68
+  },
+  {
+    "name": "_ZTV14AnimSetManager",
+    "address": "0x9690c8",
+    "size": 16
+  },
+  {
+    "name": "_ZN7Structs15SetCameraTarget8finalizeEv",
+    "address": "0x4d370c",
+    "size": 48
+  },
+  {
+    "name": "_ZN10CameraBaseD0Ev",
+    "address": "0x40f6f8",
+    "size": 28
+  },
+  {
+    "name": "_ZN10CameraBase13GetWorldCoordERK7Point2DIfER7Point3DIfEf",
+    "address": "0x40f394",
+    "size": 200
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene28ISceneNodeAnimatorCameraMayaD1Ev",
+    "address": "0x6c9698",
+    "size": 16
+  },
+  {
+    "name": "_ZN7Structs10WaitCameraD2Ev",
+    "address": "0x4c6e1c",
+    "size": 52
+  },
+  {
+    "name": "_ZN14CameraOverview9ActivatedEv",
+    "address": "0x410aec",
+    "size": 368
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode9getTargetEv",
+    "address": "0x582000",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode22isInputReceiverEnabledEv",
+    "address": "0x581f48",
+    "size": 8
+  },
+  {
+    "name": "_ZTVN7Structs10WaitCameraE",
+    "address": "0x96ab68",
+    "size": 24
+  },
+  {
+    "name": "_ZNK24BlendedAnimSetController7HasClipEPKcj",
+    "address": "0x476680",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPSD1Ev",
+    "address": "0x6c7a08",
+    "size": 160
+  },
+  {
+    "name": "_ZN12MenuMerchant18CreateAvatarCameraEv",
+    "address": "0x433318",
+    "size": 560
+  },
+  {
+    "name": "_ZN12CameraTarget9SetTargetEPKci",
+    "address": "0x411b38",
+    "size": 132
+  },
+  {
+    "name": "_ZNK6glitch7collada16CColladaDatabase15constructCameraEPKcPNS0_14CRootSceneNodeE",
+    "address": "0x61b2d0",
+    "size": 36
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode23setInputReceiverEnabledEb",
+    "address": "0x581f40",
+    "size": 8
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode17getFarToInifinityEv",
+    "address": "0x58204c",
+    "size": 8
+  },
+  {
+    "name": "_ZThn4_N6glitch5scene28CSceneNodeAnimatorCameraMayaD1Ev",
+    "address": "0x6c96a8",
+    "size": 8
+  },
+  {
+    "name": "_ZNK11CameraLevel16CanPlayShakeAnimEP9Character",
+    "address": "0x40f980",
+    "size": 232
+  },
+  {
+    "name": "_ZTCN6glitch5scene28CSceneNodeAnimatorCameraMayaE0_NS0_18ISceneNodeAnimatorE",
+    "address": "0x988ff8",
+    "size": 124
+  },
+  {
+    "name": "_ZNK6glitch7collada16CColladaDatabase15constructCameraEPNS0_15SInstanceCameraEPNS0_14CRootSceneNodeE",
+    "address": "0x60e62c",
+    "size": 8
+  },
+  {
+    "name": "_ZNK10GameObject23GetCameraAnchorPositionEv",
+    "address": "0x3943b8",
+    "size": 20
+  },
+  {
+    "name": "_ZTCN6glitch7collada16CCameraSceneNodeE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x98bc18",
+    "size": 56
+  },
+  {
+    "name": "_ZN11ZoomHandler9setCameraEP11CameraLevel",
+    "address": "0x381fb0",
+    "size": 108
+  },
+  {
+    "name": "_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS7getTypeEv",
+    "address": "0x6c77ec",
+    "size": 8
+  },
+  {
+    "name": "_ZN9SingletonI14AnimSetManagerE6s_instE",
+    "address": "0x9a2640",
+    "size": 32
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMayaD0Ev",
+    "address": "0x6c9748",
+    "size": 28
+  },
+  {
+    "name": "_ZTCN6glitch5scene28ISceneNodeAnimatorCameraMayaE0_NS_2io26IAttributeExchangingObjectE",
+    "address": "0x988e60",
+    "size": 56
+  },
+  {
+    "name": "_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS7onEventERKNS_6SEventE",
+    "address": "0x6c77fc",
+    "size": 300
+  },
+  {
+    "name": "_ZN7Structs10PlayCamera8finalizeEv",
+    "address": "0x4c6dac",
+    "size": 4
+  },
+  {
+    "name": "_ZN24BlendedAnimSetController8PlayClipEjbij",
+    "address": "0x47680c",
+    "size": 336
+  },
+  {
+    "name": "_ZN7Structs9SetCameraD1Ev",
+    "address": "0x4d3834",
+    "size": 88
+  },
+  {
+    "name": "_ZNK9Character24IsValidatingCameraLimitsEv",
+    "address": "0x3a2e88",
+    "size": 20
+  },
+  {
+    "name": "_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya11animateNodeEPNS0_10ISceneNodeEj",
+    "address": "0x6c9934",
+    "size": 2396
+  },
+  {
+    "name": "_ZN7Structs9SetCamera13m_dataOffsetsE",
+    "address": "0x99aac8",
+    "size": 20
+  },
+  {
+    "name": "_ZN17AnimSetControllerD0Ev",
+    "address": "0x475164",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode7onEventERKNS_6SEventE",
+    "address": "0x581f68",
+    "size": 124
+  },
+  {
+    "name": "_ZN7Structs10PlayCamera13m_dataOffsetsE",
+    "address": "0x99aadc",
+    "size": 12
+  },
+  {
+    "name": "_ZNK10GameObject24IsValidatingCameraLimitsEv",
+    "address": "0x34009c",
+    "size": 8
+  },
+  {
+    "name": "_ZNK6glitch7collada16CCameraSceneNode13getTargetNodeEv",
+    "address": "0x6e5160",
+    "size": 8
+  },
+  {
+    "name": "_ZN7Console21InitShowRoomCameraPosEv",
+    "address": "0x331b68",
+    "size": 404
+  },
+  {
+    "name": "_ZN20Script_SetCameraClip7ExecuteEbi",
+    "address": "0x45c670",
+    "size": 592
+  },
+  {
+    "name": "_ZNK17AnimSetController10GetNumClipEj",
+    "address": "0x475114",
+    "size": 28
+  },
+  {
+    "name": "_ZN6glitch5scene10ISceneNode15setCameraOffsetEf",
+    "address": "0x5974dc",
+    "size": 8
+  },
+  {
+    "name": "_ZThn12_N14CameraOverview7onEventEPK6IEventPK12EventManager",
+    "address": "0x410928",
+    "size": 8
+  },
+  {
+    "name": "_ZTv0_n12_N6glitch5scene27CSceneNodeAnimatorCameraFPSD1Ev",
+    "address": "0x6c94c8",
+    "size": 16
+  }
+]

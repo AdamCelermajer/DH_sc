@@ -1,0 +1,71 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-05T00:55:24.445312+00:00",
+  "scope": "Distinct genuine upstream AS to_string and to_xstring on original argument slots, including deferred properties and unchanged results",
+  "native": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "actual_AS_text_conversions": 9,
+        "actual_AS_debug_text_conversions": 3,
+        "ignored_names_and_bound_results": 2,
+        "required_failure_prefixes": 1,
+        "actual_object_virtual_string_conversion": true,
+        "no_graph_cycle": true,
+        "authored_character_menu_navigation_exercised": false,
+        "startup_localization_GPU_are_fixtures": true
+      },
+      "result_sha256": "2e89a3295cf6a75ca559960480bd46bc5e2b002b3030826d35431a5f31da4efc",
+      "executable_sha256": "21e5f46391c07681d05c35f137cabc2be8eb0aa96627ae6316edc28a81cb3371"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "actual_AS_text_conversions": 9,
+        "actual_AS_debug_text_conversions": 3,
+        "ignored_names_and_bound_results": 2,
+        "required_failure_prefixes": 1,
+        "actual_object_virtual_string_conversion": true,
+        "no_graph_cycle": true,
+        "authored_character_menu_navigation_exercised": false,
+        "startup_localization_GPU_are_fixtures": true
+      },
+      "result_sha256": "2e89a3295cf6a75ca559960480bd46bc5e2b002b3030826d35431a5f31da4efc",
+      "executable_sha256": "c0c871e6a569c4dcc73ed871487156f8906355ae1a551bee4401b01a6fa38b13"
+    }
+  },
+  "source_hashes": {
+    "port/engine-ui/character_menu_as_bridge_v1.hpp": "5f9d355c8beea575c15549fae6eae5475994eb619c05c911274e3a3486927a9c",
+    "port/engine-ui/character_menu_as_bridge_v1.cpp": "c619c437f968b751a204aa7e2866758fc0455519675314d924f3e943ae350e07",
+    "port/engine-ui/character_menu_queries_owner_v1.hpp": "a01c6b5407f785c4c339daa7195f5bcdc141329febe3d92f2ff8d4ed59fe3e8b",
+    "port/engine-ui/tests/character_menu_as_names_v2.cpp": "0c4c472f7a0afd5f3dae77ba922708ac399add9bf825e84a230381a40ea832a7",
+    "port/engine-ui/tools/build_character_menu_as_names_v2.sh": "f1ef704cfb9f4f4572af4e042841550bcfa534f08bfe28de5ed9f65c7ce7c058",
+    "port/engine-ui/tools/audit_character_menu_as_names_v2.py": "81e4dbc1e725722b24012aead18ce5edb727a75acc1c9ccc91dbc787f3aa45cf"
+  },
+  "linked_private_snapshot": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  },
+  "original_SWF_inputs": {
+    "dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    "dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "Android_compile": {
+    "sha256": "6e0bbe474bf93a963a705aa76afc75651e9b5915d47c323a082c7b1a684478ed",
+    "ELF64_AArch64": true,
+    "scope": "Compile only; not linked or run on Android"
+  },
+  "limits": {
+    "source_menu_to_xstring_equivalence_proven": false,
+    "original_32bit_pointer_debug_text_not_claimed_for_native_64bit_addresses": true,
+    "original_raw_string_tag3_represented_by_upstream_bridge": false,
+    "authored_character_menu_navigation_exercised": false,
+    "startup_localization_GPU_are_fixtures": true,
+    "APK_or_emulator_modified": false
+  }
+}

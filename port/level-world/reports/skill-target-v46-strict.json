@@ -1,0 +1,26 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "source": "character_skill_target_binding_v46.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "tests/character_skill_target_binding_v46.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "character_skill_target_binding_v46.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "tests/character_skill_target_binding_v46.cpp",
+    "exit": 0,
+    "stderr": ""
+  }
+]

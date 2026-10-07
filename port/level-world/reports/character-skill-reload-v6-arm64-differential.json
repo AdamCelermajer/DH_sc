@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 2048,
+  "ordered_services": 19178,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "cd5a85832424a52731da51c668c7f02afe316b2e28e0a54cf55aa436498b194c",
+  "gold_sha256": "eed6ce5803f94fdcae5919634a243d8b64a804329e2f9b792eb36e78a94182aa",
+  "scope": "Original AI_ReloadSkills instruction order through declared destructor/SG/config/update observers.\nThe same native coordinator is used by actual V6 player/Skill/Save ownership;\nthese boundary observers do not claim original pooled Value storage parity.\n"
+}

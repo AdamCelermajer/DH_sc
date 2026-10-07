@@ -1,10 +1,16 @@
 #include "character_target_search.hpp"
 #include <cmath>
 #include <cstring>
+#include <utility>
+#include <initializer_list>
 namespace dh2::target_search { namespace {
 bool aligned(const void* p,std::uintptr_t a=8) { return p && !(reinterpret_cast<std::uintptr_t>(p)&(a-1)); }
+bool overlap(const void* a,std::uintptr_t an,const void* b,std::uintptr_t bn) {
+ auto x=reinterpret_cast<std::uintptr_t>(a),y=reinterpret_cast<std::uintptr_t>(b);
+ return x<=y?y-x<an:x-y<bn;
+}
 bool valid_services(const Services16* s) { return aligned(s)&&s->invoke; }
-bool valid_list(const List40* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&l->sort<=2&&l->reserved==0; }
+bool valid_list(const List40* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&(!l->reference_character||aligned(l->reference_character))&&l->sort<=2&&l->reserved==0&&!overlap(l,sizeof(*l),l->heap,l->capacity*sizeof(Target24)); }
 bool call(const Services16* s,Service op,const Object48* subject,const Object48* other,Response16& out) {
  out={};Request24 q{op,0,subject?subject->identity:0,other?other->identity:0};return s->invoke(s->context,&q,&out)==0;
 }
@@ -37,25 +43,39 @@ void pop(List40* l) {
  l->heap[hole]=value;
 }
 // Return -1 on provider error; exact flags1 character path otherwise.
-int character_valid(List40* l,Object48* candidate,const Services16* s) {
+int character_valid(List40* l,Object48* candidate,const Services16* s,std::uint32_t flags) {
  auto ref=l->reference_character;if(!ref)return 1;
  if(ref->character_word1314<candidate->character_word1310)return 0;
  Response16 r;
- if(!call(s,is_dead,candidate,nullptr,r))return -1;
- if(r.word)return 0;
- if(!call(s,is_enemy,ref,candidate,r))return -1;
- if(!r.word)return 0;
- if(!call(s,is_player,candidate,nullptr,r))return -1;
- if(!r.word)return 1;
- if(!call(s,is_player,l->reference_character,nullptr,r))return -1;
- return !r.word;
+ if(flags==0x80000001u)return 1;
+ for(const auto branch: {std::pair<std::uint32_t,Service>{128u,is_player},
+    {16u,is_merchant_v108},{32u,is_cleaner_v108},{64u,talk_required2fa_v108}}){
+  if(flags&branch.first){if(!call(s,branch.second,candidate,nullptr,r))return -1;if(r.word)return 1;}
+ }
+ if(flags&1u){
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(!r.word){
+   if(!call(s,is_enemy,ref,candidate,r))return -1;
+   if(r.word){if(!call(s,is_player,candidate,nullptr,r))return -1;if(!r.word)return 1;
+    if(!call(s,is_player,ref,nullptr,r))return -1;if(!r.word)return 1;}
+  }
+ }
+ if(flags&2u){if(!call(s,is_dead,candidate,nullptr,r))return -1;if(!r.word){if(!call(s,is_neutral_v108,ref,candidate,r))return -1;if(r.word)return 1;}}
+ if(flags&4u){if(!call(s,is_friend_v108,ref,candidate,r))return -1;if(r.word)return 1;}
+ if(flags&8u){
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(r.word){if(!call(s,is_friend_v108,ref,candidate,r))return -1;
+   if(r.word){if(!call(s,machine_state_v108,ref,nullptr,r))return -1;
+    if(r.word!=15u){if(!call(s,machine_state_v108,candidate,nullptr,r))return -1;if(r.word!=16u)return 1;}}}
+ }
+ return 0;
 }
 } // namespace
 extern "C" int dh2_target_list_init(List40* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t sort,const Services16* s) {
- if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s))return 1;
+ if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s)||overlap(l,sizeof(*l),heap,capacity*sizeof(Target24)))return 1;
  *l={heap,0,capacity,owner,nullptr,sort,0};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
 }
-extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radius,float cone,const Services16* s) {
+extern "C" int dh2_target_search_policy_v108(List40* l,const Registry8* registry,float radius,float cone,std::uint32_t character_flags,std::uint32_t object_type,const Services16* s) {
  if(!valid_list(l)||!aligned(registry)||!aligned(registry->rooms)||!valid_services(s))return 1;
  // SearchEff captures heading first and a live pointer to the owner's selected
  // center second. Nested callbacks may alter fields, but not that pointer choice.
@@ -66,27 +86,31 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
  auto end=registry->rooms;auto room=end->next;std::uint32_t visits=0;
  if(!aligned(room))return 2;
  // Reset/ValidateCurrent reads each room head once on entering that room.
- Entry16* entry=room==end?nullptr:room->objects?room->objects->next:nullptr;
+ if(room!=end&&!aligned(room->objects))return 2;
+ Entry16* entry=room==end?nullptr:room->objects->next;
  while(room!=end) {
   if(++visits>65536||!aligned(room)||!aligned(room->objects)||!aligned(entry))return 2;
   if(entry==room->objects) {
    room=room->next;if(!aligned(room))return 2;
-   entry=room==end?nullptr:room->objects?room->objects->next:nullptr;continue;
+   if(room!=end&&!aligned(room->objects))return 2;
+   entry=room==end?nullptr:room->objects->next;continue;
   }
   auto object=entry->object;Object48* character=nullptr;
+  if(object&&!aligned(object))return 2;
   // GetChar executes even for null/self/invisible Get results.
   if(!call(s,resolve_character,object,nullptr,r))return 2;
   character=reinterpret_cast<Object48*>(r.word);
   if(character&&!aligned(character))return 2;
   if(object&&object!=l->owner&&object->visible) {
-   if(!aligned(object))return 2;
    if(!call(s,is_zonable,object,nullptr,r))return 2;
    if(!(r.word&&object->zoned&&!object->in_zone)) {
     if(!call(s,is_interactive,object,l->owner,r))return 2;
     if(r.word) {
      int accepted;
-     if(character)accepted=character_valid(l,character,s);
-     else { if(!call(s,interaction_type,object,l->owner,r))return 2;accepted=r.word==8; }
+     if(character)accepted=character_valid(l,character,s,character_flags);
+     else if(object_type==3u)accepted=1;
+     else if(object_type==0u||object_type==1u){if(!call(s,interaction_type,object,l->owner,r))return 2;accepted=object_type==0u?r.word==8u:static_cast<std::int32_t>(r.word)!=-1;}
+     else accepted=0;
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;
@@ -108,8 +132,9 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
  }
  return 0;
 }
+extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radius,float cone,const Services16* s){return dh2_target_search_policy_v108(l,registry,radius,cone,1u,0u,s);}
 extern "C" int dh2_target_pop(List40* l,Target24* out) {
- if(!valid_list(l)||!aligned(out)||(reinterpret_cast<std::uintptr_t>(out)>=reinterpret_cast<std::uintptr_t>(l->heap)&&reinterpret_cast<std::uintptr_t>(out)<reinterpret_cast<std::uintptr_t>(l->heap)+l->capacity*sizeof(Target24)))return 1;
+ if(!valid_list(l)||!aligned(out)||overlap(out,sizeof(*out),l,sizeof(*l))||overlap(out,sizeof(*out),l->heap,l->capacity*sizeof(Target24)))return 1;
  if(!l->count)return 2;
  *out=l->heap[0];pop(l);return 0;
 }

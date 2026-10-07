@@ -1,0 +1,4420 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Bounded original startup fields; deeper constructor backends are explicit services.",
+  "original_cases": 50,
+  "native_comparisons": 0,
+  "service_boundary_policy": "Complete outer constructors execute; named allocation/container/base/network/property/StateInfo services are explicit. This is not complete factory/registration/network parity.",
+  "input_sha256": {
+    ".local-inputs/character-idle-startup/probe.py": "f96252f6ed618a478ce3dfa55ec07c11ae0df03c584b8bc66588d09f87fbc7df",
+    "port/level-world/reference/character-idle-startup/original-functions.json": "d57b1bfc66e7d8db7678cd90cf85d21ccad95f9534c2c028ba02723792f0f80c",
+    ".local-inputs/character-idle-startup/producers/original-functions.json": "c7e858b01b7390e8ff841d5eb7e029573341386c0ed6d0bf14fbc0b766a0c291",
+    ".local-inputs/character-idle-startup/zones/original-functions.json": "f4461e8b5746e364b130c158a881eed52f36bf986ff5c5d5af7e285b837083af",
+    "port/level-world/reference/actor-initialization/crypt01-actor-initialization.json": "a3ee208f5464d8748ea7087eb865fd96e011f0b080ab8bc1c2b557fa0acee215",
+    "port/level-world/reference/character-npc-body/source-model-projections.json": "698a46b5f1ac0f6cd6062535fe64ea1f7909aac88880b6b95934d004dce4a16f"
+  },
+  "records": [
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c130",
+      "prefill": 0,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c398",
+      "prefill": 0,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3aa1b4",
+      "prefill": 0,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 0,
+      "stopped_attacking_preserved": 0
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3a9340",
+      "prefill": 0,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 0,
+      "stopped_attacking_preserved": 0
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c130",
+      "prefill": 1,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c398",
+      "prefill": 1,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3aa1b4",
+      "prefill": 1,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 1,
+      "stopped_attacking_preserved": 1
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3a9340",
+      "prefill": 1,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 1,
+      "stopped_attacking_preserved": 1
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c130",
+      "prefill": 85,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c398",
+      "prefill": 85,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3aa1b4",
+      "prefill": 85,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 85,
+      "stopped_attacking_preserved": 85
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3a9340",
+      "prefill": 85,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 85,
+      "stopped_attacking_preserved": 85
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c130",
+      "prefill": 170,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c398",
+      "prefill": 170,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3aa1b4",
+      "prefill": 170,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 170,
+      "stopped_attacking_preserved": 170
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3a9340",
+      "prefill": 170,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 170,
+      "stopped_attacking_preserved": 170
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c130",
+      "prefill": 255,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x38c398",
+      "prefill": 255,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        }
+      ]
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3aa1b4",
+      "prefill": 255,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 255,
+      "stopped_attacking_preserved": 255
+    },
+    {
+      "kind": "complete_outer_constructor",
+      "entry": "0x3a9340",
+      "prefill": 255,
+      "heading_active": 0,
+      "heading": [
+        0,
+        0,
+        0
+      ],
+      "zoned": 1,
+      "in_zone": 0,
+      "physical_null": true,
+      "services": [
+        {
+          "address": "0x33f310",
+          "name": "ObjectBase constructor allocation/string/network backend",
+          "receiver": 33558528,
+          "argument": 0
+        },
+        {
+          "address": "0x524644",
+          "name": "PFObject constructor/storage",
+          "receiver": 33558984,
+          "argument": 9848876
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559160,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559184,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559208,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559232,
+          "argument": 16
+        },
+        {
+          "address": "0x4a2730",
+          "name": "NetworkObject constructor",
+          "receiver": 33559300,
+          "argument": 0
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33559384,
+          "argument": 16
+        },
+        {
+          "address": "0x38aac8",
+          "name": "PF radius update",
+          "receiver": 33558528,
+          "argument": 880
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3ff330",
+          "name": "ItemInventory constructor",
+          "receiver": 33559420,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dbb0c",
+          "name": "CharTimers constructor",
+          "receiver": 33559476,
+          "argument": 33559496
+        },
+        {
+          "address": "0x3df084",
+          "name": "CharProperties constructor",
+          "receiver": 33559904,
+          "argument": 33559812
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563544,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563568,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563596,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563624,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563648,
+          "argument": 16
+        },
+        {
+          "address": "0x31167c",
+          "name": "FixedString inline reserve",
+          "receiver": 33563672,
+          "argument": 16
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33563912,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x3a6a24",
+          "name": "network snapshot constructor",
+          "receiver": 33565256,
+          "argument": 3212836864
+        },
+        {
+          "address": "0x4a191c",
+          "name": "NetworkObject bind",
+          "receiver": 33559300,
+          "argument": 33558528
+        },
+        {
+          "address": "0x310570",
+          "name": "native allocation service",
+          "receiver": 16,
+          "argument": 0
+        },
+        {
+          "address": "0x3db480",
+          "name": "Timers SetCharacter",
+          "receiver": 33559476,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3cb7c0",
+          "name": "AI SetCharacter",
+          "receiver": 33559496,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c9890",
+          "name": "Animator SetCharacter",
+          "receiver": 33559708,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c1600",
+          "name": "FSM SetCharacter",
+          "receiver": 33559804,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3dec0c",
+          "name": "Properties SetCharacter",
+          "receiver": 33559904,
+          "argument": 33558528
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 0
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 1
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 2
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 3
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 4
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 5
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 6
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 7
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 8
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 9
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 10
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 11
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 12
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 13
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 14
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 15
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 16
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 17
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 18
+        },
+        {
+          "address": "0x3c7318",
+          "name": "FSM registered StateInfo service (separately original-proved)",
+          "receiver": 33559804,
+          "argument": 19
+        }
+      ],
+      "controller": {
+        "locked": 0,
+        "forced": 0,
+        "byte_a": 0,
+        "controllable_is_embedded": true,
+        "character_identity_retained": true
+      },
+      "FSM": {
+        "current_null": true,
+        "flags": 0,
+        "animation_override": -1,
+        "mask": 0,
+        "elapsed": 0,
+        "idle_suppressed": 0
+      },
+      "AI": {
+        "paused": 0,
+        "active_null": true,
+        "pending_null": true,
+        "target_null": true
+      },
+      "animator": {
+        "closed": 1,
+        "global_speed": 1,
+        "step_speed": 1,
+        "pending_sequence": -1
+      },
+      "can_interrupt_preserved": 255,
+      "stopped_attacking_preserved": 255
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 0,
+      "operation": "getter",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 0,
+      "operation": "enter",
+      "zonable": 0,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 0,
+      "operation": "exit",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 1,
+      "operation": "getter",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 1,
+      "operation": "enter",
+      "zonable": 0,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 1,
+      "operation": "exit",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 255,
+      "operation": "getter",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 255,
+      "operation": "enter",
+      "zonable": 0,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 1,
+      "zoned": 255,
+      "operation": "exit",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 0,
+      "operation": "getter",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 0,
+      "operation": "enter",
+      "zonable": 0,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 0,
+      "operation": "exit",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 1,
+      "operation": "getter",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 1,
+      "operation": "enter",
+      "zonable": 0,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 1,
+      "operation": "exit",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 255,
+      "operation": "getter",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 255,
+      "operation": "enter",
+      "zonable": 0,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 3,
+      "zoned": 255,
+      "operation": "exit",
+      "zonable": 0,
+      "in_zone": 0,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 0,
+      "operation": "getter",
+      "zonable": 1,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 0,
+      "operation": "enter",
+      "zonable": 1,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 0,
+      "operation": "exit",
+      "zonable": 1,
+      "in_zone": 0,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 1,
+      "operation": "getter",
+      "zonable": 1,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 1,
+      "operation": "enter",
+      "zonable": 1,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 1,
+      "operation": "exit",
+      "zonable": 1,
+      "in_zone": 0,
+      "set_updating": [
+        0
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 255,
+      "operation": "getter",
+      "zonable": 1,
+      "in_zone": 0,
+      "set_updating": []
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 255,
+      "operation": "enter",
+      "zonable": 1,
+      "in_zone": 1,
+      "set_updating": [
+        1
+      ]
+    },
+    {
+      "kind": "actual_character_zonability_and_notification",
+      "character_type": 4,
+      "zoned": 255,
+      "operation": "exit",
+      "zonable": 1,
+      "in_zone": 0,
+      "set_updating": [
+        0
+      ]
+    },
+    {
+      "kind": "actual_IdleCommonUpdate_type4",
+      "heading_active": 0,
+      "services": [
+        {
+          "address": "0x3a3024",
+          "name": "actual decoded current AI row",
+          "character_type": 4
+        }
+      ]
+    },
+    {
+      "kind": "actual_IdleCommonUpdate_type4",
+      "heading_active": 1,
+      "services": [
+        {
+          "name": "Character RaiseEvent required service",
+          "event": 0,
+          "payload": 0
+        }
+      ]
+    },
+    {
+      "kind": "actual_IdleCommonUpdate_type4",
+      "heading_active": 255,
+      "services": [
+        {
+          "name": "Character RaiseEvent required service",
+          "event": 0,
+          "payload": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "source": "port/level-world/character_target_search.cpp",
+  "source_sha256": "12f4d36eb7826b1d6d36de6908ed42a1f4b9179a422022b43fac8b114dc9f0a6",
+  "target": "port/level-world/character_target_search_v5.cpp",
+  "target_sha256": "e8aaa43805dcaed1cbff6f5fb3d224694033a4a2129e298418defe200224f170",
+  "scope": "Create isolated V5 snapshot-origin entry from the unchanged proved core.\nExisting original-kernel files remain byte-identical. Refuse unknown overwrite.\n"
+}

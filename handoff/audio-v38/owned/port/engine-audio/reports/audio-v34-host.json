@@ -1,0 +1,29 @@
+{
+  "scope": "Actual original cache 261 stream cursor/codec/XML, decoded positive CPU output, timing/pause/pin/bank policy. No Android/audible acceptance.",
+  "results": [
+    {
+      "optimization": "O1",
+      "exit_code": 0,
+      "stdout": "PASS 12594 checks; PCM=228 IMA=16 VoxN=17; positive CPU output=true; Android audible=false\n",
+      "stderr": ""
+    },
+    {
+      "optimization": "O2",
+      "exit_code": 0,
+      "stdout": "PASS 12594 checks; PCM=228 IMA=16 VoxN=17; positive CPU output=true; Android audible=false\n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/engine-audio/tests/audio_v34_host.cpp": "0498bccaaff9b79b53c063b625956d211e48620ebdd00c9b94120a14719cb08b",
+    "port/engine-audio/tests/audio_ima_v34_oracle.cpp": "520de912407698d092767cbf8597c647e800b3b0c144af895cf781feb38cf3ac",
+    "port/level-world/vox_audio_bridge_v34.cpp": "226f7d6f400590235ee7a8e5891c64683270d5e79b5ee1526a51124e14954534",
+    "port/level-world/vox_play3d_owner_v2.cpp": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc",
+    "port/engine-audio/audio_sample_v34.cpp": "7a31d0493ae300a23be3b269badc20c47d617d88ddd364f43b622a8d4636fd32",
+    "port/engine-audio/audio_mixer_v34.cpp": "bb441a7f22bfa54a8612ade20dff97831999114ad3e26f54e5ac1ff71db39660",
+    "port/engine-audio/audio_catalog_v34.cpp": "7cf74934301d2d8b5cf4bdefd8d86c31a9078edd333b9889f22afd5c4fe1b5c0",
+    "port/engine-audio/audio_bank_v34.cpp": "0b045772219c8f8b76404614dd46412f6cb9d7e984bcc176edbea8436684226a",
+    "port/engine-audio/audio_spatial_v34.cpp": "9bf555424502a015694af03c217d156fa2404e8d8a9b39f2d30f2c75e42982f9",
+    "port/engine-audio/audio_native_envelope_v34.cpp": "9c62269d40d01521f91e4c74111d38d6dbba913f671d7fc4216c1fc18e87e31a"
+  }
+}

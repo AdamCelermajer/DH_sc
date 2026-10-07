@@ -1,0 +1,774 @@
+{
+  "boundary_fixtures": [
+    "difficulty",
+    "UpdateAllSkills",
+    "world position/target/effect"
+  ],
+  "cases": [
+    {
+      "tier": 0,
+      "index": 0,
+      "present": 0,
+      "current": [
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 0,
+      "present": 1,
+      "current": [
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 1,
+      "present": 0,
+      "current": [
+        1,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 1,
+      "present": 1,
+      "current": [
+        1,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 2,
+      "present": 0,
+      "current": [
+        2,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 2,
+      "present": 1,
+      "current": [
+        2,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 3,
+      "present": 0,
+      "current": [
+        3,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 3,
+      "present": 1,
+      "current": [
+        3,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 4,
+      "present": 0,
+      "current": [
+        4,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 0,
+      "index": 4,
+      "present": 1,
+      "current": [
+        4,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 0,
+      "present": 0,
+      "current": [
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 0,
+      "present": 1,
+      "current": [
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 1,
+      "present": 0,
+      "current": [
+        0,
+        1,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 1,
+      "present": 1,
+      "current": [
+        0,
+        1,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 2,
+      "present": 0,
+      "current": [
+        0,
+        2,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 2,
+      "present": 1,
+      "current": [
+        0,
+        2,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 3,
+      "present": 0,
+      "current": [
+        0,
+        3,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 3,
+      "present": 1,
+      "current": [
+        0,
+        3,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 4,
+      "present": 0,
+      "current": [
+        0,
+        4,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 1,
+      "index": 4,
+      "present": 1,
+      "current": [
+        0,
+        4,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 0,
+      "present": 0,
+      "current": [
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 0,
+      "present": 1,
+      "current": [
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 1,
+      "present": 0,
+      "current": [
+        0,
+        0,
+        1
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 1,
+      "present": 1,
+      "current": [
+        0,
+        0,
+        1
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 2,
+      "present": 0,
+      "current": [
+        0,
+        0,
+        2
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 2,
+      "present": 1,
+      "current": [
+        0,
+        0,
+        2
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 3,
+      "present": 0,
+      "current": [
+        0,
+        0,
+        3
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 3,
+      "present": 1,
+      "current": [
+        0,
+        0,
+        3
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 4,
+      "present": 0,
+      "current": [
+        0,
+        0,
+        4
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ]
+      ]
+    },
+    {
+      "tier": 2,
+      "index": 4,
+      "present": 1,
+      "current": [
+        0,
+        0,
+        4
+      ],
+      "effects": [
+        [
+          "difficulty"
+        ],
+        [
+          "update_all"
+        ],
+        [
+          "position",
+          1
+        ],
+        [
+          "move_target",
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          "effect",
+          1
+        ]
+      ]
+    }
+  ]
+}

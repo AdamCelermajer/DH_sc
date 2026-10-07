@@ -1,0 +1,19 @@
+{
+  "port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java": "18cf83efc729de3174bd96eca3dbce306b8295315cc57c54f4509731bb032019",
+  "port/android-native/app/src/main/java/com/example/dh2/CharacterPanel.java": "15924937c2a9d80419140979135976c3eaf301ee05037e74401311be9b84964a",
+  "port/android-native/app/src/main/java/com/example/dh2/CinematicActivity.java": "60964f1101c3da30afdea48dfe79f3359db70dc2702c5cb924e5dcbd48d1b508",
+  "port/android-native/app/src/main/java/com/example/dh2/FaeryPressLifecycleV1.java": "71c08c6e901a24c1c5480d761b966eb5b4930a977d12f7b0f991d0a99752dfc6",
+  "port/android-native/app/src/main/java/com/example/dh2/FrameBoundaryV42.java": "d30224c36b1b9c180db050dc035c13699d8674b6ada911962dc30956fd8292ae",
+  "port/android-native/app/src/main/java/com/example/dh2/FramePacingControllerV44.java": "8de3b90c0724cccf8375bf0036c874307d0a480e604dbec1f00c628e871ee39a",
+  "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java": "81af14c0257ae75170c9852d6aa948a2d311e54c71bcc25575149f5cae486eaf",
+  "port/android-native/app/src/main/java/com/example/dh2/GameplayHud.java": "29c4cabc058649a30b6bce712b6a1320cfed9ea6dbce7e498ef4af7904aaae40",
+  "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "ec58b23713597f1bf6bc1bc991679c3cce0fa7dcee5989ea45aa1af7f99cd46a",
+  "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java": "4d0d87fe7bf64885e9d7ef792d7f84fe26dd753d8d87c3dfb24e15918bb01e52",
+  "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogActivity.java": "1a146c9b3fb06bc955ece482628bde211e079307a7f5d3d7595c9859a0a5bbda",
+  "port/android-native/app/src/main/java/com/example/dh2/OriginalCatalogUrl.java": "7c44a3bd6b8daafb0cd1be3e21334729bfa7e7267a47b44a6bad577c131f541f",
+  "port/android-native/app/src/main/java/com/example/dh2/StartupStagesV41.java": "ec1ef61bf8028dc310947a2c07cad0bc8883a596cb3281eb5bb5c4ba77b8655c",
+  "port/android-native/app/src/main/java/com/example/dh2/VsyncSurfaceViewV44.java": "ddedd27c1f4ad9a70c67c084431dd5c92884d9cf997c1832d1b962a23ad49990",
+  "port/android-native/app/src/main/cpp/native_app.cpp": "bd6444f3e85ed203e061a4868e8830c75dcf40f4a51d935ab0ebfb2ac004963c",
+  "port/android-native/app/src/main/cpp/audio_output_v34.cpp": "5509e63c652ae4c06faedf642b40310861bee111f24a8740f6d394d9bb59da91",
+  "port/android-native/app/src/main/cpp/audio_output_v34.hpp": "557f55fd5e9c8d2422810888d110370bc1efa6086813030dfcc60f58781cc05f"
+}

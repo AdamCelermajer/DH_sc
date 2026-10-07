@@ -1,0 +1,10 @@
+{
+  "port/engine-resources/resource_budget_v37.hpp": "17497774d82e05cb420003c2a0312c34e3092abd63d579a65d6e1ef879a6eba7",
+  "port/engine-resources/resource_budget_v37.cpp": "cb9fca1579fea9e751c8ca5889ad4b5ffcd6a9f04794a23ee51317c8a16f493f",
+  "port/engine-ui/swf_vertex_cache_v36.hpp": "ea8e59d32f4fb53a532391f277c395829737ca61ae0a7e0294b5ad1dca1fbe53",
+  "port/engine-ui/swf_vertex_cache_v36.cpp": "23dbc3a073659037c1a0e25486c46db3b683d31bc4bd42e13cec2203a78a97cc",
+  "port/android-native/app/src/main/cpp/authored_shader_program.hpp": "a65fa08b21a95ff970550f7b21103144c49ad5472587f6054485f35154252fe8",
+  "port/android-native/app/src/main/cpp/authored_shader_program.cpp": "2f4ed55901764313704d93b11d3730698adf26a16f5cd60214dd695d2630e92e",
+  "port/android-native/app/src/main/cpp/swf_gpu.hpp": "a4a10c24b71edddf4e68a7e8c753dfb697ec26359c57550c0cc72ebeb53294db",
+  "port/android-native/app/src/main/cpp/swf_gpu.cpp": "483e3f3deec19084bc6ebe82b76df60f5e392d4a544e0b31b02ce5c2cfa1e22c"
+}

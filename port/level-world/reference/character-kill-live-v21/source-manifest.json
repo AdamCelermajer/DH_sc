@@ -1,0 +1,68 @@
+{
+  "scope": "Source-only live Kill preparation; no installed Hit8 hook or complete Level/loot/XP/quest acceptance.",
+  "production_dependencies": [
+    "combat_ctrl_kill_owner_v1.cpp",
+    "character_kill.cpp",
+    "character_world_runtime_v1.cpp",
+    "player_manager_owner_v1.cpp",
+    "properties.cpp",
+    "character_target_providers.cpp"
+  ],
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_character_kill_live_v21.inc",
+      "sha256": "b55c952fa3bcc51802da69fb8a2392a9172b306eca518fbcfd14b61ff7aab633",
+      "bytes": 6522
+    },
+    {
+      "path": "port/level-world/character_kill_fields_v21.cpp",
+      "sha256": "53b525fc680377ceb535f1c06ac671202bb9eee0190e09e9e5f6473b6154649f",
+      "bytes": 774
+    },
+    {
+      "path": "port/level-world/character_kill_fields_v21.hpp",
+      "sha256": "382d902f9f7f03b80ff2ac96356e39f4f0aa4c85984db247acb8cf1e8a704636",
+      "bytes": 587
+    },
+    {
+      "path": "port/level-world/character_kill_live_v21.cpp",
+      "sha256": "ca2c7cea3d9d99ddae33f682c29adf14dd673a8a3e3fc1e43830111a980d4fca",
+      "bytes": 8262
+    },
+    {
+      "path": "port/level-world/character_kill_live_v21.hpp",
+      "sha256": "3da3d22f124a8424b77c088c25200abae404457ec8c964df25bb3733f8ed52ed",
+      "bytes": 2898
+    },
+    {
+      "path": "port/level-world/reference/character-kill-live-v21/aggro-original.hpp",
+      "sha256": "2ce832020ff414182f46e0950d5d36e9245567cecf6ea0c495a648a0f74ef30f",
+      "bytes": 10118
+    },
+    {
+      "path": "port/level-world/reference/character-kill-live-v21/aggro-original.json",
+      "sha256": "aa7430d22d27b3700b877511f31ceafefe1dc9b5860cf18df19bfcb71c2a133b",
+      "bytes": 30047
+    },
+    {
+      "path": "port/level-world/reference/character-kill-live-v21/ctor-original.json",
+      "sha256": "968fe9656828e9e232057a02b3158a64ca3bcdb0b73cdbd9df2a307b8ce9cc27",
+      "bytes": 386
+    },
+    {
+      "path": "port/level-world/reference/character-kill-live-v21/integration.md",
+      "sha256": "d00d4fe2c6979177d96064d712242a8e1e1f71e123dfbf6c4ee64d4fe89f3b94",
+      "bytes": 7087
+    },
+    {
+      "path": "port/level-world/tests/character_kill_live_v21_native.cpp",
+      "sha256": "1d15ebec91e7fa350d8652304434c7b3f98eaa84d91ed25631813c43995db005",
+      "bytes": 7512
+    },
+    {
+      "path": "port/level-world/tools/produce_character_kill_live_v21.py",
+      "sha256": "d0ee5ad3ded9c4148d3fbc21d293e22521aba12aad101b64d5450f14e1f69239",
+      "bytes": 3622
+    }
+  ]
+}

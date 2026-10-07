@@ -1,0 +1,65 @@
+{
+  "validation": "PASS",
+  "comparisons": 1136,
+  "ordered_callbacks": 6110,
+  "compared_sheet_words": 1017856,
+  "profiles": [
+    "CryptSlime",
+    "CryptSlime_RE",
+    "Crypt_Ghost",
+    "Crypt_Ghost_MIDBOSS",
+    "Crypt_Ghost_RE",
+    "Crypt_Skeleton",
+    "Crypt_SkeletonXL",
+    "Crypt_Skeleton_RE",
+    "Crypt_Ugly_Dog",
+    "Crypt_Ugly_Dog_RE",
+    "KnightPlayerBase",
+    "synthetic-vitals-12",
+    "synthetic-vitals-13",
+    "synthetic-vitals-14"
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "7c2c5739699fbf7142038be65c622b5f3be7a301ef3c6901b1b671c5f8f772df",
+  "gold_sha256": "684c4ff4d79dca17074a98a322e39e8ea14cdf8f3828951de09ed44521202536",
+  "source_bindings": {
+    "port\\level-world\\character_level.cpp": "4ada416b90dce277de03b0c07967842781ac320fa682cb6b0e0b7b81099ee5ad",
+    "port\\level-world\\character_level.hpp": "c4cb773dd1468a41d9c630eb1f46d6a732ee64b0cd7062722f5e3cc7a90aaf76",
+    "port\\level-world\\tests\\character_level_differential.py": "766ae55a6b98bb911dc784765cb93c36e8c2cadff3ea6ce929ea46c74c0727c7",
+    "port\\game-data\\properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port\\game-data\\class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+    "port\\script-runtime\\script_design_bindings.h": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9"
+  },
+  "asset_bindings": {
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pycst.bin": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  },
+  "mismatches": 0,
+  "scope": "Actual SetLevel/GetLevel and class/property/vitals producer instructions versus O2 ARM64.\n\nConstants lookup delivery and DebugSwitch load/query/string block are explicit\nservices with source order/transitional sheets. No property/class/add mocked.\n",
+  "constant_lookup_producer": "explicit delivery; cache design MaxLevelDVeryHard100; exact map/loader parent-owned",
+  "debug_switch_backend": "explicit skipped block with matched pre-add effects and transitional sheet states",
+  "compiler_input_bindings": {
+    "optimization": "O2",
+    "target": "aarch64-linux-android24",
+    "library_sha256": "7c2c5739699fbf7142038be65c622b5f3be7a301ef3c6901b1b671c5f8f772df",
+    "source_bindings": {
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_level.cpp": "4ada416b90dce277de03b0c07967842781ac320fa682cb6b0e0b7b81099ee5ad",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\class_tables.hpp": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_design_bindings.h": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_level.hpp": "c4cb773dd1468a41d9c630eb1f46d6a732ee64b0cd7062722f5e3cc7a90aaf76"
+    },
+    "fp_contract": "off",
+    "compiler": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+  },
+  "build_manifest_sha256": "bcd3c2c88aaac8482caea516554e568c617d5449059742de36f2a44579da469d"
+}

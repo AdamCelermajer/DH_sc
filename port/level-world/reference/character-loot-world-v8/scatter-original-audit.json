@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "cases": 256,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "61e81466cb1657015bd5cdf560d17c12995d7109cd4ba2cb1606de2a6d89945a",
+  "normalization_and_basis_fixtures": true,
+  "production_world": false
+}

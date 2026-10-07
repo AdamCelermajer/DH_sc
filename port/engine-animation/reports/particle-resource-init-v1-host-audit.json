@@ -1,0 +1,38 @@
+{
+  "scope": "Actual original-cache blood79/80 emitter parameter initialization, authored scene/material graph and named gravity-node binding. Particle simulation/billboard baking/positive manager creation and GPU draw are required continuations, not tested as completed here.",
+  "results": [
+    {
+      "optimization": "O1",
+      "exit_code": 0,
+      "stdout": "PASS 49 actual blood resource/model parameter checks\n",
+      "stderr": ""
+    },
+    {
+      "optimization": "O2",
+      "exit_code": 0,
+      "stdout": "PASS 49 actual blood resource/model parameter checks\n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/engine-animation/tests/particle_resource_init_v1.cpp": "60a2dc6c1816055ec5823fe6d2ea7738e3f8a42946186ff4828a2d196c5f5b37",
+    "port/engine-animation/particle_resource_init_v1.cpp": "0cd5ab346d9c490997d3a5794304831a931798bfd3b710d6cb042965be811977",
+    "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
+    "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc"
+  },
+  "assets": {
+    "bloodsplat.bdae": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b",
+    "bloodsplat_hero.bdae": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25"
+  },
+  "dependencies": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  }
+}

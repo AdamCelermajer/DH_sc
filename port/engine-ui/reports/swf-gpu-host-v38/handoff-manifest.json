@@ -1,0 +1,152 @@
+{
+  "scope": "Exact frozen V36/V37 source comparison, actual shader invariant review and read-only bounded load-stage audit; new actual-GLES host fixture/helper source only, no production edits",
+  "status": "SOURCE_PREPARED_GUARD_REFUSED_BEFORE_COMPILE_OR_GL_CONTEXT",
+  "no_emulator_ADB_downloads": true,
+  "host_compile_pixel_benchmark_acceptance": "PENDING: physical available5.69GiB below7GiB safety threshold; no threshold relaxation",
+  "files": [
+    {
+      "path": "port/engine-ui/tests/swf_gpu_host_pixels_v38.cpp",
+      "sha256": "0067656637cb2c987b9967b3eae427cd3a08b7cb427bcad45fcb6257f881c34a"
+    },
+    {
+      "path": ".local-inputs/prepare_swf_gpu_host_pixels_v38.py",
+      "sha256": "35ec51827289ea6413325ff30d01cff42b471851222b4ccd2aa4da7120614978"
+    },
+    {
+      "path": ".local-inputs/run_swf_gpu_host_pixels_v38.py",
+      "sha256": "f7ae4e621c9483573d024be5239b6551ff557b11a7e20057679e65c5a6c91255"
+    },
+    {
+      "path": ".local-inputs/swf_gpu_host_pixels_supervisor_v38.py",
+      "sha256": "ac3b78c1991ebc7681341b55aed82d754cf77d9bcd9970adb36efbdf2b55869e"
+    },
+    {
+      "path": ".local-inputs/audit_swf_gpu_and_load_v38.py",
+      "sha256": "a14adfc0a36deea0a581843e91c60e4199847dd625a95d51795e05c106a72af0"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/README.md",
+      "sha256": "cb19c20fd36cc37a8c186e5c508c303c0438e6bb9e408221f21dd28b3bef2ff2"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headroom-refusal.json",
+      "sha256": "8045bc433ca8cae297cea5f26d63b94fac8ebadc8dfd1527af5a65ce46f22ecc"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/frozen-source.diff",
+      "sha256": "37d9b3ed552914f09fee0605cacdbe98d5ad838cad77a415058390e2a093e317"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/actual-shader-audit.json",
+      "sha256": "517ef86312ee59b6ef62db0320a5e7e8d2821d941cbb50baf518c28bb654761e"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/load-stage-source-evidence.json",
+      "sha256": "c181e51f2828e265136c23d90043c90b21d02a4808a00fc7702ad61c32d3534a"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/world-load-navigation-proof-block.txt",
+      "sha256": "dd8e0480b89659c82fdc2551b2a3ecfad00453655b52692b56872b1e0b74f368"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/authored_shader_program.hpp",
+      "sha256": "a65fa08b21a95ff970550f7b21103144c49ad5472587f6054485f35154252fe8"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/authored_shader_program.cpp",
+      "sha256": "2f4ed55901764313704d93b11d3730698adf26a16f5cd60214dd695d2630e92e"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/frame_perf_v35.hpp",
+      "sha256": "ad689e2416e2965e79afca3c56499728578cbb25dad8bc8076fdeac0200024b7"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/shaders/shaders.pak",
+      "sha256": "365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.hpp",
+      "sha256": "ea8e59d32f4fb53a532391f277c395829737ca61ae0a7e0294b5ad1dca1fbe53"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.cpp",
+      "sha256": "23dbc3a073659037c1a0e25486c46db3b683d31bc4bd42e13cec2203a78a97cc"
+    },
+    {
+      "path": "port/engine-ui/swf_grid_snap_v1.hpp",
+      "sha256": "177d284975c164e944628636034673571baeecfe84d7c9d03da4923e3007dd77"
+    },
+    {
+      "path": "port/engine-ui/swf_grid_snap_v1.cpp",
+      "sha256": "cd53012b3c1d88c7951f708ecf19802b3ddb2058b63c411a31e57376a1adfb00"
+    },
+    {
+      "path": "port/scene-materials/swf_texture.hpp",
+      "sha256": "6013cd34295b1986d1af8327279051a242bfd20eb3f5add8e8580c46000402f7"
+    },
+    {
+      "path": "port/scene-materials/swf_texture.cpp",
+      "sha256": "5e5fb0a1c31c7a79d212db678a4df71be84f40bdb1e3ecde192a009599801b85"
+    },
+    {
+      "path": "port/scene-materials/shader_sources.hpp",
+      "sha256": "8115f47857aca50468885e55fb549d902e4ac0ef5220f6b88ae7ce0da8092afb"
+    },
+    {
+      "path": "port/scene-materials/shader_sources.cpp",
+      "sha256": "f05874e30bba3a3b1c8cec643e5fda6bcba4f31e9b935eae8e94c9872b41cde1"
+    },
+    {
+      "path": "port/asset-payloads/sha256.hpp",
+      "sha256": "e71f270904420cd05541b66c9f3e78af369a7636f23c7368e1f0d87a94911ab0"
+    },
+    {
+      "path": "port/asset-payloads/sha256.cpp",
+      "sha256": "6c1a4f0161c2316e817e2c277480ebf159b700b036f074d39ccaec0cb2c70867"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/v36/swf_gpu.hpp",
+      "sha256": "2e36d2d34d571e9b5a076f27be2fe6050121b6c6451422ca712ee3b1a74a009f"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/v36/swf_gpu.cpp",
+      "sha256": "eb68041367d717e408e5878d5439342c6e9988344f64ed0d63fb6a6ebd1513a2"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/v37/swf_gpu.hpp",
+      "sha256": "76883045e1bad108fbb1f388a9fa937eb497a965fbcb43c9546237fcc29b3723"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/v37/swf_gpu.cpp",
+      "sha256": "10c7fcd0997f5294db92177153930c2a95173947649a2c71248ca5edbf016457"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headers/EGL/egl.h",
+      "sha256": "d3da24f2b91d45571e2169c624ea1badffed16895bec8fa0acc39dadbc4600a6"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headers/EGL/eglplatform.h",
+      "sha256": "25b5391655effcf363a38fa00c3154f356a3eab3d35dc067847875513cf1e441"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headers/GLES2/gl2.h",
+      "sha256": "0704835ae4d63ef570d8e2351201a22346cfd8d16571d0811f3102a6491a8c31"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headers/GLES2/gl2platform.h",
+      "sha256": "8f25443c4c5b3c8e702c3510f12b6ec8c23c2e3c1ca1c71bb07d148653696d9a"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headers/KHR/khrplatform.h",
+      "sha256": "c0c4d12cbb14161c88509b3d7a853730da6ea5a68592ca613668428dd2381129"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headers/android/asset_manager.h",
+      "sha256": "b2121e47cb8b31090a3f5ee5f0c1d497c75a85a79ee7cc8f3f4001798c88e6d4"
+    },
+    {
+      "path": "port/engine-ui/reports/swf-gpu-host-v38/headers/android/log.h",
+      "sha256": "6b419b60192911d2232d111fe107918490228ce2430fdba867ae86ac6d56d8bd"
+    }
+  ]
+}

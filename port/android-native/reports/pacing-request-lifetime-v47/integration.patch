@@ -1,0 +1,57 @@
+--- a/port/android-native/app/src/main/java/com/example/dh2/FramePacingControllerV44.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/FramePacingControllerV44.java
+@@ -29,6 +29,8 @@
+     private boolean posted;
+     // Protected by lock; renderer methods below may run on the existing GL thread.
+     private int state;
++    // pending is only a queued render request. activeFrame is the separate
++    // in-flight renderer callback; completing it never clears a newer request.
+     private boolean closed,failed,pending,dirty=true;
+     private long epoch=1,minimumTimestamp,lastVsync=Long.MIN_VALUE,nextDue=Long.MIN_VALUE;
+     private long sequence,activeFrame;
+@@ -80,11 +82,14 @@
+         synchronized(lock){if(sequence==Long.MAX_VALUE)throw new IllegalStateException("V44 frame ticket exhausted");
+             if(activeFrame!=0)throw new IllegalStateException("V44 overlapping GL callbacks");
+             activeFrame=++sequence;++frameStarts;
+-            if(!pending){++frameworkFrames;if(activeLocked())pending=true;}
++            if(!pending)++frameworkFrames;
++            // A callback consumes the queued request. One subsequent request may
++            // be queued while this callback runs; it belongs to the NEXT frame.
++            pending=false;
+             return activeFrame;}
+     }
+     public void frameFinished(long ticket) {
+-        synchronized(lock){if(ticket!=0&&ticket==activeFrame){activeFrame=0;pending=false;++frameEnds;}
++        synchronized(lock){if(ticket!=0&&ticket==activeFrame){activeFrame=0;++frameEnds;}
+             else ++staleCompletions;}
+     }
+     private final class EpochCallback implements Callback {
+@@ -133,13 +138,13 @@
+     /** Explicit readiness/diagnostic capture only; never called once per vsync.
+      * Counters report scheduler requests/callbacks, not an invented FPS value. */
+     public Snapshot snapshot(){synchronized(lock){return new Snapshot(epoch,state,activeLocked(),pending,dirty,failed,
+-        vsyncs,requests,blocked,cadenceSkipped,staleCallbacks,staleCompletions,frameStarts,frameEnds,frameworkFrames,updates);}}
++        activeFrame!=0,vsyncs,requests,blocked,cadenceSkipped,staleCallbacks,staleCompletions,frameStarts,frameEnds,frameworkFrames,updates);}}
+     public static final class Snapshot {
+         public final long epoch,vsyncs,requests,blocked,cadenceSkipped,staleCallbacks,staleCompletions,frameStarts,frameEnds,frameworkFrames,updates;
+         public final int state;
+-        public final boolean active,pending,dirty,failed;
+-        Snapshot(long e,int s,boolean a,boolean p,boolean d,boolean f,long v,long r,long b,long c,long sc,long sf,long fs,long fe,long ff,long u){
+-            epoch=e;state=s;active=a;pending=p;dirty=d;failed=f;vsyncs=v;requests=r;blocked=b;cadenceSkipped=c;
++        public final boolean active,pending,dirty,failed,inFlight;
++        Snapshot(long e,int s,boolean a,boolean p,boolean d,boolean f,boolean flight,long v,long r,long b,long c,long sc,long sf,long fs,long fe,long ff,long u){
++            epoch=e;state=s;active=a;pending=p;dirty=d;failed=f;inFlight=flight;vsyncs=v;requests=r;blocked=b;cadenceSkipped=c;
+             staleCallbacks=sc;staleCompletions=sf;frameStarts=fs;frameEnds=fe;frameworkFrames=ff;updates=u;
+         }
+     }
+--- a/port/android-native/app/src/main/java/com/example/dh2/FramePacingReportV46.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/FramePacingReportV46.java
+@@ -19,6 +19,8 @@
+         final FramePacingControllerV44.Snapshot snapshot=controller.snapshot();
+         out.put("scheduler_snapshot_available",true);out.put("target_period_ns",FramePacingControllerV44.TARGET_PERIOD_NS);
+         out.put("epoch",snapshot.epoch);out.put("lifecycle_state_bits",snapshot.state);
++        out.put("pending_request_definition","queued request, independent of renderer callback in flight");
++        out.put("renderer_callback_in_flight",snapshot.inFlight);
+         out.put("active",snapshot.active);out.put("pending_request",snapshot.pending);out.put("update_dirty",snapshot.dirty);out.put("failed",snapshot.failed);
+         out.put("vsync_callbacks",snapshot.vsyncs);out.put("render_requests",snapshot.requests);
+         out.put("pending_request_skips",snapshot.blocked);out.put("cadence_skips",snapshot.cadenceSkipped);

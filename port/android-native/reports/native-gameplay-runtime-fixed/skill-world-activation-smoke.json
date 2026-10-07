@@ -1,0 +1,96 @@
+{
+  "validation": "PASS",
+  "scope": "Verify the live original skill animation cycle and genuine Crypt NPC startup.\n\nThis proves a no-target cast only. Enemy skill damage, FX, complete AI, faery\ncasting, campaign progress and physical ARM64 devices remain outside this test.\n",
+  "apk_sha256": "3db7cac414584e97d6968a778a5374a21e1203046003d61057c4731bf2cebcf2",
+  "installed_apk_sha256": "3db7cac414584e97d6968a778a5374a21e1203046003d61057c4731bf2cebcf2",
+  "pid": "3306",
+  "original_npcs": [
+    [
+      "_prim_tmp_cultist01",
+      "3",
+      "2380",
+      "1194"
+    ],
+    [
+      "_prim_tmp_cultist03",
+      "3",
+      "2380",
+      "1194"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "3",
+      "2380",
+      "1195"
+    ],
+    [
+      "_prim_tmp_cultist08",
+      "3",
+      "2380",
+      "1194"
+    ],
+    [
+      "_prim_tmp_cultist05",
+      "3",
+      "2380",
+      "1259"
+    ],
+    [
+      "_prim_tmp_cultist06",
+      "3",
+      "2380",
+      "1258"
+    ],
+    [
+      "_prim_Monster",
+      "3",
+      "2380",
+      "1258"
+    ],
+    [
+      "_prim_Monster02",
+      "3",
+      "2380",
+      "1258"
+    ],
+    [
+      "_prim_Monster05",
+      "3",
+      "2380",
+      "1258"
+    ],
+    [
+      "_prim_Monster_Ghost05",
+      "3",
+      "2380",
+      "706"
+    ],
+    [
+      "_prim_Monster_Ghost06",
+      "3",
+      "2380",
+      "706"
+    ]
+  ],
+  "source_targetability_flags": "0x2380",
+  "source_trophy_rows": 69,
+  "skill_row": 0,
+  "skill_clip": 1234,
+  "source_state_cycle": [
+    3,
+    6,
+    3
+  ],
+  "native_targets": 0,
+  "skill_damage_verified": false,
+  "physical_arm64_tested": false,
+  "full_game_playable": false,
+  "screenshots": [
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-gameplay-runtime-fixed\\skill-frame-0.png",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-gameplay-runtime-fixed\\skill-frame-1.png",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-gameplay-runtime-fixed\\skill-frame-2.png",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-gameplay-runtime-fixed\\skill-frame-3.png",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-gameplay-runtime-fixed\\skill-frame-4.png",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-gameplay-runtime-fixed\\skill-frame-5.png"
+  ]
+}

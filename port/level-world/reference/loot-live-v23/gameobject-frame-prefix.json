@@ -1,0 +1,11 @@
+{
+  "debug_key": "TraceUpdateGameObjectOnce",
+  "debug_key_address": "0x8c03a0",
+  "prefix_entry": "0x38cbe8",
+  "debug_load": "0x38cc28",
+  "debug_get": "0x38cc48",
+  "source_counter_store": "0x38cc68",
+  "manager_constructor_store": "0x34a4c8",
+  "profiler_push_leaf": "1eff2fe1",
+  "profiler_pop_leaf": "1eff2fe1"
+}

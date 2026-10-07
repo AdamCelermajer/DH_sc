@@ -1,0 +1,65 @@
+--------- beginning of crash
+F/libc    ( 4654): Fatal signal 6 (SIGABRT), code -1 (SI_QUEUE) in tid 4671 (GLThread 47), pid 4654 (com.example.dh2)
+F/DEBUG   ( 4777): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+F/DEBUG   ( 4777): Build fingerprint: 'google/sdk_gphone64_x86_64/emu64xa:17/CE2A.260420.019/15611780:user/release-keys'
+F/DEBUG   ( 4777): Kernel Release: '6.12.58-android16-6-gccafb60de224-ab14828483'
+F/DEBUG   ( 4777): Revision: '0'
+F/DEBUG   ( 4777): ABI: 'x86_64'
+F/DEBUG   ( 4777): Timestamp: 2026-10-06 13:44:35.751926637+0000
+F/DEBUG   ( 4777): Process uptime: 11s
+F/DEBUG   ( 4777): Executable: /system/bin/app_process64
+F/DEBUG   ( 4777): Cmdline: com.example.dh2
+F/DEBUG   ( 4777): pid: 4654, ppid: 423, tid: 4671, name: GLThread 47  >>> com.example.dh2 <<<
+F/DEBUG   ( 4777): uid: 10235
+F/DEBUG   ( 4777): signal 6 (SIGABRT), code -1 (SI_QUEUE), fault addr --------
+F/DEBUG   ( 4777): Abort message: 'terminating due to uncaught exception of type std::runtime_error: SWF command outside display lifetime'
+F/DEBUG   ( 4777):     rax 0000000000000000  rbx 000000000000122e  rcx 00007f1200060add  rdx 0000000000000006
+F/DEBUG   ( 4777):     r8  00007f1200021e81  r9  00007f1200021e81  r10 00007f0f24bc3250  r11 0000000000000207
+F/DEBUG   ( 4777):     r12 0000000000000000  r13 0000003000000008  r14 000000000000123f  r15 00007f0f24bc3250
+F/DEBUG   ( 4777):     rdi 000000000000122e  rsi 000000000000123f
+F/DEBUG   ( 4777):     rbp 00007f0f24bc3300  rsp 00007f0f24bc3250  rip 00007f1200060add  err 0000000000000004
+F/DEBUG   ( 4777): 41 total frames
+F/DEBUG   ( 4777): backtrace:
+F/DEBUG   ( 4777):       #00 pc 0000000000059add  /apex/com.android.runtime/lib64/bionic/libc.so (abort+189) (BuildId: aa76614279c09bc4bbbbbec6ba4a811e)
+F/DEBUG   ( 4777):       #01 pc 0000000000033405  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_textures.so (offset 0x54c000) (BuildId: f15b143197373dcbb635344433008e9f95e823b1)
+F/DEBUG   ( 4777):       #02 pc 0000000000032e56  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_textures.so (offset 0x54c000) (BuildId: f15b143197373dcbb635344433008e9f95e823b1)
+F/DEBUG   ( 4777):       #03 pc 0000000000032d35  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_textures.so (offset 0x54c000) (BuildId: f15b143197373dcbb635344433008e9f95e823b1)
+F/DEBUG   ( 4777):       #04 pc 000000000004fbba  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_textures.so (offset 0x54c000) (BuildId: f15b143197373dcbb635344433008e9f95e823b1)
+F/DEBUG   ( 4777):       #05 pc 000000000004fb94  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_textures.so (offset 0x54c000) (__cxa_throw+68) (BuildId: f15b143197373dcbb635344433008e9f95e823b1)
+F/DEBUG   ( 4777):       #06 pc 00000000001b7a62  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #07 pc 00000000001b9e3a  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (dh2::ui::SwfEditTextFieldV1::display_records(dh2::ui::text_display_v2::Context const&, bool)+2074) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #08 pc 00000000001c11f4  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #09 pc 00000000001ad134  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #10 pc 00000000001ac1d8  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (dh2::ui::edit_text_display_v1::display(dh2::ui::edit_text_display_v1::State&, dh2::ui::edit_text_display_v1::Services const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)+1752) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #11 pc 00000000001ba454  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (dh2::ui::SwfEditTextFieldV1::display()+372) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #12 pc 00000000002950ee  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (gameswf::display_list::display()+142) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #13 pc 000000000025fe67  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (gameswf::sprite_instance::display()+247) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #14 pc 00000000002950ee  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (gameswf::display_list::display()+142) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #15 pc 000000000025fe67  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (gameswf::sprite_instance::display()+247) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #16 pc 00000000002950ee  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (gameswf::display_list::display()+142) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #17 pc 000000000025fe67  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (gameswf::sprite_instance::display()+247) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #18 pc 00000000001ddec2  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_engine_ui.so (offset 0x177c000) (dh2::ui::SwfMovie::display_source_stage_clip_v5(char const*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)+578) (BuildId: df2771a075af4e908df1b640aa7f4197ebce4636)
+F/DEBUG   ( 4777):       #19 pc 00000000001d7d81  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_native.so (offset 0x24f0000) (dh2::android_ui::CharacterPanelSessionV1::authored_source_display_v4(model_renderer::PlayerGameplayBinding const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)+113) (BuildId: 742c43fbb25d5eb08ffe8fe2bce5928f1314f3ba)
+F/DEBUG   ( 4777):       #20 pc 00000000000f22dd  /data/app/~~5cmPcFmEytP0PtBvxOoT0A==/com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk!libdh2_native.so (offset 0x24f0000) (Java_com_example_dh2_NativeBridge_draw+3677) (BuildId: 742c43fbb25d5eb08ffe8fe2bce5928f1314f3ba)
+F/DEBUG   ( 4777):       #21 pc 000000000022ccab  /apex/com.android.art/lib64/libart.so (art_quick_generic_jni_trampoline+219) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #22 pc 00000000002125d6  /apex/com.android.art/lib64/libart.so (art_quick_invoke_static_stub+806) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #23 pc 0000000000476428  /apex/com.android.art/lib64/libart.so (art::ArtMethod::Invoke(art::Thread*, unsigned int*, unsigned int, art::JValue*, char const*)+264) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #24 pc 000000000061c02c  /apex/com.android.art/lib64/libart.so (bool art::interpreter::DoCall<false>(art::ArtMethod*, art::Thread*, art::ShadowFrame&, art::Instruction const*, unsigned short, bool, art::JValue*)+2300) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #25 pc 00000000002351f7  /apex/com.android.art/lib64/libart.so (void art::interpreter::ExecuteSwitchImplCpp<false>(art::interpreter::SwitchImplContext*)+16615) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #26 pc 0000000000210c55  /apex/com.android.art/lib64/libart.so (ExecuteSwitchImplAsm+5) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #27 pc 000000000000ead8  [anon:dalvik-classes3.dex extract...com.example.dh2-Mdkjm5YFK35rhbnFCwgzvg==/base.apk] (com.example.dh2.MainActivity$2.onDrawFrame+0)
+F/DEBUG   ( 4777):       #28 pc 0000000000613361  /apex/com.android.art/lib64/libart.so (art::interpreter::Execute(art::Thread*, art::CodeItemDataAccessor const&, art::ShadowFrame&, art::JValue, bool, bool) (.__uniq.112435418011751916792819755956732575238)+513) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #29 pc 0000000000a09149  /apex/com.android.art/lib64/libart.so (artQuickToInterpreterBridge+777) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #30 pc 000000000022ce3c  /apex/com.android.art/lib64/libart.so (art_quick_to_interpreter_bridge+140) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #31 pc 000000000020a63d  /apex/com.android.art/lib64/libart.so (nterp_helper+7345) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #32 pc 000000000027056a  /system/framework/framework.jar (offset 0x1277000) (android.opengl.GLSurfaceView$GLThread.guardedRun+1142)
+F/DEBUG   ( 4777):       #33 pc 0000000000209824  /apex/com.android.art/lib64/libart.so (nterp_helper+3736) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #34 pc 0000000000270bc4  /system/framework/framework.jar (offset 0x1277000) (android.opengl.GLSurfaceView$GLThread.run+52)
+F/DEBUG   ( 4777):       #35 pc 0000000000212274  /apex/com.android.art/lib64/libart.so (art_quick_invoke_stub+756) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #36 pc 00000000004763e1  /apex/com.android.art/lib64/libart.so (art::ArtMethod::Invoke(art::Thread*, unsigned int*, unsigned int, art::JValue*, char const*)+193) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #37 pc 000000000093bf03  /apex/com.android.art/lib64/libart.so (art::Thread::CreateCallback(void*)+1603) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #38 pc 000000000093b8b8  /apex/com.android.art/lib64/libart.so (art::Thread::CreateCallbackWithUffdGc(void*)+8) (BuildId: ee39087e94b33f52a6702ae4ffb86dc0)
+F/DEBUG   ( 4777):       #39 pc 000000000008c7af  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start(void*) (.__uniq.67847048707805468364044055584648682506)+63) (BuildId: aa76614279c09bc4bbbbbec6ba4a811e)
+F/DEBUG   ( 4777):       #40 pc 000000000008670d  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+45) (BuildId: aa76614279c09bc4bbbbbec6ba4a811e)
+F/DEBUG   ( 4777): Note: To display stack pointer information, use the pbtombstone tool:
+F/DEBUG   ( 4777):         pbtombstone --display-sp tombstone_XX.pb

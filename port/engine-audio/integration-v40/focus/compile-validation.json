@@ -1,0 +1,87 @@
+{
+  "java_policy": "PASS 61 focus checks; one shared requester, lifecycle and late callback gates",
+  "new_java_helpers": "PASS strict all lint",
+  "staged_java_compile": "PASS; existing deprecated/restricted SDK API warnings excluded",
+  "native": [
+    {
+      "abi": "arm64-v8a",
+      "target": "--target=aarch64-none-linux-android24",
+      "source": "audio_lifecycle_gate_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "arm64-v8a",
+      "target": "--target=aarch64-none-linux-android24",
+      "source": "audio_lifecycle_jni_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "arm64-v8a",
+      "target": "--target=aarch64-none-linux-android24",
+      "source": "audio_output_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "arm64-v8a",
+      "target": "--target=aarch64-none-linux-android24",
+      "source": "audio_control_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "arm64-v8a",
+      "target": "--target=aarch64-none-linux-android24",
+      "source": "audio_native_session_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "target": "--target=x86_64-none-linux-android24",
+      "source": "audio_lifecycle_gate_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "target": "--target=x86_64-none-linux-android24",
+      "source": "audio_lifecycle_jni_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "target": "--target=x86_64-none-linux-android24",
+      "source": "audio_output_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "target": "--target=x86_64-none-linux-android24",
+      "source": "audio_control_v40",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "target": "--target=x86_64-none-linux-android24",
+      "source": "audio_native_session_v40",
+      "exit_code": 0
+    }
+  ],
+  "source_sha256": {
+    "port/engine-audio/integration-v40/focus/application-java.patch": "6bc2531cd8e445970853b72d376c8d88561e37543475fa018c99a7d4b84e5b73",
+    "port/engine-audio/integration-v40/focus/AudioFocusPolicyV40.java": "835a8916564c3ea67aaf621b94ddc7a1705adfe805ee66e725d66fd57afc9769",
+    "port/engine-audio/integration-v40/focus/AudioFocusPolicyV40Test.java": "b6ec4603c5b594e519d0566e3b3ac6d4444176abc2cafa53c33bebd17b9850ba",
+    "port/engine-audio/integration-v40/focus/audio_control_v40.cpp": "523446f9cf9f0c81acbb1206c7dc2b4fb26f33c41c52f2002711b7bec524967a",
+    "port/engine-audio/integration-v40/focus/audio_control_v40.hpp": "e818d6d7f6038e449c5c360a6bde2fdcbf9284812b6e7044b61b7cb14f8e53f0",
+    "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.cpp": "67ea34a45610592d807c30b65ecfbbb3eb3915ae250c4b397a1c379973962512",
+    "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.hpp": "6a59c6be965abdf11f94bd5083bc9fea650924451d5231360cbf302c00dc2ebf",
+    "port/engine-audio/integration-v40/focus/audio_lifecycle_jni_v40.cpp": "7369906d2ff8cda748235990ff60993214ba17736cb743fb5de5ee6519b002ce",
+    "port/engine-audio/integration-v40/focus/audio_native_session_v40.cpp": "f10e9f74fcf2d9e12ab3eed71faf9188f6aa79a818da7c494a8a250a2af47a95",
+    "port/engine-audio/integration-v40/focus/audio_native_session_v40.hpp": "2869ff35607812641710b4ad82ba7778e137dc5faf472e53552207b259bc9814",
+    "port/engine-audio/integration-v40/focus/audio_output_v40.cpp": "6e6c4b594b705871bb80d889833f4db97b1fcebd9cf5aba393a6acb94084606a",
+    "port/engine-audio/integration-v40/focus/audio_output_v40.hpp": "dd92da706abf09e230a1da7bc0ce09455cf25c75497cfd80032cf7874df5c230",
+    "port/engine-audio/integration-v40/focus/gate-fixture.cpp": "a93d5f82b928fe62dfbd8f2838bdc27546a65960320c8e87788c7911681e37f1",
+    "port/engine-audio/integration-v40/focus/prepare_packet.py": "2da1271bc8095ae105cf4f31db9349f94eb36f9cef8b9bc1266694b9ee7e12c6",
+    "port/engine-audio/integration-v40/focus/run-session-host.py": "9a81cfd692dd9a00d5ac0af0de4eec22494bf0e8c5606a6947971d949e608423",
+    "port/engine-audio/integration-v40/focus/session-fixture.cpp": "858687a78eb836bddcc7c6259ce210734588a8fa7ff0cc6f209b055a3988ad2c",
+    "port/engine-audio/integration-v40/focus/SharedAudioFocusV40.java": "5fb4f862f4b975ce299e7610c50ae79ad56e314ab8da58d400f2b09795cef74a",
+    "port/engine-audio/integration-v40/focus/validate_packet.py": "1a2e382c417e4becf0aae036cad062512f0a06394be64734d2f4ab6f7a0f25bb"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "73bbbfc550216f96b2c5821eb274f0e8142215dd24d7cf036a7c44e46bbd07b4",
+  "arm64_library_sha256": "5d807e88af162767559fc6578efa66ee911aeeb3e4729eef56cd621bc307e5b8",
+  "source_sha256": {
+    "port/level-world/visual_fx_preload.cpp": "ab8c2d4bb1f40663859fb6bc443f0ed50e4160f42426ec8c99dee2766231b667",
+    "port/level-world/visual_fx_preload.hpp": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b",
+    "port/level-world/tests/visual_fx_preload_differential.py": "f214ef2cfe5c7b9b51e87032d6fca1436efb08945aceda72b7514b3e63273a37"
+  },
+  "comparisons": 1000,
+  "ordered_services": 4184,
+  "reentry_cases": 14,
+  "atomic_guards": 4,
+  "mismatches": 0,
+  "gold_sha256": "7bdbc243759fe33d4ba62997a2d1027e6c96063853f89486a8be3eae3c42d1ff",
+  "binary_gold_sha256": "0a44a84ee2cca92166994d65a04474f52ea7283779250ead271dfd507f4aea3b",
+  "scope": "Original recursive preload/ordered unique instructions vs optimized ARM64.\nDebug and string storage are required synchronous fixtures, not accepted FX\nfactory/rendering services. Real source GetModule default insertion is separately\nexecuted by reference/character-skeleton-fx/probe.py.\n"
+}

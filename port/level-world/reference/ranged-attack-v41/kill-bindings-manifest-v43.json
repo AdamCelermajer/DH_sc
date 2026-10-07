@@ -1,0 +1,52 @@
+[
+  {
+    "path": "port/android-native/app/src/main/cpp/renderer_character_kill_bindings_v43.inc",
+    "sha256": "790fea7e40737d246ebf44daef9b51a9c8d51e837bc25b86eb8bd53415161e47",
+    "bytes": 9264
+  },
+  {
+    "path": "port/level-world/reference/ranged-attack-v41/kill-bindings-v43.md",
+    "sha256": "da16f9238456e79893d482c50fda7ca39f4c5da17f9581f7f2b8f67df8b8bb6a",
+    "bytes": 5537
+  },
+  {
+    "path": "port/level-world/reports/kill-order-v43-host.json",
+    "sha256": "8f98d9dd5acb99709371397f52ac2abdff3c677f7775f5aec3f36d6f1d414eda",
+    "bytes": 3250
+  },
+  {
+    "path": "port/level-world/tests/combat_ctrl_kill_owner_v1_host.cpp",
+    "sha256": "b44377d35c6f5acf9f4c212872adff1d22384b41e7d3a4a8a336f22d3af9d177",
+    "bytes": 5025
+  },
+  {
+    "path": "port/level-world/combat_ctrl_kill_owner_v1.cpp",
+    "sha256": "c308aee12d0bb243e17d5f55980ade269d69c15c4a0fa7e9a5c12c95a633cc89",
+    "bytes": 5794
+  },
+  {
+    "path": "port/level-world/character_kill.cpp",
+    "sha256": "b02573981a54839ef300f1a04bdee51246fbb62de2af5104735f32b8e9f4fcfb",
+    "bytes": 7658
+  },
+  {
+    "path": ".local-inputs/compile_kill_bindings_v43.py",
+    "sha256": "d267dd8ff3c9ddf2046913413e43a6a7057b689cb3d7b8c2cd5916941e3913ba",
+    "bytes": 736
+  },
+  {
+    "path": ".local-inputs/run_kill_order_v43.py",
+    "sha256": "f60172370d501e2a698c720a1f132bf427f3af20dbee06074152cdbae644a36b",
+    "bytes": 1499
+  },
+  {
+    "path": ".local-inputs/renderer_kill_bindings_v43_arm64-v8a.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "path": ".local-inputs/renderer_kill_bindings_v43_x86_64.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  }
+]

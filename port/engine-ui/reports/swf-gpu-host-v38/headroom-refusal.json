@@ -1,0 +1,16 @@
+{
+  "status": "GUARD_REFUSED_BEFORE_CHILD_START",
+  "system": {
+    "commit_total_bytes": 43364880384,
+    "commit_limit_bytes": 100753940480,
+    "physical_available_bytes": 6107172864,
+    "physical_total_bytes": 34181947392,
+    "page_size_bytes": 4096,
+    "handles": 192900,
+    "processes": 457
+  },
+  "commit_headroom_bytes": 57389060096,
+  "required_commit_headroom_bytes": 18253611008,
+  "required_physical_available_bytes": 7516192768,
+  "no_GL_context_or_emulator_started": true
+}

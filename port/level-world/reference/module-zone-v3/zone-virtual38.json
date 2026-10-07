@@ -1,0 +1,20 @@
+[
+  {
+    "vtable": "_ZTV8RoomZone",
+    "vtable_address": "0x964bd0",
+    "slot38": "0x38aac0",
+    "name": "_ZNK10GameObject11IsUpdatableEv"
+  },
+  {
+    "vtable": "_ZTV10GameObject",
+    "vtable_address": "0x964748",
+    "slot38": "0x38aac0",
+    "name": "_ZNK10GameObject11IsUpdatableEv"
+  },
+  {
+    "vtable": "_ZTV10ObjectBase",
+    "vtable_address": "0x95c670",
+    "slot38": "0x33dce8",
+    "name": "_ZNK10ObjectBase11IsUpdatableEv"
+  }
+]

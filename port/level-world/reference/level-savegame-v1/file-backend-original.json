@@ -1,0 +1,785 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "name": "_ZN8Savegame3Job6finishEv",
+      "entry": "0x313720",
+      "size": 64,
+      "sha256": "55ede8c5328de8f5672a8c6acbd8ae1206390b2d45688a949fff586aa9666916"
+    },
+    {
+      "name": "_ZN8Savegame3JobD1Ev",
+      "entry": "0x313c90",
+      "size": 76,
+      "sha256": "e51159ecc841e2599fe6b20a897986b981b3cfad5d66d3d7e5606c5b1a64b291"
+    },
+    {
+      "name": "_ZN8Savegame3Job4copyERKS0_",
+      "entry": "0x313cdc",
+      "size": 128,
+      "sha256": "732e714c1d4cd86a6d1f0bde0c5b839d1eacf824a1b2212679295bcdef75ff01"
+    },
+    {
+      "name": "_ZN8SavegameD1Ev",
+      "entry": "0x313dfc",
+      "size": 140,
+      "sha256": "164ec6ee69c98d634ec54fef84241ffe7c7bd39270f6c35453354265d9575baf"
+    },
+    {
+      "name": "_ZN8SavegameD0Ev",
+      "entry": "0x313e88",
+      "size": 28,
+      "sha256": "d8e26aa97866296ed50a28678ec2df7144a80a85bd43e046c3ae48c47bd5128b"
+    },
+    {
+      "name": "_ZN8SavegameD2Ev",
+      "entry": "0x313ea4",
+      "size": 140,
+      "sha256": "8830b9f940eba3b291dd892f162ca7f3b6408e4cd921dd6066cf467c85c85498"
+    },
+    {
+      "name": "_ZN8Savegame18DeleteAllSlotFilesEi",
+      "entry": "0x313fb0",
+      "size": 256,
+      "sha256": "142c5c2cf02ff57682863be9564c4c3da8113e87457e0048431c66b36509cdb0"
+    },
+    {
+      "name": "_ZN8Savegame3JobC1ERKS0_",
+      "entry": "0x3145e0",
+      "size": 72,
+      "sha256": "d55611e719a55e1357a481d3873d1f811a3e0b76709fa66b8408d228cec4265d"
+    },
+    {
+      "name": "_ZN8Savegame10UpdateJobsEv",
+      "entry": "0x314734",
+      "size": 1480,
+      "sha256": "6750c4b6d8609d4d3b053af2181a0f7d84a891319268cc716a7ed9b1dcfde697"
+    },
+    {
+      "name": "_ZN8Savegame9FlushJobsEPKc",
+      "entry": "0x314cfc",
+      "size": 164,
+      "sha256": "2a5d1d5518f1fad6243232efb5d29abe3d4e482e88fbb404e12319ae51673338"
+    },
+    {
+      "name": "_ZN8Savegame6AddJobERNS_3JobE",
+      "entry": "0x315110",
+      "size": 220,
+      "sha256": "7db95461f33f292e3b1e130ee79733120252eaabd06d2ed0f7f4d3fee5e2520e"
+    },
+    {
+      "name": "_ZN8Savegame4loadEPKcPFvP11IStreamBasePvES6_S4_",
+      "entry": "0x315848",
+      "size": 188,
+      "sha256": "080dc9da9c195bff4d1b120e0716ef712c013941163bd7c62d91cae3d80801b5"
+    },
+    {
+      "name": "_ZN8Savegame15initSectionInfoEPKcPFvP11IStreamBasePvES6_S4_",
+      "entry": "0x315904",
+      "size": 116,
+      "sha256": "41e1c9f846da1ef7e31f79b3305bfcaa584bd5a1b2899b1a18642f22f7cef64d"
+    },
+    {
+      "name": "_ZN8Savegame10_cacheFileEP12StreamBuffer",
+      "entry": "0x315ad0",
+      "size": 1032,
+      "sha256": "39a53e263f5393d735860207cd93d503e962d6a697e09c535cf83499ab47c677"
+    },
+    {
+      "name": "_ZN8SavegameC1EPKcb",
+      "entry": "0x315ed8",
+      "size": 112,
+      "sha256": "1af81c3bb801adb7d0de1020425e76b08c69caa4ec9f57fe92f73383067e57c1"
+    },
+    {
+      "name": "_ZN8SavegameC2EPKcb",
+      "entry": "0x315f48",
+      "size": 112,
+      "sha256": "2e556504527d34e911d89beb4bd752c588f45a23c0a8322ad2f4fa83c3dc476b"
+    },
+    {
+      "name": "_ZN8Savegame7saveAllEv",
+      "entry": "0x315fb8",
+      "size": 1032,
+      "sha256": "c1df30aa936cf1b982127964e23318236e6c7449bb7aaef95205aaaedb6e1692"
+    },
+    {
+      "name": "_ZN8Savegame5resetEv",
+      "entry": "0x3163c0",
+      "size": 68,
+      "sha256": "b797df81f0e41504d1ac644fc45ff71050477de4cd562944e512b6a4fd5df338"
+    },
+    {
+      "name": "_ZNK12StreamBuffer4sizeEv",
+      "entry": "0x316430",
+      "size": 12,
+      "sha256": "cd92efd6b5d45e74982943762f22df8dd3990b6ef0b33a4d67c2c04cf498af92"
+    },
+    {
+      "name": "_ZNK12StreamBuffer4sizeEi",
+      "entry": "0x31643c",
+      "size": 28,
+      "sha256": "486848f1f78b50049ce13d7df7c57ca9ec2084d3a9642a9de951c272d61e5aa5"
+    },
+    {
+      "name": "_ZNK12StreamBuffer7canReadEv",
+      "entry": "0x316458",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "name": "_ZNK12StreamBuffer8canWriteEv",
+      "entry": "0x316460",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "name": "_ZN12StreamBuffer4skipEy",
+      "entry": "0x316468",
+      "size": 32,
+      "sha256": "0259c0e8faa8a322d09ff1163b404a213f6616cf60e10794a21d0483eaaab7d3"
+    },
+    {
+      "name": "_ZNK12StreamBuffer9tellWriteEv",
+      "entry": "0x316488",
+      "size": 12,
+      "sha256": "2baff5f30d5f06c26d255d360c263f9c45b036e6c69f6412407af34b53f6610a"
+    },
+    {
+      "name": "_ZN12StreamBuffer4readEPvy",
+      "entry": "0x316494",
+      "size": 56,
+      "sha256": "d9003f23eb6f111adf209b675410b98bd0bad4b5e11beb21e77d7dfce4da2914"
+    },
+    {
+      "name": "_ZNK12StreamBuffer4tellEv",
+      "entry": "0x3164cc",
+      "size": 12,
+      "sha256": "f7e9dc27b2ac5e3dd7ac82fa49422e7b2306f852dce7985c6b44247861a5247c"
+    },
+    {
+      "name": "_ZN12StreamBuffer4seekEy",
+      "entry": "0x3164d8",
+      "size": 56,
+      "sha256": "f802f4aea9cf1cb2e1fc6a518341ded2b907539200d68a2d8e8b8dd954c88404"
+    },
+    {
+      "name": "_ZN12StreamBuffer9seekWriteEy",
+      "entry": "0x316510",
+      "size": 56,
+      "sha256": "2884a18ca0b4bb4a638c7a17e2e7979b60c6a5ee9aba57e03ec8db475015bc63"
+    },
+    {
+      "name": "_GLOBAL__I_.._.._sources_Utils_StreamBuffer.cpp",
+      "entry": "0x316548",
+      "size": 32,
+      "sha256": "2fcfc4b22fb1dd57167f2f39183dda87a6b87fa1c2f67323003ade53e9b02e12"
+    },
+    {
+      "name": "_ZNK12StreamBuffer4peekEPvy",
+      "entry": "0x3166bc",
+      "size": 96,
+      "sha256": "61f3cffbdbe0eca3f9a371b1025fc4eb9cf04c7bdd4e74803eb1cf4de657eda5"
+    },
+    {
+      "name": "_ZN12StreamBufferD1Ev",
+      "entry": "0x3169c4",
+      "size": 52,
+      "sha256": "1d9c849145cfd04437c51af3dd9a2074f4b7ce37e523e031b57d2ed2c7a7200f"
+    },
+    {
+      "name": "_ZN12StreamBufferD0Ev",
+      "entry": "0x3169f8",
+      "size": 28,
+      "sha256": "693ac9b29317c41edd8d59820cc4121468368bf0a1f00a10ce2b7512fd3c51a9"
+    },
+    {
+      "name": "_ZN12StreamBufferD2Ev",
+      "entry": "0x316a14",
+      "size": 52,
+      "sha256": "aa046285536ef1f63069926afccca5db45bb56e2294c3707b51c4967eaa18c58"
+    },
+    {
+      "name": "_ZN12StreamBuffer5clearEv",
+      "entry": "0x316a48",
+      "size": 36,
+      "sha256": "ddf1f25951ea5b7c1d0c57eefa74f5be307ea9e1e5d2725a80013a7705908768"
+    },
+    {
+      "name": "_ZN12StreamBufferC1Ev",
+      "entry": "0x316d3c",
+      "size": 92,
+      "sha256": "c92a4aa93ef1cb03a9fc915e6c124e6d06668d7782851020fb37c2bf1f055e2a"
+    },
+    {
+      "name": "_ZN12StreamBuffer5writeEPKvy",
+      "entry": "0x316fd4",
+      "size": 64,
+      "sha256": "8eb22ed1db13328d17859d29fe81f522ed3adc749844a18aac29b496c348d690"
+    },
+    {
+      "name": "_ZN12StreamBuffer6expandEy",
+      "entry": "0x317180",
+      "size": 56,
+      "sha256": "04cf2096f220aefdd8c7d66abe77fce0cfddbb207120bcb0a446e61131da7ae5"
+    },
+    {
+      "name": "_ZN12StreamBufferC2EP11IStreamBase",
+      "entry": "0x3171b8",
+      "size": 288,
+      "sha256": "575f949fefc23a7416d66331fa8cc33f982e357c16fa7d15609f72eecd35b59e"
+    },
+    {
+      "name": "_ZN12StreamBufferC1EP11IStreamBase",
+      "entry": "0x3172d8",
+      "size": 288,
+      "sha256": "a61c002c289c72dec53cdb22ba4943f6b2b55bbf8d42c2e32492fc94698ca090"
+    },
+    {
+      "name": "_ZN12StreamBufferC2Ev",
+      "entry": "0x3173f8",
+      "size": 92,
+      "sha256": "1bd4cfb6a385fd1de2827021662d73d3e4bf2d14bb9e21dab9f34f080f8120ba"
+    },
+    {
+      "name": "_ZN3sfc6script3lua8Instance8loadFileER12StreamBuffer",
+      "entry": "0x31acf4",
+      "size": 244,
+      "sha256": "1cc5464357d685df3e8c502334f3dcbef7a595cf118f19de6b32e826b04e4f02"
+    },
+    {
+      "name": "_ZN14FileSystemBase14doesFileExistsEPKc",
+      "entry": "0x34df94",
+      "size": 76,
+      "sha256": "af9517b35b85d150d69e6dd45fa24635c8c8a49c11ddda7d925acbbe421af893"
+    },
+    {
+      "name": "_ZN14FileSystemBase18doesResourceExistsEPKc",
+      "entry": "0x34dfe0",
+      "size": 68,
+      "sha256": "8d3437678f4200dd45d2564337afd0451afa2426bbdc0ffa324138ea2d2aade0"
+    },
+    {
+      "name": "_ZN14FileSystemBase20decodeObfuscatedDataEiPviS0_",
+      "entry": "0x34e0fc",
+      "size": 84,
+      "sha256": "e12247afe0c387f5f6956b2a5ff18e30dfd71359d617e5b24c636d3fbcf96916"
+    },
+    {
+      "name": "_ZN14FileSystemBase18doesSavefileExistsEPKc",
+      "entry": "0x34e150",
+      "size": 92,
+      "sha256": "1f0696bc823694d818972df75b82d64f28642bbea6338f71d70c9e2c545da3c9"
+    },
+    {
+      "name": "_ZNK14FileSystemBase14formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE",
+      "entry": "0x34e1ac",
+      "size": 40,
+      "sha256": "879d1f1a253b26c5af926ea50a266cf04896c59a77c909b9cdc4a1b7be12c445"
+    },
+    {
+      "name": "_ZN14FileSystemBase24changeWorkingDirectoryToEPKc",
+      "entry": "0x34e1d4",
+      "size": 72,
+      "sha256": "12514e2f4f85c65defe6871e95f3a0aac429d77a448dd761e005a44f3263382a"
+    },
+    {
+      "name": "_ZN14FileSystemBaseD1Ev",
+      "entry": "0x34e480",
+      "size": 52,
+      "sha256": "c00b3725a41f7bbaf3727dfbd94391d2ecd538a599d5b6f4e48d2f5a7f6d9be0"
+    },
+    {
+      "name": "_ZN14FileSystemBaseD0Ev",
+      "entry": "0x34e4b4",
+      "size": 28,
+      "sha256": "cbb73d100611b948d05f572f7011ceef1f2906619cd8957ea433581c108e1a66"
+    },
+    {
+      "name": "_ZN14FileSystemBaseD2Ev",
+      "entry": "0x34e4d0",
+      "size": 52,
+      "sha256": "9d2b1a9a64080ee3b305642d36487684071723d8741940f63b15f21ea5f354df"
+    },
+    {
+      "name": "_ZN14FileSystemBaseC1Ev",
+      "entry": "0x34e504",
+      "size": 52,
+      "sha256": "05ae768cb2e94661ba43f440dd69fc4fc775e181699e4f404c53c1e2cdf0f801"
+    },
+    {
+      "name": "_ZN14FileSystemBaseC2Ev",
+      "entry": "0x34e538",
+      "size": 52,
+      "sha256": "0afff19ac03dbfe8e6be430ec67c101597bf6ee860b691784e1264b9cf1ec7b1"
+    },
+    {
+      "name": "_GLOBAL__I_.._.._sources_Core_Irrlicht_FileSystemBase.cpp",
+      "entry": "0x34e56c",
+      "size": 136,
+      "sha256": "0de5848fa8de0358e2078d1851b25201e82b2bd0520c7cb9f5a0d62ad14e5353"
+    },
+    {
+      "name": "_ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE",
+      "entry": "0x34e5f4",
+      "size": 148,
+      "sha256": "7d9251ba731ff6999625c0da42069b5ba73e42f1cb31a003a5adbcb5d0cfc1a7"
+    },
+    {
+      "name": "_ZN14FileSystemBase17createAndOpenFileEPKc",
+      "entry": "0x34e688",
+      "size": 740,
+      "sha256": "55167869d2ec2e03d2f6f9416639efc2e892b2d953069fac3b1cfa6959699eb3"
+    },
+    {
+      "name": "_ZNK14FileSystemBase18ApplyFilenameHacksEPKc",
+      "entry": "0x34e96c",
+      "size": 496,
+      "sha256": "14d158677220bc820842c4edfd958727dc9a4bfc53c445d4e98ce73101cdfb67"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3211_FileHandle7canReadEv",
+      "entry": "0x34eb94",
+      "size": 8,
+      "sha256": "d3ab2800a2bf8d3217aae8afa80d6e10b444ff331526a0cc2da6a58a25e04389"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3211_FileHandle8canWriteEv",
+      "entry": "0x34eb9c",
+      "size": 8,
+      "sha256": "4c002f17aef5d67fbfdfa0db8134ccf13611a1f4d86bb366d29e5d8e27570c2b"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3211getRootPathEv",
+      "entry": "0x34eba4",
+      "size": 8,
+      "sha256": "722de9e15bb562a0de63f58f7be8cb2c6b4575ed3c69231ceba4028b48e63342"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3216getResourcesPathEv",
+      "entry": "0x34ebac",
+      "size": 8,
+      "sha256": "41b14bcad77ca280c622c28c20c00f7993dc5889323c7fd2184af2b29a8c45a7"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3216getSavefilesPathEv",
+      "entry": "0x34ebb4",
+      "size": 12,
+      "sha256": "6a07c2e4eedbb60eba3339259e97ed6b0658e3364baa18bbc853717d8cc35d2a"
+    },
+    {
+      "name": "_ZN15FileSystemWin3212copySavefileEPKc",
+      "entry": "0x34ebc0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3212_getFileInfoEPKcS1_Pv",
+      "entry": "0x34ebc4",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "name": "_ZN15FileSystemWin329closeFileERP11IFileStream",
+      "entry": "0x34ebcc",
+      "size": 48,
+      "sha256": "2c300111eb827f83be0db16bd4f7c00d37757ced924b1328fcbd469f16257e8b"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3210getFoldersEPKcRSt6vectorISsSaISsEE",
+      "entry": "0x34ebfc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3215isFileNewerThanEPKcS1_",
+      "entry": "0x34ec00",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3211_FileHandle4tellEv",
+      "entry": "0x34edf0",
+      "size": 32,
+      "sha256": "2433fcd6ab63173ef1994a8d5faa634b2babb75bc54b66368458242895a14421"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandle4seekEy",
+      "entry": "0x34ee10",
+      "size": 16,
+      "sha256": "d01ec2046323bf58b12f291ce78caacf2d5f62f93c2f55287b232cb52fff6b3f"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3211_FileHandle4sizeEv",
+      "entry": "0x34ee20",
+      "size": 84,
+      "sha256": "23c1a34db38ccb4af327790496a0399c5835724acd4c88890d54dc40a4ee2cdc"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandle5writeEPKvy",
+      "entry": "0x34ee74",
+      "size": 84,
+      "sha256": "2eb15d6ebcee413c259569bdb93d9935a6d62797b57d90447c08ac3bc91f3001"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandle4readEPvy",
+      "entry": "0x34eec8",
+      "size": 144,
+      "sha256": "7c8a78210f98a50052ea399e681befbab4f922677498f551de6f9506bba84a0d"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3211_FileHandle4peekEPvy",
+      "entry": "0x34ef58",
+      "size": 172,
+      "sha256": "1e2b9b603f65abaeed5ba44c0544cb6f567ca62ee9c4cd77e17b874756c90937"
+    },
+    {
+      "name": "_ZN15FileSystemWin329_getPathsEv",
+      "entry": "0x34f068",
+      "size": 164,
+      "sha256": "ec0fce7e63318ef1285ee3e3935041811134c0bad8a10b53002fadb0df2d94ff"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3214backupSavefileEPKcS1_",
+      "entry": "0x34f10c",
+      "size": 360,
+      "sha256": "2122488b1933301d70e2028143db5cd2713e447f7821ba74e7bbb49f0d56202f"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3214deleteSavefileEPKc",
+      "entry": "0x34f274",
+      "size": 216,
+      "sha256": "98af42b348d07d4a97c4b03155240833a45aa222dbb8b2600d5e7ba6f036a7ac"
+    },
+    {
+      "name": "_ZN15FileSystemWin3212makeFullPathEPKcS1_Pci",
+      "entry": "0x34f34c",
+      "size": 16,
+      "sha256": "086d35150b97524c5da05e81c3892d56b1bf8b1f0837dc82d660ccaf9f5c1465"
+    },
+    {
+      "name": "_ZN15FileSystemWin3212makeFullPathEPKwS1_Pwi",
+      "entry": "0x34f35c",
+      "size": 108,
+      "sha256": "48538ee8ac522c42c5bfce44aef51aaf72dcb87313f0882d4a9137633641adf9"
+    },
+    {
+      "name": "_ZN15FileSystemWin32D1Ev",
+      "entry": "0x34f670",
+      "size": 52,
+      "sha256": "bd6934a3ce939a539939e59ad31b4c80e1738eb7dce7e073e9fab6ca1bc7dfea"
+    },
+    {
+      "name": "_ZN15FileSystemWin32D0Ev",
+      "entry": "0x34f6a4",
+      "size": 28,
+      "sha256": "7d3f1f8dcd5cfeedca32d5a465fcc56f8757898c0950ceefc7e1242d2d6c7c73"
+    },
+    {
+      "name": "_ZN15FileSystemWin32D2Ev",
+      "entry": "0x34f6c0",
+      "size": 52,
+      "sha256": "a08a84a44a5e9414878af76aefc373fc50451d2e37b28652018287bf46a68e78"
+    },
+    {
+      "name": "_ZN15FileSystemWin32C1Ev",
+      "entry": "0x34f6f4",
+      "size": 148,
+      "sha256": "52f827fdd394bf29ca5e545e809336d803cdf27ef02004fcce5533e969278fba"
+    },
+    {
+      "name": "_ZN15FileSystemWin32C2Ev",
+      "entry": "0x34f788",
+      "size": 148,
+      "sha256": "f1729f503b11fe071bf56c2cef4c5f2c67ee7f8fbca0322e000a5f2be527f490"
+    },
+    {
+      "name": "_GLOBAL__I_.._.._sources_Core_Irrlicht_FileSystemWin32.cpp",
+      "entry": "0x34f81c",
+      "size": 136,
+      "sha256": "450796fb71d6e4b14776e3078ca324ad715a446a9fcda9c7d1fb619c4bcc132b"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE",
+      "entry": "0x34f8a4",
+      "size": 728,
+      "sha256": "c7a22d3ff34f774c8d7817d9c4f86b339d0f680da3ee76a210668440ab381af4"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandleD1Ev",
+      "entry": "0x34fb7c",
+      "size": 64,
+      "sha256": "2064eaf067452606268cf494125dd0eddd07ff8e118fb1a694e14b2df38da1ed"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandleD0Ev",
+      "entry": "0x34fbbc",
+      "size": 28,
+      "sha256": "8e45a610e04d8a1b92cfb83fbde84c8332a9ec19afe83d022ce57815f4bb92a4"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandleD2Ev",
+      "entry": "0x34fbd8",
+      "size": 64,
+      "sha256": "cfc8f000abf0fe1d6d848a730b541732b3d476ea6452a2cace31214d15ae38db"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb",
+      "entry": "0x34fc18",
+      "size": 568,
+      "sha256": "564265f5ce33490fa936402e17860bf19501cf9427ff7252acfe039f288169c6"
+    },
+    {
+      "name": "_ZN15FileSystemWin3213_createHandleEPKcS1_bb",
+      "entry": "0x34fe50",
+      "size": 148,
+      "sha256": "2a60316e2fde523fe4dea94e5aaa70f2d8b889b9ef3fc1a8166e2386187da323"
+    },
+    {
+      "name": "_ZN15FileSystemWin3212openSavefileEPKcb",
+      "entry": "0x34fee4",
+      "size": 68,
+      "sha256": "77a24406ea5d4b60c50a64eec05beb9e43b0282018cff192883a85809609b25d"
+    },
+    {
+      "name": "_ZN15FileSystemWin3212openResourceEPKc",
+      "entry": "0x34ff28",
+      "size": 92,
+      "sha256": "379f83bc848c50bf432b74428c3d8d16a633482bda4b5df159f27061dc665220"
+    },
+    {
+      "name": "_ZN15FileSystemWin3213openTraceFileEPKc",
+      "entry": "0x34ff84",
+      "size": 44,
+      "sha256": "f26a0a0c80575aa54949c873e9961e9238cf359ed727f6b72760d85c9377ca40"
+    },
+    {
+      "name": "_ZN15FileSystemWin328openFileEPKcbb",
+      "entry": "0x34ffb0",
+      "size": 140,
+      "sha256": "899a702a9ab7bbfe6af858037d58fc2d995c1e294b30780de922ce26252c098e"
+    },
+    {
+      "name": "_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb",
+      "entry": "0x35003c",
+      "size": 568,
+      "sha256": "47c71ca64b3b85981394c8426f9239694d4a86dde0b9a6702d1c41348b196db2"
+    },
+    {
+      "name": "_ZNK15FileSystemWin3216getFilesMatchingEPKcS1_RSt6vectorISsSaISsEE",
+      "entry": "0x35041c",
+      "size": 388,
+      "sha256": "85c2094cdbd584395d187163cd739323b0f12a8e79947bb9ba49ac079fd0486d"
+    },
+    {
+      "name": "_ZNK15FileSystemWin328getFilesEPKcRSt6vectorISsSaISsEE",
+      "entry": "0x3505a0",
+      "size": 260,
+      "sha256": "1a4a391c72ca6669ad0a415979b9914124274023153c80b801fb0f2074b74450"
+    },
+    {
+      "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+      "entry": "0x379fa8",
+      "size": 64,
+      "sha256": "136c6ff23640e9a01447e3046ea3f61a2d4d972e13076483939953524c098498"
+    },
+    {
+      "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "entry": "0x37a300",
+      "size": 368,
+      "sha256": "d3b534d832ba9fe057ee357d50bdd94914eda8e85d3ad09ee81709520e11d432"
+    },
+    {
+      "name": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_lower_boundIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "entry": "0x37a470",
+      "size": 240,
+      "sha256": "b0b9cdf1ee9a646e52073c5ea3ebc160b40ecd3ef43a7c902d80604bdfd4c3f6"
+    },
+    {
+      "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE14_M_create_nodeERKS7_",
+      "entry": "0x37a560",
+      "size": 88,
+      "sha256": "5d508cecb1c946b806a3ec4bebe65754977661639572ad4bf2c352bbc4cb13c9"
+    },
+    {
+      "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+      "entry": "0x37a5b8",
+      "size": 240,
+      "sha256": "399f90fc82567f14a0bb86088473a40ac3dde35f6c62c508c70ee4ed535553ea"
+    },
+    {
+      "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_",
+      "entry": "0x37a6a8",
+      "size": 536,
+      "sha256": "1ccc8c13ab2171d80fbba0ffd7b829fff51c3507d97a8cf13ecf2e4c169f371b"
+    },
+    {
+      "name": "_ZNSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+      "entry": "0x37abf8",
+      "size": 1284,
+      "sha256": "9c2ebf8c681adaa9e2e3dba86bbab8514a587ae31efe50d88ab43fb275f32f86"
+    },
+    {
+      "name": "_ZNSt3mapISsP12StreamBufferSt4lessISsESaISt4pairIKSsS1_EEEixIPKcEERS1_RKT_",
+      "entry": "0x37b0fc",
+      "size": 320,
+      "sha256": "c4f249bebb02591cc482f5775ce0ee944b3fb33b932a6e3116e0c82bfe83e8b2"
+    },
+    {
+      "name": "_ZN5Level25AssignSteamToLoadDataFileER12StreamBuffer",
+      "entry": "0x3f02ac",
+      "size": 100,
+      "sha256": "d918581664008f0da71427830f87a87d34b79e4c7b6ca3c4018a9d8de1ecce74"
+    },
+    {
+      "name": "_ZN5Level19GenerateRandomLevelER12StreamBufferj",
+      "entry": "0x3f07f8",
+      "size": 160,
+      "sha256": "2d593adb4ea22ce5f31b04b333e3cbc0d0db3da57388dbcd285a299f562dfa4f"
+    },
+    {
+      "name": "_ZN14PlayerSavegame18SG_UnpackQuestSyncER12StreamBuffer",
+      "entry": "0x467160",
+      "size": 116,
+      "sha256": "f7b1d4cd1f3711c0f7f4197808b3b57f5fbfb0ffb7e6b05db69eab368eca7b27"
+    },
+    {
+      "name": "_ZN3rnd15RandomGenerator24SaveModularLevelToStreamER12StreamBuffer",
+      "entry": "0x488b84",
+      "size": 716,
+      "sha256": "2ea2e95daef7a6bbdb0b8b0f2bd9bb238592d6df74038e44006be6036a767823"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManagerC2EPNS_7IDeviceE",
+      "entry": "0x657894",
+      "size": 128,
+      "sha256": "0d80677b754ae0b1191a5e467258568e7dddfe3d6647fa556104a0641c868ee9"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManagerC1EPNS_7IDeviceE",
+      "entry": "0x657914",
+      "size": 128,
+      "sha256": "d4fdb3614ec2ce867f1fc0904f98fdaa95457d10c782b4e9d599d7e5b0538cc5"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager12checkVersionEPNS_2io9IReadFileE",
+      "entry": "0x657994",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager12checkVersionEPKc",
+      "entry": "0x65799c",
+      "size": 68,
+      "sha256": "c05f5c04392b2b5b013f96e347f1ff0eca025cd00728bcb85082d938919beff7"
+    },
+    {
+      "name": "_GLOBAL__I_.._source_glitch_collada_CColladaResFileManager.cpp",
+      "entry": "0x657a24",
+      "size": 112,
+      "sha256": "f2038c17ea1229829cb8e5f0a84e072d8845f4d17744188574b05177322b7098"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager11getReadFileEPNS_2io9IReadFileE",
+      "entry": "0x657bd0",
+      "size": 188,
+      "sha256": "1884d00005dcb317f323f618485800b2398506d3cb8305c149c550e893e26870"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManagerD1Ev",
+      "entry": "0x6582c4",
+      "size": 228,
+      "sha256": "47dbdb518f6635318dc1ab62a6e2d17c889246496672439e749222ebe9ac7810"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManagerD0Ev",
+      "entry": "0x6583a8",
+      "size": 28,
+      "sha256": "9b0315d0359ecd0e597f4d4484404eae35d763a6e12213572c1d6225e4bc2062"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManagerD2Ev",
+      "entry": "0x6583c4",
+      "size": 228,
+      "sha256": "0c44bb1fd6f3ec981c11bc30460cfcfd0bf5ef885cd9ca2693590d2dd77514ae"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager6unloadENSt4priv17_Rb_tree_iteratorISt4pairIKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEEPNS0_8CResFileEENS2_11_MapTraitsTISG_EEEEb",
+      "entry": "0x6584fc",
+      "size": 104,
+      "sha256": "c6e00ba7814a823bbbb372a03ceccae912560564fa63d83af0cf9a16b719aaef"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager23updateExternalResourcesEPNS0_8CResFileEPNS_2io9IReadFileE",
+      "entry": "0x658564",
+      "size": 480,
+      "sha256": "e50115396a74bcc0378c6b5b54bec8287b576955e4005af12f1074c7e7878a84"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager15postLoadProcessEPNS0_8CResFileEPNS_2io9IReadFileE",
+      "entry": "0x658c90",
+      "size": 2064,
+      "sha256": "e85095e743755648b2ca68999ddaca7fa1155ab335ee435b585ad2b7a1b13ad2"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager6unloadEPKcb",
+      "entry": "0x659b60",
+      "size": 220,
+      "sha256": "0e54c0532f165bf9df45849c0fc14258e513f29616c5773d08fcda44d2ca26e6"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager9unloadAllEv",
+      "entry": "0x659c3c",
+      "size": 192,
+      "sha256": "aafac2ee2df19112cc017c65227ef172c99effa9681373726c3ae3ab7293f1d5"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager6unloadEPKNS0_8SColladaEb",
+      "entry": "0x659cfc",
+      "size": 160,
+      "sha256": "3583491349da8867cd5b48fe78fc41ee3f0a27a24365d38b5b8064b99a3e78e1"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager3getEPNS_2io9IReadFileEbb",
+      "entry": "0x65a748",
+      "size": 580,
+      "sha256": "c0dd305b36a44df95c95e9d5655973254019f42bbff0f192de117015959288ed"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager4loadEPNS_2io9IReadFileEbPFvPKcPKNS0_8SColladaEEb",
+      "entry": "0x65a98c",
+      "size": 28,
+      "sha256": "0923a1253e7ceee85aa40f5ebf8e4d20972193b4b834a8e5538e5178baa0881d"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager3getEPKcb",
+      "entry": "0x65a9a8",
+      "size": 692,
+      "sha256": "62a918d472da5807ba14390942d578cd99130a7929117f900cb0bbc0b5060854"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager4loadEPKcbPFvS3_PKNS0_8SColladaEE",
+      "entry": "0x65ac5c",
+      "size": 24,
+      "sha256": "6999a177b9b37d5f6d411e9c792dc7b5b5ea8e8bd5ce2e8ada7e7e24567b551a"
+    },
+    {
+      "name": "_ZN6glitch7collada15CResFileManager3getEPNS0_8CResFileEPKcb",
+      "entry": "0x65ac74",
+      "size": 336,
+      "sha256": "bf3ba2bd39545be5a4282a25d4cb8d8b3778bef9f0a071a52549d0d9b23e0435"
+    },
+    {
+      "name": "_ZN6glitch5video14CVertexStreams15setStreamBufferEPNS0_13SVertexStreamERKN5boost13intrusive_ptrINS0_7IBufferEEEb.clone.1",
+      "entry": "0x663ca8",
+      "size": 64,
+      "sha256": "4463f3505389e19f3802ed49017484412443090ff9edfe0ab820b531ef38f406"
+    },
+    {
+      "name": "_ZN6glitch5video14CVertexStreams15setStreamBufferEPNS0_13SVertexStreamERKN5boost13intrusive_ptrINS0_7IBufferEEEb.clone.0",
+      "entry": "0x6dc848",
+      "size": 64,
+      "sha256": "e7f8736c008fd24dda10ec583705cf1a616f899b285c9f304523b18d6f4bbfcd"
+    }
+  ]
+}

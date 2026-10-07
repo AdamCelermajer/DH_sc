@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI6OnInitEv",
+      "elf_address": "0x3d12b0",
+      "size": 296,
+      "sha256": "468d99d8aed4ce204358e71067614af963caf89b818e68c6638d29ff153ebefd"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame14SG_SetSaveDateEv",
+      "elf_address": "0x467744",
+      "size": 24,
+      "sha256": "676105ad7239b950750f4b357abb0da5b01f69dd8471ccf5beb1c867281ca454"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "original_symbol": "_ZN9Character7SG_LoadEi",
+      "elf_address": "0x3bc4d0",
+      "size": 20,
+      "sha256": "090c17df20995459a533229a6cf3d5b18684597dbb50ee4cfeddb77be3e048cb"
+    },
+    {
+      "original_symbol": "_ZN9Character8IncSkillEib",
+      "elf_address": "0x3bcc58",
+      "size": 820,
+      "sha256": "6d5f019eeae98820ceea9c35da44fc02ffc596b42745180f07298006ee326af2"
+    },
+    {
+      "original_symbol": "_ZN9Character17EquipAllSlotsAutoEv",
+      "elf_address": "0x3a4c14",
+      "size": 172,
+      "sha256": "a4bfac2475fcc14ef71f80a1c570e55b6c87132595418c41c937681ebde57b13"
+    },
+    {
+      "original_symbol": "_ZN9Character14_InitEquipmentEv",
+      "elf_address": "0x3b395c",
+      "size": 276,
+      "sha256": "5cd18623a37e0ab1321d45fcfb910761c8aaa4a8808cf43db9c79e647eb4736c"
+    },
+    {
+      "original_symbol": "_ZN9Character13SetFaeryStateEji",
+      "elf_address": "0x3ae7d4",
+      "size": 376,
+      "sha256": "e5c437dd5a5380a8e344100c2cade086c685831732e760f8a6a6a69311fb878c"
+    },
+    {
+      "original_symbol": "_ZN9Character19SG_SetCurrentFaerieEji",
+      "elf_address": "0x3bb9d8",
+      "size": 72,
+      "sha256": "4ecb81f4b60889e22393496ee19b59b49940eb893a090e365fefb53e7bde2bf5"
+    }
+  ]
+}

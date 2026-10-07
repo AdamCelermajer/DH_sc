@@ -1,0 +1,938 @@
+{
+  "callback": "NativeGetPlayerStats",
+  "class_id": 290,
+  "writes": [
+    {
+      "key": "Name",
+      "type": 4,
+      "value": "PLAYER",
+      "service_prefix": 11
+    },
+    {
+      "key": "Class",
+      "type": 4,
+      "value": "",
+      "service_prefix": 12
+    },
+    {
+      "key": "Icon",
+      "type": 2,
+      "value": 3.0,
+      "service_prefix": 12
+    },
+    {
+      "key": "Level",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 13
+    },
+    {
+      "key": "HP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 14
+    },
+    {
+      "key": "HP_Bonus",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 15
+    },
+    {
+      "key": "Max_HP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 16
+    },
+    {
+      "key": "MP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 17
+    },
+    {
+      "key": "MP_Bonus",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 18
+    },
+    {
+      "key": "Max_MP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 19
+    },
+    {
+      "key": "XP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 20
+    },
+    {
+      "key": "Max_XP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 21
+    },
+    {
+      "key": "Stat_Strength",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 22
+    },
+    {
+      "key": "Stat_Dexterity",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 23
+    },
+    {
+      "key": "Stat_Endurance",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 24
+    },
+    {
+      "key": "Stat_Energy",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 25
+    },
+    {
+      "key": "Stat_Points",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 26
+    },
+    {
+      "key": "Rating_Attack",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 26
+    },
+    {
+      "key": "Rating_Critical",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 28
+    },
+    {
+      "key": "Rating_Defense",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 29
+    },
+    {
+      "key": "Rating_Dodge",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 30
+    },
+    {
+      "key": "Rating_Block",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 31
+    },
+    {
+      "key": "Resistance_Fire",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 32
+    },
+    {
+      "key": "Resistance_Earth",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 33
+    },
+    {
+      "key": "Resistance_Water",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 34
+    },
+    {
+      "key": "Resistance_Air",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 35
+    },
+    {
+      "key": "Resistance_Lightning",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 36
+    },
+    {
+      "key": "Damage_Min_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 36
+    },
+    {
+      "key": "Damage_Max_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 36
+    },
+    {
+      "key": "Damage_Elemental_Min_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 37
+    },
+    {
+      "key": "Damage_Elemental_Max_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 38
+    },
+    {
+      "key": "Damage_Elemental_Type_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 39
+    },
+    {
+      "key": "Damage_Min_Off_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 39
+    },
+    {
+      "key": "Damage_Max_Off_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 39
+    },
+    {
+      "key": "Damage_Elemental_Min_Off_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 40
+    },
+    {
+      "key": "Damage_Elemental_Max_Off_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 41
+    },
+    {
+      "key": "Damage_Elemental_Type_Off_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 42
+    },
+    {
+      "key": "Damage_Fire_Min_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 43
+    },
+    {
+      "key": "Damage_Fire_Max_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 44
+    },
+    {
+      "key": "Damage_Water_Min_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 45
+    },
+    {
+      "key": "Damage_Water_Max_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 46
+    },
+    {
+      "key": "Damage_Lightning_Min_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 47
+    },
+    {
+      "key": "Damage_Lightning_Max_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 48
+    },
+    {
+      "key": "Damage_Air_Min_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 49
+    },
+    {
+      "key": "Damage_Air_Max_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 50
+    },
+    {
+      "key": "Damage_Earth_Min_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 51
+    },
+    {
+      "key": "Damage_Earth_Max_Main_Hand",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 52
+    },
+    {
+      "key": "IsWeaponTwoHanded",
+      "type": 1,
+      "value": 10,
+      "service_prefix": 53
+    },
+    {
+      "key": "HasOffHandWeapon",
+      "type": 1,
+      "value": 10,
+      "service_prefix": 54
+    },
+    {
+      "key": "HasStaff",
+      "type": 1,
+      "value": 10,
+      "service_prefix": 55
+    },
+    {
+      "key": "HasBow",
+      "type": 1,
+      "value": 10,
+      "service_prefix": 56
+    },
+    {
+      "key": "Menu_Average_Melee_To_Hit",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 57
+    },
+    {
+      "key": "Physical_Armor",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 58
+    },
+    {
+      "key": "Spell_Rating_Dodge",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 59
+    },
+    {
+      "key": "Menu_Melee_Damage_Reduction",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 60
+    },
+    {
+      "key": "Spell_Rating_Critical",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 61
+    },
+    {
+      "key": "Menu_Average_Spell_To_Hit",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 62
+    },
+    {
+      "key": "Spell_Damage_Bonus_Fire",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 63
+    },
+    {
+      "key": "Spell_Damage_Bonus_Earth",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 64
+    },
+    {
+      "key": "Spell_Damage_Bonus_Water",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 65
+    },
+    {
+      "key": "Spell_Damage_Bonus_Air",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 66
+    },
+    {
+      "key": "Spell_Damage_Bonus_Lightning",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 67
+    },
+    {
+      "key": "Regen_HP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 68
+    },
+    {
+      "key": "Regen_MP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 69
+    },
+    {
+      "key": "Leech_HP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 70
+    },
+    {
+      "key": "Leech_MP",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 71
+    },
+    {
+      "key": "Special_Loot_Gold_Multiplier",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 72
+    },
+    {
+      "key": "Special_Loot_Magical_Chance",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 73
+    },
+    {
+      "key": "Stun_Resist_Chance",
+      "type": 2,
+      "value": 10.0,
+      "service_prefix": 74
+    }
+  ],
+  "services": [
+    [
+      "_Z19NativeGetPlayerCharib",
+      0,
+      0
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      79,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties20PROPS_GetBonusDamageEb",
+      34604384,
+      0,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      80,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties20PROPS_GetBonusDamageEb",
+      34604384,
+      0,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      81,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties20PROPS_GetBonusDamageEb",
+      34604384,
+      1,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      82,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties20PROPS_GetBonusDamageEb",
+      34604384,
+      1,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      50,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK14CharProperties26PROPS_GetBonusAttackRatingEb",
+      34604384,
+      0,
+      0,
+      34603008
+    ],
+    [
+      "_ZNK9Character12GetClassNameEv",
+      34603008,
+      9474768,
+      5,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      19,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      36,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      37,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      38,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      41,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      42,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      43,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      33,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      34,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      149,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      150,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      151,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      152,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      148,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      63,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties24PROPS_GetBonusCritRatingEb",
+      34604384,
+      0,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      59,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      60,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      61,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      74,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      77,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      75,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      78,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      76,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      95,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      96,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      97,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      98,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      99,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      100,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      101,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      102,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      105,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      106,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      109,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      110,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      117,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      118,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      113,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      114,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK13ItemInventory12HasTwoHanderEb",
+      34603900,
+      0,
+      34603008,
+      34611456
+    ],
+    [
+      "_ZNK13ItemInventory16HasOffHandWeaponEv",
+      34603900,
+      9225528,
+      67164200,
+      34611456
+    ],
+    [
+      "_ZNK13ItemInventory8HasStaffEv",
+      34603900,
+      9225552,
+      67164188,
+      34611456
+    ],
+    [
+      "_ZNK13ItemInventory6HasBowEv",
+      34603900,
+      9192600,
+      67164176,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      207,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      71,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      164,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      209,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      165,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      208,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      166,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      169,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      167,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      170,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      168,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      39,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      44,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      132,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      133,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      195,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      196,
+      0,
+      34611456
+    ],
+    [
+      "_ZNK14CharProperties12PROPS_GetIntEib",
+      34604384,
+      138,
+      0,
+      34611456
+    ]
+  ]
+}

@@ -1,0 +1,10 @@
+--- a/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
+@@ -250,6 +250,7 @@
+                                 FrameBoundaryV42.finish();
+                                 org.json.JSONObject report=new org.json.JSONObject();
+                                 report.put("request_id",reportRequest==null?"":reportRequest);
++                                report.put("pacing",new org.json.JSONObject(FramePacingReportV46.capture(framePacer)));
+                                 report.put("pid",android.os.Process.myPid());
+                                 report.put("captured_uptime_ms",android.os.SystemClock.uptimeMillis());
+                                 report.put("boundary",new org.json.JSONObject(FrameBoundaryV42.report()));

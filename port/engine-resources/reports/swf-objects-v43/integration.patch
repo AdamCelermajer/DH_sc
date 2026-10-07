@@ -1,0 +1,376 @@
+--- a/port/engine-resources/resource_budget_v37.hpp
++++ b/port/engine-resources/resource_budget_v37.hpp
+@@ -8,7 +8,7 @@
+ 
+ namespace dh2::resources {
+ inline constexpr std::uint64_t mib_v37=1024ull*1024ull;
+-enum class ResourceKindV37 : std::uint8_t {texture,vertex_buffer,index_buffer,program,framebuffer,renderbuffer,cpu_request,count};
++enum class ResourceKindV37 : std::uint8_t {texture,vertex_buffer,index_buffer,program,framebuffer,renderbuffer,cpu_request,shader,count};
+ enum class ResourceScopeV37 : std::uint8_t {world,actor,equipment,fx,loot,swf_front,swf_gameplay,shader,asset_archive,other,count};
+ enum class ReplacementModeV37 : std::uint8_t {same_object_storage,separate_candidate,same_object_coexisting_storage};
+ struct ResourceChargeV37 {
+@@ -25,7 +25,7 @@
+  std::uint64_t fx_buffer_gpu_bytes=64*mib_v37,cpu_bytes=512*mib_v37;
+  std::uint64_t individual_gpu_bytes=128*mib_v37,individual_cpu_bytes=64*mib_v37;
+  std::uint64_t bulk_archive_cpu_bytes=512*mib_v37;
+- std::array<std::uint32_t,std::size_t(ResourceKindV37::count)> objects{{4096,8192,8192,256,256,256,4096}};
++ std::array<std::uint32_t,std::size_t(ResourceKindV37::count)> objects{{4096,8192,8192,256,256,256,4096,256}};
+  std::uint32_t record_slots=8192;
+ };
+ struct ResourceTokenV37 {
+@@ -35,13 +35,15 @@
+ };
+ struct ResourceUsageV37 {
+  std::uint64_t gpu_bytes{},cpu_bytes{},texture_gpu_bytes{},fx_buffer_gpu_bytes{};
++ // Count-only program/shader storage remains explicitly unknown in bytes.
++ std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> unknown_gpu_storage_objects{};
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> objects{};
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> gpu_bytes_by_kind{},cpu_bytes_by_kind{};
+ };
+ struct ResourceContextStateV41 {std::uint64_t generation{};bool ready{};};
+ struct ResourceBudgetSnapshotV37 {
+  ResourceUsageV37 live,pending,requested,peak;
+- std::array<ResourceUsageV37,std::size_t(ResourceScopeV37::count)> live_by_scope{},pending_by_scope{};
++ std::array<ResourceUsageV37,std::size_t(ResourceScopeV37::count)> live_by_scope{},pending_by_scope{},peak_by_scope{};
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> creates{},replacements{},releases{},context_discards{},rejections_by_kind{};
+  std::uint64_t reservations{},commits{},aborts{},rejections{},context_generation{},context_losses{},bookkeeping_bytes{};
+  std::uint32_t occupied_records{},pending_records{};
+--- a/port/engine-resources/resource_budget_v37.cpp
++++ b/port/engine-resources/resource_budget_v37.cpp
+@@ -12,18 +12,19 @@
+ ResourceUsageV37 footprint(const ResourceChargeV37& c,bool gpu){
+  ResourceUsageV37 u;u.cpu_bytes=c.cpu_bytes;u.gpu_bytes=gpu?c.gpu_bytes:0;
+  u.objects[std::size_t(c.kind)]=gpu||!gpu_kind(c.kind)?1:0;
++ if(gpu&&!c.gpu_bytes&&(c.kind==ResourceKindV37::program||c.kind==ResourceKindV37::shader))u.unknown_gpu_storage_objects[std::size_t(c.kind)]=1;
+  u.gpu_bytes_by_kind[std::size_t(c.kind)]=u.gpu_bytes;u.cpu_bytes_by_kind[std::size_t(c.kind)]=u.cpu_bytes;
+  if(c.kind==ResourceKindV37::texture)u.texture_gpu_bytes=u.gpu_bytes;
+  if(c.scope==ResourceScopeV37::fx&&(c.kind==ResourceKindV37::vertex_buffer||c.kind==ResourceKindV37::index_buffer))u.fx_buffer_gpu_bytes=u.gpu_bytes;
+  return u;
+ }
+-void add(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes+=b.gpu_bytes;a.cpu_bytes+=b.cpu_bytes;a.texture_gpu_bytes+=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes+=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]+=b.objects[i];a.gpu_bytes_by_kind[i]+=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]+=b.cpu_bytes_by_kind[i];}}
+-void sub(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes-=b.gpu_bytes;a.cpu_bytes-=b.cpu_bytes;a.texture_gpu_bytes-=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes-=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]-=b.objects[i];a.gpu_bytes_by_kind[i]-=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]-=b.cpu_bytes_by_kind[i];}}
++void add(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes+=b.gpu_bytes;a.cpu_bytes+=b.cpu_bytes;a.texture_gpu_bytes+=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes+=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]+=b.objects[i];a.unknown_gpu_storage_objects[i]+=b.unknown_gpu_storage_objects[i];a.gpu_bytes_by_kind[i]+=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]+=b.cpu_bytes_by_kind[i];}}
++void sub(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes-=b.gpu_bytes;a.cpu_bytes-=b.cpu_bytes;a.texture_gpu_bytes-=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes-=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]-=b.objects[i];a.unknown_gpu_storage_objects[i]-=b.unknown_gpu_storage_objects[i];a.gpu_bytes_by_kind[i]-=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]-=b.cpu_bytes_by_kind[i];}}
+ ResourceUsageV37 delta(const ResourceUsageV37& next,const ResourceUsageV37& old){
+  ResourceUsageV37 u;auto positive=[](auto a,auto b){return a>b?a-b:0;};
+  u.gpu_bytes=positive(next.gpu_bytes,old.gpu_bytes);u.cpu_bytes=positive(next.cpu_bytes,old.cpu_bytes);
+  u.texture_gpu_bytes=positive(next.texture_gpu_bytes,old.texture_gpu_bytes);u.fx_buffer_gpu_bytes=positive(next.fx_buffer_gpu_bytes,old.fx_buffer_gpu_bytes);
+- for(std::size_t i=0;i<kinds;++i){u.objects[i]=positive(next.objects[i],old.objects[i]);u.gpu_bytes_by_kind[i]=positive(next.gpu_bytes_by_kind[i],old.gpu_bytes_by_kind[i]);u.cpu_bytes_by_kind[i]=positive(next.cpu_bytes_by_kind[i],old.cpu_bytes_by_kind[i]);}return u;
++ for(std::size_t i=0;i<kinds;++i){u.objects[i]=positive(next.objects[i],old.objects[i]);u.unknown_gpu_storage_objects[i]=positive(next.unknown_gpu_storage_objects[i],old.unknown_gpu_storage_objects[i]);u.gpu_bytes_by_kind[i]=positive(next.gpu_bytes_by_kind[i],old.gpu_bytes_by_kind[i]);u.cpu_bytes_by_kind[i]=positive(next.cpu_bytes_by_kind[i],old.cpu_bytes_by_kind[i]);}return u;
+ }
+ bool fits(std::uint64_t current,std::uint64_t extra,std::uint64_t limit){return current<=limit&&extra<=limit-current;}
+ }
+@@ -49,9 +50,13 @@
+ }
+ void ContextResourceBudgetV37::update_requested_and_peak()noexcept{
+  auto u=snapshot_.live;add(u,snapshot_.pending);snapshot_.requested=u;
+- auto& p=snapshot_.peak;p.gpu_bytes=std::max(p.gpu_bytes,u.gpu_bytes);p.cpu_bytes=std::max(p.cpu_bytes,u.cpu_bytes);
+- p.texture_gpu_bytes=std::max(p.texture_gpu_bytes,u.texture_gpu_bytes);p.fx_buffer_gpu_bytes=std::max(p.fx_buffer_gpu_bytes,u.fx_buffer_gpu_bytes);
+- for(std::size_t i=0;i<kinds;++i){p.objects[i]=std::max(p.objects[i],u.objects[i]);p.gpu_bytes_by_kind[i]=std::max(p.gpu_bytes_by_kind[i],u.gpu_bytes_by_kind[i]);p.cpu_bytes_by_kind[i]=std::max(p.cpu_bytes_by_kind[i],u.cpu_bytes_by_kind[i]);}
++ auto peak=[](ResourceUsageV37& p,const ResourceUsageV37& value){
++  p.gpu_bytes=std::max(p.gpu_bytes,value.gpu_bytes);p.cpu_bytes=std::max(p.cpu_bytes,value.cpu_bytes);
++  p.texture_gpu_bytes=std::max(p.texture_gpu_bytes,value.texture_gpu_bytes);p.fx_buffer_gpu_bytes=std::max(p.fx_buffer_gpu_bytes,value.fx_buffer_gpu_bytes);
++  for(std::size_t i=0;i<kinds;++i){p.objects[i]=std::max(p.objects[i],value.objects[i]);p.unknown_gpu_storage_objects[i]=std::max(p.unknown_gpu_storage_objects[i],value.unknown_gpu_storage_objects[i]);p.gpu_bytes_by_kind[i]=std::max(p.gpu_bytes_by_kind[i],value.gpu_bytes_by_kind[i]);p.cpu_bytes_by_kind[i]=std::max(p.cpu_bytes_by_kind[i],value.cpu_bytes_by_kind[i]);}
++ };
++ peak(snapshot_.peak,u);
++ for(std::size_t i=0;i<scopes;++i){auto scoped=snapshot_.live_by_scope[i];add(scoped,snapshot_.pending_by_scope[i]);peak(snapshot_.peak_by_scope[i],scoped);}
+ }
+ bool ContextResourceBudgetV37::begin_context(std::string& error){
+  std::lock_guard<std::mutex> lock(mutex_);error.clear();
+@@ -83,7 +88,7 @@
+  if(prior&&mode!=ReplacementModeV37::separate_candidate&&(prior->charge.kind!=c.kind||prior->charge.scope!=c.scope))return reject(c.kind,"V37 same-object storage cannot change kind/scope",error);
+  const auto target=footprint(c,gpu_kind(c.kind));
+  auto held=prior&&mode==ReplacementModeV37::same_object_storage?delta(target,footprint(prior->charge,prior->gpu_live)):target;
+- if(prior&&mode==ReplacementModeV37::same_object_coexisting_storage){const auto old_usage=footprint(prior->charge,prior->gpu_live);for(std::size_t i=0;i<kinds;++i)held.objects[i]=target.objects[i]>old_usage.objects[i]?target.objects[i]-old_usage.objects[i]:0;}
++ if(prior&&mode==ReplacementModeV37::same_object_coexisting_storage){const auto old_usage=footprint(prior->charge,prior->gpu_live);for(std::size_t i=0;i<kinds;++i){held.objects[i]=target.objects[i]>old_usage.objects[i]?target.objects[i]-old_usage.objects[i]:0;held.unknown_gpu_storage_objects[i]=target.unknown_gpu_storage_objects[i]>old_usage.unknown_gpu_storage_objects[i]?target.unknown_gpu_storage_objects[i]-old_usage.unknown_gpu_storage_objects[i]:0;}}
+  const auto& current=snapshot_.requested;
+  if(!fits(current.gpu_bytes,held.gpu_bytes,limits_.gpu_bytes))return reject(c.kind,"V37 aggregate requested GPU byte budget exhausted",error);
+  if(!fits(current.cpu_bytes,held.cpu_bytes,limits_.cpu_bytes))return reject(c.kind,"V37 aggregate requested CPU byte budget exhausted",error);
+--- a/port/engine-ui/swf_vertex_cache_v36.hpp
++++ b/port/engine-ui/swf_vertex_cache_v36.hpp
+@@ -1,4 +1,5 @@
+ #pragma once
++#include "../engine-resources/cpu_vector_capacity_v41.hpp"
+ #include <cstddef>
+ #include <cstdint>
+ #include <functional>
+@@ -15,7 +16,9 @@
+ // vertex bytes, even after a hash match. Matrix/color/native/timeline state is
+ // never cached or omitted. Buffer handles belong to the caller's GL context.
+ class SwfVertexCacheV36 {
+- struct Entry {std::uint64_t hash{};std::uint32_t mode{};std::uintptr_t buffer{};std::vector<float> vertices;};
++ struct Entry {std::uint64_t hash{};std::uint32_t mode{};std::uintptr_t buffer{};resources::CpuVectorCapacityV41 capacity_v43;std::vector<float> vertices;};
++ std::shared_ptr<resources::ContextResourceBudgetV37> budget_v43_;
++ resources::ResourceScopeV37 scope_v43_{resources::ResourceScopeV37::other};
+  std::list<Entry> entries_;
+  std::unordered_multimap<std::uint64_t,std::list<Entry>::iterator> index_;
+  std::size_t maximum_bytes_,maximum_entries_;
+@@ -23,6 +26,7 @@
+  void erase(std::list<Entry>::iterator,const std::function<void(std::uintptr_t)>&);
+ public:
+  explicit SwfVertexCacheV36(std::size_t bytes=8u*1024u*1024u,std::size_t entries=1024):maximum_bytes_(bytes),maximum_entries_(entries){}
++ bool bind_budget_v43(const std::shared_ptr<resources::ContextResourceBudgetV37>&,resources::ResourceScopeV37,std::string&);
+  using Upload=std::function<bool(const float*,std::size_t,std::uintptr_t&,std::string&)>;
+  bool acquire(const std::vector<float>&,std::uint32_t,const Upload&,
+               const std::function<void(std::uintptr_t)>&,std::uintptr_t&,bool&,std::string&);
+--- a/port/engine-ui/swf_vertex_cache_v36.cpp
++++ b/port/engine-ui/swf_vertex_cache_v36.cpp
+@@ -3,6 +3,10 @@
+ #include <limits>
+ #include <stdexcept>
+ namespace dh2::ui {
++bool SwfVertexCacheV36::bind_budget_v43(const std::shared_ptr<resources::ContextResourceBudgetV37>& budget,resources::ResourceScopeV37 scope,std::string& error){
++ if(!budget||(scope!=resources::ResourceScopeV37::swf_front&&scope!=resources::ResourceScopeV37::swf_gameplay)||(!entries_.empty()&&(budget_v43_!=budget||scope_v43_!=scope))){error="V43 cache requires explicit same front/gameplay ledger before allocation";return false;}
++ budget_v43_=budget;scope_v43_=scope;error.clear();return true;
++}
+ std::uint64_t SwfVertexCacheV36::fingerprint(const float* vertices,std::size_t count,std::uint32_t mode)noexcept{
+  std::uint64_t hash=14695981039346656037ull;
+  auto add=[&](const void* value,std::size_t n){auto* bytes=static_cast<const unsigned char*>(value);for(std::size_t i=0;i<n;++i){hash^=bytes[i];hash*=1099511628211ull;}};
+@@ -37,7 +41,9 @@
+  while(!entries_.empty()&&(stats_.resident_entries>=maximum_entries_||stats_.resident_bytes>maximum_bytes_-bytes)){
+   erase(entries_.begin(),release);++stats_.evictions;
+  }
+- Entry candidate;candidate.hash=hash;candidate.mode=mode;candidate.vertices=vertices;
++ Entry candidate;candidate.hash=hash;candidate.mode=mode;
++ if(budget_v43_&&!resources::reserve_cpu_vector_v41(candidate.vertices,candidate.capacity_v43,budget_v43_,scope_v43_,vertices.size(),error))return false;
++ candidate.vertices=vertices;
+  if(!upload(candidate.vertices.data(),candidate.vertices.size(),candidate.buffer,error)||!candidate.buffer){if(candidate.buffer&&release)release(candidate.buffer);return false;}
+  auto unowned=candidate.buffer;
+  try{entries_.push_back(std::move(candidate));auto entry=std::prev(entries_.end());
+--- a/port/android-native/app/src/main/cpp/authored_shader_program.hpp
++++ b/port/android-native/app/src/main/cpp/authored_shader_program.hpp
+@@ -2,15 +2,26 @@
+ #include <android/asset_manager.h>
+ #include <GLES2/gl2.h>
+ #include <array>
++#include "../../../../../engine-resources/gpu_object_owner_v43.hpp"
+ 
+ namespace dh2::android_ui {
+ // Modern GL adapter for the byte-exact authored shaders. It does not implement
+ // GameSWF's display list, timeline, ActionScript or original blend-state owner.
+ struct Program {
++    resources::GpuObjectOwnerV43 ownership_v43;
+     GLuint name=0;
++    Program()=default;
++    Program(const Program&)=delete;
++    Program& operator=(const Program&)=delete;
++    Program(Program&& other)noexcept{*this=std::move(other);}
++    Program& operator=(Program&& other)noexcept{
++      if(this!=&other){ownership_v43=std::move(other.ownership_v43);name=std::exchange(other.name,0);
++       position=other.position;uv=other.uv;color=other.color;matrix=other.matrix;diffuse=other.diffuse;sampler=other.sampler;}
++      return *this;
++    }
+     GLint position=-1,uv=-1,color=-1,matrix=-1,diffuse=-1,sampler=-1;
+ };
+-Program create(AAssetManager*,bool premultiplied);
++Program create(AAssetManager*,bool premultiplied,resources::ResourceScopeV37 scope=resources::ResourceScopeV37::shader);
+ void release(Program&) noexcept;
+ void draw_quad(const Program&,GLuint texture,const std::array<float,16>&,
+                const std::array<float,4>& color,const std::array<float,4>& diffuse);
+--- a/port/android-native/app/src/main/cpp/authored_shader_program.cpp
++++ b/port/android-native/app/src/main/cpp/authored_shader_program.cpp
+@@ -1,4 +1,5 @@
+ #include "authored_shader_program.hpp"
++#include "native_resource_budget_v38.hpp"
+ #include "../asset-payloads/sha256.hpp"
+ #include "../scene-materials/shader_sources.hpp"
+ #include <android/log.h>
+@@ -43,14 +44,15 @@
+         throw std::runtime_error("Authored shader source plan failed: "+error);
+     return out;
+ }
+-GLuint compile(const dh2::scene::ShaderSourcePlan& source){
+-    auto shader=glCreateShader(source.gl_type);
+-    if(!shader)throw std::runtime_error("Cannot allocate authored shader");
++resources::GpuObjectOwnerV43 compile(const dh2::scene::ShaderSourcePlan& source,resources::ResourceScopeV37 scope){
++    resources::GpuObjectOwnerV43 shader;std::string error;
++    if(!shader.create(android_resources::budget_lease_v39(),resources::ResourceKindV37::shader,scope,0,
++        [&](std::uint32_t& name){name=glCreateShader(source.gl_type);},[](std::uint32_t name){glDeleteShader(name);},error))throw std::runtime_error(error);
+     std::array<const char*,8> text{};std::array<GLint,8> sizes{};
+     for(std::size_t i=0;i<text.size();++i){text[i]=source.chunks[i].data();sizes[i]=static_cast<GLint>(source.chunks[i].size());}
+-    glShaderSource(shader,static_cast<GLsizei>(text.size()),text.data(),sizes.data());glCompileShader(shader);
+-    GLint ok=0;glGetShaderiv(shader,GL_COMPILE_STATUS,&ok);
+-    if(!ok){char log[4096]{};glGetShaderInfoLog(shader,sizeof(log),nullptr,log);glDeleteShader(shader);
++    glShaderSource(shader.name(),static_cast<GLsizei>(text.size()),text.data(),sizes.data());glCompileShader(shader.name());
++    GLint ok=0;glGetShaderiv(shader.name(),GL_COMPILE_STATUS,&ok);
++    if(!ok){char log[4096]{};glGetShaderInfoLog(shader.name(),sizeof(log),nullptr,log);
+         throw std::runtime_error(std::string("Authored shader compile failed: ")+log);}
+     return shader;
+ }
+@@ -58,18 +60,21 @@
+     const auto code=glGetError();if(code!=GL_NO_ERROR){char value[160];std::snprintf(value,sizeof(value),"Authored UI %s GL error 0x%04x",step,code);throw std::runtime_error(value);}
+ }
+ }
+-Program create(AAssetManager* assets,bool premultiplied){
++Program create(AAssetManager* assets,bool premultiplied,resources::ResourceScopeV37 scope){
+     const auto bytes=asset_bytes(assets,"shaders.pak","365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0");
+     dh2::scene::ShaderSourcePack pack;std::string error;
+     if(!pack.load(reinterpret_cast<const std::uint8_t*>(bytes.data()),bytes.size(),error))
+         throw std::runtime_error("Authored shader pack invalid: "+error);
+     const auto vs=plan(pack,"GameSWFVS.glsl",4);
+     const auto fs=plan(pack,premultiplied?"GameSWFFS_blend.glsl":"GameSWFFS.glsl",5);
+-    GLuint vertex=0,fragment=0;Program out;
++    resources::GpuObjectOwnerV43 vertex,fragment;Program out;
+     try{
+-        vertex=compile(vs);fragment=compile(fs);
+-        out.name=glCreateProgram();if(!out.name)throw std::runtime_error("Cannot allocate authored shader program");
+-        glAttachShader(out.name,vertex);glAttachShader(out.name,fragment);glLinkProgram(out.name);
++        vertex=compile(vs,scope);fragment=compile(fs,scope);
++        if(!out.ownership_v43.create(android_resources::budget_lease_v39(),resources::ResourceKindV37::program,scope,0,
++          [](std::uint32_t& name){name=glCreateProgram();},[](std::uint32_t name){
++            GLint active=0;glGetIntegerv(GL_CURRENT_PROGRAM,&active);if(GLuint(active)==name)glUseProgram(0);glDeleteProgram(name);},error))throw std::runtime_error(error);
++        out.name=out.ownership_v43.name();
++        glAttachShader(out.name,vertex.name());glAttachShader(out.name,fragment.name());glLinkProgram(out.name);
+         GLint ok=0;glGetProgramiv(out.name,GL_LINK_STATUS,&ok);
+         if(!ok){char log[4096]{};glGetProgramInfoLog(out.name,sizeof(log),nullptr,log);throw std::runtime_error(std::string("Authored shader link failed: ")+log);}
+         out.position=glGetAttribLocation(out.name,"Position");out.uv=glGetAttribLocation(out.name,"TexCoord0");
+@@ -77,10 +82,10 @@
+         out.diffuse=glGetUniformLocation(out.name,"DiffuseColor");out.sampler=glGetUniformLocation(out.name,"TextureSampler");
+         if(out.position<0||out.uv<0||out.color<0||out.matrix<0||out.diffuse<0||out.sampler<0)
+             throw std::runtime_error("Authored UI shader interface incomplete");
+-        glDeleteShader(vertex);glDeleteShader(fragment);vertex=fragment=0;check("program creation");return out;
+-    }catch(...){if(vertex)glDeleteShader(vertex);if(fragment)glDeleteShader(fragment);release(out);throw;}
++        glDetachShader(out.name,vertex.name());glDetachShader(out.name,fragment.name());vertex.reset();fragment.reset();check("program creation");return out;
++    }catch(...){release(out);vertex.reset();fragment.reset();throw;}
+ }
+-void release(Program& value) noexcept{if(value.name)glDeleteProgram(value.name);value={};}
++void release(Program& value) noexcept{value={};}
+ void draw_quad(const Program& value,GLuint texture,const std::array<float,16>& matrix,
+                const std::array<float,4>& color,const std::array<float,4>& diffuse){
+     if(!value.name||!texture)throw std::runtime_error("Authored UI draw owner unavailable");
+--- a/port/android-native/app/src/main/cpp/swf_gpu.hpp
++++ b/port/android-native/app/src/main/cpp/swf_gpu.hpp
+@@ -31,7 +31,12 @@
+ private:
+     struct Texture {GLuint name{};int width{},height{};unsigned channels{};resources::RetainedBytesV39 pixels;resources::ResourceTokenV37 gpu_budget_v39;std::uint64_t generation_v39{};GLenum wrap=GL_CLAMP_TO_EDGE;};
+     ui::SwfVertexCacheV36 vertex_cache_v36_;
++    resources::CpuVectorCapacityV41 vertices_capacity_v43_;
+     std::vector<float> vertices_v36_;
++    resources::GpuObjectOwnerV43 stream_owner_v43_;
++    std::unordered_map<std::uint32_t,resources::GpuObjectOwnerV43> retained_owners_v43_;
++    void release_vertices_v43(std::uintptr_t);
++    void stream_storage_v43(const std::vector<float>&);
+     std::uint64_t primitives_v36_{},scratch_growths_v36_{},stream_uploads_v36_{},stream_bytes_v36_{};
+     std::uint64_t displays_v36_{},empty_displays_v36_{},materializations_v36_{};
+     Program normal_{},premultiplied_{};
+--- a/port/android-native/app/src/main/cpp/swf_gpu.cpp
++++ b/port/android-native/app/src/main/cpp/swf_gpu.cpp
+@@ -28,6 +28,13 @@
+         throw std::runtime_error("V39 explicit front/gameplay UI resource scope required");
+     if(!textures_.empty()&&scope_v39_!=scope)throw std::runtime_error("V39 retained UI scope cannot change");
+     scope_v39_=scope;
++    std::string cache_error_v43;
++    if(!vertices_capacity_v43_.same_owner(budget_v39_,scope))throw std::runtime_error("V43 SWF stream CPU scope cannot change");
++    if(!vertex_cache_v36_.bind_budget_v43(budget_v39_,scope,cache_error_v43))throw std::runtime_error(cache_error_v43);
++    // Strong owners release stale ledger records without deleting reused names.
++    if(stream_owner_v43_.live())throw std::runtime_error("V43 live SWF stream context cannot be abandoned");
++    for(const auto& owner:retained_owners_v43_)if(owner.second.live())throw std::runtime_error("V43 live SWF retained context cannot be abandoned");
++    retained_owners_v43_.clear();stream_owner_v43_.reset();vertex_cache_v36_.abandon_context();
+     release_targets_v39(true);
+     for(auto& pair:textures_)release_texture_v39(pair.second,true);
+     // Retained CPU texture identities survive GL recreation; old names must not
+@@ -36,7 +43,6 @@
+     materialized_v36_=false;
+     max_texture_size_v37_=stencil_bits_v37_=0;line_width_range_v37_[0]=line_width_range_v37_[1]=0;
+     checked_serial_v37_=command_serial_v37_;
+-    vertex_cache_v36_.abandon_context();
+     target_=query_target_=target_color_=query_color_=stencil_buffer_=0;target_width_=target_height_=0;
+     for(auto& pair:textures_)pair.second.name=0;
+     barrier_v37("SWF context entry");
+@@ -45,9 +51,9 @@
+     if(max_texture_size_v37_<=0||!std::isfinite(line_width_range_v37_[0])||!std::isfinite(line_width_range_v37_[1])||
+        line_width_range_v37_[0]<=0||line_width_range_v37_[1]<line_width_range_v37_[0])
+         throw std::runtime_error("Invalid SWF context capabilities");
+-    normal_=create(assets,false);premultiplied_=create(assets,true);
+-    glGenBuffers(1,&buffer_);if(!buffer_)throw std::runtime_error("SWF vertex buffer unavailable");
+-    barrier_v37("SWF stream buffer allocation");
++    auto normal_candidate_v43=create(assets,false,scope_v39_);auto premultiplied_candidate_v43=create(assets,true,scope_v39_);
++    normal_=std::move(normal_candidate_v43);premultiplied_=std::move(premultiplied_candidate_v43);
++    buffer_=0; // Stream object is admitted lazily on actual fallback.
+     if(!white_){ui::SwfTexture out;std::string error;const std::uint8_t white[4]{255,255,255,255};
+         if(!image(1,1,4,white,4,out,error))throw std::runtime_error(error);white_=out.identity;}
+     for(auto& pair:textures_)if(!pair.second.name)upload(pair.second);
+@@ -212,7 +218,10 @@
+         sx*(m[2]-bounds_[0])-1.f,sy*(m[5]-bounds_[2])+1.f,0,1};
+     if(quad&&grid_fit_){matrix={sx,0,0,0,0,sy,0,0,0,0,1,0,-sx*bounds_[0]-1.f,-sy*bounds_[2]+1.f,0,1};}
+     auto& vertices=vertices_v36_;vertices.clear();
+-    if(vertices.capacity()<xy_size*2){vertices.reserve(xy_size*2);++scratch_growths_v36_;}
++    if(xy_size>std::numeric_limits<std::size_t>::max()/2)throw std::runtime_error("SWF packed vertex span overflow");
++    if(vertices.capacity()<xy_size*2){std::string error;
++        if(!resources::reserve_cpu_vector_v41(vertices,vertices_capacity_v43_,budget_v39_,scope_v39_,xy_size*2,error))throw std::runtime_error(error);
++        ++scratch_growths_v36_;}
+     for(std::size_t i=0;i<xy_size;i+=2){
+         const float x=xy[i],y=xy[i+1];finite(x);finite(y);
+         float u=0,v=0;
+@@ -284,24 +293,53 @@
+     if(texture.wrap!=wrap){glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,wrap);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,wrap);texture.wrap=wrap;}
+     glDisableVertexAttribArray(program->color);glVertexAttrib4fv(program->color,color.data());
+     std::uintptr_t cached_buffer{};bool retained{};std::string cache_error;
+-    const auto upload=[this](const float* data,std::size_t count,std::uintptr_t& out,std::string&){
++    const auto upload=[this](const float* data,std::size_t count,std::uintptr_t& out,std::string& error){
+         barrier_v37("SWF retained vertex resource entry");
+-        GLuint name{};glGenBuffers(1,&name);if(!name)throw std::runtime_error("SWF retained vertex buffer unavailable");
+-        glBindBuffer(GL_ARRAY_BUFFER,name);glBufferData(GL_ARRAY_BUFFER,GLsizeiptr(count*sizeof(float)),data,GL_STATIC_DRAW);
+-        try{barrier_v37("SWF retained vertex upload");}catch(...){glDeleteBuffers(1,&name);throw;}
+-        out=name;dh2::perf::state.uploads+=count*sizeof(float);return true;
++        std::uint64_t bytes;if(!resources::checked_resource_bytes_v37(count,sizeof(float),bytes,error))return false;
++        if(bytes>std::uint64_t(std::numeric_limits<GLsizeiptr>::max()))throw std::runtime_error("SWF vertex GL span overflow");
++        resources::GpuObjectOwnerV43 candidate;
++        if(!candidate.create(budget_v39_,resources::ResourceKindV37::vertex_buffer,scope_v39_,bytes,
++          [&](std::uint32_t& name){glGenBuffers(1,&name);if(!name)return;
++            glBindBuffer(GL_ARRAY_BUFFER,name);glBufferData(GL_ARRAY_BUFFER,GLsizeiptr(bytes),data,GL_STATIC_DRAW);
++            barrier_v37("SWF retained vertex upload");},
++          [](std::uint32_t name){glDeleteBuffers(1,&name);},error))return false;
++        const auto name=candidate.name();
++        const auto inserted=retained_owners_v43_.try_emplace(name,std::move(candidate));
++        if(!inserted.second)throw std::runtime_error("SWF retained buffer name collision");
++        out=name;dh2::perf::state.uploads+=bytes;return true;
+     };
+-    const auto release=[](std::uintptr_t value){const GLuint name=GLuint(value);glDeleteBuffers(1,&name);};
++    const auto release=[this](std::uintptr_t value){release_vertices_v43(value);};
+     if(!vertex_cache_v36_.acquire(vertices,mode,upload,release,cached_buffer,retained,cache_error))throw std::runtime_error(cache_error);
++    if(!retained){stream_storage_v43(vertices);
++        ++stream_uploads_v36_;stream_bytes_v36_+=vertices.size()*sizeof(float);dh2::perf::state.uploads+=vertices.size()*sizeof(float);}
+     glBindBuffer(GL_ARRAY_BUFFER,retained?GLuint(cached_buffer):buffer_);
+-    if(!retained){barrier_v37("SWF stream vertex resource entry");glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>(vertices.size()*sizeof(float)),vertices.data(),GL_STREAM_DRAW);
+-        barrier_v37("SWF stream vertex upload");
+-        ++stream_uploads_v36_;stream_bytes_v36_+=vertices.size()*sizeof(float);dh2::perf::state.uploads+=vertices.size()*sizeof(float);}
+     glEnableVertexAttribArray(program->position);glEnableVertexAttribArray(program->uv);
+     glVertexAttribPointer(program->position,2,GL_FLOAT,GL_FALSE,4*sizeof(float),nullptr);
+     glVertexAttribPointer(program->uv,2,GL_FLOAT,GL_FALSE,4*sizeof(float),reinterpret_cast<void*>(2*sizeof(float)));
+     glDrawArrays(mode,0,static_cast<GLsizei>(xy_size/2));++dh2::perf::state.draws;
+     glDisableVertexAttribArray(program->position);glDisableVertexAttribArray(program->uv);glBindBuffer(GL_ARRAY_BUFFER,0);
++}
++void SwfGpu::release_vertices_v43(std::uintptr_t value){
++    const auto found=retained_owners_v43_.find(std::uint32_t(value));
++    if(found==retained_owners_v43_.end())throw std::runtime_error("SWF retained buffer ledger owner missing");
++    retained_owners_v43_.erase(found);
++}
++void SwfGpu::stream_storage_v43(const std::vector<float>& vertices){
++    std::string error;std::uint64_t bytes;
++    if(!resources::checked_resource_bytes_v37(vertices.size(),sizeof(float),bytes,error))throw std::runtime_error(error);
++    if(bytes>std::uint64_t(std::numeric_limits<GLsizeiptr>::max()))throw std::runtime_error("SWF stream GL span overflow");
++    barrier_v37("SWF stream vertex resource entry");
++    const auto upload=[&](std::uint32_t name){
++      glBindBuffer(GL_ARRAY_BUFFER,name);glBufferData(GL_ARRAY_BUFFER,GLsizeiptr(bytes),vertices.data(),GL_STREAM_DRAW);
++      barrier_v37("SWF stream vertex upload");};
++    try{
++      if(!stream_owner_v43_.name()){
++        if(!stream_owner_v43_.create(budget_v39_,resources::ResourceKindV37::vertex_buffer,scope_v39_,bytes,
++          [&](std::uint32_t& name){glGenBuffers(1,&name);if(!name)return;barrier_v37("SWF stream buffer allocation");upload(name);},
++          [](std::uint32_t name){glDeleteBuffers(1,&name);},error))throw std::runtime_error(error);
++      }else if(!stream_owner_v43_.replace_storage(bytes,upload,error))throw std::runtime_error(error);
++    }catch(...){buffer_=stream_owner_v43_.name();throw;}
++    buffer_=stream_owner_v43_.name();
+ }
+ void SwfGpu::mask_rectangle(){
+     ui::SwfDraw command;command.kind=ui::SwfDraw::triangle_strip;
+@@ -329,7 +367,7 @@
+ bool SwfGpu::reset_images(std::string& error){
+     abort();
+     try{barrier_v37("SWF image reset entry");}catch(const std::exception& e){error=e.what();return false;}
+-    vertex_cache_v36_.clear([](std::uintptr_t value){const GLuint name=GLuint(value);glDeleteBuffers(1,&name);});
++    vertex_cache_v36_.clear([this](std::uintptr_t value){release_vertices_v43(value);});
+     for(auto& pair:textures_)release_texture_v39(pair.second,false);
+     textures_.clear();white_=0;next_identity_=1;
+     ui::SwfTexture out;const std::uint8_t white[4]{255,255,255,255};

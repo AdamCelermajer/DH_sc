@@ -1,0 +1,23 @@
+# Retained player cast and timer integration
+
+Renderer and CMake now include FaeryCastOwnerV2, source AI callable keys and player timer helpers. No package/install was performed.
+
+The duplicate `prince_timers`/storage/growth/expiry/update path is removed. Character gate timers, SkillState timers and Lua timers now use the same retained V6 session TimerStore. Each native frame calls V6 update_timers before state/animator work, with refreshed actual controller lock/forced/global gates. The V3 expiry dispatcher supplies timer35/buffs and delegates timer33/34 through its existing gameplay events provider. Regen reads actual same-player outgoing/incoming aggro tables, same life/property view and source debug services, then executes genuine RegenV6. Positive DoT explicitly requires its actual combat backend.
+
+The exact original CharAI and AISPlayerIPhone key tables replace the former timer35-only zero table. Actual inherited AISDefault bx-lr bodies are supplied for OnStateChanged (3dbe8c), OnAttackDelayExpired (3dbee8), OnEndOfAnim (3dbeec); original corresponding CharAI relay bodies were inspected directly. Unknown reached callbacks fail explicitly.
+
+HUD operation1 validates actual saved faery unlock state and source usable/controller predicates, then enters the retained cast owner. Native action operation3 delivers EndCast/release. No Save unlock is changed. State7 focus/blur/event/update use the existing FSM and same shared SkillAI flags. Actual animator do_spell runs the retained spell Use; actual selection/update notifications26/27 supply real scheduler step index and animation depth for the source continuous spell lifecycle. Source Character events20/21 run retained Pre/Post. No synthetic spell animation events are raised.
+
+Important source correction: SM_SetCastState3c6394 uses **CharAnimTable**, not CharacterModel. Its getter3a3228 is GetCharAnimTableId, raw cached property2 with fallback17. Its row stridea0 and count84/data88 match the existing authored CharAnimTable Spells array (field31). Renderer reads this exact array and actual Gear stance, clamped by the authored AnimStances/COUNT_IPHONE constant. AnimStancedAnim/SL__LIST_IPHONE lookup uses the same original key ordering as SkillState. The cast companion Character+420 actor is not manufactured; its real placement remains required for faery selection elsewhere.
+
+Remaining required producers: actual network spell transport for online operation3/4; positive self/self F_DotAttack plus F_ApplyResult. Also current V3 update_timers refuses to tick after any earlier failed skill VM callback, returning -2. Renderer logs this precise failure once and does not create an alternate timer authority. A narrow retained-owner successor is needed to permit native timers after failed VM services while preserving that failure diagnostic.
+
+Validation: renderer exact Android compiler command with -fsyntax-only passes ARM64 and x86_64. Cast semantic kernels retain original ARM/native ARM64 differential PASS1824 cases, zero mismatches. Actual unlocked campaign casting and timer behavior in a newly packaged app remain unverified until root's combined build/live check.
+
+## Enemy HUD World borrow
+
+`model_renderer::enemy_hud_world_borrow(error)` returns root's EnemyHudWorldBorrowV1 with stable HudManagerActor projections inside the actual retained WorldActor map. It uses SAME properties/life/name/position, raw NameSymbol18, source PropertyGetInt(level19), signed HP36/38 float division without clamps, AI type4 and original IsBoss bit2(mask4), independently verified3a3164 ubfx2,1. AI current target_character uses the actor's actual object->target.target, the retained World's GetHandle/resolve, and the registered Character record. It never picks nearest or copies the renderer's legacy attack index.
+
+The raw Character+14a4 target is distinct. Original Character constructor C1 3aa1b4 initializes r8=0 at3aa240 and stores that0 to+14a4 at3aa4ec/3aa4f0. Stable HUD projection retains that actual initial null. CSSkill::OnBlur3c434c calls CharAI BackupTarget at3d49c4; its SkillState target is AI target, not raw14a4. CSDespawn::OnBlur3c3794 clears a matching player's raw14a4 at3c38b8; that address is not CSSkill focus. See reference/faery-cast-v2/enemy-actor-source.asm for direct source evidence.
+
+No original raw14a4 selection writer is currently integrated. Consequently an actual AI target can display, but the legacy basic-attack target index does not produce a fabricated enemy bar. DebugSwitches and files are the SAME World services; source ShowMonstersNamesAndNetID=false is delivered. An enabled debug switch explicitly fails because actual network-ID producer remains unavailable. Root's OriginalUiSession owns localization/SWF presentation.

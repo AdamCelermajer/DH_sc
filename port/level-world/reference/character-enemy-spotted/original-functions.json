@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI11AI_GetAggroEP9Character",
+      "elf_address": "0x3d4ac8",
+      "size": 252,
+      "sha256": "98c26116c098862a859a801d8a16bae8ff814a525b4a2972068f2283b4511fa9"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14OnEnemySpottedEP9Character",
+      "elf_address": "0x3d14b4",
+      "size": 480,
+      "sha256": "62c6f8a1f642e082b96bdb6d4667d3bf6ad25e524ddd41aa3da2f4864a5172d3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9GroupInfo14OnEnemySpottedEP9CharacterS2_",
+      "elf_address": "0x3d27cc",
+      "size": 616,
+      "sha256": "a3bd805a32fe4a2c183443a24791d785de286b5838ce2fae9cf12153d430c6e7"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI13AI_IsInCombatEv",
+      "elf_address": "0x3d4bc4",
+      "size": 112,
+      "sha256": "7e917c97faa26805e240a111a5719d87b9d14946aa3acd7b08657116d00c3ce3"
+    },
+    {
+      "original_symbol": "_ZN7Structs14DesignSettings4readEP11IStreamBase",
+      "elf_address": "0x4ee0d0",
+      "size": 3980,
+      "sha256": "1784fc9a752371b42282e5a18bafb97eae0b4573d23e53398aa1b3ea185a7528"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19DesignSettingsTable4readEP11IStreamBase",
+      "elf_address": "0x4b3cd0",
+      "size": 328,
+      "sha256": "32994b6e487ece38e63b7634db6ab07fc731ccdb60407fcac4da95b89dfd3043"
+    },
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_14DesignSettingsEEEiPKc",
+      "elf_address": "0x4aedfc",
+      "size": 92,
+      "sha256": "6aaa3ee53086308afd1bbe498d3a2948ae757e70887f729c36ed8321aa11f4e3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+      "elf_address": "0x3d7c68",
+      "size": 308,
+      "sha256": "710b6a40b61b134ddc8b165a38ac5bd0784dd1b2915ec4fce53d2e1bb4825193"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "source": "character_world_player_attack_owner_v1.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "target_frontal_sort_v41.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "character_world_player_attack_owner_v1.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "target_frontal_sort_v41.cpp",
+    "exit": 0,
+    "stderr": ""
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor7getTypeEi",
+      "elf_address": "0x669e10",
+      "size": 20,
+      "sha256": "6941526b310494cf375881ec358efd2ec8d5f9fab7f059510ebf8f565bb55c26"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16getChannelsCountEv",
+      "elf_address": "0x669e78",
+      "size": 12,
+      "sha256": "fc82fb84f4f13c25db8e14035637485696b844bc0b2c68468bee416331798345"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core21buildTextureTransformIfEENS0_8CMatrix4IT_EES3_RKNS0_8vector2dIS3_EES8_S8_",
+      "elf_address": "0x6e377c",
+      "size": 328,
+      "sha256": "59fb0bfe02c52c2b0db6da8020b87f60a74a5d8364cb6d4cbff45d4f15af3c66"
+    }
+  ]
+}

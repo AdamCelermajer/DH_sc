@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "comparisons": 2225,
+  "ordered_services": 10567,
+  "raise_events": 1625,
+  "word_checks": 57843,
+  "native_guards": 8,
+  "provider_failure_checks": 12,
+  "mismatches": 0,
+  "source_bindings": {
+    "port\\level-world\\character_target_update.cpp": "364d22574f816442b579aed892342afd395370d0f8d9a777bc35417cd9ca8998",
+    "port\\level-world\\character_target_update.hpp": "9de6394fe589e5d9329427e8018a1e6a4782e67f1bbda546cbc4d828ba5aa179",
+    "port\\level-world\\tests\\character_target_update.cpp": "326deb98e1f95faab430cc32f6c99a756541e75c87406ffd53faefdb6e3bbbfc",
+    "port\\level-world\\tests\\character_target_update_host.py": "621b1315ab87415fddb5c69f35061243dfd55fe498db39fc3a585a754fb7aefb",
+    "port\\level-world\\tests\\character_target_update_differential.py": "da847917bd362092e97b6e118d785ad5f97b68efc671338a25b3adfe8be2737a",
+    "port\\level-world\\reference\\character-target-update\\target-update-fixtures.bin": "854ddc5c7b7e681be831862fc0ebe21c699027f04958a1d47332096f89731fce",
+    "port\\level-world\\reports\\character-target-update-arm64-differential.json": "ef3f08bc1e8fd73fd814fcecf6b3b7888dc47c48cb3dff0170f04c7d28456f9f",
+    "port\\level-world\\character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+    "port\\level-world\\..\\script-runtime\\script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14",
+    "port\\level-world\\reference\\character-target-update\\original-functions.json": "3b5099509b6dbc93648f87888a4a56b6be95644dca2f0735afe549f735d7efc7",
+    "port\\level-world\\reference\\character-target-update\\reference\\original-functions.asm": "f840c64f181bb7e24ca2887a146567b3f72f5455545fcad92b4eddcc2b3444ce"
+  },
+  "binary_bindings": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\character-target-update\\character_target_update_host": "51bedef3b43962fdd06693f41dc69f53a9c2610fc911daf12a7162d27673eb8d"
+  },
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_target_update.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_target_update.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-target-update/character_target_update_host"
+  ],
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Replay complete original UpdateTarget choreography under ASan/UBSan.\n\nQueries/RaiseEvent are synchronous borrowed services. This proves source control,\nreload/store order and reentry, not full world, predicate or Lua ownership.\n",
+  "compiler_provenance": "standalone compiler command recorded"
+}

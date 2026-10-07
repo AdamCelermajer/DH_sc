@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "comparisons": 768,
+  "ordered_required_services": 1396,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "297a53d61ae535f418b8afc2afbe1eeb370d1f7eea0b634c1b6cf24438483d67",
+  "script_sha256": "44e4161b6b0928052f6f23c823f677e86d1143824873d93dab8d5f331b479e65",
+  "source_literal": {
+    "address": "0x8c7488",
+    "value": "Potion0"
+  },
+  "scope": "Actual Potion0 lookup/ItemInstance ctor/force-add, SetQty and remove/delete\nownership instructions. Item localization/stats/reqs/fullness/destruction are\nthe same explicit controlled service boundaries as inventory load proof.\n",
+  "native_comparison": false
+}

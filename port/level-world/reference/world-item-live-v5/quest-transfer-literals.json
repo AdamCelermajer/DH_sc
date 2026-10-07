@@ -1,0 +1,12 @@
+[
+  {
+    "argument": "r1",
+    "address": "0x8c2970",
+    "value": "v2QuestObjectiveType"
+  },
+  {
+    "argument": "r2",
+    "address": "0x8c7478",
+    "value": "GatherLoot"
+  }
+]

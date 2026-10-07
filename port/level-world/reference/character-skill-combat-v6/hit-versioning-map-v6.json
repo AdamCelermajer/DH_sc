@@ -1,0 +1,17 @@
+{
+  "source": "port\\level-world\\character_hit.cpp",
+  "source_sha256": "6c723420bfc012306e9a79b4b8acb06b773a16e9e951c794fa88f095f9f591ac",
+  "target": "port\\level-world\\character_hit_v6.cpp",
+  "target_sha256": "d50a7963f8cf44d13cc2e0d54e239f15dc9f32ad82d5c8983760766ca88cd924",
+  "changes": [
+    "versioned export",
+    "source global trophy capture after cast",
+    "distinct-player local query",
+    "descending damage achievements",
+    "one-hit major/minor query and achievement"
+  ],
+  "unsupported": [
+    "online receiver policy",
+    "player receiver low-health/tutorial/achievements"
+  ]
+}

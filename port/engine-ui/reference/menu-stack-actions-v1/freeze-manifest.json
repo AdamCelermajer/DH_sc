@@ -1,0 +1,77 @@
+{
+  "validation": "PASS",
+  "version": 1,
+  "production_source_sha256": {
+    "port/engine-ui/menu_stack_actions_v1.hpp": "10bc7c2d35b4068cdebe6693afe60dc752ed55fd5ab779d9a85d67aad6162b5f",
+    "port/engine-ui/menu_stack_actions_v1.cpp": "09c9e5bc849d3dd4f1e70de97e75170e378a59ad9b27254499c5f04a5316c30d"
+  },
+  "source_sha256": {
+    "port/engine-ui/menu_stack_actions_v1.hpp": "10bc7c2d35b4068cdebe6693afe60dc752ed55fd5ab779d9a85d67aad6162b5f",
+    "port/engine-ui/menu_stack_actions_v1.cpp": "09c9e5bc849d3dd4f1e70de97e75170e378a59ad9b27254499c5f04a5316c30d",
+    "port/engine-ui/menu_stack_v1.hpp": "d9431517cf43674052381f0ee8c4ffe3b8217d4b1c51861defd61ee1e6b41adc",
+    "port/engine-ui/menu_stack_v1.cpp": "8c68bb6f8ebcb0c5bc33bc1373e656d9d14165521fbf922337e3766d6c7c8f2d",
+    "port/engine-ui/menu_stack_owner_v1.hpp": "8b81d17b88112a2d091733cf15d6ca0afe2ef136dbd8b61f954212440f0d31b8",
+    "port/engine-ui/menu_stack_owner_v1.cpp": "42b3a02d26340db4daa50e9e7ce143be4d74437e323f7c14a53ea6788e607e64",
+    "port/engine-ui/tests/menu_stack_v1_differential.py": "044adebd0ea5c01b3ff8d18f58dc14c1bf21d791616b017075264607c0715a2c",
+    "port/engine-ui/tests/menu_stack_actions_v1_differential.py": "37da2892f5b64d17bf67e85a9e4f9137290098ac2a277158878d0d6b4cfca68e",
+    "port/engine-ui/character_menu_queries_owner_v1.hpp": "a01c6b5407f785c4c339daa7195f5bcdc141329febe3d92f2ff8d4ed59fe3e8b",
+    "port/engine-ui/tests/menu_stack_actions_v1.cpp": "88f2a923c6ca6946b0b970f1aaeb873f83423496f02d21e89139d3e421bacee6",
+    "port/engine-ui/tests/menu_stack_actions_fixture_v1.hpp": "60abca43fa51703e6e5569e4142a1748e4c6f734e8776bf20b81b2cba32257cf",
+    "port/engine-ui/tests/menu_stack_v1.cpp": "d1530aa715d5a744b99349b3eb072aeb7cce2bfa1c74bc110323a1a1ab06ecf3"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/menu-stack-actions-v1-arm64-differential.json": "8105103e74510986929136eebbb90ff82eda1e840109a821c91d11e06bf3dfab",
+    "port/engine-ui/reports/menu-stack-actions-v1-host-audit.json": "5db6518e7eadb0c9b03b5e4d52f6a007b75defb995757d9199f406d33cde888b"
+  },
+  "reference_sha256": {
+    "port/engine-ui/reference/menu-stack-actions-v1/action-fixtures.bin": "f3dcbb30dca42ccc778eb36aae7060884385545981559461c659273d74298c4b",
+    "port/engine-ui/reference/menu-stack-actions-v1/NOTES.md": "71eec40e574f4b2b2fc07850265006d71c9037f2f0861cad8f2648298fd0e169",
+    "port/engine-ui/reference/menu-stack-actions-v1/xstring-contract.json": "54012a6e975e6c75d3505f8d230c5a8d9e6d9c0818410eee02d0b73dac61821a",
+    "port/engine-ui/reference/menu-stack-actions-v1/tu-string/original-functions.json": "46075e3e3a5cf00d6be6ba5ca0d39bae2b9b266f678b6ae5610c29d8c47b6440",
+    "port/engine-ui/reference/menu-stack-actions-v1/values/original-functions.json": "ee17661da112462809659525fd1545d553859cb09fc0864cac1ff37d41b95597",
+    "port/engine-ui/reference/menu-stack-actions-v1/tu-string/reference/original-functions.asm": "547b833de3cbe5a346502508efa106367f48b008d8678dfbd19fef1d5a011f42",
+    "port/engine-ui/reference/menu-stack-actions-v1/values/reference/original-functions.asm": "83f0235d54b78a0d31e31fea75d847a1f01d6e48a5642bf1060222012d10e953",
+    "port/engine-ui/reference/menu-stack-v1/freeze-manifest.json": "6323571e3d0e34ae3b54983c635e2af05c7538571210ac9809f3b66a7652fd86",
+    "port/engine-ui/reference/character-menu-flow-v1/native-stack-functions.json": "ad3ef6e2274127493f09a7b0be95ddcd371f73cc59bac2cc15eeb36e3f7412b0",
+    "port/engine-ui/reference/character-menu-flow-v1/native-stack-functions.asm": "cb92abe6c5f30583169012fe50557c2a6550830a4ffc3852dfa10c06bc3ca86a",
+    "port/engine-ui/reference/character-menu-flow-v1/authored-actions.json": "d74d36824da766177ba0b431a5e12f3c800b289e1c325edef7200b2771afd8d9",
+    "port/engine-ui/reference/character-menu-flow-v1/authored-actions.txt": "d8280e6fcf7f96ea1533f8d3a60f26cddc73c0d1cbaf5e98ef35f75444775565",
+    "port/engine-ui/reference/character-menu-flow-v1/authored-flow-index.json": "15f937f211213f5c896f3c9341228b43850c7335eca1ee7152b7caf35161e07b"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "binary_sha256": {
+    ".local-inputs/menu-stack-actions-v1/menu_stack_actions_audit": "5e5b6f7289271cc41bc2c253475a022e5d4c62c46ee6dd2732addeb647f52393",
+    ".local-inputs/menu-stack-actions-v1/libmenu-stack-actions-arm64.so": "9e7437b05b7018fa0a31576945f4aeac247d43f9dcd1cb4386b3b9455eb8ddea"
+  },
+  "build_scripts_sha256": {
+    ".local-inputs/menu-stack-actions-v1/run_host.sh": "f6c0310c94c539823cdc66e33fc75b2c9c9b3da92f6a3c6778bef083293157fa",
+    ".local-inputs/menu-stack-actions-v1/freeze.py": "7ab7cca209d2eeb24827e26598658e01da54d5d373e085c1549858cc034dc687"
+  },
+  "production_translation_units": [
+    "port/engine-ui/menu_stack_actions_v1.cpp"
+  ],
+  "required_existing_translation_units": [
+    "port/engine-ui/menu_stack_v1.cpp",
+    "port/engine-ui/menu_stack_owner_v1.cpp"
+  ],
+  "required_call_field": "CharacterMenuCallV1.debug_text (source to_xstring, not ordinary to_string)",
+  "host_test": {
+    "source": "port/engine-ui/tests/menu_stack_actions_v1.cpp",
+    "arguments": [
+      "port/engine-ui/reference/menu-stack-actions-v1/action-fixtures.bin"
+    ],
+    "language": "C++17",
+    "link_libraries": []
+  },
+  "arm64_build_command": "aarch64-linux-android23-clang++ -std=c++17 -O2 -shared -fPIC -static-libstdc++ -fno-fast-math -ffp-contract=off -Wl,-z,max-page-size=16384 -Wl,--pack-dyn-relocs=none port/engine-ui/menu_stack_v1.cpp port/engine-ui/menu_stack_owner_v1.cpp port/engine-ui/menu_stack_actions_v1.cpp -o .local-inputs/menu-stack-actions-v1/libmenu-stack-actions-arm64.so",
+  "scope": {
+    "complete_native_wrappers": true,
+    "same_owned_stack": true,
+    "as_result_untouched": true,
+    "whole_to_xstring_algorithm": false,
+    "source32_object_pointer_formatting": false,
+    "real_swf_lifecycle": false,
+    "live_navigation": false,
+    "main_menu_ownership": false
+  }
+}

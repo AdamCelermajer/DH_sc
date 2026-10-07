@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "6d1b7f73a4361a59a20083e808909ae1dd55b5075384ecd1c8fef0272e72c934",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\gameplay_skybox_material_v25.cpp",
+      "sha256": "b7d27f37c5856ed31ba40b02109d122aa2926f72bff95916a70c092fafbee1c3"
+    },
+    {
+      "path": "port\\level-world\\gameplay_skybox_v24.cpp",
+      "sha256": "60750af690836eec3e9d8275ed59d0d8d7cc44841bb2ed0b71e6c085c743528c"
+    },
+    {
+      "path": "port\\level-world\\gameobject_scene_root_registry_v1.cpp",
+      "sha256": "914a9016468d2bb2ae2c28cacf6fce8fd827b3fcc10f8f4ecd8c45aafe8b879b"
+    },
+    {
+      "path": "port\\level-world\\gameplay_skybox_material_v25.cpp",
+      "sha256": "e90bb229dc9036ab32c7c2422ed72132824adf5457bd397dfbab3755985cb3fc"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "0ab86803dd44c86921fc37431072658a4f4687613e32b1066508a7ac23c2a708"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "ed0e1c2750d3211bacb4d81a9fcd7c774041892c8ae847c8289c920435f2d7d6"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "10ff5541ab6317748dafe659b1740016426c3db478c816be774af4827ef5309a"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "3dd56d66f7ce797e58e6c1ddf5a2cb7f6a72941165e8c4fc324bc49bba9583fe",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\gameplay_skybox_material_v25.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_skybox_v24.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameobject_scene_root_registry_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\gameplay_skybox_material_v25.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-skybox-material-v25\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-skybox-material-v25\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\gameplay-skybox-material-v25\\gameplay-skybox-material-v25.bin"
+  ],
+  "stdout": "skybox_swamp.bdae vertices=24 indices=36 texture=q:/data/iphone/3d/textures/skybox_swamp.tga size=1024x1024\nskybox_blood.bdae vertices=24 indices=36 texture=q:/data/iphone/3d/textures/skybox_blood.tga size=512x512\nskybox_under.bdae vertices=24 indices=36 texture=q:/data/iphone/3d/textures/skybox_uneder.tga size=512x512\nskybox_darktemple.bdae vertices=17 indices=36 texture=q:/data/iphone/3d/textures/skybox_darktemple.tga size=1024x1024\nskybox_wind.bdae vertices=24 indices=36 texture=q:/data/iphone/3d/textures/skybox_wind.tga size=512x512\nPositive skybox assets=5 buffers=5 draws=5 PASS; actual source CPU material/pass tables; GPU callbacks declared fixtures\n",
+  "stderr": "",
+  "exit_code": 0
+}

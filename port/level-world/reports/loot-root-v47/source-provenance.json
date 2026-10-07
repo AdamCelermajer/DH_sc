@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "port/level-world/world_loot_canonical_bindings_v44.hpp": "f72ddad3649b1e85acaf83c8dcfbec09a6c6672991df6edc1fc0dd42345ea5e8",
+    "port/level-world/world_loot_canonical_bindings_v44.cpp": "e364494ac00e9ec7eb91a2dc1e9bfa9836be8b41709dc4015702fcd8bfe3b888",
+    "port/level-world/world_item_live_owner_v5.cpp": "ae175c89f98043652fb679e044fcc8cbcbd408e627d6f856f2dc326874b92079",
+    "port/level-world/world_loot_gameplay_v23.cpp": "69679ecd964d9789365bbae5fa755b7905a0fd55f521d4f54e8e2cd76d49ae8d",
+    "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/character_loot_actor_binding_v31.cpp": "c2e85b5875d8585168aa5f3c1cb2dcb301fd478a5da40472d1e3f888551bd255",
+    "port/level-world/character_loot_pickup_fx_v32.cpp": "e157d4b3714908c391440d56b38e156436b46b0feb741551c84165a7710d11bf",
+    "port/engine-ui/item_text_owner_v5.cpp": "10d33680977a883edf2e2c2a330e17ae67f0c90e1509ece6e187ce08c8508dc8",
+    "port/engine-ui/character_menu_item_actions_v1.cpp": "11b9f55fdd8832c090f6dbd68464b865a8538c536d099c1c260713e57df73be9",
+    "port/engine-ui/character_menu_inventory_mutation_v1.cpp": "20eb209333e1bf3a470e55b17db3992badf3f950c8ce9ec6c9122eadc7c3077a",
+    "port/level-world/player_save_difficulty_global_v29.cpp": "ff2ffd687fc5f8327384172c11d9d18c4a7e71986415690d47e565603cb9a439",
+    "port/level-world/tests/world_loot_canonical_bindings_v44.cpp": "a2f0edac9b168d9b9c31d3a66da30ec99ace6e3f84a06717ec21b929f177c566",
+    ".local-inputs/compile_loot_v44.py": "b8c7a6f01e208d71691def87d78e34f50992b8275dd97f0f9b4d2c7705f38021",
+    ".local-inputs/compile_renderer_loot_v44.py": "f53f888cfd0fb4f5fe3487f288cd3ce3c887eb5afc8d3cfa6bed09860190cbbd",
+    ".local-inputs/run_loot_v44_host.py": "b31a23ea6d1014c94279b87981764c84215de1b75596db0bf1a2086432d7bc87",
+    "port/level-world/reports/loot-canonical-v44/loot-canonical-v44-handoff.zip": "73406c2c67f92097ea8f0e65133c6a0e662315e1f886965aca15c1742adb9f93"
+  },
+  "globals_edited": false,
+  "device_operations": false,
+  "runtime_acceptance": false,
+  "host_checks": 2638,
+  "source_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

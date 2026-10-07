@@ -1,0 +1,113 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "name": "_ZN15VoxSoundManager4PlayEibiib",
+      "address": "0x36b80c",
+      "size": 660,
+      "sha256": "9c6401e83c8e016dd489cf66a19f9b5ca7b0926db5ff8ec1ebd05f829215cbf9"
+    },
+    {
+      "name": "_ZN10GameObject14UpdatePFObjectEv",
+      "address": "0x393ea0",
+      "size": 240,
+      "sha256": "691c6e39910469dec78aba5f4a58eb592b0fb609c084ff3b1e05e89cbdb5f51b"
+    },
+    {
+      "name": "_ZN10GameObject15UpdateIdleSoundEv",
+      "address": "0x38ae2c",
+      "size": 708,
+      "sha256": "ce603dc81be7cebf0b4be3eb83b1d00629ba242532a9f5cb399b8c7e5d9d5649"
+    },
+    {
+      "name": "_ZN10GameObject10UpdatePathEv",
+      "address": "0x3940c0",
+      "size": 632,
+      "sha256": "3a559ffd0d5429293bc215116f875a98598ec96d58522498b9e771907e683081"
+    },
+    {
+      "name": "_ZN10GameObject19ForceUpdatePositionEv",
+      "address": "0x393e90",
+      "size": 16,
+      "sha256": "1274be43d832c21353744d2c5e057b4e4653428e92a76fef86a1be1fbdb53dd6"
+    },
+    {
+      "name": "_ZN13ObjectManager34ProcessNextGameObjectToStartUpdateEv",
+      "address": "0x3460cc",
+      "size": 80,
+      "sha256": "81c438b912f55d6c4b8310719ef605f970a98edbe91e5e4b145fd4c9ce22f7a8"
+    },
+    {
+      "name": "_ZN10ItemObject8InitPostEv",
+      "address": "0x3ebca0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "name": "_ZN10ItemObject9InitAgainER13ItemInventoryjPK9Character",
+      "address": "0x3ec0f0",
+      "size": 552,
+      "sha256": "851cc1610883b6205bc0685ad0153b38eec3298add7384304b629df13605f54c"
+    },
+    {
+      "name": "_ZN10ItemObject6UpdateEv",
+      "address": "0x3ebee4",
+      "size": 188,
+      "sha256": "712d58e30653721d60557a12be6ced1ccc657adf2d0d78bd31eb1933589fad8c"
+    },
+    {
+      "name": "_ZN10ItemObject18UpdateLocalizationEv",
+      "address": "0x3ebca8",
+      "size": 36,
+      "sha256": "d13d53d1fb5ca2c21533decf84cf7c728039e418332b71a25cd31367acc930de"
+    },
+    {
+      "name": "_ZN10GameObject19RequireOnlineUpdateEv",
+      "address": "0x38b8b8",
+      "size": 92,
+      "sha256": "d4d361601b35deb6a49d33057bc44f6a64686f60d10d17775e9e9560b78da7c6"
+    },
+    {
+      "name": "_ZN10GameObject18UpdateAbsoluteAABBEv",
+      "address": "0x38aac8",
+      "size": 152,
+      "sha256": "8bdb0944ef983e11a5d18d269aab552dea3f691fa7b03abcc0f56c1b75471297"
+    },
+    {
+      "name": "_ZN10GameObject6UpdateEv",
+      "address": "0x38cbe8",
+      "size": 352,
+      "sha256": "b5206fb49b4a8562124ee6ae3f1e5a82b047a9b93ce63b979be9d1fad5f4d316"
+    },
+    {
+      "name": "_ZN10GameObject20UpdateTargetPositionEv",
+      "address": "0x393d74",
+      "size": 64,
+      "sha256": "9bc7c5b9c2bb0c4d56cabe44e41bad06739e84e8b846fd33fb50644dd0bba8ac"
+    },
+    {
+      "name": "_ZN10GameObject14UpdateRotationEv",
+      "address": "0x393710",
+      "size": 400,
+      "sha256": "54f64a9e35bc4862e4e9161b4cc84f2c2685332a8ae6e31eef05ebf7881c096b"
+    },
+    {
+      "name": "_ZN10ItemObject8InitOnceEi",
+      "address": "0x3ece80",
+      "size": 232,
+      "sha256": "b27a68c545025ced081df86edfeb4213153015669646b2b7292d51d80c0cb22e"
+    },
+    {
+      "name": "_ZN15VoxSoundManager6Play3DEiRKN6glitch4core8vector3dIfEEbiff",
+      "address": "0x36b5d8",
+      "size": 564,
+      "sha256": "1492e1786523a969b7a9abcf0ca894acdfd72e3b31991b9bcf5c4d9eed3a0fd9"
+    },
+    {
+      "name": "_ZN10GameObject16UpdateSubObjectsEv",
+      "address": "0x3943cc",
+      "size": 1508,
+      "sha256": "93419acfd94ca800b6ff3d8e0e07fe8ef626c54ccfeadbebd3bcda3a95c4ddae"
+    }
+  ]
+}

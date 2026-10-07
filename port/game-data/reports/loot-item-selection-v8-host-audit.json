@@ -1,0 +1,98 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/game-data/loot_item_selection_v8.cpp",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_table_selection_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/loot_power_resources_v7.cpp",
+        "port/game-data/loot_power_creation_v7.cpp",
+        "port/game-data/item_power_tables_v5.cpp",
+        "port/game-data/item_presentation_v5.cpp",
+        "port/game-data/tests/loot_item_selection_v8.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-o",
+        ".local-inputs/loot_item_selection_v8_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/loot_item_selection_v8_O1",
+        "port/game-data/reference/loot-item-selection-v8/fixtures.bin",
+        ".local-inputs/player-loot-v7/cache"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_cases\":256,\"actual_cache_items_selected\":3762,\"checks\":7204,\"full_AddLoot_creation\":false}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/game-data/loot_item_selection_v8.cpp",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_table_selection_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/loot_power_resources_v7.cpp",
+        "port/game-data/loot_power_creation_v7.cpp",
+        "port/game-data/item_power_tables_v5.cpp",
+        "port/game-data/item_presentation_v5.cpp",
+        "port/game-data/tests/loot_item_selection_v8.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-o",
+        ".local-inputs/loot_item_selection_v8_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/loot_item_selection_v8_O2",
+        "port/game-data/reference/loot-item-selection-v8/fixtures.bin",
+        ".local-inputs/player-loot-v7/cache"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_cases\":256,\"actual_cache_items_selected\":3762,\"checks\":7204,\"full_AddLoot_creation\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/game-data/loot_item_selection_v8.cpp": "94da6f656d8c2b7329e0c14aab2c4324616073862e7d1759ae03fa52b187df25",
+    "port/game-data/loot_entry_selection_v8.cpp": "2481c63b4c47a49fdbac564c35be456e2273c6e588c5d9398a47c61119164e76",
+    "port/game-data/loot_table_selection_v8.cpp": "969bcf1b7ca738a2defdbba87e05d49116f7bbf981dc47809a8f4f8a9d5a0923",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/loot_power_resources_v7.cpp": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+    "port/game-data/loot_power_creation_v7.cpp": "6f63b3a9c1086ec6d7c80f08342306a102c5a800fefe0eef9f754fad2c757d85",
+    "port/game-data/item_power_tables_v5.cpp": "c391a2b2b7800306ccbb7c5bebf5f7d595e71a7224dd8c004f864efe37a580d6",
+    "port/game-data/item_presentation_v5.cpp": "9684a2cd9c2cea693afedd1c6d3867fae17c34afaff84c486c37f1bd48a77306",
+    "port/game-data/tests/loot_item_selection_v8.cpp": "f3967a3c82348edc98b577dea2d3d2b22285bca9447d0dd2b9b9b9d6380f981a"
+  },
+  "fixture_sha256": "6c741e982e71383dd3fce9c5ec8c1b821b8be0e8d94a9061af6069a5ad01fea5",
+  "full_AddLoot_creation": false
+}

@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf",
+      "elf_address": "0x3c93fc",
+      "size": 72,
+      "sha256": "b0686250e5dc8c527ff2c724f349140fe95df216fccdf785f3e6d2c133a82835"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsBossEv",
+      "elf_address": "0x3a3158",
+      "size": 20,
+      "sha256": "02e178fdcedb17debeafd7894aa32f915c55b8c8d8feb2c786ac6d2936356a0f"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMiniBossEv",
+      "elf_address": "0x3a3144",
+      "size": 20,
+      "sha256": "887f3c9a46ed9d58834953160dbb85182b6da61c83a6a010ef607ae3f6f45138"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine10SM_SetAnimEi",
+      "elf_address": "0x3c0b50",
+      "size": 40,
+      "sha256": "9cae6594c392a0b84714abcd154eb114aa3b78ece9cdbd75315fc3f408894934"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZNK9Character13GetAnimStanceEv",
+      "elf_address": "0x3a53e0",
+      "size": 212,
+      "sha256": "0a55bdcde5f109c3e50e2ac4c2ef57f33604c327489c2e422f91fbea864948c0"
+    }
+  ]
+}

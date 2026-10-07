@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "comparisons": 242,
+  "mismatches": 0,
+  "scope": "Original cached GFNT wrapper7c5af0..7c5bd8 float geometry/advance against native original8532-raster gold; importsfloat32 modeled, source cache allocation/image upload not modeled.",
+  "library_sha256": "6bf70c913316fd3ceb8dc2b021533fba3a4d55d6216f1eba4f2418f560cbfe4c"
+}

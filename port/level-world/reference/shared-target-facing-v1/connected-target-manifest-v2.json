@@ -1,0 +1,11 @@
+{
+  "scope": "Connected target frame/Character\u2192CharAI\u2192selected AIS/pursuit binding; live acceptance pending root combined build.",
+  "sources": {
+    "port/level-world/character_world_target_frame_v2.hpp": "193a0f61d64caef1d2cbdfb7adbfd5cc3c0136765286e05539c0f4b6773718f8",
+    "port/level-world/character_world_target_frame_v2.cpp": "579748e4c68c46ef05b71a4b1cc57855bf4728752890e282668402a5b673219b",
+    "port/level-world/player_target_died_v2.hpp": "177cc83b244a1f570765cc1136af888f4043462e24b963070ec75160205a1b60",
+    "port/level-world/player_target_out_range_v2.hpp": "cb8419064129996ce32c53e9d0928a79b3dd6159811b783ba60d1d72e36b50f5",
+    "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc": "a00ee374b656a8f654d1772744ba3529382af78251d414c1e1d15676cb074c01",
+    "port/level-world/tests/player_target_out_range_v2.cpp": "0ecfa04fea68e24aea5ff2da56e56f14e7eabab778cb181733aa3b3b9107a4d0"
+  }
+}

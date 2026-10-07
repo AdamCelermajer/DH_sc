@@ -1,0 +1,6 @@
+{
+  "cases": 320,
+  "scope": "Execute actual HUD attack receiver event branch and full held-dispatch branch.\nOuter cache/Level/PM gates are separately tested native contracts; Cmd methods\nare ordered callback observers here, not original controller execution.",
+  "gold_sha256": "7a5f71f4b6690e4efdccfc3695c936ecb16299b19c6a7493f71cfcf14330425e",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

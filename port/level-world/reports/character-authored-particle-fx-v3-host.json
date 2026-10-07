@@ -1,0 +1,48 @@
+{
+  "scope": "Actual original-cache blood79/80 and FIRE124 descriptor3/mode0 sphere/box resource initialization, same generation/RNG/model simulation, force world/billboard retained snapshots, actual full uchar4 material animation application and source completion. Original full color600 gold replay. Camera explicit fixture; no actual GPU/live receipt.",
+  "results": [
+    {
+      "optimization": "O1",
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":7722,\"positive_frames\":139,\"vertices\":4632,\"fire_color_frames\":35,\"gpu_submission\":false}\n",
+      "stderr": ""
+    },
+    {
+      "optimization": "O2",
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":7722,\"positive_frames\":139,\"vertices\":4632,\"fire_color_frames\":35,\"gpu_submission\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/level-world/tests/character_authored_particle_fx_v3.cpp": "8f6fec879dbb48264d56639b4970d5e396cc7c4c921eed0838b3f1e346a4f83d",
+    "port/level-world/character_authored_particle_fx_v3.cpp": "4a8c8d8dd79b7c4e372d787f840fb3e5047e60c4bbb4066da4d8d3aea8935cd6",
+    "port/engine-animation/particle_resource_init_v2.cpp": "2006759c93a39d11d55d159cdcebf415c536d47c249af4521a565e44b9a1d1f1",
+    "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
+    "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/particle_random_v1.cpp": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0",
+    "port/engine-animation/particle_emission.cpp": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035",
+    "port/engine-animation/particle_cloud_models_v1.cpp": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747",
+    "port/engine-animation/particle_cloud_runtime_v1.cpp": "76a3accf7a3998d9bcfe0b6317549a2390e0a4fc3cd40331aea38a12293b854e",
+    "port/engine-animation/particle_cloud_runtime_v2.cpp": "cd6707b0392a028a2095cffc22e44df3720f1eb74ede098a6af54341969d53dc",
+    "port/engine-animation/particle_billboard_v1.cpp": "665a84f44d7a8692d585210151107d63aba702c354553ba510f43e8d6f3f8054",
+    "port/engine-animation/particle_box_v2.cpp": "3e31bb713f0d1f26ba5fe4004f31a7a99d9c8a10e342c6e409ca143c1f36ee6a",
+    "port/engine-animation/material_color.cpp": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51",
+    "port/engine-animation/material_color_v3.cpp": "41deb9b53027cb815919fc0bace3a338b4d8b2afb6a7c29f2ccda5577ac5f2eb",
+    "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc"
+  },
+  "assets": {
+    "bloodsplat.bdae": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b",
+    "bloodsplat_hero.bdae": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25",
+    "spell_dh2_hurt_fire.bdae": "b48d8f0bd4f5884d04bdfd79050549a0541d98375a3febe384fe5dbee31ca152"
+  },
+  "source_headers": {
+    "port/level-world/character_authored_particle_fx_v3.hpp": "028aadb98fa074a009378521e506b495bae65531c9563a6609b444d95fdbe889",
+    "port/level-world/character_particle_fx_resource_v2.hpp": "3ba703cd0fbe6e9c884ba2aa2974ec079f8bc3de3a99346de9f3071d7ada07dc",
+    "port/engine-animation/material_color_v3.hpp": "b5ba82a93237cf8ab6a88fa258d33902c7a13ff08f33c6497faa8694d9dc55ef",
+    "port/engine-animation/particle_box_v2.hpp": "064287c1196600c394431f752641c176fe3208581eded9ae122570aa4689858d",
+    "port/engine-animation/particle_cloud_runtime_v2.hpp": "5f7357ff5fe60e75e9a768aaa718fdac491494ea5e152e2030d20b380640285c",
+    "port/engine-animation/particle_resource_init_v2.hpp": "8a40fb3e25b5bd35d503949e310634ac95ddc52c6b8d2d3a3f987a97e8a64714"
+  }
+}

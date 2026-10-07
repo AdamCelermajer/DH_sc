@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "scope": "Native orphan sweep component; source Stage0 and full Swamp gameplay remain open",
+  "sha256": {
+    "port\\engine-resources\\tests\\native_unused_sweep_v50.cpp": "166fddb2273c000ecd3fc6b152a377da9976b1e0f5bc90ed9e691f098b180330",
+    "port\\engine-resources\\native_unused_sweep_v50.hpp": "edffb668003cf9400235c2f7a52f56738d4c8273dda94eaaff5a91430062659c",
+    "port\\android-native\\app\\src\\main\\cpp\\renderer_native_cleanup_v50.inc": "081f138691a65f6ca75c555565319c153940bfcc628a258b7bcca9f45ef94cde"
+  },
+  "receipts": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/tests/native_unused_sweep_v50.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/reports/functional-loading-cleanup-v50/test-O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/reports/functional-loading-cleanup-v50/test-O1"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS 12 native registry/ownership/preflight/release checks\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/tests/native_unused_sweep_v50.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/reports/functional-loading-cleanup-v50/test-O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "20s",
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/reports/functional-loading-cleanup-v50/test-O2"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS 12 native registry/ownership/preflight/release checks\n",
+      "stderr": ""
+    }
+  ]
+}

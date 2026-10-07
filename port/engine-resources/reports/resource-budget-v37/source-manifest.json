@@ -1,0 +1,13 @@
+{
+  "port/engine-resources/resource_budget_v37.hpp": "98a67c1bf9056df9f879c317c83a4f3d61b69cfc227f36a6b1ccffe54185a869",
+  "port/engine-resources/resource_budget_v37.cpp": "9282aacb83c4a57d474e25ea6d6962db342b3b7db3efb6f4ecdbae75da93a8e2",
+  "port/engine-resources/tests/resource_budget_v37.cpp": "b231f4daf90ab21c576bc06436e801e4d5b88ae3ee873c7bd262633c6602b70b",
+  "port/engine-resources/tests/resource_budget_fx_consumer_v38.cpp": "8e13c3e80d5e5c22aa5eb88d7f2e4e9754433597bbcc6e97dfaf7e04dc98d09c",
+  "port/engine-resources/tests/resource_budget_asset_census_v37.cpp": "51f1077248d537efe6db8d807595d513a5092ef6640505153795680ddd4c9f8e",
+  "port/engine-resources/tools/test_resource_budget_v37_host.py": "19fe18016314a9ed1e286427076da4dd5b5f66638075fd2c3ddfd9e9a1ae7e7d",
+  "port/engine-resources/tools/resource_budget_asset_census_v37.py": "afba9e8caf5389d50770a0b7b917d18216d3bacfb5b3cd38fd955d7ef7967a06",
+  "port/engine-resources/reports/resource-budget-v37/README.md": "d66c9689f01802daa4e0bbdf048a231f3909a165de705ce5a5aeeac482c42728",
+  "port/engine-resources/reports/resource-budget-v37/host-receipt.json": "b6eb2952bfa447eac97225a4753ee1b1cc7d71d670b9b25486a3590eb43a0516",
+  "port/engine-resources/reports/resource-budget-v37/asset-census.json": "d97fd412af55e97b0d71d4fa739aa5546b4fcd5ab36e8b923961cdfe873c9507",
+  "port/engine-resources/reports/resource-budget-v37/fx-production-helper-v38.inc": "6b3d34f21cb5d819ab82b3e98b6902f91591fae1118d892ffd56d015a4926feb"
+}

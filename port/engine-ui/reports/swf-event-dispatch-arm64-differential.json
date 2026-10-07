@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "comparisons": 2400,
+  "ordered_services_and_global_writes": 5174,
+  "operation_counts": {
+    "0": 160,
+    "1": 160,
+    "2": 160,
+    "3": 160,
+    "4": 160,
+    "5": 160,
+    "6": 160,
+    "7": 160,
+    "8": 160,
+    "9": 160,
+    "10": 160,
+    "11": 160,
+    "12": 160,
+    "13": 160,
+    "4294967295": 160
+  },
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "591fe8d74c033e80a6491bdc32727a228f6a3f42dda1424b70aed046975b6fd6",
+  "gold_sha256": "5b288c30015c5da3a7bf6eb6c419e07dbba653590bbc5126e577666f9cd74e84",
+  "source_sha256": {
+    "port/engine-ui/swf_event_dispatch.hpp": "359a1f7213de54d2a825810d9c471ad1c0ac804a09ee509086fec6866519becb",
+    "port/engine-ui/swf_event_dispatch.cpp": "48fd9df725c52d79dcfb4a49f1bf301b7afb3bafef97b66dce2fcc4f6a77ecee",
+    "port/engine-ui/tests/swf_event_dispatch_differential.py": "0b6c7774014903344aa4b9fba04ed8cb34a2ffd58861a9b8846e43d6ac13cb8a"
+  },
+  "scope": "Complete original SendEvent versus O2 ARM64, mutable native/AS services explicit.",
+  "whole_input_or_frame_parity": false
+}

@@ -1,0 +1,59 @@
+{
+  "mode": "read-only preparation",
+  "serial": "emulator-5554",
+  "pid": "8841",
+  "local_apk_sha256": "317bb31eaeb9748a48d0321a76eb30ab46b6698353465a66a47f64ca6866785c",
+  "input_executed": false,
+  "route_from_verified_crypt_spawn": [
+    {
+      "kind": "swipe",
+      "coordinates": [
+        640,
+        835,
+        565,
+        910
+      ],
+      "duration_ms": 7500
+    },
+    {
+      "kind": "swipe",
+      "coordinates": [
+        640,
+        835,
+        715,
+        910
+      ],
+      "duration_ms": 3500
+    },
+    {
+      "kind": "swipe",
+      "coordinates": [
+        640,
+        835,
+        715,
+        760
+      ],
+      "duration_ms": 1000
+    },
+    {
+      "kind": "tap",
+      "coordinates": [
+        1635,
+        670
+      ]
+    }
+  ],
+  "recent_events": [
+    "I/DH2Native( 8841): Scene position methods | _prim_tmp_cultist01 | identity 0000000100000002 | position -1234.43005 497.979004 596.723022 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_tmp_cultist03 | identity 0000000100000003 | position 821.286987 -1452.16003 -356.072998 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_tmp_cultist07 | identity 0000000100000006 | position -1234.43005 -369.638 198.436996 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_tmp_cultist08 | identity 0000000100000007 | position 821.286987 -651.690979 -356.072998 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_tmp_cultist05 | identity 0000000100000004 | position 168.604996 1606.04004 36.4949989 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_tmp_cultist06 | identity 0000000100000005 | position -200.063004 1659.26001 36.4949989 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_Monster | identity 0000000100000027 | position -6020 10130 800 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_Monster02 | identity 0000000100000028 | position -5800 8430 450 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_Monster05 | identity 0000000100000029 | position -5630 10130 800 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_Monster_Ghost05 | identity 000000010000004e | position 161.587997 20228.0508 607.5 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified",
+    "I/DH2Native( 8841): Scene position methods | _prim_Monster_Ghost06 | identity 000000010000004f | position -316.752014 20312.0195 607.5 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified"
+  ]
+}

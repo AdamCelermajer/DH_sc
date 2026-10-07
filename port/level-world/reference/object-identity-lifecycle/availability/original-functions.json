@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11AISExternal6OnInitEv",
+      "elf_address": "0x3dcea4",
+      "size": 36,
+      "sha256": "ef4caf47ab701506950f666e8b37a3ad93a36bcf353c5982c2be2cf814e4d111"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC1Eb",
+      "elf_address": "0x3dd0e4",
+      "size": 68,
+      "sha256": "e71ffa6c1cd72616f2f6750112f8f7d6c08ca7068939c3edef875846222312ee"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6"
+    }
+  ]
+}

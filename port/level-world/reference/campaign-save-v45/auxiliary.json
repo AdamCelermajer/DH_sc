@@ -1,0 +1,52 @@
+[
+  {
+    "symbol": "_ZN14PlayerSavegame16__LoadPropertiesEP11IStreamBasePv",
+    "address": "0x46932c",
+    "size": 296
+  },
+  {
+    "symbol": "_ZN12StreamReader7writeAsIiEEvP11IStreamBaseT_",
+    "address": "0x33665c",
+    "size": 188
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame16SG_GetLevelStateEii",
+    "address": "0x467040",
+    "size": 288
+  },
+  {
+    "symbol": "_ZN13QuestSavegame10SaveQuestsEP11IStreamBase",
+    "address": "0x46c6fc",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN13QuestSavegame9PackQuestEiiP11IStreamBase",
+    "address": "0x46c584",
+    "size": 212
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame17SG_GetMapLocStateEii",
+    "address": "0x466d10",
+    "size": 288
+  },
+  {
+    "symbol": "_ZN5Quest14_saveQuestDataEP11IStreamBase",
+    "address": "0x47f734",
+    "size": 88
+  },
+  {
+    "symbol": "_ZN13QuestSavegame10PackQuestsEiP11IStreamBase",
+    "address": "0x46c658",
+    "size": 164
+  },
+  {
+    "symbol": "_ZNKSt6bitsetILj64EE17_M_copy_to_stringIcSt11char_traitsIcESaIcEEEvRSbIT_T0_T1_E",
+    "address": "0x4699a0",
+    "size": 376
+  },
+  {
+    "symbol": "_ZN13ObjectiveList9_saveDataEP11IStreamBase",
+    "address": "0x47a76c",
+    "size": 44
+  }
+]

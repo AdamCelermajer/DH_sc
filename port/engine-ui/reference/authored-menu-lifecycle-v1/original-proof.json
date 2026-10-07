@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "original_show_hide_calls": 960,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "names": [
+    "menu_CharacterMenu",
+    "menu_CharacterSheetNew",
+    "menu_CharacterSheetStats",
+    "menu_InventorySheetMain",
+    "menu_InventorySheetDetails",
+    "menu_SkillTreeSheetNew",
+    "menu_FaerySheet",
+    "menu_Merchant",
+    "menu_Ingame",
+    "menu_Options",
+    "menu_VerificationLoading",
+    "menu_language",
+    "menu_playlist",
+    "menu_splash",
+    "unknown"
+  ],
+  "scope": "Execute original MenuBase Show/Hide. Localization/GPU/debug/application,\nweak live character, listener and deadzone endpoints are explicit fixtures;\noriginal valid/localized gates, SetVisible, name branches and stores execute.\n"
+}

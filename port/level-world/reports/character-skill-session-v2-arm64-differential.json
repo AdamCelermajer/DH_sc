@@ -1,0 +1,20 @@
+{
+  "validation": "PASS",
+  "player_vcb_cases": 256,
+  "alias_calls": 768,
+  "current_skill_cases": 768,
+  "mismatches": 0,
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "9f4292af0e55e54e815d1ce0daa2395e2424c5c69d9b65219efe3566809f5251",
+  "gold_sha256": "d94310d2415e51f7870e9ce03f0e275f66c533790d786f138c2cb01c18a96ca8",
+  "source_sha256": {
+    "port/level-world/character_script_player_vcb_v2.cpp": "9b6ef082346ef175caff7534d3eda520ff9a054fd7dae32efb8761e34f08140e",
+    "port/level-world/character_script_player_vcb_v2.hpp": "5311769f94231702cbf86f10412a7a5588df7d21662f0ea6718328777c94405d",
+    "port/level-world/character_current_skill_v2.cpp": "3c4e63e95c60251baa6b7eb8f4f8c078e6edb134f1511a97a2763efdc873ad7e",
+    "port/level-world/character_current_skill_v2.hpp": "a6b97ec7b41734e375e9c995e46be56df55362c76f94b3d1ec589dd95ad3e21e",
+    "port/level-world/tests/character_skill_session_v2_differential.py": "81551ef09c58f1b2c00cc0805a56d7c82cd0d1de19f83588152312a2f7d74f8d"
+  },
+  "scope": "Player InitVCB and numeric CurrentSkill wrapper: original instructions versus O2 ARM64.\n\nOriginal GetCharSkillListId/GetCharSkill and SG_GetSkillLevel execute on declared\nborrowed source tables. Alias-map membership and ReturnValues.pushInteger remain\nlogical services; separate real-VM audit supplies owned aliases and saved rows.\nUnsafe original index/assertion continuation is excluded, then tested as native\nrequired failure by the sanitized host audit. No whole original Lua VM claim.\n"
+}

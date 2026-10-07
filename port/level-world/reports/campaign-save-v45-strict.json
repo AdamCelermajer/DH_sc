@@ -1,0 +1,98 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "source": "private_save_file_transport_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "campaign_save_profile_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "player_save_metadata_writer_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "player_save_inventory_writer_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "player_save_collections_writer_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "campaign_save_filename_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "../game-data/player_save_state_fields_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "../game-data/player_savegame_v1.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "private_save_file_transport_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "campaign_save_profile_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "player_save_metadata_writer_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "player_save_inventory_writer_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "player_save_collections_writer_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "campaign_save_filename_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "../game-data/player_save_state_fields_v45.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "../game-data/player_savegame_v1.cpp",
+    "exit": 0,
+    "stderr": ""
+  }
+]

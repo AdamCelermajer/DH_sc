@@ -1,0 +1,20 @@
+[
+  {
+    "call": "0x3b54fc",
+    "caller": "_ZN9Character8InitPostEv",
+    "caller_address": "0x3b4d60",
+    "target": "0x4679e8"
+  },
+  {
+    "call": "0x3f7628",
+    "caller": "_ZN5Level12_LoadProcessEv",
+    "caller_address": "0x3f6990",
+    "target": "0x4679e8"
+  },
+  {
+    "call": "0x4636d0",
+    "caller": "_ZN14PlayerSavegame9SG_UpdateEb",
+    "caller_address": "0x4636c4",
+    "target": "0x4679e8"
+  }
+]

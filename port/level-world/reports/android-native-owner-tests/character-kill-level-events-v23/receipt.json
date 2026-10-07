@@ -1,0 +1,140 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "55164f7836de89b7740887e0e34e830acd8d6717ec1033ff7f38b94aa7c7b97a",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\character_kill_level_events_v23.cpp",
+      "sha256": "380c77016395d970aa8cc2e4dc9c78c2561a4a7b33ae8f1e35c0080e9bc31845"
+    },
+    {
+      "path": "port\\level-world\\character_kill_level_events_v23.cpp",
+      "sha256": "72c0bc4e6bde4d1dd0feac1e7d96a70bb064ca75f561ed0a29c440e8fb16e4da"
+    },
+    {
+      "path": "port\\level-loader\\level_constructor_bindings_v4.cpp",
+      "sha256": "3645564435f812c021d9b3c8dfef3ca5b7c889accc850975e7e91671c1f84f15"
+    },
+    {
+      "path": "port\\level-loader\\level_constructor_v3.cpp",
+      "sha256": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6"
+    },
+    {
+      "path": "port\\level-loader\\canonical_level_context_v1.cpp",
+      "sha256": "c9c17c15305e0d600a44b406a7b5e243b9f8a9535a55b80fa65b83ba01bc789a"
+    },
+    {
+      "path": "port\\level-world\\event_manager_owner_v12.cpp",
+      "sha256": "b66a23fe43ce48e104cc0845431e541b4a757eee51baa6b18e5cdce81adeb459"
+    },
+    {
+      "path": "port\\level-world\\generic_lua_script_owner_v13.cpp",
+      "sha256": "1129dfa0695977763ab1d3d2749e3771302f6c9c33d9b2072d30b4360e45c863"
+    },
+    {
+      "path": "port\\level-world\\level_savegame_owner_v1.cpp",
+      "sha256": "bddb330a95b2d7443cea60c5ee5a5c276ba222db912d083c8e8da468b169af0b"
+    },
+    {
+      "path": "port\\level-world\\level_savegame_cache_v1.cpp",
+      "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9"
+    },
+    {
+      "path": "port\\level-world\\level_savegame_runtime_v1.cpp",
+      "sha256": "a96a52df3a2b87e94503611ce6be6e66441865c760cdd6195350168a5ae33e2f"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "f6727a82df4d3de8cfacaaf43628522f9d9aacc0b8c4bf934831553cde6e5a67"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "9b66eb9853b5d7c2204f9a53da12cc2e2394071b741d8533223c8fd402d27e52"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "49c69f4dc1a432b692c2c83f5786815bee763204c7a67946f77440d58b659a4c"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "c98f5a84723bba46923760f967a0909d81ba18f7483dbd25c7671ab16cc7bde0",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_kill_level_events_v23.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_kill_level_events_v23.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\level_constructor_bindings_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\level_constructor_v3.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\canonical_level_context_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\event_manager_owner_v12.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\generic_lua_script_owner_v13.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_cache_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_runtime_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-kill-level-events-v23\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-kill-level-events-v23\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\character-kill-level-events-v23\\character-kill-level-events-v23.bin"
+  ],
+  "stdout": "PASS same actual Level C1/51rows/real Lua-cache/native Save + gate150 + four real constants/typed synchronous QE listeners + nested current-level change/old-level pin/no queue checks=465; quest handler is declared observer, not progress acceptance\n",
+  "stderr": "",
+  "exit_code": 0
+}

@@ -1,0 +1,19 @@
+#include "../canonical_character_family_v4.hpp"
+#include "../retained_character_position_owner_v7.hpp"
+#include "../canonical_point3d_globals_v1.hpp"
+#include <fstream>
+#include <iostream>
+using namespace dh2;
+static std::vector<std::uint8_t> read(const std::string& path){std::ifstream f(path,std::ios::binary);if(!f)throw std::runtime_error(path);return {std::istreambuf_iterator<char>(f),{}};}
+int main(int argc,char** argv){try{
+ if(argc!=2)return 2;std::string directory=argv[1],error;std::vector<std::vector<std::uint8_t>> raw;raw.reserve(32);auto bytes=[&](const std::string& name){raw.push_back(read(directory+"/"+name));auto& b=raw.back();return data::Bytes{b.data(),b.size()};};
+ character::GameDesignInputs256 input{};character::GameDesignTableInput48* slots[]{&input.characters,&input.classes,&input.ai,&input.factions,&input.levels};const char* prefixes[]{"character_properties","character_classes","ai","ai_factions","levels"};for(unsigned i=0;i<5;++i)*slots[i]={bytes(std::string(prefixes[i])+"_pyarray.bin"),bytes(std::string(prefixes[i])+"_pyarraynames.bin"),bytes(std::string(prefixes[i])+"_pystructnames.bin")};character::CharacterGameDesign design;if(!design.initialize(input,error))throw std::runtime_error(error);
+ data::Dictionary models;if(!data::load_dictionary(bytes("character_models_dictionary_pyarraynames.bin"),bytes("character_models_dictionary_pyarray.bin"),models,error))throw std::runtime_error(error);data::LootTablesV2 loot;if(!loot.load(bytes("loot_table_pyarray.bin"),bytes("loot_table_pyarraynames.bin"),bytes("loot_table_pystructnames.bin"),error))throw std::runtime_error(error);data::LootRandom8V2 rng{};auto world=std::make_shared<int>(1);
+ world::CanonicalCharacterFamilyServicesV4 services;services.world=world;services.design=&design;services.models=&models;services.loot_tables=&loot;services.loot_random=&rng;
+ services.set_position=[](world::CanonicalCharacterRecordV4& record,const std::array<float,3>& p,bool destination,std::string& e){character::RetainedCharacterPositionOwnerV7 owner(*record.actor,{});return owner.set_position(p.data(),destination,e);};
+ world::CanonicalCharacterFamilyFactoryV4 factory(services);std::string name="WanderingPriest";world::CanonicalSourceObjectRequestV1 source;source.source_lease=world;source.source_context=&name;source.attribute=[](void* p,std::uint32_t,const char* key)->const char*{return std::string(key)=="name"?static_cast<std::string*>(p)->c_str():nullptr;};world::CanonicalClassReceiverV1 receiver;if(!factory.construct({"Character",0x340800},source,receiver,error))throw std::runtime_error(error);
+ world::CanonicalPropertyMapV1 map({nullptr,&world::canonical_vec3_origin_v1(),nullptr});auto properties=receiver.properties();if(!map.init_properties(properties,error)||!map.load_defaults(properties,error)||!map.set_property(properties,"position","123,456,789",error))throw std::runtime_error(error);
+ const std::array<float,3> position{123,456,789};if(!receiver.set_position(position,true,error))throw std::runtime_error(error);auto record=factory.find(receiver.object.identity);if(!record||record->actor->object->position!=position||record->actor->runtime.controller.destination[0]!=123||record->actor->runtime.object.motion.floor!=~0u||record->actor->position_fields_v7().physical2dc||record->actor->position_fields_v7().attached2e0||record->actor->source_visual())throw std::runtime_error("source canonical position/null/PF prefix mismatch");
+ if(record->actor->runtime.subobjects.absolute_bounds[0]!=23||record->actor->runtime.subobjects.absolute_bounds[3]!=223||rng.calls)throw std::runtime_error("source bounds/RNG mismatch");
+ std::cout<<"Canonical Character393db4 before InitPost PASS same receiver/position/destination/bounds, ctor-null body/visual/anchor, unchanged PF floor and RNG; no whole InitPost claim"<<std::endl;
+ }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}}

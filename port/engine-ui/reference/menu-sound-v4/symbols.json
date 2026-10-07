@@ -1,0 +1,152 @@
+[
+  {
+    "name": "_ZN3vox9VoxEngine7IsReadyERNS_10DataHandleE",
+    "address": "0x8624f8",
+    "size": 40
+  },
+  {
+    "name": "_ZN3vox9VoxEngine14LoadDataSourceEiPviS1_i",
+    "address": "0x8627e0",
+    "size": 120
+  },
+  {
+    "name": "_ZN15VoxSoundManager4PlayEibiib",
+    "address": "0x36b80c",
+    "size": 660
+  },
+  {
+    "name": "nativeLoadSound",
+    "address": "0x531230",
+    "size": 92
+  },
+  {
+    "name": "_ZN3vox8VoxUtils24LoadDataSourceFromFileExEPKciNS_21VoxSourceLoadingFlagsEi",
+    "address": "0x86f5fc",
+    "size": 180
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox11StreamCFileC2EPKc",
+    "address": "0x888c34",
+    "size": 128
+  },
+  {
+    "name": "nativeUnloadSound",
+    "address": "0x5315bc",
+    "size": 92
+  },
+  {
+    "name": "_ZN15VoxSoundManager8PlayMenuEibii",
+    "address": "0x36bc34",
+    "size": 36
+  },
+  {
+    "name": "_ZNK3vox15VoxSoundPackXML17GetDataSourceInfoEiRPKcRNS_11FormatTypesERiS6_RNS_21VoxSourceLoadingFlagsE",
+    "address": "0x8896f4",
+    "size": 184
+  },
+  {
+    "name": "_ZN3vox9VoxEngine12GetVoxEngineEv",
+    "address": "0x862b30",
+    "size": 80
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox11StreamCFile15CreateNewCursorEv",
+    "address": "0x888aec",
+    "size": 132
+  },
+  {
+    "name": "_ZN15VoxSoundManager11UnloadSoundEi",
+    "address": "0x36921c",
+    "size": 124
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox17StreamCFileCursor4InitEv",
+    "address": "0x888728",
+    "size": 80
+  },
+  {
+    "name": "_ZN3vox8VoxUtils27LoadDataSourceFromFileToRAMEPKcii",
+    "address": "0x86f3b4",
+    "size": 420
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox9openStdIOEPKcNS_17VoxFileAccessModeE",
+    "address": "0x8947d4",
+    "size": 260
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox11StreamCFile4InitEv",
+    "address": "0x888a60",
+    "size": 140
+  },
+  {
+    "name": "_ZN9Character11_InitSoundsEv",
+    "address": "0x3b3b00",
+    "size": 264
+  },
+  {
+    "name": "_ZN3vox17VoxEngineInternal7IsReadyERNS_10DataHandleE",
+    "address": "0x868978",
+    "size": 68
+  },
+  {
+    "name": "_ZN15VoxSoundManager9LoadSoundEi",
+    "address": "0x3699fc",
+    "size": 316
+  },
+  {
+    "name": "_ZN3vox7DataObj7IsReadyEv",
+    "address": "0x8658cc",
+    "size": 48
+  },
+  {
+    "name": "_ZN3vox8VoxUtils27LoadDataSourceFromFileAsRAWEPKcii",
+    "address": "0x86f5a0",
+    "size": 92
+  },
+  {
+    "name": "_ZN3vox17VoxEngineInternal13GetDataObjectERNS_10DataHandleE",
+    "address": "0x8686bc",
+    "size": 244
+  },
+  {
+    "name": "_ZN3vox17VoxEngineInternal14LoadDataSourceEiPviS1_i",
+    "address": "0x86b144",
+    "size": 732
+  },
+  {
+    "name": "nativeLoadSoundBig",
+    "address": "0x53128c",
+    "size": 76
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox18StreamCFileFactoryEPv",
+    "address": "0x888f98",
+    "size": 40
+  },
+  {
+    "name": "_Z17NativePlaySoundFXRKN7gameswf7fn_callE",
+    "address": "0x43ae10",
+    "size": 140
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox11StreamCFileC1EPKc",
+    "address": "0x888f18",
+    "size": 128
+  },
+  {
+    "name": "_ZN3vox8VoxUtils22LoadDataSourceFromFileEPKcii",
+    "address": "0x86f558",
+    "size": 72
+  },
+  {
+    "name": "nativeUnloadSoundBig",
+    "address": "0x531618",
+    "size": 76
+  },
+  {
+    "name": "PlayMenuDependency__ZN3vox19FileSystemInterface8OpenFileEPcNS_17VoxFileAccessModeE",
+    "address": "0x894330",
+    "size": 628
+  }
+]

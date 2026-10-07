@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "cases": 8192,
+  "ordered_services": 26791,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "632bc16ec8105cfd92a6e06061f7c3db90a22d5e849ff17052463b558ffb5b4b",
+  "scope": "Original SkillCombatRoll wrapper vs O2 native ordering.\nCalculate/apply/handle/controller are explicit recorded synchronous services;\nthis proof does not substitute them for completed native combat gameplay.\n"
+}

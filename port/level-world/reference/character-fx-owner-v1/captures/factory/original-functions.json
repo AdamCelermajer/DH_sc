@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI21_ParseObjectAnimEventEPKc",
+      "elf_address": "0x3d3af4",
+      "size": 572,
+      "sha256": "bb48f48be8a94922d227e18e292a1e5c8a87e4f1e8cb185141cf9b65684ffba9"
+    },
+    {
+      "original_symbol": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+      "elf_address": "0x472a0c",
+      "size": 592,
+      "sha256": "009dcf6e02d189677a66323fc1b3319734ce8913147232978c3ec55b23cdd0f9"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_OnAnimEventEPKc",
+      "elf_address": "0x3d4434",
+      "size": 1424,
+      "sha256": "19cc413b745f4e9b52408e463c76c814ce5534fa3f6d345ab83774d62f26f315"
+    },
+    {
+      "original_symbol": "_ZNK10AnimatedFX12HasCompletedEv",
+      "elf_address": "0x4924e0",
+      "size": 112,
+      "sha256": "f01bf53040a101dd3985ae1241a49e646af33bd2c712549aad68399497febc43"
+    },
+    {
+      "original_symbol": "_ZNK7Point3DIfEeqERKS0_",
+      "elf_address": "0x312b6c",
+      "size": 140,
+      "sha256": "7a7324bb4140a95035e5f81755a092f692635fbd5c7d640806ff33ff82d58b63"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10ObjectBase9GetHandleEv",
+      "elf_address": "0x33dd2c",
+      "size": 68,
+      "sha256": "d5c62cf46e3cf4763fd953611ce5210db2ddd75fa566e3d1d878e760412eb4d3"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4"
+    },
+    {
+      "original_symbol": "_ZNK9Character20GetInteractionRadiusEv",
+      "elf_address": "0x3a374c",
+      "size": 8,
+      "sha256": "875c25765f7f1353df42ff614ebc5f00bea22c86fc754c06bd9a422bbeac89a4"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetInteractionTypeEP10GameObject",
+      "elf_address": "0x3a47e8",
+      "size": 136,
+      "sha256": "397bd786683142e311100653a24c7446227199eaaad56c4532caf32f0f4ddcd5"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad"
+    },
+    {
+      "original_symbol": "_ZNK9Character13IsInteractiveEP10GameObject",
+      "elf_address": "0x3a4870",
+      "size": 192,
+      "sha256": "98594cbfb1cf08a894782c03ba19831bd0bd1852373a9b2cfbfb342dd9fad03f"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsSummonedEv",
+      "elf_address": "0x3a30ac",
+      "size": 24,
+      "sha256": "19f7355baa1349fa90bde5e8f047f3f87c201683f3572a6906f96e4983b03599"
+    },
+    {
+      "original_symbol": "_ZN12ObjectHandlecvP9CharacterEv",
+      "elf_address": "0x33ff54",
+      "size": 56,
+      "sha256": "f71383751930720e0ba25bd80d40eb0d301b73ecbbd33969d672b0ccf09675ea"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList7GetCharEv",
+      "elf_address": "0x4a1cfc",
+      "size": 52,
+      "sha256": "b498aeb9b89e12b04a3285ffe4cf3b39d8413a903cd751d1fa05fbb7b34073c1"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    {
+      "original_symbol": "_ZNSt3mapIi14ObjectListItemSt4lessIiESaISt4pairIKiS0_EEEixIjEERS0_RKT_",
+      "elf_address": "0x33fc88",
+      "size": 312,
+      "sha256": "4daa1dcb00a3a199839166cd1ab7d4503b1499bd6fdf7e7a2e28346b13facfe0"
+    },
+    {
+      "original_symbol": "_ZNK9Character11IsCharacterEv",
+      "elf_address": "0x3a2e1c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsZonableEv",
+      "elf_address": "0x3a36e4",
+      "size": 64,
+      "sha256": "bfb46b114bdb841084033e50956c8ae23f7707973594c74902ba7f05c29883ab"
+    },
+    {
+      "original_symbol": "_ZN12ObjectHandle9GetObjectEb",
+      "elf_address": "0x33fdc0",
+      "size": 236,
+      "sha256": "f22dda22778448e6107a4b76c786d49995db280bbb148206c3e4e95a58f2a7ec"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject13MeetConditionEv",
+      "elf_address": "0x38ab60",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    }
+  ]
+}

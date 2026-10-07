@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instanceC2EPNS_6playerEPNS_20movie_definition_subEPNS_4rootEPNS_9characterEi",
+      "elf_address": "0x781074",
+      "size": 592,
+      "sha256": "99575ffa4407e9ed1fd609c658a5d7d57d6da1e4c7df3fb8a393569ddb7e35cd"
+    },
+    {
+      "original_symbol": "_ZN7gameswf13character_def28instanciate_registered_classEPNS_9characterE",
+      "elf_address": "0x75fd18",
+      "size": 664,
+      "sha256": "40dce030f2eecf98397f4aebfb0eecfde1f040803de026d4208f262b10d65b67"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance18execute_frame_tagsEib",
+      "elf_address": "0x78215c",
+      "size": 688,
+      "sha256": "cb5de8a4725465a2a42a52a830a3937be198eb468c7c863d76d0c91d7e288edb"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance10do_actionsEv",
+      "elf_address": "0x781eac",
+      "size": 688,
+      "sha256": "7c46c91c6f0b580f356447a1fc42b15ef95586f58c1751aa905f3742ae4bb8b1"
+    }
+  ]
+}

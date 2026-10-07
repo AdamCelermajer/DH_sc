@@ -1,0 +1,13 @@
+{
+  "dry_run": false,
+  "changed": [
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\renderer_native_level_c1_v25.inc",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp"
+  ],
+  "already_load_diagnostics": false,
+  "already_saved_read": false,
+  "root_CMake_required": "option(DH2_ENABLE_LOAD_DIAGNOSTICS ... OFF); target_compile_definitions(dh2_native PRIVATE DH2_ENABLE_LOAD_DIAGNOSTICS=$<BOOL:${DH2_ENABLE_LOAD_DIAGNOSTICS}>); QA builds explicitly define DH2_LOAD_DIAGNOSTICS_QA_REQUEST_V39=true",
+  "load_block_sha256": "8c8f48884e1d73477f18785fb6aaedf7b7b9ef31be0c7b71855be6e60fb5954e",
+  "saved_block_sha256": "4343f9af3f46906534b0c8f4ccaff0f2501e57550f044b885f7962e33250d6f1"
+}

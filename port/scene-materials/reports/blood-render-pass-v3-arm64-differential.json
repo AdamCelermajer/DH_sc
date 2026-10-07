@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "comparisons": 2002,
+  "scope": "Whole original rich76-to-renderpass32 conversion5d7a10 versus compiled native ARM64 kernel; all32 written bytes exact, both actual bloodpassrecords included. GL API calls/driver shadow caching/GPU and global scissor/color-mask are separate owners.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "b5fd3e9b44975ad997858c02555842d673f4237d230019d8000d2e9da44b1a06",
+  "source_sha256": "c485048ba315ee65fac71169ca8de9f573f9d608e7cefe149c03d65998921b45",
+  "reference_sha256": "4ba6b43a15c0d6faf08a10361a851bb3e3b35e9194c28dcf152afc44b90a10b7"
+}

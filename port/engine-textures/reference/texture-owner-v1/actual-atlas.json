@@ -1,0 +1,6 @@
+{
+  "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
+  "size": 131132,
+  "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b",
+  "purpose": "actual-cache parser/decode and source-owned texture lifecycle fixture; not GPU execution"
+}

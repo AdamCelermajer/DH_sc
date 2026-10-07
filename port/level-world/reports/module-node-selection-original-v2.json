@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "cases": 18,
+  "scope": "whole original database.getNode on actual SWAMP BRES; GetVisualScene0 and strcmp are explicit leaf services; not whole Module InitPost",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "asset_sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d",
+  "results": [
+    {
+      "name": "_module_obj_4of4_brdwalk_sw_00-node",
+      "node_offset": 886732
+    },
+    {
+      "name": "_module_obj_4of4_brdwalk_sw_00-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_obj_3of4_brdwalk_sw_00-node",
+      "node_offset": 886652
+    },
+    {
+      "name": "_module_obj_3of4_brdwalk_sw_00-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_obj_1of4_brdwalk_nse_00-node",
+      "node_offset": 886492
+    },
+    {
+      "name": "_module_obj_1of4_brdwalk_nse_00-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_corner_ruin_ws_00-node",
+      "node_offset": 886172
+    },
+    {
+      "name": "_module_corner_ruin_ws_00-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_merchantcamp_ruins_swe_00-node",
+      "node_offset": 886412
+    },
+    {
+      "name": "_module_merchantcamp_ruins_swe_00-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_corner_brdwalk_se_00-node",
+      "node_offset": 885852
+    },
+    {
+      "name": "_module_corner_brdwalk_se_00-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_deadend_brdwalk_w_00-node",
+      "node_offset": 886252
+    },
+    {
+      "name": "_module_deadend_brdwalk_w_00-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_bossroom_ruins_ns_-node",
+      "node_offset": 885692
+    },
+    {
+      "name": "_module_bossroom_ruins_ns_-NODE",
+      "node_offset": null
+    },
+    {
+      "name": "_module_obj_2of4_brdwalk_sw_00-node",
+      "node_offset": 886572
+    },
+    {
+      "name": "_module_obj_2of4_brdwalk_sw_00-NODE",
+      "node_offset": null
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "scope": "Compact actual45 source-cache CPU resource constructor/material/transform/multi-emitter/force domain coverage, 19 source frames each accepted resource; fixture camera/GLES driver8/outer transform. PASS runner means census completed, not all resource domains accepted. No GPU/live actor acceptance.",
+  "linked_fixture_apk_sha256": "6b0b5408e7bec23ef7c3a570b7b1a1e328cae302733159eb3de986872911d69e",
+  "sources": [
+    {
+      "path": "port/level-world/character_authored_resource_v5.hpp",
+      "sha256": "b1b4c8d70aa153d39898896c66fbe4c3bebd765bb3cc84157fcd889141071886"
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v5.cpp",
+      "sha256": "5bdf6a1bc7e1c98bbd5b7d601b917272872df3af6e2e1174ca54cdc50bd37403"
+    },
+    {
+      "path": "port/level-world/authored_fx_transform_v5.hpp",
+      "sha256": "a5297ef86bf05eed2ce7f246beda7f676cf116606a97049cbde9ad50b1e4664b"
+    },
+    {
+      "path": "port/level-world/authored_fx_transform_v5.cpp",
+      "sha256": "7051df9421c9d931c32a63d5def9d94fdd4543d38ce08cf5e172a447e387d933"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v5.hpp",
+      "sha256": "31e9c3d9ea42eeea4e73177f86c004ab886a8a1050560e5f77cc1f59ab4ddb64"
+    },
+    {
+      "path": "port/level-world/authored_fx_mesh_graph_v5.cpp",
+      "sha256": "07dae20bf62018262781d52d24b0522c009c3d9f9eb6364cda0f7ce5278dd105"
+    },
+    {
+      "path": "port/level-world/authored_fx_null_tracks_v5.hpp",
+      "sha256": "097055dd5a99f6b62d0189d1f60df32081d2489522b4eacab879163e750c74b1"
+    },
+    {
+      "path": "port/level-world/tests/character_authored_resource_domains_v5.cpp",
+      "sha256": "266f22b28ea4f556965d52a31dde6cff73650da7df65192b7ebd908caa46c872"
+    }
+  ],
+  "supported": 33,
+  "required": 12
+}

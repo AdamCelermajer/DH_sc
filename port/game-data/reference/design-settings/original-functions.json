@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays19DesignSettingsTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b7638",
+      "size": 408,
+      "sha256": "64ac73a61f26cb72ffe67c7866389632e81acc7945568fcf4210508ea83d4266"
+    },
+    {
+      "original_symbol": "_ZN7Structs14DesignSettings4readEP11IStreamBase",
+      "elf_address": "0x4ee0d0",
+      "size": 3980,
+      "sha256": "1784fc9a752371b42282e5a18bafb97eae0b4573d23e53398aa1b3ea185a7528"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIfEEvP11IStreamBasePT_",
+      "elf_address": "0x4db94c",
+      "size": 176,
+      "sha256": "3d2ddb81b8cf07eb6da9482254ecfc8dc6fc3752731d50f5595977fbfdc42243"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19DesignSettingsTable8finalizeEv",
+      "elf_address": "0x4a90b8",
+      "size": 228,
+      "sha256": "45de3b9ed0941245063ea2c888606ecef47d13fb16e558771cf8642346db52e0"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19DesignSettingsTable4readEP11IStreamBase",
+      "elf_address": "0x4b3cd0",
+      "size": 328,
+      "sha256": "32994b6e487ece38e63b7634db6ab07fc731ccdb60407fcac4da95b89dfd3043"
+    },
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_14DesignSettingsEEEiPKc",
+      "elf_address": "0x4aedfc",
+      "size": 92,
+      "sha256": "6aaa3ee53086308afd1bbe498d3a2948ae757e70887f729c36ed8321aa11f4e3"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19DesignSettingsTable13finalizeNamesEv",
+      "elf_address": "0x4a901c",
+      "size": 156,
+      "sha256": "0b91358cc2afb9a6e1cdf422b0029bf22f28f3e8dc69b2947b799fbf240f6b26"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_19DesignSettingsTableEEEiPKc",
+      "elf_address": "0x4aed88",
+      "size": 116,
+      "sha256": "7156f6b3ec4f31b48f3b251716876f01b54e42da7a7a656e17042a283026dd47"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "elf_address": "0x313a90",
+      "size": 184,
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    }
+  ]
+}

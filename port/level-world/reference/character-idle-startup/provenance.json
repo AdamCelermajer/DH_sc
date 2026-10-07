@@ -1,0 +1,109 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe_cases": 50,
+  "original_probe_scope": "Complete outer instructions, explicit deeper allocation/storage/services; no new native constructor parity.",
+  "native_cache_projection": {
+    "rows": [
+      {
+        "name": "CryptSlime",
+        "row": 33,
+        "resolved_AI": 40,
+        "resolved_property30": 0,
+        "property30_name": "RangeMinDistance",
+        "AI_self_fx": -1,
+        "AI_delayed_load": 1,
+        "resolved_FXTable7": 1,
+        "property7_name": "Effects"
+      },
+      {
+        "name": "CryptSlime_RE",
+        "row": 34,
+        "resolved_AI": 40,
+        "resolved_property30": 0,
+        "property30_name": "RangeMinDistance",
+        "AI_self_fx": -1,
+        "AI_delayed_load": 1,
+        "resolved_FXTable7": 1,
+        "property7_name": "Effects"
+      },
+      {
+        "name": "Crypt_Ghost",
+        "row": 35,
+        "resolved_AI": 68,
+        "resolved_property30": 0,
+        "property30_name": "RangeMinDistance",
+        "AI_self_fx": -1,
+        "AI_delayed_load": 1,
+        "resolved_FXTable7": 1,
+        "property7_name": "Effects"
+      },
+      {
+        "name": "Crypt_Skeleton",
+        "row": 38,
+        "resolved_AI": 40,
+        "resolved_property30": 0,
+        "property30_name": "RangeMinDistance",
+        "AI_self_fx": -1,
+        "AI_delayed_load": 1,
+        "resolved_FXTable7": 1,
+        "property7_name": "Effects"
+      }
+    ]
+  },
+  "native_cache_projection_dependency": {
+    "data_sha256_at_execution": "ac2e2f7c4b568db0d4bfee2ae6101aa38fef376fd6f8105739b2db76b65b056d",
+    "historical_dependency": true,
+    "scope": "Actual source-proved cache/property kernels from prior stable DSO; not a fresh build of current EffectsTables."
+  },
+  "input_sha256": {
+    ".local-inputs/character-idle-startup/character-update/original-functions.json": "8b63ed59473883e73ebe5ac63e759bbae30d1bc06b3aada4f9e61fd3a9e22234",
+    ".local-inputs/character-idle-startup/character-update/reference/original-functions.asm": "0d3a6797f4e1aba9ed7dbddc431deb2efc7b023ffd29d64e83258bd0b51213ab",
+    ".local-inputs/character-idle-startup/fx/original-functions.json": "4568d97bb116f06fe9651060629792c394bbea225a14508a324ca1c41b6fc0ab",
+    ".local-inputs/character-idle-startup/fx/reference/original-functions.asm": "11187fb0f1416fc1af4feb8d6bec110442633b4e866a7cd66ea873fd3c882031",
+    ".local-inputs/character-idle-startup/fx-data": "4d9d5c393f5cfb01aadc628e56ab8189f251db0cc9288a2b0adced8e9732ac7c",
+    ".local-inputs/character-idle-startup/fx-data.cpp": "224c2fe7d645927ecbbf00e0d8bf58f0315ac970ad110527bf12084be60e6b32",
+    ".local-inputs/character-idle-startup/fx-data.json": "bb9ac7d397ca70a08b91402a51f18ed98c47ebe2d97b88ef41cc36a99ff81e80",
+    ".local-inputs/character-idle-startup/fx-getters/original-functions.json": "f406068ee45da49571fc8206ac11dea487cb8a2522ae99a3279a054d203e6623",
+    ".local-inputs/character-idle-startup/fx-getters/reference/original-functions.asm": "d3c5d176e416ab9904a3bafcc7a5b5a8f0413e1b225978a8a53c723eff20fbaa",
+    ".local-inputs/character-idle-startup/fx-services/original-functions.json": "ca37f27bc059f2989bf8eff51504a19427d83358aa74c83598dd508c775a83e0",
+    ".local-inputs/character-idle-startup/fx-services/reference/original-functions.asm": "935ab5c7fb2a5c42e18fb7cdef9cef88818bac25194fa7bb68c79e557952899f",
+    ".local-inputs/character-idle-startup/init-fx-oracle.build.json": "c40328169f4375620ae1d0b446bf6e52c27ed4c5cdd4b081021b420d2df6e485",
+    ".local-inputs/character-idle-startup/probe.py": "f96252f6ed618a478ce3dfa55ec07c11ae0df03c584b8bc66588d09f87fbc7df",
+    ".local-inputs/character-idle-startup/producers/original-functions.json": "c7e858b01b7390e8ff841d5eb7e029573341386c0ed6d0bf14fbc0b766a0c291",
+    ".local-inputs/character-idle-startup/producers/reference/original-functions.asm": "a71e5bba007cc228bcd76c226609673867b313c316967ec0d6b570ee1768db68",
+    ".local-inputs/character-idle-startup/revive/original-functions.json": "a201fdf7dfdbb24c28bd136a27020eaf8a395ae00654992414ed5305dd8f9412",
+    ".local-inputs/character-idle-startup/revive/reference/original-functions.asm": "a8a1093a6bfcd071da3f4ac4e9b435cfb5da49c542289b912d784e791508afd6",
+    ".local-inputs/character-idle-startup/zones/original-functions.json": "f4461e8b5746e364b130c158a881eed52f36bf986ff5c5d5af7e285b837083af",
+    ".local-inputs/character-idle-startup/zones/reference/original-functions.asm": "8cbc74a614307dfd2a55d73c20afcd9a715afc10a91961e1996c8dbd06c54750",
+    "port/android-native/app/src/main/assets/data/ai_factions_pyarray.bin": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d",
+    "port/android-native/app/src/main/assets/data/ai_factions_pyarraynames.bin": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+    "port/android-native/app/src/main/assets/data/ai_factions_pystructnames.bin": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15",
+    "port/android-native/app/src/main/assets/data/ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+    "port/android-native/app/src/main/assets/data/ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+    "port/android-native/app/src/main/assets/data/ai_pystructnames.bin": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+    "port/android-native/app/src/main/assets/data/character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "port/android-native/app/src/main/assets/data/character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "port/android-native/app/src/main/assets/data/character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "port/android-native/app/src/main/assets/data/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "port/android-native/app/src/main/assets/data/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "port/android-native/app/src/main/assets/data/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "port/game-data/reference/effects-tables/original-reader-projection.json": "4e4074003625cd7f9e2c99d0bb8533ee6d5e61a16790fe373964322a4720b570",
+    "port/level-world/reference/actor-initialization/crypt01-actor-initialization.json": "a3ee208f5464d8748ea7087eb865fd96e011f0b080ab8bc1c2b557fa0acee215",
+    "port/level-world/reference/character-idle-startup/NOTES.md": "6a6ca150af050b30e69b4d691a7752ce207c904ce67d9ab1889fd4942c7747da",
+    "port/level-world/reference/character-idle-startup/original-functions.json": "d57b1bfc66e7d8db7678cd90cf85d21ccad95f9534c2c028ba02723792f0f80c",
+    "port/level-world/reference/character-idle-startup/reference/original-functions.asm": "be275b93203c0640a9690233d89732d2441b381f40e0a7de46e0b247dc8a7542",
+    "port/level-world/reference/character-idle-startup/startup-probes.json": "07330dcae4a0423c52cc6a6302d9fe5b3c029c9821a20b53cb921741023b24e6",
+    "port/level-world/reference/character-init-fx/NOTES.md": "5db7fd4288acef81ac8b7715953e111e759f1b541046ad17cbccc88a3bf0ad3d",
+    "port/level-world/reference/character-npc-body/source-model-projections.json": "698a46b5f1ac0f6cd6062535fe64ea1f7909aac88880b6b95934d004dce4a16f",
+    "port/level-world/reference/character-pre-spawn/initialization-order-probe.json": "556c9aea40ac95bc9609ebf1e1b73adce3580444dadab5900154fd3b85e2e426"
+  },
+  "new_FX_proofs": {
+    "arm64": "17fc378356bfa3e8e89cbcd4bb5122bfd87075d5bc0dc33b1c5446644cc520a0",
+    "host": "26636d02e418a256ce004a14ed0074c2b6793c1e2334740885dc311c280d284b"
+  },
+  "readiness": "Owned Idle/body/animation startup before full Character frame is source valid. Actual delayed-load publication occurs in the first eligible Character::Update; do not require early published AIS or invent in-zone/heading/body unpin.",
+  "full_character_update": false,
+  "full_AI": false,
+  "live_or_packaged_claim": false
+}

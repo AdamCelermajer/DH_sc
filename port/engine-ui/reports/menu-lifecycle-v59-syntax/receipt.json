@@ -1,0 +1,40 @@
+{
+  "scope": "Native syntax only; no link/execution/APK/emulator/WSL",
+  "rows": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "cc5a03e8cad4399d3fbc93a4a6d24682171ca199674182d2fdb6a60c6e8f0057",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 254951424,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 258192,
+        "create_time_filetime": 134357898468476527
+      }
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "cc5a03e8cad4399d3fbc93a4a6d24682171ca199674182d2fdb6a60c6e8f0057",
+      "exit_code": 0,
+      "job": {
+        "flags": 8968,
+        "job_memory_limit": 536870912,
+        "process_memory_limit": 536870912,
+        "peak_job_bytes": 254107648,
+        "active_process_limit": 4
+      },
+      "identity": {
+        "pid": 263084,
+        "create_time_filetime": 134357898498280547
+      }
+    }
+  ],
+  "status": "PASS"
+}

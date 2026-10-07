@@ -1,0 +1,138 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "relation": -1,
+      "kind": 0,
+      "null_object": false,
+      "current_target": false,
+      "result": 0,
+      "calls": [
+        "handle",
+        "object",
+        "targetFaction",
+        "targetFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "targetFaction"
+      ]
+    },
+    {
+      "relation": 0,
+      "kind": 0,
+      "null_object": false,
+      "current_target": false,
+      "result": 1,
+      "calls": [
+        "handle",
+        "object",
+        "targetFaction",
+        "targetFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "targetFaction"
+      ]
+    },
+    {
+      "relation": 1,
+      "kind": 0,
+      "null_object": false,
+      "current_target": false,
+      "result": 0,
+      "calls": [
+        "handle",
+        "object",
+        "targetFaction",
+        "targetFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "targetFaction"
+      ]
+    },
+    {
+      "relation": 2,
+      "kind": 0,
+      "null_object": false,
+      "current_target": false,
+      "result": 0,
+      "calls": [
+        "handle",
+        "object",
+        "targetFaction",
+        "targetFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "targetFaction"
+      ]
+    },
+    {
+      "relation": null,
+      "kind": 0,
+      "null_object": false,
+      "current_target": false,
+      "result": 1,
+      "calls": [
+        "handle",
+        "object",
+        "targetFaction",
+        "targetFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "targetFaction"
+      ]
+    },
+    {
+      "relation": 0,
+      "kind": 7,
+      "null_object": false,
+      "current_target": false,
+      "result": 1,
+      "calls": [
+        "handle",
+        "object"
+      ]
+    },
+    {
+      "relation": 0,
+      "kind": 0,
+      "null_object": true,
+      "current_target": false,
+      "result": 1,
+      "calls": [
+        "handle",
+        "object"
+      ]
+    },
+    {
+      "relation": 0,
+      "kind": 0,
+      "null_object": false,
+      "current_target": true,
+      "result": 1,
+      "calls": [
+        "handle",
+        "object",
+        "targetFaction",
+        "targetFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "ownerFaction",
+        "targetFaction"
+      ]
+    }
+  ],
+  "actual_executed": [
+    "AI_IsNeutral3d5a98"
+  ],
+  "fixture_services": [
+    "GetHandle",
+    "GetObject(false)",
+    "GetFaction"
+  ],
+  "assertion_branches_verified": false
+}

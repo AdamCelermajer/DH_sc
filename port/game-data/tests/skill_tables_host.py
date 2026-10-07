@@ -1,0 +1,12 @@
+"""Owned complete Skill tables/names/schema/source gold with isolated sanitizers."""
+import hashlib,json,subprocess
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1];REPO=ROOT.parents[1]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def linux(p):return '/mnt/'+p.drive[0].lower()+p.as_posix()[2:]
+def main():
+ scratch=REPO/'.local-inputs/skill-tables';sources=[ROOT/'skill_tables.cpp',ROOT/'skill_tables.hpp',ROOT/'tests/skill_tables.cpp',Path(__file__),REPO/'port/level-world/character_cancel_sneaking.cpp',REPO/'port/level-world/character_cancel_sneaking.hpp',REPO/'port/level-world/character_property_bindings.hpp'];inputs=[ROOT/'reference/skill-tables/skill-tables-fixtures.bin',scratch/'skills_pyarray.bin',scratch/'skills_pyarraynames.bin',scratch/'skills_pystructnames.bin'];proof=ROOT/'reports/skill-tables-arm64-differential.json';paths=sources+inputs+[proof,ROOT/'reference/skill-tables/original-functions.json',ROOT/'reference/skill-tables/reference/original-functions.asm'];before={p.relative_to(REPO).as_posix():sha(p) for p in paths}
+ exe=scratch/'skill_tables_host';command=['wsl.exe','--','g++','-std=c++17','-O1','-g','-fsanitize=address,undefined','-fno-omit-frame-pointer','-Wall','-Wextra','-Werror','-Wno-misleading-indentation',linux(sources[0]),linux(sources[2]),linux(sources[4]),'-o',linux(exe)];r=subprocess.run(command,text=True,capture_output=True,timeout=60);assert not r.returncode,(r.stdout,r.stderr)
+ run=['wsl.exe','--','env','ASAN_OPTIONS=detect_leaks=1:halt_on_error=1','UBSAN_OPTIONS=halt_on_error=1',linux(exe),*map(linux,inputs)];r=subprocess.run(run,text=True,capture_output=True,timeout=60);assert not r.returncode and not r.stderr,(r.stdout,r.stderr);audit=json.loads(r.stdout);assert audit['validation']=='PASS' and audit['record_comparisons']==383 and audit['lookup_comparisons']==195
+ assert before=={p.relative_to(REPO).as_posix():sha(p) for p in paths};report=dict(validation='PASS',host_audit=audit,source_and_input_sha256=before,executable_sha256=sha(exe),compiler_command=command,run_command=run,sanitizer_findings=0,sanitizers=['AddressSanitizer','UndefinedBehaviorSanitizer','LeakSanitizer'],scope=__doc__,central_DSO_rebuilt=False,full_skill_VM=False,whole_Application_registration=False);(ROOT/'reports/skill-tables-host-audit.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(audit))
+if __name__=='__main__':main()

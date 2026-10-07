@@ -5,7 +5,7 @@ namespace {
 bool overlap(const void* a,std::size_t an,const void* b,std::size_t bn){auto x=reinterpret_cast<std::uintptr_t>(a),y=reinterpret_cast<std::uintptr_t>(b);return a&&b&&(x<=y?y-x<an:x-y<bn);}
 float squared(const float* p){float a=p[0]*p[0],b=p[1]*p[1];return (a+b)+p[2]*p[2];}
 }
-extern "C" int dh2_subobjects_update(dh2::subobjects::Result* out,const dh2::subobjects::Request* r){
+extern "C" int dh2_subobjects_update_source_v69(dh2::subobjects::Result* out,const dh2::subobjects::Request* r,const dh2::subobjects::AuxiliaryBranchServicesV69* source){
  using namespace dh2::subobjects;
  if(!out||!r||!r->state||!r->policy||!r->services||!r->services->invoke||(r->body&&!r->transform)||r->policy->reserved||(r->body&&r->body->flags>65535))return 1;
  const void* ptr[]={out,r,r->state,r->body,r->transform,r->policy,r->services};const std::size_t len[]={8,40,128,48,16,52,16};
@@ -54,15 +54,18 @@ extern "C" int dh2_subobjects_update(dh2::subobjects::Result* out,const dh2::sub
  if(arrived)for(int i=0;i<3;++i)s.destination[i]=s.position[i];
  for(int i=0;i<6;++i)s.absolute_bounds[i]=s.local_bounds[i]+s.position[i%3];
  if(p.has_auxiliary){
-  call(auxiliary_update);
-  if(p.auxiliary_type==2){
+  const auto delivery=call(auxiliary_update);
+  AuxiliaryBranchV69 branch{p.auxiliary_type,p.auxiliary_mode,s.auxiliary_position};
+  if(source&&(delivery==UINT32_MAX||!source->borrow||source->borrow(source->context,&branch)||(branch.type==2&&!branch.position_c)))return 2;
+  if(branch.type==2){
    float camera[3]={};
-   if(p.auxiliary_mode==3){call(camera_get,camera);float free=1.f;call(camera_set_free,&free);}
-   else if(p.auxiliary_mode==1||p.auxiliary_mode==4){
+   if(branch.mode==3){call(camera_get,camera);float free=1.f;call(camera_set_free,&free);}
+   else if(branch.mode==1||branch.mode==4){
     call(camera_get,camera);
-    if(camera[0]!=0.f){call(camera_position,camera);float delta[]={s.auxiliary_position[0]-camera[0],s.auxiliary_position[1]-camera[1],s.auxiliary_position[2]-camera[2]};if(squared(delta)<=3.f){float free=0.f;call(camera_set_free,&free);}}
+    if(camera[0]!=0.f){call(camera_position,camera);float delta[]={branch.position_c[0]-camera[0],branch.position_c[1]-camera[1],branch.position_c[2]-camera[2]};if(squared(delta)<=3.f){float free=0.f;call(camera_set_free,&free);}}
    }
   }
  }
  *out={std::uint32_t(arrived),std::uint32_t(accepted)};return 0;
 }
+extern "C" int dh2_subobjects_update(dh2::subobjects::Result* out,const dh2::subobjects::Request* request){return dh2_subobjects_update_source_v69(out,request,nullptr);}

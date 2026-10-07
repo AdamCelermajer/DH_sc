@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "scope": "Isolated EGL pbuffer actual GLES2 pixel fixture, current production SwfGpu/cache + byte/hash verified original shaders, explicit disk asset transport; no app install/start/touch or source timeline modification",
+  "stdout": "PASS isolated actual GLES2/source shader pixels: empty100, alpha-zero retained, cached repeated geometry, mask, nested failure, scene pane; checks=276\n",
+  "stderr": "",
+  "exit_code": 0,
+  "command": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-Ddh2_native_EXPORTS",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-DANDROID",
+    "-D_FORTIFY_SOURCE=2",
+    "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-O2",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\tests\\swf_gpu_lazy_v36.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\swf_gpu.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\authored_shader_program.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_vertex_cache_v36.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_grid_snap_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\swf_texture.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\shader_sources.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\asset-payloads\\sha256.cpp",
+    "-lEGL",
+    "-lGLESv2",
+    "-llog",
+    "-landroid",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\reports\\swf-gpu-v36\\swf-gpu-v36.bin"
+  ],
+  "sources": [
+    {
+      "path": "port/engine-ui/tests/swf_gpu_lazy_v36.cpp",
+      "sha256": "8549970916a43c0ccab4275212fb092c3be495163c9d10cd0146fb566911e149"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "sha256": "eb68041367d717e408e5878d5439342c6e9988344f64ed0d63fb6a6ebd1513a2"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/authored_shader_program.cpp",
+      "sha256": "2f4ed55901764313704d93b11d3730698adf26a16f5cd60214dd695d2630e92e"
+    },
+    {
+      "path": "port/engine-ui/swf_vertex_cache_v36.cpp",
+      "sha256": "23dbc3a073659037c1a0e25486c46db3b683d31bc4bd42e13cec2203a78a97cc"
+    },
+    {
+      "path": "port/engine-ui/swf_grid_snap_v1.cpp",
+      "sha256": "cd53012b3c1d88c7951f708ecf19802b3ddb2058b63c411a31e57376a1adfb00"
+    },
+    {
+      "path": "port/scene-materials/swf_texture.cpp",
+      "sha256": "5e5fb0a1c31c7a79d212db678a4df71be84f40bdb1e3ecde192a009599801b85"
+    },
+    {
+      "path": "port/scene-materials/shader_sources.cpp",
+      "sha256": "f05874e30bba3a3b1c8cec643e5fda6bcba4f31e9b935eae8e94c9872b41cde1"
+    },
+    {
+      "path": "port/asset-payloads/sha256.cpp",
+      "sha256": "6c1a4f0161c2316e817e2c277480ebf159b700b036f074d39ccaec0cb2c70867"
+    }
+  ],
+  "shader_pack_sha256": "365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0",
+  "binary_sha256": "714a766a410f6be4d3d71f17815a871eaf71bc1aeff8239ee5c076b2c1092c8b"
+}

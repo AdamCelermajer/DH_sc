@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "ecbb5bb917b4baed48c77b9362491293d962261d20f79ab98d4289a3203ef725",
+  "sources": [
+    {
+      "path": "port\\engine-textures\\tests\\texture_unbind_v1_test.cpp",
+      "sha256": "8b218f4f5180e649309c5ba4d202e0a5dca41e23535822821d198c214f4dcd3d"
+    },
+    {
+      "path": "port\\engine-textures\\texture_unbind_v1.cpp",
+      "sha256": "1c0cc3e01ea24e9f68718dca2cdbf95c5fd87dce94c901ca6cf3b271abbae5d9"
+    },
+    {
+      "path": "port\\engine-textures\\texture_binding_owner_v1.cpp",
+      "sha256": "6a9dc09420f9675048d04909ebae9545ed2a7e7abb2e032d22a503523dd61419"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\tests\\texture_unbind_v1_test.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\texture_unbind_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\texture_binding_owner_v1.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\texture-unbind-v1\\texture-unbind-v1.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "PASS 32 native unbind checks\n",
+  "stderr": ""
+}

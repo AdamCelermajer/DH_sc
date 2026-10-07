@@ -1,0 +1,1062 @@
+{
+  "time": "2026-10-06T19:41:02.494533+00:00",
+  "scope": "Read-only host census, no command lines or process mutation",
+  "system": {
+    "commit_total_bytes": 24957456384,
+    "commit_limit_bytes": 100753940480,
+    "physical_available_bytes": 20836896768,
+    "physical_total_bytes": 34181947392,
+    "page_size_bytes": 4096,
+    "handles": 161686,
+    "processes": 385
+  },
+  "census_count": 385,
+  "image_counts": [
+    [
+      "svchost.exe",
+      94
+    ],
+    [
+      "conhost.exe",
+      50
+    ],
+    [
+      "node.exe",
+      35
+    ],
+    [
+      "node_repl.exe",
+      16
+    ],
+    [
+      "cmd.exe",
+      14
+    ],
+    [
+      "chatgpt.exe",
+      13
+    ],
+    [
+      "battle.net.exe",
+      10
+    ],
+    [
+      "runtimebroker.exe",
+      7
+    ],
+    [
+      "slack.exe",
+      7
+    ],
+    [
+      "msedgewebview2.exe",
+      6
+    ],
+    [
+      "nvidia overlay.exe",
+      5
+    ],
+    [
+      "beeper.exe",
+      5
+    ],
+    [
+      "twinkle tray.exe",
+      5
+    ],
+    [
+      "python.exe",
+      5
+    ],
+    [
+      "nvcontainer.exe",
+      4
+    ],
+    [
+      "codex.exe",
+      3
+    ],
+    [
+      "sensece.exe",
+      3
+    ],
+    [
+      "csrss.exe",
+      2
+    ],
+    [
+      "fontdrvhost.exe",
+      2
+    ],
+    [
+      "wudfhost.exe",
+      2
+    ]
+  ],
+  "top_private": [
+    {
+      "pid": 49300,
+      "parent_pid": 49656,
+      "image": "ChatGPT.exe",
+      "create_time_filetime": 134357855239810341,
+      "private_bytes": 1116119040,
+      "working_set_bytes": 1063976960,
+      "handles": 604,
+      "alive": true
+    },
+    {
+      "pid": 50776,
+      "parent_pid": 49656,
+      "image": "codex.exe",
+      "create_time_filetime": 134357855240219933,
+      "private_bytes": 903565312,
+      "working_set_bytes": 907120640,
+      "handles": 1234,
+      "alive": true
+    },
+    {
+      "pid": 26980,
+      "parent_pid": 13060,
+      "image": "python.exe",
+      "create_time_filetime": 134357821797744967,
+      "private_bytes": 887422976,
+      "working_set_bytes": 15175680,
+      "handles": 246,
+      "alive": true
+    },
+    {
+      "pid": 26724,
+      "parent_pid": 25524,
+      "image": "opencode.exe",
+      "create_time_filetime": 134357821624416155,
+      "private_bytes": 636444672,
+      "working_set_bytes": 61722624,
+      "handles": 259,
+      "alive": true
+    },
+    {
+      "pid": 17784,
+      "parent_pid": 13264,
+      "image": "Beeper.exe",
+      "create_time_filetime": 134357819990375150,
+      "private_bytes": 407216128,
+      "working_set_bytes": 164605952,
+      "handles": 588,
+      "alive": true
+    },
+    {
+      "pid": 13264,
+      "parent_pid": 13000,
+      "image": "Beeper.exe",
+      "create_time_filetime": 134357819975075934,
+      "private_bytes": 390406144,
+      "working_set_bytes": 197521408,
+      "handles": 1646,
+      "alive": true
+    },
+    {
+      "pid": 49656,
+      "parent_pid": 13000,
+      "image": "ChatGPT.exe",
+      "create_time_filetime": 134357855208063060,
+      "private_bytes": 388706304,
+      "working_set_bytes": 359710720,
+      "handles": 2052,
+      "alive": true
+    },
+    {
+      "pid": 49820,
+      "parent_pid": 49656,
+      "image": "ChatGPT.exe",
+      "create_time_filetime": 134357855212786363,
+      "private_bytes": 388288512,
+      "working_set_bytes": 183230464,
+      "handles": 913,
+      "alive": true
+    },
+    {
+      "pid": 13000,
+      "parent_pid": 12948,
+      "image": "explorer.exe",
+      "create_time_filetime": 134357819649578890,
+      "private_bytes": 370151424,
+      "working_set_bytes": 181854208,
+      "handles": 4995,
+      "alive": true
+    },
+    {
+      "pid": 17492,
+      "parent_pid": 18668,
+      "image": "Slack.exe",
+      "create_time_filetime": 134357821403662501,
+      "private_bytes": 358445056,
+      "working_set_bytes": 99115008,
+      "handles": 403,
+      "alive": true
+    },
+    {
+      "pid": 16688,
+      "parent_pid": 15136,
+      "image": "NVIDIA Overlay.exe",
+      "create_time_filetime": 134357819672874019,
+      "private_bytes": 277594112,
+      "working_set_bytes": 46227456,
+      "handles": 770,
+      "alive": true
+    },
+    {
+      "pid": 16472,
+      "parent_pid": 13264,
+      "image": "Beeper.exe",
+      "create_time_filetime": 134357819990016176,
+      "private_bytes": 273293312,
+      "working_set_bytes": 59482112,
+      "handles": 838,
+      "alive": true
+    },
+    {
+      "pid": 299876,
+      "parent_pid": 300992,
+      "image": "parsecd.exe",
+      "create_time_filetime": 134357844669257594,
+      "private_bytes": 269381632,
+      "working_set_bytes": 67465216,
+      "handles": 785,
+      "alive": true
+    },
+    {
+      "pid": 63800,
+      "parent_pid": 49656,
+      "image": "ChatGPT.exe",
+      "create_time_filetime": 134357855297072756,
+      "private_bytes": 250015744,
+      "working_set_bytes": 243658752,
+      "handles": 392,
+      "alive": true
+    },
+    {
+      "pid": 80592,
+      "parent_pid": 49656,
+      "image": "ChatGPT.exe",
+      "create_time_filetime": 134357855362208655,
+      "private_bytes": 225009664,
+      "working_set_bytes": 156606464,
+      "handles": 461,
+      "alive": true
+    },
+    {
+      "pid": 15136,
+      "parent_pid": 12188,
+      "image": "NVIDIA Overlay.exe",
+      "create_time_filetime": 134357819663163590,
+      "private_bytes": 190566400,
+      "working_set_bytes": 67485696,
+      "handles": 1823,
+      "alive": true
+    },
+    {
+      "pid": 137876,
+      "parent_pid": 138992,
+      "image": "Taskmgr.exe",
+      "create_time_filetime": 134357856088144431,
+      "private_bytes": 167575552,
+      "working_set_bytes": 192180224,
+      "handles": 1225,
+      "alive": true
+    },
+    {
+      "pid": 146048,
+      "parent_pid": 144872,
+      "image": "Battle.net.exe",
+      "create_time_filetime": 134357856623206953,
+      "private_bytes": 165445632,
+      "working_set_bytes": 94683136,
+      "handles": 899,
+      "alive": true
+    },
+    {
+      "pid": 11736,
+      "parent_pid": 18668,
+      "image": "Slack.exe",
+      "create_time_filetime": 134357821398475320,
+      "private_bytes": 161447936,
+      "working_set_bytes": 24506368,
+      "handles": 718,
+      "alive": true
+    },
+    {
+      "pid": 8688,
+      "parent_pid": 1688,
+      "image": "TextInputHost.exe",
+      "create_time_filetime": 134357819758905715,
+      "private_bytes": 139460608,
+      "working_set_bytes": 32092160,
+      "handles": 1865,
+      "alive": true
+    }
+  ],
+  "heavy_candidates": [
+    {
+      "pid": 5536,
+      "parent_pid": 1900,
+      "image": "wslservice.exe"
+    },
+    {
+      "pid": 11204,
+      "parent_pid": 7952,
+      "image": "vmmemCmZygote"
+    }
+  ],
+  "unavailable": [
+    {
+      "pid": 4,
+      "image": "System",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 380,
+      "image": "Secure System",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 424,
+      "image": "Registry",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1260,
+      "image": "smss.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1728,
+      "image": "csrss.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1816,
+      "image": "wininit.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1824,
+      "image": "csrss.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1900,
+      "image": "services.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1920,
+      "image": "LsaIso.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1928,
+      "image": "lsass.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1984,
+      "image": "winlogon.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1688,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1864,
+      "image": "fontdrvhost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 1828,
+      "image": "fontdrvhost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2104,
+      "image": "WUDFHost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2148,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2200,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2348,
+      "image": "WUDFHost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2412,
+      "image": "dwm.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2504,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2520,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2568,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2584,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2596,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2780,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2828,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2836,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2844,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 2964,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3008,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3032,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3048,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3160,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3412,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3444,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3660,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3760,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3768,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3836,
+      "image": "NVDisplay.Container.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3868,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3900,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3960,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3972,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3984,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4068,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3176,
+      "image": "Memory Compression",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3808,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4112,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4120,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4136,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4236,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4272,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4364,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4472,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4480,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4492,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4796,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4824,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 4920,
+      "image": "spoolsv.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5084,
+      "image": "NVDisplay.Container.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5128,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5176,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5356,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5364,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5380,
+      "image": "GameInputRedistService.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5388,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5396,
+      "image": "pservice.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5404,
+      "image": "GigabyteUpdateService.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5412,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5436,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5444,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5460,
+      "image": "jhi_service.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5468,
+      "image": "sshd.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5476,
+      "image": "nvcontainer.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5480,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5516,
+      "image": "WMIRegistrationService.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5528,
+      "image": "OfficeClickToRun.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5536,
+      "image": "wslservice.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5576,
+      "image": "MsMpEng.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5604,
+      "image": "MpDefenderCoreService.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5752,
+      "image": "vmcompute.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 6104,
+      "image": "tailscaled.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 6600,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 6696,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 7156,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 7428,
+      "image": "AggregatorHost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 7680,
+      "image": "tailscaled.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 9484,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 9940,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 9948,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10052,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10160,
+      "image": "gamingservicesnet.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10168,
+      "image": "gamingservices.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10176,
+      "image": "codex-windows-sandbox-service.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 8728,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3356,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 9984,
+      "image": "wlanext.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10484,
+      "image": "NgcIso.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10992,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11000,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11204,
+      "image": "vmmemCmZygote",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11248,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3124,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5324,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10628,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 10664,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11108,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 8988,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 8936,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 7512,
+      "image": "nvcontainer.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3332,
+      "image": "GameInputSvc.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 8380,
+      "image": "GameInputSvc.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5688,
+      "image": "SearchIndexer.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11300,
+      "image": "NisSrv.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 12016,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11380,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 16928,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 24144,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 29208,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 29584,
+      "image": "Microsoft.Management.Services.IntuneWindowsAgent.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 29344,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 27444,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 30252,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 30440,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 27056,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11760,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 31184,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 5792,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 6816,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 29512,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 20564,
+      "image": "dasHost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 34188,
+      "image": "SecurityHealthService.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 240288,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 131420,
+      "image": "WmiPrvSE.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 300992,
+      "image": "parsecd.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 298976,
+      "image": "MsSense.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 297708,
+      "image": "SenseCE.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 297756,
+      "image": "SenseCE.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 26932,
+      "image": "SenseDlpProcessor.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 3068,
+      "image": "SenseTVM.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 11744,
+      "image": "SenseCE.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 295820,
+      "image": "SenseNDR.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 72684,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 78892,
+      "image": "SearchProtocolHost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 90200,
+      "image": "SenseIR.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 206088,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 7632,
+      "image": "svchost.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 160340,
+      "image": "TrustedInstaller.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 159032,
+      "image": "TiWorker.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    },
+    {
+      "pid": 73544,
+      "image": "sppsvc.exe",
+      "error": "[Errno 5] Windows API failed: OpenProcess(query limited)"
+    }
+  ]
+}

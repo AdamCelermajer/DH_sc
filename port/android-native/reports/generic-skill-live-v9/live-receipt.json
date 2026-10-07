@@ -1,0 +1,103 @@
+{
+  "status": "PASS_ACTUAL_AUTHORED_EVENT_SAME_TARGET_HP_RENDER_NO_FRAME_FAILURE",
+  "scope": "Released emulator5554 route and one actual Bash press; acceptance requires authored do_skill + same-target HP mutation + visible authored GPU effect, not PreSearch alone.",
+  "serial": "emulator-5554",
+  "pid": "14070",
+  "final_pid": "14070",
+  "installed_apk_sha256": "55abdfddedaf1bea9314af85ba1654e8602f7a6fcc47e662dc699f3716287b4d",
+  "local_apk_sha256": "55abdfddedaf1bea9314af85ba1654e8602f7a6fcc47e662dc699f3716287b4d",
+  "route": [
+    {
+      "swipe": [
+        640,
+        835,
+        565,
+        910,
+        7500
+      ],
+      "errors": []
+    },
+    {
+      "swipe": [
+        640,
+        835,
+        715,
+        910,
+        3500
+      ],
+      "errors": []
+    },
+    {
+      "swipe": [
+        640,
+        835,
+        715,
+        760,
+        1000
+      ],
+      "errors": []
+    }
+  ],
+  "activation": [
+    "I/DH2Native(14070): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 4672 | same retained World/Gear/SkillV6"
+  ],
+  "authored_do_skill": [
+    "I/DH2Native(14070): Source skill authored delivery | clip 1234 | text do_skill | lag 81 | source FSM 6"
+  ],
+  "effect_draw": [
+    "I/DH2Native(14070): Source effect live draw | node 000076dbc504f8d0 | material Standard_9 | vertices 4 | indices 6 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source effect live draw | node 000076dbc504e170 | material asde | vertices 4 | indices 6 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source effect live draw | node 000076dbc504deb0 | material swoosh_MH | vertices 48 | indices 132 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source effect live draw | node 000076db65092738 | material fx_particles_alpha_001 | vertices 32 | indices 48 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source effect live draw | node 000076db6501f618 | material fx_particles_alpha_002 | vertices 20 | indices 30 | same source program/reflection/material/texture/queue"
+  ],
+  "errors": [],
+  "frames": [
+    {
+      "name": "cast-frame-00.png",
+      "relative_seconds": 0.0
+    },
+    {
+      "name": "cast-frame-01.png",
+      "relative_seconds": 1.3119999999180436
+    }
+  ],
+  "events": [
+    "I/DH2Native(14070): Source skill step selection | clip 1234 | engine 62 | range 0 1666 | do_skill 700 | events 1 | bank range 0 1666 | unbound 0 | step FX 164 | anchored 1",
+    "I/DH2Native(14070): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 4672 | same retained World/Gear/SkillV6",
+    "I/DH2Native(14070): Source effect live draw | node 000076dbc504f8d0 | material Standard_9 | vertices 4 | indices 6 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source effect live draw | node 000076dbc504e170 | material asde | vertices 4 | indices 6 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source effect live draw | node 000076dbc504deb0 | material swoosh_MH | vertices 48 | indices 132 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9fd586858 | HP 42265 42265 | MP 4672 6976 | XP 0 25600 | frames 99 65 0 99 99 | dirty 11 | retained movie 0x76daa5379c70 | original timeline and viewport",
+    "I/DH2Native(14070): Prince damage received | attacker _prim_tmp_cultist07 | attempt 1 | result 10047 -1 0 0 0 0 24 2271925 -1 -1 | HP 42265 32218 | dead 0 | combo 1 | RNG 9988867 9 | statuses 8 | low health armed 1 | cue 0 | checksum b46b08596f4793f0",
+    "I/DH2Native(14070): Connected player HUD submitted | viewport 2400 1080 | character 0x76d9fd586858 | HP 32218 42265 | MP 4991 6976 | XP 0 25600 | frames 75 70 0 75 75 | dirty 11 | retained movie 0x76daa5379c70 | original timeline and viewport",
+    "I/DH2Native(14070): Source combat text queued | style anim_sct_crit | number 39 | text  | color ffffff00 | position -1232.5442 -433.0583 467.7120",
+    "I/DH2Native(14070): Source combat text submitted | active 1 | native glyph quads 2 | application dt 391 | load phase 0 | debug disabled 0 | first glyph twips 4702.3330 1164.0037 | extent 210.0043 300.0061 | ARGB ffffff00",
+    "I/DH2Native(14070): Source skill authored delivery | clip 1234 | text do_skill | lag 81 | source FSM 6",
+    "I/DH2Native(14070): Source skill event HP delivery | actor 100000006 | name _prim_tmp_cultist07 | resolved36 25600 -> 22875 | source status 0",
+    "I/DH2Native(14070): Source effect live draw | node 000076db65092738 | material fx_particles_alpha_001 | vertices 32 | indices 48 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source effect live draw | node 000076db6501f618 | material fx_particles_alpha_002 | vertices 20 | indices 30 | same source program/reflection/material/texture/queue",
+    "I/DH2Native(14070): Source combat text queued | style anim_sct_block | number 0 | text Block | color ffff7f00 | position -1234.4301 -369.6380 548.4370",
+    "I/DH2Native(14070): Source combat text queued | style anim_sct_normaldamage | number 10 | text  | color ffffffff | position -1234.4301 -369.6380 548.4370",
+    "I/DH2Native(14070): Source combat text submitted | active 3 | native glyph quads 9 | application dt 94 | load phase 0 | debug disabled 0 | first glyph twips 4692.3330 767.0037 | extent 210.0043 300.0061 | ARGB ffffff00",
+    "I/DH2Native(14070): Source combat text submitted | active 2 | native glyph quads 7 | application dt 220 | load phase 0 | debug disabled 0 | first glyph twips 4469.5000 967.0000 | extent 160.0000 220.0000 | ARGB ffff7f00",
+    "I/DH2Native(14070): Source combat text submitted | active 1 | native glyph quads 2 | application dt 90 | load phase 0 | debug disabled 0 | first glyph twips 4737.5000 126.0000 | extent 100.0000 200.0000 | ARGB ffffffff",
+    "I/DH2Native(14070): Character sequence closed | state 6 | event 0x22 | clip 1234 | Step 1209 | post Step animator | position -1234.5562 -373.5073 196.3779",
+    "I/DH2Native(14070): Source combat text submitted | active 0 | native glyph quads 0 | application dt 106 | load phase 0 | debug disabled 0 | first glyph twips 4737.5000 -399.0000 | extent 100.0000 200.0000 | ARGB ffffffff"
+  ],
+  "same_target_hp_delivery": [
+    "I/DH2Native(14070): Source skill event HP delivery | actor 100000006 | name _prim_tmp_cultist07 | resolved36 25600 -> 22875 | source status 0"
+  ],
+  "actual_outcome_evidence": {
+    "source_status": 0,
+    "actor": "0x100000006",
+    "name": "_prim_tmp_cultist07",
+    "resolved36_before": 25600,
+    "resolved36_after": 22875,
+    "delta": -2725,
+    "presentation": "Crit39 follows incoming NPC damage10047 and playerHP42265->32218; it does not prove critical Bash. Target delta2725/256 is approximately10.64, consistent with normaldamage10 at NPC position. Block/10 may be buffered presentation from the same synchronous skill event; separate-event causality is not established.",
+    "limitation": "No raw SkillResult bitfield diagnostic added; HP snapshots surround the synchronous original skill event only."
+  },
+  "visual_scope": "Actual five authored GPU draw submissions and surviving rendered world/HUD captured; screenshot timing misses the first short streak interval. Exact video-frame parity and other skills are not claimed.",
+  "source_mutations": "None during live test; read-only diagnostic only, no forced damage or RNG edits."
+}

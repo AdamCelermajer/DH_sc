@@ -62,4 +62,23 @@ static_assert(sizeof(RuntimeState)==472&&sizeof(RuntimePolicy)==36&&sizeof(Runti
 // requests do not mutate state or invoke services. Later failures report the
 // reached phase; native world/scene side effects are not rolled back.
 int update_actor(RuntimeResult&,const RuntimeRequest&,std::string& error);
+// Generic GameObject successor: explicit actual virtual policies replace
+// Character+520/Property224 decoding. Borrows the SAME generic Root storage;
+// no Character animation-root identity or synthetic property sheet exists.
+struct GenericVisualBorrowV4 {
+ void* context{};visual::Root* root{};
+ bool(*update_world)(void*,std::string&){};
+ bool(*set_rotation)(void*,const float*,std::string&){};
+};
+struct GenericTargetPositionServicesV80 {void* context{};int(*borrow)(void*,const float**){};};
+struct GenericRuntimeRequestV4 {
+ RuntimeRequest actor;
+ move::Policy actual_virtual_policy{};
+ float actual_rotation_speed{};
+ GenericVisualBorrowV4 visual;
+ const navigation::ControllerSourceServicesV69* source_path{};
+ const subobjects::AuxiliaryBranchServicesV69* source_auxiliary{};
+ const GenericTargetPositionServicesV80* source_target{};
+};
+int update_gameobject_v4(RuntimeResult&,const GenericRuntimeRequestV4&,std::string& error);
 }

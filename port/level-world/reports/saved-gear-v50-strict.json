@@ -1,0 +1,50 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "source": "../game-data/fresh_inventory_saved_v50.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "../game-data/fresh_inventory_owned_v4.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "player_equipment_render_owner_v1.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "arm64-v8a",
+    "source": "tests/fresh_inventory_saved_v50.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "../game-data/fresh_inventory_saved_v50.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "../game-data/fresh_inventory_owned_v4.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "player_equipment_render_owner_v1.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "tests/fresh_inventory_saved_v50.cpp",
+    "exit": 0,
+    "stderr": ""
+  }
+]

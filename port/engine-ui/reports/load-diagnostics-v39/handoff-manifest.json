@@ -1,0 +1,102 @@
+{
+  "scope": "Exact startup proof extraction into explicit boundedQA gate plus genuine private-save transport bounded-read successor; root applied shared/CMake integration, no agent shared-file edits",
+  "proofs": {
+    "exact_extraction_checks": 5,
+    "both_ABI_QA_compile_variants": 4,
+    "private_save_UBSan_checks": 132,
+    "actual_extracted_budget_UBSan_checks": 10,
+    "owned_source_strict_syntax_without_suppression": true
+  },
+  "runtime_game_QA_duration_acceptance": "PENDING safe environment;1000ms is between-unit checkpoint not hard preemption",
+  "format_budget": "Source complete byte domainUINT32_MAX;16MiB explicit application policy, not whole-game save-size proof",
+  "files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_load_diagnostics_v39.inc",
+      "sha256": "4248581ec4b3b6620cf0737b6492e57151ef970225c6416d2cf4c8ef82b402f7"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_private_save_read_v39.hpp",
+      "sha256": "680c2f2e544fc7dbd26ca843eb38b89e72d0e7495b221d80aad59ea2862ac4dc"
+    },
+    {
+      "path": "port/engine-ui/tests/renderer_private_save_read_v39.cpp",
+      "sha256": "60558d768f7af949bbdec2f4c076cd7a9c19ab4b1c14652ef1458e2915ca75d2"
+    },
+    {
+      "path": "port/engine-ui/tests/renderer_load_budget_v39.cpp",
+      "sha256": "454efef16a1ca6907ad884b085a687b26c5b77f669abf49f23d32ca09124dac6"
+    },
+    {
+      "path": ".local-inputs/prepare_renderer_load_diagnostics_v39.py",
+      "sha256": "c42621e26eaa32c761edb15d876fd952f4a4769e71450280e6fd6127db5f81b0"
+    },
+    {
+      "path": ".local-inputs/prepare_saved_authority_v39.py",
+      "sha256": "e88f1f915fa1717b98be99da29bfd11c8c865615a3a713fbbdf97daf38055646"
+    },
+    {
+      "path": ".local-inputs/transfer_renderer_load_v39.py",
+      "sha256": "553df6de3414a5bedec6de1b9eef22bca56f8ccc2f77d4b118f8029f25195963"
+    },
+    {
+      "path": ".local-inputs/test_renderer_load_extraction_v39.py",
+      "sha256": "546a710241453e5f6a472a8a59d64e39ba7642394435c491734f6ccae4896cad"
+    },
+    {
+      "path": ".local-inputs/run_renderer_load_v39_host_linux.py",
+      "sha256": "f1b0c9b110394737bacdf1506f0358ead457d16efeccdc6f76c4d0caa49a30bc"
+    },
+    {
+      "path": ".local-inputs/compile_renderer_load_v39.py",
+      "sha256": "f351ca6d5d6ffc6ad3f7335fb6c8fc6ff4ee1dcd8b867ab20564efe0d7ada72b"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/README.md",
+      "sha256": "cd2001764f48590694c8d49c0b217deb53085580ccd5cb1f06e872ec787f9d0c"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/extraction.json",
+      "sha256": "739237ae5d40591bc918d03b70d56091c2515f6692a08420b27b53a647848de4"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/saved-authority.json",
+      "sha256": "10ba5d88b0066e5f127fd23c7b7d83b11e564ce7f9efb061cec6d9c34f4bb6da"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/original-proof-block.inc",
+      "sha256": "8c8f48884e1d73477f18785fb6aaedf7b7b9ef31be0c7b71855be6e60fb5954e"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/original-saved-reader.inc",
+      "sha256": "4343f9af3f46906534b0c8f4ccaff0f2501e57550f044b885f7962e33250d6f1"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/extraction-test.json",
+      "sha256": "c8df2f11396ff8c75135c8285d5912c0cf9e5c7670012a7659a090953e84209c"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/budget-extracted-v39.hpp",
+      "sha256": "d89d61e0609f45fc4b5f01d4cfee957a5fb92e6a890d89458a6279f0b42a462d"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/host-receipt.json",
+      "sha256": "c9c9de5fd744bfb4095075f13c33a3a72e4a819911d75e7be84bbe0d3b156c51"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/abi-compile.json",
+      "sha256": "8627b73ea41e1d0d537b6869d59895b5c182e88867b2eee9840c54747b1101f9"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/model-renderer-load-v39.patch",
+      "sha256": "2b511cfd517a435d7d5b3948c9a9124f1d50d3eb8baa9bf7173a2094d151ee14"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/saved-reader-v39.patch",
+      "sha256": "70761607babb7da1021df07f9cae0121b6b2b6f56ac29bb44e50ef251a73ab06"
+    },
+    {
+      "path": "port/engine-ui/reports/load-diagnostics-v39/transfer-receipt.json",
+      "sha256": "4a7b31163531c185fa63dd5d7eb66f1988f3ceee55824d02c9312e6d045dfe64"
+    }
+  ]
+}

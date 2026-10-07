@@ -1,0 +1,3093 @@
+{
+  "cases": [
+    {
+      "kind": 0,
+      "filter": 0,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 0,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 0,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 0,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 1,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 1,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 1,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 1,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          10241,
+          9984,
+          0
+        ]
+      ],
+      "parameter_calls": [
+        [
+          3553,
+          10241,
+          9984
+        ],
+        [
+          3553,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 0,
+      "filter": 2,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 2,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 2,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 2,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 3,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 3,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 3,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 3,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 4,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 4,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 4,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 4,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 5,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 5,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 5,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 0,
+      "filter": 5,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          3553,
+          3,
+          9306336,
+          0
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 0,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 0,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 0,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 0,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 1,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 1,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 1,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 1,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          10241,
+          9984,
+          1
+        ]
+      ],
+      "parameter_calls": [
+        [
+          32879,
+          10241,
+          9984
+        ],
+        [
+          32879,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 1,
+      "filter": 2,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 2,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 2,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 2,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 3,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 3,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 3,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 3,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 4,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 4,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 4,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 4,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 5,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 5,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 5,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 1,
+      "filter": 5,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          1
+        ],
+        [
+          "0x30e370",
+          32879,
+          3,
+          9306336,
+          1
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 0,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 0,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 0,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 0,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 1,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 1,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 1,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 1,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          10241,
+          9984,
+          2
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34067,
+          10241,
+          9984
+        ],
+        [
+          34067,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 2,
+      "filter": 2,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 2,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 2,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 2,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 3,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 3,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 3,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 3,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 4,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 4,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 4,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 4,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 5,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 5,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 5,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 2,
+      "filter": 5,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          2
+        ],
+        [
+          "0x30e370",
+          34067,
+          3,
+          9306336,
+          2
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 0,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 0,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 0,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 0,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9728
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 1,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 1,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 1,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 1,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          10241,
+          9984,
+          3
+        ]
+      ],
+      "parameter_calls": [
+        [
+          34037,
+          10241,
+          9984
+        ],
+        [
+          34037,
+          10241,
+          9729
+        ]
+      ]
+    },
+    {
+      "kind": 3,
+      "filter": 2,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 2,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 2,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 2,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 3,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 3,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 3,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 3,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 4,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 4,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 4,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 4,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 5,
+      "auto": false,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 5,
+      "auto": false,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 2,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 5,
+      "auto": true,
+      "active_before": 0,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e1e4",
+          33987,
+          3,
+          17825792,
+          0
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    },
+    {
+      "kind": 3,
+      "filter": 5,
+      "auto": true,
+      "active_before": 3,
+      "active_after": 3,
+      "dirty_after": 0,
+      "events": [
+        [
+          "0x5b26f0",
+          17891328,
+          3,
+          17825792,
+          3
+        ],
+        [
+          "0x30e370",
+          34037,
+          3,
+          9306336,
+          3
+        ]
+      ],
+      "parameter_calls": []
+    }
+  ],
+  "scope": "96 original ARM whole generateMipmapsImpl5b280c executions; bindTexture and GL calls explicit provider boundaries, GPU not executed"
+}

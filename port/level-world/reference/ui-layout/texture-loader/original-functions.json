@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX9SetBoundsEiiiiN7gameswf10scale_modeE",
+      "elf_address": "0x7a9b30",
+      "size": 124,
+      "sha256": "cdbc87a2a29ad17500d70a866832539754e982547e2608bafd9b420066e88e27"
+    },
+    {
+      "original_symbol": "_ZN12GameSWFUtils16SwfTextureLoaderEPKcii",
+      "elf_address": "0x416c14",
+      "size": 948,
+      "sha256": "5355585b3424870eb394a3636c43aa8ecc68f0d177b39a5d03b91f2b5ae3006a"
+    }
+  ]
+}

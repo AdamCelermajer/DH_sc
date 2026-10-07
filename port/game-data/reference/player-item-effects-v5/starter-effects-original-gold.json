@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "original_cases": 6,
+  "original_steps": 112,
+  "all_three_actual_classes": true,
+  "gold_sha256": "f930701df4f04068afb651f263106e4ad4f224de16959261ea636889b8f54937",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "3b280ff632468e1aeaab2d1d281ab1e974bd2c362a1e90f3f8d241e4caced942",
+  "scope": "Three actual starter sets, authoritative source equipment graph and live\nCharacter gear/class/vitals bodies. Item text and Debug are explicit fixtures.\nActual source Skin executes its null-VisualObject branch; no Skin factory proof.\n",
+  "native_comparison": false
+}

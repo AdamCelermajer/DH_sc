@@ -1,0 +1,29 @@
+{
+  "validation": "PASS",
+  "native_status_comparisons": 1562,
+  "ordered_services": 13721,
+  "explicit_zero_runtime_cases": 313,
+  "sanitized_guards": 15,
+  "sanitizer_findings": 0,
+  "files": {
+    "port/engine-ui/hud_player_values.hpp": "3a7c2e5ad740135c6836a4aece4bac2f1f0df20ca29a3f2cedb64f1482798fd6",
+    "port/engine-ui/hud_player_values.cpp": "93c72ba1150b5b9ab37f178fd59bdf63bd5ab1fd3b4d6d1dd3af74e51bc1a26e",
+    "port/engine-ui/tests/hud_player_values.cpp": "e2a02001f18d7f8314ec657367f592c32483597396b08411c77293737115f200",
+    "port/engine-ui/tests/hud_player_values_differential.py": "268ca0c5e323cc362168205f661ffa6776929730ef57ffc742751c2ff6f0b04d",
+    "port/engine-ui/tests/hud_player_values_host.py": "44b1ff3597fb6bbd51a39ecbb1ef7daae51d9c1e65e0835ef87078fe74d8d2bf",
+    "port/engine-ui/tests/hud_player_values_bindings.py": "8f1d9a5bc8bde20369ab7527f284ba702d694e3d6574d82678b33cec590c0c95",
+    "port/engine-ui/tools/build_hud_player_values_oracle.ps1": "a71f717e0349833f62196a813a5e81b930ef2f66a7ab9eb22b479be6c3c29c3c",
+    "port/engine-ui/reference/hud-player-values/bindings.json": "bc8069356a81dfcb43999fb26730b18f4c5e4f72490df40781c1ee664315018a",
+    "port/engine-ui/reference/hud-player-values/NOTES.md": "39107054f11332b6e05e87c63c328e90aa7eaa5db2f6d677ad425d9ed4df02e7",
+    "port/engine-ui/reference/hud-player-values/original-functions.json": "ed6f7bb92734046e1c0e1bc33f8c12550f7d2b6b036d03e104890556fe7c8c9a",
+    "port/engine-ui/reference/hud-player-values/status-frames-gold.bin": "c086a746656271a8d17d9008be355e37314e26b2bade4cbcf302e8c1711c737e",
+    "port/engine-ui/reference/hud-player-values/cache-bindings/original-functions.json": "84402ff42009d6b1f2181819fdd4709cf45985b1bb2e8003c5ed7a094f1364b9",
+    "port/engine-ui/reference/hud-player-values/goto-frame/original-functions.json": "00f9913b1db4edb52ca842945896f7c0d29d16f08040fcad00bc06212e7df2f5",
+    "port/engine-ui/reference/hud-player-values/reference/original-functions.asm": "86ff2468a6483c113c5df1b58de22972f5bda218feea6d63e614da7e3d4681d3",
+    "port/engine-ui/reference/hud-player-values/cache-bindings/reference/original-functions.asm": "1a1d0fd04cbb95ebcce4dc6a1163ddf66df0874a4547ceac6c48bde07f85a4b6",
+    "port/engine-ui/reference/hud-player-values/goto-frame/reference/original-functions.asm": "f4865dfd5963e827cd35daf1c8af45928169cd55d0883ef3972a28547b3f034e",
+    "port/engine-ui/reports/hud-player-values-arm64-differential.json": "e014be3eeeb6d96163481ad490876c40c6a9c025dd666381ec9b33266fdd5f4f",
+    "port/engine-ui/reports/hud-player-values-host-audit.json": "106d0a8f61d39be1ee72b2ff3f4ff89f8192dd659b2da4a99bafa2ff92ae6a80"
+  },
+  "scope": "Bounded source status-region plus full RenderFX wrapper. Actual HUD path/timeline inventory. Sprite operations are required services; arbitrary upstream goto action batching not original parity; no live GPU/full manager claim."
+}

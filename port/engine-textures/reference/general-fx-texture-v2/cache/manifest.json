@@ -1,0 +1,804 @@
+[
+  {
+    "name": "FX_radial_white.tga",
+    "local": "image_00.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_radial_white.tga",
+    "sha256": "3e9b0cc09505efcb18af67df69da286639949e4b4eaba87386858bb77c7121e6",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "FX_shockwave_03.tga",
+    "local": "image_01.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_03.tga",
+    "sha256": "49e83d0a8ecf79f1a54dca10269e36e3644698e27040703899c7c042b97ea727",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "FX_shockwave_05.tga",
+    "local": "image_02.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_05.tga",
+    "sha256": "a33a21f9e1a5dd7de694753eb7138eb03a1333dd4368888db9c247199aa120d3",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "FX_shockwave_05_rogue_purple.tga",
+    "local": "image_03.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_05_rogue_purple.tga",
+    "sha256": "ae412094b0f63d81a8af6234e16da926b6928a6c32aefc8d0d8c825f398bb532",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "FX_smoke_03.tga",
+    "local": "image_04.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+    "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0",
+    "bytes": 2108,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+    ],
+    "kind": "PVR",
+    "width": 64,
+    "height": 64,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "anim_bubule_swamp.tga",
+    "local": "image_05.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_bubule_swamp.tga",
+    "sha256": "189a06019c4d6502d023af7f3e5045b3aa3285255ab6546327e06aef6d0a1d3c",
+    "bytes": 524348,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+    ],
+    "kind": "PVR",
+    "width": 1024,
+    "height": 1024,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "atlas_fx_particles_001.tga",
+    "local": "image_06.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
+    "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b",
+    "bytes": 131132,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+      "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae"
+    ],
+    "kind": "PVR",
+    "width": 512,
+    "height": 512,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "atlas_fx_particles_002.tga",
+    "local": "image_07.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_002.tga",
+    "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18",
+    "bytes": 524348,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_root_troll_charge.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    ],
+    "kind": "PVR",
+    "width": 1024,
+    "height": 1024,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_aura_paladin_lightray_halo.tga",
+    "local": "image_08.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_aura_paladin_lightray_halo.tga",
+    "sha256": "0dfb44c134588d89d0d5a04a584ebaf1dabb9807fe149b5f54de8e87cefebac7",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_black_eclipse.tga",
+    "local": "image_09.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_black_eclipse.tga",
+    "sha256": "cb71b26bdfd476f0514d93f25ce6a878118df8633e7ab205fe08f882b7e23672",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_black_spell_wind_hurt.tga",
+    "local": "image_10.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_black_spell_wind_hurt.tga",
+    "sha256": "dca2f120057a913e8f9f5f1415bd78d0a9886b74f1de830818a578a330856f5f",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_death_claw.tga",
+    "local": "image_11.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_death_claw.tga",
+    "sha256": "96f743150afef4e374f8a550bbed3ff2e21a30e4bd6eaf84c0e065591a673878",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_dust.tga",
+    "local": "image_12.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_dust.tga",
+    "sha256": "0070f744e79f1cc87cba0559805035c4fbac059f773645b73731bbc18cd7cec8",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_frostcloud.tga",
+    "local": "image_13.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_frostcloud.tga",
+    "sha256": "6064611b9e1e75ddba807b5c40eff4c023fb763861039ccee8f13aa644398de7",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_ghost.tga",
+    "local": "image_14.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_ghost.tga",
+    "sha256": "0760ded152921cfaa0eac9a9e67859e7848f0d142169fba86f015eb880a3a2a6",
+    "bytes": 2108,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae"
+    ],
+    "kind": "PVR",
+    "width": 64,
+    "height": 64,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_lazer.tga",
+    "local": "image_15.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_lazer.tga",
+    "sha256": "3b7bd3e9506ad14d4e7363b43cdd6af41f3ac062b178453f20f5b9d81cc53395",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_002.tga",
+    "local": "image_16.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_002.tga",
+    "sha256": "2e56375003fa46578500fd10d0e04a35e66852e5ea88e7570dfb00fab6050552",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+      "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+      "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_004.tga",
+    "local": "image_17.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_004.tga",
+    "sha256": "5d17d5987362bff65b3f8d352cbbc43d30f94abbaaf73d5c822d6ecac8e2eb14",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_005.tga",
+    "local": "image_18.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_005.tga",
+    "sha256": "1b43f3316d72f8c753e7a7ce731c7d3fbfc667b1c1f3885899c82f7ce52cf875",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_007.tga",
+    "local": "image_19.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_007.tga",
+    "sha256": "3ffa620ae9e8005bcb2a669fbfcbac89fdb8936dc89df0141f53a635062acaec",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+      "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_007_black.tga",
+    "local": "image_20.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_007_black.tga",
+    "sha256": "e438e2815ed463ce0de3cf022cf2a012ec63fcd74cb98ced005f2c39688fd859",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_010.tga",
+    "local": "image_21.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_010.tga",
+    "sha256": "4c0f286e63869ab15c69a5d89b512da11ec459e519f8acec55ac2c3afc78443c",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_011.tga",
+    "local": "image_22.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_011.tga",
+    "sha256": "7c32b3dbab89ca5f7ffd39f2180e5e25fb696179a943726fbb0d5c4c5af70df1",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_012.tga",
+    "local": "image_23.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_012.tga",
+    "sha256": "231bbd1409c1355395f82d36806cc25294035742242b1843525d427cfa5126ba",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_lenz_flares_spiral.tga",
+    "local": "image_24.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_spiral.tga",
+    "sha256": "758ad080373f79ceddefbced3a349620aceab7e5d6cb407d0e3d981e7058fd8b",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_magic_smoke_black.tga",
+    "local": "image_25.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_smoke_black.tga",
+    "sha256": "29df1652125536531f8451c30b747a2839e84b7adffbd1e512ae0b6cd533aeac",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_particles_dust.tga",
+    "local": "image_26.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_particles_dust.tga",
+    "sha256": "94139370ed4d8f3f9a88c86e61d3adea80888a10123ee4706b183205a633db47",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_rogue_poisonsting.tga",
+    "local": "image_27.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_rogue_poisonsting.tga",
+    "sha256": "a98523f7ad3ea5031369c19759ad879dc06ec39811d5797ae827bb3dd2fe133e",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_rogue_poisonsting_blob.tga",
+    "local": "image_28.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_rogue_poisonsting_blob.tga",
+    "sha256": "ac3c55f0af30a660ae3ebd97412e243e2fa7f0745ecd888ee8b142adbf8ab444",
+    "bytes": 2108,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+    ],
+    "kind": "PVR",
+    "width": 64,
+    "height": 64,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_shockwave_05.tga",
+    "local": "image_29.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_05.tga",
+    "sha256": "a33a21f9e1a5dd7de694753eb7138eb03a1333dd4368888db9c247199aa120d3",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_smoke_01.tga",
+    "local": "image_30.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_01.tga",
+    "sha256": "e9cff69a305fd0ed92dce9b8cef6c0e5ef949e00e2c03bc55e87f068db2bf263",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_smoke_03.tga",
+    "local": "image_31.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+    "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0",
+    "bytes": 2108,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae"
+    ],
+    "kind": "PVR",
+    "width": 64,
+    "height": 64,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_spectral_light.tga",
+    "local": "image_32.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spectral_light.tga",
+    "sha256": "b899ee5709e6c555610cb07759446c370ca7fe4cc8ead7162e5e3e0ac86e6ae3",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_spell_wind_hurt.tga",
+    "local": "image_33.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_hurt.tga",
+    "sha256": "52f90f166c122dd7ce185aff17e4340040d26bedd4af64feb900a45ec6ed6da1",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_spell_wind_hurt2.tga",
+    "local": "image_34.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_hurt2.tga",
+    "sha256": "8520772eb3f2fcd97b6ca7e708af00c36b2d6736dce06c8b0064d7ca049321f7",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_verticallightlines.tga",
+    "local": "image_35.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_verticallightlines.tga",
+    "sha256": "a621a04c8e25f7a5168ca0b050d34d2ef89b8b67770cea90025a2f8f93899d3b",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_warrior_berzerker_whirlwind.tga",
+    "local": "image_36.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_warrior_berzerker_whirlwind.tga",
+    "sha256": "80cc1a4ca8dab9fe8eb74af9f3e536f6b02b4447075b258799427b92e2625f4b",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_water_shockwave.tga",
+    "local": "image_37.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_water_shockwave.tga",
+    "sha256": "2815ac7524a7be36383f2c960f1e94a3267f147c0467f9b8cc3e938f76788c04",
+    "bytes": 8252,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae"
+    ],
+    "kind": "PVR",
+    "width": 128,
+    "height": 128,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_weapon_trail_black.tga",
+    "local": "image_38.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_black.tga",
+    "sha256": "a80b3c12616e3cb0ada9545874a23e434e3d38393c04d798fd4889eaa3da9420",
+    "bytes": 2108,
+    "resources": [
+      "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae"
+    ],
+    "kind": "PVR",
+    "width": 64,
+    "height": 64,
+    "flags": "0x8219",
+    "pvr_type": 25,
+    "alpha": true,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_weapon_trail_skill_gradual.tga",
+    "local": "image_39.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_skill_gradual.tga",
+    "sha256": "d6c0de9233d4f24ae963495135505f1c0f74d0207f7d2604d48c214c460e8ec1",
+    "bytes": 2108,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+      "data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+      "data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+      "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+    ],
+    "kind": "PVR",
+    "width": 64,
+    "height": 64,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  },
+  {
+    "name": "fx_weapon_trail_skill_gradual_rogue_purple.tga",
+    "local": "image_40.bin",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_skill_gradual_rogue_purple.tga",
+    "sha256": "cd4c71e93839b6dcde7709ac258b03f382c2126f10741bd14b5bf350220b0b3f",
+    "bytes": 2108,
+    "resources": [
+      "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+      "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+      "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+    ],
+    "kind": "PVR",
+    "width": 64,
+    "height": 64,
+    "flags": "0x219",
+    "pvr_type": 25,
+    "alpha": false,
+    "mipmapped": false,
+    "extra_mips": 0
+  }
+]

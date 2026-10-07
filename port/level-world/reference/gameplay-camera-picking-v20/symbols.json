@@ -1,0 +1,187 @@
+[
+  {
+    "name": "_GLOBAL__I_.._.._sources_Game_Cameras_CameraBase.cpp",
+    "address": "0x40f81c",
+    "size": 220
+  },
+  {
+    "name": "_ZNK6glitch5scene16CCameraSceneNode14getViewFrustumEv",
+    "address": "0x582138",
+    "size": 8
+  },
+  {
+    "name": "_ZN5Level6UpdateEb",
+    "address": "0x3f82d8",
+    "size": 2408
+  },
+  {
+    "name": "_ZN10CameraBase9SetActiveEv",
+    "address": "0x40f45c",
+    "size": 128
+  },
+  {
+    "name": "_ZNK10CameraBase14GetCameraUpVecEv",
+    "address": "0x40e928",
+    "size": 128
+  },
+  {
+    "name": "_ZN10CameraBase13GetWorldCoordERK7Point2DIiER7Point3DIfEf",
+    "address": "0x40f2f0",
+    "size": 164
+  },
+  {
+    "name": "_ZN10CameraBaseC1Ev",
+    "address": "0x40e750",
+    "size": 48
+  },
+  {
+    "name": "_ZN6glitch5scene16CCameraSceneNode19recalculateViewAreaEv",
+    "address": "0x582904",
+    "size": 68
+  },
+  {
+    "name": "_ZN6glitch5scene12SViewFrustumC1Ev",
+    "address": "0x582bd8",
+    "size": 176
+  },
+  {
+    "name": "_ZN10CameraBase6UpdateEv",
+    "address": "0x40ea50",
+    "size": 4
+  },
+  {
+    "name": "_ZNK10CameraBase18GetCameraLookAtVecEv",
+    "address": "0x40e8a8",
+    "size": 128
+  },
+  {
+    "name": "_ZTV10CameraBase",
+    "address": "0x967b28",
+    "size": 28
+  },
+  {
+    "name": "_ZN10CameraBaseD2Ev",
+    "address": "0x40e780",
+    "size": 148
+  },
+  {
+    "name": "_ZN6glitch5scene12SViewFrustum7setFromERKNS_4core8CMatrix4IfEE",
+    "address": "0x5826c0",
+    "size": 580
+  },
+  {
+    "name": "_ZNK6glitch5scene12SViewFrustum10intersectsERKNS_4core8aabbox3dIfEE",
+    "address": "0x35bec8",
+    "size": 400
+  },
+  {
+    "name": "_ZN10CameraBase14GetScreenCoordERK7Point3DIfER7Point2DIfE",
+    "address": "0x40f714",
+    "size": 264
+  },
+  {
+    "name": "_ZN10CameraBase11DeactivatedEv",
+    "address": "0x40e71c",
+    "size": 4
+  },
+  {
+    "name": "_ZN11Application6UpdateEv",
+    "address": "0x32ccc4",
+    "size": 772
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager34getScreenCoordinatesFrom3DPositionENS_4core8vector3dIfEEPNS0_16ICameraSceneNodeE",
+    "address": "0x6c57d8",
+    "size": 488
+  },
+  {
+    "name": "_ZN6glitch5scene22CSceneCollisionManager27getRayFromScreenCoordinatesENS_4core10position2dIiEEPNS0_16ICameraSceneNodeE",
+    "address": "0x6c59c0",
+    "size": 896
+  },
+  {
+    "name": "_ZN10CameraBaseD1Ev",
+    "address": "0x40e814",
+    "size": 148
+  },
+  {
+    "name": "_ZNK6glitch4core10triangle3dIfE30getIntersectionWithLineSegmentERKNS0_6line3dIfEEfRKNS0_8vector3dIfEERKNS0_8aabbox3dIfEERS8_",
+    "address": "0x586188",
+    "size": 760
+  },
+  {
+    "name": "_ZN6glitch5scene12SViewFrustum22recalculateBoundingBoxEv",
+    "address": "0x5823d4",
+    "size": 748
+  },
+  {
+    "name": "_ZN10CameraBase9ActivatedEv",
+    "address": "0x40e718",
+    "size": 4
+  },
+  {
+    "name": "_ZNK10CameraBase15GetCenterOffsetER7Point3DIfEf",
+    "address": "0x40f4dc",
+    "size": 540
+  },
+  {
+    "name": "_ZN13RootSceneNode25UpdateEnlargedViewFrustumEPN6glitch5scene13CSceneManagerE",
+    "address": "0x35c51c",
+    "size": 616
+  },
+  {
+    "name": "_ZNK6glitch4core10triangle3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_",
+    "address": "0x58615c",
+    "size": 44
+  },
+  {
+    "name": "_ZN6glitch5scene12SViewFrustum17setTransformStateENS_5video22E_TRANSFORMATION_STATEE",
+    "address": "0x582348",
+    "size": 100
+  },
+  {
+    "name": "_ZN10CameraBaseC2Ev",
+    "address": "0x40e720",
+    "size": 48
+  },
+  {
+    "name": "_ZN10CameraBase7SetDataEffffb",
+    "address": "0x40e9a8",
+    "size": 168
+  },
+  {
+    "name": "_ZN10CameraBase14s_activeCameraE",
+    "address": "0x9a3220",
+    "size": 4
+  },
+  {
+    "name": "_ZN10CameraBaseD0Ev",
+    "address": "0x40f6f8",
+    "size": 28
+  },
+  {
+    "name": "_ZN10CameraBase13GetWorldCoordERK7Point2DIfER7Point3DIfEf",
+    "address": "0x40f394",
+    "size": 200
+  },
+  {
+    "name": "_ZNK6glitch5scene12SViewFrustum25intersectsWithoutBoxTest3ERKNS_4core8aabbox3dIfEE",
+    "address": "0x50cacc",
+    "size": 580
+  },
+  {
+    "name": "_ZNK6glitch5scene12SViewFrustum11intersects3ERKNS_4core8aabbox3dIfEE",
+    "address": "0x58aa8c",
+    "size": 156
+  },
+  {
+    "name": "_ZN7GSLevel6UpdateEP12StateMachined",
+    "address": "0x386630",
+    "size": 488
+  },
+  {
+    "name": "_ZNK6glitch4core7plane3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_",
+    "address": "0x34033c",
+    "size": 360
+  }
+]

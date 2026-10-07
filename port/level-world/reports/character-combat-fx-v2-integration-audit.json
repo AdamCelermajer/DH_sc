@@ -1,0 +1,42 @@
+{
+  "scope": "Current V2 helper strict NDK syntax ARM64/x86_64 and private complete-renderer include/member handoff compile with actual header order. No main renderer file mutation, Gradle build, APK/device or live GPU action.",
+  "results": [
+    {
+      "script": "compile_particle_resource_v1.py",
+      "exit_code": 0,
+      "stdout": "arm64-v8a engine-animation/particle_resource_init_v1.cpp 0  \narm64-v8a engine-animation/particle_force_scene_v1.cpp 0  \narm64-v8a scene-materials/particle_scene_v1.cpp 0  \narm64-v8a level-world/character_mesh_fx_owner_v2.cpp 0  \narm64-v8a level-world/character_blood_fx_resource_v2.cpp 0  \narm64-v8a level-world/character_combat_hit_fx_v2.cpp 0  \narm64-v8a level-world/character_combat_fx_runtime_v2.cpp 0  \nx86_64 engine-animation/particle_resource_init_v1.cpp 0  \nx86_64 engine-animation/particle_force_scene_v1.cpp 0  \nx86_64 scene-materials/particle_scene_v1.cpp 0  \nx86_64 level-world/character_mesh_fx_owner_v2.cpp 0  \nx86_64 level-world/character_blood_fx_resource_v2.cpp 0  \nx86_64 level-world/character_combat_hit_fx_v2.cpp 0  \nx86_64 level-world/character_combat_fx_runtime_v2.cpp 0  \n",
+      "stderr": ""
+    },
+    {
+      "script": "compile_fx_renderer_handoff_v2.py",
+      "exit_code": 0,
+      "stdout": "arm64-v8a 0  \nx86_64 0  \n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/level-world/character_blood_fx_resource_v2.cpp": "cc46193c27e0d6aa5849ceb43c09201cde6fca27bbccd3a81d1076962f1f6c93",
+    "port/level-world/character_blood_fx_resource_v2.hpp": "68b5d3442259e41d9f674280d69334541d17f7afb594a687c5b4c5c69ce23d66",
+    "port/level-world/character_mesh_fx_owner_v2.cpp": "906dec075c5ac80bb31f0934945a7853d5d386bea5cbb80d2027db678759d25b",
+    "port/level-world/character_mesh_fx_owner_v2.hpp": "f632a9f78bf7c2b34c8746dbe6cdde936bbf8e91d1238a0895a47203c56454d1",
+    "port/level-world/character_particle_fx_resource_v2.hpp": "e4541e453f80306c6e6d4ba1a8bd12105d72bdd616c95b575db42681aa13b096",
+    "port/level-world/character_combat_hit_fx_v2.cpp": "cbd13ed843737d7b1427d6361d228110f63b646642432026382c7d5dbaa50cd3",
+    "port/level-world/character_combat_hit_fx_v2.hpp": "520414da94b6189729d27ea6af2c3b2a301c07ea92b168b5711b65a015156488",
+    "port/level-world/character_combat_fx_runtime_v2.cpp": "1155a5e65adc501ebb4a358e8efc6b7d50ec8c6d4fb03353dbb365a8fa7750bf",
+    "port/level-world/character_combat_fx_runtime_v2.hpp": "3ba419ea2f84d67588cf248b4a073800fe7a82232dcd91d64caf522399b605b4",
+    "port/android-native/app/src/main/cpp/renderer_combat_fx_runtime_v2.inc": "089200f2568017d3f3146a2949938de79746d472355c8b5e4abd049a4053c7ff",
+    "port/android-native/app/src/main/cpp/renderer_combat_fx_draw_v1.inc": "f60009c69d6723249cde01602ab67fa0a3490dd179e396b5d2b2f85e57f8d1e5",
+    "port/android-native/app/src/main/cpp/renderer_combat_fx_v2_handoff.md": "66297595ae9101e4aa768bebc9d6edd7726470859d881127f5cc45db1acd89b5"
+  },
+  "frozen_manifest_sha256": "22125c4e3aed53bafc75b223d78461a899ffce907c7b62895496370738052077",
+  "frozen_source_matches": {
+    "port/level-world/character_fx_kernels_v1.hpp": true,
+    "port/level-world/character_fx_kernels_v1.cpp": true,
+    "port/level-world/fx_texture_animation_v1.hpp": true,
+    "port/level-world/fx_texture_animation_v1.cpp": true,
+    "port/level-world/character_fx_state_v1.hpp": true,
+    "port/level-world/character_fx_state_v1.cpp": true,
+    "port/level-world/character_mesh_fx_owner_v1.hpp": true,
+    "port/level-world/character_mesh_fx_owner_v1.cpp": true
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "globals": [
+    {
+      "field": "seed",
+      "got_slot": "0x99572c",
+      "target": "0x99f89c",
+      "symbols": [
+        "_ZN6Random6s_seedE"
+      ]
+    },
+    {
+      "field": "calls",
+      "got_slot": "0x995b20",
+      "target": "0x99f8a4",
+      "symbols": [
+        "_ZN6Random21s_debugRandomCountersE"
+      ]
+    }
+  ],
+  "loot_random_global_addresses": [
+    "0x99f89c",
+    "0x99f8a4"
+  ],
+  "same_seed_and_counter": true,
+  "basis": {
+    "address": "0x99f878",
+    "symbols": [
+      "Vec3f_K"
+    ]
+  }
+}

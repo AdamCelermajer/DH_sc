@@ -1,0 +1,27 @@
+{
+  "source": "C:\\Users\\adamc\\Downloads\\dungeonhunter2\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "source_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "files": {
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sounds_pyarray.bin": {
+      "sha256": "1a0f9d325d3f2d10ec1cb15394ec709b6da991b3818eb33c6cabda95bee25ab8",
+      "size": 11295,
+      "destination": "port\\android-native\\app\\src\\main\\assets\\data\\sounds_pyarray.bin"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sounds_pyarraynames.bin": {
+      "sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f",
+      "size": 3908,
+      "destination": "port\\android-native\\app\\src\\main\\assets\\data\\sounds_pyarraynames.bin"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sounds_pystructnames.bin": {
+      "sha256": "8485bd9f8ed5c486db1e3d8da58f86954ad456630536170d9406d24dc00b8e6b",
+      "size": 397,
+      "destination": "port\\android-native\\app\\src\\main\\assets\\data\\sounds_pystructnames.bin"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sounds_pycst.bin": {
+      "sha256": "9fce841dd84f0b6f39ab3d57dac8e8bd89288c3eb07949f9f2ddb8e421d0de41",
+      "size": 1283,
+      "destination": "port\\android-native\\app\\src\\main\\assets\\data\\sounds_pycst.bin"
+    }
+  },
+  "scope": "Exact original tables; no sound-bank initialization or native playback claim."
+}

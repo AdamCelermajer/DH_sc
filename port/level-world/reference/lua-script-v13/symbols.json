@@ -1,0 +1,2030 @@
+[
+  {
+    "name": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+    "address": 3654804,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueD0Ev",
+    "address": 3249236,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1Eb",
+    "address": 3655524,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8UserData14createBindingsERNS1_6BinderE",
+    "address": 3398852,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6TestUD16TestStaticMethodERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3698184,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10LuaManagerD1Ev",
+    "address": 3645612,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9ArgumentsD0Ev",
+    "address": 3248736,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsERNS4_12ReturnValuesE",
+    "address": 3654544,
+    "size": 140,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance8loadFileER11IFileStream",
+    "address": 3255784,
+    "size": 240,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject17_TargetListResortERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3734520,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE9push_backERKS3_",
+    "address": 3249600,
+    "size": 300,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValuesC1Ev",
+    "address": 3257396,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character24_GetEquippedFaeryElementERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894724,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11TriggerTrap14createBindingsERN3sfc6script3lua6BinderE",
+    "address": 3792280,
+    "size": 212,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript7_BitAndERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3664364,
+    "size": 472,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValuesD0Ev",
+    "address": 3257304,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsE",
+    "address": 3654684,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_GetMasterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894384,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN3sfc6script3lua5ValueE",
+    "address": 9810152,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8InstanceC1EP9lua_State",
+    "address": 3254816,
+    "size": 48,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt5dequeIPSt6vectorIN3sfc6script3lua5ValueESaIS4_EESaIS7_EED1Ev",
+    "address": 3260144,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9Arguments11pushPointerEPv",
+    "address": 3253356,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8InstanceC1Ev",
+    "address": 3256936,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript9_MulFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3662244,
+    "size": 308,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScriptD0Ev",
+    "address": 3653960,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorC1EP9lua_Statei",
+    "address": 3254552,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject14createBindingsERN3sfc6script3lua6BinderE",
+    "address": 3725292,
+    "size": 2648,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues13_addFromStackEP9lua_Statei",
+    "address": 3257516,
+    "size": 208,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance12_chunkReaderEP9lua_StatePvPj",
+    "address": 3256344,
+    "size": 360,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript18_IsPlayerCharacterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3661256,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua11_s_poolFreeE",
+    "address": 10090924,
+    "size": 40,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN9Character13_RegisterAnimERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895512,
+    "size": 108,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8UserDataD0Ev",
+    "address": 3400432,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8InstanceC2EP9lua_State",
+    "address": 3254768,
+    "size": 48,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_ClearAggroERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3901000,
+    "size": 96,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua11_s_poolUsedE",
+    "address": 10090964,
+    "size": 40,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN9Character7_AttackERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3907396,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character18_SetKnockBackStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3896960,
+    "size": 132,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv10_List_baseISt6vectorIN3sfc6script3lua5ValueESaIS5_EESaIS7_EE5clearEv",
+    "address": 3260300,
+    "size": 76,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript12_PushVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3653120,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorC2Ev",
+    "address": 3254360,
+    "size": 84,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7TestUD25Test2ERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3697364,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance5pCallERKNS1_9ArgumentsERNS1_12ReturnValuesE",
+    "address": 3255116,
+    "size": 156,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character29_GetCurrentEquippedFaeryLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894776,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject12_PlaySound3DERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3744044,
+    "size": 672,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6BinderD0Ev",
+    "address": 3259220,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character16_AllowSkillBreakERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897716,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character12_ClearTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3888784,
+    "size": 36,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value10setPointerEPv",
+    "address": 3257848,
+    "size": 16,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject5_RandERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3748624,
+    "size": 308,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript7_GetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3664916,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value9setNumberEf",
+    "address": 3257832,
+    "size": 16,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_SetMasterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3903620,
+    "size": 96,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character13_GetStateTimeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894636,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject6_GetIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730404,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv6__copyINS_15_Deque_iteratorIPSt6vectorIN3sfc6script3lua5ValueESaIS6_EESt16_Nonconst_traitsIS9_EEESC_iEET0_T_SE_SD_RKSt26random_access_iterator_tagPT1_",
+    "address": 3258840,
+    "size": 248,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1Ei",
+    "address": 3656348,
+    "size": 136,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character19_TargetInMeleeRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895328,
+    "size": 36,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject10_IsInWaterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730100,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN3sfc6script3lua8UserDataE",
+    "address": 9815624,
+    "size": 24,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZTVN3sfc6script3lua12ReturnValuesE",
+    "address": 9810216,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN10GameObject11_IsSwimmingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730036,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject8_GetSelfERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730164,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9Arguments12pushUserDataEPNS1_8UserDataE",
+    "address": 3698472,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject16_SummonTimerTrapERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3738704,
+    "size": 716,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance6pCall_EjRNS1_12ReturnValuesE",
+    "address": 3254904,
+    "size": 156,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject5_LockERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3724792,
+    "size": 16,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character8_RegenMPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897204,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6Binder17__smethodCallbackEP9lua_State",
+    "address": 3252176,
+    "size": 640,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9LuaScript6GetIntEPKc",
+    "address": 3660336,
+    "size": 148,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSaIN3sfc6script3lua5ValueEE11_M_allocateEjRj",
+    "address": 3249464,
+    "size": 136,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript16_IncludePyStructERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3650924,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript9_DivFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3661928,
+    "size": 316,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript12_GetPyStructERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3667112,
+    "size": 340,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN3sfc6script3lua5ErrorE",
+    "address": 9810184,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN9Character15_GetCharAIFlagsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894912,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValuesD1Ev",
+    "address": 3257240,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript11_PopVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3660868,
+    "size": 388,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1EPNS1_8UserDataE",
+    "address": 3656056,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject16_GetDistanceFromERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3748932,
+    "size": 408,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValuesC2Ev",
+    "address": 3257456,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6TestUD10TestMethodERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesE",
+    "address": 3698276,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTV9LuaScript",
+    "address": 9845184,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN9LuaScript9_GetPyCstERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3666772,
+    "size": 340,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject8_GetNameERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730416,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9LuaScript12_GetFuncNameEPKc",
+    "address": 3654420,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript7_SetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3661404,
+    "size": 212,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript14_GetGameScriptERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3655988,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_SetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3903288,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10LuaManagerC1Ev",
+    "address": 3645104,
+    "size": 72,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character18_GetSkillIDFromOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3900780,
+    "size": 220,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character16_SetIsTargetableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897956,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject7_UnlockERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3725224,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character8_RegenHPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897324,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorC1ERKS2_",
+    "address": 3254036,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject8_IsDecorERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729856,
+    "size": 24,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12CharAIScript12_ChangeStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 4036368,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_PauseTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3896604,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript13_IncludePyCstERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3650920,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE19_M_clear_after_moveEv",
+    "address": 3248932,
+    "size": 140,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character26_GetCurrentEquippedFaeryIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894688,
+    "size": 36,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value7setBoolEb",
+    "address": 3257804,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript19_GetHostPlayerLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3656704,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8InstanceD1Ev",
+    "address": 3256704,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject21_TargetListSearchRectERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3746688,
+    "size": 1936,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character7_WarpToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3912296,
+    "size": 1216,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_",
+    "address": 3253460,
+    "size": 344,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript4CallEPKc",
+    "address": 3654932,
+    "size": 112,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject17_TargetListBackupERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3738580,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueD1Ev",
+    "address": 3249128,
+    "size": 108,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value6setNilEv",
+    "address": 3257792,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNKSt4priv20_Deque_iterator_baseIPSt6vectorIN3sfc6script3lua5ValueESaIS5_EEE11_M_subtractERKS9_",
+    "address": 3257880,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_StopTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895396,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character5_FleeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3903904,
+    "size": 260,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character8_SetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3899052,
+    "size": 492,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9Arguments7pushNilEv",
+    "address": 3795880,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8UserDataD1Ev",
+    "address": 3398832,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorD2Ev",
+    "address": 3253952,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character14_SetScareStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3905200,
+    "size": 304,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance16registerFunctionEPKcPFiP9lua_StateE",
+    "address": 3256252,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_BeginSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3902648,
+    "size": 224,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character9_GetStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894648,
+    "size": 40,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv15__copy_backwardINS_15_Deque_iteratorIPSt6vectorIN3sfc6script3lua5ValueESaIS6_EESt16_Nonconst_traitsIS9_EEESC_iEET0_T_SE_SD_RKSt26random_access_iterator_tagPT1_",
+    "address": 3258588,
+    "size": 252,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value11setUserDataEPNS1_8UserDataE",
+    "address": 3257864,
+    "size": 16,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript14_GetHostPlayerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3656288,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScriptC1Eb",
+    "address": 3655044,
+    "size": 240,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject15_RegisterSummonERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3745556,
+    "size": 308,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject17_EnableCollisionsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3736588,
+    "size": 316,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance9includeIOEv",
+    "address": 3254864,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject17_GetTargetListTopERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730280,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character9_SetLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3896228,
+    "size": 260,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues12pushUserDataEPNS1_8UserDataE",
+    "address": 3656184,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_ClearPropsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3900132,
+    "size": 328,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject7_DropFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3734644,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript13_CallPyScriptERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3665724,
+    "size": 168,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character7_LookAtERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3903192,
+    "size": 96,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN3sfc6script3lua9ArgumentsE",
+    "address": 9810168,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN10GameObject16_GetObjectByNameERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3745864,
+    "size": 168,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance5pCallEPKcRKNS1_9ArgumentsERNS1_12ReturnValuesE",
+    "address": 3255272,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript12_SetGameTypeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3668088,
+    "size": 340,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6Binder18__functionCallbackEP9lua_State",
+    "address": 3252816,
+    "size": 452,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character5_KillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3898944,
+    "size": 108,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_HasTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895120,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character19_IsMasterHostPlayerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895236,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject14_PopTargetListERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3734456,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character9_PlayAnimERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3908488,
+    "size": 916,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorC2EP9lua_Statei",
+    "address": 3254656,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv11_Deque_baseIPSt6vectorIN3sfc6script3lua5ValueESaIS5_EESaIS8_EED2Ev",
+    "address": 3260012,
+    "size": 132,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character25_GetPropBonusAttackRatingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3898244,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject12_SetPositionERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3746032,
+    "size": 656,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript10_PlaySoundERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3663224,
+    "size": 440,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues9_doReturnEP9lua_State",
+    "address": 3257096,
+    "size": 144,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject7_GrabFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3745312,
+    "size": 244,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_StopSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3904684,
+    "size": 212,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10LuaManagerD2Ev",
+    "address": 3645740,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+    "address": 3656484,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character13_LookAtTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3888772,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11TriggerTrap7_RemoveERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3792152,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EED1Ev",
+    "address": 3260164,
+    "size": 136,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9ArgumentsD2Ev",
+    "address": 3248764,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua7_s_poolE",
+    "address": 10090916,
+    "size": 8,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN9Character7_HeadToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3909404,
+    "size": 1216,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_GetPropHPERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894488,
+    "size": 132,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance8loadFileER12StreamBuffer",
+    "address": 3255540,
+    "size": 244,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_RemoveBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3900460,
+    "size": 320,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1Ev",
+    "address": 3249376,
+    "size": 88,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character5_StopERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3888820,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1ERKS2_",
+    "address": 3262004,
+    "size": 300,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript15_IncludePyArrayERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3650928,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject10_IsInRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3739420,
+    "size": 1308,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject19_GetDistanceBetweenERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3740728,
+    "size": 568,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10LuaManagerC2Ev",
+    "address": 3645032,
+    "size": 72,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1Ef",
+    "address": 3656764,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript13_AddToVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3665008,
+    "size": 528,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScriptD2Ev",
+    "address": 3653312,
+    "size": 324,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character14_DBG_DumpPropsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3898812,
+    "size": 132,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6Binder11_bindMethodEPKcPvS5_",
+    "address": 3251268,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorD1Ev",
+    "address": 3253900,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character12_IsConnectedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894980,
+    "size": 76,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character8_DoSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3902424,
+    "size": 224,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN4Door14createBindingsERN3sfc6script3lua6BinderE",
+    "address": 4093128,
+    "size": 152,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject9_IsFlyingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730068,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript10s_numCallsE",
+    "address": 10101760,
+    "size": 4,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZNK9LuaScript11IsInVFTableEPKc",
+    "address": 3654304,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9ArgumentsC2EP9lua_Statei",
+    "address": 3250400,
+    "size": 500,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript9_GetPyOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3667452,
+    "size": 340,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character17_CanAttackInMeleeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895140,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value14allocValueListEv",
+    "address": 3264132,
+    "size": 784,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance13includeStringEv",
+    "address": 3256328,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character19_CanAttackFromRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895056,
+    "size": 44,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript10_StopSoundERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3663664,
+    "size": 228,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8InstanceD0Ev",
+    "address": 3256772,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance5pCallEPKcRNS1_12ReturnValuesE",
+    "address": 3255060,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE20_M_allocate_and_copyIPS3_EES7_RjT_S9_",
+    "address": 3262512,
+    "size": 108,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject9_IsPlayerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729904,
+    "size": 44,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript14s_dumpCallListE",
+    "address": 10101764,
+    "size": 1,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN10GameObject7_IsDeadERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729992,
+    "size": 44,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character12_GetHitCountERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894472,
+    "size": 16,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSaIPPSt6vectorIN3sfc6script3lua5ValueESaIS3_EEE8allocateEjPKv",
+    "address": 3259776,
+    "size": 96,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript7_BitXOrERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3667792,
+    "size": 196,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9ArgumentsC1EP9lua_Statei",
+    "address": 3249900,
+    "size": 500,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4listISt6vectorIN3sfc6script3lua5ValueESaIS4_EESaIS6_EED1Ev",
+    "address": 3260376,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character14_AllowRotationERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897836,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance11includeMathEv",
+    "address": 3256320,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value13_setFromStackEP9lua_Statei",
+    "address": 3262920,
+    "size": 252,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character16_SpellCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3904164,
+    "size": 296,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1EPv",
+    "address": 3253268,
+    "size": 88,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC1EPKc",
+    "address": 3655756,
+    "size": 128,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character14_GetSpotTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894408,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character20_GetCurrentSkillInfoERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3903388,
+    "size": 232,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character9_RotateByERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897092,
+    "size": 112,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character23_GetPropBonusCritRatingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3898152,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues11pushBooleanEb",
+    "address": 3655652,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10LuaManager7AddFileEP9LuaScriptPKc",
+    "address": 3650108,
+    "size": 808,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject12_GetPositionERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729152,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt5dequeIPSt6vectorIN3sfc6script3lua5ValueESaIS4_EESaIS7_EE18_M_push_back_aux_vERKS7_",
+    "address": 3263744,
+    "size": 388,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript7_BitNotERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3667988,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript12BindFunctionEv",
+    "address": 3650976,
+    "size": 1252,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript24_GetHostPlayerDifficultyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3656588,
+    "size": 76,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject7_PlayFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3744716,
+    "size": 596,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9ArgumentsD1Ev",
+    "address": 3248680,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject13_MarkAsFlyingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3737856,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN3sfc6script3lua6BinderE",
+    "address": 9810232,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8InstanceC2Ev",
+    "address": 3257000,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10LuaManager18FlushBufferedFilesEv",
+    "address": 3645416,
+    "size": 196,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_GetCharIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894620,
+    "size": 16,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript8_ToFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3664836,
+    "size": 80,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character13_SetStunStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3904896,
+    "size": 304,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_StartTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3896720,
+    "size": 240,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8InstanceD2Ev",
+    "address": 3256800,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScriptD1Ev",
+    "address": 3653636,
+    "size": 324,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_HasMasterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895100,
+    "size": 20,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv20_Deque_iterator_baseIPSt6vectorIN3sfc6script3lua5ValueESaIS5_EEE10_M_advanceEi",
+    "address": 3259088,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6Binder16__methodCallbackEP9lua_State",
+    "address": 3251368,
+    "size": 808,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject7_IsDoorERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729880,
+    "size": 24,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript6_TraceERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3665536,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_WarpBehindERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3902872,
+    "size": 320,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10LuaManagerD0Ev",
+    "address": 3645712,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN4Door5_OpenERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 4094376,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_HasShieldERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895204,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorC2ERKS2_",
+    "address": 3254156,
+    "size": 120,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript8_IncludeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3665892,
+    "size": 88,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorD0Ev",
+    "address": 3254004,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3907516,
+    "size": 732,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTV10LuaManager",
+    "address": 9845168,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN9Character11_RemoveDotsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3898336,
+    "size": 476,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character21_SpawnSkillProjectileERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3906000,
+    "size": 956,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance9setGlobalEPKcRKNS1_5ValueE",
+    "address": 3256024,
+    "size": 48,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character19_GetPropBonusDamageERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3898060,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv6__findINS_15_Deque_iteratorIPSt6vectorIN3sfc6script3lua5ValueESaIS6_EESt16_Nonconst_traitsIS9_EEES9_EET_SD_SD_RKT0_RKSt26random_access_iterator_tag",
+    "address": 3257948,
+    "size": 640,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject15_MarkAsSwimmingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3737740,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance12includeDebugEv",
+    "address": 3256304,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript10_PlayMusicERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3662880,
+    "size": 344,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript4LoadEPKc",
+    "address": 3650932,
+    "size": 44,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character12_ResumeTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3896488,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN4Door6_CloseERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 4093820,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript21_GetGameObjectsByTypeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3665980,
+    "size": 436,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject21_SetTargetListSortingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3736904,
+    "size": 220,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN3sfc6script3lua8InstanceE",
+    "address": 9810200,
+    "size": 16,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN10GameObject26_SetTargetListObjectFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3737124,
+    "size": 108,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript21_GetCurrentLevelRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3666416,
+    "size": 356,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9Arguments10pushStringEPKc",
+    "address": 3795984,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject14_SetFXEndPointERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3737972,
+    "size": 456,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript6SetIntEPKci",
+    "address": 3660176,
+    "size": 160,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScriptC2Eb",
+    "address": 3655284,
+    "size": 240,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ErrorC1Ev",
+    "address": 3254276,
+    "size": 84,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character10_GetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894396,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character20_EnableSpotTargetingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895620,
+    "size": 608,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject12_IsOverAHoleERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3730132,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE",
+    "address": 3264916,
+    "size": 1004,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9ArgumentsC2Ev",
+    "address": 3248876,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript5_RandERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3661616,
+    "size": 312,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE8_M_eraseEPS3_S6_RKSt12__false_type",
+    "address": 3261388,
+    "size": 160,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance12includeTableEv",
+    "address": 3256312,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance16registerFunctionEPKcPFiP9lua_StateERKNS1_9ArgumentsE",
+    "address": 3256072,
+    "size": 180,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject7_SummonERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3742012,
+    "size": 2032,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject18_GetTargetListSizeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729712,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript6_RandFERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3662552,
+    "size": 328,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character24_SetSkillCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3905504,
+    "size": 496,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character15_ApplyPropClassERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3910620,
+    "size": 460,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character7_HasBowERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895172,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues10pushNumberEf",
+    "address": 3656892,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject18_SummonTriggerTrapERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3741296,
+    "size": 716,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueaSERKS2_",
+    "address": 3261288,
+    "size": 100,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6TestUD8TestFuncERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3698368,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character14createBindingsERN3sfc6script3lua6BinderE",
+    "address": 3888828,
+    "size": 5332,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript6_BitOrERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3663892,
+    "size": 472,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Error8setErrorEP9lua_Statei",
+    "address": 3254444,
+    "size": 108,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12CharAIScript14_RegisterStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 4038980,
+    "size": 652,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject18_IsTargetListEmptyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729776,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character24_SetSpellCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3903716,
+    "size": 188,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character12_ClearMasterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3888760,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues10pushStringEPKc",
+    "address": 3655884,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9Arguments11pushIntegerEi",
+    "address": 3988856,
+    "size": 180,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript14_GetNumPlayersERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3656664,
+    "size": 40,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6BinderD1Ev",
+    "address": 3257724,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance8execFileER11IFileStreamRNS1_12ReturnValuesE",
+    "address": 3255332,
+    "size": 208,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11TriggerTrap11_GetDamagerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3795556,
+    "size": 44,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EEC1ERKS5_",
+    "address": 3262304,
+    "size": 208,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character9_AddAggroERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3899544,
+    "size": 588,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance11includeBaseEv",
+    "address": 3256336,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7TestUD214createBindingsERN3sfc6script3lua6BinderE",
+    "address": 3698084,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValues11pushPointerEPv",
+    "address": 3730176,
+    "size": 104,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject17_TargetListSearchERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3734768,
+    "size": 1820,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character8_UseManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897444,
+    "size": 136,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6Binder10bindMethodEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvE",
+    "address": 3250932,
+    "size": 336,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5ValueC2ERKS2_",
+    "address": 3262620,
+    "size": 300,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua5Value9setStringEPKc",
+    "address": 3261548,
+    "size": 48,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character9_HasAggroERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3895364,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character20_GetCurrentSpellInfoERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3894832,
+    "size": 80,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject11_SetMaxPathERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3738428,
+    "size": 152,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character9_EndSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3904460,
+    "size": 224,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject29_SetTargetListCharacterFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3737232,
+    "size": 108,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject12_IsCharacterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729948,
+    "size": 44,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character11_CreateBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3901096,
+    "size": 1328,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua9ArgumentsC1Ev",
+    "address": 3248820,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN6TestUD14createBindingsERN3sfc6script3lua6BinderE",
+    "address": 3697920,
+    "size": 164,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject8_HasPathERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3729804,
+    "size": 52,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN11TriggerTrap9_GetOwnerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3795600,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN10GameObject12_DealDamagesERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3737340,
+    "size": 400,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE8_M_clearEv",
+    "address": 3259872,
+    "size": 140,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9LuaScript10_FromFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3665540,
+    "size": 184,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua8Instance14includePackageEv",
+    "address": 3254868,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua12ReturnValuesD2Ev",
+    "address": 3257332,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character7_MoveToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3911080,
+    "size": 1216,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character8_GetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3906956,
+    "size": 440,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character8_HasManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3897580,
+    "size": 136,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Character20_SetProjectileTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": 3908248,
+    "size": 240,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3luaL5panicEP9lua_State",
+    "address": 3254760,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3luaL8newstateEv",
+    "address": 3256868,
+    "size": 68,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSaIPSt6vectorIN3sfc6script3lua5ValueESaIS3_EEE8allocateEjPKv.clone.4",
+    "address": 3260868,
+    "size": 32,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNSt4priv11_Deque_baseIPSt6vectorIN3sfc6script3lua5ValueESaIS5_EESaIS8_EE17_M_initialize_mapEj.clone.9",
+    "address": 3260900,
+    "size": 116,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "LuaManager.cpp",
+    "address": 0,
+    "size": 0,
+    "type": "STT_FILE"
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Core_ScriptManager_LuaManager.cpp",
+    "address": 3645216,
+    "size": 136,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "LuaScript.cpp",
+    "address": 0,
+    "size": 0,
+    "type": "STT_FILE"
+  },
+  {
+    "name": "_GLOBAL__I_.._.._sources_Core_ScriptManager_LuaScript.cpp",
+    "address": 3652432,
+    "size": 220,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN3sfc6script3lua6Binder10bindMethodI6TestUDEEvPKcMT_FvRKNS1_9ArgumentsERNS1_12ReturnValuesEE.clone.1",
+    "address": 3697696,
+    "size": 224,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZZN9Character9_PlayAnimERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPvE4SLOT",
+    "address": 10103276,
+    "size": 4,
+    "type": "STT_OBJECT"
+  }
+]

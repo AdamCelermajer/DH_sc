@@ -1,0 +1,42 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/engine-ui/gfnt.cpp",
+        "port/engine-ui/gfnt_text_backend_v1.cpp",
+        "port/engine-ui/tests/gfnt_text_backend_v1.cpp",
+        "-o",
+        ".local-inputs/gfnt_text_backend_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        ".local-inputs/gfnt_text_backend_v1_host",
+        "port/android-native/app/src/main/assets/original-cache/data/menus/sct_font_3.fnt"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_slots\":8451,\"same_resource_alias\":true,\"source_MenuManager_cache_zero\":true,\"enabled_cache_provider_failure_explicit\":true,\"resolver_fixture\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/engine-ui/gfnt.cpp": "53e004d0ea9271205ae07f90d6b4efc98e024fc0ec6bf41e2d687d83c72de8f9",
+    "port/engine-ui/gfnt_text_backend_v1.cpp": "b2ecd5a9eae3f9a514e8d07a6ea4de1852b7ae34b1d6f72fbaae861aabe92ef7",
+    "port/engine-ui/tests/gfnt_text_backend_v1.cpp": "aca53a53588fe8d40084d1986a3aefe78ec8dabb462d4a99141965ad45a28c46"
+  }
+}

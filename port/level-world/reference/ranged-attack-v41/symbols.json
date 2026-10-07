@@ -1,0 +1,902 @@
+[
+  {
+    "symbol": "_ZTVN7Structs10ProjectileE",
+    "address": "0x96ac70",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN12POProjectileD0Ev",
+    "address": "0x4706ec",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN17ProjectileManagerD1Ev",
+    "address": "0x3e68b0",
+    "size": 112
+  },
+  {
+    "symbol": "_ZNK10Projectile10IsAnimatedEv",
+    "address": "0x3e3e14",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs22ActivateProjectileTrap4readEP11IStreamBase",
+    "address": "0x500530",
+    "size": 192
+  },
+  {
+    "symbol": "_ZNSt6vectorIN17ProjectileManager11_ProjectileESaIS1_EED1Ev",
+    "address": "0x3e6830",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN9SingletonI17ProjectileManagerE6s_instE",
+    "address": "0x9a2878",
+    "size": 56
+  },
+  {
+    "symbol": "_ZN7Structs22ActivateProjectileTrap8finalizeEv",
+    "address": "0x4d17e4",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable4sizeE",
+    "address": "0x9a665c",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN17ProjectileManager5SpawnEiP10GameObjectS1_PFiP10ProjectilePvES6_S4_f",
+    "address": "0x3e6edc",
+    "size": 320
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTraps8finalizeEv",
+    "address": "0x4a775c",
+    "size": 228
+  },
+  {
+    "symbol": "_ZN7Structs24DeactivateProjectileTrapD0Ev",
+    "address": "0x4d1780",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN10Projectile6UpdateEv",
+    "address": "0x3e51b0",
+    "size": 1028
+  },
+  {
+    "symbol": "_Z14GetNewInstanceI14ProjectileTrapEP10ObjectBasev",
+    "address": "0x340e34",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN7Structs14ProjectileTrapD2Ev",
+    "address": "0x4d9ea8",
+    "size": 64
+  },
+  {
+    "symbol": "_ZNK9Character14CanRangeAttackEv",
+    "address": "0x3a4d3c",
+    "size": 32
+  },
+  {
+    "symbol": "_ZN10Projectile14HandleImpactFXENS_10ImpactTypeERK7Point3DIfE",
+    "address": "0x3e4db0",
+    "size": 316
+  },
+  {
+    "symbol": "_ZN7Structs14ProjectileTrap8finalizeEv",
+    "address": "0x4d9e24",
+    "size": 40
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict9readNamesEP11IStreamBase",
+    "address": "0x4b22cc",
+    "size": 408
+  },
+  {
+    "symbol": "_ZN7Structs19GetMemberIDByStringINS_14ProjectileTrapEEEiPKc",
+    "address": "0x4ae1dc",
+    "size": 88
+  },
+  {
+    "symbol": "_ZN10ProjectileD1Ev",
+    "address": "0x3e5d9c",
+    "size": 64
+  },
+  {
+    "symbol": "_ZNSt4priv6__copyIPN17ProjectileManager11_ProjectileES3_iEET0_T_S5_S4_RKSt26random_access_iterator_tagPT1_",
+    "address": "0x3e63c4",
+    "size": 84
+  },
+  {
+    "symbol": "_ZN7Structs10ProjectileD0Ev",
+    "address": "0x4ce17c",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN17ProjectileManager8PreCacheEv",
+    "address": "0x3e71cc",
+    "size": 716
+  },
+  {
+    "symbol": "_ZN7Structs14ProjectileTrap11m_dataNamesE",
+    "address": "0x9ebe68",
+    "size": 192
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap9GetScriptEv",
+    "address": "0x39cb2c",
+    "size": 72
+  },
+  {
+    "symbol": "_ZN7Structs10Projectile4readEP11IStreamBase",
+    "address": "0x4edbb8",
+    "size": 1304
+  },
+  {
+    "symbol": "_ZTVN7Structs22ActivateProjectileTrapE",
+    "address": "0x96a6a0",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable4readEP11IStreamBase",
+    "address": "0x4b9ab0",
+    "size": 324
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript15SpawnProjectileEjf",
+    "address": "0x3da494",
+    "size": 124
+  },
+  {
+    "symbol": "_ZN7Structs14ProjectileTrapD1Ev",
+    "address": "0x4d9e4c",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN6CharAI15OnProjectileHitEP10GameObject",
+    "address": "0x3d0d5c",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTraps4sizeE",
+    "address": "0x9a6560",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN17ProjectileManager7_CreateEbb",
+    "address": "0x3e693c",
+    "size": 1440
+  },
+  {
+    "symbol": "_ZN7Structs24DeactivateProjectileTrapD2Ev",
+    "address": "0x4d179c",
+    "size": 72
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict4sizeE",
+    "address": "0x9a6734",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN14ProjectileTrap6CreateEP10GameObjectii",
+    "address": "0x39cf18",
+    "size": 480
+  },
+  {
+    "symbol": "_ZN10Projectile11OnCollisionEP10GameObjectRK7Point2DIfE",
+    "address": "0x3e55b4",
+    "size": 396
+  },
+  {
+    "symbol": "_ZNK29Script_ActivateProjectileTrap10IsBlockingEv",
+    "address": "0x4558bc",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN10Projectile7SetInfoEiP10GameObjectS1_PFiPS_PvES5_S3_b",
+    "address": "0x3e58cc",
+    "size": 1224
+  },
+  {
+    "symbol": "_ZN12POProjectileD1Ev",
+    "address": "0x470480",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN10AISDefault15OnProjectileHitEP10GameObject",
+    "address": "0x3dbefc",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN10ProjectileD2Ev",
+    "address": "0x3e5e00",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN7Structs14ProjectileTrap4readEP11IStreamBase",
+    "address": "0x4fd8a0",
+    "size": 752
+  },
+  {
+    "symbol": "_ZNSt4priv6__copyIPN17ProjectileManager20_LaserTypeProjectileES3_iEET0_T_S5_S4_RKSt26random_access_iterator_tagPT1_",
+    "address": "0x3e6418",
+    "size": 84
+  },
+  {
+    "symbol": "_ZN10ProjectileC2EN10ObjectBase6GO_IDSE",
+    "address": "0x3e5edc",
+    "size": 156
+  },
+  {
+    "symbol": "_ZN10ItemObject16s_numProjectilesE",
+    "address": "0x9a30bc",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN7Structs10Projectile11m_dataNamesE",
+    "address": "0x9f23d8",
+    "size": 480
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectile7SetInfoEiP10GameObjectS1_PFiP10ProjectilePvES6_S4_f",
+    "address": "0x3e449c",
+    "size": 212
+  },
+  {
+    "symbol": "_ZN7Structs10ProjectileD2Ev",
+    "address": "0x4c6c48",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN12POProjectile15onCollisionTestEP18PhysicalBaseObjectsttstt",
+    "address": "0x470520",
+    "size": 240
+  },
+  {
+    "symbol": "_ZN6CharAI17_HandleProjectileEP10ProjectilePv",
+    "address": "0x3cc280",
+    "size": 456
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap9GetVisualEv",
+    "address": "0x39cb74",
+    "size": 56
+  },
+  {
+    "symbol": "_ZTV14ProjectileTrap",
+    "address": "0x9654a8",
+    "size": 296
+  },
+  {
+    "symbol": "_ZN7Structs24DeactivateProjectileTrap13m_dataOffsetsE",
+    "address": "0x99acd4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict7membersE",
+    "address": "0x9a6738",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN10Projectile10SetManagerEP17ProjectileManager",
+    "address": "0x3e4fe4",
+    "size": 148
+  },
+  {
+    "symbol": "_ZN12POProjectile19onCollisionPersistsEP18PhysicalBaseObjectRK7Point2DIfEb",
+    "address": "0x47046c",
+    "size": 20
+  },
+  {
+    "symbol": "_ZNK10Projectile13IsInteractiveEP10GameObject",
+    "address": "0x3e3e1c",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14ProjectileTrap8ActivateEv",
+    "address": "0x39d430",
+    "size": 244
+  },
+  {
+    "symbol": "_ZThn36_N14ProjectileTrapD0Ev",
+    "address": "0x39d21c",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs22ActivateProjectileTrapD0Ev",
+    "address": "0x4d185c",
+    "size": 28
+  },
+  {
+    "symbol": "_ZTV31Script_DeactivateProjectileTrap",
+    "address": "0x968690",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable13finalizeNamesEv",
+    "address": "0x4a5764",
+    "size": 156
+  },
+  {
+    "symbol": "_ZNK13ItemInventory14CanRangeAttackERiS0_S0_",
+    "address": "0x3ffebc",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN14ProjectileTrap14SpecificUpdateEv",
+    "address": "0x39cdc4",
+    "size": 340
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable9skipNamesEP11IStreamBase",
+    "address": "0x4b0798",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN10ProjectileC1EN10ObjectBase6GO_IDSE",
+    "address": "0x3e5e40",
+    "size": 156
+  },
+  {
+    "symbol": "_ZN29Script_ActivateProjectileTrap7ExecuteEbi",
+    "address": "0x45d3cc",
+    "size": 252
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectileC1EN10ObjectBase6GO_IDSE",
+    "address": "0x3e4b6c",
+    "size": 92
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectile11OnCollisionEP10GameObjectRK7Point2DIfE",
+    "address": "0x3e3e2c",
+    "size": 416
+  },
+  {
+    "symbol": "_ZN7Structs14ProjectileTrap13m_dataOffsetsE",
+    "address": "0x99a320",
+    "size": 32
+  },
+  {
+    "symbol": "_Z14GetNewInstanceI10ProjectileEP10ObjectBasev",
+    "address": "0x340d14",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN7Structs24DeactivateProjectileTrap8finalizeEv",
+    "address": "0x4d1708",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN10Projectile14HandleImpactFXEP10GameObjectRK7Point2DIfE",
+    "address": "0x3e4eec",
+    "size": 248
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict13finalizeNamesEv",
+    "address": "0x4a3c88",
+    "size": 156
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable7membersE",
+    "address": "0x9a6660",
+    "size": 4
+  },
+  {
+    "symbol": "_ZThn36_N10ProjectileD0Ev",
+    "address": "0x3e5ddc",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14ProjectileTrapD0Ev",
+    "address": "0x39d224",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN7Structs10ProjectileD1Ev",
+    "address": "0x4c6c4c",
+    "size": 4
+  },
+  {
+    "symbol": "_ZThn892_NK9Character14CanRangeAttackERiS0_S0_",
+    "address": "0x3a4cc8",
+    "size": 8
+  },
+  {
+    "symbol": "_ZTV12POProjectile",
+    "address": "0x968fe0",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN17ProjectileManagerC2Ev",
+    "address": "0x3e60fc",
+    "size": 92
+  },
+  {
+    "symbol": "_ZN17ProjectileManagerD2Ev",
+    "address": "0x3e715c",
+    "size": 112
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectileC2EN10ObjectBase6GO_IDSE",
+    "address": "0x3e4bc8",
+    "size": 92
+  },
+  {
+    "symbol": "_ZN6CharAI16AI_DoRangeAttackEP10GameObjectb",
+    "address": "0x3d076c",
+    "size": 1044
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable13m_memberNamesE",
+    "address": "0x9a6664",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript16_ProjectileCheckEP10ProjectilePv",
+    "address": "0x3daff4",
+    "size": 376
+  },
+  {
+    "symbol": "_ZTV19LaserTypeProjectile",
+    "address": "0x966e90",
+    "size": 256
+  },
+  {
+    "symbol": "_Z27GetNewScriptCmdDataInstanceIN7Structs24DeactivateProjectileTrapEEPNS0_9ScriptCmdEv",
+    "address": "0x4568e0",
+    "size": 60
+  },
+  {
+    "symbol": "_ZGVN9SingletonI17ProjectileManagerE6s_instE",
+    "address": "0x9a2874",
+    "size": 4
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap8GetDelayEv",
+    "address": "0x39cc6c",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN14ProjectileTrap8InitPostEv",
+    "address": "0x39d16c",
+    "size": 92
+  },
+  {
+    "symbol": "_Z27GetNewScriptCmdDataInstanceIN7Structs22ActivateProjectileTrapEEPNS0_9ScriptCmdEv",
+    "address": "0x45691c",
+    "size": 60
+  },
+  {
+    "symbol": "_ZThn4_N14ProjectileTrap17DeclarePropertiesEv",
+    "address": "0x39d1c8",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectile6UpdateEv",
+    "address": "0x3e3fcc",
+    "size": 1232
+  },
+  {
+    "symbol": "_ZNSaIN17ProjectileManager20_LaserTypeProjectileEE11_M_allocateEjRj",
+    "address": "0x3e6570",
+    "size": 112
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTraps13finalizeNamesEv",
+    "address": "0x4a76c0",
+    "size": 156
+  },
+  {
+    "symbol": "_ZTVN7Structs24DeactivateProjectileTrapE",
+    "address": "0x96a688",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN17ProjectileManager7DeSpawnEP10Projectileb",
+    "address": "0x3e61b4",
+    "size": 528
+  },
+  {
+    "symbol": "_ZN17ProjectileManager5SpawnEiP10GameObjectS1_PFiP10ProjectilePvES6_S4_b",
+    "address": "0x3e701c",
+    "size": 320
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTraps4readEP11IStreamBase",
+    "address": "0x4bb5ac",
+    "size": 332
+  },
+  {
+    "symbol": "_ZNSaIN17ProjectileManager11_ProjectileEE11_M_allocateEjRj",
+    "address": "0x3e6768",
+    "size": 112
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap13GetHurtChanceEv",
+    "address": "0x39cbe4",
+    "size": 80
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript14_ProjectileHitEP10ProjectilePv",
+    "address": "0x3dae7c",
+    "size": 376
+  },
+  {
+    "symbol": "_ZThn36_N10ProjectileD1Ev",
+    "address": "0x3e5d94",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectileD0Ev",
+    "address": "0x3e4b10",
+    "size": 28
+  },
+  {
+    "symbol": "_ZThn36_N14ProjectileTrapD1Ev",
+    "address": "0x39d1d4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14ProjectileTrapD2Ev",
+    "address": "0x39d240",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN7Structs22ActivateProjectileTrapD1Ev",
+    "address": "0x4d1814",
+    "size": 72
+  },
+  {
+    "symbol": "_ZNK9Character14CanRangeAttackERiS0_S0_",
+    "address": "0x3a4cd0",
+    "size": 100
+  },
+  {
+    "symbol": "_ZNSt6vectorIN17ProjectileManager20_LaserTypeProjectileESaIS1_EE20_M_allocate_and_copyIPS1_EES5_RjT_S7_",
+    "address": "0x3e65e0",
+    "size": 88
+  },
+  {
+    "symbol": "_ZN17ProjectileManagerC1Ev",
+    "address": "0x3e6158",
+    "size": 92
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTraps7membersE",
+    "address": "0x9a6564",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN7Structs10Projectile8finalizeEv",
+    "address": "0x4c6c50",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN14ProjectileTrapC2EN10ObjectBase6GO_IDSE",
+    "address": "0x39d2c0",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript15SpawnProjectileEjb",
+    "address": "0x3da510",
+    "size": 124
+  },
+  {
+    "symbol": "_ZN6glitch5scene15createArrowMeshEjPNS_5video12IVideoDriverEjjffffNS1_6SColorES4_",
+    "address": "0x6da6d8",
+    "size": 644
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap8GetSoundEv",
+    "address": "0x39cc34",
+    "size": 56
+  },
+  {
+    "symbol": "_ZTV10Projectile",
+    "address": "0x966f90",
+    "size": 256
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict13m_memberNamesE",
+    "address": "0x9a673c",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN7Structs22ActivateProjectileTrap11m_dataNamesE",
+    "address": "0x9f3754",
+    "size": 48
+  },
+  {
+    "symbol": "_ZTVN7Structs14ProjectileTrapE",
+    "address": "0x96b438",
+    "size": 24
+  },
+  {
+    "symbol": "_Z27GetNewScriptCmdImplInstanceI31Script_DeactivateProjectileTrapEP13ScriptCmdImplv",
+    "address": "0x457d4c",
+    "size": 76
+  },
+  {
+    "symbol": "_ZN10Projectile7SetInfoEiP10GameObjectS1_PFiPS_PvES5_S3_f",
+    "address": "0x3e57cc",
+    "size": 256
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict4readEP11IStreamBase",
+    "address": "0x4b830c",
+    "size": 332
+  },
+  {
+    "symbol": "_ZNK10Projectile25IsValidatingFloorPositionEv",
+    "address": "0x3e3dfc",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14ProjectileTrap17DeclarePropertiesEv",
+    "address": "0x39d1d0",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable8finalizeEv",
+    "address": "0x4a5800",
+    "size": 228
+  },
+  {
+    "symbol": "_ZN14ProjectileTrapC1EN10ObjectBase6GO_IDSE",
+    "address": "0x39d280",
+    "size": 64
+  },
+  {
+    "symbol": "_ZNK19LaserTypeProjectile8GetSpeedEv",
+    "address": "0x3e3e24",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14ProjectileTrapD1Ev",
+    "address": "0x39d1dc",
+    "size": 64
+  },
+  {
+    "symbol": "_ZNK10Projectile6IsDeadEv",
+    "address": "0x3e3df4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN10ProjectileD0Ev",
+    "address": "0x3e5de4",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectile7SetInfoEiP10GameObjectS1_PFiP10ProjectilePvES6_S4_b",
+    "address": "0x3e4570",
+    "size": 1360
+  },
+  {
+    "symbol": "_ZNSt6vectorIN17ProjectileManager20_LaserTypeProjectileESaIS1_EED1Ev",
+    "address": "0x3e6870",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN11AISExternal15OnProjectileHitEP10GameObject",
+    "address": "0x3dd2a0",
+    "size": 84
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectileD1Ev",
+    "address": "0x3e4ac8",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN7Structs24DeactivateProjectileTrap4readEP11IStreamBase",
+    "address": "0x500470",
+    "size": 192
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTraps9readNamesEP11IStreamBase",
+    "address": "0x4b596c",
+    "size": 408
+  },
+  {
+    "symbol": "_ZThn36_N19LaserTypeProjectileD1Ev",
+    "address": "0x3e4ac0",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTraps13m_memberNamesE",
+    "address": "0x9a6568",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN6glitch5scene10CMeshCache12addArrowMeshEjPKcNS_5video6SColorES5_jjffff",
+    "address": "0x6c0024",
+    "size": 436
+  },
+  {
+    "symbol": "_ZN14ProjectileTrap17_HandleProjectileEP10ProjectilePv",
+    "address": "0x39cca8",
+    "size": 284
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict8finalizeEv",
+    "address": "0x4a3d24",
+    "size": 228
+  },
+  {
+    "symbol": "_ZN9Character21_SpawnSkillProjectileERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b99d0",
+    "size": 956
+  },
+  {
+    "symbol": "_Z14GetNewInstanceI19LaserTypeProjectileEP10ObjectBasev",
+    "address": "0x340cf0",
+    "size": 36
+  },
+  {
+    "symbol": "_ZTV29Script_ActivateProjectileTrap",
+    "address": "0x9686a8",
+    "size": 24
+  },
+  {
+    "symbol": "_ZThn36_N19LaserTypeProjectileD0Ev",
+    "address": "0x3e4b08",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays14ProjectileDict9skipNamesEP11IStreamBase",
+    "address": "0x4b2464",
+    "size": 4
+  },
+  {
+    "symbol": "_ZNK31Script_DeactivateProjectileTrap10IsBlockingEv",
+    "address": "0x4558c4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs22ActivateProjectileTrapD2Ev",
+    "address": "0x4d1878",
+    "size": 72
+  },
+  {
+    "symbol": "_ZNK10Projectile8GetSpeedEv",
+    "address": "0x3e4da8",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_14ProjectileDictEEEiPKc",
+    "address": "0x4ac6d8",
+    "size": 116
+  },
+  {
+    "symbol": "_ZNSt6vectorIN17ProjectileManager11_ProjectileESaIS1_EE20_M_allocate_and_copyIPS1_EES5_RjT_S7_",
+    "address": "0x3e67d8",
+    "size": 88
+  },
+  {
+    "symbol": "_ZThn892_NK9Character14CanRangeAttackEv",
+    "address": "0x3a4d34",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_15ProjectileTrapsEEEiPKc",
+    "address": "0x4ae168",
+    "size": 116
+  },
+  {
+    "symbol": "_ZTV17ProjectileManager",
+    "address": "0x967090",
+    "size": 16
+  },
+  {
+    "symbol": "_ZN10ItemObject16_OnItemCollectedEP10ProjectilePv",
+    "address": "0x3ebc0c",
+    "size": 40
+  },
+  {
+    "symbol": "_ZN7Structs22ActivateProjectileTrap13m_dataOffsetsE",
+    "address": "0x99accc",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs24DeactivateProjectileTrapD1Ev",
+    "address": "0x4d1738",
+    "size": 72
+  },
+  {
+    "symbol": "_ZN7Structs19GetMemberIDByStringINS_10ProjectileEEEiPKc",
+    "address": "0x4ad2c0",
+    "size": 88
+  },
+  {
+    "symbol": "_Z27GetNewScriptCmdImplInstanceI29Script_ActivateProjectileTrapEP13ScriptCmdImplv",
+    "address": "0x457d98",
+    "size": 76
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap9GetDataIdEv",
+    "address": "0x39d0f8",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN17ProjectileManager5FlushEv",
+    "address": "0x3e646c",
+    "size": 260
+  },
+  {
+    "symbol": "_ZN12POProjectile17onCollisionBeginsEP18PhysicalBaseObjectRK7Point2DIfEb",
+    "address": "0x4704b4",
+    "size": 108
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap12GetDamagerIdEv",
+    "address": "0x39cbac",
+    "size": 56
+  },
+  {
+    "symbol": "_ZN19LaserTypeProjectileD2Ev",
+    "address": "0x3e4b2c",
+    "size": 64
+  },
+  {
+    "symbol": "_ZNK10Projectile11IsUpdatableEv",
+    "address": "0x3e3e0c",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_15ProjectileTableEEEiPKc",
+    "address": "0x4ad24c",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN7Structs24DeactivateProjectileTrap11m_dataNamesE",
+    "address": "0x9f3784",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN17ProjectileManagerD0Ev",
+    "address": "0x3e6920",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN7Structs10Projectile13m_dataOffsetsE",
+    "address": "0x99aa4c",
+    "size": 80
+  },
+  {
+    "symbol": "_ZN7Structs14ProjectileTrapD0Ev",
+    "address": "0x4d9e8c",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN31Script_DeactivateProjectileTrap7ExecuteEbi",
+    "address": "0x45d2d4",
+    "size": 248
+  },
+  {
+    "symbol": "_ZN10Projectile8OnExpireENS_10ImpactTypeE",
+    "address": "0x3e5078",
+    "size": 312
+  },
+  {
+    "symbol": "_ZNK13ItemInventory14CanRangeAttackEv",
+    "address": "0x400014",
+    "size": 4
+  },
+  {
+    "symbol": "_ZNK10Projectile9IsZonableEv",
+    "address": "0x3e3e04",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays15ProjectileTable9readNamesEP11IStreamBase",
+    "address": "0x4b0600",
+    "size": 408
+  },
+  {
+    "symbol": "_ZN9Character20_SetProjectileTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3ba298",
+    "size": 240
+  }
+]

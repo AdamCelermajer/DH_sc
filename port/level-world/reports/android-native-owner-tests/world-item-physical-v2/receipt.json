@@ -1,0 +1,127 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "e92c2102893845f082e9bb4ccdf4bb6f780520471c8c085f836e43839339f46c",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\world_item_physical_v2.cpp",
+      "sha256": "c6fa4a59607e81ad81ba15028865b6685b26e6d0d48d14324a7ddc0f3fac8489"
+    },
+    {
+      "path": "port\\level-world\\world_item_physical_v2.cpp",
+      "sha256": "c0824959cdf077d7bdfc5842aa7fce6f539087cdfaa0a38b16fa61f9e61c3b85"
+    },
+    {
+      "path": "port\\level-world\\item_body_config_v2.cpp",
+      "sha256": "581d8da57e4dd3e0d1006375ee2077e81e53089da0015625db3bcef74817cb33"
+    },
+    {
+      "path": "port\\level-world\\canonical_item_factory_v2.cpp",
+      "sha256": "fdc8caf13ee762227c9f919d1c0f053d4bf35279879bda8522994133652e4754"
+    },
+    {
+      "path": "port\\level-world\\canonical_spawn_owner_v1.cpp",
+      "sha256": "032cd11dc4f7e372096c88d0fd09a1f71a26834d9e65124b2366af28a2c9e391"
+    },
+    {
+      "path": "port\\level-world\\canonical_property_map_v1.cpp",
+      "sha256": "da849d2cb3dc7a2ac67707136e2751b662636ed2a8929612792f91cc85e96c20"
+    },
+    {
+      "path": "port\\level-world\\canonical_object_manager_v1.cpp",
+      "sha256": "3b778d37287bdbbf0c5c4c8e1d26f449e5fa25011e85e8f64b877629b552e154"
+    },
+    {
+      "path": "port\\level-world\\world_item_object_owner_v1.cpp",
+      "sha256": "dd5b11f257bb804f7b9b2c772016fa9f7543a8a8ff7c76730c84620d7815fd90"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "c1ba3ccb21daf91acb96f9901ac73ffee2011b922ec7093a7194b129fb98f7e2"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "f7b792df6a638fbec5ed616cd5b0dc07137ca3d621e043a6d87ac93f0fd10905"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "9acd3b0f6b05dd5990ad7b233e0221d7cd4eeb82a2a80a0cd68dc897cbc3c5cc"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "ac734595b23a5ac64e9a0b6f0061efebffea0c53f9281304fdc914b160a2af90"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "36d2beb1cd50402c1d7a725131966cb410a51a9c6658fa04ac2d1195c6331512"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "35c493d196b0cb7e80ae19f45156f5cf0550a2901e9d61c3074ca2a54d9a9c28"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "ebc908428e0c1c5fa2ad7dc624e325ec3b79ff7332a5948ddec0351f2cc625c2",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\world_item_physical_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_physical_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\item_body_config_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_item_factory_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_spawn_owner_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_property_map_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_object_manager_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\world_item_object_owner_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\world-item-physical-v2\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\world-item-physical-v2\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\world-item-physical-v2\\world-item-physical-v2.bin"
+  ],
+  "stdout": "POItem native PASS actual-cache canonical Item+real Box2D circle/sensor/filter/pose/assignment/detach, source NULL-tooltip end and collision no-op methods; bounds/Debug/PF/Handle transports explicit fixtures; original differential pending; checks 33\n",
+  "stderr": "",
+  "exit_code": 0
+}

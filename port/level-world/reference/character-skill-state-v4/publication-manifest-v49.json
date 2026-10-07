@@ -1,0 +1,85 @@
+{
+  "scope": "Draw-only current synced source outer; no particles/clock/RNG/global frame reorder changes. Composite vtable additive method requires coherent rebuild.",
+  "files": [
+    {
+      "path": "port/level-world/character_authored_particle_fx_v4.hpp",
+      "sha256": "86968aa1cf4995b4f5e3c2f3ace477a9cfad30cdf75ed352ce5e91f1076f9f17",
+      "bytes": 1995
+    },
+    {
+      "path": "port/level-world/character_authored_particle_fx_v4.cpp",
+      "sha256": "72902b13bf0c14a70196d07410ed154b334154bd0f436f54876b71924a34f097",
+      "bytes": 24951
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v5.cpp",
+      "sha256": "b05265b24a47ec2d6fd81ba731aa76147bca25c4065b83e865ee240b0b89ac94",
+      "bytes": 26791
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v6.cpp",
+      "sha256": "ac784950a5372b5eb08b6d1298044265286b0412895016981d05aaa0b5b6566e",
+      "bytes": 26970
+    },
+    {
+      "path": "port/level-world/character_authored_resource_v32.cpp",
+      "sha256": "11076a12633ce6a0e70253fdc0b4ff66fe4ccb233e4c15321d4c3da781db1d27",
+      "bytes": 26999
+    },
+    {
+      "path": "port/level-world/character_mesh_fx_owner_v4.cpp",
+      "sha256": "7ea971c809dcaa24319e3da07c732f159a77fb0428d4ee1a2b1f02d9c8fe1112",
+      "bytes": 24374
+    },
+    {
+      "path": "port/level-world/tests/authored_fx_publication_v49.cpp",
+      "sha256": "0d4bd5cdbd10c0015713dad84c27643d3ad12afd9053eec66399409a751ced26",
+      "bytes": 3969
+    },
+    {
+      "path": "port/level-world/tools/run_authored_fx_publication_v49.py",
+      "sha256": "51a5bca74bee63bccd2ebb0e91c691c79dd33613008c6e934c80a1559126fa05",
+      "bytes": 383
+    },
+    {
+      "path": "port/level-world/reports/fx-publication-v49-strict.json",
+      "sha256": "767a86d066b9984da2ddf46444914fa8c6921f422058f4fc0600dc65170dd615",
+      "bytes": 1220
+    },
+    {
+      "path": "port/level-world/reports/fx-publication-v49-test-strict.json",
+      "sha256": "51acb75967b31a81b73b238cb278cebef0a548998612ac44fc267ee068f6af5f",
+      "bytes": 254
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/fx-publication-v49.md",
+      "sha256": "fb2f9165d52c91bb79eecab5569f55038c24a8bacccd549f8664c1236b52d0e4",
+      "bytes": 3761
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/scene-ctor-v49.json",
+      "sha256": "c435dac8843134dffe89f46f2214ab2b4ad6e198dc7d24bced0ec95b0d472277",
+      "bytes": 25013
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/scene-animate-v49.json",
+      "sha256": "fe3c734a4bf3753d6c212e46fe8b37881f39c0188f8e10e370976f3dbae23c30",
+      "bytes": 4657
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/fx-global-order-v49.json",
+      "sha256": "bbaa7e13fa7a4f029382bfeb51ad1de7f4db4050d5be6355bf06889c7e64eb7f",
+      "bytes": 25093
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/fx-frame-chain-v49.json",
+      "sha256": "88cb78c610827d2c6d4d9a56386f44a39084a6d8de74217c15641488de480511",
+      "bytes": 54247
+    },
+    {
+      "path": "port/level-world/reference/character-skill-state-v4/fx-setters-v49.json",
+      "sha256": "2ed25e9de2e1ddc8b486dc94d591ecedad9fcdbb31e363e74497150c455e65cf",
+      "bytes": 10454
+    }
+  ]
+}

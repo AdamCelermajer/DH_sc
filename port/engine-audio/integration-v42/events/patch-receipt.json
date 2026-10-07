@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "scope": "Private copied tree only. Exact canonical SHA guard before mixed-newline git compatibility. Final normalized contents equal prospective.",
+  "files": 4,
+  "patch_sha256": "b29b151f0a6061436809156a181dc499593a8066809e6838c4121c34b0a2fd8a"
+}

@@ -1,0 +1,6 @@
+{
+  "session_control_source_equivalent_after_version_and_include_changes": true,
+  "v40_sha256": "f10e9f74fcf2d9e12ab3eed71faf9188f6aa79a818da7c494a8a250a2af47a95",
+  "v42_sha256": "4fa51239292536591836546465082fb2067ca352b43c4c08e0cde304decb1c4c",
+  "scope": "Exact source equality for session methods after mechanical identity/include versioning; original V40 safety fixtures apply to those same statements, V42 real manager fixture independently closes/drains"
+}

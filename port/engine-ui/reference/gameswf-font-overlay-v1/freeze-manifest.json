@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/overlays/font-v1/gameswf_font.cpp": "c587ec54baf8a2b68d747ad8f5c8039334df27d6c55f764fc30a8137f2053d1d",
+    "port/engine-ui/gameswf_font_overlay_v1.cmake": "08734d539f4cdb082a6b6d98b425d61aeef6ad3177352354679d23c359b0266c",
+    "port/engine-ui/tests/gameswf_font_overlay.cpp": "512b62d7009c2009879e9d0e9caf8fa72800f523e772e4107f4bd35cddbb5d5f"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/gameswf-font-overlay-v1-host-audit.json": "2ef2c204444a20265aaf2d4bb26db9fc85bcf48db723f67148f2328badcf5ce5",
+    "port/engine-ui/reports/gameswf-font-overlay-v1-android-syntax.json": "dc7011b648f648c07253b1b9e8b198cafe0ee66599af4d39f1c260cfd8932a9c",
+    "port/engine-ui/reference/gameswf-font-overlay-v1/NOTES.md": "041fb68607307bba45dff519404b9b4709ff63d6b02d5d172a38514631cb2636",
+    "port/engine-ui/reference/gameswf-font-overlay-v1/overlay-manifest.json": "b64b4cf1834bd5d625df1e595fb5ba8f872910b480f72307dd40c4e779d90ebe",
+    "port/engine-ui/reference/gameswf-font-overlay-v1/gameswf_font.patch": "58c5641b2da4a2c5fa6e21f6ff346813376267d848ea999521644483510db3e5",
+    "port/engine-ui/reference/gameswf-font-overlay-v1/stock-gameswf_font.cpp": "22982233db016b2344d115db3b5eec6d62944094449de4ef25a328187d05848b",
+    "port/engine-ui/reports/swf-glyph-lookup-arm64-differential.json": "b004f12dcd813612c7adb5a2079bea3ef4151df6885016c40d1fec403c229ef1",
+    "port/engine-ui/reference/swf-glyph-lookup/source-fixtures.bin": "ab8d890648aa64009b23f17adc3f3518dc4c4fc3ed712e432926824526611b99",
+    ".local-inputs/font-text-discovery/font-overlay-v1/snapshot.json": "f1da8f25f31dd12e6436e85b96578b47406d54a34a7ea3e6578852f89c747123",
+    ".local-inputs/font-text-discovery/font-overlay-v1/archive-comparison.json": "8cee59ab09ba3e228527ab8879680569e066aa60727ab130dc77835b1a6a2a16",
+    ".local-inputs/font-text-discovery/font-overlay-v1/borrowed-global-last-player-failure.log": "7e1566901be9f9f8b5aa793414cdfe35834d428d7e70e0569fd802d7b0394665"
+  },
+  "stock_source_sha256": "22982233db016b2344d115db3b5eec6d62944094449de4ef25a328187d05848b",
+  "stock_vendor_unchanged": true,
+  "prior_frozen_projection_unchanged": true,
+  "prior_frozen_provider_unchanged": true,
+  "original_supported_cases": 3456,
+  "changed_core_members": 1,
+  "unchanged_core_members": 94,
+  "android_syntax_checks": 2,
+  "script_sha256": "3f5cc92f7bf294f77269ee07881f6d74227755d5b8dc2f2b19eef0ba58a25e4c",
+  "scope": "Opt-in v1 source-fork font overlay only. Current SwfHudFreetypeProvider does not consume embedded shapes. Main97 capture dependency is historical immutable source; no current evolving facade rebinding. No APK/device claim."
+}

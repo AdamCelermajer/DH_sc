@@ -1,0 +1,32 @@
+{
+  "scope": "CPU decoded real-source positive gameplay transport and atomic/control lifetime fixtures; no output device or fake production GS",
+  "runs": [
+    {
+      "optimization": "O1",
+      "stdout": "PASS 3970 gameplay/clock checks; decoded output true; actual AAudio/World false\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "optimization": "O2",
+      "stdout": "PASS 1153 gameplay/clock checks; decoded output true; actual AAudio/World false\n",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ],
+  "source_sha256": {
+    "port/engine-audio/tests/audio_gameplay_runtime_v40_host.cpp": "6d9d107b3445f0f8cbf7a976606e0f6242e812a2e102cd4792943326f6b244ab",
+    "port/level-world/vox_play3d_owner_v2.cpp": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc",
+    "port/engine-audio/audio_clock_v40.cpp": "02f7e96ad26e8f3dfb49b50195d6a08efbaf256f037b638b6dd796d6f5e63b71",
+    "port/engine-audio/audio_gameplay_runtime_v40.cpp": "6bed25a433331c723ebe5c99af02b073836a3966a2b28d6d1045260a1b883225",
+    "port/engine-audio/audio_source_command_v40.cpp": "be2dc7d524f9040142699585e924fc99fd445dedd0b330d7944b864ae863f496",
+    "port/engine-audio/vox_source_fields_v38.cpp": "35d27ba6840e0ad3eb4fdfc465cba9860678481dd352412d10b000477b5ae304",
+    "port/engine-audio/audio_spatial_v34.cpp": "9bf555424502a015694af03c217d156fa2404e8d8a9b39f2d30f2c75e42982f9",
+    "port/engine-audio/audio_source_bindings_v38.cpp": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6",
+    "port/engine-audio/audio_sample_v34.cpp": "7a31d0493ae300a23be3b269badc20c47d617d88ddd364f43b622a8d4636fd32",
+    "port/engine-audio/audio_mixer_v34.cpp": "f220ca05e94ef8a172e5cd5297168bb00d82a5aa1d571b617d6d7f555bba63c6",
+    "port/engine-audio/audio_catalog_v34.cpp": "7cf74934301d2d8b5cf4bdefd8d86c31a9078edd333b9889f22afd5c4fe1b5c0",
+    "port/engine-audio/audio_bank_v34.cpp": "0b045772219c8f8b76404614dd46412f6cb9d7e984bcc176edbea8436684226a",
+    "port/engine-audio/audio_native_envelope_v34.cpp": "9c62269d40d01521f91e4c74111d38d6dbba913f671d7fc4216c1fc18e87e31a"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character9_SetLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b73a4",
+      "size": 260,
+      "sha256": "43e4305f7d220b89be31959d5d86bd3e6338bbaded7e7cb7baceb0380178ea69"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20UpdateBasePropertiesEi",
+      "elf_address": "0x3e087c",
+      "size": 44,
+      "sha256": "9ac840ef18607d97efefe86e5c5a54b4918bf6919f22c25163282a9c7c6d7df0"
+    },
+    {
+      "original_symbol": "_ZNK9Character8GetLevelEv",
+      "elf_address": "0x3bd120",
+      "size": 16,
+      "sha256": "25e1ded8b96fbf69bc67e3cdb848c1663f70bda098570256216638df94f39bdf"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9"
+    }
+  ]
+}

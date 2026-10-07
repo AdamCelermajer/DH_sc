@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi",
+      "elf_address": "0x7abe0c",
+      "size": 296,
+      "sha256": "e115704c1d068cb6885f0fa122d1af505b2246b72ebfdfb425909fc8794defe9"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase7OnEventERN8RenderFX5EventE",
+      "elf_address": "0x423214",
+      "size": 264,
+      "sha256": "047021344faa764e1524119c061a390ceef8017d15cf0f116f09ffffff7166f1"
+    },
+    {
+      "original_symbol": "_ZN6MenuFX7OnEventERN8RenderFX5EventE",
+      "elf_address": "0x7adf20",
+      "size": 48,
+      "sha256": "8d49998201801bde82fe53b0a51e2d7223389d98e3c43a936ffe7b3a82498fd7"
+    },
+    {
+      "original_symbol": "_ZN6MenuFX14CanHandleEventERN8RenderFX5EventE",
+      "elf_address": "0x7adee0",
+      "size": 56,
+      "sha256": "b1adae4e323e6a7fa56919be51c3e91dc11a45cc35f6d91cec0a3459977b1fbe"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager7OnEventERN8RenderFX5EventE",
+      "elf_address": "0x42d060",
+      "size": 140,
+      "sha256": "764f5542ed9d9b2c0f61fed3963806a75308071585fdf522c8606aeecdfa5958"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "source_frozen": true,
+  "watchdog_sha256": "c9dd0d7895c4cc54e46bab4f1e07488778b6c0dfd73690cdcc04063c044271f1",
+  "focused_race_tests": 13,
+  "existing_tests": 16,
+  "live_acceptance": "PENDING_NEXT_ROOT_AUTHORIZED_LAUNCH",
+  "no_live_process_operations": true,
+  "files": [
+    {
+      "path": "port/android-native/tools/emulator_watchdog_v36.py",
+      "sha256": "c9dd0d7895c4cc54e46bab4f1e07488778b6c0dfd73690cdcc04063c044271f1",
+      "bytes": 33024
+    },
+    {
+      "path": "port/android-native/tools/tests/test_watchdog_child_exit_v42.py",
+      "sha256": "23bafe32c9e51727bc2829af1cac055cf35afebb2276310c5b78160872dcd5bb",
+      "bytes": 6349
+    },
+    {
+      "path": "port/android-native/tools/tests/test_emulator_watchdog_v36.py",
+      "sha256": "368bcc0c0e8a513e804603bd228feb8aeee34826ed8ff6d994ccae0fb405dcd1",
+      "bytes": 13518
+    },
+    {
+      "path": "port/android-native/reports/emulator-watchdog-child-exit-v42/README.md",
+      "sha256": "ec88f22cd32db33048f46c9040597061ad5ab917be7af95c04ab5cab85e7ea89",
+      "bytes": 3592
+    },
+    {
+      "path": "port/android-native/reports/emulator-watchdog-child-exit-v42/race-test-receipt.json",
+      "sha256": "57d656dad37f1e866150ac52074fbdec61694014e66fde2392a28e1189df9d7c",
+      "bytes": 408
+    },
+    {
+      "path": "port/android-native/reports/emulator-watchdog-child-exit-v42/existing-test-receipt.json",
+      "sha256": "5faef57fefff300d528d0ec376c7d8c1c6912da508f6ae21832d74bb83739786",
+      "bytes": 383
+    },
+    {
+      "path": ".local-inputs/freeze_watchdog_child_exit_v42.py",
+      "sha256": "c3f4a9066a8f46f97868d5dfa79edf7e02f33af5a4e6ebca1305e29e436c7dc5",
+      "bytes": 1923
+    }
+  ]
+}

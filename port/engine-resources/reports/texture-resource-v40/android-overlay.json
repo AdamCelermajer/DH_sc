@@ -1,0 +1,17 @@
+{
+  "version": 0,
+  "case-sensitive": false,
+  "use-external-names": false,
+  "roots": [
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/asset-payloads/zip_asset_pack_v1.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/texture-resource-v40/zip_asset_pack_v1.hpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/texture-resource-v40/original_cache_assets_v1.hpp"
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "status": "PASS",
+  "one_benign_child_only": true,
+  "hard_job_bytes": 67108864,
+  "no_emulator_or_device_operations": true,
+  "actual_same_handle_exit_diagnostic_observed": true,
+  "actual_extended_job_notification_lag_reproduced": true,
+  "exit_observation": {
+    "pid": 36916,
+    "reason": "GetExitCodeProcess_exited",
+    "exit_code": 0,
+    "create_time_filetime": 134357747200586304,
+    "exit_time_filetime": 134357747201452312
+  },
+  "snapshot_before": {
+    "wall_time_utc": "2026-10-06T15:38:40Z",
+    "elapsed_seconds": 0.0,
+    "expected_owner": {
+      "pid": 10052,
+      "create_time_filetime": 134357747199307378
+    },
+    "complete": true,
+    "errors": [],
+    "job_members": [
+      {
+        "pid": 36916,
+        "parent_pid": 10052,
+        "image": "python.exe",
+        "create_time_filetime": 134357747200586304,
+        "private_bytes": 389120,
+        "working_set_bytes": 2142208,
+        "handles": 0,
+        "alive": true
+      }
+    ],
+    "qemu": [],
+    "owned_process_tree": [
+      {
+        "pid": 10052,
+        "parent_pid": 42508,
+        "image": "python.exe",
+        "create_time_filetime": 134357747199307378,
+        "private_bytes": 12668928,
+        "working_set_bytes": 22536192,
+        "handles": 199,
+        "alive": true
+      },
+      {
+        "pid": 36916,
+        "parent_pid": 10052,
+        "image": "python.exe",
+        "create_time_filetime": 134357747200586304,
+        "private_bytes": 389120,
+        "working_set_bytes": 2142208,
+        "handles": 0,
+        "alive": true
+      }
+    ],
+    "job_process_ids": [
+      36916
+    ],
+    "manifest_unchanged": true,
+    "job_membership_passes": [
+      {
+        "pass": 1,
+        "queried_count": 1,
+        "queried_pids": [
+          36916
+        ],
+        "sampled_count": 1,
+        "sampled_identities": [
+          {
+            "pid": 36916,
+            "create_time_filetime": 134357747200586304
+          }
+        ],
+        "process_gone_count": 0,
+        "process_gone_pids": [],
+        "process_gone_diagnostics": [],
+        "accepted": true,
+        "pid_list_limit": 64,
+        "refreshed_count": 1,
+        "refreshed_pids": [
+          36916
+        ],
+        "departed_count": 0,
+        "departed_pids": [],
+        "new_count": 0,
+        "new_pids": [],
+        "missing_current_count": 0,
+        "missing_current_pids": []
+      }
+    ],
+    "system": {
+      "commit_total_bytes": 44157386752,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 9219047424,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 237140,
+      "processes": 563
+    },
+    "owner": {
+      "pid": 10052,
+      "parent_pid": 42508,
+      "image": "python.exe",
+      "create_time_filetime": 134357747199307378,
+      "private_bytes": 12668928,
+      "working_set_bytes": 22536192,
+      "handles": 199,
+      "alive": true
+    },
+    "job_membership_requeries": 1,
+    "job_exit_drain_wait_seconds": 0.0,
+    "job_reconciled_exited_pids": [],
+    "job_reconciled_departed_pids": [],
+    "gone_enumerated_pids": []
+  },
+  "snapshot_after_exit": {
+    "wall_time_utc": "2026-10-06T15:38:40Z",
+    "elapsed_seconds": 0.014999999999417923,
+    "expected_owner": {
+      "pid": 10052,
+      "create_time_filetime": 134357747199307378
+    },
+    "complete": true,
+    "errors": [],
+    "job_members": [],
+    "qemu": [],
+    "owned_process_tree": [
+      {
+        "pid": 10052,
+        "parent_pid": 42508,
+        "image": "python.exe",
+        "create_time_filetime": 134357747199307378,
+        "private_bytes": 12738560,
+        "working_set_bytes": 22593536,
+        "handles": 198,
+        "alive": true
+      }
+    ],
+    "job_process_ids": [],
+    "manifest_unchanged": true,
+    "job_membership_passes": [
+      {
+        "pass": 1,
+        "queried_count": 1,
+        "queried_pids": [
+          44144
+        ],
+        "sampled_count": 0,
+        "sampled_identities": [],
+        "process_gone_count": 1,
+        "process_gone_pids": [
+          44144
+        ],
+        "process_gone_diagnostics": [
+          {
+            "pid": 44144,
+            "reason": "GetExitCodeProcess_exited",
+            "exit_code": 0,
+            "create_time_filetime": 134357747200862899,
+            "exit_time_filetime": 0
+          }
+        ],
+        "accepted": false,
+        "pid_list_limit": 64,
+        "refreshed_count": 1,
+        "refreshed_pids": [
+          44144
+        ],
+        "departed_count": 0,
+        "departed_pids": [],
+        "new_count": 0,
+        "new_pids": [],
+        "missing_current_count": 1,
+        "missing_current_pids": [
+          44144
+        ],
+        "exit_drain_wait_requested_seconds": 0.075,
+        "exit_drain_wait_observed_seconds": 0.0779999999977008
+      },
+      {
+        "pass": 2,
+        "queried_count": 1,
+        "queried_pids": [
+          44144
+        ],
+        "sampled_count": 0,
+        "sampled_identities": [],
+        "process_gone_count": 1,
+        "process_gone_pids": [
+          44144
+        ],
+        "process_gone_diagnostics": [
+          {
+            "pid": 44144,
+            "reason": "OpenProcess_ERROR_INVALID_PARAMETER"
+          }
+        ],
+        "accepted": true,
+        "pid_list_limit": 64,
+        "refreshed_count": 0,
+        "refreshed_pids": [],
+        "departed_count": 1,
+        "departed_pids": [
+          44144
+        ],
+        "new_count": 0,
+        "new_pids": [],
+        "missing_current_count": 0,
+        "missing_current_pids": []
+      }
+    ],
+    "system": {
+      "commit_total_bytes": 44159111168,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 9218416640,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 237140,
+      "processes": 563
+    },
+    "owner": {
+      "pid": 10052,
+      "parent_pid": 42508,
+      "image": "python.exe",
+      "create_time_filetime": 134357747199307378,
+      "private_bytes": 12738560,
+      "working_set_bytes": 22593536,
+      "handles": 198,
+      "alive": true
+    },
+    "job_membership_requeries": 2,
+    "job_exit_drain_wait_seconds": 0.0779999999977008,
+    "job_reconciled_exited_pids": [
+      36916,
+      44144
+    ],
+    "job_reconciled_departed_pids": [
+      36916,
+      44144
+    ],
+    "gone_enumerated_pids": [
+      36916,
+      44144
+    ]
+  },
+  "watchdog_sha256": "6bfa25f98ca82729878e50313af0af2c54c7f33cf9c38346b8146aab093b93ba"
+}

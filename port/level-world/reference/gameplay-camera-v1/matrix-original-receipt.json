@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "cases": 316,
+  "mismatches": 0,
+  "scope": "Whole original buildCameraLookAtMatrix582e64 and perspectiveFov582c88 vs optimized ARM64; compiler softfloat and tan/sqrt imports modeled explicitly; includes matrix identity byte. No GL projection conversion or live camera acceptance.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "8bd2ca74d5817e839b3855094327f82d9cce34ade511bb3eb34fec87d85c18d0",
+  "imports": {
+    "__aeabi_fsub": 828,
+    "__aeabi_fmul": 8508,
+    "__aeabi_fadd": 4096,
+    "__aeabi_fcmpeq": 512,
+    "sqrtf": 512,
+    "__aeabi_fdiv": 632,
+    "__aeabi_f2d": 120,
+    "__aeabi_dmul": 60,
+    "tan": 60,
+    "__aeabi_ddiv": 120,
+    "__aeabi_d2f": 120
+  }
+}

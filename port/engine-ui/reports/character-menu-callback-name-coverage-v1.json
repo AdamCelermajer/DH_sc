@@ -1,0 +1,30 @@
+{
+  "validation": "PASS",
+  "recovered_callback_names": 23,
+  "callbacks": [
+    "NativeEquipSkill",
+    "NativeGetPlayerStats",
+    "NativeGetSkillDetails",
+    "NativeHUDGetActiveFaery",
+    "NativeHUDGetIsFaeryUnlocked",
+    "NativeHUDSetActiveFaery",
+    "NativeInvAutoEquipSlot",
+    "NativeInvDropItem",
+    "NativeInvEquipItem",
+    "NativeInvGetEquipedItem",
+    "NativeInvGetHasOffHandWeapon",
+    "NativeInvGetHasTwoHandedWeapon",
+    "NativeInvGetItemDetails",
+    "NativeInvGetItemsListForSlot",
+    "NativeInvGetPlayerGold",
+    "NativeInvTransmuteItem",
+    "NativeInvUnequipItem",
+    "NativeSaveGame",
+    "NativeSkillGetEquipedSkillsIDs",
+    "NativeSkillsGetSkillPointsLeft",
+    "NativeSkillsTrainSkill",
+    "NativeStatsAssignPoint",
+    "NativeSwapEquipment"
+  ],
+  "qualification": "Name recognition only; genuine required provider and whole callback value/action proofs remain explicit candidates. NativeReloadSkills/navigation outside this recovered23 subset belongs to root coordinator."
+}

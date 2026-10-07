@@ -1,0 +1,102 @@
+{
+  "source_frozen": true,
+  "kernel_trace_loss_confirmed": true,
+  "whole_workload_causal_allocation": "UNRESOLVED",
+  "GPU_or_present_timestamp_samples": "UNAVAILABLE",
+  "calibrated_capture": "PREPARED_NOT_RUN",
+  "no_device_or_server_calls": true,
+  "inputs": [
+    {
+      "path": ".local-inputs/present-attribution-v42/20261006-163251-bc0a7b7b/capture.pftrace",
+      "sha256": "9e58325cb4527ab8f7b50b6606f64d4c98d9119dd86d77401b9dd42bc07c7049",
+      "bytes": 7959444
+    },
+    {
+      "path": ".local-inputs/present-attribution-v42/20261006-163251-bc0a7b7b/receipt.json",
+      "sha256": "9bc87e7163f6314cc07ec118f3b4bc1f68c93c3fd7e2f58774ba2511f6ec4d07",
+      "bytes": 8121
+    },
+    {
+      "path": "port/android-native/reports/emulator-v41/frame-boundary-v42.json",
+      "sha256": "3e941f47938ac4b81f2daa6b0b3fe75633304d64e2bf806520602fc5605fa2bf",
+      "bytes": 40769
+    },
+    {
+      "path": "port/android-native/reports/emulator-v41/frame-attribution-v42.json",
+      "sha256": "2129300a6d35ba0466c78a92cfc5c60444807bbee5c45d78b842d12ffc865a5d",
+      "bytes": 2290
+    }
+  ],
+  "files": [
+    {
+      "path": "port/android-native/tools/parse_saved_perfetto_v42.py",
+      "sha256": "547d778930307901740d6dc849a1379c9c34866483bc0360f2d29ea7aee8c4e3",
+      "bytes": 10815
+    },
+    {
+      "path": "port/android-native/tools/test_saved_perfetto_v42.py",
+      "sha256": "a34f0de62ded051b824aefcbad78076ce22aa10f585042721188b8d5643f55f9",
+      "bytes": 3564
+    },
+    {
+      "path": "port/android-native/tools/collect_present_trace_calibrated_v43.py",
+      "sha256": "b9ee68f6301d8d72f420aec6b032a745be92ce7ce2a87f613b5504bc07cb54ef",
+      "bytes": 337
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/capture-calibrated-v43.textproto",
+      "sha256": "bec2fac7b2b2e79fc0d382fe56729c5d8b53785a2e86cd3d5c62e0587ca582c2",
+      "bytes": 920
+    },
+    {
+      "path": ".local-inputs/summarize_saved_trace_v42.py",
+      "sha256": "eb302cdaf8e1c977ba99272c95de50cb481e2d70530b6f8a9d30db3cf8784c48",
+      "bytes": 3171
+    },
+    {
+      "path": ".local-inputs/freeze_runtime_analysis_v42.py",
+      "sha256": "0a7517a0dc58ebfb79bc0aa59e3b5ed766df515e7f1d061f2d992ad3617ce2a1",
+      "bytes": 2389
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/README.md",
+      "sha256": "5e97410069bcc68a0932085415bfc09668ccb2120e7122231daf0dcfd69efb75",
+      "bytes": 7710
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/attribution-summary.json",
+      "sha256": "202b574e38b9a08f1b8f82ce368490eef04d1855b8e7db43a9c8921160af3332",
+      "bytes": 1839
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/callback-trace-correlation.json",
+      "sha256": "21eb5812240b154ef7fda3e8a991355b1f840fcae9323d0325d27c60849692fc",
+      "bytes": 59961
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/offline-ftrace.json",
+      "sha256": "6f0c793c88798e1f81f6f72f5f085ba096f7bee17d8635c1c756c794ecda52dd",
+      "bytes": 208564
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/offline-ftrace-detail.json",
+      "sha256": "968cf592465968c7a6ed1f6c602c9d6dee70f806c146733f2867e92ada590007",
+      "bytes": 2636822
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/offline-parser-test-receipt.json",
+      "sha256": "07006e18d6422f627f2a198043428b8d6955acded48e5e2a5797c9978eefb7c7",
+      "bytes": 233
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/tool-inventory.json",
+      "sha256": "9001d1f5a2aa16d9a541e4b097816428d8fbb4635dcbb077ff73ae28ee0e3513",
+      "bytes": 16745
+    },
+    {
+      "path": "port/android-native/reports/present-attribution-v42/runtime-analysis/tool-protocol.json",
+      "sha256": "e2e8b7203bebf2d1278df47886ce1212ad43195507b2fb3d4407f9d8fc487fa1",
+      "bytes": 37723
+    }
+  ]
+}

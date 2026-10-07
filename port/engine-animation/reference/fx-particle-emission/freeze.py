@@ -1,0 +1,7 @@
+import hashlib,json
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[2];REPO=ROOT.parents[1]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+files=[ROOT/'particle_emission.hpp',ROOT/'particle_emission.cpp',ROOT/'tests/particle_emission.cpp',ROOT/'tests/particle_emission_differential.py',ROOT/'tests/particle_emission_host.py',ROOT/'tools/build_particle_emission_oracle.ps1']
+evidence=[ROOT/'reference/fx-particle-emission/original-functions.json',ROOT/'reference/fx-particle-emission/particle-emission-fixtures.bin',ROOT/'reference/fx-particle-emission/NOTES.md',ROOT/'reference/fx-particle-database/original-functions.json',ROOT/'reference/fx-particle-database/probe.py',ROOT/'reference/fx-particle-database/probe.json',ROOT/'reference/fx-particle-database/NOTES.md',ROOT/'reports/particle-emission-arm64-differential.json',ROOT/'reports/particle-emission-host-audit.json']
+report={'validation':'PASS','source_sha256':{str(p.relative_to(REPO)).replace('\\','/'):sha(p)for p in files},'evidence_sha256':{str(p.relative_to(REPO)).replace('\\','/'):sha(p)for p in evidence},'scope':'Owned external FX77 type28 sampler→retained generation fields→source emitted storage. Complete internal streaming ownership, remaining model initialization/simulation/material/baker/render/attachment backends required.'};(ROOT/'reference/fx-particle-emission/native-source-freeze.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

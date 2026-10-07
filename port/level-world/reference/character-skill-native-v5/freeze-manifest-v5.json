@@ -1,0 +1,27 @@
+{
+  "version": 5,
+  "scope": "private borrowed native bindings; full_campaign=false",
+  "sha256": {
+    "character_skill_native_v5.hpp": "fcc6f12b129ae74a79bbe83c148beb6878728b319f648028b226e1a96ee63643",
+    "character_skill_native_v5.cpp": "98237f63987e656d42b5d4ea0bec53152c9148928483b190819a60b0ac72815f",
+    "character_skill_mana_v5.cpp": "e64b46e566add5c2d247a544c127557c401cd2832b5826b3954dfa09c0587f9f",
+    "character_target_search_v5.hpp": "15e956bb64be5d2a016d702c8fce439171f42a939d6714e3018da4158545445a",
+    "character_target_search_v5.cpp": "e8aaa43805dcaed1cbff6f5fb3d224694033a4a2129e298418defe200224f170",
+    "tests/character_skill_mana_v5_differential.py": "44383af5d80706fd1b64c24284b53ba04f79822addfd11ab00752b7f3d452251",
+    "tests/character_skill_native_v5_host.cpp": "89c842e148620a9873c98acde9b80b154ab6cb129bdf2930df0f5de139b7c8ea",
+    "tests/character_target_search_v5_corpus.cpp": "7498d0b9e772cf23d42bc7720ec943a23aaaceb85ec0e936a2605e88c7132420",
+    "tests/character_target_search_v5_host.cpp": "192d581bca54989c29a8806c1ca177ea0b0e7f24213b64b09636825b40864b82",
+    "tools/extract_character_skill_native_v5.py": "d656b9d4bc01ed63830d07e8a7bd9562cba07cc9ff5190528fddb4bdc1865cb6",
+    "tools/prepare_character_target_search_v5.py": "ed100fc050f0bf7ca7c84bfb665b69d4127a090e6e302e9853a38aa7064d63ae",
+    "tools/run_character_skill_native_v5_host.py": "18c0af7d2ff8c4d1765da3d0e8e30eac7fe3e5c8552199c5e861401f329b7007",
+    "tools/freeze_character_skill_native_v5.py": "de0179b59a362f8af0af3e048decd7bc1d64f3e8d8b39a4a53716e00b53d1964",
+    "reference/character-skill-native-v5/NOTES.md": "47c0352d8691bdc0d0820904204f0178ce21b7cf314cbe74938d22309ef68e68",
+    "reference/character-skill-native-v5/original-functions.json": "1b09a9c27e4f6487c00917d4653bb5b14d6a2d7d55157fbac6c5f579f4e2feac",
+    "reference/character-skill-native-v5/original-functions.asm": "4fd159f398212006bf6584bec38bdc98df45074e7b6ed80a92d5163c663170ca",
+    "reference/character-skill-native-v5/search-versioning-map-v5.json": "f956a240d4e31bf2ed1fc13313037d559c4803663a4db5872382659192990304",
+    "reference/character-skill-native-v5/mana-gold-v5.json": "c265045e527d8d150e05b6fe2860ff6a510b2ddfbe34731ca8f151e52546ca07",
+    "reports/character-skill-mana-v5-arm64-differential.json": "c577d2572d50a5effac14fb6f053aaadd3df3b30990aceaa9ea64ab8545b1bb8",
+    "reports/character-skill-native-v5-host-audit.json": "ea6c7c5c9be1980a7990aac32b958a4dc291524ec6ea1dd3da708016d9400cbc"
+  },
+  "preserved_v4_manifest_sha256": "0bfc3abd148e3a426281ba3adaf8e157f2801e51c61659700a2e9259acc11a2c"
+}

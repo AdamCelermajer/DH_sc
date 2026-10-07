@@ -1,0 +1,74 @@
+[
+  {
+    "function": "_ZN12MenuMerchant19RenderCharacterPaneERN7gameswf12render_stateEPv",
+    "load": "0x432f00",
+    "pointer": "0x8cb540",
+    "text": "avatarpane"
+  },
+  {
+    "function": "_ZN16MenuCharMenu_Map15CreateMapCameraEv",
+    "load": "0x453590",
+    "pointer": "0x8c6878",
+    "text": "Default"
+  },
+  {
+    "function": "_ZN16MenuCharMenu_Map15CreateMapCameraEv",
+    "load": "0x4535d4",
+    "pointer": "0x8cce08",
+    "text": "PlayerCamera_Default_minimap"
+  },
+  {
+    "function": "_ZN16MenuCharMenu_Map15CreateMapCameraEv",
+    "load": "0x4535d8",
+    "pointer": "0x8ccde0",
+    "text": "data/3D/camera/minimapcameras.bdae"
+  },
+  {
+    "function": "_ZN16MenuCharMenu_Map15CreateMapCameraEv",
+    "load": "0x45373c",
+    "pointer": "0x8c8868",
+    "text": "m_mapCam"
+  },
+  {
+    "function": "_ZN16MenuCharMenu_Map15CreateMapCameraEv",
+    "load": "0x453744",
+    "pointer": "0x8ccd88",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\CharacterMenu\\MenuCharMenu_Map.cpp"
+  },
+  {
+    "function": "_ZN11MenuMinimap15CreateMapCameraEv",
+    "load": "0x434e94",
+    "pointer": "0x8c88c0",
+    "text": "MiniMap"
+  },
+  {
+    "function": "_ZN11MenuMinimap15CreateMapCameraEv",
+    "load": "0x434ed8",
+    "pointer": "0x8c6670",
+    "text": "PlayerCamera_Default"
+  },
+  {
+    "function": "_ZN11MenuMinimap15CreateMapCameraEv",
+    "load": "0x434edc",
+    "pointer": "0x8c6650",
+    "text": "data/3D/camera/CameraTests.bdae"
+  },
+  {
+    "function": "_ZN11MenuMinimap15CreateMapCameraEv",
+    "load": "0x434fac",
+    "pointer": "0x8c8868",
+    "text": "m_mapCam"
+  },
+  {
+    "function": "_ZN11MenuMinimap15CreateMapCameraEv",
+    "load": "0x434fb4",
+    "pointer": "0x8cb6b8",
+    "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\MenuMinimap.cpp"
+  },
+  {
+    "function": "_ZN20MenuCharMenu_InvMain19RenderCharacterPaneERN7gameswf12render_stateEPv",
+    "load": "0x452480",
+    "pointer": "0x8cb540",
+    "text": "avatarpane"
+  }
+]

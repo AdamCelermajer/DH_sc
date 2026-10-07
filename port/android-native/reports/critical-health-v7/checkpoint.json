@@ -1,0 +1,105 @@
+{
+  "status": "PASS_CRITICAL_HEALTH_SCOPE_ONLY",
+  "apk": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\build\\checkpoints\\dh2-native-critical-health-v7-55164f78.apk",
+  "apk_sha256": "55164f7836de89b7740887e0e34e830acd8d6717ec1033ff7f38b94aa7c7b97a",
+  "apk_bytes": 620003301,
+  "checks": {
+    "actual_combat_low_hp": true,
+    "actual_live_pulse_min": true,
+    "actual_live_pulse_max": true,
+    "actual_original_22_frame_child": true,
+    "real_potion_accepted": true,
+    "real_recovery_transparent": true,
+    "successful_combat_and_recovery_no_native_errors": true,
+    "four_edges_visual_review": true,
+    "healthy_recovery_visual_review": true,
+    "fresh_world_ready": true
+  },
+  "component_tests": {
+    "pulse": {
+      "receipt": "port/level-world/reports/android-native-owner-tests/authored-hurt-pulse-v7/receipt.json",
+      "sha256": "d07ec50b24ca88516fe057c2c047831296a8619ead5e8a3e23fcf864d5588e71",
+      "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+      "stdout": "{\"validation\":\"PASS\",\"real_authored_pulse_frames\":22,\"advanced\":66,\"minimum_alpha\":0.648438,\"maximum_alpha\":1,\"no_tick_and_health_recovery\":true,\"initial_frame\":0}\n",
+      "linked_base_apk_sha256": "6d1b7f73a4361a59a20083e808909ae1dd55b5075384ecd1c8fef0272e72c934"
+    },
+    "layout": {
+      "receipt": "port/level-world/reports/android-native-owner-tests/authored-hurt-layout-v7/receipt.json",
+      "sha256": "1dfdfa6598a034ecbc8997a6ec146d9c3b5bd09825dd8cd711fc68b718592d96",
+      "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":4253,\"viewports\":4,\"pulse_advances_per_viewport\":66,\"scope\":\"actual cached HurtCorners full-display geometry and untouched health/pulse frames alpha transforms; declared shown-HUD visibility and texture/render fixtures\"}\n",
+      "linked_base_apk_sha256": "6d1b7f73a4361a59a20083e808909ae1dd55b5075384ecd1c8fef0272e72c934"
+    }
+  },
+  "libraries": {
+    "lib/arm64-v8a/libdh2_scene_materials.so": "a46d14cac21927cf3203a035789af6ce151272590e6899f3d932fe148413201d",
+    "lib/arm64-v8a/libdh2_script_runtime.so": "8ff28cd4a9550fe64e41cd47e8ec20d2ad375d6bb20fe61c3074d16c7abc2181",
+    "lib/x86_64/libdh2_scene_materials.so": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9",
+    "lib/x86_64/libdh2_script_runtime.so": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c",
+    "lib/arm64-v8a/libdh2_engine_animation.so": "1d952b7a9c0882bfab9d34e0130e44cffddbefa0ee136d0e764847704112f66c",
+    "lib/x86_64/libdh2_engine_animation.so": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a",
+    "lib/arm64-v8a/libdh2_engine_textures.so": "86b4a8b8d67892ee78e5439b56521d998e967f67239b073a493e3cbe78c929bf",
+    "lib/x86_64/libdh2_engine_textures.so": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947",
+    "lib/arm64-v8a/libdh2_engine_skinning.so": "7d0f470031226fdd3d86fe8655a1deafbb23b6d0beb2aa0f5c30eb3734fa0eff",
+    "lib/arm64-v8a/libdh2_game_data.so": "89e2af358ea3e5458daf69eea04c1671eb3697379efd71cdfd2ec9cbf200a739",
+    "lib/x86_64/libdh2_engine_skinning.so": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae",
+    "lib/x86_64/libdh2_game_data.so": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb",
+    "lib/arm64-v8a/libdh2_engine_ui.so": "fe2beef62e7f0cb2a64a8b0c70786574e343dfc1b8a88c0484d94fe5f732378e",
+    "lib/arm64-v8a/libdh2_level_world.so": "f9e064abf7e87015420c6f37cd42a05eb34874e0cb71904615b9190194f8d2e1",
+    "lib/arm64-v8a/libdh2_native.so": "f8eb05a86ebc076b563e173cea95dee086d892d45cd1047f07ad53d7a076e8e2",
+    "lib/x86_64/libdh2_engine_ui.so": "f6727a82df4d3de8cfacaaf43628522f9d9aacc0b8c4bf934831553cde6e5a67",
+    "lib/x86_64/libdh2_level_world.so": "9b66eb9853b5d7c2204f9a53da12cc2e2394071b741d8533223c8fd402d27e52",
+    "lib/x86_64/libdh2_native.so": "49c69f4dc1a432b692c2c83f5786815bee763204c7a67946f77440d58b659a4c"
+  },
+  "original_cache_bundled_bytes": 433189197,
+  "runtime_evidence": {
+    "10-pulse-0.png": {
+      "sha256": "0c92dcb3849b3ada798d17db268400813b7d77c07977e60642cce977a4571411",
+      "bytes": 2975527
+    },
+    "10-pulse-4.png": {
+      "sha256": "f562fb93cffd637e31597b9f9e677c59a5a886a85200609f0fd5435e714e7a2c",
+      "bytes": 2981553
+    },
+    "11-potion-recovery.log": {
+      "sha256": "7854d752c216e71873feb6e9b40d5609234cd0c4cd5226f1f18f2ba57e5beac8",
+      "bytes": 2232972
+    },
+    "12-recovery-before.png": {
+      "sha256": "ef2cab843af772d560fd59c7996760463a15f4b72b9fcbae329fccc655a049f1",
+      "bytes": 3009076
+    },
+    "12-recovery-after.png": {
+      "sha256": "6d2facca98a8323f63302fad51e8904eb946daa1399299d762d6abc73cc4c3a6",
+      "bytes": 2926124
+    },
+    "12-recovery-after.log": {
+      "sha256": "ae39349dffe5f5254f0fa3b6f86c64d6e96977a56aa9d07e3032f5ab8986f3e0",
+      "bytes": 219892
+    },
+    "13-visible-latest-world.png": {
+      "sha256": "7aa7b19f5d70bf8aaedf0f465afbd83c9bcf4c83ba89c0afc2f810d3f996583c",
+      "bytes": 2895917
+    },
+    "13-visible-latest-world.log": {
+      "sha256": "436b627bdd4cb1945bbecee3d043d8a9afd8148f0a2e3a18aeee64251360a5e0",
+      "bytes": 140088
+    }
+  },
+  "live_low_hp_pulse_alpha_range": [
+    0.648438,
+    1.0
+  ],
+  "source_changes_zip": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\critical-health-v7\\critical-health-source-55164f78.zip",
+  "source_changes_zip_sha256": "ff440002b86aa094550331f0a0ebde7cb659a07c6c29f6b73d0554ede0b258ff",
+  "adaptation": "Actual HurtCorners31 mapped to actual display only while drawing; original child30 is advanced from actual application tick with recovered catch_up=false cadence. Source matrices and health frame remain retained and restored.",
+  "acceptance_method": "Actual monster damage through normal joystick, no HP/actor/RNG writes. First attempt AI toggle did not stop canonical NPC damage and potion was rejected after death; preserved as failure evidence. Separate second live process validates accepted potion/full HP/zero vignette. Fresh visible world reopened through real main menu.",
+  "known_limits": [
+    "Lethal-skill Hit8 Cmd_Kill remains unconnected; this checkpoint does not accept lethal skill combat.",
+    "Direct world startup intent currently loads before camera resize and fails; real main-menu Play path accepted.",
+    "Whole Level.Init/current GSLevel, live chest drops, full Swamp chapter and physical-device tests incomplete.",
+    "At low emulator FPS source catch_up=false advances one authored frame per application tick; 22/30s is nominal rather than measured live pulse period."
+  ],
+  "full_game_acceptance": false,
+  "physical_device_tested": false
+}

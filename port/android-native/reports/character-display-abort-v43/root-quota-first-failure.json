@@ -1,0 +1,15 @@
+{
+  "pid": "3564",
+  "apk_sha256": "17aeaccb79ccc434ecbd70c0e9bc01a19f3c39ad33c57d262e8e78f2dd6deb78",
+  "menu_play_crypt": true,
+  "errors": [
+    "E/DH2Native( 3564): Original character menu frame failed: V37 aggregate texture/mip byte budget exhausted [GPU 133420229576152, command 3, serial 29191, entered frame 1, mask 0]",
+    "E/DH2Native( 3564): Character menu: V37 aggregate texture/mip byte budget exhausted [GPU 133420229576152, command 3, serial 29191, entered frame 1, mask 0]"
+  ],
+  "character_menu_events": [
+    "I/DH2Native( 3564): Original character menu opened | actual stats/skills/inventory artwork | same live player",
+    "E/DH2Native( 3564): Original character menu frame failed: V37 aggregate texture/mip byte budget exhausted [GPU 133420229576152, command 3, serial 29191, entered frame 1, mask 0]",
+    "E/DH2Native( 3564): Character menu: V37 aggregate texture/mip byte budget exhausted [GPU 133420229576152, command 3, serial 29191, entered frame 1, mask 0]"
+  ],
+  "scope": "Normal menu -> selection -> explicit Crypt development destination -> one portrait tap; no campaign/saved-armor/later-tab acceptance."
+}

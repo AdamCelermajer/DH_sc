@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "comparisons": 600,
+  "actual_fire_key_cases": 200,
+  "mismatches": 0,
+  "scope": "Full uchar4 source6268b0 including actual accessor and f2uiz versus compiledARM64. FIRE actual key bytes and random keys/extrapolation. Material setter reused independently original-proven module; no GPU claim.",
+  "sources": {
+    "port\\engine-animation\\material_color_v3.cpp": "41deb9b53027cb815919fc0bace3a338b4d8b2afb6a7c29f2ccda5577ac5f2eb",
+    ".local-inputs\\libDungeonHunter2.so": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    ".local-inputs\\material_color_v3_arm64.so": "77fac2b53a7cd42b56f63141eebe870a66dc85e5f678a23e4bfb3112c7417a5e"
+  }
+}

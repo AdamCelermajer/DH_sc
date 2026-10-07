@@ -12,7 +12,7 @@ bool controller_valid(const PathController* c){return c&&c->path_requested<=1&&c
 bool reached(const PathController& c,const PathObject& p){const auto* end=p.count?p.target:c.destination;const float x=sub(end[0],c.position[0]),y=sub(end[1],c.position[1]);return add(mul(x,x),mul(y,y))<6400.f;}
 }
 extern "C" int dh2_nav_is_at_destination(const PathController* c,const PathObject* p){if(!controller_valid(c)||!path_valid(p)||!finite3(p->target))return -1;return reached(*c,*p);}
-extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest* r){
+extern "C" int dh2_nav_update_path_source_v69(ControllerResult* out,const ControllerRequest* r,const ControllerSourceServicesV69* source){
  if(!out||out->reserved||!r||!controller_valid(r->controller)||!path_valid(r->path)||!r->object||r->object->reserved||!r->policy||!r->workspace)return 1;
  const auto& policy=*r->policy;auto& scratch=*r->workspace;
  if(policy.update_path>1||policy.avoid_obstacles>1||policy.debug_skip_boundary>1||policy.update_physics>1||scratch.reserved0||scratch.reserved1||scratch.reserved2||!finite3(r->path->target))return 1;
@@ -51,16 +51,20 @@ extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest
   registry.floors=scratch.floors;registry.floor_capacity=scratch.floor_capacity;
   unsigned index=input.count;for(unsigned i=0;i<input.count;++i)if(input.keys[i]==r->key)index=i;if(index==input.count)return 1;
   auto& actor=scratch.actors[index];actor.object=object;std::memcpy(actor.target,path.target,12);actor.has_path=bool(path.count);if(path.count)std::memcpy(actor.path_target,path.segments[0].target,12);
-  AvoidanceScene scene{&registry,scratch.actors,input.keys,input.count,0};AvoidanceRequest avoid{&scene,r->key,nullptr};
+  AvoidanceScene scene{&registry,scratch.actors,input.keys,input.count,0,input.collision_context,input.can_collide_v108};AvoidanceRequest avoid{&scene,r->key,nullptr};
   const int status=dh2_nav_avoid_obstacles(&result.avoidance,state.heading.direction,&avoid);if(status)return status;
   set_heading_unchecked(state.heading,state.heading.direction,1);registry_used=true;
  }
  if(state.heading.active){
   object.motion.object_flags|=2;
-  if(state.validate_boundary&&!policy.debug_skip_boundary){
+  if(state.validate_boundary){
+   std::uint32_t skip=policy.debug_skip_boundary;
+   if(source&&(!source->skip_boundary||source->skip_boundary(source->context,&skip)||skip>1))return 3;
+   if(!skip){
    DirectionRequest direction{r->geometry,object.motion.position,object.radius,object.motion.flags,0};
    if(dh2_nav_validate_direction(&result.direction_valid,state.heading.direction,&direction))return 1;
    result.boundary_checked=1;set_heading_unchecked(state.heading,state.heading.direction,1);
+   }
   }
  }else object.motion.object_flags&=~2u;
  if(registry_used){auto& original=*r->scene->registry;if(registry.floor_count>original.floor_capacity)return 2;if(registry.floor_count)std::memcpy(original.floors,registry.floors,registry.floor_count*4);original.floor_count=registry.floor_count;}
@@ -68,3 +72,4 @@ extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest
  path.segments=r->path->segments;path.capacity=r->path->capacity;
  *r->path=path;*r->controller=state;*r->object=object;*out=result;return 0;
 }
+extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest* request){return dh2_nav_update_path_source_v69(out,request,nullptr);}

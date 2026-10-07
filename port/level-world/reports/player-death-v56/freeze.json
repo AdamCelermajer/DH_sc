@@ -1,0 +1,161 @@
+{
+  "source_frozen": true,
+  "global_hooks_applied": true,
+  "runtime_accepted": false,
+  "host_death_checks": 4861,
+  "host_V2_VM_checks": 1784,
+  "both_ABI_compile": "PASS",
+  "full_reward_Kill_dependencies_pending": true,
+  "files": [
+    {
+      "path": "port/level-world/character_death_owner_v56.hpp",
+      "bytes": 1775,
+      "sha256": "6a64066349540d1c40963dda12782a7937e7b502f44db5c9ea03650266333263"
+    },
+    {
+      "path": "port/level-world/character_death_owner_v56.cpp",
+      "bytes": 3716,
+      "sha256": "e7540afdddfff3c6551a3d3181e0d57a33c468a82fd21028707e6793990ab259"
+    },
+    {
+      "path": "port/level-world/character_dead_selection_owner_v56.hpp",
+      "bytes": 1297,
+      "sha256": "0e16cd462e7485ec75608a9fea7fb7a8c325fa661f34f461538010d412d4df2d"
+    },
+    {
+      "path": "port/level-world/character_dead_selection_owner_v56.cpp",
+      "bytes": 3568,
+      "sha256": "82f66f0fe689102c229e245ed1743e7f692e34e09c11ed495f43b2115f271275"
+    },
+    {
+      "path": "port/level-world/character_ais_death_vm_v56.hpp",
+      "bytes": 461,
+      "sha256": "15cd96c769a1f1bc268751670db3620ae025be84e7d3b32e89620b72fc08350d"
+    },
+    {
+      "path": "port/level-world/character_ais_death_vm_v56.cpp",
+      "bytes": 1547,
+      "sha256": "837bcae32218ecf70dc43b15972dac53ebfe57bbc564d16ec33dd8169d28f6ed"
+    },
+    {
+      "path": "port/level-world/player_missing_death_fields_v56.hpp",
+      "bytes": 572,
+      "sha256": "cec319612c4920dde29ee9c4c125b8600bea93b76d26a0ff7b45b9f74f650f09"
+    },
+    {
+      "path": "port/level-world/character_player_skills_v6.hpp",
+      "bytes": 3180,
+      "sha256": "5813cf1b901b8eab38a12aec9ed1909cb99411402ae29a763b85c9a7eca7934c"
+    },
+    {
+      "path": "port/level-world/character_player_skills_v6.cpp",
+      "bytes": 4725,
+      "sha256": "3d024c17f57fe53bfcab4b558fae8d28763c804a99fa3d1e573c1d6ab28d0dbf"
+    },
+    {
+      "path": "port/level-world/character_script_owner_v2.hpp",
+      "bytes": 4733,
+      "sha256": "64ef6287e4ac1caa01878c9235484ed0972cff925a31ff8d28e28e63f2756b26"
+    },
+    {
+      "path": "port/level-world/character_script_owner_v2.cpp",
+      "bytes": 18913,
+      "sha256": "a43772c156f0d10cb52792cb716d080a2503a1d1f597fb251319ebdff3930bea"
+    },
+    {
+      "path": "port/level-world/tests/character_death_v56.cpp",
+      "bytes": 16337,
+      "sha256": "eaa32f91dd7e3a94b0ba282e266d33d677fe5640d0c5e29cb9dd5f86fcb41124"
+    },
+    {
+      "path": "port/level-world/tests/character_ais_death_vm_v56.cpp",
+      "bytes": 10829,
+      "sha256": "6bdff537431fac0fd718d5f75eea07a2439e774b4ae3e68ebc59cab8a7e8a0d9"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_player_death_v56.inc",
+      "bytes": 8918,
+      "sha256": "40a06d31bc79f3fca2ed2deb16c62a8923015e8798706d3cea98be2b28d49d15"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_death_reward_fields_v56.inc",
+      "bytes": 3565,
+      "sha256": "18314f7aeea57899bfd8e3d1de4975179d2ddc31159fba511ddbbdfffae8a3f0"
+    },
+    {
+      "path": ".local-inputs/stage_player_death_v56.py",
+      "bytes": 4948,
+      "sha256": "65eb76d50e5a502cb57a9e99443f6361384257abd011168391c6b45204774c89"
+    },
+    {
+      "path": ".local-inputs/apply_player_death_v56.py",
+      "bytes": 2394,
+      "sha256": "ede41d3bfea42e65e37af8a89698cc7e3648852982712157b007b8edcac239d0"
+    },
+    {
+      "path": ".local-inputs/compile_player_death_v56.py",
+      "bytes": 683,
+      "sha256": "3689257646a89eb1c2ca8ebd21a769d99d1c854d3780d7c82c18459a36ca3722"
+    },
+    {
+      "path": ".local-inputs/compile_renderer_player_death_v56.py",
+      "bytes": 1966,
+      "sha256": "e9b6fce5e0cb389dbd0e34d68530b42405edea3afb37161813dd8b10c88eb372"
+    },
+    {
+      "path": ".local-inputs/stage_death_test_v56.py",
+      "bytes": 5741,
+      "sha256": "5126097b45724f34c0a0306fb3f57a88fa08d83a298ab77a000dfab4a3313d6f"
+    },
+    {
+      "path": ".local-inputs/stage_death_vm_test_v56.py",
+      "bytes": 3164,
+      "sha256": "887bb685bdc9fbbc364a3a0b6f0737de6f26283c687c317c2e8f015d154ec0b9"
+    },
+    {
+      "path": ".local-inputs/run_player_death_v56_host.py",
+      "bytes": 1494,
+      "sha256": "3e319c4cc8b1d0925f013d1894d55f04cbed79603c051e4b8af176bb9c2cc611"
+    },
+    {
+      "path": ".local-inputs/run_player_death_vm_v56_host.py",
+      "bytes": 1245,
+      "sha256": "17d5fa869544a3ff8881a8bd160d3b0aefb3d824aa7a53e6025a27268357e9fa"
+    },
+    {
+      "path": "port/level-world/reports/player-death-v56/handoff.md",
+      "bytes": 4790,
+      "sha256": "4c8e4605f0f0974e992da62d246301b207da3f428ddc10a6b8d821c13738e850"
+    },
+    {
+      "path": "port/level-world/reports/player-death-v56/host.json",
+      "bytes": 23865,
+      "sha256": "f09586fde0a5504309c07274048ab4d840126c327bdd59940925b8252b9e1897"
+    },
+    {
+      "path": "port/level-world/reports/player-death-v56/compile.json",
+      "bytes": 24296,
+      "sha256": "7e71ef1bf1fd058b01c7611153792597ae71ea99512e110f98ac7947fdeaebc6"
+    },
+    {
+      "path": "port/level-world/reports/player-death-v56/renderer-compile.json",
+      "bytes": 4112,
+      "sha256": "6300f037e5b351de3755784e084b07c1a98bd1d438a97be42d8b1e87489668b0"
+    },
+    {
+      "path": "port/level-world/reports/player-death-v56/integration.json",
+      "bytes": 596,
+      "sha256": "0febff0271c66f262a0cdf9cde3bdd319b66f13a105256cb1a4a05bcc5916456"
+    },
+    {
+      "path": "port/level-world/reports/player-death-v56/applied.json",
+      "bytes": 1190,
+      "sha256": "b6ff2c57facda95f62d913a95016b68a9bbbb04f736d17b442d141b89ceb1727"
+    },
+    {
+      "path": "port/level-world/reports/player-death-v56-vm/host.json",
+      "bytes": 20913,
+      "sha256": "23515e44947930b9172fe0b42798bbd24f7c5c4927e96355ef4fdcb030620d37"
+    }
+  ]
+}

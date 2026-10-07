@@ -1,0 +1,14 @@
+{
+  "apk_sha256": "655f986f4845ede22cff5c5025361948b1f1d9b0795dddc93817f7f24965ee95",
+  "pid": "3845",
+  "back_returned_to_game": false,
+  "inputs": [
+    "ordinary authored attack tap",
+    "180ms authored same-coordinate press/swipe/release"
+  ],
+  "events": [],
+  "errors": [],
+  "scope": "Actual pointer/held dispatch and Back smoke at spawn; no nearby-enemy, multi-touch, all-skills or lethal acceptance.",
+  "validation": "INVALID_ACCEPTANCE",
+  "invalidation_reason": "Old helper matched background window entries; screenshot was launcher and events empty. Does not certify Back or controls. Replaced by exact-foreground hash-bound skill-control-post-v49 receipt."
+}

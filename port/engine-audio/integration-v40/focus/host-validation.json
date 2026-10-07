@@ -1,0 +1,21 @@
+{
+  "source_sha256": {
+    "gate-fixture.cpp": "a93d5f82b928fe62dfbd8f2838bdc27546a65960320c8e87788c7911681e37f1",
+    "audio_lifecycle_gate_v40.cpp": "67ea34a45610592d807c30b65ecfbbb3eb3915ae250c4b397a1c379973962512",
+    "audio_lifecycle_gate_v40.hpp": "6a59c6be965abdf11f94bd5083bc9fea650924451d5231360cbf302c00dc2ebf"
+  },
+  "runs": [
+    {
+      "optimization": "O1",
+      "sanitizers": "ASan+UBSan",
+      "exit_code": 0,
+      "output": "PASS 5038 gate checks; source epochs, stale activities, teardown and bounded concurrent publication"
+    },
+    {
+      "optimization": "O2",
+      "sanitizers": "ASan+UBSan",
+      "exit_code": 0,
+      "output": "PASS 5038 gate checks; source epochs, stale activities, teardown and bounded concurrent publication"
+    }
+  ]
+}

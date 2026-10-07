@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "scope": "Read-only system/self/process census; no job/emulator lifecycle call",
+  "watchdog_sha256": "fbde732b902df20e1e7c2b04d843035d8aa5f178b3649e71053a50428e4eb711",
+  "pointer_size": 8,
+  "performance_info_size": 104,
+  "memory_counters_ex_size": 80,
+  "process_entry_size": 568,
+  "self": {
+    "pid": 33440,
+    "parent_pid": null,
+    "image": "python.exe",
+    "create_time_filetime": 134357569425876605,
+    "private_bytes": 10645504,
+    "working_set_bytes": 19726336,
+    "handles": 220,
+    "alive": true
+  },
+  "preflight": {
+    "system": {
+      "commit_total_bytes": 24923607040,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 15022354432,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 154207,
+      "processes": 377
+    },
+    "qemu": [],
+    "gone_pids": [],
+    "aggregate_qemu_private_bytes": 0
+  }
+}

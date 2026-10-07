@@ -1,0 +1,260 @@
+{
+  "packets": {
+    "native-gslevel-loading-v49-d2c6e02d9d55ee73.zip": "46a24ce1eda17c491487e90b7db3cb540d507bb79b928848912182fb67f32df2",
+    "loader-provider-binding-v47-84a3e2d2e34cee75.zip": "c336599fd2516603ca77c6aa375087c7f7009a38b1d35b062fb1e617e3a32e3b"
+  },
+  "files": [
+    {
+      "path": "port/level-loader/gslevel_update_v44.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\gslevel_update_v44.hpp",
+      "before_sha256": null,
+      "after_sha256": "a36e48c3c9d5e4e4842cfb5e527ffa7181d7cb4af343774ba4b3a75f39e317a5",
+      "patch_lines": 91
+    },
+    {
+      "path": "port/level-loader/gslevel_update_v44_level_borrow.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\gslevel_update_v44_level_borrow.hpp",
+      "before_sha256": null,
+      "after_sha256": "dc559343c3282b1459b2e2c7b5ab7eefd2af2020c8a66f43180ec47ad985f939",
+      "patch_lines": 21
+    },
+    {
+      "path": "port/level-loader/level_source_loading_update_v46.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_source_loading_update_v46.hpp",
+      "before_sha256": null,
+      "after_sha256": "568b40b8ac0f3d5b5bd910e07f0b2b7c5e460fc88d9d9c523c78784161f06fae",
+      "patch_lines": 59
+    },
+    {
+      "path": "port/level-loader/level_source_loading_v43.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_source_loading_v43.hpp",
+      "before_sha256": null,
+      "after_sha256": "893ee13a5564471110f4dfa0071670e52b764b3433b61780ff8c99a5b86955a1",
+      "patch_lines": 43
+    },
+    {
+      "path": "port/level-loader/level_source_loading_v43.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_source_loading_v43.cpp",
+      "before_sha256": null,
+      "after_sha256": "ec8b76c3dd720d44a8ca65b6441bfcf032acadd9c26f5163c903d82eaaf39af9",
+      "patch_lines": 71
+    },
+    {
+      "path": "port/level-loader/level_update_loading_v46.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_update_loading_v46.hpp",
+      "before_sha256": null,
+      "after_sha256": "d20a6c54743c4f713f45f65952c8b7593c2d8d78566e2930255f83dc50934331",
+      "patch_lines": 57
+    },
+    {
+      "path": "port/level-loader/lifecycle_v36.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\lifecycle_v36.hpp",
+      "before_sha256": null,
+      "after_sha256": "2b53581636964a6f88030b4fb622f4cefa5b50d47ee9fccf03f612df2a675237",
+      "patch_lines": 72
+    },
+    {
+      "path": "port/level-loader/lifecycle_v36.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\lifecycle_v36.cpp",
+      "before_sha256": null,
+      "after_sha256": "b56e4567a9add617b66e51fb14c1a8499cd5a620593c0d646ca14ec1d369523d",
+      "patch_lines": 141
+    },
+    {
+      "path": "port/level-loader/lifecycle_v36_counter_borrow.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\lifecycle_v36_counter_borrow.hpp",
+      "before_sha256": null,
+      "after_sha256": "71c7d06e54033b8b4ed48d7015a1f0037782b1ca5c45959aaee535ef054feebb",
+      "patch_lines": 47
+    },
+    {
+      "path": "port/level-loader/native_gslevel_frame_v45.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\native_gslevel_frame_v45.cpp",
+      "before_sha256": null,
+      "after_sha256": "0bb26a4b4f593e841797e643e9aa0d7f5e160de1465ac3c1fc4688ba8f21d0c3",
+      "patch_lines": 28
+    },
+    {
+      "path": "port/level-loader/native_gslevel_frame_v45.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\native_gslevel_frame_v45.hpp",
+      "before_sha256": null,
+      "after_sha256": "19ea9a747e9ef730c1611eaa7f5480964d7f233009afd217441781e7455ec2e6",
+      "patch_lines": 24
+    },
+    {
+      "path": "port/level-loader/native_gslevel_loading_connection_v49.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\native_gslevel_loading_connection_v49.hpp",
+      "before_sha256": null,
+      "after_sha256": "c4034c056fc841294a9b82b496a56ca468fb966ec46dc189a4d66cf8850fee4f",
+      "patch_lines": 50
+    },
+    {
+      "path": "port/level-loader/stage_loader_v38_root_file.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\stage_loader_v38_root_file.hpp",
+      "before_sha256": null,
+      "after_sha256": "6a5922fcf82536a28661926cf4528866a6d8c1c5cbd22a3289b4a66f56f8ebd9",
+      "patch_lines": 94
+    },
+    {
+      "path": "port/level-loader/stage_loader_v38_init_post.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\stage_loader_v38_init_post.hpp",
+      "before_sha256": null,
+      "after_sha256": "9f6de8d6420684e909cb992f86611b85fcfa44fddacfde346d670cdc8a1bc6ed",
+      "patch_lines": 96
+    },
+    {
+      "path": "port/level-loader/stage_loader_v38_stage10.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\stage_loader_v38_stage10.hpp",
+      "before_sha256": null,
+      "after_sha256": "8420dff02c1b569108372b6b3d6b1aa340fa903aecc2ba652b559ad74e9afda0",
+      "patch_lines": 60
+    },
+    {
+      "path": "port/level-loader/stage_loader_v39_file_counter.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\stage_loader_v39_file_counter.hpp",
+      "before_sha256": null,
+      "after_sha256": "44ab9229ad51bf82b025b55a926efd43883e2e2f08a4ab5a14503b941f19d201",
+      "patch_lines": 26
+    },
+    {
+      "path": "port/level-loader/stage_loader_v46_early.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\stage_loader_v46_early.hpp",
+      "before_sha256": null,
+      "after_sha256": "c3af3409b57741310ff3580d8b1027895f0c175e7c355353d0a8b82771fb00fe",
+      "patch_lines": 67
+    },
+    {
+      "path": "port/level-loader/stage_loader_v46_physical.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\stage_loader_v46_physical.hpp",
+      "before_sha256": null,
+      "after_sha256": "1fa95d6fe40b9c695468756d340104d69fdfef1d845d6606ee85bb97806e8518",
+      "patch_lines": 27
+    },
+    {
+      "path": "port/level-loader/level_file_walk_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_file_walk_v1.cpp",
+      "before_sha256": null,
+      "after_sha256": "9abcc08702f7abf1471289def1b089c39f361a31ec314e2d43b9dbf6a840c941",
+      "patch_lines": 65
+    },
+    {
+      "path": "port/level-loader/object_entry_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\object_entry_v1.cpp",
+      "before_sha256": null,
+      "after_sha256": "b84d1dc4b2349d8062b45f22cf69399dfd2d69b25b8036deb83f48bfcf760a31",
+      "patch_lines": 62
+    },
+    {
+      "path": "port/level-loader/object_initialization_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\object_initialization_v1.cpp",
+      "before_sha256": null,
+      "after_sha256": "1e05b6835f742754d54ec2b0d3da0267b16d6678e68f38157b9d895b6151b0ff",
+      "patch_lines": 95
+    },
+    {
+      "path": "port/level-loader/resource_paths_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\resource_paths_v1.cpp",
+      "before_sha256": null,
+      "after_sha256": "0e87904b81851e4969874326f284577ba76937fc7934dc793ce42b25cf6c8e89",
+      "patch_lines": 24
+    },
+    {
+      "path": "port/level-loader/user_properties_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\user_properties_v1.cpp",
+      "before_sha256": null,
+      "after_sha256": "f780e44fea995b4865257dee31107544f2f62c561ee2e9e8659d47e942375ea7",
+      "patch_lines": 35
+    },
+    {
+      "path": "port/level-loader/visual_transform_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\visual_transform_v1.cpp",
+      "before_sha256": null,
+      "after_sha256": "9ef62708858e3ef669181a76700baf7fe91ae3c586cbddef7114b1c7aaaa5446",
+      "patch_lines": 28
+    },
+    {
+      "path": "port/level-loader/retained_level_module_graph_v1.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\retained_level_module_graph_v1.hpp",
+      "before_sha256": "3ad3dc634cd6d580d286ef75350d807c645b1254726ef218db1de8150e666eb3",
+      "after_sha256": "d75f0ed7bdabd9029af956bd0585bb8f26e1f698d413cd9fc088c44192eb19f5",
+      "patch_lines": 45
+    },
+    {
+      "path": "port/level-loader/retained_level_module_graph_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\retained_level_module_graph_v1.cpp",
+      "before_sha256": "15ffbe6b469bd9cb32f44f97baa7476229b7e03059cc7ad37610aa4126e37ff5",
+      "after_sha256": "d1737b405c630684ff410a1d45c70a851a14c6579287d020393f557c793b241c",
+      "patch_lines": 124
+    },
+    {
+      "path": "port/level-loader/level_constructor_v3.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\level_constructor_v3.hpp",
+      "before_sha256": "e3559999aff2a78e4dbb6e149ca06bf8d42162f00f0dc152e34a32f9adc9ac95",
+      "after_sha256": "dfe08c0300629ca7c01289891e02bbd266a29efc966d26a1c715f4782d2781b1",
+      "patch_lines": 13
+    },
+    {
+      "path": "port/level-loader/native_level_application_v25.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\native_level_application_v25.cpp",
+      "before_sha256": "91ce2450bdebad1c44f248069eef5434a73187a76016abef6992eef31cfbfbfa",
+      "after_sha256": "dddbdb068f42ab8dc0a45f20c0e80e582c01b8acdc0ebe907d17481076e293fa",
+      "patch_lines": 17
+    },
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\native_gslevel_runtime_v27.hpp",
+      "before_sha256": "ecb30f1f8663036edba97451895330f622ce152987abc9a8f5ca9c7b8627d598",
+      "after_sha256": "59945077186a6fb07ba37af479cda506f2a2628782a8b513829f0c996601fc6d",
+      "patch_lines": 13
+    },
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\native_gslevel_runtime_v27.cpp",
+      "before_sha256": "13e6fe707f5faa0e0d01455b71456bb139dd6b0386eae84a91c6697b1f90ef63",
+      "after_sha256": "30122773d92795d171e36f5e918214a3e13e972deaa273b16ddadfec8ff4d505",
+      "patch_lines": 12
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_object_manager_v1.hpp",
+      "before_sha256": "5081202d2351b59912ad2ffb376a0b6d4e5fb01f3c1e7d599fbb3aac30644545",
+      "after_sha256": "c652762ab7c311557b8e7eab4b7ef4b4450fd4ed257ecf235673002a8290bbe7",
+      "patch_lines": 69
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.cpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_object_manager_v1.cpp",
+      "before_sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549",
+      "after_sha256": "27fe375a182e6a60b0a19cff7e2a101f45535da483cde7ee95ed969ddf325cf1",
+      "patch_lines": 38
+    },
+    {
+      "path": "port/level-loader/user_properties_v1.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\user_properties_v1.hpp",
+      "before_sha256": null,
+      "after_sha256": "f1e230f10f7f2a1573d88778d68cbaaafd12e8c130b414e17a4b128cf1f5fd85",
+      "patch_lines": 12
+    },
+    {
+      "path": "port/level-loader/resource_paths_v1.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\resource_paths_v1.hpp",
+      "before_sha256": null,
+      "after_sha256": "70e9e1311b612c07426191fe90ade6152c7ad9dfd4d248ad167283576695d02a",
+      "patch_lines": 13
+    },
+    {
+      "path": "port/level-loader/object_initialization_v1.hpp",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\object_initialization_v1.hpp",
+      "before_sha256": null,
+      "after_sha256": "e85e7479696b336d4e2bf2879fba99eb05cbf5fc3793825db2ea42d85cdfaf0b",
+      "patch_lines": 61
+    },
+    {
+      "path": "port/level-loader/original_factory_table_v1.inc",
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\original_factory_table_v1.inc",
+      "before_sha256": null,
+      "after_sha256": "4f360e03f04d069d50d7779794b2306ab93cdf177415a941ef4c6bf3d340a643",
+      "patch_lines": 38
+    }
+  ]
+}

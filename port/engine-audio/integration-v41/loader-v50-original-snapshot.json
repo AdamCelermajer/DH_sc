@@ -1,0 +1,2498 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_GetSound_actual_rows": 68,
+  "missing_row_case": 1,
+  "container_audio_prefix_cases": 207,
+  "all_raw_field8_passed_unchanged": true,
+  "no_generated_Sounds_ordinal_conversion": true,
+  "manager_captured_before_GetSound": true,
+  "real_lookup_GetSound_instructions_execute": true,
+  "observers": "Original Arrays storage populated from exact supplied group5. Imported strcmp leaf exact bytes. Original Container slice39fa38..39fa68 entered with original-established r4 actor/r5 GOT; LoadSound body is observer. Full InitPost and real audio service not executed.",
+  "rows": [
+    {
+      "index": 0,
+      "name": "AbbeyRuins_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 1,
+      "name": "Castle1_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 2,
+      "name": "Castle2_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 3,
+      "name": "Crypt01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 4,
+      "name": "Crypt02_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 5,
+      "name": "DEMO_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 6,
+      "name": "DEMO_Normal_Chest_big",
+      "sound_field8": 33
+    },
+    {
+      "index": 7,
+      "name": "DarkDungeon_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 8,
+      "name": "DarkDungeon_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 9,
+      "name": "Darkwood2_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 10,
+      "name": "Darkwood3_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 11,
+      "name": "Darkwood3_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 12,
+      "name": "Darkwood_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 13,
+      "name": "Darkwood_Rotten_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 14,
+      "name": "Dummy_Chest_01",
+      "sound_field8": 33
+    },
+    {
+      "index": 15,
+      "name": "EarthTemple01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 16,
+      "name": "EarthTemple02_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 17,
+      "name": "EarthTemple03_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 18,
+      "name": "EarthTemple03_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 19,
+      "name": "Elemental_Air_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 20,
+      "name": "Elemental_Air_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 21,
+      "name": "Elemental_Earth_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 22,
+      "name": "Elemental_Earth_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 23,
+      "name": "Elemental_Fire_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 24,
+      "name": "Elemental_Fire_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 25,
+      "name": "Elemental_Light_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 26,
+      "name": "Elemental_Light_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 27,
+      "name": "Elemental_Water_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 28,
+      "name": "Elemental_Water_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 29,
+      "name": "FINALBOSS_Potion_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 30,
+      "name": "FireTemple_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 31,
+      "name": "FireTemple_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 32,
+      "name": "IcyCavern01_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 33,
+      "name": "IcyCavern01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 34,
+      "name": "IcyCavern01_Quest_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 35,
+      "name": "IcyCavern02_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 36,
+      "name": "IcyCavern03_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 37,
+      "name": "IcyHub01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 38,
+      "name": "Infected_Village_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 39,
+      "name": "Infected_Village_Rotten_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 40,
+      "name": "Lighthouse01_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 41,
+      "name": "Lighthouse01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 42,
+      "name": "MachineRoom_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 43,
+      "name": "RedDesertBandit_Special_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 44,
+      "name": "RedDesertCave01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 45,
+      "name": "RedDesertCave02_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 46,
+      "name": "RedDesertCave03_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 47,
+      "name": "RedDesertHub01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 48,
+      "name": "RootDen_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 49,
+      "name": "RootDen_Rotten_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 50,
+      "name": "Secret_Basement_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 51,
+      "name": "Secret_Basement_Rotten_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 52,
+      "name": "Swamp2_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 53,
+      "name": "Swamp2_Rotten_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 54,
+      "name": "SwampCave_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 55,
+      "name": "SwampCave_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 56,
+      "name": "SwampTrollCave_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 57,
+      "name": "SwampTrollCave_Rotten_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 58,
+      "name": "Swamp_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 59,
+      "name": "UW_Crown_Special_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 60,
+      "name": "UnderworldHub_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 61,
+      "name": "UnderworldHub_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 62,
+      "name": "VoidMaze01_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 63,
+      "name": "WaterTemple_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 64,
+      "name": "WaterTemple_Normal_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 65,
+      "name": "WaterTemple_Rotten_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 66,
+      "name": "windTemple_Big_Chest",
+      "sound_field8": 33
+    },
+    {
+      "index": 67,
+      "name": "windTemple_Normal_Chest",
+      "sound_field8": 33
+    }
+  ],
+  "cases": [
+    {
+      "name": "AbbeyRuins_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "AbbeyRuins_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "AbbeyRuins_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Castle1_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Castle1_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Castle1_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Castle2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Castle2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Castle2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Crypt01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Crypt01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Crypt01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Crypt02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Crypt02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Crypt02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DEMO_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "DEMO_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DEMO_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DEMO_Normal_Chest_big",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "DEMO_Normal_Chest_big",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DEMO_Normal_Chest_big",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DarkDungeon_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "DarkDungeon_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DarkDungeon_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DarkDungeon_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "DarkDungeon_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "DarkDungeon_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Darkwood2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood3_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Darkwood3_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood3_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood3_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Darkwood3_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood3_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Darkwood_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Darkwood_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Darkwood_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Dummy_Chest_01",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Dummy_Chest_01",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Dummy_Chest_01",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "EarthTemple01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "EarthTemple02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple03_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "EarthTemple03_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple03_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "EarthTemple03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "EarthTemple03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Air_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Air_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Air_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Air_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Air_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Air_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Earth_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Earth_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Earth_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Earth_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Earth_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Earth_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Fire_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Fire_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Fire_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Fire_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Fire_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Fire_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Light_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Light_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Light_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Light_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Light_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Light_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Water_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Water_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Water_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Water_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Elemental_Water_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Elemental_Water_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "FINALBOSS_Potion_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "FINALBOSS_Potion_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "FINALBOSS_Potion_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "FireTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "FireTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "FireTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "FireTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "FireTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "FireTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern01_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "IcyCavern01_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern01_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "IcyCavern01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern01_Quest_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "IcyCavern01_Quest_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern01_Quest_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "IcyCavern02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "IcyCavern03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyCavern03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyHub01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "IcyHub01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "IcyHub01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Infected_Village_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Infected_Village_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Infected_Village_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Infected_Village_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Infected_Village_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Infected_Village_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Lighthouse01_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Lighthouse01_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Lighthouse01_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Lighthouse01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Lighthouse01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Lighthouse01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "MachineRoom_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "MachineRoom_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "MachineRoom_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertBandit_Special_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "RedDesertBandit_Special_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertBandit_Special_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertCave01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "RedDesertCave01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertCave01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertCave02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "RedDesertCave02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertCave02_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertCave03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "RedDesertCave03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertCave03_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertHub01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "RedDesertHub01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RedDesertHub01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RootDen_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "RootDen_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RootDen_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RootDen_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "RootDen_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "RootDen_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Secret_Basement_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Secret_Basement_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Secret_Basement_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Secret_Basement_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Secret_Basement_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Secret_Basement_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Swamp2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Swamp2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Swamp2_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Swamp2_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Swamp2_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Swamp2_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampCave_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "SwampCave_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampCave_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampCave_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "SwampCave_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampCave_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampTrollCave_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "SwampTrollCave_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampTrollCave_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampTrollCave_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "SwampTrollCave_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "SwampTrollCave_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Swamp_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "Swamp_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "Swamp_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "UW_Crown_Special_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "UW_Crown_Special_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "UW_Crown_Special_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "UnderworldHub_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "UnderworldHub_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "UnderworldHub_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "UnderworldHub_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "UnderworldHub_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "UnderworldHub_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "VoidMaze01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "VoidMaze01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "VoidMaze01_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "WaterTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "WaterTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "WaterTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "WaterTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "WaterTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "WaterTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "WaterTemple_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "WaterTemple_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "WaterTemple_Rotten_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "windTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "windTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "windTemple_Big_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "windTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "windTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "windTemple_Normal_Chest",
+      "sound_field8": 33,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": 33
+        }
+      ]
+    },
+    {
+      "name": "missing-container-v50",
+      "sound_field8": -1,
+      "manager_present": false,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": []
+    },
+    {
+      "name": "missing-container-v50",
+      "sound_field8": -1,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": false,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": -1
+        }
+      ]
+    },
+    {
+      "name": "missing-container-v50",
+      "sound_field8": -1,
+      "manager_present": true,
+      "global_changes_during_real_GetSound": true,
+      "LoadSound_observer": [
+        {
+          "captured_manager": 33882112,
+          "raw_sound_uid": -1
+        }
+      ]
+    }
+  ],
+  "whole_InitPost_verified": false,
+  "audio_backend_verified": false
+}

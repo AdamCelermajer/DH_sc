@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "comparisons": 1562,
+  "ordered_services": 13721,
+  "failure_reentry_guards": 15,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-ui/hud_player_values.hpp": "3a7c2e5ad740135c6836a4aece4bac2f1f0df20ca29a3f2cedb64f1482798fd6",
+    "port/engine-ui/hud_player_values.cpp": "93c72ba1150b5b9ab37f178fd59bdf63bd5ab1fd3b4d6d1dd3af74e51bc1a26e",
+    "port/engine-ui/tests/hud_player_values.cpp": "e2a02001f18d7f8314ec657367f592c32483597396b08411c77293737115f200"
+  },
+  "gold_sha256": "c086a746656271a8d17d9008be355e37314e26b2bade4cbcf302e8c1711c737e",
+  "executable_sha256": "54d07a44f3ed3682689c5a5316c22fb9b8686a5389ad07925df519d8937775f4",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "scope": "Actual original status-region gold replay. Cached clips/sprite backend/runtime-zero result are explicit projections; synchronous nested wrapper/failure-prefix ownership tested. No full FastUpdate, sprite AS scheduling or live GPU claim."
+}

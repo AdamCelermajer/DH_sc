@@ -1,0 +1,47 @@
+{
+  "version": 0,
+  "case-sensitive": false,
+  "use-external-names": false,
+  "roots": [
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/resource_budget_v37.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/resource_budget_v37.hpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/resource_budget_v37.cpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/resource_budget_v37.cpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/swf_vertex_cache_v36.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/swf_vertex_cache_v36.hpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/swf_vertex_cache_v36.cpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/swf_vertex_cache_v36.cpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/authored_shader_program.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/authored_shader_program.hpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/authored_shader_program.cpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/authored_shader_program.cpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/swf_gpu.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/swf_gpu.hpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/swf-objects-v43/swf_gpu.cpp"
+    }
+  ]
+}

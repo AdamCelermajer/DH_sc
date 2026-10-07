@@ -1,0 +1,202 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/level-world/character_script_owner_v2.cpp": "270f284cbe6dafc7c5bdb664b2dd55cef36c03862bb73a07921b7fe353663416",
+    "port/level-world/character_script_session_v2.cpp": "f3a376a7db6728fbaa9e04fc9a3fecf7446f7a599acdfbb9e7af32bce3d78179",
+    "port/level-world/character_skills_session_v2.cpp": "dcd8097691761aaa38abdaf376cfe6a2d2ee7240fc1d28f28137d9b6f3081a9f",
+    "port/level-world/character_skill_info_session_v2.cpp": "9624dcab32eeccb4e1457ea2055726b0aab1c32216bfd7d28060e9f35e8662e1",
+    "port/level-world/character_script_player_vcb_v2.cpp": "9b6ef082346ef175caff7534d3eda520ff9a054fd7dae32efb8761e34f08140e",
+    "port/level-world/character_current_skill_v2.cpp": "3c4e63e95c60251baa6b7eb8f4f8c078e6edb134f1511a97a2763efdc873ad7e",
+    "port/level-world/character_player_skills_v2.cpp": "b401bc7a544960d169b4af21435fa79f522e24c3f14f7e577a0f07b84b800578"
+  },
+  "translation_units": 14,
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "commands": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_script_owner_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_script_owner_v2.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_script_session_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_script_session_v2.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_skills_session_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skills_session_v2.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_skill_info_session_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v2.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_script_player_vcb_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_script_player_vcb_v2.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_current_skill_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_current_skill_v2.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_player_skills_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_player_skills_v2.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_script_owner_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_script_owner_v2.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_script_session_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_script_session_v2.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_skills_session_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skills_session_v2.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_skill_info_session_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v2.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_script_player_vcb_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_script_player_vcb_v2.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_current_skill_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_current_skill_v2.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_player_skills_v2.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_player_skills_v2.cpp"
+      ]
+    }
+  ],
+  "scope": "Versioned whole player Session compile readiness, not packaged/link/device proof."
+}

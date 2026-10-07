@@ -9,14 +9,22 @@ struct AvoidanceActor {
  NavigationObject object;float target[3];std::uint32_t has_path;
  float path_target[3];std::uint32_t reserved;PhysicalContact physical;
 };
-struct AvoidanceScene {ObstacleRegistry* registry;const AvoidanceActor* actors;const std::uint64_t* keys;std::uint32_t count,reserved;};
+struct AvoidanceScene {
+ ObstacleRegistry* registry;const AvoidanceActor* actors;const std::uint64_t* keys;std::uint32_t count,reserved;
+ //Optional whole selected PhysicalObject.canCollide receiver. Native keys
+ //resolve actual retained owners, never default filters for Character vptrs.
+ void* collision_context{};
+ //0 delivered (allowed is the actual bool), nonzero required-provider failure.
+ int(*can_collide_v108)(void*,std::uint64_t,std::uint64_t,std::int32_t*){};
+};
 struct ObstacleForce {float direction[3],coefficient;std::uint64_t object;};
 struct ForceBuffer {ObstacleForce* entries;std::uint32_t count,capacity;};
 struct ForceResult {float direction[3];std::uint32_t count;};
 struct AvoidanceResult {ForceResult force;std::uint32_t evaluated,adjusted,turn_limited,reserved;};
 struct AvoidanceRequest {const AvoidanceScene* scene;std::uint64_t object;ForceBuffer* records;};
 static_assert(sizeof(ContactFilter)==8&&sizeof(PhysicalContact)==32&&sizeof(AvoidanceActor)==128);
-static_assert(sizeof(AvoidanceScene)==32&&sizeof(ObstacleForce)==24&&sizeof(ForceBuffer)==16&&sizeof(ForceResult)==16&&sizeof(AvoidanceResult)==32&&sizeof(AvoidanceRequest)==24);
+static_assert(sizeof(AvoidanceScene)==48);
+static_assert(sizeof(ObstacleForce)==24&&sizeof(ForceBuffer)==16&&sizeof(ForceResult)==16&&sizeof(AvoidanceResult)==32&&sizeof(AvoidanceRequest)==24);
 }
 extern "C" {
 // Original PhysicalObject::canCollide using its default onCollisionTest virtual

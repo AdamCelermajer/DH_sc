@@ -1,0 +1,402 @@
+[
+  {
+    "asset": "skybox_blood.bdae",
+    "effects": [
+      {
+        "id": "ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_blood",
+        "techniques": [
+          {
+            "name": "default",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n ",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n ",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog & lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "SkyBox-node",
+        "name": "SkyBox",
+        "instances": [
+          {
+            "type": 3,
+            "uri": "#SkyBox-mesh"
+          }
+        ]
+      },
+      {
+        "id": "VisualSceneNode",
+        "name": "",
+        "instances": [
+          {
+            "type": 4,
+            "uri": "#ambient-environment-light"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "asset": "skybox_darktemple.bdae",
+    "effects": [
+      {
+        "id": "ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_darktemple",
+        "techniques": [
+          {
+            "name": "default",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n ",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n ",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog & lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "SkyBox-node",
+        "name": "SkyBox",
+        "instances": [
+          {
+            "type": 3,
+            "uri": "#SkyBox-mesh"
+          }
+        ]
+      },
+      {
+        "id": "VisualSceneNode",
+        "name": "",
+        "instances": [
+          {
+            "type": 4,
+            "uri": "#ambient-environment-light"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "asset": "skybox_swamp.bdae",
+    "effects": [
+      {
+        "id": "ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_swamp",
+        "techniques": [
+          {
+            "name": "default",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n ",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n ",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog & lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "SkyBox-node",
+        "name": "SkyBox",
+        "instances": [
+          {
+            "type": 3,
+            "uri": "#SkyBox-mesh"
+          }
+        ]
+      },
+      {
+        "id": "VisualSceneNode",
+        "name": "",
+        "instances": [
+          {
+            "type": 4,
+            "uri": "#ambient-environment-light"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "asset": "skybox_under.bdae",
+    "effects": [
+      {
+        "id": "ProfileCOMMON_orig_orig_03_-_Default-fx1302961875_skybox_under",
+        "techniques": [
+          {
+            "name": "default",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n ",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n ",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog & lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "SkyBox-node",
+        "name": "SkyBox",
+        "instances": [
+          {
+            "type": 3,
+            "uri": "#SkyBox-mesh"
+          }
+        ]
+      },
+      {
+        "id": "VisualSceneNode",
+        "name": "",
+        "instances": [
+          {
+            "type": 4,
+            "uri": "#ambient-environment-light"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "asset": "skybox_wind.bdae",
+    "effects": [
+      {
+        "id": "ProfileCOMMON_orig_orig_03_-_Default-fx1302961876_skybox_wind",
+        "techniques": [
+          {
+            "name": "default",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n ",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n ",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          },
+          {
+            "name": "fog & lighting",
+            "passes": [
+              {
+                "vertex": "ProfileCOMMON_emul_VS.glsl",
+                "vertex_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "fragment": "ProfileCOMMON_emul_FS.glsl",
+                "fragment_defines": "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+                "state76_hex": "010100ffff00ffff000f1c000730d0010000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000000000000000000000000000"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "SkyBox-node",
+        "name": "SkyBox",
+        "instances": [
+          {
+            "type": 3,
+            "uri": "#SkyBox-mesh"
+          }
+        ]
+      },
+      {
+        "id": "VisualSceneNode",
+        "name": "",
+        "instances": [
+          {
+            "type": 4,
+            "uri": "#ambient-environment-light"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "cases": 512,
+  "ordered_services": 1791,
+  "mismatches": 0,
+  "scope": "Real ARM32 CharAI::_OnAnimEvent state6 do_skill/ignored payload differential.\nNamed prefixes and states5/7/13 retain explicit required provider boundaries.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "4187a297d9aeefb350700affe48a5aa97624aa9797520f928b42567fce1524b6"
+}

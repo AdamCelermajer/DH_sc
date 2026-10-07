@@ -1,0 +1,56 @@
+[
+  {
+    "requirement": 1,
+    "source_pc": "0x3fa4bc",
+    "source_string": "0x8c3d68",
+    "character_key": "KnightPlayerBase"
+  },
+  {
+    "requirement": 2,
+    "source_pc": "0x3fa548",
+    "source_string": "0x8c6fc8",
+    "character_key": "KnightPlayerBase_Berserker"
+  },
+  {
+    "requirement": 3,
+    "source_pc": "0x3fa534",
+    "source_string": "0x8c6fa8",
+    "character_key": "KnightPlayerBase_Paladin"
+  },
+  {
+    "requirement": 4,
+    "source_pc": "0x3fa520",
+    "source_string": "0x8c7038",
+    "character_key": "RoguePlayerBase"
+  },
+  {
+    "requirement": 5,
+    "source_pc": "0x3fa3b0",
+    "source_string": "0x8c7060",
+    "character_key": "RoguePlayerBase_Assassin"
+  },
+  {
+    "requirement": 6,
+    "source_pc": "0x3fa50c",
+    "source_string": "0x8c7048",
+    "character_key": "RoguePlayerBase_Archer"
+  },
+  {
+    "requirement": 7,
+    "source_pc": "0x3fa4f8",
+    "source_string": "0x8c6fe8",
+    "character_key": "MagePlayerBase"
+  },
+  {
+    "requirement": 8,
+    "source_pc": "0x3fa4e4",
+    "source_string": "0x8c6ff8",
+    "character_key": "MagePlayerBase_Necromancer"
+  },
+  {
+    "requirement": 9,
+    "source_pc": "0x3fa4d0",
+    "source_string": "0x8c7018",
+    "character_key": "MagePlayerBase_Illusionist"
+  }
+]

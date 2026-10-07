@@ -1,0 +1,63 @@
+{
+  "scope": "Applied only to owned private verify-tree copied from captured source; shared files untouched. Git core.autocrlf rewrites newlines; semantic content compared after only CRLF->LF normalization.",
+  "results": [
+    {
+      "patch": "01-active-transport",
+      "status": "PASS",
+      "sha256": "c98ddbb8f7a31756b99a890ade735319a2750c0e4ad97c7235bde8ce3be133ad"
+    },
+    {
+      "patch": "02-player-named-prefix",
+      "status": "PASS",
+      "sha256": "983d0bf052232858e7621954942c7e4e00b84908ad8e73c37fb65e53c72d34e7"
+    },
+    {
+      "patch": "03-prerequisite-item-sites",
+      "status": "PASS",
+      "sha256": "81929bf512b34c8d71accce3d600925426a0ac64252ae91055dcbfcae0386773"
+    },
+    {
+      "patch": "04-prerequisite-container-site",
+      "status": "PASS",
+      "sha256": "8785c681c31dde26253405ff2e56de2e1446c962e67c09d2ed3838e9341bb2a1"
+    }
+  ],
+  "normalized_staged_contents_match": true,
+  "private_tree_patch_base_raw_sha256": {
+    "01-active-transport": {
+      "port/android-native/app/src/main/cpp/model_renderer.cpp": "f5e18dc288f614f7aaf0ce8dfff34da15acf0f2613d16edb3135a532396a5d62",
+      "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc": "3d6443e6ba3e836aca7f1d1cf33c757a5ef1f6d10b731bf7836d37caea323cc3"
+    },
+    "02-player-named-prefix": {
+      "port/android-native/app/src/main/cpp/model_renderer.cpp": "a3d872d1d251494b5b5294e4ac903aed28a0d38076302079a94d1faacc782f42"
+    },
+    "03-prerequisite-item-sites": {
+      "port/level-world/world_item_graph_v3.cpp": "09d9e061a0f5e6c518fa8151371f023f49b96ffea22f53dce8c2b885a8d11043",
+      "port/level-world/world_item_graph_v3.hpp": "54eccdd1fc64b0b0450607a05e32f34b81cf99d259268eceb8b2e5bc3b75bb76",
+      "port/level-world/world_loot_pickup_v23.cpp": "e77f2501eb9a864172840ac03bbad2cca8eccc3c678986f4b36de08423e8b14c",
+      "port/level-world/world_loot_pickup_v23.hpp": "3c94ccf758e470359abd97c5d072b13b06e3ce358847f5bbc71cf54f71fbfefe"
+    },
+    "04-prerequisite-container-site": {
+      "port/level-world/canonical_destructible_container_v16.cpp": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995",
+      "port/level-world/canonical_destructible_container_v16.hpp": "f8a5049f33f41e9989b44d80db5bec15d89b1a42bb22a2802a02aa71b3400c19",
+      "port/level-world/openable_container_owner_v1.cpp": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "port/level-world/openable_container_owner_v1.hpp": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf"
+    }
+  },
+  "private_tree_final_raw_sha256": {
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "16a7c081113d0c489086a08399efe13e75b85c23de1c6a85c32fb706bfbcad7a",
+    "port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc": "48b1bee7d53a417966ccdda002e36bdedd234b0d16c1de3ba67acf24bab84125",
+    "port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc": "e0ab945a0bb0914da817eb291137d4b26ed1ce51cc3616bf9ff547649d37766f",
+    "port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc": "6328c30664df9e9e53180fb9a4f492976a5a9a1266bd8a168f56a1439403da99",
+    "port/level-world/canonical_destructible_container_v16.cpp": "808a5018bd7b18faa4622e373e587047233ace0212b3ce875decc3c294da234e",
+    "port/level-world/canonical_destructible_container_v16.hpp": "446848af00a5b1b04faf5d738a382c013e5f48d04ad94c1aa419bb40e1fc513b",
+    "port/level-world/openable_container_owner_v1.cpp": "aa8a69dcb8a79f50c6aaaae3772f42a12ab477d81f2b297d8f1e6e0b899fb70c",
+    "port/level-world/openable_container_owner_v1.hpp": "67621e81317c3d07c78d627d45f65165f8908ff161e09a9ea23030133dc93e0a",
+    "port/level-world/world_item_graph_v3.cpp": "2d0b0a0e9dd781c3108364197666245be4b094dd34a5aaaf08e0f5c27b9658ff",
+    "port/level-world/world_item_graph_v3.hpp": "8580a5f1d2630be99d47d2d29be7270479532709188355f4667d7f2b4301bc13",
+    "port/level-world/world_loot_pickup_v23.cpp": "35d334cd5e1a4d62b750e5d476cc384db4b83040463e650abc25da2ec44f09c9",
+    "port/level-world/world_loot_pickup_v23.hpp": "ad0550d29538c404a776a2fa4a3429e7cca177801cea1877faa2b74bf1131c9b"
+  }
+}

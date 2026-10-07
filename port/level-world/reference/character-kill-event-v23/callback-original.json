@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "AISPlayer_OnKill_cases": [
+    {
+      "flags": 0,
+      "calls": []
+    },
+    {
+      "flags": 1,
+      "calls": []
+    },
+    {
+      "flags": 1024,
+      "calls": [
+        [
+          "args_ctor"
+        ],
+        [
+          "GameObject",
+          33570816
+        ],
+        [
+          "CallScript",
+          33558528,
+          "OnKill"
+        ],
+        [
+          "args_dtor"
+        ]
+      ]
+    },
+    {
+      "flags": 4294967295,
+      "calls": [
+        [
+          "args_ctor"
+        ],
+        [
+          "GameObject",
+          33570816
+        ],
+        [
+          "CallScript",
+          33558528,
+          "OnKill"
+        ],
+        [
+          "args_dtor"
+        ]
+      ]
+    }
+  ],
+  "IEvent_getEventID_cases": [
+    0,
+    1,
+    2147483647,
+    4294967295
+  ],
+  "scope": "Whole OnKill3ddb10 gate/order and exact literal OnKill; argument-list/object/CallScript services observed. Default bx-lr executes. Whole inherited IEvent31d8dc field4 getter executes."
+}

@@ -1,0 +1,127 @@
+{
+  "status": "PASS",
+  "scope": "Small bounded source/actual-filesystem unit fixtures only; no GPU/emulator/ADB, no profile/game state fabrication",
+  "results": [
+    {
+      "name": "reader",
+      "status": "PASS",
+      "stdout": "PASS bounded private save actual files+source cache: missing/exact/oversize, nonregular/FIFO, injected growth/shrink/close errors, real INFO/backup and cap-required failure; checks=132\n",
+      "stderr": "",
+      "exit_code": 0,
+      "elapsed_compile_and_test_seconds": 6.7013126179999745,
+      "owned_strict_command": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsyntax-only",
+        "-Iport/android-native/app/src/main/cpp",
+        "-Iport/level-world",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39",
+        "port/engine-ui/tests/renderer_private_save_read_v39.cpp"
+      ],
+      "owned_strict_no_warning_suppression": true,
+      "compile_command": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O1",
+        "-g",
+        "-fsanitize=undefined",
+        "-Iport/android-native/app/src/main/cpp",
+        "-Iport/level-world",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39",
+        "port/engine-ui/tests/renderer_private_save_read_v39.cpp",
+        "port/level-world/level_savegame_cache_v1.cpp",
+        "port/game-data/player_profile_index_v1.cpp",
+        "-Wl,--wrap=fread",
+        "-Wl,--wrap=fclose",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39/reader-host.bin"
+      ],
+      "runtime_command": [
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39/reader-host.bin",
+        "/tmp/dh2-private-save-v39-2011"
+      ],
+      "sanitizers": [
+        "undefined"
+      ],
+      "hard_compile_AS_MiB": 512,
+      "hard_runtime_AS_MiB": 128,
+      "hard_runtime_CPU_seconds": 5,
+      "binary_sha256": "10115e408f16e676734f6a1c99b52e09d1a255cab628a72ea2a6c8f2d9712a05",
+      "sources": [
+        {
+          "path": "port/engine-ui/tests/renderer_private_save_read_v39.cpp",
+          "sha256": "60558d768f7af949bbdec2f4c076cd7a9c19ab4b1c14652ef1458e2915ca75d2"
+        },
+        {
+          "path": "port/level-world/level_savegame_cache_v1.cpp",
+          "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9"
+        },
+        {
+          "path": "port/game-data/player_profile_index_v1.cpp",
+          "sha256": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a"
+        }
+      ]
+    },
+    {
+      "name": "budget",
+      "status": "PASS",
+      "stdout": "PASS actual extracted QA guard: graph caps,25000 exact units and named iteration/time stops before work; checks=10\n",
+      "stderr": "",
+      "exit_code": 0,
+      "elapsed_compile_and_test_seconds": 1.6319501379999792,
+      "owned_strict_command": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsyntax-only",
+        "-Iport/android-native/app/src/main/cpp",
+        "-Iport/level-world",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39",
+        "port/engine-ui/tests/renderer_load_budget_v39.cpp"
+      ],
+      "owned_strict_no_warning_suppression": true,
+      "compile_command": [
+        "g++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-O1",
+        "-g",
+        "-fsanitize=undefined",
+        "-Iport/android-native/app/src/main/cpp",
+        "-Iport/level-world",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39",
+        "port/engine-ui/tests/renderer_load_budget_v39.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39/budget-host.bin"
+      ],
+      "runtime_command": [
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/load-diagnostics-v39/budget-host.bin"
+      ],
+      "sanitizers": [
+        "undefined"
+      ],
+      "hard_compile_AS_MiB": 512,
+      "hard_runtime_AS_MiB": 128,
+      "hard_runtime_CPU_seconds": 5,
+      "binary_sha256": "4671a8536c4ba363e50aee1d6093c4b54da9b2323ef4c93ba07381d47252340e",
+      "sources": [
+        {
+          "path": "port/engine-ui/tests/renderer_load_budget_v39.cpp",
+          "sha256": "454efef16a1ca6907ad884b085a687b26c5b77f669abf49f23d32ca09124dac6"
+        }
+      ]
+    }
+  ]
+}

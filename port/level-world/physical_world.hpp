@@ -21,6 +21,8 @@ static_assert(sizeof(WorldObject)==48&&sizeof(WorldShape)==16&&sizeof(WorldConta
 class NativeWorld final:public b2BoundaryListener,public b2ContactFilter,
  public b2ContactListener,public b2DestructionListener {
  std::unique_ptr<b2World> world_;
+ std::uint32_t step_depth_v106_{},filter_depth_v106_{},contact_depth_v106_{},mutation_depth_v106_{};
+ struct DeliveryV106 {std::uint32_t& count;explicit DeliveryV106(std::uint32_t& n):count(n){++count;}~DeliveryV106(){--count;}};
  void dispatch(ContactEvent,const b2ContactPoint*);
 public:
  // PhysicalWorld::load passes these physics-unit bounds unchanged.
@@ -28,6 +30,7 @@ public:
  void clear();
  void update(std::uint32_t milliseconds);
  b2World* backend() const {return world_.get();}
+ bool cleanup_delivery_idle_v106()const noexcept{return !step_depth_v106_&&!filter_depth_v106_&&!contact_depth_v106_&&!mutation_depth_v106_;}
  b2Body* create(const b2BodyDef* definition);
  b2Body* create_character(const CharacterBodyConfig&,WorldObject*);
  void destroy(b2Body*&);

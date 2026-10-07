@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "cases": 128,
+  "scope": "Original LEPT and LUSP readers with signed boundaries and raw bool bytes.\nReal stream/reader instructions execute. Stream delivery and memory are borrowed.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "2c1ebf96bb6694bd961f2353dd1d907b3afe7bb990860f1dfc4dd85b3223b150"
+}

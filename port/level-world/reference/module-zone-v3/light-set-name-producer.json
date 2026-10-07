@@ -1,0 +1,26 @@
+{
+  "ctor": "40d7d4",
+  "global_array": "0x99977c",
+  "symbols": [
+    "$d",
+    "light_set_names"
+  ],
+  "names": [
+    {
+      "pointer": "0x8c24e8",
+      "name": "PlayerLight"
+    },
+    {
+      "pointer": "0x8c3e40",
+      "name": "SceneLight"
+    },
+    {
+      "pointer": "0x8c7d80",
+      "name": "CameraLight"
+    },
+    {
+      "pointer": "0x8c3e30",
+      "name": "MonsterLight"
+    }
+  ]
+}

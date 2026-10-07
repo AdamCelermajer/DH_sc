@@ -1,0 +1,58 @@
+[
+  {
+    "caller": "_ZN15v2EmuController8_onEventEPK13EvMouseButtonPK12EventManager",
+    "address": "0x405f48",
+    "size": 376,
+    "site": "0x405fd8",
+    "target": "0x525884"
+  },
+  {
+    "caller": "_ZN15v2EmuController8_onEventEPK13EvMouseButtonPK12EventManager",
+    "address": "0x405f48",
+    "size": 376,
+    "site": "0x406030",
+    "target": "0x525884"
+  },
+  {
+    "caller": "_ZN15v2EmuController8_onEventEPK13EvMouseButtonPK12EventManager",
+    "address": "0x405f48",
+    "size": 376,
+    "site": "0x40608c",
+    "target": "0x525884"
+  },
+  {
+    "caller": "_ZN5Level14UpdateListenerEv",
+    "address": "0x3f0ae0",
+    "size": 1320,
+    "site": "0x3f0c0c",
+    "target": "0x50ed8c"
+  },
+  {
+    "caller": "_ZN5Level14UpdateListenerEv",
+    "address": "0x3f0ae0",
+    "size": 1320,
+    "site": "0x3f0e94",
+    "target": "0x50ed8c"
+  },
+  {
+    "caller": "_ZN11HUDControls6UpdateEv",
+    "address": "0x41a780",
+    "size": 636,
+    "site": "0x41a8a8",
+    "target": "0x525884"
+  },
+  {
+    "caller": "_ZN19v2PS3MoveController6UpdateEv",
+    "address": "0x409bd8",
+    "size": 2864,
+    "site": "0x40a218",
+    "target": "0x525884"
+  },
+  {
+    "caller": "_ZN19v2PS3MoveController6UpdateEv",
+    "address": "0x409bd8",
+    "size": 2864,
+    "site": "0x40a59c",
+    "target": "0x525884"
+  }
+]

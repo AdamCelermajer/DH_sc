@@ -1,0 +1,291 @@
+{
+  "_ZN7gameswf19edit_text_character11format_textEb": {
+    "calls": {
+      "0x78bccc": "_ZN7gameswf5arrayINS_17text_glyph_recordEE6resizeEi",
+      "0x78a370": "_ZN7gameswf19edit_text_character18reset_bounding_boxEff",
+      "0x78e354": "_ZN7gameswf11html_reader5parseEPNS_19edit_text_characterE",
+      "0x78bc0c": "_ZN7gameswf5arrayINS_19edit_text_character15text_attributesEE6resizeEi",
+      "0x78a67c": "_ZN7gameswf5arrayINS_19edit_text_character15text_attributesEE7reserveEi",
+      "0x78a398": "_ZN7gameswf19edit_text_character10align_lineENS_23edit_text_character_def9alignmentEif",
+      "0x78dde8": "_ZN7gameswf19edit_text_character8get_rootEv",
+      "0x78c2d0": "_ZN7gameswf19edit_text_character14preload_glyphsEv",
+      "0x764234": "_ZN7gameswf9smart_ptrINS_4fontEE7set_refEPS1_",
+      "0x78cb90": "_ZN7gameswf19edit_text_character11append_textERKNS_9tu_stringERNS0_15text_attributesEb",
+      "0x75a240": "_ZN7gameswf11ref_counted8drop_refEv"
+    },
+    "literals": []
+  },
+  "_ZN7gameswf19edit_text_character12reset_formatEPNS_13as_textformatE": {
+    "calls": {
+      "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+      "0x75302c": "_ZN7gameswf9tu_stringC1ERKS0_",
+      "0x780374": "_ZNK7gameswf9as_object10get_playerEv",
+      "0x752ba8": "_ZnwjN3swf7MemHintE",
+      "0x7cf8d8": "_ZN7gameswf4fontC1EPNS_6playerE",
+      "0x764234": "_ZN7gameswf9smart_ptrINS_4fontEE7set_refEPS1_",
+      "0x752f50": "_ZN7gameswf9tu_stringaSERKS0_",
+      "0x78efb8": "_ZN7gameswf19edit_text_character11format_textEb",
+      "0x797124": "_ZN7gameswf8as_value9drop_refsEv",
+      "0x797a54": "_ZNK7gameswf8as_value9to_numberEv",
+      "0x797960": "_ZNK7gameswf8as_value7to_boolEv",
+      "0x420a84": "_ZNK7gameswf8as_value12to_tu_stringEv",
+      "0x78aebc": "_ZNK7gameswf9tu_stringeqEPKc",
+      "0x752b38": "_ZN7gameswf13free_internalEPvj"
+    },
+    "literals": [
+      {
+        "instruction": "0x78f2c4",
+        "address": "0x909f80",
+        "text": "leftMargin"
+      },
+      {
+        "instruction": "0x78f310",
+        "address": "0x909f90",
+        "text": "indent"
+      },
+      {
+        "instruction": "0x78f354",
+        "address": "0x909f98",
+        "text": "rightMargin"
+      },
+      {
+        "instruction": "0x78f398",
+        "address": "0x909fa8",
+        "text": "leading"
+      },
+      {
+        "instruction": "0x78f3dc",
+        "address": "0x909fb0",
+        "text": "letterSpacing"
+      },
+      {
+        "instruction": "0x78f420",
+        "address": "0x8e2b68",
+        "text": "color"
+      },
+      {
+        "instruction": "0x78f464",
+        "address": "0x8c56d8",
+        "text": "size"
+      },
+      {
+        "instruction": "0x78f4a8",
+        "address": "0x909fc0",
+        "text": "align"
+      },
+      {
+        "instruction": "0x78f500",
+        "address": "0x909f60",
+        "text": "font"
+      },
+      {
+        "instruction": "0x78f54c",
+        "address": "0x909fe0",
+        "text": "bold"
+      },
+      {
+        "instruction": "0x78f59c",
+        "address": "0x909fe8",
+        "text": "italic"
+      },
+      {
+        "instruction": "0x78f7b0",
+        "address": "0x909fc8",
+        "text": "left"
+      },
+      {
+        "instruction": "0x78f7d0",
+        "address": "0x8de040",
+        "text": "center"
+      },
+      {
+        "instruction": "0x78f7f4",
+        "address": "0x909fd0",
+        "text": "right"
+      },
+      {
+        "instruction": "0x78f818",
+        "address": "0x909fd8",
+        "text": "justify"
+      }
+    ]
+  },
+  "_ZN7gameswf19edit_text_character14set_text_valueERKNS_9tu_stringEb": {
+    "calls": {
+      "0x78f1ec": "_ZN7gameswf19edit_text_character8set_textERKNS_9tu_stringEb",
+      "0x78a364": "_ZNK7gameswf19edit_text_character12get_var_nameEv",
+      "0x75302c": "_ZN7gameswf9tu_stringC1ERKS0_",
+      "0x7cd130": "_ZN7gameswf14as_environment10parse_pathERKNS_9tu_stringEPS1_S4_",
+      "0x76b284": "_ZN7gameswf9as_object11find_targetEPKc",
+      "0x797350": "_ZN7gameswf8as_value10set_stringEPKc",
+      "0x797124": "_ZN7gameswf8as_value9drop_refsEv",
+      "0x752b38": "_ZN7gameswf13free_internalEPvj"
+    },
+    "literals": []
+  },
+  "_ZN7gameswf11html_reader5parseEPNS_19edit_text_characterE": {
+    "calls": {
+      "0x764234": "_ZN7gameswf9smart_ptrINS_4fontEE7set_refEPS1_",
+      "0x78ad54": "_ZN7gameswf5arrayINS_19edit_text_character15text_attributesEE9push_backIS2_EEvRKT_",
+      "0x751eb4": "_ZN7gameswf9tu_stringC1EPKci",
+      "0x78cb90": "_ZN7gameswf19edit_text_character11append_textERKNS_9tu_stringERNS0_15text_attributesEb",
+      "0x75a240": "_ZN7gameswf11ref_counted8drop_refEv",
+      "0x752b38": "_ZN7gameswf13free_internalEPvj",
+      "0x78bc0c": "_ZN7gameswf5arrayINS_19edit_text_character15text_attributesEE6resizeEi",
+      "0x78e060": "_ZN7gameswf11html_reader9parse_tagERNS_12stringi_hashINS_9tu_stringEEEPKc",
+      "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+      "0x75302c": "_ZN7gameswf9tu_stringC1ERKS0_",
+      "0x78dfbc": "_ZNK7gameswf4hashINS_10tu_stringiENS_9tu_stringENS_20stringi_hash_functorIS1_EEE3getERKS1_PS2_",
+      "0x78c600": "_ZN7gameswf4hashINS_10tu_stringiENS_9tu_stringENS_20stringi_hash_functorIS1_EEE5clearEv",
+      "0x41fed8": "_ZN7gameswf9tu_stringD1Ev",
+      "0x78aebc": "_ZNK7gameswf9tu_stringeqEPKc",
+      "0x78b94c": "$a",
+      "0x780374": "_ZNK7gameswf9as_object10get_playerEv",
+      "0x752ba8": "_ZnwjN3swf7MemHintE",
+      "0x7cf8d8": "_ZN7gameswf4fontC1EPNS_6playerE",
+      "0x7ce628": "_ZN7gameswf4font9copy_fromEPS0_",
+      "0x752f50": "_ZN7gameswf9tu_stringaSERKS0_",
+      "0x78a990": "_ZN7gameswf19edit_text_character12append_imageERKNS_9tu_stringEii"
+    },
+    "literals": [
+      {
+        "instruction": "0x78e414",
+        "address": "0x8e10f0",
+        "text": "name"
+      },
+      {
+        "instruction": "0x78e42c",
+        "address": "0x8c9150",
+        "text": "p"
+      },
+      {
+        "instruction": "0x78e440",
+        "address": "0x909f60",
+        "text": "font"
+      },
+      {
+        "instruction": "0x78e450",
+        "address": "0x90b8a0",
+        "text": "b"
+      },
+      {
+        "instruction": "0x78e774",
+        "address": "0x8cb9f8",
+        "text": "\n"
+      },
+      {
+        "instruction": "0x78e808",
+        "address": "0x909f68",
+        "text": "face"
+      },
+      {
+        "instruction": "0x78e874",
+        "address": "0x8e2b68",
+        "text": "color"
+      },
+      {
+        "instruction": "0x78e8dc",
+        "address": "0x8c56d8",
+        "text": "size"
+      },
+      {
+        "instruction": "0x78ec7c",
+        "address": "0x8e75d0",
+        "text": "u"
+      },
+      {
+        "instruction": "0x78ed58",
+        "address": "0x909f70",
+        "text": "img"
+      },
+      {
+        "instruction": "0x78edc0",
+        "address": "0x909f78",
+        "text": "src"
+      },
+      {
+        "instruction": "0x78ee28",
+        "address": "0x8debb0",
+        "text": "width"
+      },
+      {
+        "instruction": "0x78ee58",
+        "address": "0x909138",
+        "text": "height"
+      }
+    ]
+  },
+  "_ZN7gameswf19edit_text_character12append_imageERKNS_9tu_stringEii": {
+    "calls": {
+      "0x77a740": "_ZN7gameswf9smart_ptrINS_11bitmap_infoEE7set_refEPS1_",
+      "0x764234": "_ZN7gameswf9smart_ptrINS_4fontEE7set_refEPS1_",
+      "0x78a81c": "_ZN7gameswf5arrayINS_5glyphEE9push_backIS1_EEvRKT_",
+      "0x78a948": "_ZN7gameswf5arrayINS_17text_glyph_recordEE9push_backIS1_EEvRKT_",
+      "0x78a5b8": "_ZN7gameswf17text_glyph_recordD1Ev",
+      "0x75a240": "_ZN7gameswf11ref_counted8drop_refEv"
+    },
+    "literals": []
+  },
+  "_ZN7gameswf11html_reader9parse_tagERNS_12stringi_hashINS_9tu_stringEEEPKc": {
+    "calls": {
+      "0x751eb4": "_ZN7gameswf9tu_stringC1EPKci",
+      "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+      "0x75302c": "_ZN7gameswf9tu_stringC1ERKS0_",
+      "0x78e010": "_ZN7gameswf4hashINS_10tu_stringiENS_9tu_stringENS_20stringi_hash_functorIS1_EEE3setERKS1_RKS2_",
+      "0x752b38": "_ZN7gameswf13free_internalEPvj"
+    },
+    "literals": [
+      {
+        "instruction": "0x78e0d4",
+        "address": "0x8e10f0",
+        "text": "name"
+      }
+    ]
+  },
+  "_ZN7gameswf19edit_text_character10align_lineENS_23edit_text_character_def9alignmentEif": {
+    "calls": {},
+    "literals": []
+  },
+  "_ZN7gameswf19edit_text_character18reset_bounding_boxEff": {
+    "calls": {},
+    "literals": []
+  },
+  "_ZN7gameswf19edit_text_character11append_textERKNS_9tu_stringERNS0_15text_attributesEb": {
+    "calls": {
+      "0x7cf41c": "_ZNK7gameswf4font16get_units_per_emEv",
+      "0x7cf520": "_ZNK7gameswf4font10get_heightEv",
+      "0x764234": "_ZN7gameswf9smart_ptrINS_4fontEE7set_refEPS1_",
+      "0x752494": "_ZN7gameswf29decode_next_unicode_characterEPPKc",
+      "0x7ce4a8": "_ZNK7gameswf4font22get_kerning_adjustmentEii",
+      "0x78a948": "_ZN7gameswf5arrayINS_17text_glyph_recordEE9push_backIS1_EEvRKT_",
+      "0x78a5b8": "_ZN7gameswf17text_glyph_recordD1Ev",
+      "0x78a398": "_ZN7gameswf19edit_text_character10align_lineENS_23edit_text_character_def9alignmentEif",
+      "0x78a4ec": "_ZN7gameswf5arrayINS_5glyphEE6resizeEi",
+      "0x7d01bc": "_ZNK7gameswf4font9get_glyphEPNS_5glyphEti",
+      "0x761184": "_ZN7gameswf9log_errorEPKcz",
+      "0x78a81c": "_ZN7gameswf5arrayINS_5glyphEE9push_backIS1_EEvRKT_",
+      "0x75a240": "_ZN7gameswf11ref_counted8drop_refEv",
+      "0x752b38": "_ZN7gameswf13free_internalEPvj"
+    },
+    "literals": [
+      {
+        "instruction": "0x78ce80",
+        "address": "0x909ed0",
+        "text": "edit_text_character::display() -- missing glyph for char %d -- make sure character shapes for fo"
+      },
+      {
+        "instruction": "0x78ce94",
+        "address": "0x909ec8",
+        "text": "nbsp;"
+      }
+    ]
+  },
+  "_ZN7gameswf19edit_text_character8set_textERKNS_9tu_stringEb": {
+    "calls": {
+      "0x752f50": "_ZN7gameswf9tu_stringaSERKS0_",
+      "0x751d14": "_ZN7gameswf9tu_string6resizeEi",
+      "0x78efb8": "_ZN7gameswf19edit_text_character11format_textEb"
+    },
+    "literals": []
+  }
+}

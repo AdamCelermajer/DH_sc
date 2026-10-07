@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z21NativeGetSkillDetailsRKN7gameswf7fn_callE",
+      "elf_address": "0x445a10",
+      "size": 3252,
+      "sha256": "b785354ff74f89ca03037f4dfb8b914016e6c68531e95998058419fd6d2c7098"
+    },
+    {
+      "original_symbol": "_Z23NativeHUDGetActiveFaeryRKN7gameswf7fn_callE",
+      "elf_address": "0x44a820",
+      "size": 520,
+      "sha256": "66feaa2720c36d74f70bc4a426da12312062bfbac51b407f362f2eea5e544ec2"
+    },
+    {
+      "original_symbol": "_Z30NativeSkillGetEquipedSkillsIDsRKN7gameswf7fn_callE",
+      "elf_address": "0x4425a0",
+      "size": 404,
+      "sha256": "ff82796062e60f962ab6aa06c7b1c4b04a7c19a6b7a6ce62ccbcb1944d53430f"
+    }
+  ]
+}

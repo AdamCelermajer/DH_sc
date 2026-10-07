@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "port/engine-ui/tests/gfnt_text_freetype_miss_v1.cpp",
+        "-L.local-inputs/edit-text-connection-v1-host/build",
+        "-ldh2_engine_ui",
+        "-o",
+        ".local-inputs/gfnt_ft_miss_v1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=.local-inputs/edit-text-connection-v1-host/build",
+        ".local-inputs/gfnt_ft_miss_v1",
+        "port/android-native/app/src/main/assets/original-cache/data/menus/sct_font_3.fnt"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_GFNT_valid\":true,\"real_FT_no_face\":true,\"FT_version\":\"2.3.7\",\"diagnostic\":\"FreeType rejected font bytes\"}\n",
+      "stderr": ""
+    }
+  ]
+}

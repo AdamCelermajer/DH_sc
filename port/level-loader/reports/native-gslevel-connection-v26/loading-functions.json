@@ -1,0 +1,12 @@
+[
+  {
+    "symbol": "_Z16NativeEndLoadingRKN7gameswf7fn_callE",
+    "address": "0x43ab00",
+    "bytes": 64
+  },
+  {
+    "symbol": "_Z24NativeGetLoadingProgressRKN7gameswf7fn_callE",
+    "address": "0x43fa58",
+    "bytes": 128
+  }
+]

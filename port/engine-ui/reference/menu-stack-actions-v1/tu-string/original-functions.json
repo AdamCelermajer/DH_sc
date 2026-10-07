@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK7gameswf8as_value12to_tu_stringEv",
+      "elf_address": "0x420a84",
+      "size": 196,
+      "sha256": "fcd440312b02a2979a7ff7e5613134fde398b35ffe748a59dba45244ca545d51"
+    }
+  ]
+}

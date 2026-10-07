@@ -1,0 +1,189 @@
+{
+  "boundary_fixtures": [
+    "fresh GetOnline (offline)",
+    "same-profile Savegame.saveAll",
+    "volatile StreamBuffer.clear"
+  ],
+  "cases": [
+    {
+      "profile": false,
+      "blocked": false,
+      "prior_mode": 0,
+      "mode": 0,
+      "effects": []
+    },
+    {
+      "profile": false,
+      "blocked": false,
+      "prior_mode": 1,
+      "mode": 1,
+      "effects": []
+    },
+    {
+      "profile": false,
+      "blocked": false,
+      "prior_mode": 2,
+      "mode": 2,
+      "effects": []
+    },
+    {
+      "profile": false,
+      "blocked": false,
+      "prior_mode": 99,
+      "mode": 99,
+      "effects": []
+    },
+    {
+      "profile": false,
+      "blocked": true,
+      "prior_mode": 0,
+      "mode": 0,
+      "effects": []
+    },
+    {
+      "profile": false,
+      "blocked": true,
+      "prior_mode": 1,
+      "mode": 1,
+      "effects": []
+    },
+    {
+      "profile": false,
+      "blocked": true,
+      "prior_mode": 2,
+      "mode": 2,
+      "effects": []
+    },
+    {
+      "profile": false,
+      "blocked": true,
+      "prior_mode": 99,
+      "mode": 99,
+      "effects": []
+    },
+    {
+      "profile": true,
+      "blocked": false,
+      "prior_mode": 0,
+      "mode": 1,
+      "effects": [
+        [
+          "online",
+          false
+        ],
+        [
+          "online",
+          false
+        ],
+        [
+          "saveAll",
+          34613216
+        ],
+        [
+          "online",
+          false
+        ]
+      ]
+    },
+    {
+      "profile": true,
+      "blocked": false,
+      "prior_mode": 1,
+      "mode": 1,
+      "effects": [
+        [
+          "online",
+          false
+        ],
+        [
+          "online",
+          false
+        ],
+        [
+          "saveAll",
+          34613216
+        ],
+        [
+          "online",
+          false
+        ]
+      ]
+    },
+    {
+      "profile": true,
+      "blocked": false,
+      "prior_mode": 2,
+      "mode": 1,
+      "effects": [
+        [
+          "online",
+          false
+        ],
+        [
+          "online",
+          false
+        ],
+        [
+          "saveAll",
+          34613216
+        ],
+        [
+          "online",
+          false
+        ]
+      ]
+    },
+    {
+      "profile": true,
+      "blocked": false,
+      "prior_mode": 99,
+      "mode": 1,
+      "effects": [
+        [
+          "online",
+          false
+        ],
+        [
+          "online",
+          false
+        ],
+        [
+          "saveAll",
+          34613216
+        ],
+        [
+          "online",
+          false
+        ]
+      ]
+    },
+    {
+      "profile": true,
+      "blocked": true,
+      "prior_mode": 0,
+      "mode": 0,
+      "effects": []
+    },
+    {
+      "profile": true,
+      "blocked": true,
+      "prior_mode": 1,
+      "mode": 1,
+      "effects": []
+    },
+    {
+      "profile": true,
+      "blocked": true,
+      "prior_mode": 2,
+      "mode": 2,
+      "effects": []
+    },
+    {
+      "profile": true,
+      "blocked": true,
+      "prior_mode": 99,
+      "mode": 99,
+      "effects": []
+    }
+  ]
+}

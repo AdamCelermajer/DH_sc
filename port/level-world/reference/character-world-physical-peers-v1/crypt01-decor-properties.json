@@ -1,0 +1,725 @@
+{
+  "validation": "PASS",
+  "format": "CPP1",
+  "source_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "descriptor_sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca",
+  "binary_sha256": "7be095c792f06d95a8d5a590ef5b2e56c9f883c2f1dd9667ee6fb5950624b05f",
+  "sources": [
+    {
+      "room": 0,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_cemetery_entrance_01.mvp",
+      "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+    },
+    {
+      "room": 1,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_straight_ns_01.mvp",
+      "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+    },
+    {
+      "room": 2,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_sw_01.mvp",
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    {
+      "room": 3,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_ne_01.mvp",
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    {
+      "room": 4,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_t_sew_01.mvp",
+      "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+    },
+    {
+      "room": 5,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_deadend_e_01.mvp",
+      "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+    },
+    {
+      "room": 6,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_nw_02.mvp",
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    {
+      "room": 7,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_straight_c_ns_01.mvp",
+      "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+    }
+  ],
+  "rows": [
+    {
+      "descriptor_index": 6,
+      "room": 0,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 7,
+      "room": 0,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 8,
+      "room": 0,
+      "name": "_anim_candlestand_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 9,
+      "room": 0,
+      "name": "_anim_candlestand_003",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 10,
+      "room": 0,
+      "name": "_anim_candlestand_004",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 11,
+      "room": 0,
+      "name": "_anim_candle2_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 12,
+      "room": 0,
+      "name": "_anim_candles2_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 13,
+      "room": 0,
+      "name": "_anim_candle2_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 14,
+      "room": 0,
+      "name": "_anim_candles2_small_003",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 15,
+      "room": 0,
+      "name": "_anim_candle1_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 16,
+      "room": 0,
+      "name": "_anim_candle2_003",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 17,
+      "room": 0,
+      "name": "_anim_candles2_small_004",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 18,
+      "room": 0,
+      "name": "_anim_candles2_small_005",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 19,
+      "room": 0,
+      "name": "_anim_candle2_004",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 20,
+      "room": 0,
+      "name": "_anim_candles_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 21,
+      "room": 0,
+      "name": "_anim_candles2_small_006",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 22,
+      "room": 0,
+      "name": "_anim_swamp_dustmotes_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 23,
+      "room": 1,
+      "name": "_anim_candle2_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 24,
+      "room": 1,
+      "name": "_anim_candle2_04",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 25,
+      "room": 1,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 26,
+      "room": 1,
+      "name": "_anim_candlestand_04",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 27,
+      "room": 1,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 28,
+      "room": 1,
+      "name": "_anim_candle1_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 29,
+      "room": 2,
+      "name": "_anim_candle1_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 30,
+      "room": 2,
+      "name": "_anim_candle_big_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 31,
+      "room": 2,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 32,
+      "room": 2,
+      "name": "_anim_candle1_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 33,
+      "room": 2,
+      "name": "_anim_candle1_small_05",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 34,
+      "room": 2,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 35,
+      "room": 2,
+      "name": "_anim_candlestand_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 36,
+      "room": 2,
+      "name": "_anim_candlestand_003",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 40,
+      "room": 3,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 41,
+      "room": 3,
+      "name": "_anim_candles2_small_05",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 42,
+      "room": 3,
+      "name": "_anim_candle1_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 43,
+      "room": 3,
+      "name": "_anim_candle1_04",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 44,
+      "room": 3,
+      "name": "_anim_candle1_05",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 45,
+      "room": 3,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 46,
+      "room": 3,
+      "name": "_anim_candles_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 47,
+      "room": 3,
+      "name": "_anim_candles2_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 48,
+      "room": 3,
+      "name": "_anim_candle1_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 49,
+      "room": 3,
+      "name": "_anim_candle1_small_07",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 50,
+      "room": 3,
+      "name": "_anim_candle2_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 51,
+      "room": 4,
+      "name": "_anim_candle1_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 52,
+      "room": 4,
+      "name": "_anim_candle1_03",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 53,
+      "room": 4,
+      "name": "_anim_candle2_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 54,
+      "room": 4,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 55,
+      "room": 4,
+      "name": "_anim_candles2_small_03",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 56,
+      "room": 4,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 57,
+      "room": 4,
+      "name": "_anim_candlestand_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 58,
+      "room": 4,
+      "name": "_anim_candlestand_09",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 59,
+      "room": 4,
+      "name": "_anim_candlestand_10",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 60,
+      "room": 4,
+      "name": "_anim_candlestand_003",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 61,
+      "room": 5,
+      "name": "_anim_candle1_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 62,
+      "room": 5,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 63,
+      "room": 5,
+      "name": "_anim_candlestand_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 64,
+      "room": 5,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 65,
+      "room": 5,
+      "name": "_anim_candle1_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 66,
+      "room": 5,
+      "name": "_anim_candles2_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 67,
+      "room": 5,
+      "name": "_anim_candle_big_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 68,
+      "room": 6,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 69,
+      "room": 6,
+      "name": "_anim_candles2_small_04",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 70,
+      "room": 6,
+      "name": "_anim_candle1_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 71,
+      "room": 6,
+      "name": "_anim_candle2_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 72,
+      "room": 6,
+      "name": "_anim_candle1_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 73,
+      "room": 6,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 74,
+      "room": 6,
+      "name": "_anim_candles2_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 75,
+      "room": 6,
+      "name": "_anim_candle2_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 78,
+      "room": 7,
+      "name": "_anim_swamp_dustmotes_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 79,
+      "room": 7,
+      "name": "_anim_candle1_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 80,
+      "room": 7,
+      "name": "_anim_candles2_small_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 81,
+      "room": 7,
+      "name": "_anim_candlestand_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 82,
+      "room": 7,
+      "name": "_anim_candlestand_02",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 83,
+      "room": 7,
+      "name": "_anim_candles2_small_02",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 84,
+      "room": 7,
+      "name": "_anim_candle1_small_02",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 85,
+      "room": 7,
+      "name": "_anim_candle_big_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 86,
+      "room": 7,
+      "name": "_anim_candlestand_03",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 87,
+      "room": 7,
+      "name": "_anim_candles2_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 88,
+      "room": 7,
+      "name": "_anim_candlestand_04",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 89,
+      "room": 7,
+      "name": "_anim_candlestand_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 90,
+      "room": 7,
+      "name": "_anim_candlestand_05",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 91,
+      "room": 7,
+      "name": "_anim_candle1_small_002",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 92,
+      "room": 7,
+      "name": "_anim_candlestand_003",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 93,
+      "room": 7,
+      "name": "_anim_candles2_small_003",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    },
+    {
+      "descriptor_index": 94,
+      "room": 7,
+      "name": "_anim_candle2_001",
+      "source_type": 20,
+      "visible_default": 1,
+      "static_default": 1
+    }
+  ],
+  "full_AnimatedDecor_InitPost": false
+}

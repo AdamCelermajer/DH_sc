@@ -1,0 +1,15 @@
+{
+  "bases": [
+    {
+      "path": "port/level-world/openable_container_owner_v1.hpp",
+      "raw_sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf",
+      "canonical_sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf"
+    },
+    {
+      "path": "port/level-world/openable_container_owner_v1.cpp",
+      "raw_sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "canonical_sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65"
+    }
+  ],
+  "scope": "Apply only with actual loader callback binding to new complete leaf; not installed"
+}

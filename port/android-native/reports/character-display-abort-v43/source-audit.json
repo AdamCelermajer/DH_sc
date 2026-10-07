@@ -1,0 +1,210 @@
+{
+  "schema": "dh2-character-display-abort-v43",
+  "source_audit_only": true,
+  "no_global_edits_or_device_calls": true,
+  "sources": [
+    {
+      "path": "port/android-native/app/src/main/cpp/swf_gpu.cpp",
+      "sha256": "c38039ca536121e11b841e1d84a224592e9f534a8595270a0fe6507e872bd4b0",
+      "ranges": [
+        [
+          305,
+          327
+        ],
+        [
+          339,
+          403
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "e2b6246b708f1bf11f092ab1766d64ced1456dcfd220d9afa1cc7ded975249a0",
+      "ranges": [
+        [
+          214,
+          242
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_menu_v4.inc",
+      "sha256": "0c773d971717d52bc92932bae63abad457fd8eb847371ec446db6826041e9b15",
+      "ranges": [
+        [
+          173,
+          191
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_movie_services_v1.inc",
+      "sha256": "39dd2cdc880d9fc3101848c7b97a494c26827674dec33d67abdfedf8296b5043",
+      "ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/swf_movie.cpp",
+      "sha256": "bf8cc088c087fc5737cf27412c6a7b6a07716fe6b717273341be7a686f63fa46",
+      "ranges": [
+        [
+          117,
+          118
+        ],
+        [
+          134,
+          155
+        ],
+        [
+          182,
+          185
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/overlays/source-facade-v1/swf_movie.cpp",
+      "sha256": "4cee76342964485ed94b587cb694ca6024ad0fefa91b21ddb3eafda6b88aa790",
+      "ranges": [
+        [
+          120,
+          121
+        ],
+        [
+          137,
+          163
+        ],
+        [
+          194,
+          195
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/swf_movie_stage_clip_v5.inc",
+      "sha256": "4e87b17e4a2581a0f5c1c2a6de985bbf4918f15e36ff8ac969c696154c7c9cae",
+      "ranges": [
+        [
+          1,
+          28
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/swf_edit_text_connection_v1.cpp",
+      "sha256": "9563ab8cd552116b3cfc1575108e248a9de4867157db56126605ef7dcb0e4eb9",
+      "ranges": [
+        [
+          19,
+          31
+        ],
+        [
+          128,
+          143
+        ],
+        [
+          155,
+          176
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/swf_text_font_platform_v1.cpp",
+      "sha256": "c46ab50224728ed27e990a479c30c2ceb9d7eebb7ca5520731f8fef7317c8ba6",
+      "ranges": [
+        [
+          119,
+          131
+        ],
+        [
+          158,
+          176
+        ],
+        [
+          188,
+          205
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/text_render_owner_v2.cpp",
+      "sha256": "9912b4c218bbfe01bd2430ced3bb92c35abe2e84d371e905513d39b226106a29",
+      "ranges": [
+        [
+          136,
+          147
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/overlays/edit-text-v1/gameswf_text.cpp",
+      "sha256": "5c0c14bfaf8504e36284316294f53d2badf444a30d804fbc13951620f2fc55f0",
+      "ranges": [
+        [
+          687,
+          705
+        ],
+        [
+          1312,
+          1330
+        ]
+      ],
+      "encoding": "cp1252"
+    },
+    {
+      "path": "port/engine-ui/overlays/frame-v1/gameswf_sprite.cpp",
+      "sha256": "5ba3c07c2f106a685ebf43294f17036e885ed96b3cd7f4956ba838c59104250a",
+      "ranges": [
+        [
+          988,
+          1049
+        ],
+        [
+          1051,
+          1108
+        ]
+      ],
+      "encoding": "utf-8"
+    },
+    {
+      "path": "port/engine-ui/vendor/gameswf1714/gameswf/gameswf_player.cpp",
+      "sha256": "6dd855ffcceab227fdbd0fe037ab2c242c0afa195c4135649406dda86da16578",
+      "ranges": [
+        [
+          653,
+          656
+        ],
+        [
+          696,
+          740
+        ]
+      ],
+      "encoding": "utf-8"
+    }
+  ],
+  "runtime_inputs": [
+    {
+      "path": "port/android-native/reports/emulator-v41/character-menu-crash.txt",
+      "sha256": "730fa0235a5a5de19a693a4a170bc0624631db20b0497c464d9beca760eb86ec",
+      "bytes": 11434
+    },
+    {
+      "path": "port/android-native/reports/emulator-v41/full-flow-game-logcat.txt",
+      "sha256": "af6c5440b1539287940700a5ba8d8f3e16bba64eba0883640430480ca83e293e",
+      "bytes": 167913
+    }
+  ]
+}

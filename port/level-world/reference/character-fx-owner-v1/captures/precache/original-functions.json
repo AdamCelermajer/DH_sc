@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN15VisualFXManager17_PreCacheAnimDictEv",
+      "elf_address": "0x4933d8",
+      "size": 12,
+      "sha256": "4eac897c57b0c1b024e122587efc3ff63ea45140ef208f533ffcf47a6d6c656c"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager17PreCacheLibrariesEv",
+      "elf_address": "0x495a88",
+      "size": 204,
+      "sha256": "196c8d8ed2f4de992f7f6da8253c7b4e1ba26fdb1a9228bf9b3353d312ff9e83"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager14BuildLibrariesEv",
+      "elf_address": "0x496bd8",
+      "size": 204,
+      "sha256": "7cde20178fee233ba6421265562ee5a053bb9d8a545dba4c761a61b33c1f247a"
+    }
+  ]
+}

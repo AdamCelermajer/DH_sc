@@ -1,0 +1,27 @@
+{
+  "validation": "PASS",
+  "scope": "Original effect producers/simple state bodies versus optimized ARM64; registered transitions and gameplay services explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe_sha256": {
+    "effect-probe.json": "198725254539b40eaed464715be14d933e32824f78dd529793308b3f5bebf98b",
+    "body-probe.json": "4bc7411459e3371038c7f3372630699cff240f906ba8396f1d8c32784206df5a"
+  },
+  "optimized_arm64_library_sha256": "c264f478d957a602624d8fcf51b243e08827afc8bb11a679058c1d448d0970b3",
+  "gold_sha256": "6fbf1febb790d95cac78a53642c60c73bb23490dc4d5256d81768ab38a12eb11",
+  "comparisons": 2648,
+  "producer_cases": 2048,
+  "table_gate_cases": 24,
+  "simple_body_cases": 576,
+  "ordered_services": 6606,
+  "native_atomic_rejections": 6,
+  "mismatches": 0,
+  "source_sha256": {
+    "port\\level-world\\character_native_effects.hpp": "159f79b89809057f44c9315e8b8c13dfb4c0c5706819654182cc6bc3c2361421",
+    "port\\level-world\\character_native_effects.cpp": "db96197a6d3edccabc7316ef9c3fb97ffa8498015d2d1d1b6c9780fa2f999d2d",
+    "port\\level-world\\tests\\character_native_effects_differential.py": "491cba5857644f92265b1303dc3704ee1979b3ebc1e9d5ed28f88823cd1afecd",
+    "port\\level-world\\tools\\build_character_native_effects_oracle.ps1": "b81f94710455e1c2ad2030883032309831cff9fb4b1b7797a8ff0b3324839b08"
+  },
+  "native_registered_state_owner": false,
+  "focus_random_heading_and_init_implemented": false,
+  "packaged_APK": false
+}

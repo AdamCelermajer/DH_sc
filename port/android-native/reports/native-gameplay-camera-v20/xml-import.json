@@ -1,0 +1,55 @@
+{
+  "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc",
+  "files": [
+    {
+      "path": "port/level-loader/xml_document_v1.cpp",
+      "sha256": "19ef9043068be2b0e976fa149da0bb1ff542544d099a0b2069632708e0714955",
+      "bytes": 5047
+    },
+    {
+      "path": "port/level-loader/xml_document_v1.hpp",
+      "sha256": "bac16414b6fd623d4c0ffd0004814f8a2fb3cfafb0fb048a10e73105028b614b",
+      "bytes": 2806
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/tinyxml.cpp",
+      "sha256": "9ee7ceb204f2f30fe6eb92294999a68437a872c70b0cbf69dc74ee1ce94b1cac",
+      "bytes": 37591
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/tinyxmlparser.cpp",
+      "sha256": "1dd6068847ee18697e559b7876136bcaaf3c9eca58c28863320e8a21c8f4aeb5",
+      "bytes": 37242
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/tinyxmlerror.cpp",
+      "sha256": "2367fc5035030390fd2d420501ed9aff5a5d32c59f3c5b1efb9a769d469ed926",
+      "bytes": 1791
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/tinystr.cpp",
+      "sha256": "220612a57261e51016670678a1474e28c3eecb30b0544cf16efb9851ecb4cb5b",
+      "bytes": 2507
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/tinyxml.h",
+      "sha256": "492ebfc96ca285fa63f50225d94883fab70776293c32cd3c6695096aa6cc74ae",
+      "bytes": 64834
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/tinystr.h",
+      "sha256": "718e05d00ae40d2eabd688c64b980fa40419ace7c12d9685c710888caf102dd5",
+      "bytes": 8198
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/readme.txt",
+      "sha256": "a65b8363834ccbe31ab7b49dcba723ed204622df30326793e0121435624c1a8d",
+      "bytes": 19831
+    },
+    {
+      "path": "port/level-loader/vendor/tinyxml/PROVENANCE.json",
+      "sha256": "f71da7974a7bae50b98097cf2d748d1ca5ba8dea5b00e9495fe5109c4d5e9b59",
+      "bytes": 902
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "d9b242f5e301cf435120334fb0bd4990fbb191571c0cbf47232fbfbf5a01acea",
+  "sources": [
+    {
+      "path": "port\\scene-materials\\tests\\effect_gpu_diagnostic_v4.cpp",
+      "sha256": "8fabdfc844936d55143a7a36372c6dd15b94f71c654f6faa656dfbf8332b0596"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "3c338dc3a01519f4e37bc252cd3124fe14e0f5620ee4692eca090e3e36762b23"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "20aa762d06c895443d6469302f41ede3413c9c814bb835a7e1556285781bb2d6"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "cadc12f96f9592f936ff06ba6ae53144fae1d7cf3a7c086e0a4fbde2e09e68ef"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "afca252b306b25b1cd4b451fb1d8d1d2319ae765f266454e54d5336973fbe633"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "e8a2183da9ee0f22275a7b6b3217c3253a2c4bbd277f3d70dd879ee3e8ea7aea"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "67ca719a4502edc85b2f35c3766823e2ee62b8db832420da6ea9d8bfcad226fc"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "f74c9a744dfec718144a0460e4365f68d4a02fcb8b29be37cfd04be304e213de"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "94df45c02e258f826c0d2c24a82a2d07f5a91972f06682af06c6a2fe1fb60231"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "aa65b4c7c7d1c7591354d733c16a63c668ea2b51f3f78fdecaba9d77d084edd3",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials\\tests\\effect_gpu_diagnostic_v4.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-gpu-diagnostic-v4\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-gpu-diagnostic-v4\\linked-libs",
+    "-lEGL",
+    "-lGLESv2",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\effect-gpu-diagnostic-v4\\effect-gpu-diagnostic-v4.bin"
+  ],
+  "stdout": "actual effect _1_-_Defaultjh pixels diagnostic complete state restored\nactual effect fx_particles_alpha pixels diagnostic complete state restored\nactual effect fx_particles_alpha pixels diagnostic complete state restored\nDIAGNOSTIC complete actual FIRE/blood shader compilation and controlled state modes; evaluate pixel results separately\n",
+  "stderr": "FIXTURE mode 0 winding 0\nDRAW mode 0 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 0 nonzero pixels 0\nFIXTURE mode 0 winding 1\nDRAW mode 0 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 0 nonzero pixels 0\nFIXTURE mode 1 winding 0\nDRAW mode 1 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 1 nonzero pixels 0\nFIXTURE mode 1 winding 1\nDRAW mode 1 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 1 nonzero pixels 0\nFIXTURE mode 2 winding 0\nDRAW mode 2 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 2 nonzero pixels 0\nFIXTURE mode 2 winding 1\nDRAW mode 2 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 204 102 26 255\nMODE 2 nonzero pixels 1024\nFIXTURE mode 3 winding 0\nDRAW mode 3 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 3 nonzero pixels 0\nFIXTURE mode 3 winding 1\nDRAW mode 3 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 3 nonzero pixels 0\nFIXTURE mode 4 winding 0\nDRAW mode 4 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 204 102 26 255\nMODE 4 nonzero pixels 1024\nFIXTURE mode 4 winding 1\nDRAW mode 4 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 204 102 26 255\nMODE 4 nonzero pixels 1024\nFIXTURE mode 5 winding 0\nDRAW mode 5 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 0 0 0 0\nMODE 5 nonzero pixels 0\nFIXTURE mode 5 winding 1\nDRAW mode 5 program 3 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 1/1 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel _1_-_Defaultjh 204 102 26 255\nMODE 5 nonzero pixels 1024\nFIXTURE mode 0 winding 0\nDRAW mode 0 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 0 nonzero pixels 0\nFIXTURE mode 0 winding 1\nDRAW mode 0 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 0 nonzero pixels 1024\nFIXTURE mode 1 winding 0\nDRAW mode 1 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 1 nonzero pixels 1024\nFIXTURE mode 1 winding 1\nDRAW mode 1 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 1 nonzero pixels 1024\nFIXTURE mode 2 winding 0\nDRAW mode 2 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 2 nonzero pixels 0\nFIXTURE mode 2 winding 1\nDRAW mode 2 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 2 nonzero pixels 1024\nFIXTURE mode 3 winding 0\nDRAW mode 3 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 3 nonzero pixels 0\nFIXTURE mode 3 winding 1\nDRAW mode 3 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 26 255\nMODE 3 nonzero pixels 1024\nFIXTURE mode 4 winding 0\nDRAW mode 4 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 26 255\nMODE 4 nonzero pixels 1024\nFIXTURE mode 4 winding 1\nDRAW mode 4 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 26 255\nMODE 4 nonzero pixels 1024\nFIXTURE mode 5 winding 0\nDRAW mode 5 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 5 nonzero pixels 0\nFIXTURE mode 5 winding 1\nDRAW mode 5 program 6 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 5 nonzero pixels 1024\nFIXTURE mode 0 winding 0\nDRAW mode 0 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 0 nonzero pixels 0\nFIXTURE mode 0 winding 1\nDRAW mode 0 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 0 nonzero pixels 1024\nFIXTURE mode 1 winding 0\nDRAW mode 1 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 1 nonzero pixels 1024\nFIXTURE mode 1 winding 1\nDRAW mode 1 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 1 nonzero pixels 1024\nFIXTURE mode 2 winding 0\nDRAW mode 2 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 2 nonzero pixels 0\nFIXTURE mode 2 winding 1\nDRAW mode 2 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 2 nonzero pixels 1024\nFIXTURE mode 3 winding 0\nDRAW mode 3 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 3 nonzero pixels 0\nFIXTURE mode 3 winding 1\nDRAW mode 3 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 26 255\nMODE 3 nonzero pixels 1024\nFIXTURE mode 4 winding 0\nDRAW mode 4 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 26 255\nMODE 4 nonzero pixels 1024\nFIXTURE mode 4 winding 1\nDRAW mode 4 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 26 255\nMODE 4 nonzero pixels 1024\nFIXTURE mode 5 winding 0\nDRAW mode 5 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 0 0 0 0\nMODE 5 nonzero pixels 0\nFIXTURE mode 5 winding 1\nDRAW mode 5 program 9 texunit 33984 texture 1 depthbits 24 blend 1 src/dst 770/771 depth 1/515 cull 1/1029 front 2305 attrs 0/1/2 WVP 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, diffuse 0.8,0.4,0.1,1,\nGPU pixel fx_particles_alpha 204 102 25 255\nMODE 5 nonzero pixels 1024\n",
+  "exit_code": 0
+}

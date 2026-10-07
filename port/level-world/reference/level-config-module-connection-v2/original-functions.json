@@ -1,0 +1,525 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x3180a4",
+      "size": 32,
+      "symbol": "_GLOBAL__I_.._.._sources_Utils_UserProperties.cpp"
+    },
+    {
+      "address": "0x318178",
+      "size": 96,
+      "symbol": "_ZN14UserPropertiesD1Ev"
+    },
+    {
+      "address": "0x3181d8",
+      "size": 28,
+      "symbol": "_ZN14UserPropertiesD0Ev"
+    },
+    {
+      "address": "0x3181f4",
+      "size": 96,
+      "symbol": "_ZN14UserPropertiesD2Ev"
+    },
+    {
+      "address": "0x318e18",
+      "size": 68,
+      "symbol": "_ZN14UserProperties11AddPropertyEPKcS1_"
+    },
+    {
+      "address": "0x318e5c",
+      "size": 392,
+      "symbol": "_ZN14UserProperties14_ParseKeyValueEPcS0_"
+    },
+    {
+      "address": "0x318fe4",
+      "size": 88,
+      "symbol": "_ZN14UserProperties10_ParseLineEPc"
+    },
+    {
+      "address": "0x31903c",
+      "size": 284,
+      "symbol": "_ZN14UserProperties16_ParsePropertiesEPKc"
+    },
+    {
+      "address": "0x319158",
+      "size": 88,
+      "symbol": "_ZN14UserPropertiesC1EPKc"
+    },
+    {
+      "address": "0x3191b0",
+      "size": 88,
+      "symbol": "_ZN14UserPropertiesC2EPKc"
+    },
+    {
+      "address": "0x31f594",
+      "size": 32,
+      "symbol": "_ZNK11Application15GetCurrentLevelEv"
+    },
+    {
+      "address": "0x340ca8",
+      "size": 36,
+      "symbol": "_Z14GetNewInstanceI11LevelConfigEP10ObjectBasev"
+    },
+    {
+      "address": "0x340f74",
+      "size": 36,
+      "symbol": "_Z14GetNewInstanceI8RoomZoneEP10ObjectBasev"
+    },
+    {
+      "address": "0x340f98",
+      "size": 36,
+      "symbol": "_Z14GetNewInstanceI6ModuleEP10ObjectBasev"
+    },
+    {
+      "address": "0x34b724",
+      "size": 324,
+      "symbol": "_ZN13ObjectManager5SpawnEPKcS1_bb"
+    },
+    {
+      "address": "0x350e5c",
+      "size": 36,
+      "symbol": "_ZN12SceneManager12SearchByTypeEPN6glitch5scene10ISceneNodeERSt6vectorIS3_NS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEENS1_17E_SCENE_NODE_TYPEE"
+    },
+    {
+      "address": "0x3524a0",
+      "size": 276,
+      "symbol": "_ZN12SceneManager12AddNodeToMapEPN6glitch5scene10ISceneNodeE"
+    },
+    {
+      "address": "0x3596f8",
+      "size": 832,
+      "symbol": "_ZN12SceneManager9LoadSceneEPKcS1_bb"
+    },
+    {
+      "address": "0x35a0e4",
+      "size": 164,
+      "symbol": "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPKcb"
+    },
+    {
+      "address": "0x35a8e0",
+      "size": 8,
+      "symbol": "_ZNK6glitch5scene10ISceneNode25getAbsoluteTransformationEv"
+    },
+    {
+      "address": "0x37ba84",
+      "size": 116,
+      "symbol": "_ZN6Arrays19GetMemberIDByStringINS_6SoundsEEEiPKc"
+    },
+    {
+      "address": "0x385ed8",
+      "size": 88,
+      "symbol": "_ZN7GSLevelC1Ev"
+    },
+    {
+      "address": "0x385f30",
+      "size": 88,
+      "symbol": "_ZN7GSLevelC2Ev"
+    },
+    {
+      "address": "0x3860bc",
+      "size": 136,
+      "symbol": "_ZN7GSLevel4DtorEPK12StateMachine"
+    },
+    {
+      "address": "0x386190",
+      "size": 328,
+      "symbol": "_ZN7GSLevel4CtorEPK12StateMachine"
+    },
+    {
+      "address": "0x386818",
+      "size": 160,
+      "symbol": "_ZN7GSLevel9LoadLevelEPKcijjjbbii"
+    },
+    {
+      "address": "0x388218",
+      "size": 400,
+      "symbol": "_ZN6PFRoom17ExtendBoundingBoxERK4aabbIfE"
+    },
+    {
+      "address": "0x388b20",
+      "size": 312,
+      "symbol": "_ZN6Module8InitPostEv"
+    },
+    {
+      "address": "0x38a38c",
+      "size": 1280,
+      "symbol": "_ZNK6Module11_ChooseXmlsERSsS0_"
+    },
+    {
+      "address": "0x38a88c",
+      "size": 560,
+      "symbol": "_ZNK6Module10LoadModuleEv"
+    },
+    {
+      "address": "0x38aac8",
+      "size": 152,
+      "symbol": "_ZN10GameObject18UpdateAbsoluteAABBEv"
+    },
+    {
+      "address": "0x393600",
+      "size": 28,
+      "symbol": "_ZN10GameObject14SetDestinationERK7Point3DIfE"
+    },
+    {
+      "address": "0x393db4",
+      "size": 220,
+      "symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb"
+    },
+    {
+      "address": "0x39594c",
+      "size": 104,
+      "symbol": "_ZN14CheckpointZoneC1EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x3959b4",
+      "size": 104,
+      "symbol": "_ZN14CheckpointZoneC2EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x396330",
+      "size": 72,
+      "symbol": "_ZN15QuestMoveInZoneC1EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x396378",
+      "size": 72,
+      "symbol": "_ZN15QuestMoveInZoneC2EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x396548",
+      "size": 4,
+      "symbol": "_ZN8RoomZone8InitPostEv"
+    },
+    {
+      "address": "0x396558",
+      "size": 108,
+      "symbol": "_ZN8RoomZoneC1EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x3965c4",
+      "size": 108,
+      "symbol": "_ZN8RoomZoneC2EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x397594",
+      "size": 392,
+      "symbol": "_ZN4Zone19InitWithBoundingBoxERKN6glitch4core8aabbox3dIfEE"
+    },
+    {
+      "address": "0x39771c",
+      "size": 1044,
+      "symbol": "_ZN4Zone8InitPostEv"
+    },
+    {
+      "address": "0x397c2c",
+      "size": 116,
+      "symbol": "_ZN4ZoneC1EN10ObjectBase6GO_IDSEbb"
+    },
+    {
+      "address": "0x397ca0",
+      "size": 116,
+      "symbol": "_ZN4ZoneC2EN10ObjectBase6GO_IDSEbb"
+    },
+    {
+      "address": "0x397ec0",
+      "size": 104,
+      "symbol": "_ZN6ZoneExC1EN10ObjectBase6GO_IDSEbb"
+    },
+    {
+      "address": "0x397f28",
+      "size": 104,
+      "symbol": "_ZN6ZoneExC2EN10ObjectBase6GO_IDSEbb"
+    },
+    {
+      "address": "0x39b890",
+      "size": 256,
+      "symbol": "_ZN11TriggerZoneC1EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x39b990",
+      "size": 256,
+      "symbol": "_ZN11TriggerZoneC2EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x39c9a4",
+      "size": 156,
+      "symbol": "_ZN20TriggerZoneExitLevelC1EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x39ca40",
+      "size": 156,
+      "symbol": "_ZN20TriggerZoneExitLevelC2EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x3ef184",
+      "size": 4,
+      "symbol": "_ZN11LevelConfig6UpdateEv"
+    },
+    {
+      "address": "0x3ef188",
+      "size": 4,
+      "symbol": "_ZNK11LevelConfig4DrawEv"
+    },
+    {
+      "address": "0x3ef4a8",
+      "size": 152,
+      "symbol": "_ZNK5Level14GetLevelConfigEv"
+    },
+    {
+      "address": "0x3f150c",
+      "size": 436,
+      "symbol": "_ZN5Level14SetLevelConfigEP11LevelConfig"
+    },
+    {
+      "address": "0x3f20c0",
+      "size": 8,
+      "symbol": "_ZThn36_N11LevelConfigD1Ev"
+    },
+    {
+      "address": "0x3f20c8",
+      "size": 196,
+      "symbol": "_ZN11LevelConfigD1Ev"
+    },
+    {
+      "address": "0x3f218c",
+      "size": 8,
+      "symbol": "_ZThn36_N11LevelConfigD0Ev"
+    },
+    {
+      "address": "0x3f2194",
+      "size": 28,
+      "symbol": "_ZN11LevelConfigD0Ev"
+    },
+    {
+      "address": "0x3f21b0",
+      "size": 196,
+      "symbol": "_ZN11LevelConfigD2Ev"
+    },
+    {
+      "address": "0x3f28ec",
+      "size": 504,
+      "symbol": "_ZN11LevelConfig8InitPostEv"
+    },
+    {
+      "address": "0x3f3128",
+      "size": 920,
+      "symbol": "_ZN5LevelC1EPKcijjjbbii"
+    },
+    {
+      "address": "0x3f34c0",
+      "size": 920,
+      "symbol": "_ZN5LevelC2EPKcijjjbbii"
+    },
+    {
+      "address": "0x3f4910",
+      "size": 644,
+      "symbol": "_ZN11LevelConfigC2EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x3f4b94",
+      "size": 8,
+      "symbol": "_ZThn4_N11LevelConfig17DeclarePropertiesEv"
+    },
+    {
+      "address": "0x3f4b9c",
+      "size": 1548,
+      "symbol": "_ZN11LevelConfig17DeclarePropertiesEv"
+    },
+    {
+      "address": "0x3f51a8",
+      "size": 644,
+      "symbol": "_ZN11LevelConfigC1EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "address": "0x40ff70",
+      "size": 188,
+      "symbol": "_ZN11CameraLevelC1Ev"
+    },
+    {
+      "address": "0x41002c",
+      "size": 188,
+      "symbol": "_ZN11CameraLevelC2Ev"
+    },
+    {
+      "address": "0x47211c",
+      "size": 1516,
+      "symbol": "_ZN12VisualObject11CalcMeshBoxEv"
+    },
+    {
+      "address": "0x47295c",
+      "size": 176,
+      "symbol": "_ZN12VisualObject9SetParentEP10GameObject"
+    },
+    {
+      "address": "0x50e46c",
+      "size": 24,
+      "symbol": "_Z19setOnAnimateEnabledPN6glitch5scene10ISceneNodeEb"
+    },
+    {
+      "address": "0x50eeb4",
+      "size": 676,
+      "symbol": "_ZN6glitch4core10quaternionaSERKNS0_8CMatrix4IfEE"
+    },
+    {
+      "address": "0x50f220",
+      "size": 176,
+      "symbol": "_Z14OptimizeStaticPN6glitch5scene10ISceneNodeE"
+    },
+    {
+      "address": "0x50f89c",
+      "size": 316,
+      "symbol": "_Z17CopyMeshSceneNodePN6glitch5scene14IMeshSceneNodeE"
+    },
+    {
+      "address": "0x51cfb8",
+      "size": 508,
+      "symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_"
+    },
+    {
+      "address": "0x51d1b4",
+      "size": 600,
+      "symbol": "_ZN7PFFloorC1EPKcP6PFRoomP13PFGOuterGraphP13PFGInnerGraphj"
+    },
+    {
+      "address": "0x51d40c",
+      "size": 600,
+      "symbol": "_ZN7PFFloorC2EPKcP6PFRoomP13PFGOuterGraphP13PFGInnerGraphj"
+    },
+    {
+      "address": "0x520b40",
+      "size": 1112,
+      "symbol": "_ZN7PFFloor12_LoadNavMeshEPN6glitch5scene14IMeshSceneNodeE"
+    },
+    {
+      "address": "0x521540",
+      "size": 472,
+      "symbol": "_ZN6PFRoomC1EPKcjP7PFWorldP13PFGOuterGraphP13PFGInnerGraph"
+    },
+    {
+      "address": "0x521718",
+      "size": 472,
+      "symbol": "_ZN6PFRoomC2EPKcjP7PFWorldP13PFGOuterGraphP13PFGInnerGraph"
+    },
+    {
+      "address": "0x521eb8",
+      "size": 916,
+      "symbol": "_ZN6PFRoom10_LoadFloorEPN6glitch5scene14IMeshSceneNodeEPKc"
+    },
+    {
+      "address": "0x522844",
+      "size": 628,
+      "symbol": "_ZN7PFWorld5_InitEv"
+    },
+    {
+      "address": "0x5239e8",
+      "size": 556,
+      "symbol": "_ZN7PFWorld16_AddExitPositionEPN6glitch5scene10ISceneNodeEPKc"
+    },
+    {
+      "address": "0x523c14",
+      "size": 1432,
+      "symbol": "_ZN7PFWorld8LoadRoomEPN6glitch5scene10ISceneNodeEjPKc"
+    },
+    {
+      "address": "0x5839d8",
+      "size": 248,
+      "symbol": "_ZN6glitch5scene15CEmptySceneNodeC1Ei"
+    },
+    {
+      "address": "0x585118",
+      "size": 260,
+      "symbol": "_ZN6glitch5scene14CMeshSceneNodeC1ERKN5boost13intrusive_ptrINS0_5IMeshEEEiRKNS_4core8vector3dIfEERKNS8_10quaternionESC_"
+    },
+    {
+      "address": "0x596ec4",
+      "size": 152,
+      "symbol": "_ZN6glitch5scene10ISceneNode10setVisibleEb"
+    },
+    {
+      "address": "0x597004",
+      "size": 104,
+      "symbol": "_ZN6glitch5scene10ISceneNode11removeChildEPS1_"
+    },
+    {
+      "address": "0x5970f4",
+      "size": 48,
+      "symbol": "_ZN6glitch5scene10ISceneNode11setRotationERKNS_4core10quaternionE"
+    },
+    {
+      "address": "0x59712c",
+      "size": 40,
+      "symbol": "_ZN6glitch5scene10ISceneNode11setPositionERKNS_4core8vector3dIfEE"
+    },
+    {
+      "address": "0x597180",
+      "size": 28,
+      "symbol": "_ZNK6glitch5scene10ISceneNode19getAbsolutePositionEv"
+    },
+    {
+      "address": "0x5971e0",
+      "size": 116,
+      "symbol": "_ZN6glitch5scene10ISceneNode9setParentEPS1_"
+    },
+    {
+      "address": "0x597c60",
+      "size": 248,
+      "symbol": "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb"
+    },
+    {
+      "address": "0x598864",
+      "size": 164,
+      "symbol": "_ZN6glitch5scene10ISceneNode8addChildEPS1_"
+    },
+    {
+      "address": "0x598908",
+      "size": 252,
+      "symbol": "_ZNK6glitch5scene10ISceneNode25getRelativeTransformationEv"
+    },
+    {
+      "address": "0x5990c0",
+      "size": 424,
+      "symbol": "_ZN6glitch5scene10ISceneNodeC2EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_"
+    },
+    {
+      "address": "0x599268",
+      "size": 476,
+      "symbol": "_ZN6glitch5scene10ISceneNodeC1EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_"
+    },
+    {
+      "address": "0x60e54c",
+      "size": 36,
+      "symbol": "_ZNK6glitch7collada16CColladaDatabase14getVisualSceneEi"
+    },
+    {
+      "address": "0x61b2f4",
+      "size": 1480,
+      "symbol": "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeEPNS0_14CRootSceneNodeE"
+    },
+    {
+      "address": "0x61be14",
+      "size": 132,
+      "symbol": "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeE"
+    },
+    {
+      "address": "0x61c214",
+      "size": 124,
+      "symbol": "_ZNK6glitch7collada16CColladaDatabase7getNodeEPKcRNS0_5SNodeE"
+    },
+    {
+      "address": "0x61c290",
+      "size": 104,
+      "symbol": "_ZNK6glitch7collada16CColladaDatabase7getNodeEPKc"
+    },
+    {
+      "address": "0x61c6f4",
+      "size": 40,
+      "symbol": "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPKc"
+    },
+    {
+      "address": "0x61c878",
+      "size": 164,
+      "symbol": "_ZN6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPKcS6_PNS0_15CColladaFactoryE"
+    }
+  ]
+}

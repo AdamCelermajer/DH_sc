@@ -1,0 +1,68 @@
+[
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_wind.tga",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_wind.tga",
+    "bytes": 131132,
+    "sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_swamp.tga",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_swamp.tga",
+    "bytes": 524348,
+    "sha256": "20d272bca81fa16444d0a48979b132bfca2f2d041b3db02f58c45973b5ac7dbc"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_uneder.tga",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_uneder.tga",
+    "bytes": 131132,
+    "sha256": "66a73749826acc4a68561184b9e93d9b385ddeff7c96f547cc822226ca4962a5"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_darktemple.tga",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_darktemple.tga",
+    "bytes": 524348,
+    "sha256": "1973a30d0686443b68efb8c016f7f762e7339ad20e9b4ea7cc0773d9dd847835"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_blood.tga",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_blood.tga",
+    "bytes": 131132,
+    "sha256": "2b4473c8003f793706b4aaafcc2ffa82c7d27f00760b510f19ae5ca44b438cc7"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_blood.bdae",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_blood.bdae",
+    "bytes": 6148,
+    "sha256": "cd6d289eb3570a1c659445f3a8b4cd68f2e272f00ec4e02b4b5112f85aed7564"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_under.bdae",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_under.bdae",
+    "bytes": 6152,
+    "sha256": "aded4eba28b990a8a73a918a6f8bf448c903eb586c9ec9441acd0d3e501ae501"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_darktemple.bdae",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_darktemple.bdae",
+    "bytes": 5964,
+    "sha256": "1bf82d024e67458e899535a1020ff3332588de59925f9ee2030432aa0ab84c7b"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_swamp.bdae",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_swamp.bdae",
+    "bytes": 6148,
+    "sha256": "8466427cc4bedd8d3c0eed07200af39bae140aa76a4101fb704cbbdcef34d09e"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_wind.bdae",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/skybox_wind.bdae",
+    "bytes": 6140,
+    "sha256": "0cf0f38696c98711060cf1aa98e2555208cc51e6aabe486e73d6f34be49cb38a"
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/.nomedia",
+    "file": "port/level-world/reference/gameplay-skybox-v24/cache/.nomedia",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

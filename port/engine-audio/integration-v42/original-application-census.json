@@ -1,0 +1,25 @@
+{
+  "original_disabled_boot_byte": 0,
+  "original_global_manager_boot": 0,
+  "calls": [
+    {
+      "call": "0x323f04",
+      "target": "0x36b048",
+      "owner": "_ZN11Application4QuitEv",
+      "owner_address": "0x323bc4"
+    },
+    {
+      "call": "0x385134",
+      "target": "0x36c2e4",
+      "owner": "_ZN6GSInit6UpdateEP12StateMachined",
+      "owner_address": "0x3850c8"
+    },
+    {
+      "call": "0x3853e4",
+      "target": "0x36ca88",
+      "owner": "_ZN6GSInit6UpdateEP12StateMachined",
+      "owner_address": "0x3850c8"
+    }
+  ],
+  "scope": "Direct ARM BL census and original ELF loaded initializers; not execution of Application owner"
+}

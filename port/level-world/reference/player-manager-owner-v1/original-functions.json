@@ -1,0 +1,425 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x330794",
+      "symbol": "_ZN13PlayerManager23GetLocalPlayerCharacterEv",
+      "size": 24,
+      "sha256": "0fb7e07874b9bcf1664de9c038ac83657e9f939b069c6615a58a32729b19924d"
+    },
+    {
+      "address": "0x36d280",
+      "symbol": "_ZN13PlayerManager18IsPlayerInLocalMapEi",
+      "size": 100,
+      "sha256": "906b27436ae61d7ebab3211523342cda334d58b4b6a8c3cc64b2007854de6c2e"
+    },
+    {
+      "address": "0x36d7a8",
+      "symbol": "_ZN13PlayerManager13GetNumPlayersEv",
+      "size": 108,
+      "sha256": "6574deec313751fb822b36bf2310b9c927cecad8dba59a00e150f21c8434f1b2"
+    },
+    {
+      "address": "0x36d814",
+      "symbol": "_ZN13PlayerManager16ReceiveQuestSyncEP14PlayerSavegame",
+      "size": 32,
+      "sha256": "eb45d6b3459c2e7d354bce5214469376213e38b4190b0809141041f1a5791320"
+    },
+    {
+      "address": "0x36d834",
+      "symbol": "_ZN13PlayerManager20ClearQuestSyncBufferEv",
+      "size": 28,
+      "sha256": "3e747b931e8adb641b10745ec2983ae9a44c4cb86d0baed3ed1d401c003eed90"
+    },
+    {
+      "address": "0x36d850",
+      "symbol": "_ZN13PlayerManager16_UnpackInventoryER10PlayerInfo",
+      "size": 416,
+      "sha256": "050adacccfe615a584509a571d4549b2bb8dfe6f4f47f91f78ec59cb23d12dd0"
+    },
+    {
+      "address": "0x36de28",
+      "symbol": "_ZN13PlayerManager19IsPlayerInRemoteMapEi",
+      "size": 40,
+      "sha256": "5c564d44dd687736ffaf78c00019629db7483cd51c3fed96018c200633e71fbf"
+    },
+    {
+      "address": "0x36de50",
+      "symbol": "_ZN13PlayerManager15DoesPlayerExistEi",
+      "size": 116,
+      "sha256": "3541315ad9f3a9e8bf556fdbef2aec1e9776df6f6dcebf967ad26004a490177e"
+    },
+    {
+      "address": "0x36dec4",
+      "symbol": "_ZN13PlayerManager17_GetNetPlayerInfoEib",
+      "size": 236,
+      "sha256": "b011f387cbfca800425b15f432480aa8550d782bbe435a6538b1133e82b484f6"
+    },
+    {
+      "address": "0x36dfb0",
+      "symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    },
+    {
+      "address": "0x36e09c",
+      "symbol": "_ZN13PlayerManager16GetHostingPlayerEv",
+      "size": 112,
+      "sha256": "e00e77f9a58281185b7840208afbc95fb217efbdd0201f57ab830829b2da9be1"
+    },
+    {
+      "address": "0x36e10c",
+      "symbol": "_ZN13PlayerManager24_GetInternalIDByRemoteIDEib",
+      "size": 416,
+      "sha256": "cd11e7dacabf7522515b33c11fca2b51da9348d08e745945816bbfdb040db7d6"
+    },
+    {
+      "address": "0x36e2ac",
+      "symbol": "_ZN13PlayerManager15GetRemotePlayerEib",
+      "size": 32,
+      "sha256": "1db62d52ec00ebaf440c414eaf2c31e5d6a6d558d332a97c43ea7f1451539ef2"
+    },
+    {
+      "address": "0x36e2cc",
+      "symbol": "_ZN13PlayerManager23_GetInternalIDByLocalIDEib",
+      "size": 428,
+      "sha256": "0465671728895de95f65bbc290d5cb54762dde24242a8fb066a7cbab65e22d4f"
+    },
+    {
+      "address": "0x36e478",
+      "symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    },
+    {
+      "address": "0x36e498",
+      "symbol": "_ZN13PlayerManager18HandleQuestSyncMsgEPKci",
+      "size": 284,
+      "sha256": "e8193cbf06a876286546022fd0b7f784f135d2b95fa5107ccc6f07d8fd7a6356"
+    },
+    {
+      "address": "0x36e5b4",
+      "symbol": "_ZN13PlayerManager26_GetInternalIDByFriendlyIDEib",
+      "size": 400,
+      "sha256": "d2feabb14436afdfb486553ce155f7be4ea0bc0df657ccb155554f55bda96189"
+    },
+    {
+      "address": "0x36e744",
+      "symbol": "_ZN13PlayerManager9GetPlayerEib",
+      "size": 32,
+      "sha256": "5d19ac5cd09da90a3037728eecc8623b843e040bab522a6abe6a2eaedb2a82a6"
+    },
+    {
+      "address": "0x36e764",
+      "symbol": "_ZN13PlayerManager14AllPlayersDeadEv",
+      "size": 148,
+      "sha256": "ca6c653b93d573bf84b1c2c34b0902cce1286b9388dfb9647789e2720b71f4c2"
+    },
+    {
+      "address": "0x36e7f8",
+      "symbol": "_ZN13PlayerManager14AllReadyToRollEv",
+      "size": 196,
+      "sha256": "a6c28489d4d2859364765deda913e44b8d2f577faff028df31bab7854dc4ebe4"
+    },
+    {
+      "address": "0x36e8bc",
+      "symbol": "_ZN13PlayerManager21AllClientsReadyToRollEv",
+      "size": 216,
+      "sha256": "8b9b683f9f814744f25636984e9b4418ff3fe3959a6bf69b4b56f9855714ab1f"
+    },
+    {
+      "address": "0x36e994",
+      "symbol": "_ZN13PlayerManager14AllLoadingDoneEv",
+      "size": 188,
+      "sha256": "95817909f3f5d49009daacbf6e72a1d96bd1918bcf6f0ca56a3b81afba471c4c"
+    },
+    {
+      "address": "0x36ea50",
+      "symbol": "_ZN13PlayerManager29GetNumPlayerCharactersOfClassEi",
+      "size": 104,
+      "sha256": "e9eba9fb4e376a82aa3e29d3924da40c7330a9659addcfe40e270411af5fd251"
+    },
+    {
+      "address": "0x36eab8",
+      "symbol": "_ZN13PlayerManager28GetNumPlayerCharacterWarriorEv",
+      "size": 8,
+      "sha256": "a831cb32c8ee7758780ced4e10f931da23305e8d4df4ec60cc07bb8132be1766"
+    },
+    {
+      "address": "0x36eac0",
+      "symbol": "_ZN13PlayerManager26GetNumPlayerCharacterRogueEv",
+      "size": 8,
+      "sha256": "37895bff3f8e6487fa0870e13ea33dbb1aa57d2cffbff9ee2fabebc026ae7159"
+    },
+    {
+      "address": "0x36eac8",
+      "symbol": "_ZN13PlayerManager25GetNumPlayerCharacterMageEv",
+      "size": 8,
+      "sha256": "4183305e5f659e164516f052cfdc0353f16609e4e97762281272c448d35d8557"
+    },
+    {
+      "address": "0x36ead0",
+      "symbol": "_ZN13PlayerManager18GetNumLocalPlayersEb",
+      "size": 388,
+      "sha256": "f4af73eb8f32241b2eae07fb5343591dfb95cd21e699c1f94dcaa0a51fe4dccf"
+    },
+    {
+      "address": "0x36ec54",
+      "symbol": "_ZN13PlayerManager12InitialSetupE7Point3DIfE",
+      "size": 184,
+      "sha256": "97fd0626990c67e3a4dccf39cb7a2765d0148a9c2ddd45cd8fe1788f8ae02832"
+    },
+    {
+      "address": "0x36ed0c",
+      "symbol": "_ZN13PlayerManager20_UpdatePlayerNumbersEv",
+      "size": 412,
+      "sha256": "37bb41cd53b9494591fa918e378e6e54bdf25ff75a18c02ce089fd2c91ccdac8"
+    },
+    {
+      "address": "0x36eea8",
+      "symbol": "_ZN13PlayerManager20GetPlayerByCharacterEPK9Characterb",
+      "size": 340,
+      "sha256": "cb9f2652621dd1127f9cb1b041f3eedcea2769410054fe187912164986df306e"
+    },
+    {
+      "address": "0x36effc",
+      "symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character",
+      "size": 44,
+      "sha256": "9788e4a17e601db1483855dcde27c82c74471c4108bc232e4d19d0a4323beb0e"
+    },
+    {
+      "address": "0x36f074",
+      "symbol": "_ZN13PlayerManager20IsLocalPlayerHostingEv",
+      "size": 104,
+      "sha256": "58f5e18507c3a03922ee1fa6799a0dac1100efbed60acc2416d12b00873081a5"
+    },
+    {
+      "address": "0x36f0dc",
+      "symbol": "_ZN13PlayerManager34_AttachControllerToPlayerCharacterEi",
+      "size": 392,
+      "sha256": "d224ee007d8aff322f9e426cb6c6a4c85ffd15d31bba41e43c0f3c9e9016f62f"
+    },
+    {
+      "address": "0x36f2bc",
+      "symbol": "_ZN13PlayerManager18PostInitCharactersEv",
+      "size": 336,
+      "sha256": "dc11cbcf19e7e70f7f4f0b322f62feaa0cbfee80d56b5ee5b5536a9dd556458d"
+    },
+    {
+      "address": "0x36f4b4",
+      "symbol": "_ZN13PlayerManager24_UpdateJoiningControllerEii",
+      "size": 1944,
+      "sha256": "58cb54dec6a18d7517a3f60513a0e419f64382a40f2ac313854eb8c6680575ac"
+    },
+    {
+      "address": "0x370020",
+      "symbol": "_ZN13PlayerManager14_PackInventoryER10PlayerInfo",
+      "size": 568,
+      "sha256": "186304134c0be2bc3a182226128d732233c9d1aee2ee541e09e769f493fe800a"
+    },
+    {
+      "address": "0x370c9c",
+      "symbol": "_ZN13PlayerManager24ResetCharacterDeathTimerEv",
+      "size": 92,
+      "sha256": "5710bf10d256357ed0362594f2c66f87404e3fbb7966ad3e212154606cb0567a"
+    },
+    {
+      "address": "0x370e00",
+      "symbol": "_ZN13PlayerManager16ClearLoadingInfoEv",
+      "size": 72,
+      "sha256": "e9bfd52528d3f26a055662c25f4a2980e45c96abf321df045030643b8593ae1c"
+    },
+    {
+      "address": "0x371050",
+      "symbol": "_ZN13PlayerManager29_AttachLightToPlayerCharacterEi",
+      "size": 144,
+      "sha256": "957bf381d0e8ba78e08b7269bfa9f89fed5388a6156477a59a2e04cac2e9b617"
+    },
+    {
+      "address": "0x3714ac",
+      "symbol": "_ZN13PlayerManagerD1Ev",
+      "size": 212,
+      "sha256": "6752dc2eda126169deeb84d74503e5f436d14ca7bff59e4d8eef639ee702f4bc"
+    },
+    {
+      "address": "0x371580",
+      "symbol": "_ZN13PlayerManagerD0Ev",
+      "size": 28,
+      "sha256": "52c602050ee294f81e5c210cf0dd15dd6636a326ea3e6a5b5584beded0eac233"
+    },
+    {
+      "address": "0x37159c",
+      "symbol": "_ZN13PlayerManagerD2Ev",
+      "size": 212,
+      "sha256": "e9777860dfe9c6f0c78e837e2c9dcb5638ebed7c40a23af7e9be9d82ffac4345"
+    },
+    {
+      "address": "0x37193c",
+      "symbol": "_ZN13PlayerManager22_CheckOnlineTransitionEv",
+      "size": 428,
+      "sha256": "1f3ad76966f789d10b344c007d42a7fe2da760243a6e37139188287080d9080a"
+    },
+    {
+      "address": "0x371d80",
+      "symbol": "_ZN13PlayerManager15RemoveCharacterEP9Character",
+      "size": 1080,
+      "sha256": "bb1fe47c41a05f05eaec0aca186c9ed9eebabcd1f12b9e310dcc54168e431c77"
+    },
+    {
+      "address": "0x3721b8",
+      "symbol": "_ZN13PlayerManager19RemoveAllCharactersEv",
+      "size": 104,
+      "sha256": "486157e9f84408c2fb87735d3102f155d88910d27c87d09d43e6d85e3c60f722"
+    },
+    {
+      "address": "0x372220",
+      "symbol": "_ZN13PlayerManager13_AddCharacterEi",
+      "size": 1180,
+      "sha256": "65ea83bee92dba22f0ef9af011ace77538e81e2a81fee1fe0244d1e7571a8702"
+    },
+    {
+      "address": "0x3726bc",
+      "symbol": "_ZN13PlayerManager12RemovePlayerEi",
+      "size": 260,
+      "sha256": "a0dba31cd6cf756a0ba7f162e2a37dcc01f1ead49722500fbab93e65c81051e7"
+    },
+    {
+      "address": "0x3727c0",
+      "symbol": "_ZN13PlayerManager16RemoveAllPlayersEv",
+      "size": 76,
+      "sha256": "ba578bee95ff287e0af4cc01303c06b201b93bd3a44a3216c5382e53e93e296f"
+    },
+    {
+      "address": "0x37280c",
+      "symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce"
+    },
+    {
+      "address": "0x373bdc",
+      "symbol": "_ZN10PlayerInfo5ResetEv",
+      "size": 1456,
+      "sha256": "66bb927ada569788c7fb97e9255f0a791d83b342837f62ab225417919f30eeb0"
+    },
+    {
+      "address": "0x37418c",
+      "symbol": "_ZN10PlayerInfoC1Ev",
+      "size": 2460,
+      "sha256": "13d8ca15844ca9c10cd95116a9014af7c30d2ed759da55a2035b51c697eff580"
+    },
+    {
+      "address": "0x374b28",
+      "symbol": "_ZN13PlayerManagerC1Ev",
+      "size": 188,
+      "sha256": "dc0bdfb9bb07a71622e07b21d5b74557e38cb0c2fcbbae7609a829cd4eb7efab"
+    },
+    {
+      "address": "0x374be4",
+      "symbol": "_ZN13PlayerManagerC2Ev",
+      "size": 188,
+      "sha256": "ea5fc5272f180a75cad4012bccad1498f187a9c81ae710b177886acd12d789bf"
+    },
+    {
+      "address": "0x374cc0",
+      "symbol": "_ZN10PlayerInfoC2Ev",
+      "size": 2460,
+      "sha256": "a5ee090f24d93aa7dda5eaf7a69e2a18d4ae102d6f8e0c73605532249a3935d1"
+    },
+    {
+      "address": "0x37565c",
+      "symbol": "_ZN13PlayerManager18ReviveLocalPlayersEb",
+      "size": 1172,
+      "sha256": "0529446b62223936a5ad0d929db03c815096c690b7614ddc76cd09eae2cf9397"
+    },
+    {
+      "address": "0x375af0",
+      "symbol": "_ZN13PlayerManager19_HandleGlobalDeathsEv",
+      "size": 964,
+      "sha256": "058cfd50258559d70e82c90945e3a1ddaa5fb45c55aa41421b85d90c6c09f521"
+    },
+    {
+      "address": "0x375eb4",
+      "symbol": "_ZN13PlayerManager18_CheckGlobalDeathsEv",
+      "size": 308,
+      "sha256": "399761ce7443dca38050cc979b29a0e9fefe109801967fcae5ed653da0fa317f"
+    },
+    {
+      "address": "0x375fe8",
+      "symbol": "_ZN13PlayerManager18_HandleLocalDeathsEv",
+      "size": 280,
+      "sha256": "3e9aa951c4d9ec4b9bf222526ecd98daa72a8e3da7c0fa4f2292c71d4f0baf7c"
+    },
+    {
+      "address": "0x376100",
+      "symbol": "_ZN13PlayerManager17_CheckLocalDeathsEv",
+      "size": 136,
+      "sha256": "e0d21f76182cf908e70f2297a7fa16a3bef6a3cafc5b8d60e9733a54da46aec8"
+    },
+    {
+      "address": "0x376380",
+      "symbol": "_ZN13PlayerManager25OnHostChangedNotificationEi",
+      "size": 1324,
+      "sha256": "a3c5ff47b5ebfdb8b775819b19bf0a27982614e015a01a4264d6ff58e0846cdd"
+    },
+    {
+      "address": "0x3777d0",
+      "symbol": "_ZN10PlayerInfoC1ERKS_",
+      "size": 1892,
+      "sha256": "351d5ee8165eacf079f65770fa27d7a10d7844c76bc2a328168e360791222815"
+    },
+    {
+      "address": "0x378808",
+      "symbol": "_ZN10PlayerInfoaSERKS_",
+      "size": 568,
+      "sha256": "e1a554fc8a218db2701a973c0d7f96c129196a2c707fb07ff8094df6aab35fd9"
+    },
+    {
+      "address": "0x378a40",
+      "symbol": "_ZN13PlayerManager10_AddPlayerEiiib",
+      "size": 340,
+      "sha256": "997afe7079b97090766a0bab0a755ba6dcae4024a8632bb35d68eabe7baf070a"
+    },
+    {
+      "address": "0x378b94",
+      "symbol": "_ZN13PlayerManager23_CheckRemoteControllersEv",
+      "size": 236,
+      "sha256": "0a208bc74e980a8bfccf37d806ed368d738d3ceab4361693573290945f11dcb3"
+    },
+    {
+      "address": "0x378c80",
+      "symbol": "_ZN13PlayerManager22_CheckLocalControllersEv",
+      "size": 820,
+      "sha256": "ff40c836c8779b73b5a516da5833901ab1a5cefc0afe232ce4b36e65f830abeb"
+    },
+    {
+      "address": "0x378fb4",
+      "symbol": "_ZN13PlayerManager6UpdateEv",
+      "size": 208,
+      "sha256": "75d20cd970df47904bb0e23fa0f2cc579761d5b198ffe594b016fb21c7626b0b"
+    },
+    {
+      "address": "0x3b3d38",
+      "symbol": "_ZN9Character18SafeGetCharPropsIdEv",
+      "size": 728,
+      "sha256": "81064f2b90877e862e4956c7502ecab84f6802b5d207a5daeb3dcade373c82cd"
+    },
+    {
+      "address": "0x3bb7fc",
+      "symbol": "_ZNK9Character17SG_GetPlayerClassEv",
+      "size": 24,
+      "sha256": "4054b834dd2f40952673b44b1cefeaf5f49f34fcaa331611ee3bbbfa6e7ddf22"
+    },
+    {
+      "address": "0x3bb814",
+      "symbol": "_ZN9Character17SG_SetPlayerClassEi",
+      "size": 20,
+      "sha256": "500a94c81b0967927454deaee2244d90e7d9dae2e07bfb04dcb3d88a95b7e54b"
+    },
+    {
+      "address": "0x3bc4d0",
+      "symbol": "_ZN9Character7SG_LoadEi",
+      "size": 20,
+      "sha256": "090c17df20995459a533229a6cf3d5b18684597dbb50ee4cfeddb77be3e048cb"
+    }
+  ]
+}

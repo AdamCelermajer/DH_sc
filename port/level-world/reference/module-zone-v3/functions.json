@@ -1,0 +1,105 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x38b110",
+      "name": "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb",
+      "size": 280
+    },
+    {
+      "address": "0x393ea0",
+      "name": "_ZN10GameObject14UpdatePFObjectEv",
+      "size": 240
+    },
+    {
+      "address": "0x38bd64",
+      "name": "_ZN10GameObject21CheckSpawnProbabilityEv",
+      "size": 248
+    },
+    {
+      "address": "0x396554",
+      "name": "_ZN8RoomZone17DeclarePropertiesEv",
+      "size": 4
+    },
+    {
+      "address": "0x396558",
+      "name": "_ZN8RoomZoneC1EN10ObjectBase6GO_IDSE",
+      "size": 108
+    },
+    {
+      "address": "0x397c2c",
+      "name": "_ZN4ZoneC1EN10ObjectBase6GO_IDSEbb",
+      "size": 116
+    },
+    {
+      "address": "0x397594",
+      "name": "_ZN4Zone19InitWithBoundingBoxERKN6glitch4core8aabbox3dIfEE",
+      "size": 392
+    },
+    {
+      "address": "0x33e6d4",
+      "name": "_ZN10ObjectBase19TestEnableConditionEb",
+      "size": 244
+    },
+    {
+      "address": "0x35c854",
+      "name": "_ZN13RootSceneNode18RefreshBoundingBoxEv",
+      "size": 156
+    },
+    {
+      "address": "0x65cda8",
+      "name": "_ZN6glitch7collada10CSceneNode18computeBoundingBoxEv",
+      "size": 452
+    },
+    {
+      "address": "0x65cf8c",
+      "name": "_ZNK6glitch7collada10CSceneNode18computeBoundingBoxERNS_4core8aabbox3dIfEE",
+      "size": 452
+    },
+    {
+      "address": "0x59770c",
+      "name": "_ZNK6glitch5scene10ISceneNode25getTransformedBoundingBoxEv",
+      "size": 124
+    },
+    {
+      "address": "0x65d2b4",
+      "name": "_ZN6glitch7collada10CSceneNodeC2ERKNS0_16CColladaDatabaseEPNS0_5SNodeE",
+      "size": 308
+    },
+    {
+      "address": "0x35d824",
+      "name": "_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE",
+      "size": 236
+    },
+    {
+      "address": "0x65b734",
+      "name": "_ZN6glitch7collada14CRootSceneNodeC1ERKNS0_16CColladaDatabaseE",
+      "size": 272
+    },
+    {
+      "address": "0x38ba74",
+      "name": "_ZN12VisualObject4SyncEv",
+      "size": 32
+    },
+    {
+      "address": "0x470cb8",
+      "name": "_ZN12VisualObject12SyncPositionEv",
+      "size": 20
+    },
+    {
+      "address": "0x472948",
+      "name": "_ZN12VisualObject12SyncRotationEv",
+      "size": 20
+    },
+    {
+      "address": "0x472860",
+      "name": "_ZN12VisualObject11SyncScalingEv",
+      "size": 20
+    },
+    {
+      "address": "0x472a0c",
+      "name": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+      "size": 592
+    }
+  ]
+}

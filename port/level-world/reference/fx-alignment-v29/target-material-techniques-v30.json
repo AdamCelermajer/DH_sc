@@ -1,0 +1,155 @@
+[
+  {
+    "file": "quest_marker.bdae",
+    "effect": "ProfileCOMMON_Material__0-fx1302961746_quest_marker",
+    "profile": "ProfileCOMMON_Material__0",
+    "techniques": [
+      {
+        "name": "default",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n"
+          ]
+        ]
+      },
+      {
+        "name": "fog",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define FOG\n ",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define FOG\n "
+          ]
+        ]
+      },
+      {
+        "name": "lighting",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define LIGHTING\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define LIGHTING\n"
+          ]
+        ]
+      },
+      {
+        "name": "fog & lighting",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define FOG\n #define LIGHTING\n"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "file": "target_circle.bdae",
+    "effect": "ProfileCOMMON_Standard_7-fx1302961789_target_circle",
+    "profile": "ProfileCOMMON_Standard_7",
+    "techniques": [
+      {
+        "name": "default",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define ALPHABLEND\n"
+          ]
+        ]
+      },
+      {
+        "name": "fog",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define FOG\n ",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define FOG\n #define ALPHABLEND\n"
+          ]
+        ]
+      },
+      {
+        "name": "lighting",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define LIGHTING\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define LIGHTING\n#define ALPHABLEND\n"
+          ]
+        ]
+      },
+      {
+        "name": "fog & lighting",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define FOG\n #define LIGHTING\n#define ALPHABLEND\n"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "file": "target_cross.bdae",
+    "effect": "ProfileCOMMON_Standard_7-fx1302961789_target_cross",
+    "profile": "ProfileCOMMON_Standard_7",
+    "techniques": [
+      {
+        "name": "default",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define ALPHABLEND\n"
+          ]
+        ]
+      },
+      {
+        "name": "fog",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define FOG\n ",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define FOG\n #define ALPHABLEND\n"
+          ]
+        ]
+      },
+      {
+        "name": "lighting",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define LIGHTING\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define LIGHTING\n#define ALPHABLEND\n"
+          ]
+        ]
+      },
+      {
+        "name": "fog & lighting",
+        "passes": [
+          [
+            "ProfileCOMMON_emul_VS.glsl",
+            "#define TEXTURED\n#define FOG\n #define LIGHTING\n",
+            "ProfileCOMMON_emul_FS.glsl",
+            "#define TEXTURED\n#define FOG\n #define LIGHTING\n#define ALPHABLEND\n"
+          ]
+        ]
+      }
+    ]
+  }
+]

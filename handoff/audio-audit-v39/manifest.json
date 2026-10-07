@@ -1,0 +1,438 @@
+{
+  "scope": "Read-only active-source and exact local-archive audit. Historical source snapshots only; no new build or runtime/audio acceptance.",
+  "owned": [
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/active-callers.json",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/active-callers.json",
+      "sha256": "43e27ef79acd65784c1dd8834e584fc8e7e56074722f4aa17ef7dfa5d8d2d190",
+      "bytes": 55225
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/audit_active_callers_v39.py",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/audit_active_callers_v39.py",
+      "sha256": "f13372d7a647d86f1ef86151c2673000b46317a3c268efde9cbd6ec55a18b31d",
+      "bytes": 15053
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/handoff.md",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/handoff.md",
+      "sha256": "9a354cee10a439b91b865ee70764760534195d9c0087db6461b8967087c3d0e3",
+      "bytes": 23104
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/manifest.json",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/manifest.json",
+      "sha256": "a1bee8998f28c7acadb1bdacf83db9a805ecc8120907e04dcb68352da1869668",
+      "bytes": 39919
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/render_handoff_v39.py",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/render_handoff_v39.py",
+      "sha256": "2d443467fa4fee442a43e1f7a98088f512127d89d18c05d18ba53d81dbd46a40",
+      "bytes": 4681
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "sha256": "4c8cc9d1a689e3ec42a47b251cbd3f86f7bb3606a101e87ffa0b51e98013c5ab",
+      "bytes": 3547
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/faery_cast_owner_v2.cpp",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/faery_cast_owner_v2.cpp",
+      "sha256": "aadd825485641b173071c7beb930728b8f19b22da5f25eb6a4c208cc2c025fcc",
+      "bytes": 7324
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "bc3cc6911786410f82e759a36e0bc38b21c5cf31b14df3e895aef8592ad1e763",
+      "bytes": 255114
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/native_app.cpp",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "68423a8a7b7b0de2abda7a76e6bf245e0709e0406380f54ac213daf520b62794",
+      "bytes": 28806
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_animation_sound_v4.inc",
+      "sha256": "33a85f063b83bd8fd66f2938a9b97635f995ec29868ee9aa03f828238719998f",
+      "bytes": 3137
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_draw_v5.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_draw_v5.inc",
+      "sha256": "0d2e6d06a4aba371ab6fb7bb0c6353b268ebbba3007a2e51facdb7a3b2903adf",
+      "bytes": 10164
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_program_connection_v5.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_program_connection_v5.inc",
+      "sha256": "5d54aa8061ec207dce72bf35d402e6fdde8b7f3a3023fc2272dd068c931a242d",
+      "bytes": 4527
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
+      "sha256": "8cf6da9ea0c339f338cdf6be1c6e0b5826b2a9f9a1966326e0deb62aad66ff88",
+      "bytes": 19382
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_sources_v5.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_effect_sources_v5.inc",
+      "sha256": "973f70630008ca54df34fe192e55cb23537f04176767439ba853308ea5c985da",
+      "bytes": 2170
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_fx_anchor_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_authored_fx_anchor_v4.inc",
+      "sha256": "5de61acd48aed88321129ea040211a659a3beb978a3efaaa818ffe48013438db",
+      "bytes": 3771
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_canonical_world_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_canonical_world_v4.inc",
+      "sha256": "03c30150c4a8354a6ee28d047db5b296c519b2e1780c4ba70134d252bb5496e1",
+      "bytes": 5554
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_application_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_application_v4.inc",
+      "sha256": "d86eb83535306bed1457ded61f80861791f3ef05aa4263b94ed289b30acf45f5",
+      "bytes": 7030
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_faery_v8.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_faery_v8.inc",
+      "sha256": "e37768f0fb6f71344b33c76fd82f16c8c2687ccc8312cad071fc5e2b672562eb",
+      "bytes": 6018
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_inventory_preview_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_inventory_preview_v4.inc",
+      "sha256": "86dd56d0b567631a03f4294d1d4b3bd9d28df84d97e25e7b6075d6e7659eed47",
+      "bytes": 7971
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_kill_live_v21.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_kill_live_v21.inc",
+      "sha256": "b55c952fa3bcc51802da69fb8a2392a9172b306eca518fbcfd14b61ff7aab633",
+      "bytes": 6522
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_loot_gameplay_v23.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_loot_gameplay_v23.inc",
+      "sha256": "55e3af66d01efd7fd475bdcb30b2957e1e8c411aac0821ccf478b02b13bf78e8",
+      "bytes": 5581
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_loot_live_v22.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_loot_live_v22.inc",
+      "sha256": "f75371888bb1964d6cb447b7981e4ac90b474556c5b91f30dbcaab93d2651432",
+      "bytes": 3623
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_mutations_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_mutations_v4.inc",
+      "sha256": "f3c87859155bdd16e525002ae8756c3b65af035b64a9942ebfe87a2b3ef758fd",
+      "bytes": 3647
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_panel_faery_v29.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_character_panel_faery_v29.inc",
+      "sha256": "02bc1c6ab68c6d40bf2c8e7b9ca25c5734721d7cd46e1f2114d181dfeb2753e0",
+      "bytes": 1963
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_fx_runtime_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_fx_runtime_v4.inc",
+      "sha256": "474a97258420fbd2a9bb35864b6136042854fad0e8895e46a13baab3f0bcfbd3",
+      "bytes": 7479
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_sound_v2.inc",
+      "sha256": "0f64bc18a82a3d2cfeb66924ad4a8addc17cab9dfb83122fd7031825b0201f64",
+      "bytes": 3806
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_text_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_combat_text_v1.inc",
+      "sha256": "296cb3bd8cc1938b1136563c0d1a4703e9d39b1c31ec20ef068e168ca45d4505",
+      "bytes": 5075
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_effect_material_directory_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_effect_material_directory_v4.inc",
+      "sha256": "c226d2ca9f9a3943433c454373cfcea1802064653a3deedaae1307cc7a3e0206",
+      "bytes": 3453
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_effect_texture_v5.inc",
+      "sha256": "6363e9147aa3c1fd27c0ab01cc75c0165fa10859badd7c53d25135f7517d1e51",
+      "bytes": 9558
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_front_draw_v87.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_front_draw_v87.inc",
+      "sha256": "c419bb166b0ba5d655a22dc7bcab7804cd3f25dfc916a423b5093a189193cc9a",
+      "bytes": 2052
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_front_exports_v87.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_front_exports_v87.inc",
+      "sha256": "5b7cfd204b4356ccc8dd65356bb440f0f40f8bbdf30a3bd59bd106be6f2f25a4",
+      "bytes": 5896
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc",
+      "sha256": "629ea9bdee9db54fc8becaed7c372646562981b97b9557dae1e60d8c4f364368",
+      "bytes": 11790
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_actor_v20.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_actor_v20.inc",
+      "sha256": "9c30e0a4e28b7c70ad94efb293d1385e1abe4ba8c9c5de1082843a4ec4c1b688",
+      "bytes": 7141
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_config_v20.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_config_v20.inc",
+      "sha256": "21cf19e2ffc6c4b36b1f9fdc5f0a7afea6e121adc912ae015819bfa6ecbd095b",
+      "bytes": 714
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_live_v20.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_live_v20.inc",
+      "sha256": "02b8f4602573644990f38a1f4565bbd214e2855937cead0c27f7e6b821e743c1",
+      "bytes": 15197
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_services_v20.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_gameplay_camera_services_v20.inc",
+      "sha256": "2a2ca6f0b71fb5ec24df548f029a127ef0a065f722962b85f39d68ca96dbf4c8",
+      "bytes": 2478
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_item_graph_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_item_graph_v4.inc",
+      "sha256": "c46e09db056490dc5ca990dc72ac82a00ca2762b169d8f1aab0c6d6bb87c9737",
+      "bytes": 8378
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_load_diagnostics_v39.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_load_diagnostics_v39.inc",
+      "sha256": "4248581ec4b3b6620cf0737b6492e57151ef970225c6416d2cf4c8ef82b402f7",
+      "bytes": 15804
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc",
+      "sha256": "bf40a8045cc37f6e9a4ca07231c300b2a189b87217ef5e9adea33e61842b9200",
+      "bytes": 5573
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "sha256": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+      "bytes": 9606
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_animation_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_animation_v1.inc",
+      "sha256": "cfa2596c80eaaa091c799ead0b67fb36780f05cd728a93de8c5016e871442b99",
+      "bytes": 12431
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_bounds_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_bounds_v1.inc",
+      "sha256": "a141d7a04a9ff3c6c8f33e573be4709401fbfe3e2d79e8c85bf2a93d1746cc31",
+      "bytes": 1342
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_commands_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_commands_v1.inc",
+      "sha256": "98887242a6b88eb85bbbd73ea781c3c42abde65554ee9264720033cb8b8466d3",
+      "bytes": 6769
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_death_v2.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_death_v2.inc",
+      "sha256": "70648af8e035e393df04d820c85e0da37f7f4e32abd0939af63b22c667668be1",
+      "bytes": 9562
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_melee_event_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_npc_melee_event_v1.inc",
+      "sha256": "9e186643100527342e2ee50c541022bbe6773cda8a260ef3ef999d4fe7480b3d",
+      "bytes": 4896
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_aggro_v2.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_aggro_v2.inc",
+      "sha256": "a0a998be5b7b275bc8128d27bb9c0bcac65e95044396df887807ab38f1965238",
+      "bytes": 3848
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_animation_step_fx_v2.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_animation_step_fx_v2.inc",
+      "sha256": "2841786ca9245b32bce97a5fa85cdbe9df5bdc0b32baa5aadaae0ed51d5b6a91",
+      "bytes": 5023
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_attack_animation_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_attack_animation_v1.inc",
+      "sha256": "6e29a512332fc460a3de5a0f8c930bac208faa1db97e8546269ad8d9f61fbe98",
+      "bytes": 4543
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_attack_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_attack_v1.inc",
+      "sha256": "cecfb75d984034d3b81923550fa057d78d2086f0634afddf00b4fd46782e9aad",
+      "bytes": 6760
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_canonical_metadata_v4.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_canonical_metadata_v4.inc",
+      "sha256": "bd8b7fe39950cbeeb8d136eb98a68c428aabadfc4a3824e91a055997e4ca5bf9",
+      "bytes": 4141
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_cast_v2.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_cast_v2.inc",
+      "sha256": "36948d4ed6980e5863325c1a96d9f59959e9ea1a55351fc3bd548512be445a8c",
+      "bytes": 8321
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_character_panel_v3.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_character_panel_v3.inc",
+      "sha256": "cb8655015fcbcd2c36d710c665f88e2dc203a422a0e40a31cee8289049b5bcfe",
+      "bytes": 1937
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_collisions_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_collisions_v1.inc",
+      "sha256": "f7d8651ec4d4a31aa464e179aa13fdfccf14a72ff802bc860de2fbb91ae1693f",
+      "bytes": 2096
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_heading_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_heading_v1.inc",
+      "sha256": "5f49279cafbac19b1023e216bf7157f47c63a68452ab6ee43ac5a9727a1bcf4e",
+      "bytes": 3685
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_manager_boot_v25.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_manager_boot_v25.inc",
+      "sha256": "f13056346bfcf7230e8f8b1d08f95ff77cc82fbcc9d3c29ab321ca2937f625a0",
+      "bytes": 7147
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_manager_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_manager_v1.inc",
+      "sha256": "d4b1ed955e2af46f7e0faaee0e823dc8ea0132d96586fffbbca1f197bd2497b1",
+      "bytes": 2843
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_melee_event_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_melee_event_v1.inc",
+      "sha256": "1b82ec99403656e7a7272b4a8bc992fc5bdf7d31312f8cd0312b373e59f5ca34",
+      "bytes": 3748
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_player_target_frame_v2.inc",
+      "sha256": "b4df58b797fc53c1742c14e8d61ff34711919a61be4cfd824bd94be117b9e4d3",
+      "bytes": 15275
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_retained_character_actor_v1.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_retained_character_actor_v1.inc",
+      "sha256": "42856395cf6b9c8be954c1955d4c3ee1f6f0e29899d3a82f9fa92c83796fe44c",
+      "bytes": 3974
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_target_facing_v38.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_target_facing_v38.inc",
+      "sha256": "2b1344fe8f8599a8784c60f43ca57d20a04048904b95cd9910c5356fd2591bb8",
+      "bytes": 1223
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_target_marker_v28.inc",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/cpp/renderer_target_marker_v28.inc",
+      "sha256": "8b2f8b7db5219b4b99a41da3f807926ae148baff7c33cc1bf682d75a6fbb6e0d",
+      "bytes": 2600
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/java/com/example/dh2/AudioLifecycleV34.java",
+      "sha256": "18cf83efc729de3174bd96eca3dbce306b8295315cc57c54f4509731bb032019",
+      "bytes": 2261
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java",
+      "sha256": "81af14c0257ae75170c9852d6aa948a2d311e54c71bcc25575149f5cae486eaf",
+      "bytes": 10615
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "sha256": "342ee990b3ce11fbd20435c99c1b2715584baf730a01b5c23942a2815f4dcee0",
+      "bytes": 34453
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/engine-audio/CMakeLists.txt",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/engine-audio/CMakeLists.txt",
+      "sha256": "9ea0b97a309f94aa22df243fb66f5159384e31955a6b6c401dc7fd4953cd4b13",
+      "bytes": 728
+    },
+    {
+      "path": "port/engine-audio/reference/active-callers-v39/source-snapshot/port/level-world/CMakeLists.txt",
+      "frozen": "owned/port/engine-audio/reference/active-callers-v39/source-snapshot/port/level-world/CMakeLists.txt",
+      "sha256": "cf8a44385a048d9cd7f6944c65be1890743e52577bee42f01410effb09db8a3d",
+      "bytes": 53640
+    },
+    {
+      "path": "port/engine-audio/reference/archive-audit-v39/audit_archives.py",
+      "frozen": "owned/port/engine-audio/reference/archive-audit-v39/audit_archives.py",
+      "sha256": "d0c94f205cd2e181182f025fcdfe165eb5a495884d3eb8e97a2e8cad5db33570",
+      "bytes": 8462
+    },
+    {
+      "path": "port/engine-audio/reference/archive-audit-v39/NOTES.md",
+      "frozen": "owned/port/engine-audio/reference/archive-audit-v39/NOTES.md",
+      "sha256": "e8334622c061481a72f6b21bbe54bcb73b9aba4160023e3ee97c9fb0b2f1d515",
+      "bytes": 2959
+    },
+    {
+      "path": "port/engine-audio/reference/archive-audit-v39/report.json",
+      "frozen": "owned/port/engine-audio/reference/archive-audit-v39/report.json",
+      "sha256": "e4223df21f55318d88203f23a8da9867eb933d8277c32903d5f4023e41ef46c4",
+      "bytes": 181924
+    },
+    {
+      "path": "port/engine-audio/reports/audio-active-source-review-v39.json",
+      "frozen": "owned/port/engine-audio/reports/audio-active-source-review-v39.json",
+      "sha256": "b40c218b52c90d894c7f3a99b212fb0a8d4dc31e9fbf79106f2631bf6c0da684",
+      "bytes": 1202
+    },
+    {
+      "path": "port/engine-audio/reports/audio-active-source-review-v39.md",
+      "frozen": "owned/port/engine-audio/reports/audio-active-source-review-v39.md",
+      "sha256": "7ea2ae2b851005415d8314bd814f1c19db8b6bd41f41e8b92f47a6cd11a69435",
+      "bytes": 4308
+    },
+    {
+      "path": "port/engine-audio/tools/freeze_audio_audit_v39.py",
+      "frozen": "owned/port/engine-audio/tools/freeze_audio_audit_v39.py",
+      "sha256": "8688ce1f45854915e887db7527461409ff0bb9322d404a2d7a15ed831f01b6cd",
+      "bytes": 1342
+    }
+  ],
+  "implementation_handoff": "../audio-v38/manifest.json"
+}

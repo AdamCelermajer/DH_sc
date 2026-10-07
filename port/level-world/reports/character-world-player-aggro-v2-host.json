@@ -1,0 +1,112 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_world_player_aggro_v2.cpp",
+        "port/level-world/character_world_aggro_event_v1.cpp",
+        "port/level-world/character_player_aggro_owner_v1.cpp",
+        "port/level-world/vox_music_state_owner_v1.cpp",
+        "port/level-world/level_config_music_owner_v1.cpp",
+        "port/level-world/tests/character_world_player_aggro_v2.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_player_aggro_v2_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_player_aggro_v2_O1",
+        "port/level-world/reference/character-player-aggro-v1/crypt01-level-config-music.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":17,\"actual_config\":true,\"source_no_track_branch\":true,\"positive_audio\":false}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_world_player_aggro_v2.cpp",
+        "port/level-world/character_world_aggro_event_v1.cpp",
+        "port/level-world/character_player_aggro_owner_v1.cpp",
+        "port/level-world/vox_music_state_owner_v1.cpp",
+        "port/level-world/level_config_music_owner_v1.cpp",
+        "port/level-world/tests/character_world_player_aggro_v2.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_player_aggro_v2_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_player_aggro_v2_O2",
+        "port/level-world/reference/character-player-aggro-v1/crypt01-level-config-music.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":17,\"actual_config\":true,\"source_no_track_branch\":true,\"positive_audio\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_world_player_aggro_v2.cpp": "a9e69788508df26d8cb38fef07351aeac3b6fcfe95c48b0eeafc7617ce72bb5f",
+    "port/level-world/character_world_aggro_event_v1.cpp": "2807f0eb494f0139465b8db68857a5eab5851a9e40e030ab7c409c5c7f826a4f",
+    "port/level-world/character_player_aggro_owner_v1.cpp": "ee6f60682b18a241f3faa43b90e0b898203c4c3baac02f764407f43ccf54360a",
+    "port/level-world/vox_music_state_owner_v1.cpp": "4ca6f7a96e27fbed4671e5dad3dd4fa790ba6023af066564513b89cd6ee32063",
+    "port/level-world/level_config_music_owner_v1.cpp": "7449078d1c1cde36a11d02c0f33a4f0873b95fd2847a634a2b2946159f70d3d8",
+    "port/level-world/tests/character_world_player_aggro_v2.cpp": "f3343d1a611bca31d60d0c005aae7b0766d38d59c3f0eb7da3dccb852a68651a"
+  },
+  "dependency_sha256": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "libdh2_zip_asset_pack_v1.a": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728"
+  },
+  "scope": "Source CharAI relay and selected AISPlayer OnAggro composition over distinct live identities, same counters, actual Crypt config, real Vox ctor no-track branch; online/weight/threshold/world providers explicit fixtures. Reached audio/missing receiver failures retain source prefixes. No full Vox audio claim."
+}

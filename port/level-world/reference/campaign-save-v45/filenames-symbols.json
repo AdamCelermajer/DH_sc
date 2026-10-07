@@ -1,0 +1,67 @@
+[
+  {
+    "symbol": "_ZN14PlayerSavegame16__LoadPlayerNameEP11IStreamBasePv",
+    "address": "0x4698dc",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16s_playerNameTempE",
+    "address": "0x9a6048",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16__SavePlayerNameEP11IStreamBasePv",
+    "address": "0x4688c0",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame20SG_GetFilenamePrefixEv",
+    "address": "0x4634e4",
+    "size": 16
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16SG_GetPlayerNameEj",
+    "address": "0x468470",
+    "size": 128
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame22SG_GetSlotFromFilenameEPKc",
+    "address": "0x4636a8",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame14SG_GetFilenameEjRSsbb",
+    "address": "0x463c84",
+    "size": 232
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17SG_GetQuestByNameEPKci",
+    "address": "0x4672dc",
+    "size": 32
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame15__LoadLevelNameEP11IStreamBasePv",
+    "address": "0x468b78",
+    "size": 120
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame33SG_GetCheckpointFilenameExtensionEv",
+    "address": "0x463504",
+    "size": 16
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame15__SaveLevelNameEP11IStreamBasePv",
+    "address": "0x468b20",
+    "size": 88
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame23SG_GetFilenameExtensionEv",
+    "address": "0x4634f4",
+    "size": 16
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame18SG_GetSavefileNameEv",
+    "address": "0x4635a4",
+    "size": 12
+  }
+]

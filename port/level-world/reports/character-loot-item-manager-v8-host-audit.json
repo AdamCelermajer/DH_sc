@@ -1,0 +1,112 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_loot_item_manager_v8.cpp",
+        "port/game-data/loot_audiovisual_v8.cpp",
+        "port/game-data/loot_temporary_inventory_v8.cpp",
+        "port/game-data/loot_creation_v8.cpp",
+        "port/game-data/loot_item_selection_v8.cpp",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_table_selection_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/loot_power_resources_v7.cpp",
+        "port/game-data/loot_power_creation_v7.cpp",
+        "port/game-data/item_power_tables_v5.cpp",
+        "port/game-data/item_presentation_v5.cpp",
+        "port/level-world/tests/character_loot_item_manager_v8.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "-o",
+        ".local-inputs/loot_item_manager_v8_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/loot_item_manager_v8_O1",
+        ".local-inputs/player-loot-v7/cache",
+        ".local-inputs/loot-world-v8/cache"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_audiovisual_categories\":29,\"retained_object_fixture_count\":145,\"spawn_lifecycle_fixture_cases\":175,\"reused_item_removals\":51,\"checks\":3682,\"world_scene_audio_body_provider_fixture\":true,\"production_world_spawn\":false}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_loot_item_manager_v8.cpp",
+        "port/game-data/loot_audiovisual_v8.cpp",
+        "port/game-data/loot_temporary_inventory_v8.cpp",
+        "port/game-data/loot_creation_v8.cpp",
+        "port/game-data/loot_item_selection_v8.cpp",
+        "port/game-data/loot_entry_selection_v8.cpp",
+        "port/game-data/loot_table_selection_v8.cpp",
+        "port/game-data/loot_tables_v2.cpp",
+        "port/game-data/loot_power_resources_v7.cpp",
+        "port/game-data/loot_power_creation_v7.cpp",
+        "port/game-data/item_power_tables_v5.cpp",
+        "port/game-data/item_presentation_v5.cpp",
+        "port/level-world/tests/character_loot_item_manager_v8.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_game_data",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "-o",
+        ".local-inputs/loot_item_manager_v8_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/loot_item_manager_v8_O2",
+        ".local-inputs/player-loot-v7/cache",
+        ".local-inputs/loot-world-v8/cache"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_audiovisual_categories\":29,\"retained_object_fixture_count\":145,\"spawn_lifecycle_fixture_cases\":175,\"reused_item_removals\":51,\"checks\":3682,\"world_scene_audio_body_provider_fixture\":true,\"production_world_spawn\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_loot_item_manager_v8.cpp": "7b772c05a760cfcb174eb509745fcaabdcb94659ce9b457b169c2a1aa7f6a480",
+    "port/game-data/loot_audiovisual_v8.cpp": "a7e38d8de2a1c7cf80f23c321bba62ca8a5df64474eae0a9cb1bd83929f0de17",
+    "port/game-data/loot_temporary_inventory_v8.cpp": "3d70154324d1a6b05c1c1e2209dbb103ce61f060b78929e05077a37dde88cdaf",
+    "port/game-data/loot_creation_v8.cpp": "3a1868ac2cf3b15f1598a224e0d0e9d53aa2b96bf3132e72a9ae1f0bd7cb18d0",
+    "port/game-data/loot_item_selection_v8.cpp": "94da6f656d8c2b7329e0c14aab2c4324616073862e7d1759ae03fa52b187df25",
+    "port/game-data/loot_entry_selection_v8.cpp": "2481c63b4c47a49fdbac564c35be456e2273c6e588c5d9398a47c61119164e76",
+    "port/game-data/loot_table_selection_v8.cpp": "969bcf1b7ca738a2defdbba87e05d49116f7bbf981dc47809a8f4f8a9d5a0923",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/loot_power_resources_v7.cpp": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+    "port/game-data/loot_power_creation_v7.cpp": "6f63b3a9c1086ec6d7c80f08342306a102c5a800fefe0eef9f754fad2c757d85",
+    "port/game-data/item_power_tables_v5.cpp": "c391a2b2b7800306ccbb7c5bebf5f7d595e71a7224dd8c004f864efe37a580d6",
+    "port/game-data/item_presentation_v5.cpp": "9684a2cd9c2cea693afedd1c6d3867fae17c34afaff84c486c37f1bd48a77306",
+    "port/level-world/tests/character_loot_item_manager_v8.cpp": "320e5ab15aefb7e2034164d1777b54db3ed6e2763dacd6120e0eb1a9fa904e48"
+  },
+  "fixture_sha256": "622bdd8e6c9c2fdcfca86ea16e82dd274ef750da68bbf34dc3b7f042b02ec4f3",
+  "dependency_sha256": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+  "dependency_current_source_attribution": false,
+  "production_world_spawn": false
+}

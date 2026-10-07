@@ -1,0 +1,383 @@
+{
+  "version": 38,
+  "scope": "Independent source producer handoff only; shared files unmodified; no APK/runtime claim.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "owned": [
+    {
+      "path": "port/engine-audio/audio_animation_swoosh_v38.hpp",
+      "bytes": 1784,
+      "sha256": "4c32037151d160decc1e2de80c634d9178a4e0c406f8745e6b460bccf4ff0a27"
+    },
+    {
+      "path": "port/engine-audio/audio_named_animation_sound_v38.hpp",
+      "bytes": 2127,
+      "sha256": "2c36c8a2c8ad88db59e216dc9d19cd432d9dbb7c530cc6195d47f13d1269c376"
+    },
+    {
+      "path": "port/engine-audio/audio_world_producer_v38.hpp",
+      "bytes": 959,
+      "sha256": "c5953e13772c379c85552df765d4a5d0cbd7848a1980a297ed72992c18279a06"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036a7c0.asm",
+      "bytes": 13624,
+      "sha256": "f2ff2d33f8dcb5f5de3d95c8c8dc93de9faf002a2e6ca996e0318ec5df146fe9"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036b420.asm",
+      "bytes": 3529,
+      "sha256": "c8f45152aff390cfec83d00b0bdec05ba21bb527cf156f96543a79eb0c0710d3"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036b5d8.asm",
+      "bytes": 4472,
+      "sha256": "174024ce2ecc530abf63abba81a29edb15c997503ce35c0bf3518e0ef76d9ad3"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036b80c.asm",
+      "bytes": 5112,
+      "sha256": "41beec4ae90785a402d82be44d43bfe271c6ddc194c20b112012c7cf12167b9d"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036baa0.asm",
+      "bytes": 3158,
+      "sha256": "26ca169202c7237b69166073cde78a29aa096ada995a6627a653e3fc2f67751a"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036c014.asm",
+      "bytes": 2662,
+      "sha256": "2d93cf3a5991c87048b9e48aa17cf40f063f50265e529a2772599a7facca03f2"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036c164.asm",
+      "bytes": 1536,
+      "sha256": "8354717bd9796d2543ed2bd21c50d7a753b5aa89298ca7f4ce623dc5697e8526"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036c224.asm",
+      "bytes": 1537,
+      "sha256": "3297959d7de4d9a955835f15d0033f32dd6ed42d640241a8575ac28923fad358"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0036c2e4.asm",
+      "bytes": 8453,
+      "sha256": "0f8c5b9dda7796935fd3e5f4b1c39ffe3f8e91bbaa1d00798d8b292f77d8eb24"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0037565c.asm",
+      "bytes": 9043,
+      "sha256": "144c24ec1f5f15f4aeb86bdb8f09b0e059070c07fe1842da2511bef5ab7b695b"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0037e420.asm",
+      "bytes": 2816,
+      "sha256": "8821396310aa2b77cf929d5e7a1936a947a7fe6c9c95326194d5a104d5c3e5f6"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0038ae2c.asm",
+      "bytes": 5469,
+      "sha256": "1c6441f4806e59ca75b048d2f2bf56e4a7705ba287681c057040fafc29ba52ed"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0039212c.asm",
+      "bytes": 5452,
+      "sha256": "a72f763c7fc70e5089847c832a85cbb824e72144ccda506e27f058fdf65a0143"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003951c0.asm",
+      "bytes": 4110,
+      "sha256": "180d3c221bb0b54f66a1d3331779740a1f030929724a50f40fed19347e89851e"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/00399af0.asm",
+      "bytes": 5095,
+      "sha256": "c30cd11513a122012e52d479ba297d000f2de9762c82d54977c5541916c09d30"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/00399ff8.asm",
+      "bytes": 7162,
+      "sha256": "abcf6d8257b98bd7c96165e155db64beff9fab113bd58889f398ae13bb3e3892"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0039a668.asm",
+      "bytes": 7980,
+      "sha256": "d365bd80ed2af68e5b5de83b41c6a1e72bbedb97db6c14c3353ce1fe439bd973"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0039cdc4.asm",
+      "bytes": 2726,
+      "sha256": "13c854f21a8aafef70ee62b4dbecf06d548a920b2299abf64713d9e769ca0fd1"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0039d430.asm",
+      "bytes": 1965,
+      "sha256": "62719311b5b248341a39e74e46a397647011531077e44258fa843a0be32a2a1c"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0039dee0.asm",
+      "bytes": 3330,
+      "sha256": "f8cf873450200f61f94562fff8f53b4584b7c4d42935b3c5b574e193cb8638c7"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0039e198.asm",
+      "bytes": 2066,
+      "sha256": "375e00647782b88bcc1a87328f6b5953aafc32aaee5d4e306dddd65cabfeaa8c"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0039f910.asm",
+      "bytes": 4366,
+      "sha256": "0869f78f1c029de7012d98c251ad366d59703fbdfed10052ffaf4f01788bd8ef"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003a0b38.asm",
+      "bytes": 2344,
+      "sha256": "300f35a882070bb219c40818d58dc424c1469540ccc450ee6e83650b5c1d7900"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003a0da0.asm",
+      "bytes": 5835,
+      "sha256": "23b812cdeb26998de2beb82824d9b8e48288af91aa33435fdb6e1bc9b6c00c5d"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003afd38.asm",
+      "bytes": 3376,
+      "sha256": "e7f63db761cfbc249c7eb061de654cf1cee6b592591b4805911396b23260fa6b"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003afee0.asm",
+      "bytes": 5744,
+      "sha256": "e913994b2f52486c77b8a65b4326bfdd57706f4ec896aac8e626676b9114310a"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003b3b00.asm",
+      "bytes": 2085,
+      "sha256": "9c962a4b79ad6ecd1586b67530a4183d105cded10a1f30e130422b3aeb0d07cd"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003c94b8.asm",
+      "bytes": 1344,
+      "sha256": "d6649b84da1a5511ae663d43b5db747675b60a64878f65342cd85d37f6da4a98"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003c9d80.asm",
+      "bytes": 3661,
+      "sha256": "cac1e78aaa1b2ff1324fa96e65ce2e4320f5693857ba97fe21752c878580ca4b"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003ca79c.asm",
+      "bytes": 7078,
+      "sha256": "67018ef494958ed0be8c2772fe748aa9daa50b0f249fc23844856623485f1cca"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003d22e4.asm",
+      "bytes": 2192,
+      "sha256": "63d51b74b242586d04be0701740ce4e560dd9aed0d17ad6be3a61eb614f89031"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003d4434.asm",
+      "bytes": 10843,
+      "sha256": "863f4c7938d8414ee9311b55757c91178b2d3ecf4ea0c5139ce2eff897c57c90"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003dde48.asm",
+      "bytes": 5239,
+      "sha256": "3e87b75e7799ef2449e37f122a1a00a0dbfa9cebc2e4f4ecc1fa06d0e5ad6aac"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003e4db0.asm",
+      "bytes": 2563,
+      "sha256": "c8a852e444fbf46236201a8b6d27ac7caae3badd3bec1e8bdd1c4a72919d5704"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003e763c.asm",
+      "bytes": 2521,
+      "sha256": "55cf0aea2057b9589d1ab198d2328fab100c284427d0dc7f8778175ff682624d"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003e786c.asm",
+      "bytes": 2492,
+      "sha256": "9ce4a83396d01a36ba6b5a49036bc6c332f93e0275b6b42d53750cd120db7a3d"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003e7da8.asm",
+      "bytes": 4664,
+      "sha256": "9d79949d65f0a80dd35269eb7502412647b73107d4713dac0050fae8c66feb0d"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003ec0f0.asm",
+      "bytes": 4331,
+      "sha256": "68f3aa5c077885cf9d3aa52556327203ee8bbd3f13c6c9acc8ae81d4411fa4cb"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003ed144.asm",
+      "bytes": 18049,
+      "sha256": "6a9e12eb2da6407e3412b1d132b5d314d9a5661bbb36c2c4e16c36fed2188454"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/003f82d8.asm",
+      "bytes": 18565,
+      "sha256": "3e5d4ba66a2c452049f23adecf609265edb61051c21361ea6bb1ad802b3cc11f"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/004210a8.asm",
+      "bytes": 1477,
+      "sha256": "ab61d1c7b3fc78c6acd2c89cd00924877067e36a317da7e5158ac5623b76a580"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0043ad84.asm",
+      "bytes": 1105,
+      "sha256": "e29603579c16d4ecd9b320f39da1224de6627064b9d4b2995e421aaef4429bdf"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0045fd20.asm",
+      "bytes": 2158,
+      "sha256": "be5a428c74dce854ceefefb58f78e1a467a2b704c1a7327b767937591a67006c"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/0045fefc.asm",
+      "bytes": 2117,
+      "sha256": "67ad8e5df2ff254160edf3476e2ab8d564fbcdb4418e23cfa4cd1ef5a611a3a1"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/004edbb8.asm",
+      "bytes": 9927,
+      "sha256": "c093233a43a47e0a8190b9aab9b2f51194984b5c19c9c6e2387e2d1912d79bcf"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/census.json",
+      "bytes": 815654,
+      "sha256": "062692f9eb78846a71b6cf00e9445a69cbb33c8eed3ed2deeff6de1dd916f540"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/compile-receipt.json",
+      "bytes": 615,
+      "sha256": "f4053e9350193adf9696155147369cabe461621b7b131ea44160781cdf889b95"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/family-ledger.json",
+      "bytes": 404651,
+      "sha256": "99394771149f902144ef610ae4c3dcf7153e80c89aa3d089395b7500ea512ce9"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/handoff.md",
+      "bytes": 11993,
+      "sha256": "2a9960acf8cfeafa2a53723bffa9c116e6cc7dc917afc994479ac21db322989c"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/named-animation-gold.bin",
+      "bytes": 273,
+      "sha256": "802843b2d790639473368c80c6b2a9006d918cefbe776474390f244551e8045b"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/named-animation-host-receipt.json",
+      "bytes": 2109,
+      "sha256": "4ee9a3ec0b5e71fd8f6a204a74b4ed542a83c971127fb74c467bdb674932728b"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/named-animation-host.cpp",
+      "bytes": 4198,
+      "sha256": "35525a1e503720ad5dbfb6fcd240d95a5651eaa115ca98ad3321a74fe6af77ae"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/named-animation-original-proof.json",
+      "bytes": 3107,
+      "sha256": "07ea81409fe0c89aa7a4981acf325ecdf6cc60b57a3591b0ebb780e5d6d0cc0d"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/producer-original-proof.json",
+      "bytes": 855151,
+      "sha256": "7078c2066113c50633fdbe551a78f0b5a8e32de88e773d60ab7fe770042a289a"
+    },
+    {
+      "path": "port/engine-audio/reference/event-families-v38/world-producer-compile.cpp",
+      "bytes": 1678,
+      "sha256": "ac9281a47adaaf8ad093e8d501aa058d7dd6d693abb9e1101923fa254e8c2fe3"
+    },
+    {
+      "path": "port/engine-audio/tools/audit_audio_families_v38.py",
+      "bytes": 24735,
+      "sha256": "9b6763a1d72c2eebf8bbb7acc68b110f4e818e3dd5e3df83cb24000ab58a9c9d"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "port/level-world/character_combat_sound_v1.hpp",
+      "bytes": 1808,
+      "sha256": "73a686daebea0f9d619be3bde0f8bba9a2b349757c7dadd3eee09dca4a108a53"
+    },
+    {
+      "path": "port/level-world/character_animation_swoosh_v4.hpp",
+      "bytes": 804,
+      "sha256": "ba3b625f93349ff6efa7ecb5a96b85073acd5e17857709958d97a268e58cf850"
+    },
+    {
+      "path": "port/level-world/reference/audio-source-v34/routing-census.json",
+      "bytes": 340442,
+      "sha256": "2df52f7fc34d3ba6f7a04a354b27de566b2b74e7735def048d8bec553d2687e8"
+    },
+    {
+      "path": "port/engine-audio/reference/source-bindings-v38/ledger.json",
+      "bytes": 394336,
+      "sha256": "66e16568ca857b2d4cac1d757faa0497ee09a5933936aafbef4e26874de8942b"
+    },
+    {
+      "path": "port/engine-audio/audio_source_bindings_v38.hpp",
+      "bytes": 1102,
+      "sha256": "aaa03aa7462ae98a8286d67bfa6c5e2f70bab1d16823f1ad82b1877f6522606d"
+    },
+    {
+      "path": "port/engine-audio/audio_source_bindings_v38.cpp",
+      "bytes": 3332,
+      "sha256": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6"
+    },
+    {
+      "path": "port/engine-audio/reference/source-bindings-v38/sdd_dungeon_hunter_2_iphone_pyarray.bin",
+      "bytes": 5108,
+      "sha256": "fb02b0ce7bc6d3e5ac38d1c72ed07006a00f68de04ec8d3568b652a9dfc33784"
+    },
+    {
+      "path": "port/engine-audio/reference/source-bindings-v38/sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "bytes": 15457,
+      "sha256": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d"
+    },
+    {
+      "path": "port/level-world/character_melee_animation_event_v1.hpp",
+      "bytes": 3409,
+      "sha256": "de99f2c5cac2e077742e132014baf38ff987c5a653c93c70c68ca63211271363"
+    },
+    {
+      "path": "port/level-world/character_melee_animation_event_v1.cpp",
+      "bytes": 7271,
+      "sha256": "eb05c4876a86ce8c6fbd15786aae05fae8bb6a6efb9eee9be3e3bb86404f78b3"
+    },
+    {
+      "path": "port/level-world/reference/character-target-events/target-events-fixtures.bin",
+      "bytes": 899532,
+      "sha256": "c10972d9b56a6f72c749065367db1a4cfbb23fbfd8a9a5ac85a7ec9946852317"
+    },
+    {
+      "path": "port/level-world/reference/openable-container-data-v11/openable-containers-group5-records.bin",
+      "bytes": 1976,
+      "sha256": "1f4fcc285468a268351cff228d16e16c28d33ecb7707087ff3e4cecce6e63690"
+    },
+    {
+      "path": "port/level-world/reference/openable-container-data-v11/openable-containers-group5-names.bin",
+      "bytes": 1865,
+      "sha256": "8dc7c6dc7ce3e45b48a80ec40f7be1979549dc3785713981654f2e51f6569824"
+    },
+    {
+      "path": "port/level-world/reports/character-combat-sound-v1-arm64-differential.json",
+      "bytes": 837,
+      "sha256": "68ac0d5b5e31bef531eac3002b57e89264669c253a45e77c7c324e623ca02a24"
+    }
+  ],
+  "asset_sha256": {
+    "animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    "loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    "loot_audiovisual_pyarray.bin": "f9a6e2c45bad836955d63290d51d2ec811a5003b7fa2c82df907fae5aa44084d",
+    "loot_audiovisual_pyarraynames.bin": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
+    "projectiles_pyarray.bin": "5f50573dc8c6992b4a8c6b0104ed067c27c7765b8dae9236c40ad12c2d5b5e75"
+  }
+}

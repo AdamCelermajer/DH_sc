@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "11c8219e13e55e24dc3668c45821fb29b03627d6e5810b8a10e340bd86764908",
+  "sources": [
+    {
+      "path": "port\\game-data\\tests\\inventory_gathering_same_owner_v11.cpp",
+      "sha256": "9228ca217bd11d978b3cbc5b0d4754fc699197734c70fb42771b19e2dde5a74e"
+    },
+    {
+      "path": "port\\game-data\\fresh_inventory_owned_v4.cpp",
+      "sha256": "43e192d49a134cd5b6c4edee26246a444f2123a52f9d24be658bbd0a4590a8fa"
+    },
+    {
+      "path": "port\\game-data\\inventory_gathering_ids_v11.cpp",
+      "sha256": "01ad6567b4e15ee558a41da909f5f4260944894edb2e771ff7fc80c57e5601e5"
+    },
+    {
+      "path": "port\\game-data\\loot_inventory_transfer_v10.cpp",
+      "sha256": "45ea8592c0bbc838d0d7c3064cd23b9bcfb15fbf6723f16790af1352768fec32"
+    },
+    {
+      "path": "port\\game-data\\loot_temporary_inventory_v8.cpp",
+      "sha256": "5ab6874f76d9f044773489fed0722f3d5b8397690a64985da8ecf967605cb412"
+    },
+    {
+      "path": "port\\level-world\\loot_pickup_quest_tail_v10.cpp",
+      "sha256": "8aab394b9e9f17fd3965f405cf2c369f6d279e24f4b8dda1cc5dacdd766830bc"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "2a8b8fdc9fcc69dfbe26d6b62a5c3b91f0db2fa132e4018f28e882172470d322"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "7cb0b14b5473dcade388ca1e5b3112cd8b2d7d82da10767b8ac8763a671b9664"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "bb51f89ebf10b4a58784251e3de79df563ec9f871912caef691af9176bcbdfe4"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "7d0b7ffa5406798d16c375bb205371d91ce2c655ca925ef60b57801804d55e4f"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "e2e71a859120c1395c464c29baf2db45793ef28e0a909fdb11c016153e2a5b02"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "8dc95ae54241117e533eeacef94a39c3becaa306d730700cc7dca600d6cfa930",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\tests\\inventory_gathering_same_owner_v11.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\fresh_inventory_owned_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\inventory_gathering_ids_v11.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_inventory_transfer_v10.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_temporary_inventory_v8.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\loot_pickup_quest_tail_v10.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\inventory-gathering-same-owner-v11\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\inventory-gathering-same-owner-v11\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\inventory-gathering-same-owner-v11\\inventory-gathering-same-owner-v11.bin"
+  ],
+  "stdout": "PASS SAME FreshInventory gathering ctor/list and actual transfer identity; whole NULL-character TransferInventoryTo source slot/quest/gold order, original item identity and failed destination/quest prefix; destination/quest callbacks explicitfixtures checks=80\n",
+  "stderr": "",
+  "exit_code": 0
+}

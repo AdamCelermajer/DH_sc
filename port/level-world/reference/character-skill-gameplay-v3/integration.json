@@ -1,0 +1,79 @@
+{
+  "validation": "PASS",
+  "production_world_sources": [
+    "port/level-world/character_skill_callbacks_v3.cpp",
+    "port/level-world/character_skill_buff_bindings_v3.cpp",
+    "port/level-world/character_script_session_v3.cpp",
+    "port/level-world/character_skills_session_v3.cpp",
+    "port/level-world/character_skill_info_session_v3.cpp",
+    "port/level-world/character_player_skills_v3.cpp",
+    "port/level-world/character_skills_owner_v3.cpp",
+    "port/level-world/character_skill_callback_session_v3.cpp",
+    "port/level-world/character_skill_class_v3.cpp",
+    "port/level-world/character_skill_cooldown_v3.cpp",
+    "port/level-world/character_faery_element_v3.cpp",
+    "port/level-world/character_skill_ai_v3.cpp"
+  ],
+  "runtime_replace": {
+    "previous": "port/script-runtime/script_runtime_return_v1.c",
+    "replacement": "port/script-runtime/script_runtime_return_v3.c",
+    "never_compile_together": [
+      "port/script-runtime/script_runtime_return_v1.c",
+      "port/script-runtime/script_runtime.c"
+    ],
+    "new_header": "port/script-runtime/script_return_observer_v3.h"
+  },
+  "existing_dependencies": [
+    "CharacterGameDesign/real constants and DebugSwitches",
+    "CharacterScriptOwnerV2",
+    "CharacterCurrentSkillV2",
+    "CharacterScriptPlayerVCBV2",
+    "CharacterCurrentSpellV1",
+    "CharacterScriptAssetsV1/ZipAssetPackV1 (zlib)",
+    "Skill/Faery/Class/Property/Buff/Timer/native FSM/native AI events",
+    "SkillInfo/HUD text formatting V1"
+  ],
+  "tests": [
+    {
+      "target": "character_player_skills_v3_audit",
+      "source": "port/level-world/tests/character_player_skills_v3.cpp",
+      "args": [
+        "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+        "port/android-native/app/src/main/assets",
+        ".local-inputs/character-skill-session-v2/cache",
+        "port/engine-ui/reference/hud-formatting-v1/skill-class-gold.bin",
+        "C:\\Users\\adamc\\Downloads\\dungeonhunter2\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip"
+      ]
+    },
+    {
+      "target": "character_skill_ai_v3_audit",
+      "source": "port/level-world/tests/character_skill_ai_v3.cpp",
+      "args": [
+        "port/level-world/reference/character-skill-gameplay-v3/ai-gold-v3.bin"
+      ]
+    },
+    {
+      "target": "character_skill_callbacks_v3_audit",
+      "source": "port/level-world/tests/character_skill_callbacks_v3.cpp",
+      "args": [
+        "port/level-world/reference/character-skill-gameplay-v3/callback-gold.bin"
+      ]
+    },
+    {
+      "target": "script_indexed_return_v3_audit",
+      "source": "port/script-runtime/tests/script_indexed_return_v3.cpp",
+      "args": []
+    }
+  ],
+  "build_policy": "Tests link actual selected runtime/world/data/UI DSOs; do not compile production CPPs or a second runtime/core into test executables.",
+  "live_inputs": [
+    "Borrow SAME NativeFSM24 and Character/property/life owners; destroy V2 before selecting V3.",
+    "Borrow coherent full CharAI/controller/static AI/AIS callable projections.",
+    "Borrow actual current World/host difficulty callback.",
+    "Provide same live owner flags and typed SetSkillState/Animator/trophy/network effects; no autoaccepted handlers.",
+    "Borrow retained cached file provider with genuine archive case/path semantics.",
+    "Route all native/Lua timer starts/stops/updates to the SAME SessionV3 TimerStore; advance dt only once.",
+    "Nonempty active effects, combat/target/search/FX and full SkillFSM6 remain required services."
+  ],
+  "ndk_scope": "New pure kernels verified O2 ARM64; complete owner/runtime NDK central closure remains root integration proof, not claimed here."
+}

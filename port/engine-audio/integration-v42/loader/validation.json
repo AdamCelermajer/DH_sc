@@ -1,0 +1,27 @@
+{
+  "private_patch_check": true,
+  "canonical_prospective_match": true,
+  "strict_syntax": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port\\engine-audio\\integration-v42\\loader\\verify-tree\\port\\level-world\\openable_container_owner_v1.cpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port\\engine-audio\\integration-v42\\audio_container_precache_v42.hpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "source": "port\\engine-audio\\integration-v42\\loader\\verify-tree\\port\\level-world\\openable_container_owner_v1.cpp",
+      "exit_code": 0
+    },
+    {
+      "abi": "x86_64",
+      "source": "port\\engine-audio\\integration-v42\\audio_container_precache_v42.hpp",
+      "exit_code": 0
+    }
+  ],
+  "no_shared_mutation": true
+}

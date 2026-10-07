@@ -1,0 +1,12 @@
+[
+  {
+    "optimization": "O1",
+    "checks": 6,
+    "scope": "Actual authored Bash/Charge/GroundSlam Post plus native same-owner scoped ClearTarget. Registration and melee-range value are fixtures; no full skill execution or live retention acceptance."
+  },
+  {
+    "optimization": "O2",
+    "checks": 6,
+    "scope": "Actual authored Bash/Charge/GroundSlam Post plus native same-owner scoped ClearTarget. Registration and melee-range value are fixtures; no full skill execution or live retention acceptance."
+  }
+]

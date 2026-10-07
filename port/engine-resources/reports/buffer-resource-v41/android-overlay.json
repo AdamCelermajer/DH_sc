@@ -1,0 +1,57 @@
+{
+  "version": 0,
+  "case-sensitive": false,
+  "use-external-names": false,
+  "roots": [
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/resource_budget_v37.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/resource_budget_v37.hpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/resource_budget_v37.cpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/resource_budget_v37.cpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/model_renderer.cpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/renderer_model_texture_budget_v40.inc"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_front_visual_v87.inc",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/renderer_front_visual_v87.inc"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_front_draw_v87.inc",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/renderer_front_draw_v87.inc"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_loot_gpu_v27.inc",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/renderer_loot_gpu_v27.inc"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/level-world/authored_fx_geometry_packet_v7.hpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/authored_fx_geometry_packet_v7.hpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/level-world/authored_fx_geometry_packet_v7.cpp",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/authored_fx_geometry_packet_v7.cpp"
+    },
+    {
+      "type": "file",
+      "name": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
+      "external-contents": "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/buffer-resource-v41/renderer_authored_effect_scene_v5.inc"
+    }
+  ]
+}

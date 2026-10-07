@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "original_cases": 24,
+  "source_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "977b170e2d7ef56ea649fc521e8b0b60cac5c40f6c5069dc6d6016a95bbe2de2",
+  "audio_services": "explicit source call observers"
+}

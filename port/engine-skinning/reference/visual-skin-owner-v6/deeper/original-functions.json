@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase19constructControllerEPNS_5video12IVideoDriverEPKcPNS0_14CRootSceneNodeE",
+      "elf_address": "0x61aa00",
+      "size": 72,
+      "sha256": "3f34ac71c89a2e97e44ac82aa4e8e88d57ce5343ae5c51bfee6a3a50fde755ef"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory17createModularSkinERKNS0_16CColladaDatabaseEPNS0_20SInstanceModularSkinEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x631560",
+      "size": 108,
+      "sha256": "7c9060f8abc01e7f51409a29e6c16797f5c2375e10415fe79972d983182d109e"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode8addChildEPS1_",
+      "elf_address": "0x598864",
+      "size": 164,
+      "sha256": "165d97ace3dfea716af0c23f3452c52abb24f7472ac046a7601163b24b3b5901"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada12CSkinnedMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x6664f0",
+      "size": 1288,
+      "sha256": "29658b99c6d082d0c087d7a91818fac8ad28dab5b1c5ff0f711ba4947331f4f3"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase13constructSkinEPNS_5video12IVideoDriverEPNS0_11SControllerEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x60f924",
+      "size": 128,
+      "sha256": "d20d2131ca54ca009e16fa186f2ffbea218c28c32bdbfaa6fed035bebcdf41e3"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverE",
+      "elf_address": "0x61b9e8",
+      "size": 212,
+      "sha256": "f632c3e51c10a474b83195765435cbc4c622f13ad5ad3b53fffcea8cc1cfba6e"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x61b2f4",
+      "size": 1480,
+      "sha256": "9e047558fe98fb8d63868ffd99023086eaeab7284e550954810440da90d88b59"
+    }
+  ]
+}

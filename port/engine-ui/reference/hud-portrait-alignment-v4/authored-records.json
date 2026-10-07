@@ -1,0 +1,227 @@
+{
+  "source": "actual dqhud_droid SWF declaration records",
+  "records": [
+    {
+      "tag": 2,
+      "length": 45,
+      "offset": 16080,
+      "depth": 0,
+      "frame": 0,
+      "character_id": 38,
+      "bounds_twips": [
+        -222,
+        837,
+        -161,
+        869
+      ]
+    },
+    {
+      "tag": 2,
+      "length": 41,
+      "offset": 16131,
+      "depth": 0,
+      "frame": 0,
+      "character_id": 39,
+      "bounds_twips": [
+        -251,
+        808,
+        -249,
+        839
+      ]
+    },
+    {
+      "tag": 2,
+      "length": 41,
+      "offset": 16178,
+      "depth": 0,
+      "frame": 0,
+      "character_id": 40,
+      "bounds_twips": [
+        -257,
+        802,
+        -213,
+        875
+      ]
+    },
+    {
+      "tag": 39,
+      "length": 71,
+      "offset": 16225,
+      "depth": 0,
+      "frame": 0,
+      "id": 41,
+      "frames": 3,
+      "children": [
+        {
+          "tag": 43,
+          "length": 8,
+          "offset": 16235,
+          "depth": 1,
+          "frame": 0,
+          "text": "Warrior"
+        },
+        {
+          "tag": 26,
+          "length": 6,
+          "offset": 16245,
+          "depth": 1,
+          "frame": 0,
+          "placement_depth": 1,
+          "move": false,
+          "character_id": 38,
+          "matrix_twips": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 16253,
+          "depth": 1,
+          "frame": 0
+        },
+        {
+          "tag": 43,
+          "length": 6,
+          "offset": 16259,
+          "depth": 1,
+          "frame": 1,
+          "text": "Rogue"
+        },
+        {
+          "tag": 26,
+          "length": 5,
+          "offset": 16267,
+          "depth": 1,
+          "frame": 1,
+          "placement_depth": 1,
+          "move": true,
+          "character_id": 39
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 16274,
+          "depth": 1,
+          "frame": 1
+        },
+        {
+          "tag": 43,
+          "length": 5,
+          "offset": 16280,
+          "depth": 1,
+          "frame": 2,
+          "text": "Mage"
+        },
+        {
+          "tag": 26,
+          "length": 5,
+          "offset": 16287,
+          "depth": 1,
+          "frame": 2,
+          "placement_depth": 1,
+          "move": true,
+          "character_id": 40
+        },
+        {
+          "tag": 1,
+          "length": 0,
+          "offset": 16294,
+          "depth": 1,
+          "frame": 2
+        },
+        {
+          "tag": 0,
+          "length": 0,
+          "offset": 16296,
+          "depth": 1,
+          "frame": 3
+        }
+      ]
+    },
+    {
+      "tag": 26,
+      "length": 6,
+      "offset": 16245,
+      "depth": 1,
+      "frame": 0,
+      "placement_depth": 1,
+      "move": false,
+      "character_id": 38,
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": 26,
+      "length": 5,
+      "offset": 16267,
+      "depth": 1,
+      "frame": 1,
+      "placement_depth": 1,
+      "move": true,
+      "character_id": 39
+    },
+    {
+      "tag": 26,
+      "length": 5,
+      "offset": 16287,
+      "depth": 1,
+      "frame": 2,
+      "placement_depth": 1,
+      "move": true,
+      "character_id": 40
+    }
+  ],
+  "bitmap_fills": [
+    {
+      "shape": 38,
+      "bitmap": 1,
+      "fill_kind": 66,
+      "bitmap_matrix_twips": [
+        15.10906982421875,
+        0.0,
+        0.0,
+        15.10906982421875,
+        -10293,
+        -10052
+      ]
+    },
+    {
+      "shape": 39,
+      "bitmap": 1,
+      "fill_kind": 66,
+      "bitmap_matrix_twips": [
+        15.10906982421875,
+        0.0,
+        0.0,
+        15.10906982421875,
+        -9234,
+        -10082
+      ]
+    },
+    {
+      "shape": 40,
+      "bitmap": 1,
+      "fill_kind": 66,
+      "bitmap_matrix_twips": [
+        15.10906982421875,
+        0.0,
+        0.0,
+        15.10906982421875,
+        -8160,
+        -10082
+      ]
+    }
+  ]
+}

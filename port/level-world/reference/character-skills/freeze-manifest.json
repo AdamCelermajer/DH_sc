@@ -1,0 +1,24 @@
+{
+  "validation": "FROZEN",
+  "source_sha256": {
+    "port/game-data/faery_tables.hpp": "b1c8cd5f5ac736f10e7ae09765bb0e567098d32ef74338ec5c0fca64c8cd779c",
+    "port/game-data/faery_tables.cpp": "ac646932288e65764ba7f66fe352966de734c56f6737df5f7bc18b47d91b1a79",
+    "port/game-data/tests/faery_tables.cpp": "fc0085272959206a6e701acf5daab1e47c815cfc4f9ca5e5a180981b06d1370f",
+    "port/game-data/tests/faery_tables_differential.py": "6660c45b5a91d8c8f7422dfdaf0e9c877ad97924b228b34e5cd1b609966a53b6",
+    "port/level-world/character_skills.hpp": "553db42a288878ad476338ce33aa3d3bfdf7afca8c6f45ba99e952b4d0cb36b5",
+    "port/level-world/character_skills.cpp": "a47efd05f847648469c043dbb7d18f6e5cbbf70b32289bc85bd1af0ab8d3b3eb",
+    "port/level-world/character_skills_owner.cpp": "b0b40f258b01ff72cc833410273d5ab1565c1a5364af88c9bd2dacea625c1c9a",
+    "port/level-world/character_skills_session.hpp": "d189c207a1441b352bb8692381b298685a27ad9064c1769a0f990c10a08855e5",
+    "port/level-world/character_skills_session.cpp": "f44fefa0acffd2c31d7e18b9839be1cfb0d821d470fd9268f1dc81e365b8187e",
+    "port/level-world/tests/character_skills.cpp": "3c875b99911cf630398be005fabed1276a425a4ee7d4980c8a47f733ed9f48ce",
+    "port/level-world/tests/character_skills_session.cpp": "417f726bcf9ff040194e1dd420134a7500dbe97d7f619c5236e18cd5761ef2b3",
+    "port/level-world/tests/character_skills_differential.py": "3caff1cd0f65e7e18047e21aed2ceaa3b745d9630f0e3ec89855b052fb06c82b"
+  },
+  "reports": [
+    "port/level-world/reports/faery-tables-arm64-differential.json",
+    "port/level-world/reports/faery-tables-host-audit.json",
+    "port/level-world/reports/character-skills-arm64-differential.json",
+    "port/level-world/reports/character-skills-host-audit.json",
+    "port/level-world/reports/character-skills-session-host-audit.json"
+  ]
+}

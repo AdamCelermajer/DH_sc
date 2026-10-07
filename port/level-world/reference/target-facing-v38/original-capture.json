@@ -1,0 +1,13 @@
+{
+  "cases": 160,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "corpus_sha256": "49b22bd53b5bf59738f90a7a03b81d1386bba822695bbe561ac9a6b8a96c2f7b",
+  "scope": "Execute original whole3d63d8 with explicit handle/range/debug endpoints.",
+  "endpoint_fixtures": [
+    "Handle.AsCharacter",
+    "interaction8",
+    "Character range parameters",
+    "absent debug file"
+  ],
+  "original_GetTargetPosition_and_distance_execute": true
+}

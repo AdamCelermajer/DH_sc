@@ -1,0 +1,20 @@
+{
+  "validation": "PASS",
+  "comparisons": 10463,
+  "ordered_callbacks": 3729,
+  "ordered_entries": 317163,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "cf8c104ac8c721aa430792f9c9c03f6fa6a1239d548126cb07761494b087d26a",
+  "corpus_sha256": "ddf9cb187e9fd3f066ce3a031ab69a5a4256e1c09977dc273e3d7587da3cf627",
+  "source_sha256": {
+    "port/level-world/character_deferred_queue.hpp": "84eef0bb553bf211bc69f16cc8417a80da307f4eb898e28536158d989bffb852",
+    "port/level-world/character_deferred_queue.cpp": "e24db796b46773764565bb502d7164278fc089da396ee1463dbe4f60f95b4191",
+    "port/level-world/tests/character_deferred_queue_differential.py": "b5c8ef495ddb5ab38f64afe5f1ff965f7e4d9b335aae039bcda1213b0818f038",
+    "port/level-world/tools/build_character_deferred_queue_oracle.ps1": "1b29509f70a2186a166c4ae7d4def70fcb1dcfb6b238e7089fce47531c5deb95"
+  },
+  "manifest_sha256": "6143b09f9e8ee49c4ea789bcbe7cab882375401eeb3c4023f32a14737f987d3e",
+  "scope": "Actual static queue initialization, inline time registration and RB erase vs O2.\n\nThe original Character caller is entered only at bounded queue instruction\nwindows. Actual insert/rebalance/erase/free/destructor bodies execute. Allocation,\ncurrent-Level, Ctrl_Kill receiver and full AI_UnLoadScript are declared services.\nThis is not the whole Character frame or Application/static-init construction.\n",
+  "whole_Character_frame": false,
+  "whole_Application_constructor": false
+}

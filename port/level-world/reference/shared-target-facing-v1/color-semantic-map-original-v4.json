@@ -1,0 +1,231 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_function": "0x6dbb50",
+  "source_pairs": [
+    {
+      "name": "pos",
+      "semantic": 0,
+      "call": "0x6dbda8"
+    },
+    {
+      "name": "position",
+      "semantic": 0,
+      "call": "0x6dbdc4"
+    },
+    {
+      "name": "vertices",
+      "semantic": 0,
+      "call": "0x6dbde0"
+    },
+    {
+      "name": "normal",
+      "semantic": 17,
+      "call": "0x6dbe00"
+    },
+    {
+      "name": "normals",
+      "semantic": 17,
+      "call": "0x6dbe1c"
+    },
+    {
+      "name": "tangent",
+      "semantic": 20,
+      "call": "0x6dbe3c"
+    },
+    {
+      "name": "tangents",
+      "semantic": 20,
+      "call": "0x6dbe58"
+    },
+    {
+      "name": "tangent0",
+      "semantic": 20,
+      "call": "0x6dbe74"
+    },
+    {
+      "name": "tangent1",
+      "semantic": 21,
+      "call": "0x6dbe94"
+    },
+    {
+      "name": "tangent2",
+      "semantic": 22,
+      "call": "0x6dbeb4"
+    },
+    {
+      "name": "tangent3",
+      "semantic": 23,
+      "call": "0x6dbed4"
+    },
+    {
+      "name": "binormal",
+      "semantic": 24,
+      "call": "0x6dbef4"
+    },
+    {
+      "name": "binormals",
+      "semantic": 24,
+      "call": "0x6dbf10"
+    },
+    {
+      "name": "binormal0",
+      "semantic": 24,
+      "call": "0x6dbf2c"
+    },
+    {
+      "name": "binormal1",
+      "semantic": 25,
+      "call": "0x6dbf4c"
+    },
+    {
+      "name": "binormal2",
+      "semantic": 26,
+      "call": "0x6dbf6c"
+    },
+    {
+      "name": "binormal3",
+      "semantic": 27,
+      "call": "0x6dbf8c"
+    },
+    {
+      "name": "diffuse",
+      "semantic": 18,
+      "call": "0x6dbfac"
+    },
+    {
+      "name": "color",
+      "semantic": 18,
+      "call": "0x6dbfc8"
+    },
+    {
+      "name": "color0",
+      "semantic": 18,
+      "call": "0x6dbfe4"
+    },
+    {
+      "name": "color1",
+      "semantic": 19,
+      "call": "0x6dc004"
+    },
+    {
+      "name": "secondarycolor",
+      "semantic": 19,
+      "call": "0x6dc020"
+    },
+    {
+      "name": "alternatecolor",
+      "semantic": 19,
+      "call": "0x6dc03c"
+    },
+    {
+      "name": "coord",
+      "semantic": 1,
+      "call": "0x6dc05c"
+    },
+    {
+      "name": "coord0",
+      "semantic": 1,
+      "call": "0x6dc078"
+    },
+    {
+      "name": "coord1",
+      "semantic": 2,
+      "call": "0x6dc098"
+    },
+    {
+      "name": "coord2",
+      "semantic": 3,
+      "call": "0x6dc0b8"
+    },
+    {
+      "name": "coord3",
+      "semantic": 4,
+      "call": "0x6dc0d8"
+    },
+    {
+      "name": "coord4",
+      "semantic": 5,
+      "call": "0x6dc0fc"
+    },
+    {
+      "name": "coord5",
+      "semantic": 6,
+      "call": "0x6dc11c"
+    },
+    {
+      "name": "coord6",
+      "semantic": 7,
+      "call": "0x6dc140"
+    },
+    {
+      "name": "coord7",
+      "semantic": 8,
+      "call": "0x6dc160"
+    },
+    {
+      "name": "texcoord",
+      "semantic": 1,
+      "call": "0x6dc17c"
+    },
+    {
+      "name": "texcoord0",
+      "semantic": 1,
+      "call": "0x6dc198"
+    },
+    {
+      "name": "texcoord1",
+      "semantic": 2,
+      "call": "0x6dc1b4"
+    },
+    {
+      "name": "texcoord2",
+      "semantic": 3,
+      "call": "0x6dc1d0"
+    },
+    {
+      "name": "texcoord3",
+      "semantic": 4,
+      "call": "0x6dc1ec"
+    },
+    {
+      "name": "texcoord4",
+      "semantic": 5,
+      "call": "0x6dc20c"
+    },
+    {
+      "name": "texcoord5",
+      "semantic": 6,
+      "call": "0x6dc22c"
+    },
+    {
+      "name": "texcoord6",
+      "semantic": 7,
+      "call": "0x6dc24c"
+    },
+    {
+      "name": "texcoord7",
+      "semantic": 8,
+      "call": "0x6dc26c"
+    },
+    {
+      "name": "skinweights",
+      "semantic": 28,
+      "call": "0x6dc28c"
+    },
+    {
+      "name": "skinweight",
+      "semantic": 28,
+      "call": "0x6dc2a8"
+    },
+    {
+      "name": "skinindices",
+      "semantic": 29,
+      "call": "0x6dc2c8"
+    },
+    {
+      "name": "skinindex",
+      "semantic": 29,
+      "call": "0x6dc2e4"
+    }
+  ]
+}

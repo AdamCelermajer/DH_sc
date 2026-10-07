@@ -1,0 +1,85 @@
+{
+  "scope": "Original DefaultSceneNodeFactory C1 actual type/name registration order; StringPair/vector allocation mechanics declared boundary fixtures",
+  "records": [
+    {
+      "type": "0x65627563",
+      "name": "cube",
+      "source_name_address": "0x8eb2c8"
+    },
+    {
+      "type": "0x72687073",
+      "name": "sphere",
+      "source_name_address": "0x8df340"
+    },
+    {
+      "type": "0x74786574",
+      "name": "text",
+      "source_name_address": "0x8c8d18"
+    },
+    {
+      "type": "0x72726574",
+      "name": "terrain",
+      "source_name_address": "0x8eb2d0"
+    },
+    {
+      "type": "0x5f796b73",
+      "name": "skyBox",
+      "source_name_address": "0x8eb2d8"
+    },
+    {
+      "type": "0x77646873",
+      "name": "shadowVolume",
+      "source_name_address": "0x8eb2e0"
+    },
+    {
+      "type": "0x6873656d",
+      "name": "mesh",
+      "source_name_address": "0x8eb2f0"
+    },
+    {
+      "type": "0x7468676c",
+      "name": "light",
+      "source_name_address": "0x8e2b38"
+    },
+    {
+      "type": "0x79746d65",
+      "name": "empty",
+      "source_name_address": "0x8eb2f8"
+    },
+    {
+      "type": "0x796d6d64",
+      "name": "dummyTransformation",
+      "source_name_address": "0x8eb300"
+    },
+    {
+      "type": "0x5f6d6163",
+      "name": "camera",
+      "source_name_address": "0x8c5520"
+    },
+    {
+      "type": "0x6c6c6962",
+      "name": "billBoard",
+      "source_name_address": "0x8c2200"
+    },
+    {
+      "type": "0x68736d61",
+      "name": "animatedMesh",
+      "source_name_address": "0x8eb318"
+    },
+    {
+      "type": "0x6c637470",
+      "name": "particleSystem",
+      "source_name_address": "0x8eb328"
+    },
+    {
+      "type": "0x4d6d6163",
+      "name": "cameraMaya",
+      "source_name_address": "0x8eb298"
+    },
+    {
+      "type": "0x466d6163",
+      "name": "cameraFPS",
+      "source_name_address": "0x8bf920"
+    }
+  ]
+}

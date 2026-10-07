@@ -1,0 +1,133 @@
+{
+  "validation": "PASS",
+  "cases": [
+    {
+      "argc": 1,
+      "live": false,
+      "result_kind": 0,
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "argc": 1,
+      "live": true,
+      "result_kind": 4,
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "parse",
+          "^d",
+          17
+        ]
+      ]
+    },
+    {
+      "argc": 2,
+      "live": false,
+      "result_kind": 0,
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "argc": 2,
+      "live": true,
+      "result_kind": 5,
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "parse",
+          "^d",
+          17
+        ],
+        [
+          "member",
+          "Gold",
+          23.0
+        ],
+        [
+          "member",
+          "GoldString",
+          "actual StringManager output"
+        ]
+      ]
+    },
+    {
+      "argc": 3,
+      "live": false,
+      "result_kind": 0,
+      "trace": [
+        [
+          "player",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "argc": 3,
+      "live": true,
+      "result_kind": 4,
+      "trace": [
+        [
+          "player",
+          0,
+          1
+        ],
+        [
+          "parse",
+          "^d",
+          17
+        ]
+      ]
+    },
+    {
+      "argc": 4,
+      "live": false,
+      "result_kind": 0,
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "argc": 4,
+      "live": true,
+      "result_kind": 4,
+      "trace": [
+        [
+          "player",
+          0,
+          0
+        ],
+        [
+          "parse",
+          "^d",
+          17
+        ]
+      ]
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Whole original NativeInvGetPlayerGold ARM wrapper; explicit AS conversion/member/result, CString/player and StringManager parse provider fixtures. Actual formatter is separately retained HudText508ef4 production binding."
+}

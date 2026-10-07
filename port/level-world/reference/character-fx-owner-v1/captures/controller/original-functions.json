@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12VisualObject17SetAnimControllerEP14AnimController",
+      "elf_address": "0x470a84",
+      "size": 64,
+      "sha256": "576e1d2b5a4bc51ec3318200fe5adf459ec256aca82669b9ef1f2c75c60915cd"
+    },
+    {
+      "original_symbol": "_ZN14AnimController8SetScaleEfj",
+      "elf_address": "0x474920",
+      "size": 104,
+      "sha256": "b6ead38f8a36f20b0dc8e417f508750d063665f66e64bcee8e3f2adae4901d85"
+    },
+    {
+      "original_symbol": "_ZN14AnimControllerD0Ev",
+      "elf_address": "0x474d14",
+      "size": 28,
+      "sha256": "c4847c3e1daba13aa95f47fb9bdec61703eb689d9897511c902e93f83564e6d6"
+    },
+    {
+      "original_symbol": "_ZN14AnimController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+      "elf_address": "0x474d10",
+      "size": 4,
+      "sha256": "e928253e755014d7e2f633e4473ca99936c4edd9a6006f5dc0db1fbeeca6248f"
+    },
+    {
+      "original_symbol": "_ZN14AnimController17SetCallbacksOnAllEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+      "elf_address": "0x474cac",
+      "size": 100,
+      "sha256": "580b6074d4c3fa058f8d001726f8682ae62201fe095a3a8bb382f648836eb523"
+    },
+    {
+      "original_symbol": "_ZN14AnimControllerC1EP13RootSceneNodeb",
+      "elf_address": "0x474d30",
+      "size": 276,
+      "sha256": "e06e9efb50d28fa87d38809c3f48deb7ea81207890a1d8fda9208687303b7529"
+    }
+  ]
+}

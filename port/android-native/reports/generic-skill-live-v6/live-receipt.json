@@ -1,0 +1,71 @@
+{
+  "status": "SOURCE_FAILURE",
+  "scope": "Released emulator5554 route and one actual Bash press; acceptance requires authored do_skill + same-target HP mutation + visible authored GPU effect, not PreSearch alone.",
+  "serial": "emulator-5554",
+  "pid": "9645",
+  "final_pid": "9645",
+  "installed_apk_sha256": "a4b5ae41ff45c73485d10a98adde3a0c1a0d32f923c1790f260e2dc0efc576f9",
+  "local_apk_sha256": "a4b5ae41ff45c73485d10a98adde3a0c1a0d32f923c1790f260e2dc0efc576f9",
+  "route": [
+    {
+      "swipe": [
+        640,
+        835,
+        565,
+        910,
+        7500
+      ],
+      "errors": []
+    },
+    {
+      "swipe": [
+        640,
+        835,
+        715,
+        910,
+        3500
+      ],
+      "errors": []
+    },
+    {
+      "swipe": [
+        640,
+        835,
+        715,
+        760,
+        1000
+      ],
+      "errors": []
+    }
+  ],
+  "activation": [
+    "I/DH2Native( 9645): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 4672 | same retained World/Gear/SkillV6"
+  ],
+  "authored_do_skill": [],
+  "effect_draw": [],
+  "errors": [
+    "E/DH2Native( 9645): Native frame failed: Source CombatFX frame failed: Required authored effect triangles/attributes"
+  ],
+  "frames": [
+    {
+      "name": "cast-frame-00.png",
+      "relative_seconds": 0.0
+    },
+    {
+      "name": "cast-frame-01.png",
+      "relative_seconds": 1.3440000000409782
+    },
+    {
+      "name": "cast-frame-02.png",
+      "relative_seconds": 1.6099999999860302
+    },
+    {
+      "name": "cast-frame-03.png",
+      "relative_seconds": 1.8440000000409782
+    }
+  ],
+  "events": [
+    "I/DH2Native( 9645): Source skill step selection | clip 1234 | engine 62 | range 0 1666 | do_skill 700 | events 1 | bank range 0 1666 | unbound 0 | step FX 164 | anchored 1",
+    "I/DH2Native( 9645): Original skill activation | row 0 | source status 0 | accepted 1 | native targets 1 | state 6 | clip 1234 | raw MP 4672 | same retained World/Gear/SkillV6"
+  ]
+}

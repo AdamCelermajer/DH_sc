@@ -1,0 +1,14 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "source": "tests/authored_fx_publication_v49.cpp",
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "abi": "x86_64",
+    "source": "tests/authored_fx_publication_v49.cpp",
+    "exit": 0,
+    "stderr": ""
+  }
+]

@@ -1,0 +1,97 @@
+{
+  "validation": "PASS",
+  "files": [
+    {
+      "path": "port/level-world/character_script_owner_v2.hpp",
+      "frozen_path": "port/level-world/character_script_owner.hpp",
+      "frozen_sha256": "40a8e83e708345c9c50c0a6edd5c75f7d2fe4cf2f0327e89db440752451d061a",
+      "normalized_base_sha256": "762626b7fc3beb8c593c18382388191322d3bc694010f3c6620fa03c6725c7db",
+      "versioned_sha256": "b55140518abcd30fedcd00f742757a019a70d5fe361e51a3cef40353b654dceb",
+      "reversible_changes": [
+        {
+          "before": " // actual alias-membership InitVCB and source publication. External/default\n // VCB executes locally; unrecovered player-specific VCB remains a service.",
+          "after": " // actual alias-membership InitVCB and source publication. External/default\n // and source AISPlayer/IPhone InitVCB execute on these owned callback flags."
+        }
+      ]
+    },
+    {
+      "path": "port/level-world/character_script_owner_v2.cpp",
+      "frozen_path": "port/level-world/character_script_owner.cpp",
+      "frozen_sha256": "da4fe784af940183c77ac9f52c5b6152c8ae52d50876851fbac88d2693d901e9",
+      "normalized_base_sha256": "92ac3dd0a5d1aa422ef6b1fcf816ed9dd9539b231580e076ba8f6158f41a7d44",
+      "versioned_sha256": "270f284cbe6dafc7c5bdb664b2dd55cef36c03862bb73a07921b7fe353663416",
+      "reversible_changes": [
+        {
+          "before": "}else{const auto view=s->view();t.call(owner_init_vcb,0,0,r->subject,&view);}",
+          "after": "}else if(s->kind==script_player||s->kind==script_player_iphone){\n     if(dh2_character_script_player_vcb_v2(&s->callback_flags,s->aliases))throw Failure{-1};\n    }else{const auto view=s->view();t.call(owner_init_vcb,0,0,r->subject,&view);}"
+        },
+        {
+          "before": "  struct Restore{Impl& impl;const ScriptOwnerServicesV2* old;~Restore(){impl.services=old;}} restore{t,t.services};\n  t.services=&services;const auto view=hold->view();t.call(owner_init_vcb,0,0,identity,&view);return 0;",
+          "after": "  if(hold->kind==script_player||hold->kind==script_player_iphone)\n   return dh2_character_script_player_vcb_v2(&hold->callback_flags,hold->aliases);\n  struct Restore{Impl& impl;const ScriptOwnerServicesV2* old;~Restore(){impl.services=old;}} restore{t,t.services};\n  t.services=&services;const auto view=hold->view();t.call(owner_init_vcb,0,0,identity,&view);return 0;"
+        }
+      ]
+    },
+    {
+      "path": "port/level-world/character_script_session_v2.hpp",
+      "frozen_path": "port/level-world/character_script_session.hpp",
+      "frozen_sha256": "864c0128ab3113ea33d1367e93d0d337a77db9a3fd0096e2fa092bd53da94398",
+      "normalized_base_sha256": "472265f1ca2fc9aa0e46120c7a56024802c367c629702636529bc2934cf96f5c",
+      "versioned_sha256": "dcff270aac2a815b555f6f80a45ddc48d37dee818c9f9272c83f6ee2d2e59a96",
+      "reversible_changes": []
+    },
+    {
+      "path": "port/level-world/character_script_session_v2.cpp",
+      "frozen_path": "port/level-world/character_script_session.cpp",
+      "frozen_sha256": "f4583104c71ff90ffc75d34e04e5a9294f61ff690a88a8f5089b067f7be60b46",
+      "normalized_base_sha256": "81642a333a39deef10da073b79f4ce8bb6657779c14f08e6832d1e7e08ec8983",
+      "versioned_sha256": "f3a376a7db6728fbaa9e04fc9a3fecf7446f7a599acdfbb9e7af32bce3d78179",
+      "reversible_changes": [
+        {
+          "before": " PropertyBindings48 property_bindings{};",
+          "after": " PropertyBindings48 property_bindings{};\n skills::SkillPropertyBindingsV1 skill_properties{};\n data::SkillTables::Borrow skill_tables;\n std::shared_ptr<data::PlayerSavegameV1> savegame;\n skills::CurrentSkillBindingsV2 current_skill{};"
+        },
+        {
+          "before": "  property_bindings={{properties->resolved.data(),224,0},{temporary?temporary->data():nullptr,temporary?224u:0u,0},nullptr,nullptr};",
+          "after": "  property_bindings={{properties->resolved.data(),224,0},{temporary?temporary->data():nullptr,temporary?224u:0u,0},nullptr,nullptr};\n  skill_properties={&property_view,temporary.get(),design.classes(),in.property_context,in.external_property,in.recalculate_properties,in.normal_property_class};\n  skill_tables=in.skill_tables;savegame=in.savegame;\n  current_skill={&property_view,&skill_tables,savegame.get(),in.skill_number_context,in.skill_number};"
+        },
+        {
+          "before": "  else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}",
+          "after": "  else if(b.original_callback==0x3b82e4){function=&skills::skill_clear_properties_v1;context=&skill_properties;}\n  else if(b.original_callback==0x3b7eac){function=&skills::skill_set_property_v1;context=&skill_properties;}\n  else if(b.original_callback==0x3babdc){function=&skills::skill_apply_class_v1;context=&skill_properties;}\n  else if(b.original_callback==0x3b8f9c){function=&skills::current_skill_info_v2;context=&current_skill;}\n  else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        }
+      ]
+    },
+    {
+      "path": "port/level-world/character_skills_session_v2.hpp",
+      "frozen_path": "port/level-world/character_skills_session.hpp",
+      "frozen_sha256": "d189c207a1441b352bb8692381b298685a27ad9064c1769a0f990c10a08855e5",
+      "normalized_base_sha256": "3b5cd4804998d201ee1e8a78703d04dc2f6d1b0cfa949ce5368bb1e7e024310a",
+      "versioned_sha256": "496a1bdc4f6a7cdcce05279728597b1bf5e75e81bc253ba3388e91b6bf509874",
+      "reversible_changes": []
+    },
+    {
+      "path": "port/level-world/character_skills_session_v2.cpp",
+      "frozen_path": "port/level-world/character_skills_session.cpp",
+      "frozen_sha256": "f44fefa0acffd2c31d7e18b9839be1cfb0d821d470fd9268f1dc81e365b8187e",
+      "normalized_base_sha256": "62ef59837fd199d56cd1a3bc57b3034f4b574818b19b64ce5ecdf3f43cfeb21f",
+      "versioned_sha256": "dcd8097691761aaa38abdaf376cfe6a2d2ee7240fc1d28f28137d9b6f3081a9f",
+      "reversible_changes": []
+    },
+    {
+      "path": "port/level-world/character_skill_info_session_v2.hpp",
+      "frozen_path": "port/level-world/character_skill_info_session_v1.hpp",
+      "frozen_sha256": "524d3013f28e61e5dd3a8cd93652e16a8de77b2ce5befdf42eef0a31ced2be89",
+      "normalized_base_sha256": "45be6d1e920f5dcb1406a85491acfce40cb6f31d339bab9efe4a89638f41ede6",
+      "versioned_sha256": "f4fef942fc662cac2ba13990c9e45a86f9dd2ca54bca2f5f23a67c843d7ff323",
+      "reversible_changes": []
+    },
+    {
+      "path": "port/level-world/character_skill_info_session_v2.cpp",
+      "frozen_path": "port/level-world/character_skill_info_session_v1.cpp",
+      "frozen_sha256": "0796032c12fddecb68bb1b9561066aff2177b731da651c59f1e20f30ba540803",
+      "normalized_base_sha256": "dbdb4310fd875177b339fd62780c6ac31766330efd2f4f61c07a11e64b2d0d1c",
+      "versioned_sha256": "9624dcab32eeccb4e1457ea2055726b0aab1c32216bfd7d28060e9f35e8662e1",
+      "reversible_changes": []
+    }
+  ],
+  "scope": "Normalized frozen source copies plus listed reversible V2 changes. Existing helper/catalogue exports are reused. New behavior needs separate original/native and lifetime proofs."
+}

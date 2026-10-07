@@ -1,0 +1,32 @@
+[
+  {
+    "table": "0x977798",
+    "slot": "0xc",
+    "function": "0x5b5610",
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture8bindImplEb"
+  },
+  {
+    "table": "0x977798",
+    "slot": "0x10",
+    "function": "0x5b28dc",
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture10unbindImplEv"
+  },
+  {
+    "table": "0x977798",
+    "slot": "0x14",
+    "function": "0x6ddd44",
+    "name": "_ZN6glitch5video19CCommonGLDriverBase12CTextureBase7mapImplEhNS0_23E_TEXTURE_CUBE_MAP_FACEEh"
+  },
+  {
+    "table": "0x977798",
+    "slot": "0x18",
+    "function": "0x6dcbf4",
+    "name": "_ZNK6glitch5video19CCommonGLDriverBase12CTextureBase9unmapImplEv"
+  },
+  {
+    "table": "0x977798",
+    "slot": "0x20",
+    "function": "0x5b280c",
+    "name": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture19generateMipmapsImplEv"
+  }
+]

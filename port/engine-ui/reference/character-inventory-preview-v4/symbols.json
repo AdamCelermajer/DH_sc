@@ -1,0 +1,122 @@
+[
+  {
+    "name": "_ZN12MenuMainMenu19DestroyAvatarCameraEv",
+    "address": "0x42baec",
+    "size": 88
+  },
+  {
+    "name": "_ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE",
+    "address": "0x42cf30",
+    "size": 56
+  },
+  {
+    "name": "_ZN17MenuFlash2DCamera6UpdateEv",
+    "address": "0x42cd84",
+    "size": 428
+  },
+  {
+    "name": "_ZN12MenuMainMenu18CreateAvatarCameraEv",
+    "address": "0x42bf3c",
+    "size": 404
+  },
+  {
+    "name": "_ZN16MenuCharMenu_Map16DestroyMapCameraEv",
+    "address": "0x453488",
+    "size": 148
+  },
+  {
+    "name": "_ZN11MenuMinimap16DisableMapCameraEv",
+    "address": "0x434df8",
+    "size": 64
+  },
+  {
+    "name": "_ZN7Console15_setMenuCamerasEv",
+    "address": "0x3301d8",
+    "size": 4
+  },
+  {
+    "name": "_ZN20MenuCharMenu_InvMain18CreateAvatarCameraEv",
+    "address": "0x4528d0",
+    "size": 588
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraD0Ev",
+    "address": "0x42cd50",
+    "size": 52
+  },
+  {
+    "name": "_ZN12MenuMerchant19DestroyAvatarCameraEv",
+    "address": "0x432b38",
+    "size": 132
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraC1EP6MenuFX",
+    "address": "0x42ccd0",
+    "size": 128
+  },
+  {
+    "name": "_ZN11MenuManager14GetRootCamera2Ev",
+    "address": "0x42cbb0",
+    "size": 12
+  },
+  {
+    "name": "_ZN11MenuManager13GetRootCameraEv",
+    "address": "0x42cb98",
+    "size": 12
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraD1Ev",
+    "address": "0x42ca88",
+    "size": 4
+  },
+  {
+    "name": "_ZN20MenuCharMenu_InvMain19DestroyAvatarCameraEv",
+    "address": "0x452810",
+    "size": 144
+  },
+  {
+    "name": "_ZN11MenuManager16GetHUDRootCameraEv",
+    "address": "0x42cba4",
+    "size": 12
+  },
+  {
+    "name": "_ZN12MenuMerchant19RenderCharacterPaneERN7gameswf12render_stateEPv",
+    "address": "0x432ee8",
+    "size": 968
+  },
+  {
+    "name": "_ZN16MenuCharMenu_Map15CreateMapCameraEv",
+    "address": "0x45351c",
+    "size": 676
+  },
+  {
+    "name": "_ZN17MenuFlash2DCameraC2EP6MenuFX",
+    "address": "0x42cc50",
+    "size": 128
+  },
+  {
+    "name": "_ZN11MenuMinimap15CreateMapCameraEv",
+    "address": "0x434e38",
+    "size": 468
+  },
+  {
+    "name": "_ZN12MenuMainMenu19RenderCharacterPaneERN7gameswf12render_stateEPv",
+    "address": "0x42bb44",
+    "size": 4
+  },
+  {
+    "name": "_ZN16MenuCharMenu_Map15UpdateMapCameraEv",
+    "address": "0x45310c",
+    "size": 280
+  },
+  {
+    "name": "_ZN12MenuMerchant18CreateAvatarCameraEv",
+    "address": "0x433318",
+    "size": 560
+  },
+  {
+    "name": "_ZN20MenuCharMenu_InvMain19RenderCharacterPaneERN7gameswf12render_stateEPv",
+    "address": "0x452468",
+    "size": 936
+  }
+]

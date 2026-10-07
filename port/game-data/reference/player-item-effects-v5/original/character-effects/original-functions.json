@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14CharProperties19LoadGearsPropertiesEv",
+      "elf_address": "0x3df480",
+      "size": 200,
+      "sha256": "29e14f0559f8e10e5fbbb497f836dbfc7254b9793db2c28329f4ee6a21d035fe"
+    },
+    {
+      "original_symbol": "_ZN9Character12ValidateHPMPEv",
+      "elf_address": "0x3bd140",
+      "size": 140,
+      "sha256": "f8b614e857e216839762a9b9d060c3958babe0609f6c9a22ebae2d35b4127adb"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20ResetGearsPropertiesEv",
+      "elf_address": "0x3defac",
+      "size": 8,
+      "sha256": "3f77b4414e6ee3c3feccdb753b8dfb22f382a12822cb6361d700c0ba6f78ea95"
+    },
+    {
+      "original_symbol": "_ZN9Character14INV_UpdateSkinEv",
+      "elf_address": "0x3a999c",
+      "size": 884,
+      "sha256": "b156c99b56ca13b879fe5de72121bd20a3c097aa092a103153c3196e57085844"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9"
+    }
+  ]
+}

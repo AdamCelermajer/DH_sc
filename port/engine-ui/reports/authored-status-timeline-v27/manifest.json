@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "scope": "Authored status animation and queue completion component; strict live source integration compiled, no APK/live reward acceptance",
+  "payload": [
+    {
+      "path": "port/engine-ui/authored_status_timeline_v27.hpp",
+      "bytes": 685,
+      "sha256": "fce8a951ad314f6a74d853f0776abf6547e0cc5177494be2a1bcc5f5c326d416"
+    },
+    {
+      "path": "port/engine-ui/authored_status_timeline_v27.cpp",
+      "bytes": 2646,
+      "sha256": "bc93cf2d6aaad73e18fa3579a1308c485b3cda984960344db81ab1e553a1df29"
+    },
+    {
+      "path": "port/engine-ui/menu_status_messages_v26.hpp",
+      "bytes": 2428,
+      "sha256": "8905c33db020868e32db3aaf9715e99ec16af9dabc2883682cd15b5b856141d1"
+    },
+    {
+      "path": "port/engine-ui/menu_status_messages_v26.cpp",
+      "bytes": 2445,
+      "sha256": "4fa43da687ac36848dcc654574b62f6f2d29a434a41c8defe38c8d595aecc749"
+    },
+    {
+      "path": "port/engine-ui/menu_status_movie_v26.hpp",
+      "bytes": 673,
+      "sha256": "a624d4af2727ea3b8c0e99d763f00f8102990646b85aa8eefe8dc100f51ecc9f"
+    },
+    {
+      "path": "port/engine-ui/menu_status_movie_v26.cpp",
+      "bytes": 2151,
+      "sha256": "0a187e440eecd03ac53d62ef6290778cb115aadf44a9a716468f5f31e221b98c"
+    },
+    {
+      "path": "port/engine-ui/progression_xp_text_v23.hpp",
+      "bytes": 427,
+      "sha256": "05613fc28e874304315cda4eca0459a24037e4f75fdc8ecbd47197ec8b76f9ef"
+    },
+    {
+      "path": "port/engine-ui/progression_xp_text_v23.cpp",
+      "bytes": 1584,
+      "sha256": "a2e71e157d5e998e0566e0e280a75172098226bb4919e3474c5a0e5d30d44740"
+    },
+    {
+      "path": "port/engine-ui/tests/authored_status_timeline_v27.cpp",
+      "bytes": 6298,
+      "sha256": "70abbdf585d193d1cb2896fe755058b191f8b12d726f91277cf66c1daa16b476"
+    },
+    {
+      "path": "port/engine-ui/reports/authored-status-timeline-v27/host-receipt.json",
+      "bytes": 3295,
+      "sha256": "244811abe9d45afdb3cc8727ea3cbbde1cc91bbce7349279e9c8b2864235c7a0"
+    },
+    {
+      "path": "port/engine-ui/reports/authored-status-timeline-v27/android-compile.json",
+      "bytes": 8960,
+      "sha256": "aef028c3a0d500224c499ef80143d207e5a9eeb7d87e0f67ab5d61081ee2618b"
+    },
+    {
+      "path": "port/engine-ui/reports/authored-status-timeline-v27/NOTES.md",
+      "bytes": 3494,
+      "sha256": "b9a123f6e64a708a291ef4887005dcae15574bc4a4b6f9a89327581cbc9a372a"
+    },
+    {
+      "path": ".local-inputs/run_status_timeline_v27_host.py",
+      "bytes": 2176,
+      "sha256": "733515dcbdf0cd8278ddeba76018643666264be97d12b4cdb0dabeb7d6db4fdc"
+    },
+    {
+      "path": ".local-inputs/compile_status_timeline_v27_android.py",
+      "bytes": 1857,
+      "sha256": "cc80972ebdf1a5087145ec02b2d687c872e0046cece345fdd047874d54d449ef"
+    }
+  ],
+  "shared_integration_files": [
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "sha256": "ac4391a29f292d89dfc80cac9ca91694150291bc9f550cc4dcfc99135b10b298"
+    },
+    {
+      "path": "port/engine-ui/CMakeLists.txt",
+      "sha256": "2b24444b3ca3e8e370d517bf16bacabed90dd7d7899822cd9a7cc844d5657e91"
+    }
+  ],
+  "integration": "Applied: include/own/release AuthoredStatusTimelineV27; advance after same status snapshot and with actual combat frame tick/dt before gameplay display; add authored_status_timeline_v27.cpp to UI CMake. Shared integration files are references, not replacement payloads."
+}

@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "original_complete_cases": 1780,
+  "ordered_boundaries": 23017,
+  "gold_sha256": "bb181cbe095003851c8fb2fb49e2256fcb5472bd41d7ff2e4498e4c8de659c74",
+  "component_and_global_services_are_fixtures": true,
+  "source_masks_and_slot_profile_guards_executed": true,
+  "whole_Savegame_file_class_proven": false
+}

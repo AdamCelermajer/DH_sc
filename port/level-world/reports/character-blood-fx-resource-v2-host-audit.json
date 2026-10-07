@@ -1,0 +1,48 @@
+{
+  "scope": "Actual original-cache blood79/80 complete native CPU resource: source emitter/force/material scene graph, source segment1000ms and BirthRate scalar sampling, same source RNG/cloud model simulation, billboard/UV/color/index retained snapshots, manager completion/pool/warm reuse. Camera is an explicit host fixture; actual live renderer camera binding and GPU submission are not verified by this host test. Frozen V1 owner sources remain unchanged.",
+  "results": [
+    {
+      "optimization": "O1",
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":6406,\"positive_frames\":78,\"vertices\":1720,\"gpu_submission\":false}\n",
+      "stderr": ""
+    },
+    {
+      "optimization": "O2",
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":6406,\"positive_frames\":78,\"vertices\":1720,\"gpu_submission\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "sources": {
+    "port/level-world/tests/character_blood_fx_resource_v2.cpp": "3037e76b2fd2c782bc73fd80eedac8bbe82911438586e36a3a4ef0a4b69d553f",
+    "port/level-world/character_blood_fx_resource_v2.cpp": "a6425616d2a797ff07825217230d93f44143445f6d06294a601e39ccd91d5a03",
+    "port/level-world/character_mesh_fx_owner_v2.cpp": "1ab8afbe8f944cc6410dd7f7a41badd81190fc84fcdb6e7c927226eae7306814",
+    "port/engine-animation/particle_resource_init_v1.cpp": "0cd5ab346d9c490997d3a5794304831a931798bfd3b710d6cb042965be811977",
+    "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
+    "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/particle_random_v1.cpp": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0",
+    "port/engine-animation/particle_emission.cpp": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035",
+    "port/engine-animation/particle_cloud_models_v1.cpp": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747",
+    "port/engine-animation/particle_cloud_runtime_v1.cpp": "76a3accf7a3998d9bcfe0b6317549a2390e0a4fc3cd40331aea38a12293b854e",
+    "port/engine-animation/particle_billboard_v1.cpp": "665a84f44d7a8692d585210151107d63aba702c354553ba510f43e8d6f3f8054",
+    "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc",
+    "port/level-world/character_fx_kernels_v1.cpp": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d",
+    "port/level-world/character_fx_state_v1.cpp": "9524b8a833b249dad57d182fb42b7ba4b2b2cae76cd1ffcdbfbde6920e1d8fb1",
+    "port/level-world/fx_texture_animation_v1.cpp": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc"
+  },
+  "assets": {
+    "bloodsplat.bdae": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b",
+    "bloodsplat_hero.bdae": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25"
+  },
+  "dependencies": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "validation": "PASS",
+  "version": 1,
+  "production_source_sha256": {
+    "port/engine-ui/menu_stack_v1.hpp": "d9431517cf43674052381f0ee8c4ffe3b8217d4b1c51861defd61ee1e6b41adc",
+    "port/engine-ui/menu_stack_v1.cpp": "8c68bb6f8ebcb0c5bc33bc1373e656d9d14165521fbf922337e3766d6c7c8f2d",
+    "port/engine-ui/menu_stack_owner_v1.hpp": "8b81d17b88112a2d091733cf15d6ca0afe2ef136dbd8b61f954212440f0d31b8",
+    "port/engine-ui/menu_stack_owner_v1.cpp": "42b3a02d26340db4daa50e9e7ce143be4d74437e323f7c14a53ea6788e607e64"
+  },
+  "source_sha256": {
+    "port/engine-ui/menu_stack_v1.hpp": "d9431517cf43674052381f0ee8c4ffe3b8217d4b1c51861defd61ee1e6b41adc",
+    "port/engine-ui/menu_stack_v1.cpp": "8c68bb6f8ebcb0c5bc33bc1373e656d9d14165521fbf922337e3766d6c7c8f2d",
+    "port/engine-ui/menu_stack_owner_v1.hpp": "8b81d17b88112a2d091733cf15d6ca0afe2ef136dbd8b61f954212440f0d31b8",
+    "port/engine-ui/menu_stack_owner_v1.cpp": "42b3a02d26340db4daa50e9e7ce143be4d74437e323f7c14a53ea6788e607e64",
+    "port/engine-ui/tests/menu_stack_v1.cpp": "d1530aa715d5a744b99349b3eb072aeb7cce2bfa1c74bc110323a1a1ab06ecf3",
+    "port/engine-ui/tests/menu_stack_v1_differential.py": "044adebd0ea5c01b3ff8d18f58dc14c1bf21d791616b017075264607c0715a2c",
+    "port/engine-ui/tools/run_menu_stack_v1_host.py": "0579a5984f365f1b335c62ca5d4db3fe79e6eaa7f6c8beddb647aa3de6706fa6"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/menu-stack-v1-arm64-differential.json": "a3ef84204fe2ee434553697433f0f2445ee4b815e5b93e8d05f37d3d57e65c5d",
+    "port/engine-ui/reports/menu-stack-v1-host-audit.json": "cbc6dafd3dc5abb4b097d024141bdad171c101afefcc72777ec5961d187a3eff"
+  },
+  "reference_sha256": {
+    "port/engine-ui/reference/menu-stack-v1/captures/arrays/original-functions.json": "dbb9f19bcec28b0191f31e60a3702b11210d6b6090921548e1c127f0c11378a7",
+    "port/engine-ui/reference/menu-stack-v1/captures/arrays/reference/original-functions.asm": "9303d96ccc2a42615f08ffb04ea4ba5bb362f6d2b65a53ac2e1814f6beff57f8",
+    "port/engine-ui/reference/menu-stack-v1/captures/dependencies/original-functions.json": "f3d25feb9774935357ffbff67dc25d1718aef20f7058ea06b7254342845b8239",
+    "port/engine-ui/reference/menu-stack-v1/captures/dependencies/reference/original-functions.asm": "6b0e669e1afda3df14c8cd96c950bfaff58005cc7452200a1b6e6b9e5c011775",
+    "port/engine-ui/reference/menu-stack-v1/captures/lifecycle/original-functions.json": "547bcd28ea1d85c26508d9e6d830d9c15cab611b8b6428db36bf60f9c311c794",
+    "port/engine-ui/reference/menu-stack-v1/captures/lifecycle/reference/original-functions.asm": "8070286a5a0e624ea9e691e9df2967c742fc33928d753ca0e1ddbee229db357b",
+    "port/engine-ui/reference/menu-stack-v1/captures/loaders/original-functions.json": "46ecefc89aee5375192de855cab989961ffbcdb24593301929c0c08464e5a80e",
+    "port/engine-ui/reference/menu-stack-v1/captures/loaders/reference/original-functions.asm": "a15edc8be5e6680dd1061703d9cfa27bda36ee852f88919fc9b7f8932e627068",
+    "port/engine-ui/reference/menu-stack-v1/captures/native-stack-functions.asm": "cb92abe6c5f30583169012fe50557c2a6550830a4ffc3852dfa10c06bc3ca86a",
+    "port/engine-ui/reference/menu-stack-v1/captures/native-stack-functions.json": "ad3ef6e2274127493f09a7b0be95ddcd371f73cc59bac2cc15eeb36e3f7412b0",
+    "port/engine-ui/reference/menu-stack-v1/NOTES.md": "98b5ddefab692ca32c49f168f3e2be3701499113b3753c089d08a42138ca8338",
+    "port/engine-ui/reference/menu-stack-v1/source-literals.json": "091c3c8d0667ce41021c78172007f33783abbfeab92a213024403f1cc91d7345",
+    "port/engine-ui/reference/menu-stack-v1/source-swf-paths.json": "9e86c41a9d5d000d9f971f7aa6dd71bf53422a0b486a6086b604819cdcff68b0",
+    "port/engine-ui/reference/menu-stack-v1/stack-fixtures.bin": "fe68003d40530643bc1dba4db0a7b3d7997ce5a4f89bea3078c4580a80364c20"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "binary_sha256": {
+    ".local-inputs/ingame-menu-stack-v1/libmenu-stack-arm64.so": "4437eec3d7c042480fefcd30822c7be4dcb9d11bd77ce8f2d16a88beeb759ebe",
+    ".local-inputs/ingame-menu-stack-v1/menu_stack_audit": "a7b480f19f0addbbce7966f915ed3c76259b340b33b9fd38b40269193a5c396b"
+  },
+  "build_scripts_sha256": {
+    ".local-inputs/ingame-menu-stack-v1/run_host.sh": "d63308f45bd6f4789d0077beaeffefcaf052e2509dca1232208a967718a75e93",
+    ".local-inputs/ingame-menu-stack-v1/freeze.py": "2487bd3b65c30fb3e0e873080e2985b4817cae8654a686e4a45a457e98575127"
+  },
+  "production_translation_units": [
+    "port/engine-ui/menu_stack_v1.cpp",
+    "port/engine-ui/menu_stack_owner_v1.cpp"
+  ],
+  "host_test": {
+    "source": "port/engine-ui/tests/menu_stack_v1.cpp",
+    "arguments": [
+      "port/engine-ui/reference/menu-stack-v1/stack-fixtures.bin"
+    ],
+    "language": "C++17",
+    "link_libraries": [],
+    "compile_options": [
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-fno-fast-math",
+      "-ffp-contract=off"
+    ]
+  },
+  "arm64_build_command": "aarch64-linux-android23-clang++ -std=c++17 -O2 -shared -fPIC -static-libstdc++ -fno-fast-math -ffp-contract=off -Wl,-z,max-page-size=16384 -Wl,--pack-dyn-relocs=none port/engine-ui/menu_stack_v1.cpp -o .local-inputs/ingame-menu-stack-v1/libmenu-stack-arm64.so",
+  "arm64_compiler": "Android NDK 29.0.14206865",
+  "scope": {
+    "native_stack_kernel": true,
+    "owned_projection_storage": true,
+    "original_instruction_comparisons": 4800,
+    "ordered_services": 27099,
+    "real_swf_lifecycle": false,
+    "source_movie_factory": false,
+    "main_menu_ownership": false,
+    "live_menu_navigation": false,
+    "packaged_instruction_proof": false
+  },
+  "required_provider_operations": [
+    "MenuBase.IsValidMenu/Show/Hide/GotFocus/LostFocus/SetVisible",
+    "RenderFX.InvokeAS/PlayAnimation/SetFocusDefault",
+    "controller ResetFocus/SetFocus and direct projection synchronization",
+    "Debug Load/GetSwitch/messages",
+    "touch ResetTouch/ProcessEvents",
+    "manager listener map",
+    "conditional license check",
+    "genuine AS to_xstring and movie/resource loader"
+  ]
+}

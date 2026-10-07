@@ -1,0 +1,7 @@
+{
+  "call": "AnimSet.AddAnim Debug.load then GetSwitch, return ignored",
+  "string_address": "0x8cd850",
+  "name": "isTracingAnimSetManager",
+  "source_literal_word": "0x47667c",
+  "source_add_pc": "0x476618+8"
+}

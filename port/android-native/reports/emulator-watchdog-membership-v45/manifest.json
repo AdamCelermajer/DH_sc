@@ -1,0 +1,53 @@
+{
+  "status": "FROZEN_LAUNCH_READY_COMPONENT",
+  "watchdog_sha256": "a1e0007f2165ded04d0e4c594ba7b0c99f609016712d7c102091765f4b2fb018",
+  "tests": 41,
+  "memory_limits_unchanged": true,
+  "job_termination_api_and_scope_unchanged": true,
+  "metric_pass_bound": 3,
+  "membership_query_bound": 5,
+  "diagnostic_list_bound": 64,
+  "live_acceptance": "PENDING_NEXT_ROOT_AUTHORIZED_GUARDED_LAUNCH",
+  "files": {
+    "port/android-native/tools/emulator_watchdog_v36.py": {
+      "sha256": "a1e0007f2165ded04d0e4c594ba7b0c99f609016712d7c102091765f4b2fb018",
+      "bytes": 35893
+    },
+    "port/android-native/tools/tests/test_watchdog_membership_v45.py": {
+      "sha256": "4594f07f51852062e5d5b03b26209c27695bd3cca699b66c9d8acf3403e0917d",
+      "bytes": 9000
+    },
+    "port/android-native/tools/tests/test_watchdog_child_exit_v42.py": {
+      "sha256": "2eb6246b966012829690c7459219c6d6549cd7e1fb95b0377f71f4d553c22d86",
+      "bytes": 6361
+    },
+    "port/android-native/tools/tests/test_emulator_watchdog_v36.py": {
+      "sha256": "368bcc0c0e8a513e804603bd228feb8aeee34826ed8ff6d994ccae0fb405dcd1",
+      "bytes": 13518
+    },
+    "port/android-native/tools/freeze_watchdog_membership_v45.py": {
+      "sha256": "4225e9f2de218b96963e0c6595a294abf4b27925a462862f5f41a4cd88fd157d",
+      "bytes": 2465
+    },
+    "port/android-native/reports/emulator-watchdog-membership-v45/README.md": {
+      "sha256": "09cb961a943ac7c35850096c7f2d0621164a127b94e460988ccab8601a28ea83",
+      "bytes": 4207
+    },
+    "port/android-native/reports/emulator-watchdog-membership-v45/fixture-receipt.json": {
+      "sha256": "a76995d207eaadfc70fd9c4ed41740e3767cc239601d9e388c0c8b0ea11d35f7",
+      "bytes": 444
+    },
+    "port/android-native/reports/emulator-watchdog-membership-v45/prior-race-receipt.json": {
+      "sha256": "8f42ef6ac5956c04674a63a20cadc2d4f3a9171c14275ef17fe002c2c5e32d31",
+      "bytes": 408
+    },
+    "port/android-native/reports/emulator-watchdog-membership-v45/existing-protocol-receipt.json": {
+      "sha256": "ef67876722b974e853f0fdcb1569fabf3302ea014642132ef60a5503b7f3e653",
+      "bytes": 383
+    },
+    "port/android-native/reports/emulator-watchdog-membership-v45/captured-receipt-analysis.json": {
+      "sha256": "928a10986b1471e6e847c093b1edf9b1a840c8b18d7865101e13a94a061f23f0",
+      "bytes": 1403
+    }
+  }
+}

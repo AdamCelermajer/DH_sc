@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "scope": "Actual41 image names referenced by38 accepted authored FX resources; existing source View/Open/Decode bytes to modernRGBA GLES.164realuploads and82realGPUmipmap generations over2contexts, exactpixelreadback, actualoriginalsampler policy/readiness/cleanup. No live skill/event/damage acceptance.",
+  "apk_sha256": "8cf2fd13ba7cf75c3be781ba51fa571d4392810b8efb1bd51a16f92dfe6ed14a",
+  "sources": [
+    {
+      "path": "port\\engine-textures\\tests\\general_fx_texture_image_v2.cpp",
+      "sha256": "631bd8ff69532eab7df6d95cfa9b9a618fe503ce29b00b3bca6a396e0f2af679"
+    },
+    {
+      "path": "port\\engine-textures\\general_fx_texture_image_v2.cpp",
+      "sha256": "11b948496bb3e16e401b3d1bd0a482bd48e61f6b1c7828796599656572344503"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "2a8b8fdc9fcc69dfbe26d6b62a5c3b91f0db2fa132e4018f28e882172470d322"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "4f7affd60a5d892b4108a92fdb8a73e69acde804c06825f0c919aa09c55f3d9e"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "d6fc64dd5e6eb1b1829ffb6bd81be66535365f5ac628ff0ea84153dc951ffce5"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "dd78f961710a60a50f19887edc47b69c8b0232f2f3298d429011dab63720903d"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "c6d4f24bf139e0607334b263e4f86949c6ede9f7d3b4b2df4c15c764b1ed26e0"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "6c126a645bb030d5740e4a5cb53c6eb6b6d667f2804556e610cf45641aed6cec"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "4b9bad363acefdf0bce5489359724ef3c37a277f1b33e976a6d4e706319ce8d9",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\tests\\general_fx_texture_image_v2.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-textures\\general_fx_texture_image_v2.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\general-fx-texture-v2\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\general-fx-texture-v2\\linked-libs",
+    "-lEGL",
+    "-lGLESv2",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\general-fx-texture-v2\\general-fx-texture-v2.bin"
+  ],
+  "stdout": "PASS 3045 checks; actual_image_names 41; uploads 164; real_mip_generations 82; contexts2; live_actor=false\n",
+  "stderr": "",
+  "exit_code": 0
+}

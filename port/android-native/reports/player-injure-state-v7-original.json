@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "cases": 282,
+  "ordered_calls": 504,
+  "mismatches": 0,
+  "scope": "Original ARM SM_SetInjureState and optimized ARM64 V7 ordered differential.\nAnimation table, constant, stance and event dispatch are explicit fixtures;\nsource field writes, gate arithmetic and source instruction order execute.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "113d06c4e42ece8e1a281699a8ff742073c7524d3f68acbfb7a2649815532df8"
+}

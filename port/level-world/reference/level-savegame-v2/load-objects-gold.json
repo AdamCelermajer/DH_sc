@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "name": "Mob",
+      "missing": false,
+      "consume": 0,
+      "initializing": false,
+      "bytes": "010000001200000049676e6f726564536f75726365526f6c6500040000004d6f62000700000008000000000000000001020304050607",
+      "lookup": [
+        [
+          "name",
+          "Mob",
+          7,
+          0,
+          0
+        ]
+      ],
+      "loads": 1,
+      "cursor": 54
+    },
+    {
+      "name": "PlayerCharacter_0",
+      "missing": false,
+      "consume": 4,
+      "initializing": false,
+      "bytes": "010000001200000049676e6f726564536f75726365526f6c650012000000506c617965724368617261637465725f30000700000008000000000000000001020304050607",
+      "lookup": [
+        [
+          "player",
+          0,
+          1
+        ]
+      ],
+      "loads": 1,
+      "cursor": 68
+    },
+    {
+      "name": "Mob",
+      "missing": true,
+      "consume": 0,
+      "initializing": false,
+      "bytes": "010000001200000049676e6f726564536f75726365526f6c6500040000004d6f62000700000008000000000000000001020304050607",
+      "lookup": [
+        [
+          "name",
+          "Mob",
+          7,
+          0,
+          0
+        ]
+      ],
+      "loads": 0,
+      "cursor": 54
+    },
+    {
+      "name": "PlayerCharacter_0",
+      "missing": false,
+      "consume": 8,
+      "initializing": false,
+      "bytes": "010000001200000049676e6f726564536f75726365526f6c650012000000506c617965724368617261637465725f30000700000008000000000000000001020304050607",
+      "lookup": [
+        [
+          "player",
+          0,
+          1
+        ]
+      ],
+      "loads": 1,
+      "cursor": 68
+    },
+    {
+      "name": "Mob",
+      "missing": false,
+      "consume": 4,
+      "initializing": false,
+      "bytes": "010000001200000049676e6f726564536f75726365526f6c6500040000004d6f62000700000008000000000000000001020304050607",
+      "lookup": [
+        [
+          "name",
+          "Mob",
+          7,
+          0,
+          0
+        ]
+      ],
+      "loads": 1,
+      "cursor": 54
+    },
+    {
+      "name": "PlayerCharacter_0",
+      "missing": false,
+      "consume": 8,
+      "initializing": true,
+      "bytes": "010000001200000049676e6f726564536f75726365526f6c650012000000506c617965724368617261637465725f30000700000008000000000000000001020304050607",
+      "lookup": [],
+      "loads": 0,
+      "cursor": 0
+    }
+  ],
+  "scope": "Whole __LoadObjects461e90 and actual source CString decoder run. Canonical/PlayerManager lookup and actual receiver Load body are declared fixtures; original pointer identities and unbounded whole-stream cursor policy retained."
+}

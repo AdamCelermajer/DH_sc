@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "tests": 8,
+  "failures": 0,
+  "errors": 0,
+  "synthetic_wire_only": true,
+  "no_device_or_server_calls": true,
+  "parser_sha256": "547d778930307901740d6dc849a1379c9c34866483bc0360f2d29ea7aee8c4e3"
+}

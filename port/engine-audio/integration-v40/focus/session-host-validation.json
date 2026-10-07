@@ -1,0 +1,80 @@
+{
+  "runs": [
+    {
+      "optimization": "O1",
+      "mode": "success",
+      "exit_code": 0,
+      "output": "PASS 16 session checks; exact source init, control thread, independent close/join/drain/release"
+    },
+    {
+      "optimization": "O1",
+      "mode": "failed_close",
+      "exit_code": 0,
+      "output": "PASS 16 failed-close checks; producer returned, complete owner retained, no retry/new session"
+    },
+    {
+      "optimization": "O1",
+      "mode": "close_during_init",
+      "exit_code": 0,
+      "output": "PASS 8 initialization cancellation checks; no output owner opened and provider released after explicit producer drain"
+    },
+    {
+      "optimization": "O1",
+      "mode": "throw_read",
+      "exit_code": 0,
+      "output": "PASS 7 throwing-provider checks; no callback existed, failed initialization released session claim"
+    },
+    {
+      "optimization": "O1",
+      "mode": "failed_tick",
+      "exit_code": 0,
+      "output": "PASS 10 driver-failure checks; exact diagnostics, no retry, safe explicit close/join"
+    },
+    {
+      "optimization": "O2",
+      "mode": "success",
+      "exit_code": 0,
+      "output": "PASS 16 session checks; exact source init, control thread, independent close/join/drain/release"
+    },
+    {
+      "optimization": "O2",
+      "mode": "failed_close",
+      "exit_code": 0,
+      "output": "PASS 16 failed-close checks; producer returned, complete owner retained, no retry/new session"
+    },
+    {
+      "optimization": "O2",
+      "mode": "close_during_init",
+      "exit_code": 0,
+      "output": "PASS 8 initialization cancellation checks; no output owner opened and provider released after explicit producer drain"
+    },
+    {
+      "optimization": "O2",
+      "mode": "throw_read",
+      "exit_code": 0,
+      "output": "PASS 7 throwing-provider checks; no callback existed, failed initialization released session claim"
+    },
+    {
+      "optimization": "O2",
+      "mode": "failed_tick",
+      "exit_code": 0,
+      "output": "PASS 10 driver-failure checks; exact diagnostics, no retry, safe explicit close/join"
+    }
+  ],
+  "scope": "Borrowed fake output-control factory only; actual runtime parses exact original three assets. No AAudio/device/World-positive playback acceptance. Failed close runs in bounded child process and intentionally retains owner until process exit.",
+  "dependency_warning_boundary": "Existing frozen/parent dependencies retain host misleading-indentation suppression; owned production session separately compiled strictly for both Android ABIs.",
+  "source_sha256": {
+    "port/engine-audio/integration-v40/focus/audio_native_session_v40.cpp": "f10e9f74fcf2d9e12ab3eed71faf9188f6aa79a818da7c494a8a250a2af47a95",
+    "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.cpp": "67ea34a45610592d807c30b65ecfbbb3eb3915ae250c4b397a1c379973962512",
+    "port/engine-audio/integration-v40/focus/session-fixture.cpp": "858687a78eb836bddcc7c6259ce210734588a8fa7ff0cc6f209b055a3988ad2c",
+    "port/level-world/vox_play3d_owner_v2.cpp": "514d1e8efa7d860d9aacd0ce5244543b2737f5cceac9cb08b5dfbe0be3836bbc",
+    "port/engine-audio/audio_clock_v40.cpp": "02f7e96ad26e8f3dfb49b50195d6a08efbaf256f037b638b6dd796d6f5e63b71",
+    "port/engine-audio/audio_gameplay_runtime_v40.cpp": "6bed25a433331c723ebe5c99af02b073836a3966a2b28d6d1045260a1b883225",
+    "port/engine-audio/audio_source_bindings_v38.cpp": "032954bc02880ef6c023f5946f335d7b7baf37d63526982652db8869bb5850f6",
+    "port/engine-audio/audio_sample_v34.cpp": "7a31d0493ae300a23be3b269badc20c47d617d88ddd364f43b622a8d4636fd32",
+    "port/engine-audio/audio_mixer_v34.cpp": "f220ca05e94ef8a172e5cd5297168bb00d82a5aa1d571b617d6d7f555bba63c6",
+    "port/engine-audio/audio_catalog_v34.cpp": "7cf74934301d2d8b5cf4bdefd8d86c31a9078edd333b9889f22afd5c4fe1b5c0",
+    "port/engine-audio/audio_bank_v34.cpp": "0b045772219c8f8b76404614dd46412f6cb9d7e984bcc176edbea8436684226a",
+    "port/engine-audio/audio_native_envelope_v34.cpp": "9c62269d40d01521f91e4c74111d38d6dbba913f671d7fc4216c1fc18e87e31a"
+  }
+}

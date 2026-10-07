@@ -1,0 +1,19 @@
+--- a/port/android-native/app/src/main/cpp/character_panel_authored_v2.cpp
++++ b/port/android-native/app/src/main/cpp/character_panel_authored_v2.cpp
+@@
+- if(!p.active||!p.world_owner||!prepare(error)){if(error.empty())error="Authored panel requires current live profile";return false;}
++ if(source_uri){model_renderer::PlayerGameplayBinding actual;
++  if(!live_binding||!live_binding(actual,error)||actual.active||!actual.world_owner||
++     actual.world_owner.get()!=p.world_owner.get()||actual.world_owner.owner_before(p.world_owner)||p.world_owner.owner_before(actual.world_owner)||
++     actual.character!=p.character||actual.save!=p.save||actual.skills!=p.skills||actual.gear!=p.gear){
++   if(error.empty())error="Required genuine SAME source-loading selected profile";return false;
++  }
++ }
++ if((!source_uri&&!p.active)||!p.world_owner||!prepare(error)){if(error.empty())error="Authored panel requires current live profile";return false;}
+@@
+-   if(!live_binding(live,e)||!live.active||!live.world_owner){if(e.empty())e="Required genuine current selected Character for primary1 native query";return false;}
++   if(!live_binding(live,e)||!live.world_owner){if(e.empty())e="Required genuine current selected Character for primary1 native query";return false;}
+@@
+-   Borrow borrow(authored_player_,live);return dispatch(live,name,call,e);
++   Borrow borrow(authored_player_,live);
++   return live.active?dispatch(live,name,call,e):dispatch_source_loading_v98(live,name,call,e);
