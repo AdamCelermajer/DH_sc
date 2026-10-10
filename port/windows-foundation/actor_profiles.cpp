@@ -87,6 +87,15 @@ bool ActorProfileLibrary::load(const AssetCatalog& assets, const std::string& pa
         return true;
     } catch (const std::exception& exception) { error = exception.what(); return false; }
 }
+// P16 PROFILES: derived profiles (see features/spawn/actor_profile_derivation_v1.hpp).
+bool ActorProfileLibrary::add_derived(ActorProfile profile, std::string& error) {
+    if (profile.id.empty()) { error = "Derived actor profile needs an ID"; return false; }
+    if (profiles_.count(profile.id)) { error = "Actor profile already published: " + profile.id; return false; }
+    const auto id = profile.id;
+    profiles_.emplace(id, std::move(profile));
+    error.clear();
+    return true;
+}
 const ActorProfile* ActorProfileLibrary::find(const std::string& id) const noexcept {
     auto found = profiles_.find(id);
     return found == profiles_.end() ? nullptr : &found->second;
