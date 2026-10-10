@@ -3255,6 +3255,8 @@ int main(int argc,char** argv) {
         // P17 CONDITIONS -> TRANSITIONS: the exit zone gate (TriggerZoneExitLevel condition, IsAfter_*/IsBefore_*) reads the same
         // authored evaluator over the live quest state (unknown names are logged once by the evaluator).
         f::transitions::FunctionConditionSource transitionConditions([&](const std::string& name) {
+            if(options.activeConditions.count(name))return true;   // --condition-active (debug override, as the population gate)
+            if(options.inactiveConditions.count(name))return false;
             if(!authoredConditions) return false;
             bool value=false;std::string e;
             const auto world=questRuntime?f::conditions::world_from_quest_runtime(*questRuntime,conditionLevelRow):f::conditions::ConditionWorldV1{};
