@@ -229,8 +229,16 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             if (!skip.built) build_text_label(renderer, *config.assets, kSkipLabel, 22, LabelAnchor::right_bottom, w, h, skip);
             for (const auto& glyph : skip.sprites) overlay.drawSprite(glyph);
         } else if (flow.phase() == BootPhase::title) {
-            overlay.drawSprite(fit_sprite(w, h, int(splashImage.width), int(splashImage.height), 1.0f, splashTexture));
-            if (!title.built) build_text_label(renderer, *config.assets, kTouchToContinue, 28, LabelAnchor::center, w, h, title);
+            // B053: draw only the splash region of the atlas, stretched to 16:9 like the original.
+            {
+                const SplashLayout lay = splash_layout(w, h, int(splashImage.width), int(splashImage.height));
+                OverlaySprite s;
+                s.x = lay.x; s.y = lay.y; s.width = lay.width; s.height = lay.height;
+                s.u0 = lay.u0; s.v0 = lay.v0; s.u1 = lay.u1; s.v1 = lay.v1;
+                s.texture = splashTexture;
+                overlay.drawSprite(s);
+            }
+            if (!title.built) build_text_label(renderer, *config.assets, kTouchToContinue, std::max(14, int(std::lround(28.0 * double(h) / 720.0))), LabelAnchor::title_prompt, w, h, title);
             for (const auto& glyph : title.sprites) overlay.drawSprite(glyph);
         }
         overlay.end();

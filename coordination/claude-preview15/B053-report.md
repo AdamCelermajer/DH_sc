@@ -1,0 +1,9 @@
+# B053 title screen shows the raw atlas
+
+Evidence (video, `Dungeon Hunter 2 (v1.0.3) Part 1`, 0:36-0:45): the title frame is the splash picture filling the whole 16:9 frame, "TOUCH THE SCREEN TO CONTINUE" centred at about 58% of the height (above the logo), nothing else of the atlas. Also seen but NOT implemented: "(c) 2011 GAMELOFT" bottom-left and a small loading icon bottom-right.
+Reproduced (before, P15 EXE, shipped args, `--boot-press 6`, capture 7.5 s): `.local-inputs/claude-preview15/fix053/run/before-title.png` = whole 2048x1024 atlas drawn aspect-fit (picture top-left, rings/arrows/power icons/dots below).
+Root cause: `splash_final*.tga` is a 2048x1024 atlas; the picture is the top-left 1280x752 (pixel scan; art ends at x=1280, y=752). `boot_runner_v1.cpp` drew the whole texture. menu_splash flash data is not in the cache, so the region comes from the pixel scan, not IDA (IDA only confirms GSInit selects the texture and menu_splash; GSInit::Update ~line 99547 of pseudocode-all.c).
+Change: `splash_layout()` (boot_flow_v1.hpp) = UV region 1280x752 with half-texel inset, drawn over the largest centred 16:9 rect (the original stretched to the screen); prompt uses new `LabelAnchor::title_prompt` (baseline 58% h), size scaled with window height (28 at 720).
+Tests: boot_flow_v1_tests (layout 16:9 fill, square and ultrawide letterbox, UV never reaches the atlas below). ctest: only session_skill_binding fails (known) and winmm_pump_priority_v1 (0xc0000135 missing DLL because my shell lacked the toolchain PATH; unrelated).
+After (fix EXE, same job): `after-title.png` full-window splash + prompt only; `after-menu.png` main menu still renders after the title press (job exit 0, `Boot outcome=0`).
+Remaining gaps: copyright line and loading icon not drawn; prompt fade/blink timing not matched; 1920x1080 only checked. Package files required: none (code only).

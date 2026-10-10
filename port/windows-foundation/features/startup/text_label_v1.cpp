@@ -51,7 +51,7 @@ void build_text_label(Renderer& renderer, const AssetCatalog& assets, const char
         return;
     }
     const bool right = anchor == LabelAnchor::right_bottom;
-    const float baseline = right ? float(h) * 0.92f : float(h) * 0.86f;
+    const float baseline = right ? float(h) * 0.92f : anchor == LabelAnchor::title_prompt ? float(h) * 0.58f : float(h) * 0.86f;
     const float x0 = right ? float(w) * 0.96f - run.advance : (float(w) - run.advance) * 0.5f;
     append_run(renderer, run, x0, baseline, {1, 1, 1, 1}, label);
 }
