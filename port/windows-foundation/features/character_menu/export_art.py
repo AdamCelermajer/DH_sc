@@ -201,6 +201,6 @@ for name,action in [('btnCharacterSheet','stats'),('btnInventoryTab','equipment'
     zones.append('{Action::'+action+','+json.dumps(name)+',{'+','.join(numbers(v) for v in zone_vertices)+'}}')
 lines.append('const std::vector<MenuHitZone>& original_menu_hit_zones(){static const std::vector<MenuHitZone> zones{'+','.join(zones)+'};return zones;}')
 lines.append('}')
-Path(__file__).with_name('original_art.cpp').write_text('\n'.join(lines)+'\n')
+raise SystemExit('export_art.py: regeneration of original_art.cpp is disabled: the shared hit-only style reader drops solid batches and empties quest/tab hit zones (see coordination/claude-preview16/QUESTUI-report.md). Splice by hand.')
 Path(__file__).with_name('source_layout.json').write_text(json.dumps({'source':str(path.relative_to(ROOT)),'sha256':hashlib.sha256(raw).hexdigest(),'frame_policy':'actual source defaultStats328+386; selected main tab icon sampled at frame32 for Stats/Inventory/Skills/Faery (full source alpha); Faery page art/content comes from its independent provider; source stat-training sprite316 frame10 when resolved Stat_Points property148 is zero; otherwise idle frame0; detail/resistance named frames retained; other AS dynamics unavailable','viewport':'actualFlashCamera mode0 independentaxisstretch; nofitletterbox','mask_applications':mask_applications,'excluded':skipped},indent=2))
 print('generated original art',len(lines),'lines; unsupported branches',len(skipped))
