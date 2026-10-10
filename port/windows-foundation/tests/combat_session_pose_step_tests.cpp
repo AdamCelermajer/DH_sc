@@ -60,6 +60,7 @@ void run(const char* root,bool retained){
           entries[0].step==0&&entries[0].container_path.empty()&&entries[0].leaf_path==std::vector<std::size_t>{0}&&
           !entries[0].binding_lease.expired()&&!entries[0].audio_clock,
           "Actual Injured leaf did not publish its source row/lease or invented an audio clock");
+    check(entries[0].role==CombatSessionStepRole::hurt,"Injured leaf step lacks the hurt cue role");
     check(session.step_entry_diagnostics().size()==1,"Presentation exception vetoed/lost its diagnostic");
     const auto after=session.world()->random_state();
     check(session.apply_source_result(hit,receipt,error)&&!receipt.applied&&entries.size()==1,error);
@@ -98,6 +99,7 @@ void run(const char* root,bool retained){
     check(session.apply_source_result(hit,receipt,error)&&receipt.target_died,error);
     check(entries.size()==prior+2&&entries.back().sequence_id==374&&entries.back().step==0&&
           !entries.back().audio_clock,"Death leaf step entry missing or retained an expired frame clock");
+    check(entries.back().role==CombatSessionStepRole::death,"Died leaf step lacks the death cue role");
     const auto deadCount=entries.size();
     check(session.update(5,input,{0,0,0},0,error),error);
     check(session.update(0,input,{0,0,0},0,error)&&entries.size()==deadCount,"Death terminal hold replayed step entry");

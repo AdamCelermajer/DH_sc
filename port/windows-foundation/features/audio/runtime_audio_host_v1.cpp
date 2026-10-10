@@ -220,6 +220,13 @@ std::int32_t RuntimeAudioHostV1::source_ordinal(const char* name) const noexcept
     return runtime?runtime->bindings().source_id(name):-1;
 }
 
+std::int32_t RuntimeAudioHostV1::source_uid(std::int32_t ordinal) const noexcept {
+    if(!session_)return -1;
+    auto* runtime=session_->runtime_on_producer();
+    const auto* row=runtime?runtime->bindings().row(ordinal):nullptr;
+    return row?row->uid:-1;
+}
+
 bool RuntimeAudioHostV1::play_level_music(std::int32_t ordinal,int fade_ms,LevelMusicActionV1& action,std::string& error) {
     auto* runtime=session_?session_->runtime_on_producer():nullptr;
     action=LevelMusicActionV1::unchanged;

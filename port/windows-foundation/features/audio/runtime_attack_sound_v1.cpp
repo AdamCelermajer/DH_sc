@@ -77,7 +77,7 @@ void RuntimeAttackSoundV1::dispatch(const CombatSessionStepEntry& event) {
     RuntimeAttackSoundDiagnosticV1 diagnostic;
     diagnostic.actor=event.actor;diagnostic.occurrence=event.occurrence;
     diagnostic.update_serial=event.update_serial;diagnostic.sequence_id=event.sequence_id;
-    diagnostic.step=event.step;
+    diagnostic.step=event.step;diagnostic.role=event.role;
     auto finish=[&](RuntimeAttackSoundStatusV1 status,std::string detail={}) {
         diagnostic.status=status;diagnostic.detail=std::move(detail);report(diagnostic);
     };
