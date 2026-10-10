@@ -382,6 +382,13 @@ target_link_libraries(world_gate_v1_tests PRIVATE foundation_world_gates)
 add_test(NAME world_gate_v1 COMMAND world_gate_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
 target_link_libraries(foundation_world_gates PUBLIC foundation_conditions foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_world_gates)
+# P17 DOORS: Door visuals, Script_OpenDoor/CloseDoor, TriggerObject levers and gated AnimatedDecor (features/doors).
+add_library(foundation_doors STATIC
+  features/doors/door_runtime_v1.cpp features/doors/world_objects_v1.cpp
+  features/doors/door_world_v1.cpp features/doors/door_commands_v1.cpp)
+target_link_libraries(foundation_doors PUBLIC foundation_containers foundation_world_gates foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_doors)
+# End Preview 17 doors.
 # End Preview 17 world gates.
 
 enable_testing()

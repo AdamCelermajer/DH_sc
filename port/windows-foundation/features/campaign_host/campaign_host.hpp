@@ -48,6 +48,9 @@ struct CampaignHostServices {
     // P16 CINE2: resolves a PlayCamera dictionary id to clip bytes, the level camera scene bytes and the path
     // (main binds CameraClipLibrary).
     std::function<bool(std::int32_t,std::vector<std::uint8_t>&,std::vector<std::uint8_t>&,std::string&,std::string&)> read_camera_clip;
+    // P17 DOORS: Script_OpenDoor / Script_CloseDoor (kinds 54/55) through the existing routes.doors slot.
+    // Unset = pass-through (no door owner bound), as before.
+    std::function<bool(CampaignCommandPhase,const OriginalCampaignCommand&,int module,bool skip,bool& handled,bool& blocking,std::string&)> doors;
 };
 
 class CampaignHost {

@@ -212,8 +212,10 @@ bool CampaignHost::bind_executor(OriginalCampaignRuntime& runtime, OriginalCampa
     routes.cinematics = [](CampaignCommandPhase, const OriginalCampaignCommand&, int, bool, bool& handled, bool& blocking, std::string&) {
         handled = false; blocking = false; return true;
     };
-    routes.doors = [](CampaignCommandPhase, const OriginalCampaignCommand&, int, bool, bool& handled, bool& blocking, std::string&) {
-        handled = false; blocking = false; return true;
+    routes.doors = [this](CampaignCommandPhase phase, const OriginalCampaignCommand& c, int module, bool skip, bool& handled, bool& blocking, std::string& e) {
+        // P17 DOORS: the door owner answers Script_OpenDoor/CloseDoor; without an owner the command passes through.
+        if (!services_.doors) { handled = false; blocking = false; return true; }
+        return services_.doors(phase, c, module, skip, handled, blocking, e);
     };
     routes.audio = [](CampaignCommandPhase, const OriginalCampaignCommand&, bool, std::int64_t, bool& handled, bool& blocking, std::string&) {
         handled = false; blocking = false; return true;
