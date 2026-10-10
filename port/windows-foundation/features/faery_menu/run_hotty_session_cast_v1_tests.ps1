@@ -118,6 +118,7 @@ $sources = @(
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_mana_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_cast_prepare_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_cast_coordinator_v1.cpp'),
+    (Join-Path $root 'port\windows-foundation\features\generic_skills\pc_cooldown_frame_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_animation_bank_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_target_query_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_progression_v1.cpp'),

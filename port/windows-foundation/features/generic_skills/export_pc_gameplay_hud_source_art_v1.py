@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import runpy
+import sys
 import struct
 import zlib
 from pathlib import Path
@@ -10,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[4]
 SOURCE = ROOT / "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_droid.swf"
 OUTPUT = Path(__file__).with_name("pc_gameplay_hud_source_art_v1.cpp")
+BUTTON_OUTPUT = Path(__file__).with_name("pc_gameplay_hud_button_art_v1.cpp")
 DECODER = ROOT / "port/windows-foundation/tools/export_hud_geometry.py"
 
 
@@ -116,7 +118,13 @@ def main() -> None:
         "} // namespace dh::foundation::generic_skills",
     ]
     OUTPUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    # HUDBTN: original skill/spell/potion button rings, grey overlay and CoolDown frames.
+    sys.path.insert(0, str(Path(__file__).parent))
+    from export_pc_gameplay_button_art_v1 import write_button_art
+    button_summary = write_button_art(swf, sprites, shape_tags, BUTTON_OUTPUT)
     print(json.dumps({
+        "button_output": str(BUTTON_OUTPUT),
+        "button_summary": button_summary,
         "source": str(SOURCE),
         "source_sha256": __import__("hashlib").sha256(raw).hexdigest(),
         "faery_frames": len(frame_rows),

@@ -156,7 +156,7 @@ def triangulate(contour):
     return result
 
 
-def read_bitmap_styles(data, at, shape_id):
+def read_bitmap_styles(data, at, shape_id, shape_code=2):
     count = data[at]
     at += 1
     if count == 255:
@@ -166,6 +166,13 @@ def read_bitmap_styles(data, at, shape_id):
     for _ in range(count):
         kind = data[at]
         at += 1
+        if kind == 0x00:
+            # Solid fill: DefineShape/2 carries RGB, DefineShape3/4 carries RGBA.
+            width = 4 if shape_code in (32, 83) else 3
+            rgba = list(data[at:at+width]) + ([255] if width == 3 else [])
+            at += width
+            styles.append({"kind":0,"rgba":[c/255.0 for c in rgba]})
+            continue
         if kind not in (0x40, 0x41, 0x42, 0x43):
             raise ValueError(f"Shape {shape_id}: unsupported fill {kind}")
         bitmap = struct.unpack_from("<H", data, at)[0]
@@ -198,7 +205,7 @@ def contour_inside(inner, outer):
 def parse_shape(code, data):
     shape_id = struct.unpack_from("<H", data)[0]
     bounds, at = rect(data, 2)
-    styles, at = read_bitmap_styles(data,at,shape_id)
+    styles, at = read_bitmap_styles(data,at,shape_id,code)
     r = Bits(data, at)
     fill_bits, line_bits = r.u(4), r.u(4)
     x = y = fill0 = fill1 = 0
@@ -226,7 +233,7 @@ def parse_shape(code, data):
             if flags & 16:
                 # Same fill_base rule as original GameSWF shape.cpp1245.
                 fill_base = len(styles)
-                added, next_at = read_bitmap_styles(data,r.end(),shape_id)
+                added, next_at = read_bitmap_styles(data,r.end(),shape_id,code)
                 styles.extend(added)
                 r = Bits(data,next_at)
                 fill_bits,line_bits = r.u(4),r.u(4)
@@ -257,6 +264,7 @@ def parse_shape(code, data):
             raise ValueError("Unexpected fill index")
     contours = []
     triangles = []
+    solid_triangles = []
     for fill, segments in sorted(edges.items()):
         fill_contours = []
         while segments:
@@ -277,6 +285,12 @@ def parse_shape(code, data):
         else:
             vertices = triangulate(fill_contours[0])
         contours.extend(fill_contours)
+        if styles[fill-1]["kind"] == 0:
+            # Solid fill: no atlas UVs; the caller tints the white texel with rgba.
+            solid_rgba = styles[fill-1]["rgba"]
+            for x,y in vertices:
+                solid_triangles.append([x,y]+solid_rgba)
+            continue
         a,b,c,d,tx,ty = styles[fill-1]["matrix_twips"]
         determinant = a*d-b*c
         if abs(determinant) < 1e-12:
@@ -287,9 +301,9 @@ def parse_shape(code, data):
             if not (0 <= u <= 1 and 0 <= v <= 1):
                 raise ValueError("Original contour outside supplied atlas")
             triangles.append([x,y,u,v])
-    return {"shape_id":shape_id,"role":ROLES[shape_id],"bounds_twips":bounds,
+    return {"shape_id":shape_id,"role":ROLES.get(shape_id,f"shape_{shape_id}"),"bounds_twips":bounds,
             "fill_records":styles,"source_commands":commands,
-            "contours_twips":contours,"triangles":triangles}
+            "contours_twips":contours,"triangles":triangles,"solid_triangles":solid_triangles}
 
 
 def parse_timeline(data, at=0):

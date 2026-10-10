@@ -176,6 +176,9 @@ public:
     bool checkpoint_v1(CombatSession&, std::string& error) const;
     RuntimeSkillCastReceiptV1* receipt(ActorId) noexcept;
     const RuntimeSkillCastReceiptV1* receipt(ActorId) const noexcept;
+    // Remaining fraction (1 at cast, 0 ready) of the active source SetSkillCooldown
+    // timer for one actor/skill row; 0 when no timer is active. HUD-only read.
+    double skill_cooldown_remaining_fraction_v1(ActorId, int skill_table_id) const noexcept;
 
 private:
     // Lower-level implementation. Production callers must use
@@ -235,6 +238,9 @@ private:
     bool timer_clock_bound_ = false;
     std::weak_ptr<const void> timer_binding_lease_;
     std::map<std::pair<ActorId, int>, double> skill_ready_at_ms_;
+    // Same keys as skill_ready_at_ms_: the authored SetSkillCooldown duration,
+    // so the HUD can show the remaining fraction (HUDBTN).
+    std::map<std::pair<ActorId, int>, double> skill_cooldown_total_ms_;
     std::map<ActorId, faery_menu::HottyCooldownClockV1*> faery_cooldown_clocks_;
     // P15 FAERYSOUND (B050): optional Pre sound sink (see set_faery_pre_sound_sink).
     RuntimeSkillFaeryPreSoundSinkV1 faery_pre_sound_sink_;
