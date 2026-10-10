@@ -19,7 +19,8 @@ ContextButtonDecisionV1 decide_context_button_v1(const ContextButtonInputV1& in)
         return out;
     }
 
-    const bool combat = in.object_type == combat_type_v1;
+    // A destructible container (non-actor type 8) is not a combat OOI: the press hits it once.
+    const bool combat = in.object_type == combat_type_v1 && in.object_is_actor;
     // Source UseOOI gate: no current attack target, and the state is idle or moving.
     const bool use_gate_open = !in.owner_has_attack_target && in.owner_idle_or_moving;
 

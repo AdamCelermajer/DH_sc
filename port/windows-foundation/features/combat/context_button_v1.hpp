@@ -24,6 +24,9 @@ struct ContextButtonInputV1 {
     int object_type = -1;               // cached OOI type (Character+0x14a8)
     bool owner_has_attack_target = false;   // Character+1032 != 0 (UseOOI gate)
     bool owner_idle_or_moving = true;       // SM_IsIdle || SM_IsMoving (UseOOI gate)
+    // P16 SPACEBTN: false for non-actor objects (barrels are type 8 but are not enemies). A non-actor
+    // type 8 is a destructible: one hit per press edge, never a held melee. Default true = actor.
+    bool object_is_actor = true;
 };
 
 struct ContextButtonDecisionV1 {

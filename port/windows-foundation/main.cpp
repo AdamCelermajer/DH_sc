@@ -2744,6 +2744,18 @@ int main(int argc,char** argv) {
             std::cout<<"Quest talk npc row="<<bestRow<<" distance="<<bestDistance<<" level="<<questLevelRow<<'\n';
             f::quest_runtime::raise_quest_event(talk);
         };
+        // P16 SPACEBTN: talk to the NPC the context button selected (object of interest). Same TalkToNPC event as talkNearestNpc.
+        const auto talkToNpcObject=[&](f::ActorId id) -> bool {
+            if(!questRuntime)return false;
+            const auto identity=questActorIdentity.find(id);
+            if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))return false;
+            f::quest_runtime::QuestEvent talk;
+            talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+            talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
+            std::cout<<"Context talk npc row="<<talk.object_id<<" id="<<id<<" level="<<questLevelRow<<'\n';
+            f::quest_runtime::raise_quest_event(talk);
+            return true;
+        };
         // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
         const auto raiseQuestZones=[&]() {
             if(!questRuntime||!combatSession||questZones.zones().empty())return;
@@ -3586,15 +3598,27 @@ int main(int argc,char** argv) {
                 ctxInput.object_present=objectOfInterest.object()!=f::invalid_actor_id;ctxInput.object_type=objectOfInterest.interaction_type();
                 ctxInput.owner_has_attack_target=ctxOwner->target_id!=f::invalid_actor_id;
                 ctxInput.owner_idle_or_moving=ctxOwner->action==f::CharacterAction::idle||ctxOwner->action==f::CharacterAction::moving;
+                ctxInput.object_is_actor=combatSession->actor(objectOfInterest.object())!=nullptr; // P16 SPACEBTN
                 const auto ctxDecision=f::decide_context_button_v1(ctxInput);
                 if(!ctxDecision.attack_held)gameplayInput.attack=false;
                 if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest) {
                     const auto ooi=objectOfInterest.object();
-                    if(combatSession->actor(ooi)) { // actor OOI: source AI_SetTarget(OOI, 0)
+                    const bool ooiIsActor=combatSession->actor(ooi)!=nullptr;
+                    if(ooiIsActor) { // actor OOI: source AI_SetTarget(OOI, 0)
                         std::string ctxError;
                         if(!combatSession->set_source_target(combatSession->player_id(),ooi,false,ctxError))throw std::runtime_error("Context button target: "+ctxError);
+                    } else { // P16 SPACEBTN: non-actor OOI. Containers: Container::Interact (open or destructible hit); NPCs: talk.
+                        std::size_t containerIndex=0;bool isContainer=false;
+                        for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==ooi){containerIndex=ci;isContainer=true;break;}
+                        if(isContainer) {
+                            float p[3]={0,0,0};
+                            if(const auto* live=combatSession->actor(combatSession->player_id())){p[0]=live->transform.position[0];p[1]=live->transform.position[1];p[2]=live->transform.position[2];}
+                            const auto r=containerRuntime.interact(containerIndex,p);
+                            std::cout<<"Context container declaration="<<containerRuntime.instance(containerIndex).name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';
+                        } else if(!talkToNpcObject(ooi))
+                            std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
                     }
-                    std::cout<<"Context button frame="<<drawn<<" ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" use="<<ctxDecision.use_object_of_interest<<" actor="<<(combatSession->actor(ooi)!=nullptr)<<'\n';
+                    std::cout<<"Context button frame="<<drawn<<" ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" use="<<ctxDecision.use_object_of_interest<<" actor="<<ooiIsActor<<'\n';
                 }
             }
             gameplayInput.attack=gameplayInput.attack||(drawn>=options.attackStartFrame&&std::int64_t(drawn)<std::int64_t(options.attackStartFrame)+options.attackFrames);gameplayInput.targetSelect=gameplayInput.targetSelect||drawn==options.targetFrame;
@@ -3845,6 +3869,32 @@ int main(int argc,char** argv) {
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
+                // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
+                // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)
+                // and talk NPCs (type 3, Character so they queue with the characters, as in the source flag order).
+                {
+                    interactables.clear();
+                    for(std::size_t ci=0;ci<containerRuntime.size();++ci) {
+                        const auto& inst=containerRuntime.instance(ci);
+                        if(inst.stableId==0)continue;
+                        f::InteractableEntryV1 entry;entry.id=inst.stableId;entry.is_character=false;
+                        entry.position={inst.transform[12],inst.transform[13],inst.transform[14]};entry.radius=0.f;
+                        entry.provider.interaction_type=[&containerRuntime,ci](f::ActorId) -> int {
+                            if(containerRuntime.interaction_type(ci)==8&&containerRuntime.state(ci)==f::containers::kContainerStateOpened)return -1;
+                            return containerRuntime.interaction_type(ci);
+                        };
+                        std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable container: "+regError);
+                    }
+                    if(questRuntime&&combatSession&&!questTalkOids.empty()) // P16 SPACEBTN: talk NPCs as type-3 candidates
+                        for(const auto& placed:population.actors()) {
+                            const auto identity=questActorIdentity.find(placed.definition.stableId);
+                            if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))continue;
+                            f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
+                            entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
+                            entry.provider.interaction_type=[](f::ActorId) -> int { return 3; }; // source Character::GetInteractionType: friendly NPC
+                            std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable NPC: "+regError);
+                        }
+                }
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
                 if(!gameplayPaused&&combatSession) { // P16 CONTEXT: HUD action-button frame from the cached OOI type (MenuManager 0x42eab4)
                     const int icon=f::action_button_icon_v1(objectOfInterest.interaction_type());
@@ -3867,7 +3917,8 @@ int main(int argc,char** argv) {
                 if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
                 if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
                 // P16 QUESTUI: NPC talk on the interact press edge (--quest-talk-frame is a scripted press for tests).
-                const bool questTalkPressed=uiInput.actions.interact||std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();
+                // P16 SPACEBTN: NPC talk is the Space context button now (E no longer talks); this scripted press stays for tests.
+                const bool questTalkPressed=std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();
                 if(!gameplayPaused&&questTalkPressed&&!questTalkHeld) talkNearestNpc();
                 questTalkHeld=questTalkPressed;
                 // P16 QUESTS test aid: frame-scheduled bus events (--quest-debug-kill / --quest-debug-accept).
