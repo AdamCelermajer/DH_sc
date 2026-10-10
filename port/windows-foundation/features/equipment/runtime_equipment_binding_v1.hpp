@@ -105,6 +105,10 @@ public:
     // Consumes RuntimeEquipmentPage's typed request_auto_equip command through
     // the existing dh2_equipment_auto_v3/EquipmentAdapter kernel.
     bool auto_equip(const std::string& instance_id, std::string& error);
+    // Original NativeInvAutoEquipSlot(slot) / NativeInvAutoEquipSlot(-1): per-slot best-item auto-equip
+    // and the whole-sheet ALL button. Same render/appearance refresh as the other mutations.
+    bool auto_equip_slot(unsigned source_slot, std::string& error);
+    bool auto_equip_all(std::string& error);
     bool unequip(unsigned source_slot, std::string& error);
 
     // Call after CombatSession samples/advances its live player visual. The

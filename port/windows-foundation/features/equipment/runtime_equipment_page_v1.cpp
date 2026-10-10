@@ -109,6 +109,11 @@ bool RuntimeEquipmentPageV1::release(float x, float y, RuntimeEquipmentPageRelea
     output = {};
     if (!ready(error)) return false;
     if (!impl_->page->release(x, y, output.command, error)) return false;
+    if (output.command == MainPageCommand::request_auto_equip_all) {
+        // NativeInvAutoEquipSlot(-1) acts on the whole sheet; it needs no selected item or slot.
+        output.has_pending_command = true;
+        output.pending_command = {output.command, std::string(), 10};
+    }
     if (output.command == MainPageCommand::request_drop ||
         output.command == MainPageCommand::request_auto_equip ||
         output.command == MainPageCommand::request_transmute) {

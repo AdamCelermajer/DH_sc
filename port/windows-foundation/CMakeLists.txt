@@ -623,6 +623,16 @@ add_test(NAME player_profile_properties COMMAND player_profile_properties_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
   "${CMAKE_CURRENT_BINARY_DIR}")
 
+# P14 EQUIP: adapter (equip/auto-equip/class gate/ordering) and main-page (ALL banner/Details commands) tests.
+add_executable(equipment_adapter_tests features/equipment/equipment_adapter_tests.cpp)
+target_link_libraries(equipment_adapter_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_adapter COMMAND equipment_adapter_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+add_executable(equipment_main_page_tests features/equipment/equipment_main_page_tests.cpp)
+target_link_libraries(equipment_main_page_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_main_page COMMAND equipment_main_page_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+
 add_executable(combat_session_equipment_multiplicity_tests tests/combat_session_equipment_multiplicity_tests.cpp)
 target_link_libraries(combat_session_equipment_multiplicity_tests PRIVATE foundation_data)
 add_test(NAME combat_session_equipment_multiplicity COMMAND combat_session_equipment_multiplicity_tests

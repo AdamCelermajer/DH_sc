@@ -3,6 +3,37 @@
 #include <utility>
 
 namespace dh::foundation::equipment_menu {
+namespace {
+bool inside(const std::vector<HudGeometryVertex>& triangles, float x, float y) {
+    auto edge = [](const auto& a, const auto& b, float px, float py) { return (b.x - a.x) * (py - a.y) - (b.y - a.y) * (px - a.x); };
+    for (std::size_t i = 0; i + 2 < triangles.size(); i += 3) {
+        const auto& a = triangles[i]; const auto& b = triangles[i + 1]; const auto& c = triangles[i + 2];
+        if (std::abs(edge(a, b, c.x, c.y)) < 1e-6f) continue;
+        const auto aa = edge(a, b, x, y), bb = edge(b, c, x, y), cc = edge(c, a, x, y);
+        if ((aa >= 0 && bb >= 0 && cc >= 0) || (aa <= 0 && bb <= 0 && cc <= 0)) return true;
+    }
+    return false;
+}
+// btn_GAMEPLAYMENUS_AUTOEQUIP_ALL is a MovieClip button whose hit area is its authored banner art.
+bool auto_equip_all_hit(float x, float y) {
+    const std::string prefix = "menu_InventorySheetMain/btn_GAMEPLAYMENUS_AUTOEQUIP_ALL/";
+    for (const auto& batch : character_menu::original_menu_art(character_menu::Tab::equipment).batches)
+        if (batch.role.compare(0, prefix.size(), prefix) == 0 && inside(batch.triangles, x, y)) return true;
+    return false;
+}
+}
+
+std::string describe_equipment(const CharacterState& character) {
+    std::string text;
+    for (const auto& binding : character.equipment) {
+        std::string definition = "?";
+        for (const auto& item : character.inventory)
+            if (item.instance_id == binding.item_instance_id) definition = item.definition_id;
+        if (!text.empty()) text += ' ';
+        text += "slot" + std::to_string(binding.source_slot) + "=" + definition + "/" + binding.item_instance_id;
+    }
+    return text.empty() ? std::string("(nothing equipped)") : text;
+}
 
 MainPage::MainPage(Presenter& equipment, inventory::MenuPresenter& inventory,
                    inventory::DetailsPresenter& details,
@@ -114,6 +145,11 @@ bool MainPage::release(float x, float y, MainPageCommand& command, std::string& 
 
     const unsigned equipment_slot = equipment_.hit_test(x, y);
     if (equipment_slot < 9) return details_.open(equipment_slot, error);
+    if (auto_equip_all_hit(x, y)) {
+        command = MainPageCommand::request_auto_equip_all;
+        error.clear();
+        return true;
+    }
 
     const auto inventory_slot = inventory_.hit_slot(x, y);
     if (inventory_slot < 0 || inventory_slot > 9) {

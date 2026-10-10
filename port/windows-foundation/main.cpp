@@ -2409,10 +2409,15 @@ int main(int argc,char** argv) {
                     if(runtimeEquipmentPage) {
                         f::equipment_menu::RuntimeEquipmentPageReleaseV1::PendingCommand pending;
                         if(runtimeEquipmentPage->take_source_pending_command(pending,error)) {
+                            // P14 EQUIP: original NativeInvAutoEquipSlot(slot) for the Details button and NativeInvAutoEquipSlot(-1) for the ALL banner.
                             if(pending.command==f::equipment_menu::MainPageCommand::request_auto_equip) {
-                                if(!runtimeEquipment->auto_equip(pending.selected_instance_id,error))
+                                if(!runtimeEquipment->auto_equip_slot(pending.source_slot,error))
                                     std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
-                                else std::cout<<"Equipment AutoEquip instance="<<pending.selected_instance_id<<" slot="<<pending.source_slot<<'\n';
+                                else std::cout<<"Equipment AutoEquip slot="<<pending.source_slot<<" -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
+                            } else if(pending.command==f::equipment_menu::MainPageCommand::request_auto_equip_all) {
+                                if(!runtimeEquipment->auto_equip_all(error))
+                                    std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
+                                else std::cout<<"Equipment AutoEquip ALL -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
                             } else std::cerr<<"Equipment action requires a gameplay owner: command="<<static_cast<int>(pending.command)<<" instance="<<pending.selected_instance_id<<'\n';
                         } else if(!error.empty())throw std::runtime_error(error);
                         f::equipment_menu::RuntimeEquipmentRenderChangeV1 changed;

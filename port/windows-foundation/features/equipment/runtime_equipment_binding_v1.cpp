@@ -285,6 +285,11 @@ bool RuntimeEquipmentBindingV1::bind(CombatSession& session, CharacterState& cha
         adapter_options.dual_wield = next->options.dual_wield;
         adapter_options.one_hand_two_hander = next->options.one_hand_two_hander;
         adapter_options.powers = std::move(next->options.powers);
+        // SortByValueAndClass name tie-break uses the same localized ItemName provider as the menu rows.
+        adapter_options.item_name = [state = next.get()](const InventoryItem& i, const dh2::data::Item& d,
+                std::string& name, std::string& e) {
+            return state->options.menu.item_name ? state->options.menu.item_name(i, d, name, e) : true;
+        };
         adapter_options.assets = &weapon_assets;
         adapter_options.body = next->visual;
         adapter_options.attachments = &next->attachments;
@@ -299,6 +304,8 @@ bool RuntimeEquipmentBindingV1::bind(CombatSession& session, CharacterState& cha
         next->adapter = std::make_unique<EquipmentAdapter>(character, *next->actor, *next->combat,
             next->items, database, std::move(adapter_options));
         next->options.menu.slots = next->options.slots;
+        // IsEquippableBy class gate: only a source CharacterTable class row (legacy profiles are unrestricted).
+        if (actor_names_source_profile) next->options.menu.player_class_id = next->actor->definition_id;
         next->options.menu.online_requirements_bypass = next->options.online_requirements_bypass;
         next->presenter = std::make_unique<Presenter>(character, next->items,
             next->combat->sheets, *next->adapter, next->options.menu);
@@ -402,6 +409,20 @@ bool RuntimeEquipmentBindingV1::equip_to_slot(const std::string& id, unsigned sl
 bool RuntimeEquipmentBindingV1::auto_equip(const std::string& id, std::string& error) {
     if (!ready(error)) return false;
     if (!impl_->adapter->auto_equip(id, error)) return false;
+    ++impl_->render_revision; impl_->render_change_pending = true;
+    if (!impl_->refresh_source_appearance(error)) return false;
+    error.clear(); return true;
+}
+bool RuntimeEquipmentBindingV1::auto_equip_slot(unsigned slot, std::string& error) {
+    if (!ready(error)) return false;
+    if (!impl_->adapter->auto_equip_slot(slot, error)) return false;
+    ++impl_->render_revision; impl_->render_change_pending = true;
+    if (!impl_->refresh_source_appearance(error)) return false;
+    error.clear(); return true;
+}
+bool RuntimeEquipmentBindingV1::auto_equip_all(std::string& error) {
+    if (!ready(error)) return false;
+    if (!impl_->adapter->auto_equip_all(error)) return false;
     ++impl_->render_revision; impl_->render_change_pending = true;
     if (!impl_->refresh_source_appearance(error)) return false;
     error.clear(); return true;

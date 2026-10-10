@@ -12,9 +12,15 @@ enum class MainPageCommand {
     equipped,
     unequipped,
     request_drop,
+    // Details btn_AutoEquip: NativeInvAutoEquipSlot(selected slot).
     request_auto_equip,
-    request_transmute
+    request_transmute,
+    // Main sheet btn_GAMEPLAYMENUS_AUTOEQUIP_ALL: NativeInvAutoEquipSlot(-1).
+    request_auto_equip_all
 };
+
+// One-line log description of the active equipment bindings: "slot1=Longsword01/sword slot0=...".
+std::string describe_equipment(const CharacterState&);
 
 // Optional root binding to the already-published canonical Character/Gear.
 // `equip` receives the selected projection ID and source slot so the root can
