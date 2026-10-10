@@ -1915,6 +1915,8 @@ int main(int argc,char** argv) {
         f::character_menu::Presenter characterMenu;
         // P16 MAP: visited-room tracker for the current level, and the Map page zoom state (reset = full level).
         f::map_visit::RoomZoneVisitTrackerV1 mapVisits;bool mapVisitsReady=false;f::map_visit::MapViewV1 mapView;
+        // P16 MAP parchment texture (sheet fill, menus/map_bottom.tga), uploaded on the first Map frame.
+        std::uint32_t mapParchmentTexture=0;float mapParchmentTexelsW=1,mapParchmentTexelsH=1;
         f::character_menu::Bindings characterMenuBindings;
         characterMenuBindings.character=&state;
         auto characterMenuComposition=std::make_unique<f::character_menu::SourceCompositionV1>(sharedCharacter);
@@ -3563,6 +3565,14 @@ int main(int argc,char** argv) {
                     // P16 MAP: Map page. The visited level is drawn top-down through the map camera inside the authored
                     // RenderMap rectangle (after that contour, see the batch loop), then the player marker (family 3).
                     if(characterMenu.take_map_reset_zoom())mapView=f::map_visit::map_reset_zoom_v1(mapView);
+                    // P16 MAP icon: the authored icon art of an icon type (MapIconsDynamic frame), origin at (x,y) window px.
+                    constexpr float mapIconScale=1.55f;// authored MapIconsDummy/legend icon scale (1.55)
+                    const auto drawMapIcon=[&](unsigned type,float x,float y) {
+                        std::vector<f::OverlayTriangleVertex> vertices;
+                        for(const auto& batch:f::character_menu::original_map_icon_art(type).batches)
+                            for(const auto& v:batch.triangles)vertices.push_back({x+v.x*mapIconScale*transform.scale_x,y+v.y*mapIconScale*transform.scale_y,v.u,v.v});
+                        if(!vertices.empty()&&!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Map icon draw rejected");
+                    };
                     const auto drawMapPage=[&]() {
                         if(!mapVisitsReady)return;
                         float minX=std::numeric_limits<float>::max(),minY=minX,maxX=-minX,maxY=-minX;bool found=false;
@@ -3572,6 +3582,26 @@ int main(int argc,char** argv) {
                         const float rectX=transform.x+minX*transform.scale_x,rectY=transform.y+minY*transform.scale_y;
                         const float rectW=(maxX-minX)*transform.scale_x,rectH=(maxY-minY)*transform.scale_y;
                         const f::map_visit::MapRectV1 mapRect{rectX,rectY,rectW,rectH};
+                        // Sheet parchment (SWF shape 600 bitmap fill = menus/map_bottom.tga) over the RenderMap rectangle.
+                        {
+                            const auto& source=f::character_menu::original_map_parchment();
+                            if(!mapParchmentTexture) {
+                                f::TextureImage image;std::string textureError;
+                                if(!f::load_texture(assets.resolve(source.texture),image,textureError))throw std::runtime_error("Map parchment texture: "+textureError);
+                                mapParchmentTexture=renderer.createTexture(int(image.width),int(image.height),image.rgba.data());
+                                if(!mapParchmentTexture)throw std::runtime_error("Map parchment texture upload rejected");
+                                mapParchmentTexelsW=float(image.width);mapParchmentTexelsH=float(image.height);
+                            }
+                            // Bitmap texel = (twips - offset) / twips-per-texel; the texture is 1024 px BTEX (width/height from the file).
+                            const auto texU=[&](float ax){return ((ax*20.0f-source.offset_x_twips)/source.twips_per_texel)/mapParchmentTexelsW;};
+                            const auto texV=[&](float ay){return ((ay*20.0f-source.offset_y_twips)/source.twips_per_texel)/mapParchmentTexelsH;};
+                            const float px0=transform.x+source.x0*transform.scale_x,px1=transform.x+source.x1*transform.scale_x;
+                            const float py0=transform.y+source.y0*transform.scale_y,py1=transform.y+source.y1*transform.scale_y;
+                            const std::vector<f::OverlayTriangleVertex> parchment{
+                                {px0,py0,texU(source.x0),texV(source.y0)},{px1,py0,texU(source.x1),texV(source.y0)},{px1,py1,texU(source.x1),texV(source.y1)},
+                                {px0,py0,texU(source.x0),texV(source.y0)},{px1,py1,texU(source.x1),texV(source.y1)},{px0,py1,texU(source.x0),texV(source.y1)}};
+                            if(!overlay.drawTriangles(parchment,mapParchmentTexture))throw std::runtime_error("Map parchment draw rejected");
+                        }
                         std::optional<std::array<float,3>> mapPlayer;
                         if(const auto* playerActor=combatSession?combatSession->actor(combatSession->player_id()):nullptr)
                             mapPlayer=std::array<float,3>{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
@@ -3593,17 +3623,8 @@ int main(int argc,char** argv) {
                         })) throw std::runtime_error("Map page viewport rejected");
                         if(mapPlayer) {
                             float px=0,py=0;
-                            if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py)) {
-                                constexpr int segments=16;constexpr float radius=6.0f,tau=6.2831853f;
-                                std::vector<f::OverlayTriangleVertex> marker;
-                                for(int i=0;i<segments;++i) {
-                                    const float a0=tau*i/segments,a1=tau*(i+1)/segments;
-                                    marker.push_back({px,py,0,0});
-                                    marker.push_back({px+radius*std::cos(a0),py+radius*std::sin(a0),0,0});
-                                    marker.push_back({px+radius*std::cos(a1),py+radius*std::sin(a1),0,0});
-                                }
-                                if(!overlay.drawTriangles(marker,0,{0.25f,0.65f,1.0f,1.0f}))throw std::runtime_error("Map player marker draw rejected");
-                            }
+                            // Family 3 (local player) = the authored Character icon (frame 3 of MapIconsDynamic).
+                            if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py))drawMapIcon(3,px,py);
                         }
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
@@ -3640,6 +3661,10 @@ int main(int argc,char** argv) {
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
                     if(characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
+                    // P16 MAP legend: each legend caption's icon type at its authored position (legend popup frame).
+                    if(characterMenu.tab()==f::character_menu::Tab::map&&characterMenu.map_legend_shown())
+                        for(const auto& icon:f::character_menu::original_map_legend_icons())
+                            drawMapIcon(icon.type,transform.x+icon.x*transform.scale_x,transform.y+icon.y*transform.scale_y);
                     if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment&&
                        std::none_of(drawnPanes.begin(),drawnPanes.end(),[](bool drawn){return drawn;}))
                         throw std::runtime_error("Original Equipment active avatar display-list anchor is unavailable");

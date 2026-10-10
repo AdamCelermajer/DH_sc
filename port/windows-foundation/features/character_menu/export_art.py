@@ -56,7 +56,10 @@ def vertices(record,m):
     return [[*transform(m,x,y),u,v] for x,y,u,v in record['triangles']]
 excluded={'hitzone','flush_text','btn_ClickPreventer','btn_ClickPreventer2','btn_Dragging',
     # P16 map: the legend popup is shown only after Show legend; exported separately as art4_legend.
-    'LegendPopup'}
+    'LegendPopup',
+    # P16 map: MapIconsDynamic clips are per-type icons; drawn by the host from their authored frames (mapIconN).
+    'MapIconsDynamic','MapIconsDynamic1','MapIconsDynamic2','MapIconsDynamic3','MapIconsDynamic4','MapIconsDynamic5','MapIconsDynamic6',
+    'MapIconsDynamic7','MapIconsDynamic8','MapIconsDynamic9','MapIconsDynamic10','MapIconsDynamic11','MapIconsDynamic12'}
 skipped=[];mask_applications=[];source_solids=[]
 def mask_vertices(char,m,depth=0):
     if depth>30:raise ValueError('mask nesting bound')
@@ -202,6 +205,32 @@ for index,panel in enumerate(panels):
         legend_m=swf.multiply(panel['matrix'],legend_placed['matrix']);legend_art=[];legend_text=[];legend_first=len(source_solids)
         walk(legend_placed['character'],legend_m,'menu_MapSheet/LegendPopup',legend_art,legend_text,0,'map',True)
         emit_block('art4_legend',legend_art,legend_text,legend_first)
+# P16 map icons: MapIconsDynamic (sprite 614) frame t is the authored icon of type t (labels: Objective 0,
+# Entrance 1, Exit 2, Character 3, Enemies 4, Champion 5, Boss 6, Player2..4 7..9, QuestGiver 10, Merchant 11,
+# Checkpoint 12, Arrow 13). The host draws icon art with its origin at the marker position.
+for t in range(14):
+    icon_art=[];icon_text=[];icon_first=len(source_solids)
+    for dep,p in sorted(sprites[614][t].items()):
+        walk(p['character'],p['matrix'],'menu_MapIcon/%d'%t,icon_art,icon_text,0,'map',True)
+    emit_block('mapIcon%d'%t,icon_art,icon_text,icon_first)
+lines.append('static const MenuArt mapIconNone{};')
+lines.append('const MenuArt& original_map_icon_art(unsigned type){switch(type){'+''.join('case %d:return mapIcon%d;'%(t,t) for t in range(14))+'default:return mapIconNone;}}')
+# P16 map legend icons: the twelve MapIconsDynamicK placements in LegendPopup/WarningBox, each showing the
+# icon type of its legend caption (iconTextK in menu_text.cpp): 1 Checkpoint, 2 Entrance, 3 Exit, 4 NPC (QuestGiver),
+# 5 Merchant, 7 Character, 8 Enemies, 9 Objective, 10 Arrow (Unexplored area).
+# Settled legend frame (13), like the walk of LegendPopup above.
+warning_placed=[p for d,p in sorted(sprites[legend_placed['character']][labels[654]['hide']-1].items()) if p.get('name')=='WarningBox'][0]
+legend_icon_types={1:12,2:1,3:2,4:10,5:11,7:3,8:4,9:0,10:13}
+legend_entries=[]
+for k,t in legend_icon_types.items():
+    icon_placed=swf.placed_path(sprites[warning_placed['character']],'MapIconsDynamic%d'%k)
+    icon_m=swf.multiply(swf.multiply(legend_m,warning_placed['matrix']),icon_placed['matrix'])
+    legend_entries.append('{%d,%s,%s}'%(t,swf.cpp_number(icon_m[4]/20),swf.cpp_number(icon_m[5]/20)))
+lines.append('const std::vector<MapLegendIcon>& original_map_legend_icons(){static const std::vector<MapLegendIcon> icons{'+','.join(legend_entries)+'};return icons;}')
+# P16 map parchment: SWF shape 600 fill style 0 is bitmap 2 (ExportAssets tag: menus/map_bottom.tga, 1024 px PVRTC4 BTEX).
+# Its edges span the RenderMap rectangle (bounds 13.6,48.35 - 472.9,277.25 authored px); fill matrix 26.6094970703125
+# twips per texel with offset (-3599,-3417) twips (probed from the shape 600 style list, see the P16 map report).
+lines.append('const MapParchmentSource& original_map_parchment(){static const MapParchmentSource source{13.6f,48.35f,472.9f,277.25f,26.6094970703125f,-3599.0f,-3417.0f,"data/3D/textures/map_bottom.tga"};return source;}')
 lines.append('const MenuArt& original_menu_art(Tab tab,bool has_stat_points){switch(tab){case Tab::equipment:return art1;case Tab::skills:return art2;case Tab::faery:return art3;case Tab::map:return art4;default:return has_stat_points?art0:art0_no_points;}}')
 lines.append('const MenuArt& original_map_legend_art(){return art4_legend;}')
 tabs_child=swf.placed_path(sprites[tabs['character']],'CharacterMenuTabs')

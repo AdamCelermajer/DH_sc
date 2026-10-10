@@ -27,6 +27,15 @@ struct MenuHitZone { Action action=Action::none;std::string path;std::vector<Hud
 const MenuArt& original_menu_art(Tab,bool has_stat_points=true);
 // Map legend popup (LegendPopup in menu_MapSheet); drawn only while the legend is shown.
 const MenuArt& original_map_legend_art();
+// Map icon art for an icon type (0..13, MapIconsDynamic frame labels), origin at the marker position.
+const MenuArt& original_map_icon_art(unsigned type);
+// Legend icon placements (authored px): the icon of each legend caption.
+struct MapLegendIcon { unsigned type; float x; float y; };
+const std::vector<MapLegendIcon>& original_map_legend_icons();
+// Map parchment (sheet fill of shape 600): region in authored px, fill matrix (twips per texel, offset),
+// texture resource name (decoded by texture_loader; BTEX PVRTC4).
+struct MapParchmentSource { float x0, y0, x1, y1, twips_per_texel, offset_x_twips, offset_y_twips; const char* texture; };
+const MapParchmentSource& original_map_parchment();
 const std::vector<MenuHitZone>& original_menu_hit_zones();
 // Original FlashCamera.Update -> SetViewport(driverW/H), SetBounds mode0:
 // independently scaled axes, no fit-letterbox. `scale` is raster detail only.

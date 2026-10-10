@@ -796,6 +796,12 @@ target_link_libraries(foundation_map_visit PUBLIC foundation_data foundation_fro
 add_executable(map_visit_tests features/map_visit/map_visit_tests.cpp)
 target_link_libraries(map_visit_tests PRIVATE foundation_map_visit)
 add_test(NAME map_visit COMMAND map_visit_tests)
+# P16 map: module RoomZone sources of the Swamp (act 1) and Gothicus Darkwood (second level, same loader).
+add_executable(level_module_zones_tests features/map_visit/level_module_zones_tests.cpp)
+target_link_libraries(level_module_zones_tests PRIVATE foundation_map_visit foundation_data)
+add_test(NAME level_module_zones COMMAND level_module_zones_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/map/assets-darkwood")
 # P14 schema: LevelList row 41 = 001_swamp (The Boglands), stamping rules, slot panel projection.
 add_executable(menu_metadata_v1_tests features/menu_metadata/menu_metadata_v1_tests.cpp)
 target_link_libraries(menu_metadata_v1_tests PRIVATE foundation_frontend)
