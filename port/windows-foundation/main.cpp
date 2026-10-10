@@ -2590,7 +2590,15 @@ int main(int argc,char** argv) {
         // P16 QUESTUI: every runtime banner is queued for the presenter and returned for the console line.
         const auto takeQuestBanners=[&]() {
             auto banners=questRuntime?questRuntime->take_banners():std::vector<f::quest_runtime::QuestBannerV1>{};
-            for(const auto& banner:banners)questBanners.push(banner);
+            // A banner queued while the runtime is bound before the Quest Log resolver (fresh-game NEW QUEST) gets its
+            // authored text here, when the resolver exists. Event-time banners already carry their text.
+            for(auto& banner:banners) {
+                if(banner.text.empty()&&banner.objective_text_id>=0&&questMenuText&&*questMenuText) {
+                    std::string textError;
+                    if((*questMenuText)(state,banner.objective_text_id,banner.text,textError)) {}
+                }
+                questBanners.push(banner);
+            }
             return banners;
         };
         std::int32_t questLevelRow=-1;
@@ -2620,8 +2628,10 @@ int main(int argc,char** argv) {
             // the item-name text owner from an event handler (bind_profile/borrow_text) crashed the EXE.
             questServices.text=[&](std::int32_t id,std::string& text) {
                 std::string textError;
-                if(!questMenuText||!*questMenuText)return false;
-                return (*questMenuText)(state,id,text,textError);
+                if(!questMenuText||!*questMenuText)return false; // bind-time banners get their text in takeQuestBanners
+                if((*questMenuText)(state,id,text,textError))return true;
+                std::cerr<<"Quest banner text diagnostic: StringID "<<id<<": "<<textError<<'\n';
+                return false;
             };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
@@ -3891,7 +3901,7 @@ int main(int argc,char** argv) {
                             std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" accepted\n";
                             for(const auto& banner:takeQuestBanners())
                                 std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
-                                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<'\n';
+                                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
                         }
                     }
                     std::cout<<"Quest state frame="<<drawn<<" gold="<<state.gold<<" xp="<<state.experience<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';

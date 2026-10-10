@@ -87,6 +87,16 @@ int main(){try{
     // answer only there, and the legend popup appears in the frame only while it is shown.
     auto map_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map;});
     check(map_zone!=original_menu_hit_zones().end(),"source Map tab hit contour absent");
+    // P16 QUESTUI2: the Quest Log zone ends where the Map zone starts (they overlapped by 11.5 authored px before).
+    {
+        const auto x_range=[](const auto& zone){
+            float lo=zone.triangles[0].x,hi=lo;
+            for(const auto& v:zone.triangles){lo=std::min(lo,v.x);hi=std::max(hi,v.x);}
+            return std::pair<float,float>{lo,hi};
+        };
+        const auto quest_range=x_range(*quest_zone),map_range=x_range(*map_zone);
+        check(quest_range.second<=map_range.first+1e-3f,"Quest Log and Map tab hit zones overlap");
+    }
     const auto map_x=(map_zone->triangles[0].x+map_zone->triangles[1].x+map_zone->triangles[2].x)/3;
     const auto map_y=(map_zone->triangles[0].y+map_zone->triangles[1].y+map_zone->triangles[2].y)/3;
     check(menu.release(map_x*2,map_y*2,960,640)==Action::map&&menu.tab()==Tab::map,"Map tab release did not select the Map page");
