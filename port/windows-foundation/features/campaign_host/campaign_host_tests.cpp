@@ -114,7 +114,7 @@ void lizard_intro_contract(const std::string& directory) {
     // The session keeps its other triggers: a later cutscene runs to completion without a new abort.
     const int tuto = rig.runtime.script_id("CombatTuto", false);
     check(rig.runtime.start(tuto, -1, false, error), error);
-    for (int i = 0; i < 20 && rig.runtime.running(tuto); ++i) rig.step(10);
+    for (int i = 0; i < 4000 && rig.runtime.running(tuto); ++i) rig.step(10); // captions hold the script (WaitDialog)
     check(!rig.runtime.running(tuto) && rig.host->aborts() == 1 && !rig.globalBlocked, "session continues after an abort");
 }
 
@@ -133,20 +133,70 @@ void skip_press_contract(const std::string& directory) {
     check(rig.host->aborts() == 1 && !rig.host->skip_active(), "cutscene end or failure must clear the SKIP press");
 }
 
-// Stubs (dialogue, message flush, tutorial persistence) log and never block: CombatTuto runs to completion.
-void stubs_do_not_block(const std::string& directory) {
+// P16 CINE: StartDialog queues caption lines with their StrID text; WaitDialog blocks until each line's hold ends.
+// CombatTuto has 9 dialog pairs. A resolver supplies the text (main binds the original MenuLocalization).
+void captions_block_then_release(const std::string& directory) {
     Rig rig(directory);
     std::string error;
+    rig.host->set_caption_text([](std::int32_t id, std::string& text, std::string&) {
+        text = "line " + std::to_string(id);
+        return true;
+    });
     const int script = rig.runtime.script_id("CombatTuto", false);
     check(script >= 0, "CombatTuto present");
     check(rig.runtime.start(script, -1, false, error), error);
-    for (int i = 0; i < 20 && rig.runtime.running(script) && rig.host->aborts() == 0; ++i) rig.step(10);
-    check(rig.host->aborts() == 0, "stub dialogue and tutorial flag must not abort the cutscene");
-    check(!rig.runtime.running(script), "stub dialogue must not block the script");
+    for (int i = 0; i < 100 && rig.host->cinematic().current() == nullptr; ++i) rig.step(10);
+    check(rig.host->cinematic().current() != nullptr, "first caption is shown");
+    check(rig.runtime.running(script), "WaitDialog must block the script while a caption is shown");
+    check(rig.host->cinematic().waiting(), "caption keeps the cinematic waiting");
+    check(rig.host->cinematic().current()->text == "line 2097213", "caption text is the authored StrID text");
+    for (int i = 0; i < 4000 && rig.runtime.running(script) && rig.host->aborts() == 0; ++i) rig.step(10);
+    check(rig.host->aborts() == 0, "captions must not abort the cutscene");
+    check(!rig.runtime.running(script), "script finishes after the last caption");
     check(!rig.globalBlocked, "CombatTuto unlock must release the controller lock");
+    check(rig.host->cinematic().lines_shown() == 9, "every authored dialog line is shown once");
     const auto text = summary(*rig.host);
-    check(text.find("stub dialogue") != std::string::npos, "dialogue stub must be listed once with a count");
     check(text.find("stub tutorial flag persistence") != std::string::npos, "tutorial consume stub must be listed");
+    check(text.find("stub dialogue") == std::string::npos, "dialogue is no longer a stub");
+}
+
+// P16 CINE: DoTutorial (kind 78) on the normal-difficulty offline gate starts the named tutorial script
+// (Movement_Tuto -> Movement_Tuto2), whose captions then run through the same runner.
+void do_tutorial_starts_named_script(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    rig.host->set_caption_text([](std::int32_t id, std::string& text, std::string&) {
+        text = "line " + std::to_string(id);
+        return true;
+    });
+    const int movement = rig.runtime.script_id("Movement_Tuto", false);
+    const int movement2 = rig.runtime.script_id("Movement_Tuto2", false);
+    check(movement >= 0 && movement2 >= 0, "Movement tutorial scripts present");
+    check(rig.runtime.start(movement, -1, false, error), error);
+    bool started = false;
+    for (int i = 0; i < 4000 && rig.host->aborts() == 0; ++i) {
+        rig.step(10);
+        if (rig.runtime.running(movement2)) started = true;
+        if (started && !rig.runtime.running(movement2)) break;
+    }
+    check(rig.host->aborts() == 0, "DoTutorial must not abort the session");
+    check(started, "DoTutorial must start Movement_Tuto2 through the runtime");
+    check(rig.host->cinematic().lines_shown() == 4, "Movement_Tuto2 shows its four dialog lines");
+    check(!rig.host->cinematic().active() && !rig.globalBlocked, "tutorial leaves no cutscene flags behind");
+}
+
+// Without a resolver the line is an explicit marker, listed as unresolved, and the script still finishes.
+void unresolved_caption_is_explicit(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    const int script = rig.runtime.script_id("CombatTuto", false);
+    check(rig.runtime.start(script, -1, false, error), error);
+    for (int i = 0; i < 100 && rig.host->cinematic().current() == nullptr; ++i) rig.step(10);
+    check(rig.host->cinematic().current() && rig.host->cinematic().current()->text.find("unresolved") != std::string::npos,
+          "unresolved StrID shows an explicit marker");
+    for (int i = 0; i < 4000 && rig.runtime.running(script) && rig.host->aborts() == 0; ++i) rig.step(10);
+    check(!rig.runtime.running(script) && rig.host->aborts() == 0, "unresolved captions do not abort the cutscene");
+    check(summary(*rig.host).find("dialogue StrID unresolved") != std::string::npos, "unresolved StrID is listed");
 }
 
 // Commands with no owner stop the executor with the command named and counted once.
@@ -183,7 +233,9 @@ int main(int argc, char** argv) {
         check(argc == 2, "Supply the campaign asset directory");
         lizard_intro_contract(argv[1]);
         skip_press_contract(argv[1]);
-        stubs_do_not_block(argv[1]);
+        captions_block_then_release(argv[1]);
+        unresolved_caption_is_explicit(argv[1]);
+        do_tutorial_starts_named_script(argv[1]);
         unsupported_commands_named(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;

@@ -268,6 +268,7 @@ struct Options {
     bool verifyFrontendCreation=false,verifyFrontendSlots=false;
     std::string campaignCommands;
     bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
+    int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
     // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME (debug; empty by default).
@@ -378,6 +379,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--lifecycle-prespawn") {auto c=choice(value());o.lifecyclePreSpawns[c.first]=c.second;}
         else if(arg=="--campaign-commands") o.campaignCommands=value();
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
+        else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
+        else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
         else if(arg=="--combat-death") {auto c=choice(value());o.combat.profiles[c.first].death=c.second;}
@@ -1917,6 +1920,13 @@ int main(int argc,char** argv) {
             if(options.campaignCommands.empty()||!combatSession)throw std::runtime_error("--campaign-triggers requires --campaign-commands and the live combat session");
             if(!campaignHost.bind_executor(sourceCampaign,campaignWorld,error))throw std::runtime_error("Campaign host: "+error);
             if(!campaignHost.build_zones(population.definitions(),error))throw std::runtime_error("Campaign trigger zones: "+error);
+            // P16 CINE: harness start of an authored script by name (same runtime start as DoTutorial; not a production starter).
+            if(!options.campaignStart.empty()) {
+                const int script=sourceCampaign.script_id(options.campaignStart,true);
+                if(script<0)throw std::runtime_error("--campaign-start: no authored script named "+options.campaignStart);
+                if(!sourceCampaign.start(script,-1,true,error))throw std::runtime_error("--campaign-start "+options.campaignStart+": "+error);
+                std::cout<<"[campaign] harness start script="<<options.campaignStart<<" id="<<script<<'\n';
+            }
         }
         if(options.probe) {
             if(visual.loaded()) for(auto pose:{f::CharacterPose::idle,f::CharacterPose::walk,f::CharacterPose::attack}) {
@@ -2037,6 +2047,8 @@ int main(int argc,char** argv) {
         f::character_menu::MenuLocalization menuLocalization;
         if(options.hud&&combatSession&&!menuLocalization.load(assets,"original-cache/data",0,error))throw std::runtime_error("Character menu labels: "+error);
         if(options.hud&&combatSession&&!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
+        // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
+        if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization](std::int32_t id,std::string& text,std::string& e){return menuLocalization.string_id(id,text,e);});
         f::CameraPose start;
         float extent=200;
         if(!scene.mesh.vertices.empty()) {
@@ -2600,6 +2612,9 @@ int main(int argc,char** argv) {
         int pauseTextSurface=-1,pauseTextWidth=0,pauseTextHeight=0;
         if(options.hud&&combatSession&&!pauseText.load(assets.root()/"original-cache",error))throw std::runtime_error("Pause source font: "+error);
         if(options.hud&&combatSession&&!pcHudText.load(assets.root()/"original-cache",error))throw std::runtime_error("PC HUD font: "+error);
+        f::frontend::FrontendText cinematicText; // P16 CINE: caption and SKIP text (same frontend text owner as the PC HUD)
+        std::string cinematicTextSignature;
+        if(options.campaignTriggers&&combatSession&&!cinematicText.load(assets.root()/"original-cache",error))throw std::runtime_error("Cinematic font: "+error);
         const auto updatePcHud=[&]() {
             pcHudReady=false;
             if(!options.hud||!combatSession||!menuSourceOwner.valid()||!state.source_skill_slots_known)return;
@@ -2960,7 +2975,11 @@ int main(int argc,char** argv) {
             if(window.cursor_position(pointerX,pointerY)) {
                 const bool down=window.key_down(VK_LBUTTON);
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
-                else if(!down&&mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::up,{pointerX,pointerY});
+                else if(!down&&mouseHeld) {
+                    // P16 CINE: a release on the placeholder SKIP control of a running cutscene presses SKIP (ignored when hidden).
+                    if(campaignHost.enabled()&&campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
+                    semanticInput.pointer(0,f::platform_input::PointerPhase::up,{pointerX,pointerY});
+                }
                 else if(down)semanticInput.pointer(0,f::platform_input::PointerPhase::move,{pointerX,pointerY});
                 mouseHeld=down;
             }
@@ -2982,6 +3001,7 @@ int main(int argc,char** argv) {
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,false);
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
+            if(drawn==options.campaignSkipFrame) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
             if(uiInput.menu_back){
                 if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
                 else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
@@ -3974,6 +3994,37 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     pcHudText.draw(overlay);
                 }
+                // P16 CINE: cinematic presentation. Placeholder box/SKIP quads in the PC HUD letterbox mapping;
+                // caption and SKIP text through the frontend text owner (authored x pre-scaled like the PC HUD fields).
+                if(campaignHost.enabled()) {
+                    const auto cinFrame=campaignHost.cinematic().build_frame();
+                    const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
+                    for(const auto& rect:cinFrame.rects) {
+                        const float x0=(rect.x+view.offset)*view.scale,y0=rect.y*view.scale,x1=(rect.x+rect.w+view.offset)*view.scale,y1=(rect.y+rect.h)*view.scale;
+                        const std::vector<f::OverlayTriangleVertex> quad{{x0,y0,0,0},{x1,y0,0,0},{x1,y1,0,0},{x0,y0,0,0},{x1,y1,0,0},{x0,y1,0,0}};
+                        if(!overlay.drawTriangles(quad,0,rect.rgba))throw std::runtime_error("Cinematic box draw rejected");
+                    }
+                    const float xScale=480.f*view.scale/float(window.width());
+                    f::frontend::art::ScreenArt cinArt;
+                    auto cinSignature=std::to_string(window.width())+":"+std::to_string(window.height());
+                    for(const auto& item:cinFrame.texts) {
+                        f::frontend::art::TextField field;
+                        field.font_id=5; // only mapped source font (Fontin SmallCaps); placeholder face, see report
+                        field.source_height=14; field.rgba=item.rgba; field.align=0; field.margins={2,2,0}; field.leading=0;
+                        field.matrix={xScale,0,0,1,0,0};
+                        const float left=(item.x+view.offset)*xScale; // FrontendText maps left*width/480 back to window pixels
+                        field.local_bounds={left,left+item.w*xScale,item.y,item.y+item.h};
+                        field.bounds=field.local_bounds;
+                        field.initial_text=item.text;
+                        cinArt.text_fields.push_back(field);
+                        cinSignature+=':'+item.text;
+                    }
+                    if(cinematicTextSignature!=cinSignature) {
+                        if(!cinematicText.rebuild(cinArt,window.width(),window.height(),renderer,error))throw std::runtime_error("Cinematic text: "+error);
+                        cinematicTextSignature=cinSignature;
+                    }
+                    cinematicText.draw(overlay);
+                }
                 if(const auto* target=markerTarget;target&&target->alive()) {
                     auto head=f::Vec3{target->transform.position[0],target->transform.position[1],target->transform.position[2]};
                     const auto original=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& actor){return actor.definition.stableId==target->id;});
@@ -4302,7 +4353,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             std::cout<<'\n';
         }
         if(returnToFrontend) {
-            pcHudText.clear(renderer);pauseText.clear(renderer);
+            pcHudText.clear(renderer);pauseText.clear(renderer);cinematicText.clear(renderer); // P16 CINE
             const int selectedSlot=options.selectedSaveSlot;
             options=launchOptions;options.startMode="menu";options.selectedSaveSlot=selectedSlot;
             options.menuActions.clear();

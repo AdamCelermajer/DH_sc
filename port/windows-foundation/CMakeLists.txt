@@ -501,6 +501,11 @@ add_test(NAME campaign_host COMMAND campaign_host_tests "${CMAKE_CURRENT_SOURCE_
 add_executable(campaign_trigger_zone_tests features/campaign_host/trigger_zone_tests.cpp)
 target_link_libraries(campaign_trigger_zone_tests PRIVATE foundation_data)
 add_test(NAME campaign_trigger_zones COMMAND campaign_trigger_zone_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/assets/original-cache" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+# P16 CINE (Preview 16): cinematic runner (caption queue, cutscene contract, SKIP hit test, frame description).
+target_sources(foundation_data PRIVATE features/cinematic_runner/cinematic_runner.cpp)
+add_executable(cinematic_runner_tests features/cinematic_runner/cinematic_runner_tests.cpp)
+target_link_libraries(cinematic_runner_tests PRIVATE foundation_data)
+add_test(NAME cinematic_runner COMMAND cinematic_runner_tests)
 target_sources(foundation_data PRIVATE source_module_trace.cpp)
 add_executable(source_module_trace_tests tests/source_module_trace_tests.cpp)
 target_link_libraries(source_module_trace_tests PRIVATE foundation_data)

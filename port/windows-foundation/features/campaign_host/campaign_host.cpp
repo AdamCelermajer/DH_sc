@@ -59,18 +59,38 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         blocking = false;
         if (phase != CampaignCommandPhase::execute) return true;
         if (menu == "HUD") { hud_visible_ = show; return true; }
-        if (menu == "menu_skipcutscene") { skip_visible_ = show; if (!show) skip_pressed_ = false; return true; }
+        if (menu == "menu_skipcutscene") { skip_visible_ = show; cinematic_.set_skip_visible(show); if (!show) skip_pressed_ = false; return true; } // P16 CINE: drawn by the runner
         unsupported_.note("flash menu " + menu + " (no owner bound)");
         e = "Unsupported flash menu: " + menu;
         return false;
     };
+    // P16 CINE: StartDialog (kind 10) queues one caption line: scalar 16 = StrID, 12 = style, 8 = actor (IDA
+    // Script_StartDialog::Execute). WaitDialog (kind 12) blocks while any line is queued or shown
+    // (IDA Level::hasActiveDialog). Lines are drawn by cinematic_runner; the box art is a placeholder.
     if (!p.dialog) p.dialog = [this](const OriginalCampaignCommand& c, CampaignCommandPhase phase, bool& blocking, std::string&) {
-        blocking = false; // stub: the dialogue box is not drawn yet, so nothing waits on it
-        if (phase == CampaignCommandPhase::execute) unsupported_.note("stub dialogue " + c.class_name + " (text not drawn, not blocking)");
+        if (c.kind == 12) { blocking = cinematic_.waiting(); return true; }
+        blocking = false;
+        if (phase != CampaignCommandPhase::execute) return true;
+        const auto field = [&c](unsigned offset) -> std::int32_t {
+            const auto i = c.scalars.find(offset);
+            return i == c.scalars.end() ? -1 : static_cast<std::int32_t>(i->second);
+        };
+        cinematic_runner::CaptionLine line;
+        line.text_id = field(16);
+        line.style = field(12);
+        line.actor = field(8);
+        std::string resolved, error;
+        if (line.text_id >= 0 && caption_text_ && caption_text_(line.text_id, resolved, error)) {
+            line.text = resolved;
+        } else {
+            line.text = "[StrID " + std::to_string(line.text_id) + " unresolved]";
+            unsupported_.note("dialogue StrID unresolved");
+        }
+        cinematic_.enqueue(std::move(line));
         return true;
     };
     if (!p.flush_messages) p.flush_messages = [this](std::string&) {
-        unsupported_.note("stub FlushMessages (no message queue)");
+        cinematic_.flush(); // P16 CINE: FlushMessages drops the queued and shown caption lines
         return true;
     };
     if (!p.request_save) p.request_save = [this](std::string&) {
@@ -80,6 +100,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
     if (!p.block_save) p.block_save = [this](std::string&) { save_blocked_ = true; return true; };
     if (!p.cutscene_mode) p.cutscene_mode = [this](bool entering, std::string&) {
         cutscene_mode_ = entering;
+        cinematic_.set_active(entering); // P16 CINE: exit clears lines and the SKIP control
         if (!entering) { skip_pressed_ = false; save_blocked_ = false; } // [inf] the cutscene's own SaveGame ends the block
         return true;
     };
@@ -168,6 +189,7 @@ bool CampaignHost::bind_executor(OriginalCampaignRuntime& runtime, OriginalCampa
     if (!owned_dispatch_->bind(runtime, std::move(existing), error)) { owned_dispatch_.reset(); return false; }
     runtime_ = &runtime;
     world_ = &world;
+    world.bind_runtime(runtime); // P16 CINE: DoTutorial (kind 78) starts its named script through the runtime
     error.clear();
     return true;
 }
@@ -216,6 +238,7 @@ std::string CampaignHost::script_name_of(const OriginalCampaignCommand& c, int& 
 }
 
 bool CampaignHost::abort_cutscene(std::string& error) {
+    cinematic_.set_active(false); // P16 CINE: abort drops caption lines and the SKIP control
     hud_visible_ = true;
     skip_visible_ = false;
     skip_pressed_ = false;
@@ -242,6 +265,7 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
                   << " qualified=" << qualified << '\n';
     }
     ++frames_;
+    cinematic_.update(dt_ms > 0 ? static_cast<std::uint32_t>(dt_ms) : 0u); // P16 CINE: caption hold, same clock as the executor
     std::string error;
     if (!runtime_->tick(dt_ms, error)) {
         // Policy: the failing cutscene is aborted, the session keeps its other triggers.
