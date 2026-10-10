@@ -4,6 +4,7 @@
 
 #include "../../../character_state.hpp"
 #include "../../../save_store.hpp"
+#include "../../faery_menu/character_state_faery_v1.hpp" // P14 FAERY: shared creation-equivalent Faery rows
 #include "../../../../game-data/loot_creation_v8.hpp"
 
 #include <algorithm>
@@ -360,10 +361,8 @@ bool build_source_starter(const RuntimeCreationRequestV1& request,
             --candidate.source_skill_points;
         }
     }
-    for (auto& difficulty : candidate.faery_by_difficulty) {
-        difficulty.current_faery = 0;
-        for (auto& faery : difficulty.faeries) faery = {};
-    }
+    // Shared with legacy-slot normalization (character_state_faery_v1): creation-equivalent zero rows.
+    faery_menu::initialize_source_faery_rows_v1(candidate);
 
     const std::int32_t expected_fixed_words[] = {-1, 0, -1, -1, 0, 0, 0};
     for (const auto& entry : loot.fixed_entries) {

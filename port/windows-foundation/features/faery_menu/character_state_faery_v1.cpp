@@ -1,6 +1,24 @@
 #include "character_state_faery_v1.hpp"
 
 namespace dh::foundation::faery_menu {
+
+void initialize_source_faery_rows_v1(CharacterState& character) {
+    for (auto& difficulty : character.faery_by_difficulty) {
+        difficulty.current_faery = 0;
+        for (auto& faery : difficulty.faeries) faery = {};
+    }
+    character.source_faery_state_known = true;
+}
+
+bool ensure_source_faery_rows_v1(CharacterState& character) {
+    if (character.source_faery_state_known) return false;
+    initialize_source_faery_rows_v1(character);
+    return true;
+}
+
+std::string faery_no_spell_message_v1(std::int32_t slot) {
+    return "no spell implemented for Faery slot " + std::to_string(slot) + " (key 4 does nothing)";
+}
 namespace {
 bool row_address_ok(const CharacterState& character, std::int32_t difficulty,
                     std::uint32_t slot, std::string& error) {

@@ -1239,6 +1239,8 @@ int main(int argc,char** argv) {
             std::cout<<"Original camera distance="<<originalCamera.authoredDistance()<<" FOV="<<originalCamera.pose().verticalFovDegrees<<" aspect="<<originalCamera.sourceAspect()<<'\n';
         }
         if(!frontendStarted&&!combatSession&&fs::exists(options.save)) {if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);}
+        // P14 FAERY: legacy slots without Faery rows get creation-equivalent zero rows at first use, so Swamp_Intro can unlock Celest.
+        if(f::faery_menu::ensure_source_faery_rows_v1(state)) std::cout<<"Legacy save Faery rows initialized to creation zeros\n";
         if(!options.characterName.empty())state.name=options.characterName;
         if(combatSession) {
             auto* player=combatSession->actor(combatSession->player_id());player->persistent_character_id=state.id;
@@ -2686,7 +2688,10 @@ int main(int argc,char** argv) {
             if(!gameplayPaused&&!playerControllerBlocked&&uiInput.spell.pressed&&combatSession&&skillCastCoordinator) {
                 std::string castError;f::generic_skills::RuntimeSkillCastReceiptV1 receipt;
                 f::generic_skills::RuntimeSkillFaeryAnimationSlotV1 selected;
-                if(!sourceFaeryTables||!skillAnimationBank)castError="Current saved Faery has no initialized source tables/animation bank";
+                // P14 FAERY: Rocky/Wetty/Windy are selectable but have no spell; key 4 logs that instead of failing silently.
+                const auto currentFaery=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
+                if(state.source_faery_state_known&&!f::faery_menu::faery_slot_has_spell_v1(currentFaery)){selected.faery_slot=currentFaery;castError=f::faery_menu::faery_no_spell_message_v1(currentFaery);}
+                else if(!sourceFaeryTables||!skillAnimationBank)castError="Current saved Faery has no initialized source tables/animation bank";
                 else if(f::generic_skills::resolve_runtime_faery_animation_slot_v1(state,f::faery_menu::active_faery_difficulty_v1(),*skillAnimationBank,selected,castError)) {
                     const auto* sequence=skillVisualPlan.sequence(selected.selection_state,0);
                     if(!sequence||sequence->phases.empty())castError="Current Faery has no reachable source Cast phase";

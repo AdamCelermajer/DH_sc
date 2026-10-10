@@ -19,6 +19,16 @@ Branch `p14/faery`, worktree `DH_wt/faery`. Commits: `34e40c6c` (CharacterState 
 
 Earlier (WIP, 34e40c6c/6ee3976a, reviewed and kept): page provider rejects locked Faery in `select_character_state_faery_v1` (provider, not just UI); `character_state_faery_v1.{hpp,cpp}` host (commit with rollback on persist failure, HUD refresh, script effects); `original_campaign_world_adapter` kinds 27/28; CMake sources.
 
+## Follow-up (user decisions, this commit)
+
+1. Legacy saves get creation-equivalent zero rows at first use. `character_state_faery_v1.{hpp,cpp}`: new `initialize_source_faery_rows_v1` (zero rows, current 0, known=true) and `ensure_source_faery_rows_v1` (no-op when known). `runtime_creation_persistence_v1.cpp` now calls the shared initializer instead of its own zero loop (same result). `main.cpp` calls `ensure_source_faery_rows_v1(state)` right after the save load (line ~1242), so the authored Swamp_Intro SetFaeryState unlocks Celest. The T3 "legacy skipped" branch remains for states that were never normalized (no longer reachable from the save load).
+2. All five Faery slots stay shown and selectable. Spells exist only for slot 0 (Celest) and slot 1 (Hotty): `faery_slot_has_spell_v1`. Key 4 with Rocky/Wetty/Windy (slots 2-4) sets a diagnostic `faery_no_spell_message_v1` ("no spell implemented for Faery slot N (key 4 does nothing)") and skips the cast; it is printed by the existing `Source Faery key=4 ... diagnostic=` line with the actual slot.
+3. Schema: no layout change. Only existing `faery_by_difficulty` / `source_faery_state_known` fields are written.
+
+Tests: `character_state_page` extended (legacy normalization to zeros, known rows not reinitialized, SetFaeryState(0,1) unlock, spell table, no-spell message, unlocked Rocky selectable). `p14_build.ps1 -Name faery -Test`: build exit 0; `character_state_page` 100% passed; full ctest 1 failed of 103 = `session_skill_binding` (the known junction path issue, unchanged).
+
+EXE verification (quiet batch `run15/batch.json`, job `legacy-norm`, EXE `build-faery`): legacy-style save (copy of `run14/saves/legacy.save`, known byte 949 = 0, Celest row byte 954 zeroed to 0). Log: `Legacy save Faery rows initialized to creation zeros`, `Source SetFaeryState slot=0 state=1 committed to CharacterState`, `Character menu Faery selected frame=60 via CharacterState provider`. Save after run: byte 949 = 1 (known), byte 954 = 1 (Celest unlocked). Not verified in the EXE: the key-4 no-spell line for Rocky (needs a key-4 press with current=2; covered by the unit test for the message only) and a visual capture of this run (ppm written, not inspected).
+
 ## Tests run (real output)
 
 - `p14_build.ps1 -Name faery -Test`: build exit 0 (main.cpp rebuilt after each edit).
@@ -67,8 +77,8 @@ From `port/windows-foundation/tools`:
 
 ## Open risks and limitations (not resolved here)
 
-1. Legacy saves never get Celest from Swamp_Intro (logged skip). Decision needed: keep the logged limitation or initialise rows for legacy saves (creation-equivalent zeros).
-2. Scope: Rocky, Wetty, Windy are shown and selectable but have no spell code, so key-4 does nothing for them. Brief said "Scope Celest+Hotty spells"; I kept the page faithful (all five slots) and did not add a selection gate. Needs a user decision.
+1. Resolved in the follow-up: legacy saves get creation-equivalent rows at load. Remaining: a legacy save whose `source_faery_list_id` is -1 (unknown, not stored by the old file) still has no FaeryList, so Celest/Hotty cast and the page list stay unavailable for it. Deriving the list from the class CharacterTable FaeryList column is not done (would need a loader in main.cpp).
+2. Resolved in the follow-up: Rocky, Wetty, Windy are shown and selectable; key 4 logs the no-spell diagnostic. Their spells are not implemented.
 3. Slot 1 is "Primula - Earth Faerie" on the page (authored text). Mapping to the `faerie_hotty` row is inferred, not verified (survey G7).
 4. Hotty cast (key 4 with slot 1) was not exercised in this pass; Celest cast path is unchanged.
 5. First-unlock tutorial cinematic (`cinematic_Tuto_faery`, slot != 0) and the `faery_charged` trophy are not routed. The campaign export has no IncFaeryLevel commands, so the level path is inert in content today.

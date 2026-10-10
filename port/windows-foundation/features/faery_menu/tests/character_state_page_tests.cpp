@@ -351,6 +351,36 @@ int main(int argc, char** argv) {
             check(!register_character_state_faery_page_v1(host_composition, unbound, error),
                   "host without tables/localization must not register");
         }
+        // P14 FAERY follow-up: legacy rows are normalized to creation zeros, Swamp_Intro unlock works, and
+        // an unlocked Rocky (no spell) is selectable with a no-spell diagnostic instead of a silent key 4.
+        {
+            using namespace dh::foundation::faery_menu;
+            dh::foundation::CharacterState legacy;
+            legacy.source_faery_state_known = false;
+            legacy.source_faery_list_id = 0;
+            legacy.faery_by_difficulty[0].current_faery = 3; // garbage from an old slot must not survive
+            check(ensure_source_faery_rows_v1(legacy) && legacy.source_faery_state_known,
+                  "legacy save without Faery rows must be normalized on first use");
+            for (const auto& difficulty : legacy.faery_by_difficulty) {
+                check(difficulty.current_faery == 0, "normalized current Faery must be creation zero");
+                for (const auto& faery : difficulty.faeries)
+                    check(faery.state == 0 && faery.level == 0, "normalized Faery rows must be creation zeros");
+            }
+            check(!ensure_source_faery_rows_v1(legacy), "known rows must not be re-initialized");
+            check(apply_source_set_faery_state_v1(legacy, active_faery_difficulty_v1(), 0, 1, error) &&
+                  legacy.faery_by_difficulty[0].faeries[0].state == 1,
+                  "Swamp_Intro SetFaeryState(slot 0, 1) must unlock Celest on a normalized legacy save");
+            check(faery_slot_has_spell_v1(0) && faery_slot_has_spell_v1(1) &&
+                  !faery_slot_has_spell_v1(2) && !faery_slot_has_spell_v1(3) && !faery_slot_has_spell_v1(4),
+                  "only Celest and Hotty have spells");
+            check(faery_no_spell_message_v1(2).find("no spell implemented") != std::string::npos,
+                  "no-spell diagnostic must name the missing spell");
+            check(apply_source_set_faery_state_v1(legacy, active_faery_difficulty_v1(), 2, 1, error) &&
+                  commit_source_faery_selection_v1(legacy, active_faery_difficulty_v1(), 2, error) &&
+                  legacy.faery_by_difficulty[0].current_faery == 2 &&
+                  !faery_slot_has_spell_v1(legacy.faery_by_difficulty[0].current_faery),
+                  "unlocked Rocky must be selectable and identified as a no-spell Faery");
+        }
         std::cout << "PASS CharacterState Faery page: actual four source lists/20 row links, table fields/icons, tri-state gate, all three difficulty rows, unknown legacy state, provider rejection of locked slots without mutation, same-owner action dispatch, invalid-current rejection, single-cell selection transaction, script SetFaeryState/IncFaeryLevel row effects, and host persist rollback\n";
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';

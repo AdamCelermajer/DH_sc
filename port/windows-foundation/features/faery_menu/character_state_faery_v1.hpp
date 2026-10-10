@@ -33,8 +33,22 @@ bool apply_source_inc_faery_level_v1(CharacterState& character, std::int32_t dif
 bool commit_source_faery_selection_v1(CharacterState& character, std::int32_t difficulty,
                                       std::uint32_t slot, std::string& error);
 
+// Creation-equivalent Faery rows: every difficulty starts at current 0 with all five rows zero.
+// runtime_creation_persistence_v1 uses this for new characters; legacy slots reuse it below.
+void initialize_source_faery_rows_v1(CharacterState& character);
+
+// Legacy slots (source_faery_state_known == false) have no Faery rows. Load/first use gives them
+// the creation zeros so the authored Swamp_Intro SetFaeryState can unlock Celest. Known rows are
+// never touched. Returns true when the rows were initialized.
+bool ensure_source_faery_rows_v1(CharacterState& character);
+
+// Spells implemented so far: Celest (slot 0) and Hotty (slot 1). Rocky, Wetty and Windy are shown
+// and selectable on the page, but key 4 has no cast path for them yet.
+constexpr bool faery_slot_has_spell_v1(std::int32_t slot) noexcept { return slot == 0 || slot == 1; }
+std::string faery_no_spell_message_v1(std::int32_t slot);
+
 struct CharacterStateFaeryPageHostV1 {
-    std::shared_ptr<CharacterState> owner;             // the selected character (same owner as the composition)
+    std::shared_ptr<CharacterState> owner;            // the selected character (same owner as the composition)
     dh2::data::FaeryTables::Borrow tables;              // actual source FaeryTables
     std::function<bool(const std::string&, std::string&, std::string&)> localize; // symbol, value, error
     std::function<bool(std::string&)> persist;          // saves the committed selection; failure rolls back
