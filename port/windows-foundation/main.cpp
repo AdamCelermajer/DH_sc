@@ -320,6 +320,7 @@ struct Options {
     std::vector<std::pair<std::string,std::string>> containerScriptOverrides; // P16 CONTAINERS2 debug: --container-script DECL=SCRIPT (default none)
     std::vector<f::spawn::SpawnNamedRequestV1> spawnDeclared; // P16 SPAWN: --spawn-declared NAME@FRAME (authored Limbus/PreSpawn declaration; implies --retain-hidden-actors)
     std::vector<f::spawn::SpawnNamedRequestV1> despawnTests;  // P16 SPAWN: --despawn-test NAME@FRAME (live pool slot by population name)
+    std::vector<f::spawn::SpawnNamedRequestV1> killTests;     // P16 DESPAWN2: --kill-test NAME@FRAME (debug: authored actor to 0 HP)
     bool despawnClip=false;  // P16 DESPAWN2: --despawn-clip plays the Despawn clip on the dead actor (opt-in; the decoded original does not select it)
     std::map<std::string,f::OriginalAttackSelection> lifecycleSpawns;
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
@@ -404,6 +405,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--spawn-test") {f::spawn::SpawnTestRequestV1 test;std::string parseError;if(!f::spawn::parse_spawn_test_v1(value(),test,parseError))throw std::runtime_error(parseError);o.spawnTests.push_back(test);} // P16 SPAWN
         else if(arg=="--spawn-declared") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--spawn-declared: "+parseError);o.spawnDeclared.push_back(request);o.retainHiddenActors=true;} // P16 SPAWN
         else if(arg=="--container-script") {const auto text=value();const auto eq=text.find('=');if(eq==std::string::npos||eq==0||eq+1>=text.size())throw std::runtime_error("--container-script expects DECLARATION=SCRIPT");o.containerScriptOverrides.emplace_back(text.substr(0,eq),text.substr(eq+1));} // P16 CONTAINERS2 debug (plant/zombie OnOpen variants on Swamp)
+        else if(arg=="--kill-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--kill-test: "+parseError);o.killTests.push_back(request);} // P16 DESPAWN2
         else if(arg=="--despawn-clip") o.despawnClip=true; // P16 DESPAWN2
         else if(arg=="--despawn-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--despawn-test: "+parseError);o.despawnTests.push_back(request);} // P16 SPAWN
         else if(arg=="--enemy-ai") o.runtimeEnemyAI=true;
@@ -3274,7 +3276,7 @@ int main(int argc,char** argv) {
         };
         // One frame of the despawn owner. Returns false with the reason when an owner refuses (the caller reports it).
         const auto despawnTick=[&](double seconds,std::uint64_t frame,std::string& e)->bool {
-            despawnFrameNow=frame;if(!combatSession||!lifecycleEnabled)return true;
+            despawnFrameNow=frame;if(!combatSession)return true; // P16 DESPAWN2: every run (authored monsters on the default path too)
             if(!despawnDelayMs) { // CharacterDesign.Despawn_Delay from design_pycst (2000 in the source data)
                 const auto designBytes=assets.read("original-cache/data/pydata/design_pycst.bin");
                 const auto destroyDesign=[](dh2_script_constants* value){if(value)dh2_script_constants_destroy(value);};
@@ -3602,6 +3604,14 @@ int main(int argc,char** argv) {
                 declaredServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
                 std::string declaredLine,declaredError;
                 f::spawn::spawn_declared_v1(request.name,placed->definition.stableId,status->state,declaredServices,declaredLine,declaredError);
+            }
+            // P16 DESPAWN2 debug trigger: --kill-test NAME@FRAME sets an authored actor to 0 HP; the runtime then takes its death pose.
+            for(const auto& request:options.killTests)if(request.frame==drawn&&combatSession) {
+                const auto placed=placedNamed(request.name);
+                auto* victim=placed==population.actors().end()?nullptr:combatSession->actor(placed->definition.stableId);
+                if(!victim){std::cout<<"KILL test rejected name="<<request.name<<" reason=no live population actor\n";continue;}
+                victim->health=0;f::reset_actor_action(*victim,f::CharacterAction::dead);
+                std::cout<<"KILL test actor="<<victim->id<<" name="<<request.name<<" frame="<<drawn<<'\n';
             }
             for(const auto& request:options.despawnTests)if(request.frame==drawn&&combatSession) {
                 const auto placed=placedNamed(request.name);
