@@ -886,7 +886,8 @@ int main(int argc,char** argv) {
                 policy.sourceAttackBank=attack.bank;policy.sourceAttackPolicies=attack.sequence_policies;
                 policy.sequenceAction=attack.static_selection;policy.sourceAttackStateSelection=true;
                 policy.sourceMeleeHandMarkers=true;policy.sourceCombo=true;
-                policy.damageMarkerNames={"attack_mainhand","attack_offhand"};
+                // B044: the offhand damage marker exists only for a selected dual phase (off slot filled).
+                policy.damageMarkerNames={"attack_mainhand"};if(hands.second>=0)policy.damageMarkerNames.push_back("attack_offhand");
                 std::cout<<"Source player melee bank class="<<state.class_id<<" stance="<<selected.stance<<" moving="<<attack.moving_sequence_id<<" static="<<attack.static_sequence_id<<" main="<<hands.first<<" off="<<hands.second<<"; current initial gear, later bank replacement remains explicit\n";
             }
         }

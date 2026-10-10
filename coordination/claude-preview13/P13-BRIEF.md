@@ -15,3 +15,9 @@ COMMON-BRIEF.md still applies in full (rules, evidence sources, build restrictio
 
 ## Verification handoff
 Your report must end with a **"Verifier script"**: exact EXE arguments (the option names from main.cpp's parser), what frames/log lines to capture, and the expected observable result, so a verifier can reproduce it on the integrated EXE without reading your code.
+
+## Wave 2 update
+- A WIP integrated EXE containing wave-1 changes (arrow ordering fix, equipment Details backgrounds, Faery HUD icon, music logging) is at `.local-inputs/windows-source-clock-v19-preview-13-candidate/dh-foundation.exe` (SHA256 AA4442AD…; manifest/receipt there still say Preview 12). Use it to A/B your area against `.local-inputs/windows-source-clock-v19-preview-12/dh-foundation.exe`. Never modify either folder; run from your own copy with your own saves. The older `...-preview-12-candidate` path no longer exists.
+- The root rebuilds the main EXE; you still must not run ninja/cmake on the shared build dir.
+- Wave 1 changes that may interact: group A edited features/frontend/input/screen_interaction.cpp; B edited features/inventory/inventory_details.cpp; D edited features/audio/*; H added two lines in main.cpp near the PC HUD (`active_faery_id`).
+- **Hit/knockback history (user, 2026-10-10):** an earlier version knocked the hero back on EVERY hit; the user had that fixed. Clean hits (result flag 0x0) must never push. Only push-bearing hit results (e.g. Lizard 0x98, controlled 0x88) may push. Bit 0x8 means critical, not "clean".

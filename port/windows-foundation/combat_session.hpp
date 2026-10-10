@@ -144,9 +144,12 @@ struct CombatSessionStateAnimationServices {
     std::function<bool(std::string&)> checkpoint;
 };
 struct CombatSessionSourceSequencePolicy {
-    std::int32_t original_state=-1; // Audited Skill6 or Cast7.
+    std::int32_t original_state=-1; // Audited Skill6, Cast7 or KnockedBack10.
     std::uint32_t state_flags=0;    // Actual focus flags; not a class guess.
-    std::uint64_t generation=0;    // Calling feature's cast occurrence.
+    std::uint64_t generation=0;    // Calling feature occurrence.
+    ActorId source_other_actor=invalid_actor_id; // KnockBack attacker only.
+    bool source_knockback_great=false;
+    bool source_direct_transition=false;
 };
 struct CombatSessionObjectAnimationServices {
     // Consumers may select/remove object visuals, but must defer Session
@@ -204,6 +207,8 @@ struct CombatSessionActorTransition {
     // Exact authored root already prepared for this accepted attack. Unknown
     // for other transitions/unrecognized roots; never inferred from a clip.
     std::optional<bool> source_attack_moving;
+    ActorId source_other_actor=invalid_actor_id;
+    std::optional<bool> source_knockback_great;
 };
 // Read-only modern borrow witness. Session destruction invalidates it even if
 // a borrower temporarily pins this token; it does not keep the Session alive.
@@ -409,6 +414,11 @@ public:
     // Admission, target query, cast animation and other result statuses remain
     // source feature responsibilities; this is not a complete F_ApplyResult.
     bool apply_source_result(const CombatSessionSourceHit&,DamageEvent&,std::string& error);
+    using SourceHitEffectHandler=std::function<bool(CombatSession&,const DamageEvent&,
+        std::uint64_t occurrence,CombatRuntimeHitEffectStage,std::string&)>;
+    // Same actor lease, both normal melee markers and explicit source results.
+    // Rebind after restore; failures preserve already committed damage/events.
+    bool bind_source_hit_effect_handler(SourceHitEffectHandler,std::string& error);
     // A reached source script may calculate again after its preceding hit was
     // lethal. Uses the SAME occurrence dedup/RNG/full result, without health,
     // reaction or damage-event publication. Duplicates report calculated=false.

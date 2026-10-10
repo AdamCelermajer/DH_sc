@@ -38,7 +38,7 @@ bool validate_actor_state(const ActorState& actor, std::string& error) {
     switch (actor.action) {
     case CharacterAction::idle: case CharacterAction::moving:
     case CharacterAction::attacking: case CharacterAction::casting:
-    case CharacterAction::hurt: case CharacterAction::dead: break;
+    case CharacterAction::hurt: case CharacterAction::dead: case CharacterAction::knocked_back: break;
     default: return fail("actor action is invalid");
     }
     if ((actor.health == 0.0f) != (actor.action == CharacterAction::dead))

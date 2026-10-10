@@ -247,6 +247,21 @@ int main(int argc, char** argv) {
             const bool source_unlocked = state->stats.level >=
                 static_cast<std::uint32_t>(std::max(0, projected_view.rows[i].required_level));
             CHECK(lock_rendered == !source_unlocked);
+            // Draw order: the source Lock chain is drawn over the cell icon
+            // (reference-399 shows the chain glyph on top of the greyed icon).
+            // The generic icon presenter appends the source icon batch, so a
+            // visible Lock must be ordered after every btimg batch of its cell.
+            if (lock_rendered) {
+                const auto btimg_prefix = "menu_SkillTreeSheetNew/buttons/skill" + std::to_string(i) + "/btimg/";
+                std::size_t lock_index = frame.art.batches.size(), last_icon_index = 0;
+                for (std::size_t b = 0; b < frame.art.batches.size(); ++b) {
+                    const auto& role = frame.art.batches[b].role;
+                    if (role.compare(0, lock_role.size(), lock_role) == 0 && lock_index == frame.art.batches.size())
+                        lock_index = b;
+                    if (role.compare(0, btimg_prefix.size(), btimg_prefix) == 0) last_icon_index = b;
+                }
+                CHECK(lock_index < frame.art.batches.size() && lock_index > last_icon_index);
+            }
         }
         CHECK(std::none_of(frame.text.begin(), frame.text.end(), [](const auto& item) {
             return item.field.path.find("/SKILL_NAME/") != std::string::npos ||

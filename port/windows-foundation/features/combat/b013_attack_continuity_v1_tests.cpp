@@ -8,6 +8,8 @@
 #include "../../../game-data/items.hpp"
 #include "../../../script-runtime/script_constants.hpp"
 #include <cmath>
+#include <cstdlib>
+#include <optional>
 #include <iostream>
 #include <map>
 #include <stdexcept>
@@ -15,7 +17,7 @@
 using namespace dh::foundation;
 namespace {
 void check(bool ok,const std::string& what){if(!ok)throw std::runtime_error(what);}
-bool histogramMode=false;
+bool histogramMode=false;bool liveEnemyLevel=false;int knightLevel=1;
 struct OutcomeCase{const char* label;std::uint32_t required,forbidden;bool damage;bool reaction;bool suppress_status=false,boost_injury=false,lethal=false,suppress_injury_only=false,source_gap=false;};
 const OutcomeCase cases[]={
  {"ordinary hit",0,0x1f7u,true,false,true},
@@ -81,14 +83,14 @@ void run(const char* root,const std::string& profile,const OutcomeCase& wanted){
  CombatSessionProfile player;player.sequenceAction=attackBank.static_selection;player.sourceAttackBank=attackBank.bank;
  player.sourceAttackPolicies=attackBank.sequence_policies;player.sourceAttackStateSelection=false;
  player.sourceAnimationClips=sourceClips;player.initialIdle={"Idle",0,{0}};
- player.damageMarkerNames={"attack_mainhand"};player.customization=custom;player.propertyOptions={256,true};player.retainedPhaseClock=true;
+ player.damageMarkerNames={"attack_mainhand"};player.customization=custom;player.propertyOptions={(histogramMode?knightLevel:1)*256,true};player.retainedPhaseClock=true;
  player.reaction=CombatSessionChoice{"Injured",0,{0}};player.death=CombatSessionChoice{"Died",0,{0}};player.motionRoot="auto";
  config.profiles.emplace(profile,player);
  CombatSessionProfile enemy;enemy.action={"Attack",0,{0,1}};enemy.initialIdle={"Idle",0,{0}};
- enemy.damageMarkerNames={"attack_mainhand"};enemy.customization=custom;enemy.propertyOptions={20*256,true};
+ enemy.damageMarkerNames={"attack_mainhand"};enemy.customization=custom;/* 20.0 is a probe-only level override; live enemies keep the CharacterTable base level (main.cpp sets no enemy level_raw). histogram-live drops it. */ enemy.propertyOptions={liveEnemyLevel?std::optional<std::int32_t>{}:std::optional<std::int32_t>(20*256),true};
  enemy.reaction=CombatSessionChoice{"Injured",0,{0}};enemy.death=CombatSessionChoice{"Died",0,{0}};enemy.motionRoot="auto";
- config.profiles.emplace("Swamp_LizadMan_Type1",enemy);
- ActorPopulation population;PopulationActor placed;placed.profileId="Swamp_LizadMan_Type1";
+ const char* enemyEnv=std::getenv("B013_ENEMY");const std::string enemyId=enemyEnv?enemyEnv:"Swamp_LizadMan_Type1";config.profiles.emplace(enemyId,enemy);
+ ActorPopulation population;PopulationActor placed;placed.profileId=enemyId;
  placed.definition.stableId=2;placed.definition.sourceId="b013-lizard";
  placed.definition.placement={1,0,0,0,0,1,0,0,0,0,1,0,0,-100,0,1};placed.transform=placed.definition.placement;
  population.actors().push_back(std::move(placed));CharacterVisual visual;CombatSession session;
@@ -111,7 +113,7 @@ void run(const char* root,const std::string& profile,const OutcomeCase& wanted){
    check(seedProvider.resolve_result(2,1,0x22aab5u,seedCategory,-1,0,rng,r,error,&rawFormula),error);
    ++counts[r.original.outcomes&0x1ffu];++samples;if(r.damage>0)++positive;
   }
-  std::cout<<profile<<" samples="<<samples<<" positive-damage="<<positive<<"\n";
+  std::cout<<enemyId<<" knight="<<profile<<" samples="<<samples<<" positive-damage="<<positive<<"\n";
   std::cout<<"  attacker 135="<<rawFormula[135]<<" 182="<<rawFormula[182]<<" 19="<<rawFormula[19]<<" 134="<<rawFormula[134]
    <<" | defender 135="<<seedTarget->sheets.resolved[135]<<" 19="<<seedTarget->sheets.resolved[19]<<" 134="<<seedTarget->sheets.resolved[134]<<"\n";
   for(const auto& entry:counts)std::cout<<"  outcomes=0x"<<std::hex<<entry.first<<std::dec<<" count="<<entry.second<<"\n";
@@ -191,8 +193,8 @@ void run(const char* root,const std::string& profile,const OutcomeCase& wanted){
 }
 }
 int main(int argc,char** argv){try{
- check(argc==2||(argc==3&&std::string(argv[2])=="histogram"),"Supply unified original assets root");
- if(argc==3){histogramMode=true;run(argv[1],"KnightPlayerBase",cases[0]);return 0;}
+ check(argc>=2&&argc<=4,"Supply unified original assets root");
+ if(argc>=3&&(std::string(argv[2])=="histogram"||std::string(argv[2])=="histogram-live")){histogramMode=true;liveEnemyLevel=std::string(argv[2])=="histogram-live";if(argc==4)knightLevel=std::atoi(argv[3]);run(argv[1],"KnightPlayerBase",cases[0]);return 0;}
  for(const auto* profile:{"KnightPlayerBase","RoguePlayerBase"})for(const auto& item:cases)run(argv[1],profile,item);
  std::cout<<"PASS B013 actual CombatSession: no-proc ordinary hit/miss preserve active Knight/Rogue attack; Injury/lethal interrupt; Push gap is exposed; duplicate delivery does not reroll. Dodge/block seeds are reported above.\n";
  return 0;

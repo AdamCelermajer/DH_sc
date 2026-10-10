@@ -50,6 +50,14 @@ struct SessionActorTransitionProvidersV1 {
     std::function<bool(const CombatSessionActorTransition&, bool& timer_started,
                        std::string&)> skill_blur_timer10_event48;
 
+    // Same embedded source gate528 and controller cells. KnockBack setter
+    // mutates gate bits before Focus; these typed leaves borrow the host owner.
+    std::function<bool(ActorId, std::uint32_t&, std::string&)> knockback_read_gate528;
+    std::function<bool(ActorId, std::uint32_t, std::string&)> knockback_write_gate528;
+    std::function<bool(ActorId, bool, std::string&)> knockback_controller_lock;
+    // Source LookAt(attacker) followed by CancelSneaking, after controller lock.
+    std::function<bool(const CombatSessionActorTransition&, std::string&)> knockback_look_at_cancel_sneaking;
+
     // Actual source IsPlayer fact controls the additional Dead bit.
     std::function<bool(ActorId, bool&, std::string&)> source_is_player;
     // The original physical filter arguments/predicate are not represented by

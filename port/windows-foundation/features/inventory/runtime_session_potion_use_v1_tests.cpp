@@ -196,7 +196,29 @@ int main(int argc, char** argv) try {
           actor->health < actor->max_health,
           "Reached RegenHP failure did not retain exactly the consumed-item/property prefix");
 
+    // B043 regression: an MP spend made like the original Character::UseMana
+    // (PropertyAdd on property 41 with the live actor MP re-synced) must leave
+    // the source sheet consistent, so the next potion press syncs and uses.
+    profile->inventory.push_back({"potion-instance-2", "Potion0", 2});
+    {
+        auto spent = world->combat_properties(1)->sheets;
+        auto spent_view = dh2::data::property_view(rules, spent);
+        check(dh2_property_add(&spent_view, 41, -10 * 256) == 0, "Source UseMana-style PropertyAdd failed");
+        OriginalCombatProperties next = *world->combat_properties(1);
+        next.sheets = spent;
+        check(world->update_combat_properties(1, std::move(next), *world->traits(1), error), error);
+        actor->resource = float(spent.resolved[41]) / 256.0f;
+        profile->stats.resource = actor->resource;
+    }
+    check(use.dispatch(session, 1, *profile, pressed, services, receipt, error) &&
+          receipt.result == RuntimePotionUseResultV1::used && receipt.consumed &&
+          profile->inventory.front().quantity == 1 &&
+          actor->resource == actor->max_resource,
+          "Potion press after a source MP spend failed to sync live vitals: result=" +
+          std::to_string(static_cast<int>(receipt.result)) + " error=" + error);
+
     // A new press with no potion is a source no-op.
+    profile->inventory.clear();
     check(use.dispatch(session, 1, *profile, pressed, services, receipt, error), error);
     check(receipt.result == RuntimePotionUseResultV1::no_potion && profile->inventory.empty(),
           "Empty source potion owner changed state");

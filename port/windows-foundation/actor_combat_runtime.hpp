@@ -45,6 +45,9 @@ inline CombatVisualBinding combat_visual_binding(CharacterVisual& visual) {
 
 enum class CombatRuntimeTransitionCause { attack, injury, death, completion, interruption, locomotion, source_program };
 enum class CombatRuntimeTransitionStage { before_change, after_change };
+enum class CombatRuntimeHitEffectStage { before_effects, after_effects };
+using CombatRuntimeHitEffectObserver = std::function<bool(const DamageEvent&,
+    std::uint64_t occurrence,CombatRuntimeHitEffectStage,std::string&)>;
 struct CombatRuntimeTransition {
     ActorId actor=invalid_actor_id;
     std::int32_t from_state=-1,to_state=-1;
@@ -93,6 +96,9 @@ public:
     // AttackDefinition explicitly selects start-based compatibility or recovered
     // departure-based AttackDelay. Timers advance in wall time, not clip time.
     explicit ActorCombatRuntime(CombatSystem& combat) : combat_(combat) {}
+    // Same applied receipt around Injury/Dead publication. The before phase
+    // precedes visual/state effects; the core HP prefix is already committed.
+    void set_hit_effect_observer(CombatRuntimeHitEffectObserver observer){hit_effect_observer_=std::move(observer);}
     // Actor must be the same stable record returned by CombatWorld::find_actor.
     bool bind(ActorState& actor, CombatVisualBinding visual,
               CombatPoseBindings poses, std::string& error);
@@ -157,6 +163,10 @@ private:
     bool consume_source_marker(ActorId, std::uint64_t, const SourceCombatMarker&,
                                std::uint64_t, std::vector<DamageEvent>&, std::string&);
     CombatSystem& combat_;
+    CombatRuntimeHitEffectObserver hit_effect_observer_;
+    std::string hit_effect_failure_;
+    bool observe_hit_effect(const DamageEvent&,std::uint64_t,CombatRuntimeHitEffectStage,std::string&);
+    std::uint64_t hit_effect_occurrence_=0;
     std::map<ActorId, Binding> bindings_;
 };
 

@@ -221,7 +221,14 @@ bool prepare_celest_spell_v1(
         if (std::fabs(caster->resource - expected_resource) > sync_tolerance ||
             std::fabs(state.stats.resource - expected_resource) > sync_tolerance)
             return fail(error, "Celest UseMana requires synchronized same-world ActorState, CharacterState and MP");
-        next_properties.sheets.resolved[source_mana_property] = old_mp - mana_cost;
+        // Original Character::UseMana calls CharProperties::PROPS_Add(41, -cost).
+        // MP is a saved-based (type 32) property: a direct resolved[] write is
+        // recomputed away by the next resolve, leaving the source sheet stale.
+        auto mana_view = dh2::data::property_view(rules, next_properties.sheets);
+        if (dh2_property_add(&mana_view, source_mana_property,
+                static_cast<std::int32_t>(0u - static_cast<std::uint32_t>(mana_cost))) != 0 ||
+            next_properties.sheets.resolved[source_mana_property] != old_mp - mana_cost)
+            return fail(error, "Celest UseMana PropertyAdd did not debit the source MP property");
         next_resource = expected_resource - float(mana_cost) * (1.0f / 256.0f);
     }
     if (clock.elapsed_ms > std::numeric_limits<std::uint64_t>::max() - 5000u)

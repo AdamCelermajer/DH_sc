@@ -98,6 +98,10 @@ struct CombatSession::Impl {
     };
     std::map<std::pair<ActorId,std::string>,SourceHitBatch> sourceHitBatches;
     bool applyingSourceHit=false;
+    SourceHitEffectHandler sourceHitEffectHandler;
+    std::weak_ptr<const void> sourceHitEffectLease;
+    bool sourceHitEffectRequired=false;
+    bool deliveringSourceHitEffect=false;
     std::vector<PlayableCombatResolution> resolutions;
     std::vector<std::string> logs;
     std::set<ActorId> reactionGapLogged;
@@ -145,11 +149,12 @@ struct CombatSession::Impl {
         return world->update_combat_properties(id,std::move(properties),*traits,error);
     }
     bool source_checkpoint(std::string& error){
-        if(updating||restoreTeardown||checkingAnimationCheckpoint||transitionDelivering||!pendingMotion.empty()){
+        if(updating||applyingSourceHit||deliveringSourceHitEffect||restoreTeardown||checkingAnimationCheckpoint||transitionDelivering||!pendingMotion.empty()){
             error="Actor motion phase is active or has unprocessed authored samples";return false;
         }
         if(!transitionFailure.empty()){error=transitionFailure;return false;}
         if(!pendingTransitions.empty()){error="Accepted actor transition has an unfinished reached prefix";return false;}
+        if(sourceHitEffectRequired&&!sourceHitEffectHandler&&!detached){error="Required fresh source-hit effect binding after restore";return false;}
         if(runtime&&!runtime->validate_transition_checkpoint(error))return false;
         if(transitionRequired&&!actorTransitionHandler&&!detached){error="Required fresh actor transition binding after restore";return false;}
         if(actorTransitionHandler){
@@ -201,13 +206,15 @@ struct CombatSession::Impl {
             animationNotificationCheckpoint={};animationNotificationLease.reset();animationNotificationsReconstructible=false;
         }
         actorTransitionHandler={};actorTransitionCheckpoint={};actorTransitionLease.reset();pendingTransitions.clear();
+        sourceHitEffectHandler={};sourceHitEffectLease.reset();
         pendingMotion.clear();motionPhaseHandler={};
         runtime->clear();combat->clear();events.clear();resolutions.clear();comboBoundaries.clear();
         world->take_resolutions();pendingSourceHits.clear();sourceHitBatches.clear();
         objectEntries.clear();objectOrder.clear();bindingLease.reset();detached=true;
     }
     bool actor_transition(ActorId id,CombatRuntimeTransition receipt,std::string& error,
-                          const std::function<bool(ActorId,std::string&)>* normal_finished=nullptr){
+                          const std::function<bool(ActorId,std::string&)>* normal_finished=nullptr,
+                          const CombatSessionSourceSequencePolicy* incoming_policy=nullptr){
         if(!actorTransitionHandler)return !transitionRequired||detached;
         if(detached||transitionDelivering||restoreTeardown||checkingAnimationCheckpoint||!entries.count(id)){
             error="Accepted actor transition needs idle current consumer delivery";return false;
@@ -236,6 +243,10 @@ struct CombatSession::Impl {
                     if(selection->state=="Attack")event.source_attack_moving=true;
                     else if(selection->state=="AttackStatic")event.source_attack_moving=false;
                 }
+            }
+            if(incoming_policy&&incoming_policy->original_state==10){
+                event.source_other_actor=incoming_policy->source_other_actor;
+                event.source_knockback_great=incoming_policy->source_knockback_great;
             }
             pendingTransitions.emplace(id,event);
             if(!emit(event,CombatSessionTransitionStage::blur))return false;
@@ -301,6 +312,8 @@ struct CombatSession::Impl {
         auto& entry=entries.at(id);
         if(!entry.stateSequence||!entry.sourceStatePolicy)return true;
         const auto from=entry.sourceStatePolicy->original_state;
+        if(from==10){auto* actor=world->find_actor(id);
+            reset_actor_action(*actor,next_state==12?CharacterAction::dead:CharacterAction::idle);}
         const auto callback=entry.stateServices.departed;
         const auto checkpoint=entry.stateServices.checkpoint;
         // Commit the outgoing occurrence first. Failure in its Post cannot
@@ -324,6 +337,10 @@ struct CombatSession::Impl {
         // occurrence without invoking the interruption/departed owner. The
         // normal Post still sees the outgoing World state until it succeeds.
         const auto checkpoint=entry.stateServices.checkpoint;
+        if(entry.sourceStatePolicy&&entry.sourceStatePolicy->original_state==10){
+            auto* actor=world->find_actor(id);
+            reset_actor_action(*actor,next_state==12?CharacterAction::dead:CharacterAction::idle);
+        }
         entry.stateManaged=entry.stateSequence=entry.stateFrozen=false;
         entry.sourceStatePolicy.reset();entry.sourceEvents.clear();entry.sourceSelectedClip.clear();
         entry.sourceAction=false;entry.stateServices={};entry.stateServices.checkpoint=checkpoint;
@@ -606,6 +623,10 @@ struct CombatSession::Impl {
             }
             const auto callback=bound.stateServices.finished;bound.stateSequence=false;
             const bool generic=bound.sourceStatePolicy.has_value();
+            if(bound.sourceStatePolicy&&bound.sourceStatePolicy->original_state==10){
+                auto* actor=world->find_actor(id);
+                reset_actor_action(*actor,actor->alive()?CharacterAction::idle:CharacterAction::dead);
+            }
             if(bound.sourceStatePolicy){
                 bound.stateManaged=bound.stateFrozen=false;bound.sourceStatePolicy.reset();
                 bound.sourceSelectedClip.clear();bound.sourceEvents.clear();bound.sourceAction=false;
@@ -804,6 +825,7 @@ struct CombatSession::Impl {
             if(!entries.at(id).poses.react_clip_id.empty()){properties.facts.original_state=11;break;}
             return true;
         case CharacterAction::dead:properties.facts.original_state=12;break;
+        case CharacterAction::knocked_back:properties.facts.original_state=10;break;
         default:
             if(reactionGapLogged.insert(id).second)logs.push_back("Unresolved original reaction/cast state producer for actor "+std::to_string(id));
             return true;
@@ -885,30 +907,6 @@ struct CombatSession::Impl {
         a->target_id=requested;
         if(!turn(source,requested,dt,error))return false;
         return request(source,requested,error);
-    }
-    // Accepted departure of a retained source combo swing (CSAttack::OnBlur):
-    // cancel the same retained cursor, start the AttackDelay cooldown once
-    // (CombatSystem::interrupt), and clear continuation so the next swing starts
-    // from a fresh command. Stale or non-combo swings are no-ops.
-    bool depart_source_attack(ActorId id,std::string& error){
-        auto& entry=entries.at(id);
-        if(!entry.sourceCombo||!entry.sourceAction)return true;
-        // CombatSystem::interrupt (also reached through runtime->interrupt) clears
-        // target_id unconditionally, which the source departure does not do
-        // (CSAttack::OnBlur only starts the AttackDelay timer). Keep the target
-        // across the interrupts, then apply the source nonsticky rule
-        // (CharAI::_ClearNonStickyTarget) exactly as the completion path does.
-        const auto* actor=world->find_actor(id);const ActorId target=actor?actor->target_id:invalid_actor_id;
-        entry.retained->cancel();entry.sourceAction=false;entry.sourceEvents.clear();
-        entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
-        if(runtime->owns_pose(id)&&!runtime->interrupt(id,error))return false;
-        combat->interrupt(id);
-        if(id==player&&stickyPlayerTarget!=invalid_actor_id){
-            if(auto* after=world->find_actor(id))after->target_id=target;
-            return true;
-        }
-        if(!set_source_target(id,invalid_actor_id,false,error)||!sync_source_last_target(id,error))return false;
-        return true;
     }
     bool command_request(ActorId source,ActorId requested,double dt,std::string& error){
         if(entries.at(source).stateSequence&&entries.at(source).sourceStatePolicy){error.clear();return true;}
@@ -1466,15 +1464,6 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
         if(!s.set_source_target(s.player,invalid_actor_id,true,error))return false;
     }
     if(input.attack){if(!s.command_request(s.player,player->target_id,dt,error))return false;}
-    // Source Space release raises event 50001, and Character::CSM_StoppedAttacking
-    // leaves Attack only when Character+1090 (CharAI+122) is set. That byte is
-    // (step!=0 && final step) in _OnAnimStepBegin_Attack, i.e. AttackState64::finisher
-    // here; AttackState64::last (CharAI+121) also covers the pre step and gates input.
-    if(!input.attack&&player->action==CharacterAction::attacking){
-        const auto& playerEntry=s.entries.at(s.player);
-        if(playerEntry.sourceCombo&&playerEntry.sourceAction&&playerEntry.sourceAttack.finisher&&
-           !s.depart_source_attack(s.player,error))return false;
-    }
     if(player->action==CharacterAction::attacking&&!s.turn(s.player,player->target_id,dt,error))return false;
     if(s.actorDecisionProvider&&!s.actorDecisionProvider(*this,dt,error))return false;
     for(const auto& entry:s.entries){
@@ -1573,6 +1562,28 @@ bool CombatSession::request_actor_attack(ActorId actor,ActorId target,double dt,
     if(impl_->transitionDelivering||impl_->checkingAnimationCheckpoint||impl_->restoreTeardown){error="Attack command cannot reenter transition/checkpoint/teardown";return false;}
     return impl_->command_request(actor,target,dt,error);
 }
+bool CombatSession::bind_source_hit_effect_handler(SourceHitEffectHandler handler,std::string& error){
+    error.clear();
+    if(!impl_||impl_->detached||!handler||impl_->updating||impl_->applyingSourceHit||impl_->deliveringSourceHitEffect||
+       impl_->transitionDelivering||impl_->checkingAnimationCheckpoint||impl_->restoreTeardown){
+        error="Source-hit effects require an idle attached Session and actual handler";return false;
+    }
+    auto& s=*impl_;s.sourceHitEffectHandler=std::move(handler);
+    s.sourceHitEffectLease=s.bindingLease;s.sourceHitEffectRequired=true;
+    s.runtime->set_hit_effect_observer([this](const DamageEvent& hit,std::uint64_t occurrence,
+        CombatRuntimeHitEffectStage stage,std::string& detail){
+        auto& current=*impl_;const auto lease=current.sourceHitEffectLease.lock();
+        if(current.detached||!lease||!current.bindingLease||
+           lease.owner_before(current.bindingLease)||current.bindingLease.owner_before(lease)||
+           !current.sourceHitEffectHandler){detail="Source-hit effect handler lacks its current actor lease";return false;}
+        if(current.deliveringSourceHitEffect){detail="Source-hit effect handler cannot reenter";return false;}
+        struct Scope{bool& active;~Scope(){active=false;}} scope{current.deliveringSourceHitEffect};
+        current.deliveringSourceHitEffect=true;
+        const auto handler=current.sourceHitEffectHandler;
+        return handler(*this,hit,occurrence,stage,detail);
+    });
+    return true;
+}
 bool CombatSession::apply_source_result(const CombatSessionSourceHit& hit,
     DamageEvent& receipt,std::string& error){
     receipt={};error.clear();
@@ -1584,7 +1595,7 @@ bool CombatSession::apply_source_result(const CombatSessionSourceHit& hit,
         error="Source hit requires current Session actors/lease and an authored occurrence";return false;
     }
     auto& s=*impl_;
-    if(s.applyingSourceHit||s.transitionDelivering||s.checkingAnimationCheckpoint||s.restoreTeardown){error="Source hit calculation/application cannot reenter";return false;}
+    if(s.applyingSourceHit||s.deliveringSourceHitEffect||s.transitionDelivering||s.checkingAnimationCheckpoint||s.restoreTeardown){error="Source hit calculation/application cannot reenter";return false;}
     const bool unfinishedBlur=std::any_of(s.pendingTransitions.begin(),s.pendingTransitions.end(),
         [](const auto& pair){return pair.second.stage!=CombatSessionTransitionStage::focus_prefix;});
     if(!s.transitionFailure.empty()||unfinishedBlur||!s.runtime->validate_transition_checkpoint(error)){
@@ -1633,7 +1644,7 @@ bool CombatSession::resolve_source_result_only(const CombatSessionSourceHit& hit
        !impl_->entries.count(hit.attacker)||!impl_->entries.count(hit.target)){
         error="Source calculation requires current Session actors/lease and an authored occurrence";return false;
     }
-    auto& s=*impl_;if(s.applyingSourceHit||s.transitionDelivering||s.checkingAnimationCheckpoint||s.restoreTeardown){error="Source calculation cannot reenter";return false;}
+    auto& s=*impl_;if(s.applyingSourceHit||s.deliveringSourceHitEffect||s.transitionDelivering||s.checkingAnimationCheckpoint||s.restoreTeardown){error="Source calculation cannot reenter";return false;}
     const auto batchKey=std::make_pair(hit.attacker,hit.source_id);
     const auto delivery=std::make_pair(hit.target,hit.event_index);
     const auto old=s.sourceHitBatches.find(batchKey);
@@ -1654,7 +1665,7 @@ bool CombatSession::resolve_source_result_only(const CombatSessionSourceHit& hit
 void CombatSession::detach_for_restore(){
     if(!impl_||impl_->detached)return;
     auto& s=*impl_;
-    if(s.updating||s.restoreTeardown||s.checkingAnimationCheckpoint||s.transitionDelivering)
+    if(s.updating||s.deliveringSourceHitEffect||s.restoreTeardown||s.checkingAnimationCheckpoint||s.transitionDelivering)
         throw std::logic_error("Cannot detach Session during actor frame, checkpoint validation or restore teardown");
     // Validate generic timers while their current lease still exists. A
     // detached rebind must not re-query an already-invalidated feature owner.
@@ -2005,12 +2016,21 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     CombatSessionStateAnimationServices services,const CombatSessionSourceSequencePolicy& policy,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Source-sequence actor is unavailable";return false;}
     auto& s=*impl_;auto& entry=s.entries.at(id);
-    const bool generic=policy.original_state==6||policy.original_state==7;
+    const bool generic=policy.original_state==6||policy.original_state==7||policy.original_state==10;
     if(!generic&&(policy.original_state!=-1||policy.state_flags||policy.generation)){
-        error="Source sequence policy must describe Skill6/Cast7 or legacy lifecycle playback";return false;
+        error="Source sequence policy must describe Skill6/Cast7/KnockedBack10 or legacy lifecycle playback";return false;
     }
     if(generic&&(!policy.generation||!services.departed||!services.checkpoint)){
         error="Generic source sequence needs occurrence, departure and transient checkpoint policies";return false;
+    }
+    if(policy.original_state==10){
+        const auto* actor=s.world->find_actor(id);const auto* traits=s.world->traits(id);
+        const auto* other=s.world->find_actor(policy.source_other_actor);
+        const auto state=s.live_original_state(id);
+        if(!actor||!actor->alive()||!traits||!traits->is_player||!other||
+           policy.state_flags!=0x2341u||(!policy.source_direct_transition&&state!=3&&state!=11)){
+            error="KnockedBack10 requires its live player/attacker, source flags and admitted current state";return false;
+        }
     }
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){
         error="Active generic source sequence requires an accepted departure before replacement";return false;
@@ -2029,18 +2049,17 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     if(s.actorTransitionHandler){
         if(!generic){error="Legacy lifecycle source program has no admitted physical transition recipe";return false;}
         receipt={id,s.world->combat_properties(id)->facts.original_state,policy.original_state,policy.generation,CombatRuntimeTransitionCause::source_program};
-        if(!s.actor_transition(id,receipt,error))return false;
+        if(!s.actor_transition(id,receipt,error,nullptr,&policy))return false;
     }
     {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
         if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
         s.combat->interrupt(id);
-        // Interrupted source combo swing: drop continuation/last so the next swing starts fresh.
-        entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
     }
     if(!entry.retained->prepare_preserving(*s.assets,plan,policies,selection,s.retained_services(id),alias,error))return false;
     entry.attackProgram=false;entry.stateManaged=true;entry.stateSequence=true;entry.stateFrozen=false;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
     entry.sourceStatePolicy=generic?std::optional<CombatSessionSourceSequencePolicy>{policy}:std::nullopt;
     if(!generic)s.lifecycleRegistered=true;
+    if(policy.original_state==10)reset_actor_action(*s.world->find_actor(id),CharacterAction::knocked_back);
     if(generic&&!s.facts(id,error))return false;
     if(!entry.retained->begin(error))return false;
     if(s.actorTransitionHandler){receipt.stage=CombatRuntimeTransitionStage::after_change;return s.actor_transition(id,receipt,error);}

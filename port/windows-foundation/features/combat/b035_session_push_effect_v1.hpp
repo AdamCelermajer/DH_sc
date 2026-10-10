@@ -65,6 +65,12 @@ struct SessionPushAnimationBankV1 {
 using SessionPushEffectSinkV1 = std::function<bool(
     CombatSession&, const SessionPushRequestV1&, std::string&)>;
 
+// Common incoming consumer: before Injury snapshot / after Injury Push delivery
+// for BOTH authored normal melee markers and explicit calculated source hits.
+// The Session owns occurrence retirement and actor lease; the sink retains its
+// actual per-actor preinitialized source bank and physical service owner.
+bool bind_session_push_effect_v1(CombatSession&,SessionPushEffectSinkV1,std::string& error);
+
 bool capture_session_push_admission_v1(CombatSession&,
     const CombatSessionSourceHit&, SessionPushAdmissionV1&, std::string& error);
 

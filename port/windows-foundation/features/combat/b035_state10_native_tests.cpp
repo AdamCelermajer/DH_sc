@@ -233,6 +233,7 @@ void run_case(const char* root, const PushCase& wanted) {
     SessionPushAdmissionV1 failing_admission;
     check(capture_session_push_admission_v1(session,hit,failing_admission,error),error);
     const auto rng_before_hit=session.world()->random_state();
+    const auto hero_before_hit=session.actor(1)->transform.position;
     DamageEvent receipt;
     check(session.apply_source_result(hit,receipt,error),error);
     check(receipt.applied&&receipt.source_outcomes&&*receipt.source_outcomes==wanted.exact_outcomes
@@ -375,6 +376,11 @@ void run_case(const char* root, const PushCase& wanted) {
         check(consume_session_push_result_v1(session,admission,receipt,sink,consumed,error),error);
         check(!consumed&&calls==0&&native.locks==0&&native.motion_samples==0&&session.original_actor_state(1)==3,
             "Ordinary source result incorrectly reached Push/state/filter/motion");
+        // A non-push hit (clean 0x0 or critical 0x8) must leave the hero where it stood.
+        const auto hero_after_hit=session.actor(1)->transform.position;
+        check(hero_after_hit==hero_before_hit&&session.actor(1)->action!=CharacterAction::knocked_back,
+            "Non-push source result moved the hero or entered KnockedBack");
+        std::cout<<"  hero-position-unchanged="<<(hero_after_hit==hero_before_hit)<<"\n";
     }
     check(session.world()->random_state().seed==expected_rng.seed&&
         session.world()->random_state().calls==expected_rng.calls,
@@ -390,6 +396,7 @@ int main(int argc,char** argv){try{
     run_case(argv[1],{"normal-enemy-melee",0x98u,false,false,0,false,false,true});
     run_case(argv[1],{"failed-post-hit-effect",0x98u,false,false,0,false,false,false,true});
     run_case(argv[1],{"ordinary",0x8u,true,false});
+    run_case(argv[1],{"clean-hit-no-push",0x0u,true,false});
     run_case(argv[1],{"natural-lizard-push-injury-critical",0x98u,false,false});
     run_case(argv[1],{"controlled-push-critical",0x88u,false,true});
     run_case(argv[1],{"great-source-push",0x88u,false,true,0x00100000u});

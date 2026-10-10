@@ -94,7 +94,7 @@ struct CharacterState {
 };
 
 // Temporary controller state is deliberately not part of CharacterState/save data.
-enum class CharacterAction { idle, moving, attacking, casting, hurt, dead };
+enum class CharacterAction { idle, moving, attacking, casting, hurt, dead, knocked_back };
 struct CharacterRuntimeState {
     CharacterAction action = CharacterAction::idle;
     float action_elapsed_seconds = 0.0f;

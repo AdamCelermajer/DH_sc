@@ -231,6 +231,17 @@ bool RuntimeSkillsMenuV1::append(character_menu::Frame& frame, std::string& erro
                 }
             }
         }
+        // The source Lock chain is drawn above its cell icon (reference-399).
+        // The icon presenter appends source icon batches after the authored
+        // Lock, so move the visible Lock batches last, keeping their order.
+        std::stable_partition(next.art.batches.begin(), next.art.batches.end(), [&](const auto& batch) {
+            for (std::size_t i = 0; i < states.size(); ++i) {
+                if (!states[i].lock_visible) continue;
+                const auto lock_prefix = "menu_SkillTreeSheetNew/buttons/skill" + std::to_string(i) + "/Lock/";
+                if (batch.role.compare(0, lock_prefix.size(), lock_prefix) == 0) return false;
+            }
+            return true;
+        });
     }
 
     // presetAllSkills initially exposes Add Skill when the same source point

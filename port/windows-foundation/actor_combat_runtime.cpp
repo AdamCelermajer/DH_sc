@@ -101,7 +101,17 @@ bool ActorCombatRuntime::depart(Binding& binding,CombatRuntimeTransitionCause ca
     release(binding);
     return transition(binding,receipt,CombatRuntimeTransitionStage::after_change,error);
 }
+bool ActorCombatRuntime::observe_hit_effect(const DamageEvent& result,std::uint64_t occurrence,
+    CombatRuntimeHitEffectStage stage,std::string& error){
+    if(!result.applied||!hit_effect_observer_)return true;
+    try{if(hit_effect_observer_(result,occurrence,stage,error))return true;}
+    catch(const std::exception& ex){error=ex.what();}
+    catch(...){error="Applied-hit effect observer threw after committed HP prefix";}
+    if(error.empty())error="Applied-hit effect observer rejected after committed HP prefix";
+    hit_effect_failure_=error;return false;
+}
 bool ActorCombatRuntime::validate_transition_checkpoint(std::string& error)const{
+    if(!hit_effect_failure_.empty()){error=hit_effect_failure_;return false;}
     for(const auto& pair:bindings_){
         if(pair.second.delivering_transition){error="Accepted actor transition is in flight";return false;}
         if(!pair.second.transition_failure.empty()){error=pair.second.transition_failure;return false;}
@@ -326,16 +336,29 @@ bool ActorCombatRuntime::handle_applied_hit(const DamageEvent& result,
         return false;
     }
     if (receipts) receipts->push_back(result);
+    if(result.applied&&hit_effect_observer_&&hit_effect_occurrence_==UINT64_MAX){error="Applied-hit effect occurrence exhausted";return false;}
+    const auto effect_occurrence=result.applied&&hit_effect_observer_?++hit_effect_occurrence_:0;
+    if(!observe_hit_effect(result,effect_occurrence,
+        CombatRuntimeHitEffectStage::before_effects,error))return false;
     const auto victim = bindings_.find(result.target);
-    if (victim == bindings_.end()) return true;
+    if (victim == bindings_.end()) return observe_hit_effect(result,
+        effect_occurrence,CombatRuntimeHitEffectStage::after_effects,error);
     bool new_pose = false;
     if (result.target_died) {
-        if (!synchronize(victim->second, error)) return false;
+        if (!synchronize(victim->second, error)) {if(result.applied&&hit_effect_observer_)hit_effect_failure_=error;return false;}
         new_pose = victim->second.pose == Pose::death;
     } else if (!start_injure_reaction(victim->second, result, new_pose, error)) {
+        if(result.applied&&hit_effect_observer_)hit_effect_failure_=error.empty()?"Core hit effect failed after committed HP prefix":error;
         return false;
     }
-    if (!new_pose || !sample_remainder) return true;
+    const auto pose_before_effects=victim->second.pose;
+    const auto generation_before_effects=victim->second.cursor.generation;
+    if(!observe_hit_effect(result,effect_occurrence,
+        CombatRuntimeHitEffectStage::after_effects,error))return false;
+    // An admitted effect can replace Injury with its retained state owner.
+    // Never sample the old reaction remainder into that replacement.
+    if (!new_pose || !sample_remainder||victim->second.pose!=pose_before_effects||
+        victim->second.cursor.generation!=generation_before_effects) return true;
 
     auto& target_binding = victim->second;
     const double duration = double(target_binding.duration_ms) / 1000;
@@ -522,7 +545,7 @@ void ActorCombatRuntime::clear() {
     for(const auto& item:bindings_)if(item.second.delivering_transition)
         throw std::logic_error("Cannot clear Runtime during accepted transition delivery");
     for (auto& item : bindings_) release(item.second);
-    bindings_.clear();
+    bindings_.clear();hit_effect_failure_.clear();
 }
 
 } // namespace dh::foundation

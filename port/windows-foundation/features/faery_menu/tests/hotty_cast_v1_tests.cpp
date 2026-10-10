@@ -311,6 +311,15 @@ int main(int argc, char** argv) {
               world.combat_properties(1)->sheets.resolved[41] ==
                   player_properties.sheets.resolved[41] - 20 * 256,
               "same-world UseMana prefix failed to debit the shared source MP/property state");
+        // Regression (B043): the debit must live in the saved-based MP property,
+        // so a full re-resolve keeps it (a direct resolved[] write was reverted).
+        {
+            auto recalculated = world.combat_properties(1)->sheets;
+            std::string recalc_error;
+            check(dh2::data::recalc_properties(rules, recalculated, recalc_error) &&
+                  recalculated.resolved[41] == world.combat_properties(1)->sheets.resolved[41],
+                  "Hotty UseMana MP debit did not survive a source property re-resolve");
+        }
         OriginalMeleeResolution hotty_result;
         const auto old_target_health = world.find_actor(2)->health;
         check(world.resolve_source_result("faerie_hotty", 1, 2, "SpellCombatRoll",

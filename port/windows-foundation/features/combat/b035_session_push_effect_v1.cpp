@@ -10,6 +10,33 @@ bool same_owner(const std::weak_ptr<const void>& a,
 }
 }
 
+bool bind_session_push_effect_v1(CombatSession& session,SessionPushEffectSinkV1 sink,
+    std::string& error){
+    if(!sink){error="Push binding requires its actual same-Session effect sink";return false;}
+    auto pending=std::make_shared<std::map<std::uint64_t,SessionPushAdmissionV1>>();
+    return session.bind_source_hit_effect_handler(
+        [pending,sink=std::move(sink)](CombatSession& current,const DamageEvent& receipt,
+            std::uint64_t occurrence,CombatRuntimeHitEffectStage stage,std::string& detail){
+            if(stage==CombatRuntimeHitEffectStage::before_effects){
+                if(!occurrence||pending->count(occurrence)||pending->size()>=character_collection_limit){
+                    detail="Push observer occurrence is duplicate or exceeds current delivery limit";return false;
+                }
+                CombatSessionSourceHit source;
+                source.attacker=receipt.attacker;source.target=receipt.target;
+                source.binding_lease=current.actor_binding_lease();source.generation=occurrence;
+                source.source_id=receipt.source_id;source.marker_name=receipt.marker_name;
+                SessionPushAdmissionV1 admission;
+                if(!capture_session_push_admission_v1(current,source,admission,detail))return false;
+                pending->emplace(occurrence,std::move(admission));return true;
+            }
+            const auto found=pending->find(occurrence);
+            if(found==pending->end()){detail="Push observer tail has no matching pre-effect admission";return false;}
+            auto admission=std::move(found->second);pending->erase(found);
+            bool consumed=false;
+            return consume_session_push_result_v1(current,admission,receipt,sink,consumed,detail);
+        },error);
+}
+
 bool capture_session_push_admission_v1(CombatSession& session,
     const CombatSessionSourceHit& hit, SessionPushAdmissionV1& output,
     std::string& error) {
@@ -188,6 +215,10 @@ bool play_session_push_animation_v1(CombatSession& session,
     if(!attacker||!target||!target->alive()){
         error="Push animation actors are no longer live in the same Session";return false;
     }
+    const auto* properties=session.world()->combat_properties(request.target);
+    const auto* ai=properties?dh2::data::ai_props(session.world()->factions(),properties->sheets.resolved[1]):nullptr;
+    if(!ai){error="Push animation requires the source target AiProps/IsBoss gate";return false;}
+    if(ai->flags&4u)return true; // SM_SetKnockBackState source Boss no-op.
     const auto state=request.great?bank.great_state:bank.normal_state;
     const auto sequence=request.great?bank.great_sequence:bank.normal_sequence;
     if(sequence<0)return true; // The original state setter returns without a pose.
@@ -208,18 +239,14 @@ bool play_session_push_animation_v1(CombatSession& session,
         if(!current){finish_error="Push target left the same Session before pose completion";return false;}
         return true;
     };
+    if(!services.departed)services.departed=[](ActorId,std::int32_t,std::int32_t,std::string&){return true;};
+    if(!services.checkpoint)services.checkpoint=[](std::string&){return true;};
+    CombatSessionSourceSequencePolicy policy;
+    policy.original_state=10;policy.state_flags=0x2341u;policy.generation=request.generation;
+    policy.source_other_actor=request.attacker;policy.source_knockback_great=request.great;
+    policy.source_direct_transition=request.direct;
     if(!session.play_actor_source_sequence(request.target,bank.plan,bank.policies,
-        selection,std::move(services),error))return false;
-    // CharacterAction has no KnockedBack value. Retained source-sequence
-    // ownership is the active pose here; leave the coarse action out of Hurt
-    // so ActorCombatRuntime does not restart Injury and reclaim the same pose.
-    // The integrating state owner must publish/gate original state 10.
-    target=session.actor(request.target);
-    if(!target||!target->alive()){
-        error="Push target changed before the retained pose was published";return false;
-    }
-    target->action=CharacterAction::idle;
-    target->action_elapsed_seconds=0;
+        selection,std::move(services),policy,error))return false;
     return true;
 }
 

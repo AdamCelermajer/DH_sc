@@ -1,73 +1,73 @@
-{
-  "validation": "PASS",
-  "version": 1,
-  "test": {
-    "validation": "PASS",
-    "creation_hashes": 13,
-    "loot_source_hashes": 25,
-    "merchant_rows": 12,
-    "quantity_tables": 39,
-    "item_power_rows": 937,
-    "audiovisual_rows": 29,
-    "design_rows": 1,
-    "max_level_caps": [
-      50,
-      80,
-      100
-    ],
-    "player_base_rows": [
-      263,
-      290,
-      325
-    ],
-    "player_class_counts": [
-      1,
-      1,
-      1
-    ],
-    "caller_rng_unchanged": true,
-    "reload_failure_atomic": true
-  },
-  "source_sha256": {
-    "port/windows-foundation/features/loot/runtime_loot_source_owner_v1_tests.cpp": "0187851d07ed476108067c36f04d0408457dd2ddfc5245a1b20a6a8b61a20558",
-    "port/windows-foundation/features/loot/runtime_loot_source_owner_v1.cpp": "540ff03b26ed69d7a5db09477519615a5d6cc635d7874a0ce27e67e9640b84b4",
-    "port/game-data/item_power_tables_v5.cpp": "c391a2b2b7800306ccbb7c5bebf5f7d595e71a7224dd8c004f864efe37a580d6",
-    "port/game-data/loot_power_resources_v7.cpp": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
-    "port/game-data/loot_audiovisual_v8.cpp": "a7e38d8de2a1c7cf80f23c321bba62ca8a5df64474eae0a9cb1bd83929f0de17",
-    "port/windows-foundation/features/loot/runtime_loot_source_owner_v1.hpp": "f9e095d3774a22b74f8589e831e669c8138295e31fdf3727fa9068ab66790f39",
-    "port/windows-foundation/features/loot/run_runtime_loot_source_owner_v1_tests.ps1": "59cb87eb51ad8f061826c785da186d81c10eaf3668cb868ec5df44e0e0ddd0cc"
-  },
-  "actual_assets_sha256": {
-    "original-cache/data/pydata/item_powers_pyarray.bin": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
-    "original-cache/data/pydata/item_powers_pyarraynames.bin": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
-    "original-cache/data/pydata/item_powers_pystructnames.bin": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444",
-    "original-cache/data/pydata/item_powers_monopoly_pyarray.bin": "6591e5ca591b63d3c81eb0d4d3811a2f8409f4b835cb64f35dde87bee4f63d4b",
-    "original-cache/data/pydata/item_powers_monopoly_pyarraynames.bin": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
-    "original-cache/data/pydata/item_powers_monopoly_pystructnames.bin": "79dab4b044f7f7f614dab597fc280d8d5947b96b3ed672aac1339316ed7d6400",
-    "data/loot_audiovisual_pyarray.bin": "f9a6e2c45bad836955d63290d51d2ec811a5003b7fa2c82df907fae5aa44084d",
-    "data/loot_audiovisual_pyarraynames.bin": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
-    "data/loot_audiovisual_pystructnames.bin": "86984964c123debae476a20a8c6d0c54fab46bd905d09ee82849b062ab4a3248",
-    "original-cache/data/pydata/design_pyarray.bin": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
-    "original-cache/data/pydata/design_pyarraynames.bin": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
-    "original-cache/data/pydata/design_pystructnames.bin": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
-    "original-cache/data/pydata/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
-    "original-cache/data/pydata/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
-    "original-cache/data/pydata/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
-    "original-cache/data/pydata/design_pycst.bin": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
-  },
-  "api": "RuntimeLootSourceOwnerV1::load(AssetCatalog, exact RuntimeCreationSourceOwnerV1, error) yields a borrow retaining the same OriginalPropertyDatabase and six-table LootTablesV2 snapshot, while pinning original ItemPowerTablesV5, LootPowerResourcesV7 quantities from bounded LootTables suffix after loot.consumed(), LootAudioVisualV8, DesignSettingsOwner and CharacterDesign MaxLevelBNormal/CHard/DVeryHard caps.",
-  "source_semantics": "The V88 suffix reader is bounded to 8 MiB resources, 65536 counts/strings, exact record end, the actual merchant rows/schema/names, and the original NumProbArray payload. No fixture sidecar, native App/GameDesign graph, localization, private RNG or second LootTables owner is created.",
-  "player_class_query": "source_player_class_count_v1 counts same-world PlayableActorWorld actors with traits.is_player, resolves ActorState.definition_id to the pinned OriginalPropertyDatabase CharacterTable row, and compares that actual row index with the recovered source PlayerManager IDs 263/290/325. Original 0x36ea50 compares Character::InitPre cached base-id +0x13c8; 0x36eab8/0x36eac0/0x36eac8 select Warrior/Rogue/Mage IDs. ActorState.class_id and ClassTables selectable names are deliberately not substituted, so KnightPlayerClass and KnightPlayerBase remain distinct namespaces.",
-  "lifecycle": "The output is transactionally replaced only after all source bytes, table owners, caps and 25 hash receipts validate. Borrowed snapshots pin the decoded table owners. Caller-owned LootRandom8 remains untouched. Consumers must retain the RuntimeLootSourceOwnerV1 for each use of the borrowed prefix.",
-  "limitations": [
-    "This data owner does not construct or publish ItemInstance, Loot outcome, native Application, GameDesign, localization or an RNG stream.",
-    "DesignSettings is pinned as the complete decoded first source row table; callers select rows according to their own source context.",
-    "No global startup/main/CMake hookup is claimed; this is a feature-owned source provider with a linked source-asset test."
-  ],
-  "reference_sha256": {
-    "port/level-world/reference/player-manager-owner-v1/original-source.asm": "9f62c4581249f72c8f2d093a9c5756cd5e5ab9484fb32815c2aba071339485d9",
-    "port/level-world/reference/player-manager-owner-v1/original-functions.json": "4f9e6c0035403ecfa4e6912ea9cd21e6e89e048090663f33941dbda8f652d559",
-    "port/level-world/player_manager_loot_queries_v8.hpp": "1b07c1943f43ba329cec775e3400bc85014e8ae0890fb2c76836cba2f78a3263",
-    "port/level-world/player_manager_loot_queries_v8.cpp": "d6fe09b299b016510d6a3517dad46bcc6529b9d197106513e598ad2b7873d988"
-  }
+﻿{
+    "validation":  "PASS",
+    "version":  1,
+    "test":  {
+                 "validation":  "PASS",
+                 "creation_hashes":  13,
+                 "loot_source_hashes":  25,
+                 "merchant_rows":  12,
+                 "quantity_tables":  39,
+                 "item_power_rows":  937,
+                 "audiovisual_rows":  29,
+                 "design_rows":  1,
+                 "max_level_caps":  [
+                                        50,
+                                        80,
+                                        100
+                                    ],
+                 "player_base_rows":  [
+                                          263,
+                                          290,
+                                          325
+                                      ],
+                 "player_class_counts":  [
+                                             1,
+                                             1,
+                                             1
+                                         ],
+                 "caller_rng_unchanged":  true,
+                 "reload_failure_atomic":  true
+             },
+    "source_sha256":  {
+                          "port/windows-foundation/features/loot/runtime_loot_source_owner_v1_tests.cpp":  "0187851d07ed476108067c36f04d0408457dd2ddfc5245a1b20a6a8b61a20558",
+                          "port/windows-foundation/features/loot/runtime_loot_source_owner_v1.cpp":  "540ff03b26ed69d7a5db09477519615a5d6cc635d7874a0ce27e67e9640b84b4",
+                          "port/game-data/item_power_tables_v5.cpp":  "c391a2b2b7800306ccbb7c5bebf5f7d595e71a7224dd8c004f864efe37a580d6",
+                          "port/game-data/loot_power_resources_v7.cpp":  "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+                          "port/game-data/loot_audiovisual_v8.cpp":  "a7e38d8de2a1c7cf80f23c321bba62ca8a5df64474eae0a9cb1bd83929f0de17",
+                          "port/windows-foundation/features/loot/runtime_loot_source_owner_v1.hpp":  "f9e095d3774a22b74f8589e831e669c8138295e31fdf3727fa9068ab66790f39",
+                          "port/windows-foundation/features/loot/run_runtime_loot_source_owner_v1_tests.ps1":  "59cb87eb51ad8f061826c785da186d81c10eaf3668cb868ec5df44e0e0ddd0cc"
+                      },
+    "actual_assets_sha256":  {
+                                 "original-cache/data/pydata/item_powers_pyarray.bin":  "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+                                 "original-cache/data/pydata/item_powers_pyarraynames.bin":  "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+                                 "original-cache/data/pydata/item_powers_pystructnames.bin":  "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444",
+                                 "original-cache/data/pydata/item_powers_monopoly_pyarray.bin":  "6591e5ca591b63d3c81eb0d4d3811a2f8409f4b835cb64f35dde87bee4f63d4b",
+                                 "original-cache/data/pydata/item_powers_monopoly_pyarraynames.bin":  "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
+                                 "original-cache/data/pydata/item_powers_monopoly_pystructnames.bin":  "79dab4b044f7f7f614dab597fc280d8d5947b96b3ed672aac1339316ed7d6400",
+                                 "data/loot_audiovisual_pyarray.bin":  "f9a6e2c45bad836955d63290d51d2ec811a5003b7fa2c82df907fae5aa44084d",
+                                 "data/loot_audiovisual_pyarraynames.bin":  "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
+                                 "data/loot_audiovisual_pystructnames.bin":  "86984964c123debae476a20a8c6d0c54fab46bd905d09ee82849b062ab4a3248",
+                                 "original-cache/data/pydata/design_pyarray.bin":  "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+                                 "original-cache/data/pydata/design_pyarraynames.bin":  "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+                                 "original-cache/data/pydata/design_pystructnames.bin":  "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
+                                 "original-cache/data/pydata/loot_table_pyarray.bin":  "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+                                 "original-cache/data/pydata/loot_table_pyarraynames.bin":  "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+                                 "original-cache/data/pydata/loot_table_pystructnames.bin":  "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+                                 "original-cache/data/pydata/design_pycst.bin":  "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+                             },
+    "api":  "RuntimeLootSourceOwnerV1::load(AssetCatalog, exact RuntimeCreationSourceOwnerV1, error) yields a borrow retaining the same OriginalPropertyDatabase and six-table LootTablesV2 snapshot, while pinning original ItemPowerTablesV5, LootPowerResourcesV7 quantities from bounded LootTables suffix after loot.consumed(), LootAudioVisualV8, DesignSettingsOwner and CharacterDesign MaxLevelBNormal/CHard/DVeryHard caps.",
+    "source_semantics":  "The V88 suffix reader is bounded to 8 MiB resources, 65536 counts/strings, exact record end, the actual merchant rows/schema/names, and the original NumProbArray payload. No fixture sidecar, native App/GameDesign graph, localization, private RNG or second LootTables owner is created.",
+    "player_class_query":  "source_player_class_count_v1 counts same-world PlayableActorWorld actors with traits.is_player, resolves ActorState.definition_id to the pinned OriginalPropertyDatabase CharacterTable row, and compares that actual row index with the recovered source PlayerManager IDs 263/290/325. Original 0x36ea50 compares Character::InitPre cached base-id +0x13c8; 0x36eab8/0x36eac0/0x36eac8 select Warrior/Rogue/Mage IDs. ActorState.class_id and ClassTables selectable names are deliberately not substituted, so KnightPlayerClass and KnightPlayerBase remain distinct namespaces.",
+    "lifecycle":  "The output is transactionally replaced only after all source bytes, table owners, caps and 25 hash receipts validate. Borrowed snapshots pin the decoded table owners. Caller-owned LootRandom8 remains untouched. Consumers must retain the RuntimeLootSourceOwnerV1 for each use of the borrowed prefix.",
+    "limitations":  [
+                        "This data owner does not construct or publish ItemInstance, Loot outcome, native Application, GameDesign, localization or an RNG stream.",
+                        "DesignSettings is pinned as the complete decoded first source row table; callers select rows according to their own source context.",
+                        "No global startup/main/CMake hookup is claimed; this is a feature-owned source provider with a linked source-asset test."
+                    ],
+    "reference_sha256":  {
+                             "port/level-world/reference/player-manager-owner-v1/original-source.asm":  "9f62c4581249f72c8f2d093a9c5756cd5e5ab9484fb32815c2aba071339485d9",
+                             "port/level-world/reference/player-manager-owner-v1/original-functions.json":  "4f9e6c0035403ecfa4e6912ea9cd21e6e89e048090663f33941dbda8f652d559",
+                             "port/level-world/player_manager_loot_queries_v8.hpp":  "1b07c1943f43ba329cec775e3400bc85014e8ae0890fb2c76836cba2f78a3263",
+                             "port/level-world/player_manager_loot_queries_v8.cpp":  "d6fe09b299b016510d6a3517dad46bcc6529b9d197106513e598ad2b7873d988"
+                         }
 }

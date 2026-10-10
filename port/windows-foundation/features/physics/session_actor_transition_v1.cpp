@@ -18,7 +18,9 @@ bool same_receipt(const CombatSessionActorTransition& a,
            a.generation==b.generation&&a.occurrence==b.occurrence&&
            a.update_serial==b.update_serial&&a.cause==b.cause&&
            same_owner(a.binding_lease,b.binding_lease)&&
-           a.source_attack_moving==b.source_attack_moving;
+           a.source_attack_moving==b.source_attack_moving&&
+           a.source_other_actor==b.source_other_actor&&
+           a.source_knockback_great==b.source_knockback_great;
 }
 bool fail(std::string& error,const char* message){error=message;return false;}
 }
@@ -173,6 +175,15 @@ bool SessionActorTransitionConsumerV1::blur(
         return set_body_pinned(session,actor.id,true,error);
     }
     case 7:error.clear();return true;
+    case 10:{
+        if(!config_.source.knockback_controller_lock)
+            return fail(error,"KnockBack Blur requires the actual controller lock owner");
+        if(!config_.source.knockback_controller_lock(actor.id,false,error))return false;
+        bool present=false;if(!body_present(session,actor.id,present,error))return false;
+        if(present&&!config_.bodies->reset_source_physical_filter(actor.id,
+            [&session](ActorId id){return session.actor(id);},error))return false;
+        return set_body_pinned(session,actor.id,true,error);
+    }
     case 11:error.clear();return true;
     case 12:{
         // Controller unlock is a lifecycle tail owned elsewhere. The physical
@@ -185,7 +196,7 @@ bool SessionActorTransitionConsumerV1::blur(
         }
         break;
     }
-    default:return fail(error,"Source Blur state is outside the verified 3/4/5/6/7/11/12 consumer boundary");
+    default:return fail(error,"Source Blur state is outside the verified 3/4/5/6/7/10/11/12 consumer boundary");
     }
     error.clear();return true;
 }
@@ -226,6 +237,19 @@ bool SessionActorTransitionConsumerV1::focus_prefix(
     case 7:
         actor.source_flags520=0x6301u;
         error.clear();return true;
+    case 10:{
+        if(!event.source_knockback_great||event.source_other_actor==invalid_actor_id)
+            return fail(error,"KnockBack Focus requires the actual variant and attacker");
+        if(!config_.source.knockback_read_gate528||!config_.source.knockback_write_gate528)
+            return fail(error,"KnockBack Focus requires the actual embedded gate528 owner");
+        std::uint32_t gate=0;
+        if(!config_.source.knockback_read_gate528(actor.id,gate,error))return false;
+        // SM_SetKnockBackState writes this before OnFocus/SM_SetAnim.
+        gate=*event.source_knockback_great?0x18u:(gate&~0x18u);
+        if(!config_.source.knockback_write_gate528(actor.id,gate,error))return false;
+        actor.source_flags520=0x2341u;
+        error.clear();return true;
+    }
     case 11:
         actor.source_flags520=0x2b41u;
         error.clear();return true;
@@ -237,7 +261,7 @@ bool SessionActorTransitionConsumerV1::focus_prefix(
         if(player)actor.source_flags520=*actor.source_flags520|0x2000u;
         error.clear();return true;
     }
-    default:return fail(error,"Source Focus state is outside the verified 3/4/5/6/7/11/12 consumer boundary");
+    default:return fail(error,"Source Focus state is outside the verified 3/4/5/6/7/10/11/12 consumer boundary");
     }
 }
 
@@ -261,6 +285,23 @@ bool SessionActorTransitionConsumerV1::focus_suffix(
         // and animation publication have completed.
         return set_body_pinned(session,actor.id,false,error);
     case 7:error.clear();return true;
+    case 10:{
+        std::uint32_t gate=0;
+        if(!config_.source.knockback_read_gate528||!config_.source.knockback_write_gate528||
+           !config_.source.knockback_controller_lock||!config_.source.knockback_look_at_cancel_sneaking)
+            return fail(error,"KnockBack suffix requires actual gate/controller/look/sneak owners");
+        if(!config_.source.knockback_read_gate528(actor.id,gate,error))return false;
+        if(gate&8u){
+            bool present=false;if(!body_present(session,actor.id,present,error))return false;
+            if(present&&!config_.bodies->set_source_physical_filter(actor.id,
+                [&session](ActorId id){return session.actor(id);},0,0x51c,3,false,error))return false;
+        }
+        gate=(gate&0x10u)?0x20u:(gate&~0x20u);
+        if(!config_.source.knockback_write_gate528(actor.id,gate,error)||
+           !config_.source.knockback_controller_lock(actor.id,true,error)||
+           !config_.source.knockback_look_at_cancel_sneaking(event,error))return false;
+        return set_body_pinned(session,actor.id,false,error);
+    }
     case 11:error.clear();return true;
     case 12:{
         bool present=false;if(!body_present(session,actor.id,present,error))return false;
@@ -271,7 +312,7 @@ bool SessionActorTransitionConsumerV1::focus_suffix(
         }
         error.clear();return true;
     }
-    default:return fail(error,"Source Focus suffix is outside the verified 3/4/5/6/7/11/12 consumer boundary");
+    default:return fail(error,"Source Focus suffix is outside the verified 3/4/5/6/7/10/11/12 consumer boundary");
     }
 }
 

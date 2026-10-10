@@ -232,8 +232,9 @@ void run_case(const char* root, const PushCase& wanted) {
         check(consume_session_push_result_v1(session,admission,receipt,sink,consumed,error),error);
         check(consumed&&calls==1,
             "Admitted Push outcome did not reach its same-Session effect provider");
-        check(session.actor(1)->action==CharacterAction::idle&&session.owns_pose(1),
-            "Push did not retain same-Session ownership of its authored pose");
+        check(session.actor(1)->action==CharacterAction::knocked_back&&session.original_actor_state(1)==10&&
+            session.owns_pose(1),
+            "Push did not retain same-Session ownership of its authored KnockedBack10 pose");
         check(seen.attacker==hit.attacker&&seen.target==hit.target&&seen.source_id==hit.source_id
             &&seen.marker_name==hit.marker_name&&seen.source_outcomes==wanted.exact_outcomes
             &&seen.source_mask==expected.original.mask&&seen.target_state_before_hit==3
