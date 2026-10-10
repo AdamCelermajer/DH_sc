@@ -58,6 +58,10 @@
 #include "features/quest_runtime/quest_events_v1.hpp"
 #include "features/conditions/condition_watch_v1.hpp" // P17 CONDITIONS: authored v2Conditions evaluator + flip watch
 #include "features/world_gates/world_gate_v1.hpp"     // P17 CONDITIONS: gated declarations as persistent world objects
+#include "features/doors/door_runtime_v1.hpp"  // P17 DOORS: Door visuals, Script_OpenDoor/CloseDoor, levers, gated decor
+#include "features/doors/world_objects_v1.hpp" // P17 DOORS: TriggerObject levers and gated AnimatedDecor
+#include "features/doors/door_world_v1.hpp"    // P17 DOORS: door state persisted through world objects
+#include "features/doors/door_commands_v1.hpp" // P17 DOORS: Script_OpenDoor/CloseDoor handler
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
@@ -967,6 +971,8 @@ int main(int argc,char** argv) {
         std::vector<f::LevelModuleZone> levelModuleZones;
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
         f::containers::ContainerTablesV1 containerTables;f::containers::ContainerClassRegistryV1 containerRegistry;std::vector<f::containers::ContainerInstanceV1> containerInstances;f::containers::ContainerRuntimeV1 containerRuntime; // P16 containers (T2/T3)
+        f::doors::DoorRuntimeV1 doorRuntime; f::doors::LeverRuntimeV1 leverRuntime; f::doors::DecorRuntimeV1 decorRuntime; // P17 DOORS
+        std::unique_ptr<f::doors::DoorCommandsV1> doorCommands; // P17 DOORS: bound to the campaign host door route
         f::containers::ContainerLootV1 containerLoot;std::set<std::string> containerScriptsNoticed; // P16 CONTAINERS2 (T4 loot, T6 OnOpen contracts)
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
@@ -1259,6 +1265,17 @@ int main(int argc,char** argv) {
                  for(const auto& n:containerNotices)std::cerr<<"Container notice: "<<n<<'\n';
              }}
 
+            // P17 DOORS: Door, TriggerObject and gated AnimatedDecor declarations of this level (rows: the game_objects tables).
+            {std::string doorError;std::vector<std::string> doorNotices;
+             if(!doorRuntime.load(containerTables,population.definitions(),doorNotices,doorError)||!leverRuntime.load(containerTables,population.definitions(),doorNotices,doorError))
+                 std::cout<<"Doors unavailable: "<<doorError<<'\n';
+             else if(!decorRuntime.load(population.definitions(),doorNotices,doorError)||!doorRuntime.adopt(assets,doorNotices,doorError)||!leverRuntime.adopt(assets,doorNotices,doorError)||!decorRuntime.adopt(assets,doorNotices,doorError))
+                 throw std::runtime_error("Doors: "+doorError);
+             else {
+                 doorCommands=std::make_unique<f::doors::DoorCommandsV1>(doorRuntime);
+                 for(const auto& n:doorNotices)std::cerr<<"Door notice: "<<n<<'\n';
+                 std::cout<<"Doors declarations="<<doorRuntime.size()<<" levers="<<leverRuntime.size()<<" gated_decor="<<decorRuntime.size()<<" (conditions applied at bind)"<<'\n';
+             }}
             // P16 SPAWN (--spawn-test only): slots for every candidate profile that has an actor profile AND an
             // explicit combat policy are admitted into THIS population before the CombatSession is built. Other
             // candidates are not admitted; the spawn owner then rejects them with an explicit reason.
@@ -1411,6 +1428,10 @@ int main(int argc,char** argv) {
              if(!f::containers::bind_container_world_objects_v1(*combatSession->world(),containerRuntime,containerObjectNotices,containerObjectError))throw std::runtime_error("Container objects: "+containerObjectError);
              for(const auto& n:containerObjectNotices)std::cerr<<"Container notice: "<<n<<'\n';
              std::cout<<"Containers world objects declarations="<<containerRuntime.size()<<" notices="<<containerObjectNotices.size()<<'\n';}
+            {std::vector<std::string> doorObjectNotices;std::string doorObjectError;
+             if(!f::doors::bind_door_world_objects_v1(*combatSession->world(),doorRuntime,doorObjectNotices,doorObjectError))throw std::runtime_error("Door objects: "+doorObjectError);
+             for(const auto& n:doorObjectNotices)std::cerr<<"Door notice: "<<n<<'\n';
+             std::cout<<"Doors world objects declarations="<<doorRuntime.size()<<" notices="<<doorObjectNotices.size()<<'\n';}
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;
             combatSession->set_frame_begin_provider([&](auto& session,double delta,std::string& e) {
                 if(sourceFaeryTables&&!f::faery_menu::advance_hotty_cooldown_clock_v1(session,delta,faeryCooldownClock,e))return false;
@@ -1734,6 +1755,10 @@ int main(int argc,char** argv) {
         f::CameraClipLibrary cameraClipLibrary; // P16 CINE2: PlayCamera dictionary -> cs_* clip bytes
         cameraClipLibrary.set_scene_file(originalCamera.config().file); // the level camera the clips drive
         hostServices.read_camera_clip=[&](std::int32_t id,std::vector<std::uint8_t>& clip,std::vector<std::uint8_t>& scene,std::string& path,std::string& e){return cameraClipLibrary.read(assets,id,clip,scene,path,e);};
+        // P17 DOORS: Script_OpenDoor/CloseDoor (kinds 54/55) through the campaign host door route (no door owner = pass-through).
+        hostServices.doors=[&](f::CampaignCommandPhase phase,const f::OriginalCampaignCommand& c,int module,bool skip,bool& handled,bool& blocking,std::string& e) {
+            if(!doorCommands){handled=false;blocking=false;return true;}
+            return doorCommands->command(phase,c,module,skip,handled,blocking,e);};
         hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
         hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){e="Campaign host actor unavailable";return false;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
         hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&combatSession->set_actor_original_state(id,state,e);};
@@ -2161,6 +2186,16 @@ int main(int argc,char** argv) {
         };
         // P16 containers: bind the original textures of each container visual (same rule as actors).
         for(const auto& view:containerRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
+            const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
+        // P17 DOORS: original textures of the door, lever and decor visuals (same rule as the containers).
+        for(auto& view:doorRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
+            const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
+        for(auto& view:leverRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
+            const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
+        for(auto& view:decorRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
             const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
@@ -2695,9 +2730,47 @@ int main(int argc,char** argv) {
         std::int32_t questLevelRow=-1;
         // P17 CONDITIONS: owner of gated declarations. The door/decor runtime is not wired yet, so each applied value is logged.
         const auto worldGateOwner=[&](const f::world_gates::WorldGateV1& gate,bool value) {
-            std::cout<<"World gate "<<gate.gametype<<" "<<gate.name<<" "<<gate.key<<"="<<gate.condition<<" value="<<(value?"true":"false")<<" owner=none (not wired)\n";
+            // P17 DOORS: owners. activate_cond true = present, deactivate_cond true = absent, unlock_cond = lever unlocked.
+            std::size_t gateIndex=0;std::string gateError;bool applied=false;
+            const bool present=gate.key=="deactivate_cond"?!value:value;
+            if(gate.gametype=="Door"&&doorRuntime.find_by_stable_id(gate.stable_id,gateIndex))applied=doorRuntime.set_present(gateIndex,present,gateError);
+            else if(gate.gametype=="TriggerObject"&&leverRuntime.find_by_stable_id(gate.stable_id,gateIndex)){leverRuntime.set_unlocked(gateIndex,value);applied=true;}
+            else if(gate.gametype=="AnimatedDecor"&&decorRuntime.find_by_stable_id(gate.stable_id,gateIndex))applied=decorRuntime.set_present(gateIndex,present,gateError);
+            std::cout<<"World gate "<<gate.gametype<<" "<<gate.name<<" "<<gate.key<<"="<<gate.condition<<" value="<<(value?"true":"false")<<" owner="<<(applied?"applied":"none")<<(gateError.empty()?std::string():" error="+gateError)<<'\n';
         };
         // P17 CONDITIONS: gated declarations of the live session; restored objects reconcile with the primed watch.
+        // P17 DOORS: presence and lever unlock from the primed condition watch (source MeetCondition / TestInteractiveCond),
+        // then the persisted door states of the live session. Runs at every quest bind (session start and reload).
+        const auto refreshDoorWorld=[&]() {
+            if(!conditionWatch||!combatSession)return;
+            const auto doorCondition=[&](const std::string& name,bool& value)->bool {return conditionWatch->current(name,value);};
+            std::vector<std::string> doorNotices;std::string doorError;
+            if(!doorRuntime.refresh_conditions(doorCondition,doorNotices,doorError)||!leverRuntime.refresh_conditions(doorCondition,doorNotices,doorError)||!decorRuntime.refresh_conditions(doorCondition,doorNotices,doorError))
+                std::cerr<<"Door condition diagnostic: "<<doorError<<'\n';
+            for(const auto& n:doorNotices)std::cerr<<"Door notice: "<<n<<'\n';
+            if(!f::doors::restore_door_world_state_v1(*combatSession->world(),doorRuntime,doorError))throw std::runtime_error("Door restore: "+doorError);
+            std::size_t presentDoors=0;for(std::size_t i=0;i<doorRuntime.size();++i)if(doorRuntime.present(i))++presentDoors;
+            std::cout<<"Doors refreshed present="<<presentDoors<<"/"<<doorRuntime.size()<<" levers="<<leverRuntime.size()<<" decor="<<decorRuntime.size()<<" (after condition watch prime)"<<'\n';
+        };
+        // P17 DOORS: the lever use (TriggerObject::Interact): sound, script start through the campaign executor.
+        const auto useLeverObject=[&](f::ActorId id)->bool {
+            std::size_t index=0;
+            if(!leverRuntime.find_by_stable_id(id,index))return false;
+            const auto r=leverRuntime.use(index);
+            std::cout<<"Lever use declaration="<<leverRuntime.instance(index).name<<" status="<<int(r.status)<<" script="<<(r.script.empty()?std::string("(none)"):r.script)<<" sound="<<r.sound_ordinal<<" unlocked="<<(leverRuntime.unlocked(index)?1:0)<<'\n';
+            if(r.status==f::doors::LeverUseResultV1::Status::accepted||r.status==f::doors::LeverUseResultV1::Status::no_visual) {
+                if(r.sound_ordinal!=-1&&runtimeAudio) {f::audio::WorldItemSoundResultV1 sr;std::string se;
+                    if(!runtimeAudio->submit_world_item_sound(r.sound_ordinal,r.position,sr,se))std::cout<<"Lever sound ordinal="<<r.sound_ordinal<<" status=failed detail="<<se<<'\n';}
+                if(!r.script.empty()) {
+                    const int scriptId=sourceCampaign.script_id(r.script,true);
+                    std::string startError;
+                    if(scriptId<0)std::cout<<"Lever script="<<r.script<<" status=unknown_script\n";
+                    else if(!sourceCampaign.start(scriptId,-1,false,startError))std::cout<<"Lever script="<<r.script<<" status=failed detail="<<startError<<'\n';
+                    else std::cout<<"Lever script="<<r.script<<" status=started\n";
+                }
+            }
+            return true;
+        };
         const auto bindWorldGates=[&]() {
             if(!combatSession||worldGates.empty()||!conditionWatch)return;
             std::vector<std::string> gateNotices;std::string gateError;
@@ -2751,6 +2824,7 @@ int main(int argc,char** argv) {
                     std::cerr<<"Condition prime diagnostic: "<<conditionError<<'\n';
             }
             bindWorldGates(); // P17 CONDITIONS: after the watch is primed from the restored state
+            refreshDoorWorld(); // P17 DOORS: presence, lever unlock and persisted door states
             // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
             // through the CharacterTable names (the quest talk oids are these rows).
             std::map<std::string,std::int32_t> characterRows;
@@ -3837,6 +3911,7 @@ int main(int argc,char** argv) {
                             if(const auto* live=combatSession->actor(combatSession->player_id())){p[0]=live->transform.position[0];p[1]=live->transform.position[1];p[2]=live->transform.position[2];}
                             const auto r=containerRuntime.interact(containerIndex,p);
                             std::cout<<"Context container declaration="<<containerRuntime.instance(containerIndex).name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';
+                        } else if(useLeverObject(ooi)) {
                         } else if(!talkToNpcObject(ooi))
                             std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
                     }
@@ -4107,6 +4182,14 @@ int main(int argc,char** argv) {
                         };
                         std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable container: "+regError);
                     }
+                    for(std::size_t li=0;li<leverRuntime.size();++li) { // P17 DOORS: levers are context-button candidates (type = row+4), usable once unlocked
+                        const auto& lever=leverRuntime.instance(li);
+                        if(lever.stableId==0)continue;
+                        f::InteractableEntryV1 entry;entry.id=lever.stableId;entry.is_character=false;
+                        entry.position={lever.transform[12],lever.transform[13],lever.transform[14]};entry.radius=0.f;
+                        entry.provider.interaction_type=[&leverRuntime,li](f::ActorId) -> int {return leverRuntime.unlocked(li)?leverRuntime.instance(li).interaction_type:-1;};
+                        std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable lever: "+regError);
+                    }
                     if(questRuntime&&combatSession&&!questTalkOids.empty()) // P16 SPACEBTN: talk NPCs as type-3 candidates
                         for(const auto& placed:population.actors()) {
                             const auto identity=questActorIdentity.find(placed.definition.stableId);
@@ -4321,6 +4404,15 @@ int main(int argc,char** argv) {
             if(runtimeEquipmentAttachments&&(!runtimeEquipment||!runtimeEquipment->sample_render_pose(error)))throw std::runtime_error("Runtime equipment pose: "+error);
             for(auto& actor:population.actors())if(!gameplayPaused&&actor.enabled&&(!combatSession||!combatSession->owns_population_pose(actor.definition.stableId))&&!actor.visual.update(gameplayDt,error))throw std::runtime_error("Actor pose: "+error);
             // P16 containers: advance activating clips; the authored 'opened' marker is DoOpen (loot via T4, Lua OnOpen later).
+            if(!gameplayPaused){ // P17 DOORS: transitions, lever clips and decor clips advance; sounds of door transitions; persisted states
+                std::string doorError;
+                if(!doorRuntime.update(gameplayDt,doorError)||!leverRuntime.update(gameplayDt,doorError)||!decorRuntime.update(gameplayDt,doorError))throw std::runtime_error("Door update: "+doorError);
+                for(const auto& sound:doorRuntime.take_sound_requests()) {f::audio::WorldItemSoundResultV1 sr;std::string se;
+                    if(!runtimeAudio)std::cout<<"Door sound ordinal="<<sound.ordinal<<" status=no_audio_runtime frame="<<drawn<<'\n';
+                    else if(!runtimeAudio->submit_world_item_sound(sound.ordinal,sound.position,sr,se))std::cout<<"Door sound ordinal="<<sound.ordinal<<" status=failed detail="<<se<<'\n';
+                    else std::cout<<"Door sound ordinal="<<sound.ordinal<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" frame="<<drawn<<'\n';}
+                if(combatSession){std::string persistDoorError;if(!f::doors::persist_door_world_state_v1(*combatSession->world(),doorRuntime,persistDoorError))throw std::runtime_error("Door persist: "+persistDoorError);}
+            }
             if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';runContainerOpen(event.index,drawn);}
                 if(combatSession){std::string persistError;if(!f::containers::persist_container_world_state_v1(*combatSession->world(),containerRuntime,persistError))throw std::runtime_error("Container persist: "+persistError);}}
             if(options.sourceTargetPosition) {
@@ -4442,6 +4534,9 @@ int main(int argc,char** argv) {
             }
             // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).
             for(const auto& view:containerRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
+            for(auto& view:doorRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform); // P17 DOORS
+            for(const auto& view:leverRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
+            for(const auto& view:decorRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
             // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
             const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
             if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {
