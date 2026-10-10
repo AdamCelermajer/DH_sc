@@ -128,7 +128,7 @@ target_include_directories(foundation_startup PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/third_party/pl_mpeg)
 target_link_libraries(dh-foundation PRIVATE foundation_startup)
 # Boot runner uses the renderer/overlay/window and the shared mixer, so it is compiled into the EXE.
-target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp features/startup/loading_screen_v1.cpp
+target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp features/startup/loading_screen_v1.cpp features/startup/loading_art_data.cpp
   features/startup/intro_soundtrack_v2.cpp features/startup/text_label_v1.cpp
   features/startup/loading_tip_v1.cpp ../engine-ui/loading_menu_v1.cpp)
 add_executable(startup_boot_flow_v1_tests features/startup/boot_flow_v1_tests.cpp)
@@ -141,6 +141,9 @@ add_test(NAME startup_intro_segments_v1 COMMAND startup_intro_segments_v1_tests)
 if(MINGW)
   target_link_options(startup_intro_segments_v1_tests PRIVATE -static)
 endif()
+# B055: original menu_Loading geometry consistency
+add_executable(startup_loading_art_v1_tests features/startup/loading_art_v1_tests.cpp features/startup/loading_art_data.cpp)
+add_test(NAME startup_loading_art_v1 COMMAND startup_loading_art_v1_tests)
 add_executable(startup_intro_movie_v2_tests features/startup/intro_movie_v2_tests.cpp)
 target_link_libraries(startup_intro_movie_v2_tests PRIVATE foundation_startup)
 set(DH_INTRO_MOVIE_V2_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview15/startup/converted-media-v2/intro_v1.mpg")
