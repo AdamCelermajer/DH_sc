@@ -80,7 +80,7 @@ target_include_directories(foundation_runtime_potion PRIVATE ../level-world ../g
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_potion)
 # P16 containers: general declaration loader (class registry, original tables, visuals).
 add_library(foundation_containers STATIC
-  features/containers/container_class_registry_v1.cpp features/containers/container_declarations_v1.cpp
+  features/containers/container_class_registry_v1.cpp features/containers/container_declarations_v1.cpp features/containers/container_runtime_v1.cpp
   ../level-loader/game_object_arrays_owner_v81.cpp ../level-world/destructible_container_data_v16.cpp
   ../level-world/openable_container_owner_v1.cpp ../game-data/game_object_dictionary_v11.cpp)
 target_include_directories(foundation_containers PUBLIC ../game-data)

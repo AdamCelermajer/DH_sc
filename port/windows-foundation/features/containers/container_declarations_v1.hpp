@@ -3,7 +3,6 @@
 #include "container_class_registry_v1.hpp"
 #include "../../actor_definitions.hpp"
 #include "../../asset_catalog.hpp"
-#include "../../original_character.hpp"
 
 #include <map>
 #include <memory>
@@ -35,9 +34,9 @@ struct ContainerInstanceV1 {
     std::int32_t interaction_type = -1;
     std::int32_t row = -1, visual_id = -1, loot_id = -1, sound_id = -1;
     std::string visual_file;   // GameObjectDict ColladaFile, package-relative
+    std::string script;        // authored row script (Lua OnOpen), empty when none
     Mat4 transform{};          // authored placement (translation, rotation, scale)
-    std::uint8_t state = 0;    // source state byte; 0 = closed (Preview 16 T1)
-    bool visual_ready = false;
+    bool visual_ready = false; // set by ContainerRuntimeV1::adopt
 };
 
 struct ContainerLoadReportV1 {
@@ -56,19 +55,5 @@ bool load_container_instances_v1(const ContainerTablesV1& tables,
                                  std::vector<ContainerInstanceV1>& out,
                                  ContainerLoadReportV1& report,
                                  std::string& error);
-
-// Decodes each distinct visual once through the embedded-scene path (rigid or
-// skinned game objects with their own named clips). Texture binding stays in main,
-// shared with the actor materials. Missing files keep their instances hidden.
-class ContainerVisualsV1 {
-public:
-    bool load(const AssetCatalog& assets, std::vector<ContainerInstanceV1>& instances,
-              std::vector<std::string>& notices);
-    std::map<std::string, std::unique_ptr<CharacterVisual>>& visuals() noexcept { return visuals_; }
-    const std::map<std::string, std::unique_ptr<CharacterVisual>>& visuals() const noexcept { return visuals_; }
-
-private:
-    std::map<std::string, std::unique_ptr<CharacterVisual>> visuals_;
-};
 
 } // namespace dh::foundation::containers

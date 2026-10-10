@@ -48,6 +48,7 @@
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
+#include "features/containers/container_runtime_v1.hpp" // P16 containers (T2/T3)
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -226,6 +227,7 @@ struct Options {
     std::optional<f::CameraVec3> focus;
     float distance = 0;
     int frames = 0, reloadFrame = 0;
+    std::vector<std::pair<std::string,int>> interactRequests; // P16 containers: --interact-at DECLARATION@FRAME (repeatable; default off)
     double fixedStep = 0;
     bool probe = false, timeline = false, saveNow = false;
     bool movable=false, sourceCamera=false, hud=false, freshPlayer=false;
@@ -423,6 +425,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--focus") {auto v=vector(value());o.focus=f::CameraVec3{v.x,v.y,v.z};}
         else if(arg=="--distance") {o.distance=std::stof(value());if(!std::isfinite(o.distance)||o.distance<=0)throw std::runtime_error("Distance must be positive");}
         else if(arg=="--reload-frame") {o.reloadFrame=std::stoi(value());if(o.reloadFrame<1)throw std::runtime_error("Reload frame must be positive");}
+        else if(arg=="--interact-at") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--interact-at expects DECLARATION@FRAME");const int frame=std::stoi(at.substr(sep+1));if(frame<0)throw std::runtime_error("Interact frame must be nonnegative");o.interactRequests.emplace_back(at.substr(0,sep),frame);}
         else if(arg=="--model") o.character.model_path=value();
         else if(arg=="--template") o.character.template_clip_path=value();
         else if(arg=="--idle") o.character.animation_paths[0]=value();
@@ -782,7 +785,7 @@ int main(int argc,char** argv) {
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
-        f::containers::ContainerTablesV1 containerTables;f::containers::ContainerClassRegistryV1 containerRegistry;std::vector<f::containers::ContainerInstanceV1> containerInstances;f::containers::ContainerVisualsV1 containerVisuals; // P16 containers
+        f::containers::ContainerTablesV1 containerTables;f::containers::ContainerClassRegistryV1 containerRegistry;std::vector<f::containers::ContainerInstanceV1> containerInstances;f::containers::ContainerRuntimeV1 containerRuntime; // P16 containers (T2/T3)
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
         bool directFirstSkillGrantPending=false;
@@ -994,18 +997,18 @@ int main(int argc,char** argv) {
             std::cout<<"Population visuals="<<population.actors().size()<<" declarations="<<population.authored_count()<<" skipped="<<population.skipped_count()<<'\n';
             for(const auto& notice:population.notices())std::cerr<<"Population notice: "<<notice.sourceId<<": "<<notice.reason<<'\n';
             // P16 containers: general loader over the authored declarations of the loaded level (class registry; no level data here).
-            containerInstances.clear();containerVisuals=f::containers::ContainerVisualsV1{};
-            {std::string containerError;f::containers::ContainerLoadReportV1 containerReport;std::vector<std::string> containerNotices;
+            {std::string containerError;f::containers::ContainerLoadReportV1 containerReport;std::vector<std::string> containerNotices;std::vector<f::containers::ContainerInstanceV1> containerInstances;
              if(!containerTables.ready()&&!containerTables.load(assets,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
              else if(!f::containers::load_container_instances_v1(containerTables,containerRegistry,population.definitions(),containerInstances,containerReport,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
+             else if(!containerRuntime.adopt(assets,std::move(containerInstances),containerNotices,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
              else {
-                 containerVisuals.load(assets,containerInstances,containerNotices);
-                 std::size_t visible=0;for(const auto& c:containerInstances)if(c.visual_ready)++visible;
+                 std::size_t visible=0;for(const auto& view:containerRuntime.views())if(view.visual)++visible;
                  std::string unsupported;for(const auto& u:containerReport.unsupported){if(!unsupported.empty())unsupported+=",";unsupported+=u.first+":"+std::to_string(u.second);}
                  std::cout<<"Containers instantiated="<<containerReport.instantiated<<" declarations="<<containerReport.declarations<<" visuals="<<visible<<" unsupported="<<(unsupported.empty()?std::string("none"):unsupported)<<'\n';
                  for(const auto& n:containerReport.notices)std::cerr<<"Container notice: "<<n<<'\n';
                  for(const auto& n:containerNotices)std::cerr<<"Container notice: "<<n<<'\n';
              }}
+
         }
         };
         loadContent(scene,visual);
@@ -1782,10 +1785,10 @@ int main(int argc,char** argv) {
         }
         for(std::size_t i=0;i<targetMarker.materials.size();++i)targetMarker.mesh.ranges[i].material.texture=loadTexture(targetMarker.materials[i].diffuse,targetMarker.materials[i].alphaMap);
         };
-        // P16 containers: bind the original textures of each decoded container visual.
-        for(auto& entry:containerVisuals.visuals())if(entry.second) for(std::size_t i=0;i<entry.second->mutable_meshes().size();++i){
-            const auto& m=entry.second->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
-            for(auto& range:entry.second->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
+        // P16 containers: bind the original textures of each container visual (same rule as actors).
+        for(const auto& view:containerRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
+            const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         f::CombatTextLiveAdapter combatText;
@@ -2834,6 +2837,13 @@ int main(int argc,char** argv) {
                 }
                 return true;
             };
+            // P16 containers: debug interaction request (--interact-at); the context button will call the same API later.
+            for(const auto& request:options.interactRequests)if(request.second==drawn){std::size_t index=0;
+                if(!containerRuntime.find_by_name(request.first,index))std::cout<<"Container interact declaration="<<request.first<<" status=unknown_declaration frame="<<drawn<<'\n';
+                else{float p[3]={0,0,0};if(combatSession)if(const auto* live=combatSession->actor(combatSession->player_id())){p[0]=live->transform.position[0];p[1]=live->transform.position[1];p[2]=live->transform.position[2];}
+                    const auto r=containerRuntime.interact(index,p);
+                    std::cout<<"Container interact declaration="<<request.first<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';}}
+
             if((pressed('R')||(options.reloadFrame&&drawn==options.reloadFrame))&&checkpointAllowed("Reload")) {
                 std::optional<f::GameSave> liveSnapshot;
                 if(combatSession){f::GameSave snapshot;if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,error))throw std::runtime_error("Reload snapshot: "+error);liveSnapshot=std::move(snapshot);}
@@ -3303,6 +3313,8 @@ int main(int argc,char** argv) {
             if(!equipment.attachments().empty()&&!equipment.update(visual,error))throw std::runtime_error("Equipment pose: "+error);
             if(runtimeEquipmentAttachments&&(!runtimeEquipment||!runtimeEquipment->sample_render_pose(error)))throw std::runtime_error("Runtime equipment pose: "+error);
             for(auto& actor:population.actors())if(!gameplayPaused&&actor.enabled&&(!combatSession||!combatSession->owns_population_pose(actor.definition.stableId))&&!actor.visual.update(gameplayDt,error))throw std::runtime_error("Actor pose: "+error);
+            // P16 containers: advance activating clips; the authored 'opened' marker is DoOpen (loot via T4, Lua OnOpen later).
+            if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';if(!event.script.empty())std::cout<<"Container OnOpen script="<<event.script<<" not run: spawn/script provider not bound"<<'\n';}}
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
@@ -3396,8 +3408,8 @@ int main(int argc,char** argv) {
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
-            // P16 containers: closed/static visuals of the loaded container declarations (placement = authored transform).
-            for(const auto& container:containerInstances)if(container.visual_ready){const auto containerVisual=containerVisuals.visuals().find(container.visual_file);if(containerVisual!=containerVisuals.visuals().end()&&containerVisual->second)for(const auto& mesh:containerVisual->second->meshes())queue.submit(mesh,container.transform);}
+            // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).
+            for(const auto& view:containerRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
             // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
             const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
             if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {

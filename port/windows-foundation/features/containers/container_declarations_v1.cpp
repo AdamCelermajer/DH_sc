@@ -85,6 +85,7 @@ bool load_container_instances_v1(const ContainerTablesV1& tables,
             instance.sound_id = row.sound;
             instance.loot_id = row.loot;
             instance.visual_id = row.visual;
+            instance.script = row.script;
         } else {
             if (!borrow.destructible) { fail("DestructibleContainers table missing"); continue; }
             const auto id = borrow.destructible->data_id(instance.data_desc);
@@ -97,6 +98,7 @@ bool load_container_instances_v1(const ContainerTablesV1& tables,
             instance.sound_id = row->sound();
             instance.loot_id = row->loot();
             instance.visual_id = row->visual();
+            instance.script = row->script30;
         }
         const std::string* file = nullptr;
         std::string dictionaryError;
@@ -107,35 +109,6 @@ bool load_container_instances_v1(const ContainerTablesV1& tables,
         }
         out.push_back(std::move(instance));
         ++report.instantiated;
-    }
-    return true;
-}
-
-bool ContainerVisualsV1::load(const AssetCatalog& assets, std::vector<ContainerInstanceV1>& instances,
-                              std::vector<std::string>& notices) {
-    std::map<std::string, bool> decoded;
-    for (auto& instance : instances) {
-        instance.visual_ready = false;
-        if (instance.visual_file.empty()) continue;
-        auto it = decoded.find(instance.visual_file);
-        if (it == decoded.end()) {
-            auto visual = std::make_unique<CharacterVisual>();
-            std::string loadError;
-            bool ok = false;
-            try {
-                ok = visual->load_embedded_scene(assets, instance.visual_file, loadError) &&
-                     !visual->meshes().empty();
-                // Closed pose: the source idle clip when the BDAE authors one.
-                if (ok && !visual->select("idle", true, loadError)) loadError.clear();
-            } catch (const std::exception& exception) {
-                loadError = exception.what();
-                ok = false;
-            }
-            if (!ok) notices.push_back("container visual unavailable " + instance.visual_file + ": " + loadError);
-            if (ok) visuals_[instance.visual_file] = std::move(visual);
-            it = decoded.emplace(instance.visual_file, ok).first;
-        }
-        instance.visual_ready = it->second;
     }
     return true;
 }
