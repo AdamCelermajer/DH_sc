@@ -129,11 +129,22 @@ struct Loader {
             Instance instance{r.field(p),node_index,geometry,world,{}};
             instance.controller=controller;
             const auto n=r.w(g+12),bindings=r.w(g+16);r.array(bindings,n,60);
+            // P17 FIREWALL: keep each binding's primitive symbol (as scene.cpp does) so FX mesh graphs can resolve
+            // COLLADA instance_material symbol -> target. Best effort: without a matching mesh the list stays empty
+            // and the id comparison remains the fallback.
+            assets::Mesh mesh{};
+            const bool symbols=dh2_mesh_open(&mesh,&r.v,geometry)==assets::Error::ok&&n==mesh.primitives;
             for(unsigned j=0;j<n;++j){
                 const auto b=bindings+60*j;
                 if(r.w(b))throw std::runtime_error("External material binding not supported");
                 instance.materials.push_back(r.find(Library::material,r.field(b+4)));
+                if(symbols){
+                    assets::Primitive primitive{};
+                    if(dh2_mesh_primitive(&mesh,j,&primitive)==assets::Error::ok&&primitive.material)
+                        instance.material_symbols_v1.push_back({primitive.material});
+                }
             }
+            if(symbols&&instance.material_symbols_v1.size()!=instance.materials.size())instance.material_symbols_v1.clear();
             if(visible)s.instances.push_back(std::move(instance));
         }
         count=r.w(p+56);base=r.w(p+60);r.array(base,count,80);

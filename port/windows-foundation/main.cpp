@@ -84,6 +84,7 @@
 #include "features/audio/frontend_menu_audio_v1.hpp"
 #endif
 #include "features/effects/runtime_effects_renderer_v1.hpp"
+#include "features/effects/embedded_scene_fx_v1.hpp"  // P17 FIREWALL: scene-owned authored FX
 #include "features/effects/runtime_swing_fx_observer_v1.hpp"
 #include "features/effects/runtime_level_up_presentation_v1.hpp" // P15 LEVELUP (I026)
 #include "features/effects/celest_target_fx_dispatch_v1.hpp"
@@ -1863,6 +1864,8 @@ int main(int argc,char** argv) {
         rebuildSourceScopes();
         initializeSourceTargetNodes();
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
+        f::effects::EmbeddedSceneFxV1 embeddedSceneFx; // P17 FIREWALL: scene-owned authored FX (doors)
+        const void* embeddedSceneFxOwner=nullptr;
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
         std::shared_ptr<f::effects::RuntimeSwingFxObserverV1> sourceSwingFx;
@@ -1889,6 +1892,7 @@ int main(int argc,char** argv) {
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
             celestEffects.reset();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
+            embeddedSceneFx.clear();embeddedSceneFxOwner=nullptr; // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
         };
         const auto bindSourceEffects=[&]() {
@@ -4505,6 +4509,37 @@ int main(int argc,char** argv) {
                     const auto integerMs=std::int32_t(elapsed);sourceEffectsFractionMs=elapsed-integerMs;
                     if(sourceEffectsMs>std::numeric_limits<std::int32_t>::max()-integerMs){effectError="Source FX gameplay clock exceeds supported range";prepared=false;}
                     else {sourceEffectsMs+=integerMs;prepared=sourceEffectsFactory->runtime().update(std::uint64_t(drawn)+1,sourceEffectsMs,integerMs,effectError);}
+                }
+                // P17 FIREWALL: scene-owned authored FX of doors (the wall of fire of the fire door, any door or decor
+                // with an FX family). Attached once per FX factory; advanced at each visual's current clip time and
+                // placed at its transform; the list replaces the previous frame's list.
+                if(prepared) {
+                    if(embeddedSceneFxOwner!=sourceEffectsFactory.get()) {
+                        embeddedSceneFx.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
+                        for(std::size_t i=0;i<doorRuntime.size();++i) {
+                            const auto& inst=doorRuntime.instance(i);
+                            if(inst.visual_file.empty())continue;
+                            std::vector<std::uint8_t> raw;
+                            try{raw=assets.read(inst.visual_file);}catch(const std::exception&){raw.clear();}
+                            if(raw.empty()){std::cout<<"Embedded FX "<<inst.name<<" not attached: model unreadable "<<inst.visual_file<<'\n';continue;}
+                            std::string reason;
+                            if(!embeddedSceneFx.attach(inst.stableId,inst.visual_file,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason))
+                                std::cout<<"Embedded FX "<<inst.name<<" not attached: "<<reason<<'\n';
+                            else std::cout<<"Embedded FX "<<inst.name<<" attached model="<<inst.visual_file<<'\n';
+                        }
+                    }
+                    embeddedSceneFx.begin_frame();
+                    for(const auto& view:doorRuntime.views()) {
+                        if(!view.visual||!view.instance||!embeddedSceneFx.attached(view.instance->stableId))continue;
+                        std::int32_t sourceMs=0;
+                        if(!f::effects::embedded_clip_source_ms_v1(*view.visual,sourceMs))continue;
+                        std::string embeddedError;
+                        const std::int32_t embeddedDtMs=gameplayPaused?0:std::int32_t(gameplayDt*1000);
+                        if(!embeddedSceneFx.update(view.instance->stableId,sourceMs,sourceEffectsMs,embeddedDtMs,view.instance->transform,embeddedError)) {
+                            std::cerr<<"Embedded FX "<<view.instance->name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
+                        }
+                    }
+                    sourceEffectsFactory->set_embedded_sources(embeddedSceneFx.sources());
                 }
                 std::shared_ptr<const f::effects::EffectRenderFrame> frame;
                 if(prepared)prepared=sourceEffectsFactory->runtime().prepare_render_frame(frame,effectError);

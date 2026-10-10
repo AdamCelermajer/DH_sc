@@ -256,6 +256,7 @@ add_library(foundation_runtime_effects STATIC
   ../asset-payloads/sha256.cpp
   features/effects/runtime_source_fx_asset_v1.cpp
   features/effects/runtime_swing_fx_observer_v1.cpp
+  features/effects/embedded_scene_fx_v1.cpp
   features/effects/runtime_level_up_presentation_v1.cpp
   features/effects/runtime_effects_factory_v1.cpp
   features/effects/runtime_combat_effects_v1.cpp

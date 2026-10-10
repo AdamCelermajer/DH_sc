@@ -41,17 +41,20 @@ struct AuthoredFxMeshGraphV32::Impl {
  void defaults(unsigned material){
   const auto* record=dh2_bres_library_item(&image,resources::Library::material,material);if(!record)throw std::runtime_error("Required same authored material record");const unsigned at=unsigned(record-image.bytes);
   if(word(at+8))throw std::runtime_error("Required external authored mesh effect");auto uri=text(word(at+12));if(uri.empty()||uri[0]!='#')throw std::runtime_error("Required authored mesh effect fragment");
-  bool color=false,matrix=false;unsigned matches=0;
+  // P17 FIREWALL: the texture matrix is required only for a textured effect (diffuse-sampler); a plain
+  // ColorMaterial (fire and door FX) has a diffuse colour and no sampler, so it has no matrix to read.
+  bool color=false,matrix=false,sampler=false;unsigned matches=0;
   for(unsigned i=0;i<dh2_bres_library_count(&image,resources::Library::effect);++i){const auto* effect=dh2_bres_library_item(&image,resources::Library::effect,i);const unsigned e=unsigned(effect-image.bytes);if(text(word(e))!=uri.substr(1))continue;++matches;
    if(text(word(e+4)).rfind("ProfileCOMMON",0)!=0)throw std::runtime_error("Required authored mesh shader profile");
    const auto n=word(e+16),base=word(e+20);for(unsigned j=0;j<n;++j){const auto p=base+24*j;const auto name=text(word(p));
     if(name=="diffuse-sampler-matrix"){if(word(p+4)!=10||word(p+12)!=1)throw std::runtime_error("Required authored mesh matrix parameter");float values[16];for(unsigned k=0;k<16;++k){auto v=word(word(p+20)+4*k);std::memcpy(values+k,&v,4);}scene::material_matrix_from_bres_v4(matrices.at(material),values);matrix=true;
+    }else if(name=="diffuse-sampler"){sampler=true;
     }else if(name=="diffuse-color"){if(word(p+12)!=1)throw std::runtime_error("Required authored mesh color count");if(word(p+4)==16){for(unsigned k=0;k<4;++k){auto v=word(word(p+20)+4*k);std::memcpy(scene.materials[material].color+k,&v,4);}}
      else if(word(p+4)==15){animation::ColorParameter32 parameter{8,1,{0,0,0,0},-1,-1};const auto raw=word(word(p+20));std::uint8_t rgba[4];std::memcpy(rgba,&raw,4);if(dh2_material_color_set(&parameter,0,rgba)!=1)throw std::runtime_error("Required authored mesh SColor");std::memcpy(scene.materials[material].color,parameter.words,16);}else throw std::runtime_error("Required authored mesh color type");color=true;
     }
    }
   }
-  if(matches!=1||!color||!matrix)throw std::runtime_error("Required complete authored mesh effect defaults");
+  if(matches!=1||!color||(sampler&&!matrix))throw std::runtime_error("Required complete authored mesh effect defaults");
  }
 };
 AuthoredFxMeshGraphV32::AuthoredFxMeshGraphV32(std::shared_ptr<const std::vector<std::uint8_t>> b,std::shared_ptr<void> owner,scene::Scene& scene,std::vector<math::Matrix4f>& matrices):impl_(std::make_shared<Impl>(std::move(b),std::move(owner),scene,matrices)){}
@@ -60,8 +63,15 @@ bool AuthoredFxMeshGraphV32::initialize(std::string& error){try{auto& s=*impl_;i
  for(const auto& instance:s.scene.instances){AuthoredFxNonrenderGeometryV32 declaration{};bool nonrender=false;
   if(!authored_fx_nonrender_geometry_v32(s.image,instance.geometry,declaration,nonrender,error))return false;
   if(nonrender){if(instance.controller>=0)throw std::runtime_error("Required original kind1 controller continuation");s.nonrender_geometry.push_back(declaration);continue;}
+  // P17 FIREWALL: collision boxes (_colbox_) and shadow proxies are physics data, never drawn (objects.cpp rule).
+  // The fire model's _colbox_fire box otherwise covers the view as a flat quad.
+  if(instance.node.find("_colbox_")!=std::string::npos||instance.node.find("_mesh_shadow_")!=std::string::npos)continue;
   auto receiver=std::make_unique<Impl::Receiver>();receiver->node=instance.node_index;receiver->geometry=geometry(s.image,instance.geometry);if(instance.controller>=0){if(!skinning::load(s.image,unsigned(instance.controller),s.scene,receiver->skin,error))return false;if(receiver->skin.geometry!=instance.geometry)throw std::runtime_error("Required same source skinned geometry");}
-  for(const auto& primitive:receiver->geometry.primitives){unsigned count=0,index=0;for(auto candidate:instance.materials)if(candidate<s.scene.materials.size()&&s.scene.materials[candidate].id==primitive.material_symbol){++count;index=candidate;}if(count!=1)throw std::runtime_error("Required source mesh material-symbol binding");receiver->materials.push_back(index);material[index]=true;}
+  // P17 FIREWALL: COLLADA instance_material resolves the primitive SYMBOL to a target material whose id can differ
+  // (door FX: symbol "ColorMaterial" -> "ColorMaterial_0099D6E4"). Match the parallel symbol list when present; the
+  // id comparison remains the fallback for instances without symbols.
+  const bool bySymbol=!instance.materials.empty()&&instance.material_symbols_v1.size()==instance.materials.size();
+  for(const auto& primitive:receiver->geometry.primitives){unsigned count=0,index=0;for(std::size_t j=0;j<instance.materials.size();++j){const auto candidate=instance.materials[j];const bool hit=bySymbol?instance.material_symbols_v1[j].symbol==primitive.material_symbol:(candidate<s.scene.materials.size()&&s.scene.materials[candidate].id==primitive.material_symbol);if(hit&&candidate<s.scene.materials.size()){++count;index=candidate;}}if(count!=1)throw std::runtime_error("Required source mesh material-symbol binding");receiver->materials.push_back(index);material[index]=true;}
   s.receivers.push_back(std::move(receiver));
  }
  for(unsigned i=0;i<material.size();++i)if(material[i])s.defaults(i);
@@ -86,6 +96,9 @@ bool AuthoredFxMeshGraphV32::draw_sources(const math::Matrix4f& outer,std::vecto
   for(unsigned i=0;i<receiver->geometry.primitives.size();++i){auto snapshot=std::make_shared<Impl::Snapshot>();snapshot->owner=s;snapshot->geometry=receiver->geometry;if(!deformed.empty()){snapshot->geometry.positions=deformed;for(const auto& primitive:snapshot->geometry.primitives){const auto index=primitive.attributes[0];if(index<0||std::size_t(index)>=snapshot->geometry.attributes.size())throw std::runtime_error("Required source skinned position stream");auto& stream=snapshot->geometry.attributes[index];if(stream.components!=3||stream.values.size()!=deformed.size()*3)throw std::runtime_error("Required source skin vertex count");for(unsigned v=0;v<deformed.size();++v)std::copy_n(deformed[v].data(),3,stream.values.data()+v*3);}}snapshot->materials=s->scene.materials;snapshot->bindings=receiver->materials;
    const auto material=receiver->materials.at(i);const auto uv=snapshot->geometry.primitives[i].attributes[4];if(uv<0||std::size_t(uv)>=snapshot->geometry.attributes.size())throw std::runtime_error("Required actual source mesh UV stream");auto& values=snapshot->geometry.attributes[uv];if(values.components!=2)throw std::runtime_error("Required actual source mesh UV2 layout");const auto& matrix=s->matrices[material];
    for(unsigned v=0;v<values.values.size();v+=2){const float u=values.values[v],t=values.values[v+1];values.values[v]=matrix.m[0]*u+matrix.m[4]*t+matrix.m[8];values.values[v+1]=matrix.m[1]*u+matrix.m[5]*t+matrix.m[9];}
+   // P17 FIREWALL: the draw contract (EffectsRenderBridge::convert) compares the primitive symbol with the bound
+   // material id. After the COLLADA instance_material resolution the symbol is the target material's id.
+   snapshot->geometry.primitives[i].material_symbol=s->scene.materials.at(material).id;
    CharacterFxMeshDrawSourceV4 source;source.resource_bytes=s->bytes;source.image=&s->image;source.scene=&s->scene;source.node_identity=reinterpret_cast<std::uintptr_t>(receiver.get());source.node=receiver->node;source.material=material;source.primitive=i;source.source_part=i+1;source.source_texture_matrix68=&s->matrices[material];
    source.part.retention=snapshot;source.part.geometry=&snapshot->geometry;source.part.material_table=&snapshot->materials;source.part.materials=&snapshot->bindings;source.part.positions=snapshot->geometry.positions;std::copy_n(world.m,16,source.part.world.data());result.push_back(std::move(source));
   }

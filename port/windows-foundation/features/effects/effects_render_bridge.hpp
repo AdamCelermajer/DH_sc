@@ -2,6 +2,7 @@
 #include "effects_executor.hpp"
 #include "../../renderer.hpp"
 #include "../../retained_animation_owner.hpp"
+#include "../../../level-world/character_particle_fx_resource_v2.hpp"
 #include <functional>
 
 namespace dh::foundation::effects {
@@ -38,11 +39,21 @@ struct EffectRenderServices {
 };
 // Converts already baked/skinned original streams to the root Renderer format.
 // It never builds billboards, ticks a cloud, changes alpha or reapplies UVs.
+// P17 FIREWALL: an authored FX resource owned by a scene visual (door, decor, object) rather than by the
+// CharacterMeshFxOwnerV4 set manager. Its particle and mesh sources join the same frame and the same
+// material/texture services. uri is the model path the resource came from (texture resolution base).
+struct EmbeddedFxSourceV1 {
+    std::shared_ptr<dh2::fx::CharacterParticleFxResourceV2> resource;
+    std::string uri;
+};
+
 class EffectsRenderBridge {
 public:
     EffectsRenderBridge(dh2::fx::CharacterMeshFxOwnerV4& manager, EffectRenderServices services)
         : manager_(manager), services_(std::move(services)) {}
     bool prepare(std::shared_ptr<const EffectRenderFrame>&, std::string& error) const;
+    bool prepare(std::shared_ptr<const EffectRenderFrame>&, const std::vector<EmbeddedFxSourceV1>& embedded,
+                 std::string& error) const;
     bool submit(std::string& error) const;
     // Also usable for an embedded actor's SAME retained particle/mesh receivers.
     static bool convert(const dh2::skinning::VisualDrawPartV6&, std::uint32_t primitive,

@@ -73,6 +73,8 @@ public:
     const dh2::scene::Scene* retained_scene_borrow() const noexcept;
     const CharacterVisualConfig* configuration() const noexcept;
     const char* animation_name() const;
+    // P17 FIREWALL: name of the active clip (key of select/animation_range); "" when none.
+    const char* active_clip_name() const;
     const std::vector<Mesh>& meshes() const;
     std::vector<Mesh>& mutable_meshes();
     const std::vector<std::string>& texture_uris() const;

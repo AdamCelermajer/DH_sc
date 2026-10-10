@@ -40,6 +40,9 @@ public:
     // packet backing. Drop them only after the root render queue has flushed.
     bool prepare_render_frame(std::shared_ptr<const EffectRenderFrame>&,
                               std::string& error);
+    // P17 FIREWALL: scene-owned authored FX resources (doors, decor) included in each prepared frame.
+    // The caller replaces the list every frame; the packets keep the resources they borrow alive.
+    void set_embedded_sources(std::vector<EmbeddedFxSourceV1> sources) { embedded_ = std::move(sources); }
 
     // Authored model-space socket matrix from the same actor pose/CharacterVisual.
     // Root applies the actual actor placement; this does not create a second pose.
@@ -64,6 +67,7 @@ private:
     std::weak_ptr<const void> binding_lease_;
     std::unique_ptr<RetainedEffectsAdapter> events_;
     std::unique_ptr<EffectsRenderBridge> renderer_;
+    std::vector<EmbeddedFxSourceV1> embedded_;  // P17 FIREWALL: scene-owned FX resources for this frame
     mutable std::vector<std::weak_ptr<const EffectRenderFrame>> frame_loans_;
     std::set<ActorId> actors_seen_;
     bool update_consumed_{};
