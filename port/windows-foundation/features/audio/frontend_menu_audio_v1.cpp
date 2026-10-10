@@ -224,6 +224,8 @@ bool FrontendMenuAudioSessionV1::play_music(const char* name,int fade_ms,
     receipt.detail=playError;
     if(playError.rfind("Unavailable original audio asset: ",0)==0)
         receipt.status=FrontendMusicStatusV1::missing_original_asset;
+    else if(playError.rfind("Required actual",0)==0&&focused_&&!minimized_)
+        receipt.status=FrontendMusicStatusV1::output_not_ready;
     else if(!focused_||minimized_||!ready())
         receipt.status=FrontendMusicStatusV1::skipped_without_focus;
     else receipt.status=FrontendMusicStatusV1::rejected;

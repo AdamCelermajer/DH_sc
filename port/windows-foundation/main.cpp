@@ -585,6 +585,11 @@ int main(int argc,char** argv) {
                 }
                 using Status=f::audio::FrontendMusicStatusV1;
                 if(receipt.status==Status::skipped_without_focus)return; // retried on the next focused frame
+                if(receipt.status==Status::output_not_ready) { // device clock not published yet: retry silently, log once per request
+                    static std::string notedScreen;
+                    if(notedScreen!=request.screen){notedScreen=request.screen;std::cout<<"Frontend music waiting for the output clock screen="<<request.screen<<" detail="<<receipt.detail<<std::endl;}
+                    return;
+                }
                 menuMusic.applied();
                 const char* kind=receipt.status==Status::started?"start":receipt.status==Status::resumed?"resume":
                     receipt.status==Status::switched?"switch":"skip";

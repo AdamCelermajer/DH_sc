@@ -30,6 +30,7 @@ enum class FrontendMusicStatusV1 {
     switched,
     unknown_source_name,
     skipped_without_focus,
+    output_not_ready,   // first device clock/blocks not published yet: the caller retries on the next frame
     missing_original_asset,
     rejected
 };
