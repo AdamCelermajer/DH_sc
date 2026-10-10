@@ -310,6 +310,7 @@ struct Options {
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
     std::vector<int> pickupFrames; // P14 DROPS: scripted world-item pickup key presses (same action as E)
+    std::vector<int> questTalkFrames; // P16 QUESTUI: test aid, scripted interact presses for NPC talk (not gameplay)
     std::vector<std::pair<int,int>> spaceKeyIntervals;
     // P16 QUESTS test aid (not gameplay): frame-scheduled quest bus events, so the real EXE path
     // (bus -> runtime -> CQPG save -> rewards -> banner) can be exercised without scripted combat.
@@ -417,6 +418,7 @@ Options parse(int argc, char** argv) {
             o.menuReleases.push_back(release);
         }
         else if(arg=="--menu-close-frame") o.menuCloseFrame=std::stoi(value());
+        else if(arg=="--quest-talk-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Quest talk frame must be nonnegative");o.questTalkFrames.push_back(frame);}
         else if(arg=="--pickup-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Pickup frame must be nonnegative");o.pickupFrames.push_back(frame);}
         else if(arg=="--skill-key-frame") {
             const auto text=value();const auto split=text.find(':');
@@ -2294,6 +2296,8 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
         f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
         f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
+        std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
+        bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
         // P16 QUESTUI: every runtime banner is queued for the presenter and returned for the console line.
         const auto takeQuestBanners=[&]() {
             auto banners=questRuntime?questRuntime->take_banners():std::vector<f::quest_runtime::QuestBannerV1>{};
@@ -2331,8 +2335,29 @@ int main(int argc,char** argv) {
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
-            for(const auto& placed:population.actors())
-                questActorIdentity[placed.definition.stableId]={placed.source_character_cache,placed.source_template_cache};
+            // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
+            // through the CharacterTable names (the quest talk oids are these rows).
+            std::map<std::string,std::int32_t> characterRows;
+            {
+                std::string rowError;
+                if(!f::quest_runtime::decode_character_row_names_v1(assets.read("original-cache/data/pydata/character_properties_pyarraynames.bin"),characterRows,rowError))
+                    std::cerr<<"Quest character rows diagnostic: "<<rowError<<'\n';
+            }
+            for(const auto& placed:population.actors()) {
+                std::int32_t row=placed.source_character_cache;
+                const auto charprops=placed.definition.properties.find("charpropsname");
+                if(row<0&&charprops!=placed.definition.properties.end()) {
+                    const auto found=characterRows.find(charprops->second);
+                    if(found!=characterRows.end())row=found->second;
+                }
+                questActorIdentity[placed.definition.stableId]={row,placed.source_template_cache};
+            }
+            // P16 QUESTUI: TalkToNPC oids of the table (CharacterTable rows), for NPC talk.
+            questTalkOids.clear();
+            for(const auto& row:questTable->rows()) {
+                if(row.accept.type==5)questTalkOids.insert(row.accept.oid1);
+                for(const auto& objective:row.objectives)if(objective.type==5)questTalkOids.insert(objective.oid1);
+            }
             // P16 QUESTUI: quest trigger zones from this level's declarations (quest-named zones only; any level).
             {
                 std::vector<f::quest_runtime::QuestZoneDeclarationV1> zoneDeclarations;
@@ -2380,6 +2405,34 @@ int main(int argc,char** argv) {
                 kill.property_id=identity->second.first;kill.template_id=identity->second.second;
                 f::quest_runtime::raise_quest_event(kill);
             }
+        };
+        // P16 QUESTUI: NPC talk on the interact press edge: the nearest live actor whose CharacterTable row is a
+        // TalkToNPC oid, within 200 units (CharacterDesign.OOI_Distance). Approximation of Character::Interact.
+        const auto talkNearestNpc=[&]() {
+            if(!questRuntime||!combatSession||questTalkOids.empty())return;
+            const auto* player=combatSession->actor(combatSession->player_id());
+            if(!player)return;
+            bool found=false;float bestDistance=200.f;std::int32_t bestRow=-1;float nearestAny=-1.f;std::int32_t nearestRow=-1;std::array<float,3> nearestAt{};
+            // Authored NPCs are placed population actors (static world placement), not combat-session actors.
+            for(const auto& placed:population.actors()) {
+                const auto identity=questActorIdentity.find(placed.definition.stableId);
+                if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))continue;
+                const float dx=placed.definition.placement[12]-player->transform.position[0];
+                const float dy=placed.definition.placement[13]-player->transform.position[1];
+                const float dz=placed.definition.placement[14]-player->transform.position[2];
+                const float distance=std::sqrt(dx*dx+dy*dy+dz*dz);
+                if(nearestAny<0.f||distance<nearestAny){nearestAny=distance;nearestRow=identity->second.first;nearestAt={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};}
+                if(distance<=bestDistance){found=true;bestDistance=distance;bestRow=identity->second.first;}
+            }
+            if(!found) {
+                std::cout<<"Quest talk none within 200 nearest_row="<<nearestRow<<" distance="<<nearestAny<<" at="<<nearestAt[0]<<','<<nearestAt[1]<<','<<nearestAt[2]<<" player="<<player->transform.position[0]<<','<<player->transform.position[1]<<','<<player->transform.position[2]<<'\n';
+                return;
+            }
+            f::quest_runtime::QuestEvent talk;
+            talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+            talk.object_id=bestRow;talk.secondary_id=questLevelRow;
+            std::cout<<"Quest talk npc row="<<bestRow<<" distance="<<bestDistance<<" level="<<questLevelRow<<'\n';
+            f::quest_runtime::raise_quest_event(talk);
         };
         // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
         const auto raiseQuestZones=[&]() {
@@ -3334,6 +3387,10 @@ int main(int argc,char** argv) {
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
                 if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
                 if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
+                // P16 QUESTUI: NPC talk on the interact press edge (--quest-talk-frame is a scripted press for tests).
+                const bool questTalkPressed=uiInput.actions.interact||std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();
+                if(!gameplayPaused&&questTalkPressed&&!questTalkHeld) talkNearestNpc();
+                questTalkHeld=questTalkPressed;
                 // P16 QUESTS test aid: frame-scheduled bus events (--quest-debug-kill / --quest-debug-accept).
                 if(!gameplayPaused&&questRuntime) for(const auto& debug:options.questDebugEvents) if(debug.frame==drawn) {
                     if(!debug.accept) {
@@ -3391,6 +3448,8 @@ int main(int argc,char** argv) {
                         std::string textError;
                         if(picked) {
                             if(worldItemTarget==id)worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+                            // P16 QUESTUI: item pickup event for quest objectives that count pickups (none in Act 1 rows yet).
+                            { f::quest_runtime::QuestEvent pickupEvent;pickupEvent.kind=f::quest_runtime::QuestEvent::Kind::item_pickup;pickupEvent.object_id=std::int32_t(targetEntry.source_outcome.item_id);f::quest_runtime::raise_quest_event(pickupEvent); }
                             equipmentRebindRequested=true; // the equipment page's bare-definition policy lists held items
                             std::uint32_t rgb=0xFFFFFF;worldDrops->item_color(targetEntry,rgb,textError);
                             f::InventoryItem shown;shown.definition_id=pickedId;shown.quantity=targetEntry.quantity;

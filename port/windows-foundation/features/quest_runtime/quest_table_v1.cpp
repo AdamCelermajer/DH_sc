@@ -1,5 +1,7 @@
 #include "quest_table_v1.hpp"
 
+#include <cstddef>
+
 #include <fstream>
 #include <iterator>
 
@@ -42,6 +44,35 @@ std::size_t quest_rows_in_act_v1(const QuestTableV1& table, std::int32_t act) no
     for (const auto& row : table.rows())
         if (row.act == act) ++count;
     return count;
+}
+
+
+bool decode_character_row_names_v1(const std::vector<std::uint8_t>& bytes,
+    std::map<std::string, std::int32_t>& rows, std::string& error) {
+    rows.clear();
+    std::size_t at = 0;
+    const auto read_u32 = [&](std::uint32_t& out) {
+        if (bytes.size() - at < 4) return false;
+        out = std::uint32_t(bytes[at]) | (std::uint32_t(bytes[at + 1]) << 8) |
+              (std::uint32_t(bytes[at + 2]) << 16) | (std::uint32_t(bytes[at + 3]) << 24);
+        at += 4;
+        return true;
+    };
+    std::uint32_t count = 0;
+    if (!read_u32(count)) { error = "CharacterTable name table is truncated"; return false; }
+    for (std::uint32_t row = 0; row < count; ++row) {
+        std::uint32_t length = 0;
+        if (!read_u32(length) || bytes.size() - at < length) {
+            rows.clear();
+            error = "CharacterTable name table is truncated at row " + std::to_string(row);
+            return false;
+        }
+        rows.emplace(std::string(bytes.begin() + std::ptrdiff_t(at), bytes.begin() + std::ptrdiff_t(at + length)),
+                     std::int32_t(row));
+        at += length;
+    }
+    error.clear();
+    return true;
 }
 
 } // namespace dh::foundation::quest_runtime
