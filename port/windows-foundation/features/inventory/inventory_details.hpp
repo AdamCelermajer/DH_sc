@@ -3,7 +3,9 @@
 #include "../equipment/equipment_menu.hpp"
 #include <array>
 namespace dh::foundation::inventory {
-enum class DetailAction { none,select,previous,next,equip,unequip,drop,transmute,auto_equip };
+// slot: a rail icon (SideList/btn_TypeN) selected InvSlotId N. previous/next: the rail arrows btn_left/btn_right, which
+// step InvSlotId one slot with wrap (ClassChangeUp/ClassChangeDown), not the list row.
+enum class DetailAction { none,select,previous,next,equip,unequip,drop,transmute,auto_equip,slot };
 struct DetailHit {DetailAction action{};std::string path;std::vector<HudGeometryVertex> triangles;};
 struct DetailRowArt {int relative_index{};character_menu::MenuArt unselected,selected;std::vector<HudGeometryVertex> hit;};
 struct DetailTextVariant {std::vector<HudGeometryBatch> batches;std::vector<character_menu::MenuTextField> fields;std::vector<character_menu::MenuSolidBatch> solids;};
@@ -12,6 +14,11 @@ struct DetailArt {character_menu::MenuArt panel;std::vector<DetailRowArt> rows;s
 const DetailArt& original_inventory_details();
 // B045: true when (x,y) is on the visible body of a list row (the row art box), not only its border sliver.
 bool details_row_hit(const DetailRowArt& row,float x,float y);
+// Details slot rail (menu_InventorySheetDetails/SideList/btn_TypeN, N = InvSlotId 0..9, top to bottom). Each icon's hit
+// box is the bounding box of its authored SideList batches. Returns the icon index at (x,y), or -1.
+struct DetailRailBox{float x0,y0,x1,y1;};
+bool details_rail_box(const DetailArt& art,unsigned slot,DetailRailBox& output);
+int details_rail_slot_at(const DetailArt& art,float x,float y);
 // The native character preview is an SWF display callback, not a panel-wide
 // overlay. These generated records retain its exact authored pane and sibling
 // insertion point so the renderer can interleave the existing preview owner.

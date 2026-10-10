@@ -136,6 +136,8 @@ bool MainPage::release(float x, float y, MainPageCommand& command, std::string& 
         case inventory::DetailAction::select:
         case inventory::DetailAction::previous:
         case inventory::DetailAction::next:
+        // Rail icon (InvSlotId set) and arrows (slot step): selection only, applied inside DetailsPresenter::release.
+        case inventory::DetailAction::slot:
             error.clear();
             return true;
         case inventory::DetailAction::none:
