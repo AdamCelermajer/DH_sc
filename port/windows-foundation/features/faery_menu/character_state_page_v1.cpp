@@ -1,8 +1,12 @@
 #include "character_state_page_v1.hpp"
 
-#include "native_binding_v1.hpp"
-
 namespace dh::foundation::faery_menu {
+// Declared here (defined in source_text_v1.cpp, same signature as native_binding_v1.hpp).
+// Including native_binding_v1.hpp would pull the level-world visual graph into this
+// standalone-buildable page unit.
+bool source_text_symbol_v1(const std::string& field, std::int32_t slot,
+                           std::int32_t saved_level, std::string& symbol,
+                           std::string& error);
 namespace {
 constexpr std::array<std::uint32_t, 5> source_element_by_slot{{2, 3, 1, 4, 0}};
 
@@ -228,11 +232,26 @@ bool select_character_state_faery_v1(CharacterStateFaeryBindingsV1& bindings,
         error = "Known source current Faery is outside menu slots 0..4";
         return false;
     }
-    // All source assertions are checked before dispatch. The original SWF
-    // dispatches locked-looking buttons too, so do not reject based on state.
-    // Production binds the same-owner source action to retain UpdateAllSkills,
-    // visual and Level placement continuation; the direct cell commit is only
+    // P14 decision (FAERY G2): a locked Faery is rejected here as well as in
+    // the UI. Only the unlock fact (state==1, or the Debug all-unlock switch)
+    // permits selection. Production binds the same-owner source action to
+    // retain its visual/skill continuation; the direct cell commit is only
     // the focused projection fixture path when no action owner is supplied.
+    {
+        bool debug_unlock_all = false;
+        if (bindings.debug_unlock_all_faeries &&
+            !bindings.debug_unlock_all_faeries(debug_unlock_all, error)) {
+            if (error.empty()) error = "Same-owner source UnlockAllFaeries Debug query failed";
+            return false;
+        }
+        const auto knowledge = source_faery_knowledge_v1(
+            true, bindings.character->faery_by_difficulty[index].faeries[menu_slot].state,
+            bool(bindings.debug_unlock_all_faeries), debug_unlock_all);
+        if (knowledge != SourceFaeryKnowledgeV1::known) {
+            error = "Faery slot " + std::to_string(menu_slot) + " is locked; selection rejected";
+            return false;
+        }
+    }
     if (bindings.activate_slot) {
         if (!bindings.activate_slot(menu_slot, error)) {
             if (error.empty()) error = "Same-owner source SetActiveFaery action failed";

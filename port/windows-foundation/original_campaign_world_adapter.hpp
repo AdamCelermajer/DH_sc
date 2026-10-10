@@ -24,6 +24,9 @@ struct OriginalCampaignWorldProviders {
     std::function<bool(bool show,const std::string& menu,std::uint32_t duration,bool wait,
                        CampaignCommandPhase,bool& blocking,std::string&)> flash;
     std::function<bool(const OriginalCampaignCommand&,CampaignCommandPhase,bool& blocking,std::string&)> dialog;
+    // P14 FAERY (T3): same-owner source Faery script effects (commands 27/28).
+    std::function<bool(std::uint32_t slot,std::uint32_t state,std::string&)> set_faery_state;
+    std::function<bool(std::uint32_t slot,std::string&)> inc_faery_level;
     std::function<bool(std::string&)> flush_messages,request_save,block_save;
     std::function<bool(int tutorial_id,OriginalTutorialGate&,std::string&)> tutorial_gate;
     std::function<bool(int tutorial_id,std::string&)> consume_tutorial;

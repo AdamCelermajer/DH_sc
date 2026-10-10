@@ -1,4 +1,5 @@
 #include "../character_state_page_v1.hpp"
+#include "../character_state_faery_v1.hpp"
 #include "../../../asset_catalog.hpp"
 #include "../../../features/character_menu/menu_text.hpp"
 
@@ -196,16 +197,20 @@ int main(int argc, char** argv) {
               "unknown progress must reject selection without mutation");
 
         character.source_faery_state_known = true;
-        character.faery_by_difficulty[1].faeries[2].state = 0; // locked-looking source slot still has an authored release.
+        character.faery_by_difficulty[1].faeries[2].state = 0; // locked Faery: rejected in the provider (P14 G2).
         const auto d0 = character.faery_by_difficulty[0].current_faery;
         const auto d2 = character.faery_by_difficulty[2].current_faery;
-        check(dh::foundation::faery_menu::select_character_state_faery_v1(bindings, 2, error),
-              "source onRelease must select a valid locked-looking slot");
-        check(character.faery_by_difficulty[1].current_faery == 2 &&
+        const auto before_locked = character.faery_by_difficulty[1].current_faery;
+        check(!dh::foundation::faery_menu::select_character_state_faery_v1(bindings, 2, error) &&
+              error.find("locked") != std::string::npos &&
+              character.faery_by_difficulty[1].current_faery == before_locked,
+              "locked Faery selection must be rejected by the provider without mutation");
+        check(dh::foundation::faery_menu::select_character_state_faery_v1(bindings, 3, error) &&
+              character.faery_by_difficulty[1].current_faery == 3 &&
               character.faery_by_difficulty[0].current_faery == d0 &&
               character.faery_by_difficulty[2].current_faery == d2 &&
               character.faery_by_difficulty[1].faeries[2].state == 0,
-              "selection must change only current slot at the selected difficulty");
+              "unlocked selection must change only current slot at the selected difficulty");
         const auto committed = character.faery_by_difficulty[1].current_faery;
         check(!dh::foundation::faery_menu::select_character_state_faery_v1(bindings, 5, error) &&
               character.faery_by_difficulty[1].current_faery == committed,
@@ -217,9 +222,12 @@ int main(int argc, char** argv) {
             character.faery_by_difficulty[1].current_faery = static_cast<std::int32_t>(slot);
             return true;
         };
-        check(dh::foundation::faery_menu::select_character_state_faery_v1(action_bindings, 4, error) &&
-              dispatched_slot == 4 && character.faery_by_difficulty[1].current_faery == 4,
+        check(dh::foundation::faery_menu::select_character_state_faery_v1(action_bindings, 1, error) &&
+              dispatched_slot == 1 && character.faery_by_difficulty[1].current_faery == 1,
               "validated source click did not dispatch the supplied same-owner action callback");
+        check(!dh::foundation::faery_menu::select_character_state_faery_v1(action_bindings, 4, error) &&
+              dispatched_slot == 1 && character.faery_by_difficulty[1].current_faery == 1,
+              "locked slot must not reach the same-owner action callback");
         character.faery_by_difficulty[1].current_faery = committed;
 
         dh::foundation::character_menu::SourcePageProviderV1 provider;
@@ -239,6 +247,7 @@ int main(int argc, char** argv) {
               "generic Faery page did not append source SWF geometry and fields");
 
         auto routed = bindings;
+        routed.difficulty = 0; // difficulty 0 row: slot 0 is unlocked (state 1) in this fixture.
         std::uint32_t action_count = 0;
         std::uint32_t action_slot = 99;
         routed.activate_slot = [&](std::uint32_t slot, std::string&) {
@@ -260,11 +269,119 @@ int main(int argc, char** argv) {
         check(release_provider.release(0.f, 0.f, error) && action_count == 1 &&
               character.faery_by_difficulty[std::size_t(routed.difficulty)].current_faery == before_outside,
               "outside authored hit contour must not dispatch or mutate selection");
+        character.faery_by_difficulty[0].faeries[0].state = 0; // lock slot 0 for the release path
+        check(!release_provider.release(80.f, 80.f, error) && action_count == 1 &&
+              error.find("locked") != std::string::npos,
+              "locked Faery click must be rejected by the provider before activation");
+        character.faery_by_difficulty[0].faeries[0].state = 1;
         character.faery_by_difficulty[std::size_t(routed.difficulty)].current_faery = -1;
         check(!release_provider.release(80.f, 80.f, error) && action_count == 1,
               "known progress with invalid current source index must reject before activation");
         character.faery_by_difficulty[std::size_t(routed.difficulty)].current_faery = before_outside;
-        std::cout << "PASS CharacterState Faery page: actual four source lists/20 row links, table fields/icons, tri-state gate, all three difficulty rows, unknown legacy state, exact locked-looking release/action routing, invalid-current rejection, and single-cell selection transaction\n";
+        // T3 script effects and T2 host commit on a fresh CharacterState (creation zeroes every row).
+        {
+            using namespace dh::foundation::faery_menu;
+            dh::foundation::CharacterState fresh;
+            fresh.source_faery_state_known = true;
+            fresh.source_faery_list_id = 0;
+            check(fresh.faery_by_difficulty[0].faeries[0].state == 0, "fresh creation row must start locked");
+            check(apply_source_set_faery_state_v1(fresh, active_faery_difficulty_v1(), 0, 1, error) &&
+                  fresh.faery_by_difficulty[0].faeries[0].state == 1 &&
+                  fresh.faery_by_difficulty[0].faeries[1].state == 0 &&
+                  fresh.faery_by_difficulty[1].faeries[0].state == 0 &&
+                  fresh.faery_by_difficulty[0].current_faery == 0,
+                  "SetFaeryState(slot 0, 1) must write one row of the active difficulty only");
+            check(!apply_source_set_faery_state_v1(fresh, 0, 5, 1, error) && !error.empty(),
+                  "SetFaeryState slot 5 must be rejected");
+            check(!apply_source_set_faery_state_v1(fresh, 0, 0, 256, error) &&
+                  fresh.faery_by_difficulty[0].faeries[0].state == 1,
+                  "SetFaeryState byte overflow must be rejected without mutation");
+            check(!apply_source_set_faery_state_v1(fresh, 3, 0, 1, error),
+                  "difficulty 3 must be rejected");
+            check(apply_source_inc_faery_level_v1(fresh, 0, 0, error) &&
+                  fresh.faery_by_difficulty[0].faeries[0].level == 1 &&
+                  fresh.faery_by_difficulty[0].faeries[0].state == 1 &&
+                  fresh.faery_by_difficulty[0].faeries[1].level == 0,
+                  "IncFaeryLevel must add one level to one row and leave its state");
+            fresh.faery_by_difficulty[0].faeries[0].level = 0xFFFF;
+            check(!apply_source_inc_faery_level_v1(fresh, 0, 0, error) &&
+                  fresh.faery_by_difficulty[0].faeries[0].level == 0xFFFF,
+                  "IncFaeryLevel overflow must be rejected");
+            fresh.source_faery_state_known = false;
+            check(!apply_source_inc_faery_level_v1(fresh, 0, 1, error) &&
+                  !apply_source_set_faery_state_v1(fresh, 0, 1, 1, error),
+                  "unknown source Faery rows must reject script writes");
+            fresh.source_faery_state_known = true;
+
+            auto fresh_owner = std::make_shared<dh::foundation::CharacterState>(fresh);
+            fresh_owner->faery_by_difficulty[0].faeries[1].state = 1;
+            CharacterStateFaeryPageHostV1 host;
+            host.owner = fresh_owner;
+            host.tables = borrow;
+            host.localize = [&character, &localization](const std::string& symbol, std::string& text, std::string& message) {
+                return localization.symbol(symbol, &character, text, message);
+            };
+            int persists = 0, refreshes = 0;
+            bool fail_persist = true;
+            host.persist = [&](std::string& message) {
+                ++persists;
+                if (fail_persist) { message = "save refused"; return false; }
+                return true;
+            };
+            host.refresh_hud = [&] { ++refreshes; };
+            check(!commit_character_state_faery_selection_v1(host, 0, 1, error) &&
+                  fresh_owner->faery_by_difficulty[0].current_faery == 0 && persists == 1 && refreshes == 0,
+                  "failed selection save must roll back current_faery and skip the HUD refresh");
+            fail_persist = false;
+            check(commit_character_state_faery_selection_v1(host, 0, 1, error) &&
+                  fresh_owner->faery_by_difficulty[0].current_faery == 1 && persists == 2 && refreshes == 1,
+                  "accepted selection must commit, persist once and refresh the HUD once");
+
+            dh::foundation::character_menu::SourceCompositionV1 host_composition(fresh_owner);
+            check(register_character_state_faery_page_v1(host_composition, host, error),
+                  "CharacterState Faery host registration failed");
+            dh::foundation::character_menu::Bindings host_bindings;
+            check(host_composition.install_content(host_bindings, error),
+                  "host composition content install failed");
+            dh::foundation::character_menu::Frame host_frame;
+            check(host_bindings.content(dh::foundation::character_menu::Tab::faery, host_frame, error) &&
+                  !host_frame.art.batches.empty() && host_frame.text.size() == 4,
+                  "host-registered Faery page did not append source geometry and fields");
+            CharacterStateFaeryPageHostV1 unbound;
+            check(!register_character_state_faery_page_v1(host_composition, unbound, error),
+                  "host without tables/localization must not register");
+        }
+        // P14 FAERY follow-up: legacy rows are normalized to creation zeros, Swamp_Intro unlock works, and
+        // an unlocked Rocky (no spell) is selectable with a no-spell diagnostic instead of a silent key 4.
+        {
+            using namespace dh::foundation::faery_menu;
+            dh::foundation::CharacterState legacy;
+            legacy.source_faery_state_known = false;
+            legacy.source_faery_list_id = 0;
+            legacy.faery_by_difficulty[0].current_faery = 3; // garbage from an old slot must not survive
+            check(ensure_source_faery_rows_v1(legacy) && legacy.source_faery_state_known,
+                  "legacy save without Faery rows must be normalized on first use");
+            for (const auto& difficulty : legacy.faery_by_difficulty) {
+                check(difficulty.current_faery == 0, "normalized current Faery must be creation zero");
+                for (const auto& faery : difficulty.faeries)
+                    check(faery.state == 0 && faery.level == 0, "normalized Faery rows must be creation zeros");
+            }
+            check(!ensure_source_faery_rows_v1(legacy), "known rows must not be re-initialized");
+            check(apply_source_set_faery_state_v1(legacy, active_faery_difficulty_v1(), 0, 1, error) &&
+                  legacy.faery_by_difficulty[0].faeries[0].state == 1,
+                  "Swamp_Intro SetFaeryState(slot 0, 1) must unlock Celest on a normalized legacy save");
+            check(faery_slot_has_spell_v1(0) && faery_slot_has_spell_v1(1) &&
+                  !faery_slot_has_spell_v1(2) && !faery_slot_has_spell_v1(3) && !faery_slot_has_spell_v1(4),
+                  "only Celest and Hotty have spells");
+            check(faery_no_spell_message_v1(2).find("no spell implemented") != std::string::npos,
+                  "no-spell diagnostic must name the missing spell");
+            check(apply_source_set_faery_state_v1(legacy, active_faery_difficulty_v1(), 2, 1, error) &&
+                  commit_source_faery_selection_v1(legacy, active_faery_difficulty_v1(), 2, error) &&
+                  legacy.faery_by_difficulty[0].current_faery == 2 &&
+                  !faery_slot_has_spell_v1(legacy.faery_by_difficulty[0].current_faery),
+                  "unlocked Rocky must be selectable and identified as a no-spell Faery");
+        }
+        std::cout << "PASS CharacterState Faery page: actual four source lists/20 row links, table fields/icons, tri-state gate, all three difficulty rows, unknown legacy state, provider rejection of locked slots without mutation, same-owner action dispatch, invalid-current rejection, single-cell selection transaction, script SetFaeryState/IncFaeryLevel row effects, and host persist rollback\n";
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return 1;
