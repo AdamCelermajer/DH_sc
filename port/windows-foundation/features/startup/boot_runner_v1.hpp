@@ -9,7 +9,10 @@
 #include "boot_flow_v1.hpp"
 
 #include <filesystem>
+#include <functional>
 #include <string>
+#include <utility>
+#include <vector>
 
 namespace dh::foundation {
 class AssetCatalog;
@@ -30,6 +33,11 @@ struct BootRunConfig {
     int window_width = 0;
     // Optional hard stop for tests/captures; 0 = run until continue or close.
     double max_seconds = 0.0;
+    // Verification hooks (quiet batches only). Scripted presses go through the
+    // same abstract press edge as real input; captures are written by the host.
+    std::vector<double> scripted_presses;
+    std::vector<std::pair<double, std::filesystem::path>> captures;
+    std::function<void(const std::filesystem::path&, int, int)> capture;
 };
 
 enum class BootRunOutcome : std::uint8_t { complete, quit, failed };

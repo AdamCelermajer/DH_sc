@@ -121,7 +121,7 @@ add_library(foundation_startup STATIC features/startup/boot_flow_v1.cpp
 target_include_directories(foundation_startup PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(dh-foundation PRIVATE foundation_startup)
 # Boot runner uses the renderer/overlay/window, so it is compiled into the EXE.
-target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp)
+target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp features/startup/loading_screen_v1.cpp)
 add_executable(startup_boot_flow_v1_tests features/startup/boot_flow_v1_tests.cpp)
 target_link_libraries(startup_boot_flow_v1_tests PRIVATE foundation_startup)
 add_test(NAME startup_boot_flow_v1 COMMAND startup_boot_flow_v1_tests)

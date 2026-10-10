@@ -2,6 +2,7 @@
 
 #include "asset_catalog.hpp"
 #include "content_paths.hpp"
+#include "hud_glyphs.hpp"
 #include "intro_stream_v1.hpp"
 #include "overlay_renderer.hpp"
 #include "platform_key_codes.hpp"
@@ -51,6 +52,49 @@ void draw_black(OverlayRenderer& overlay, int w, int h) {
     const std::array<OverlayTriangleVertex, 6> quad{{{0, 0, 0, 0}, {fw, 0, 0, 0}, {fw, fh, 0, 0},
                                                      {0, 0, 0, 0}, {fw, fh, 0, 0}, {0, fh, 0, 0}}};
     overlay.drawTriangles(quad.data(), quad.size(), 0, {0, 0, 0, 1});
+}
+
+// Authored label MENU_TOUCH_TO_CONTINUE (original_art_data.cpp), double spaces kept.
+constexpr const char* kTouchToContinue = "Touch  the  screen  to  continue";
+
+// Rasterises the title label once (font = original Fontin SmallCaps file, the
+// HUD font the port already uses; the menu's exact typography is not verified).
+struct TitleLabel {
+    std::vector<OverlaySprite> sprites;
+    std::vector<std::uint32_t> textures;
+    bool built = false;
+    std::string error;
+};
+
+void build_title_label(Renderer& renderer, const AssetCatalog& assets, int w, int h, TitleLabel& label) {
+    label.built = true;
+    HudGlyphFont font;
+    std::string error;
+    if (!font.load(resolve_content_path(assets, "data/Fontin SmallCaps.ttf"), error)) {
+        label.error = "title label font: " + error;
+        return;
+    }
+    HudGlyphRun run;
+    if (!font.raster(kTouchToContinue, 28, 1.0f, run, error)) {
+        label.error = "title label raster: " + error;
+        return;
+    }
+    const float baseline = float(h) * 0.86f;
+    const float x0 = (float(w) - run.advance) * 0.5f;
+    for (const auto& g : run.glyphs) {
+        if (g.image.rgba.empty()) continue;  // blank glyphs (spaces) draw nothing
+        const std::uint32_t texture = renderer.createTexture(int(g.image.width), int(g.image.height), g.image.rgba.data());
+        label.textures.push_back(texture);
+        OverlaySprite s;
+        s.x = x0 + g.x;
+        s.y = baseline + g.y;
+        s.width = g.width;
+        s.height = g.height;
+        s.u1 = g.u1;
+        s.v1 = g.v1;
+        s.texture = texture;
+        label.sprites.push_back(s);
+    }
 }
 
 bool read_file(const std::filesystem::path& path, std::vector<std::uint8_t>& bytes) {
@@ -106,6 +150,13 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     OverlayRenderer overlay;
     std::vector<std::uint8_t> frameRgba;
     std::uint32_t frameTexture = 0;
+    TitleLabel title;
+    std::vector<double> presses = config.scripted_presses;
+    std::sort(presses.begin(), presses.end());
+    std::size_t nextPress = 0;
+    auto captures = config.captures;
+    std::sort(captures.begin(), captures.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
+    std::size_t nextCapture = 0;
     const double start = Window::seconds();
     double movieStart = -1.0;
     bool movieEnded = false;     // stream reached its end
@@ -122,7 +173,11 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             flow.request_quit();
             break;
         }
-        const bool pressed = press.update(window);
+        bool pressed = press.update(window);
+        if (nextPress < presses.size() && now >= presses[nextPress]) {
+            pressed = true;  // scripted verification press (same abstract edge as real input)
+            ++nextPress;
+        }
         const BootPhase before = flow.phase();
         flow.update(now, pressed);
         if (before == BootPhase::movie && flow.phase() == BootPhase::title && pressed) movieSkippedByUser = true;
@@ -170,9 +225,15 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             overlay.drawSprite(fit_sprite(w, h, int(movie.info().width), int(movie.info().height), 1.0f, frameTexture));
         } else if (flow.phase() == BootPhase::title) {
             overlay.drawSprite(fit_sprite(w, h, int(splashImage.width), int(splashImage.height), 1.0f, splashTexture));
+            if (!title.built) build_title_label(renderer, *config.assets, w, h, title);
+            for (const auto& glyph : title.sprites) overlay.drawSprite(glyph);
         }
         overlay.end();
         renderer.endFrame();
+        while (config.capture && nextCapture < captures.size() && now >= captures[nextCapture].first) {
+            config.capture(captures[nextCapture].second, w, h);  // host reads the back buffer
+            ++nextCapture;
+        }
         window.swap();
         platform_sleep_milliseconds(4);
     }
@@ -180,10 +241,16 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     if (frameTexture) renderer.destroyTexture(frameTexture);
     renderer.destroyTexture(logoTexture);
     renderer.destroyTexture(splashTexture);
+    for (auto texture : title.textures) renderer.destroyTexture(texture);
+    if (!title.error.empty()) result.error = title.error;
 
     result.seconds = Window::seconds() - start;
     result.outcome = flow.phase() == BootPhase::quit ? BootRunOutcome::quit : BootRunOutcome::complete;
-    if (movieSkippedByUser && !movieEnded) result.movie_status = "skipped: user";
+    if (movieSkippedByUser && !movieEnded) {
+        result.movie_status = "skipped: user";
+    } else if (movieAvailable && !movieEnded && result.outcome == BootRunOutcome::quit) {
+        result.movie_status = "stopped before movie end";
+    }
     return result;
 }
 

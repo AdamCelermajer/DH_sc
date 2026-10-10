@@ -95,6 +95,7 @@
 #endif
 #include "platform_sleep.hpp"
 #include "features/startup/boot_runner_v1.hpp"  // Preview 15 startup boot
+#include "features/startup/loading_screen_v1.hpp"  // Preview 15 campaign loading screen
 #include <GL/gl.h>
 #include <algorithm>
 #include <cmath>
@@ -205,6 +206,7 @@ struct Options {
     int audioListener=-1;
     std::string startMode="menu",menuActions,menuReturnActions;
     bool skipBoot=false;std::string introStream; // Preview 15 startup boot (--skip-boot, --intro-stream)
+    std::vector<double> bootPresses;std::vector<std::pair<double,fs::path>> bootCaptures;double bootMaxSeconds=0; // boot verification hooks
     fs::path menuAssets,menuUiAssets,menuCaptureDirectory;
     int menuCaptureEvery=6;
     int menuFrames=0,selectedSaveSlot=0;
@@ -398,6 +400,13 @@ Options parse(int argc, char** argv) {
         else if(arg=="--probe") o.probe=true;
         else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
         else if(arg=="--intro-stream") o.introStream=value();
+        else if(arg=="--boot-press") o.bootPresses.push_back(std::stod(value()));  // scripted press/tap (verification)
+        else if(arg=="--boot-max-seconds") o.bootMaxSeconds=std::stod(value());
+        else if(arg=="--boot-capture") {  // <seconds>=<file.ppm>, written by the boot runner
+            const auto spec=value();const auto eq=spec.find('=');
+            if(eq==std::string::npos)throw std::runtime_error("--boot-capture expects <seconds>=<file>");
+            o.bootCaptures.push_back({std::stod(spec.substr(0,eq)),fs::path(spec.substr(eq+1))});
+        }
         else if(arg=="--timeline") o.timeline=true;
         else if(arg=="--help") {
             std::cout<<"dh-foundation [--assets DIR] [--scene RELATIVE_BDAE | --level RELATIVE_MLX] [--module NODE]\n"
@@ -491,9 +500,13 @@ int main(int argc,char** argv) {
                 f::startup::BootRunConfig bootConfig;bootConfig.assets=&assets;
                 bootConfig.intro_stream=options.introStream.empty()?assets.root()/"converted-media"/"intro_v1.dhintro":fs::path(options.introStream);
                 bootConfig.window_width=width;
+                bootConfig.scripted_presses=options.bootPresses;bootConfig.captures=options.bootCaptures;
+                bootConfig.max_seconds=options.bootMaxSeconds;
+                bootConfig.capture=[](const fs::path& p,int w,int h){capture(p,w,h);};
                 const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
-                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown<<" seconds="<<boot.seconds<<'\n';
-                if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<'\n';
+                // std::endl flushes: verification jobs may be killed after the boot ends.
+                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown<<" seconds="<<boot.seconds<<std::endl;
+                if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<std::endl;
                 if(boot.outcome==f::startup::BootRunOutcome::quit)return 0;
             }
             // The caller owns this startup stream. Named fields are transferred
@@ -735,6 +748,8 @@ int main(int argc,char** argv) {
             options.combat.initialRandomState=frontendRandomState;options.combat.diagnosticRngSeed.reset();
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
+        // Preview 15 campaign loading screen (menu route only; tests skip it). Stages below report real progress.
+        f::startup::LoadingScreenV1 loadingScreen(window,renderer,options.startMode=="menu"&&!options.skipBoot,1.5);loadingScreen.progress(0.0);
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
@@ -839,6 +854,7 @@ int main(int argc,char** argv) {
         if(options.populationTemplates)populationStartupRandom=frontendRandomState.value_or(dh2::data::CombatRandom{*populationStartupSeed,0});
         if(!options.level.empty()) {
             if(!f::load_level(assets,options.level,scene,error)) throw std::runtime_error("Level: "+error);
+            loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
         }
@@ -1028,6 +1044,7 @@ int main(int argc,char** argv) {
         };
         const bool runBound=combatSession&&combatSession->uses_retained_player_locomotion()?combatSession->has_player_locomotion("run"):std::any_of(options.character.clips.begin(),options.character.clips.end(),[](const auto& clip){return clip.first=="run";});
         if(options.movable&&!runBound)std::cout<<"Run input disabled: no authored run clip bound\n";
+        loadingScreen.progress(0.8);  // actor population stage complete; collision next
         f::CollisionScene collision;std::unique_ptr<f::ActorMovement> motor;
         std::map<f::ActorId,std::unique_ptr<f::ActorMovement>> populationMotors;
         struct MotionReceipt {unsigned enabled=0,disabled=0;double sourceXY=0,worldXY=0;};
@@ -2354,6 +2371,7 @@ int main(int argc,char** argv) {
                 std::cout<<'\n';
             }
         };
+        loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
         while(!window.should_close()) {
             if(options.hud&&combatSession)bindEquipmentPage();
             combatTextFrame=drawn;
