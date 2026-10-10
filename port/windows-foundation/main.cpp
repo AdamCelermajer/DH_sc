@@ -977,6 +977,13 @@ int main(int argc,char** argv) {
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
         bool directFirstSkillGrantPending=false;
+        // P17 TRANSITIONS: an arriving session continues the character the previous session saved (not a fresh player).
+        // The load is explicit here because the menu/fresh-player load points below do not run for a non-fresh start.
+        if(!frontendStarted&&options.transitionEntryId>=0) {
+            std::string transitionLoadError;
+            if(!fs::exists(options.save)||!f::load_character(options.save,state,transitionLoadError))throw std::runtime_error("Transition load: "+transitionLoadError);
+            std::cout<<"Transition character loaded path="<<options.save.generic_string()<<" visited_records="<<state.visited_modules.size()<<" level="<<options.level.generic_string()<<'\n';
+        }
         if(!options.actorRow.empty()) {
             if(!f::load_original_property_tables(assets,"original-cache/data/pydata",properties,error))throw std::runtime_error("Property tables: "+error);
             bool ok=options.freshPlayer?f::resolve_original_fresh_player(properties,options.actorRow,actorProperties,error):f::resolve_original_actor_properties(properties.characters,properties.classes,options.actorRow,{std::nullopt,true},actorProperties,error);
@@ -1213,6 +1220,7 @@ int main(int argc,char** argv) {
                         options.actorPosition={spawn.position[0],spawn.position[1],spawn.position[2]};options.transitionHeading=spawn.heading_radians;
                         std::cout<<"Transition arrival entry="<<options.transitionEntryId<<" spawn="<<spawn.name<<" candidates="<<spawn.candidates<<" position="<<spawn.position[0]<<','<<spawn.position[1]<<','<<spawn.position[2]<<" heading="<<spawn.heading_radians<<" level="<<options.level.generic_string()<<'\n';
                     } else std::cout<<"Transition arrival entry="<<options.transitionEntryId<<" status=no_spawn_point (start position kept) level="<<options.level.generic_string()<<'\n';
+                    std::cout<<"Transition arrival character visited_records="<<state.visited_modules.size()<<" level="<<options.level.generic_string()<<'\n';
                     options.transitionEntryId=-1; // consumed by this session
                 }
             }
@@ -1690,8 +1698,12 @@ int main(int argc,char** argv) {
                     const int sourceSlot=entry.slot=="main_hand"?1:entry.slot=="off_hand"?2:item->record.words[26];
                     const bool slotKnown=sourceSlot>=0&&sourceSlot<9;
                     if(slotKnown)entry.slot="slot-"+std::to_string(sourceSlot);
-                    state.inventory.push_back({*entry.item_instance_id,entry.definition_id,1});
-                    state.equipment.push_back({entry.slot,*entry.item_instance_id,0,slotKnown?sourceSlot:-1});
+                    // P17 TRANSITIONS: a continuing character already owns its starting items (saved by the previous session).
+                    // Adopt them instead of granting the same instance twice (the save would reject the duplicate).
+                    const auto ownedInstance=[&](const std::string& instance){return std::any_of(state.inventory.begin(),state.inventory.end(),[&](const auto& owned){return owned.instance_id==instance;});};
+                    if(!ownedInstance(*entry.item_instance_id)) state.inventory.push_back({*entry.item_instance_id,entry.definition_id,1});
+                    const bool boundAlready=std::any_of(state.equipment.begin(),state.equipment.end(),[&](const auto& bound){return bound.item_instance_id==*entry.item_instance_id;});
+                    if(!boundAlready) state.equipment.push_back({entry.slot,*entry.item_instance_id,0,slotKnown?sourceSlot:-1});
                 }
                 // P14 EQUIP diagnostic (--bag-item DEF): unequipped rows for the direct bootstrap, which otherwise owns only equipped items.
                 for(std::size_t bag=0;bag<options.bagItemIds.size();++bag)
@@ -4941,11 +4953,14 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             std::string transitionSaveError;
             if(options.save.empty()||!f::save_character(options.save,state,transitionSaveError))throw std::runtime_error("Transition save: "+transitionSaveError);
             std::cout<<"Transition leave level="<<options.level.generic_string()<<" zone="<<transition.zone_name<<" target="<<transition.target_name<<" file="<<transition.target_file<<" entry="<<transition.entry_id<<" frame="<<drawn<<'\n';
-            std::cout<<"Transition character saved level="<<transition.target_file<<" path="<<options.save.generic_string()<<" frame="<<drawn<<'\n';
+            std::cout<<"Transition character saved level="<<transition.target_file<<" path="<<options.save.generic_string()<<" visited_records="<<state.visited_modules.size()<<" frame="<<drawn<<'\n';
             pcHudText.clear(renderer);pauseText.clear(renderer);cinematicText.clear(renderer);
             options.level=transition.target_file;
             options.transitionEntryId=transition.entry_id;
             options.transitionHeading=0.0f;
+            // The session above clears diagnosticRngSeed once its startup RNG is taken; the next session needs the launch seed.
+            // Level::Unload reseeds the game RNG too (IDA), so the arriving level starts a fresh RNG stream.
+            options.combat.diagnosticRngSeed=launchOptions.combat.diagnosticRngSeed;
             options.startMode="swamp";
             options.freshPlayer=false;
             options.verifyFrontendCreation=false;options.verifyFrontendSlots=false;
