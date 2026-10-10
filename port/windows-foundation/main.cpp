@@ -1913,7 +1913,7 @@ int main(int argc,char** argv) {
         const f::EquipmentAttachmentSet* runtimeEquipmentAttachments=nullptr;
         std::weak_ptr<const void> equipmentAttemptLease;
         bool menuUsedSkillPoint=false;
-        // Preview 14: Stats +/- one-point-per-visit gate (features/character_menu/stat_training_v1.hpp); reset at each open.
+        // Preview 14/15: Stats +/- staged spends of one menu visit (features/character_menu/stat_training_v1.hpp); cleared at each open.
         auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
         const auto bindEquipmentPage=[&]() {
@@ -2218,6 +2218,15 @@ int main(int argc,char** argv) {
         f::platform_input::SemanticInput semanticInput;
         std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
+        // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
+        // (Back, Escape, profile key, release actions) goes through the guard while points are staged.
+        bool statConfirmOpen=false;
+        characterMenu.close_guard=[&]() {
+            if(!statTrainingVisit->has_staged())return true;
+            if(!statConfirmOpen)std::cout<<"Stats confirmation opened staged="<<statTrainingVisit->staged_total()<<'\n';
+            statConfirmOpen=true;
+            return false;
+        };
         const auto pauseHudArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::hud_pause_button);
         const auto pausePageArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::pause_page);
         const auto pauseConfirmArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::confirmation);
@@ -2285,10 +2294,17 @@ int main(int argc,char** argv) {
             default:return -1;
             }
         }};
-        const auto drawPauseArt=[&](const f::pause_ui::SourcePauseUiFrameV1& frame,bool labels) {
+        // messageSymbol (Preview 15 B049): replaces the WarningBox/confirm_msg text of the confirmation frame.
+        const auto drawPauseArt=[&](const f::pause_ui::SourcePauseUiFrameV1& frame,bool labels,const char* messageSymbol) {
             auto art=frame.art;
+            const std::string messageSuffix="WarningBox/confirm_msg/text";
             if(labels)for(auto& field:art.text_fields) {
                 field.initial_text.clear();
+                if(messageSymbol&&field.path.size()>=messageSuffix.size()&&
+                   field.path.compare(field.path.size()-messageSuffix.size(),messageSuffix.size(),messageSuffix)==0) {
+                    if(!menuLocalization.symbol(std::string(messageSymbol),&state,field.initial_text,error))throw std::runtime_error("Stats confirmation text: "+error);
+                    continue;
+                }
                 for(const auto& binding:f::pause_ui::source_pause_ui_text_bindings_v1()) {
                     const std::string suffix(binding.path_suffix);
                     if(field.path.size()<suffix.size()||field.path.compare(field.path.size()-suffix.size(),suffix.size(),suffix)!=0)continue;
@@ -2306,9 +2322,11 @@ int main(int argc,char** argv) {
                 if(!overlay.drawTriangles(vertices,bitmap?hudTexture:0,art.batch_colors.at(i)))throw std::runtime_error("Pause source art draw rejected");
             }
             if(labels) {
-                if(pauseTextSurface!=int(frame.surface)||pauseTextWidth!=window.width()||pauseTextHeight!=window.height()) {
+                // A replaced message is a different text key, so the same confirmation surface rebuilds its text.
+                const int textKey=int(frame.surface)+(messageSymbol?1000:0);
+                if(pauseTextSurface!=textKey||pauseTextWidth!=window.width()||pauseTextHeight!=window.height()) {
                     if(!pauseText.rebuild(art,window.width(),window.height(),renderer,error))throw std::runtime_error("Pause source text: "+error);
-                    pauseTextSurface=int(frame.surface);pauseTextWidth=window.width();pauseTextHeight=window.height();
+                    pauseTextSurface=textKey;pauseTextWidth=window.width();pauseTextHeight=window.height();
                 }
                 pauseText.draw(overlay);
             }
@@ -2502,6 +2520,26 @@ int main(int argc,char** argv) {
         };
         bool gameplayWasPaused=false;std::uint64_t gameplayPausedFrames=0;
         bool returnToFrontend=false;
+        // Preview 15 B049: Stats staged spends. Closing the Character menu with staged points opens the original
+        // "Confirm character point allocation?" box instead: Yes saves and closes; No refunds every staged spend
+        // on the live Session, saves the reverted state and closes (features/character_menu/stat_training_v1).
+        const auto persistStatState=[&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);};
+        const auto statConfirmYes=[&]() {
+            std::string e;
+            if(!f::character_menu::commit_stat_visit_v1(state,*statTrainingVisit,persistStatState,e)) {std::cerr<<"Stats confirmation diagnostic: "<<e<<'\n';return;}
+            statConfirmOpen=false;characterMenu.close();std::cout<<"Stats confirmed frame="<<drawn<<" points="<<state.source_stat_points<<'\n';
+        };
+        const auto statConfirmNo=[&]() {
+            std::string e;
+            if(!combatSession||!f::character_menu::cancel_stat_visit_v1(state,*combatSession,properties,*statTrainingVisit,persistStatState,e)) {std::cerr<<"Stats cancel diagnostic: "<<(combatSession?e:std::string("no live Session"))<<'\n';return;}
+            statConfirmOpen=false;characterMenu.close();std::cout<<"Stats cancelled frame="<<drawn<<" points="<<state.source_stat_points<<'\n';
+        };
+        const auto routeStatConfirmClick=[&](const f::platform_input::Point& point) {
+            const auto hit=f::pause_ui::source_pause_ui_hit_test_v1(pauseConfirmArt,point.x*480.f/window.width(),point.y*320.f/window.height());
+            const auto route=f::pause_ui::source_pause_ui_route_v1(pauseConfirmArt,hit);
+            if(route.kind==f::pause_ui::SourcePauseRouteKindV1::return_to_main_menu)statConfirmYes();
+            else if(route.kind==f::pause_ui::SourcePauseRouteKindV1::cancel_confirmation)statConfirmNo();
+        };
         const auto routePauseClick=[&](const f::platform_input::Point& point) {
             const auto& frame=currentPauseArt();
             const auto hit=f::pause_ui::source_pause_ui_hit_test_v1(frame,point.x*480.f/window.width(),point.y*320.f/window.height());
@@ -2567,7 +2605,8 @@ int main(int argc,char** argv) {
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(uiInput.menu_back){
-                if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
+                if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
                 else if(pauseConfirmation)pauseConfirmation=false;
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
             }
@@ -2590,6 +2629,7 @@ int main(int argc,char** argv) {
                 std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
             }
             for(const auto& click:uiInput.clicks) {
+                if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
                 const auto action=characterMenu.hit_test(click.position.x,click.position.y,window.width(),window.height());
                 {
@@ -3373,8 +3413,8 @@ int main(int argc,char** argv) {
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);
                     if(combatText.active_count())++combatTextDrawnFrames;
                 }
-                if(!characterMenu.is_open())drawPauseArt(pauseHudArt,false);
-                if(pauseMenuOpen)drawPauseArt(currentPauseArt(),true);
+                if(!characterMenu.is_open())drawPauseArt(pauseHudArt,false,nullptr);
+                if(pauseMenuOpen)drawPauseArt(currentPauseArt(),true,nullptr);
                 if(characterMenu.is_open()) {
                     // Character pages occupy the full viewport. Original SWF
                     // bitmap transparency must not expose gameplay behind them.
@@ -3503,6 +3543,8 @@ int main(int argc,char** argv) {
                     }
                     ++menuDrawn;
                 }
+                // Preview 15 B049: "Confirm character point allocation?" over the Character menu (original WarningBox frame).
+                if(characterMenu.is_open()&&statConfirmOpen)drawPauseArt(pauseConfirmArt,true,"GAMEPLAYMENUS_POINTS_CONFIRM");
                 overlay.end();
             }
             renderer.endFrame();

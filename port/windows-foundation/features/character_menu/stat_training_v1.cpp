@@ -36,12 +36,14 @@ float vital_value(std::int32_t raw) noexcept {
 
 } // namespace
 
-bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_session,
-    const OriginalPropertyDatabase& source_properties, std::uint32_t stat,
+namespace {
+
+// One stat point spent (spend=true) or refunded (spend=false) on the same Session.
+bool change_stat_point_v1(CharacterState& same_state, CombatSession& same_session,
+    const OriginalPropertyDatabase& source_properties, std::uint32_t stat, bool spend,
     const StatTrainingPersistV1& persist, StatTrainingCommitV1& output, std::string& error) {
     output = {};
     if (stat > 3) return fail(error, "Source stat training index must be Strength/Dexterity/Endurance/Energy (0..3)");
-    if (!persist) return fail(error, "Source stat training requires an actual persistence owner");
     if (!same_state.source_points_known)
         return fail(error, "Source stat training requires CharacterState points to be known");
     auto* world = same_session.world();
@@ -63,8 +65,10 @@ bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_se
         static_cast<std::uint32_t>(q8_integer(resolved[skill_points_property])) != same_state.source_skill_points)
         return fail(error, "Session resolved points differ from same CharacterState points");
     // Refused without any mutation: the original button is disabled at zero.
-    if (q8_integer(resolved[stat_points_property]) <= 0)
+    if (spend && q8_integer(resolved[stat_points_property]) <= 0)
         return fail(error, "Source stat training refused: no Stat_Points remain");
+    if (!spend && q8_integer(resolved[first_stat_property + stat]) <= 0)
+        return fail(error, "Source stat refund refused: the stat has no point to remove");
 
     const auto row = std::find(source_properties.characters.names.begin(),
                                source_properties.characters.names.end(), same_state.class_id);
@@ -86,8 +90,9 @@ bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_se
         const auto before = staged.sheets.resolved;
         {
             auto view = dh2::data::property_view(rules, staged.sheets);
-            if (dh2_property_add(&view, stat_points_property, -256) ||
-                dh2_property_add(&view, first_stat_property + stat, 256))
+            const std::int32_t step = spend ? 256 : -256;
+            if (dh2_property_add(&view, stat_points_property, -step) ||
+                dh2_property_add(&view, first_stat_property + stat, step))
                 return fail(error, "Source stat training property update failed");
         }
         // Source ResetBaseProperties/LoadBaseProperties: base comes from the
@@ -103,8 +108,9 @@ bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_se
                 return fail(error, "Source stat training class recalculation failed");
         }
         const auto& after = staged.sheets.resolved;
-        if (after[stat_points_property] != before[stat_points_property] - 256 ||
-            after[first_stat_property + stat] != before[first_stat_property + stat] + 256)
+        const std::int32_t step = spend ? 256 : -256;
+        if (after[stat_points_property] != before[stat_points_property] - step ||
+            after[first_stat_property + stat] != before[first_stat_property + stat] + step)
             return fail(error, "Staged source stat effects differ from one point on the chosen stat");
 
         // Live actor vitals: the sheet's maxima are published; the current
@@ -128,7 +134,7 @@ bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_se
         staged_character.stats.max_resource = max_resource;
 
         // Persist first: a failed save leaves the live Session unchanged.
-        if (!persist(staged_character, error)) {
+        if (persist && !persist(staged_character, error)) {
             if (error.empty()) error = "Source stat training persistence failed";
             return false;
         }
@@ -158,6 +164,86 @@ bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_se
         error = "Source stat training failed";
         return false;
     }
+}
+
+} // namespace
+
+bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_session,
+    const OriginalPropertyDatabase& source_properties, std::uint32_t stat,
+    const StatTrainingPersistV1& persist, StatTrainingCommitV1& output, std::string& error) {
+    return change_stat_point_v1(same_state, same_session, source_properties, stat, true, persist, output, error);
+}
+
+bool refund_stat_in_session_v1(CharacterState& same_state, CombatSession& same_session,
+    const OriginalPropertyDatabase& source_properties, std::uint32_t stat,
+    const StatTrainingPersistV1& persist, StatTrainingCommitV1& output, std::string& error) {
+    return change_stat_point_v1(same_state, same_session, source_properties, stat, false, persist, output, error);
+}
+
+bool commit_stat_visit_v1(CharacterState& same_state, StatTrainingVisitV1& visit,
+    const StatTrainingPersistV1& persist, std::string& error) {
+    if (!persist) return fail(error, "Stat confirmation requires an actual persistence owner");
+    if (!visit.has_staged()) return fail(error, "Stat confirmation has no staged spend");
+    if (!persist(same_state, error)) {
+        if (error.empty()) error = "Stat confirmation persistence failed";
+        return false;
+    }
+    visit.open_visit();
+    error.clear();
+    return true;
+}
+
+bool cancel_stat_visit_v1(CharacterState& same_state, CombatSession& same_session,
+    const OriginalPropertyDatabase& source_properties, StatTrainingVisitV1& visit,
+    const StatTrainingPersistV1& persist, std::string& error) {
+    if (!persist) return fail(error, "Stat cancellation requires an actual persistence owner");
+    if (!visit.has_staged()) {
+        visit.open_visit();
+        error.clear();
+        return true;
+    }
+    // Snapshot for an exact rollback if the final save fails.
+    const CharacterState before = same_state;
+    auto* world = same_session.world();
+    if (!world) return fail(error, "Stat cancellation requires the live combat world");
+    const auto player = same_session.player_id();
+    const OriginalCombatProperties* live = world->combat_properties(player);
+    if (!live) return fail(error, "Stat cancellation requires the live property sheet");
+    const OriginalCombatProperties sheet_before = *live;
+    ActorState* actor = same_session.actor(player);
+    if (!actor) return fail(error, "Stat cancellation requires the live actor");
+    const float health_before = actor->health, resource_before = actor->resource;
+    const float max_health_before = actor->max_health, max_resource_before = actor->max_resource;
+
+    const StatTrainingPersistV1 no_save;
+    // The rollback keeps the caller's failure message: it must not reuse `error`.
+    auto rollback = [&]() {
+        std::string restore_error;
+        const auto* traits = world->traits(player);
+        if (traits) world->update_combat_properties(player, OriginalCombatProperties(sheet_before), *traits, restore_error);
+        actor->max_health = max_health_before;
+        actor->max_resource = max_resource_before;
+        actor->health = health_before;
+        actor->resource = resource_before;
+        same_state = before;
+    };
+    for (std::uint32_t stat = 0; stat < 4; ++stat) {
+        for (std::uint32_t count = 0; count < visit.staged[stat]; ++count) {
+            StatTrainingCommitV1 output;
+            if (!refund_stat_in_session_v1(same_state, same_session, source_properties, stat, no_save, output, error)) {
+                rollback();
+                return false;
+            }
+        }
+    }
+    if (!persist(same_state, error)) {
+        if (error.empty()) error = "Stat cancellation persistence failed";
+        rollback();
+        return false;
+    }
+    visit.open_visit();
+    error.clear();
+    return true;
 }
 
 int stats_training_button_at_v1(float authored_x, float authored_y) noexcept {
@@ -192,23 +278,19 @@ bool register_stat_training_v1(SourceCompositionV1& composition,
     return composition.register_stat_training_callbacks(
         std::move(owner),
         [](float x, float y) { return stats_training_button_at_v1(x, y); },
-        [&character, session = std::move(session), &source_properties,
-         persist = std::move(persist), visit](std::uint32_t stat, std::string& message) {
-            // Original guard: a second spend in the same visit does nothing.
-            if (visit->added_this_turn) {
-                message = "Stat point already assigned in this menu visit";
-                return false;
-            }
+        [&character, session = std::move(session), &source_properties, visit](std::uint32_t stat, std::string& message) {
             CombatSession* live = session();
             if (!live) {
                 message = "Stats training requires the current Session";
                 return false;
             }
+            // Staged: the spend is applied to the live Session now and persisted
+            // by the confirmation (commit) or undone by cancel.
             StatTrainingCommitV1 commit;
-            if (!train_stat_in_session_v1(character, *live, source_properties, stat, persist, commit, message))
+            if (!train_stat_in_session_v1(character, *live, source_properties, stat, StatTrainingPersistV1{}, commit, message))
                 return false;
-            visit->added_this_turn = true;
-            std::cout << "Source stat training stat=" << commit.stat << " points="
+            ++visit->staged[stat];
+            std::cout << "Source stat training staged stat=" << commit.stat << " points="
                       << commit.previous_points << "->" << commit.remaining_points << " value="
                       << commit.previous_value << "->" << commit.current_value
                       << " maxHP=" << commit.previous_max_health << "->" << commit.current_max_health

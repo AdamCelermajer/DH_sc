@@ -193,13 +193,97 @@ int main(int argc, char** argv) {
         check(stats_training_button_at_v1(30.0f, 290.0f) == 3, "Energy hit region");
         check(stats_training_button_at_v1(240.0f, 160.0f) == -1, "Centre of the menu is not a stat button");
 
-        // 8. Visit gate: one spend per open of the Stats page.
+        // 8. Staged visit with two granted points: both are spendable in one visit,
+        // a third is refused, nothing is saved until Yes, and the saved state matches.
+        CharacterState saved;
+        StatTrainingPersistV1 capture = [&](const CharacterState& c, std::string&) {
+            ++persisted;
+            saved = c;
+            return true;
+        };
         {
+            CharacterState state;
+            seed(2, state);
             StatTrainingVisitV1 visit;
-            check(!visit.added_this_turn, "Visit gate starts closed");
-            visit.added_this_turn = true;
             visit.open_visit();
-            check(!visit.added_this_turn, "Opening the menu did not reset the visit gate");
+            const auto persists = persisted;
+            StatTrainingCommitV1 commit;
+            check(train_stat_in_session_v1(state, session, properties, 0, StatTrainingPersistV1{}, commit, error), error);
+            ++visit.staged[0];
+            check(train_stat_in_session_v1(state, session, properties, 2, StatTrainingPersistV1{}, commit, error), error);
+            ++visit.staged[2];
+            check(state.source_stat_points == 0 && visit.staged_total() == 2, "Two staged spends did not consume both points");
+            check(whole(session.world()->combat_properties(1)->sheets.resolved[148]) == 0,
+                  "Staged spends did not debit the live Stat_Points");
+            check(persisted == persists, "A staged spend was saved before Yes");
+            std::string refusal;
+            const auto before_third = state;
+            check(!train_stat_in_session_v1(state, session, properties, 1, StatTrainingPersistV1{}, commit, refusal),
+                  "Third spend with no Stat_Points was accepted");
+            check(refusal.find("no Stat_Points") != std::string::npos, "Third spend refusal message: " + refusal);
+            check(state.stats.dexterity == before_third.stats.dexterity && state.source_stat_points == 0,
+                  "Refused third spend mutated CharacterState");
+            // Yes: one save of the staged state, then the batch is cleared.
+            check(commit_stat_visit_v1(state, visit, capture, error), error);
+            check(persisted == persists + 1, "Yes did not persist exactly once");
+            check(saved.source_stat_points == 0 && saved.stats.strength == state.stats.strength &&
+                  saved.stats.endurance == state.stats.endurance, "Yes persisted a different state than the live one");
+            check(!visit.has_staged(), "Yes did not clear the staged batch");
+            check(!commit_stat_visit_v1(state, visit, capture, error), "Yes with no staged spend was accepted");
+            std::cout << "stat_training: two-points visit strength=" << state.stats.strength
+                      << " endurance=" << state.stats.endurance << " saved points=" << saved.source_stat_points << "\n";
+        }
+        // 9. No (cancel): every staged spend is refunded; the live sheet and the saved state
+        // return to the values before the visit exactly.
+        {
+            CharacterState state;
+            seed(2, state);
+            const auto before_state = state;
+            const auto before_sheet = session.world()->combat_properties(1)->sheets.resolved;
+            const auto before_hp = session.actor(1)->max_health;
+            StatTrainingVisitV1 visit;
+            visit.open_visit();
+            StatTrainingCommitV1 commit;
+            check(train_stat_in_session_v1(state, session, properties, 1, StatTrainingPersistV1{}, commit, error), error);
+            ++visit.staged[1];
+            check(train_stat_in_session_v1(state, session, properties, 1, StatTrainingPersistV1{}, commit, error), error);
+            ++visit.staged[1];
+            check(session.world()->combat_properties(1)->sheets.resolved[150] != before_sheet[150] &&
+                  whole(session.world()->combat_properties(1)->sheets.resolved[150]) == whole(before_sheet[150]) + 2,
+                  "Staged Dexterity spends did not raise the live Dexterity by two");
+            const auto persists = persisted;
+            check(cancel_stat_visit_v1(state, session, properties, visit, capture, error), error);
+            check(persisted == persists + 1, "No did not persist the reverted state once");
+            check(state.source_stat_points == before_state.source_stat_points &&
+                  state.stats.dexterity == before_state.stats.dexterity, "No did not restore CharacterState points/Dexterity");
+            check(saved.source_stat_points == before_state.source_stat_points && saved.stats.dexterity == before_state.stats.dexterity,
+                  "No saved a state other than the pre-visit state");
+            check(session.world()->combat_properties(1)->sheets.resolved == before_sheet,
+                  "No did not restore the live property sheet exactly");
+            check(session.actor(1)->max_health == before_hp, "No did not restore the live max HP");
+            check(!visit.has_staged(), "No did not clear the staged batch");
+        }
+        // 10. No with a failed save: the staged batch and both live states stay as they were.
+        {
+            CharacterState state;
+            seed(2, state);
+            StatTrainingVisitV1 visit;
+            visit.open_visit();
+            StatTrainingCommitV1 commit;
+            check(train_stat_in_session_v1(state, session, properties, 3, StatTrainingPersistV1{}, commit, error), error);
+            ++visit.staged[3];
+            const auto staged_state = state;
+            const auto staged_sheet = session.world()->combat_properties(1)->sheets.resolved;
+            check(!cancel_stat_visit_v1(state, session, properties, visit, refuse_persist, error),
+                  "No succeeded although the save failed");
+            check(error == "forced save failure", "No failure message was not kept: " + error);
+            check(state.source_stat_points == staged_state.source_stat_points && state.stats.energy == staged_state.stats.energy,
+                  "Failed No changed CharacterState");
+            check(session.world()->combat_properties(1)->sheets.resolved == staged_sheet, "Failed No changed the live sheet");
+            check(visit.staged_total() == 1, "Failed No cleared the staged batch");
+            check(!commit_stat_visit_v1(state, visit, refuse_persist, error) && visit.has_staged(),
+                  "Failed Yes cleared the staged batch");
+            check(error == "forced save failure", "Failed Yes message was not kept: " + error);
         }
         std::cout << "stat_training_v1 tests passed\n";
         return 0;
