@@ -82,8 +82,10 @@ bool same_v4(const CharacterState& a, const CharacterState& b) {
 }
 // Size of an empty-visited v4 tail: difficulty 4+4, known 1, date 4, rows 12, acts 12, count 4.
 constexpr std::size_t v4_fixed_tail = 4 + 4 + 1 + 4 + 12 + 12 + 4;
+// Named component roster (P17 entry/seed components): a u32 component count after the visited list (0 here).
+constexpr std::size_t component_count_tail = 4;
 std::size_t v4_tail_size(const CharacterState& s) {
-    std::size_t size = v4_fixed_tail;
+    std::size_t size = v4_fixed_tail + component_count_tail;
     for (const auto& e : s.visited_modules) size += 4 + e.level_uri.size() + 4 + 1;
     return size;
 }
@@ -146,20 +148,23 @@ int main() {
                 legacy.menu_metadata.current_act == std::array<std::int32_t, 3>{1, 1, 1} &&
                 legacy.visited_modules.empty(), "schema 3 defaults differ");
         require(read_bytes(v3_path) == v3, "legacy read rewrote the file");
-        require(save_character(v3_path, legacy, error) && read_bytes(v3_path).size() == v3.size() + v4_fixed_tail &&
+        require(save_character(v3_path, legacy, error) && read_bytes(v3_path).size() == v3.size() + v4_fixed_tail + component_count_tail &&
                 read_bytes(v3_path)[schema_field_at] == 4, "explicit save did not upgrade a v3 slot to v4");
         // v2 (no quest length either) and v1 representations of a generic character.
         auto plain = make_default_character("legacy-2", "Old", "KnightPlayerBase");
         require(save_character(scratch, plain, error), "plain save failed");
-        auto v2 = with_schema(read_bytes(scratch), 2); v2.resize(v2.size() - v4_fixed_tail - 4);
+        auto v2 = with_schema(read_bytes(scratch), 2); v2.resize(v2.size() - v4_fixed_tail - component_count_tail - 4);
         write_bytes(scratch, v2);
         CharacterState v2_loaded;
         require(load_character(scratch, v2_loaded, error) && v2_loaded.id == "legacy-2" && !v2_loaded.menu_metadata.known &&
                 v2_loaded.current_difficulty == 0, "schema 2 load failed: " + error);
 
         // 3. Truncated / corrupt / trailing data never publishes a partial state.
-        for (std::size_t cut = 1; cut <= v4_tail_size(original); ++cut)
+        for (std::size_t cut = 1; cut <= v4_tail_size(original); ++cut) {
+            // Exactly the component count removed is the valid pre-component v4 layout (loads, see procedural tests).
+            if (cut == component_count_tail) continue;
             expect_load_rejected(scratch, Bytes(bytes.begin(), bytes.end() - std::ptrdiff_t(cut)), "truncated v4 tail");
+        }
         auto trailing = bytes; trailing.push_back('x');
         expect_load_rejected(scratch, trailing, "v4 trailing byte");
         auto bad_known = bytes; bad_known[tail + 8] = 2;
@@ -173,7 +178,7 @@ int main() {
         expect_load_rejected(scratch, bad_row, "level row beyond limit");
         auto bad_count = bytes; bad_count[tail + 37] = char(0xff); bad_count[tail + 38] = char(0xff);
         expect_load_rejected(scratch, bad_count, "visited count beyond limit");
-        auto bad_visited = bytes; bad_visited[bytes.size() - 1] = 2; // last visited byte
+        auto bad_visited = bytes; bad_visited[bytes.size() - 1 - component_count_tail] = 2; // last visited byte
         expect_load_rejected(scratch, bad_visited, "visited byte 2");
 
         // 4. Unknown versions reject without touching the destination.

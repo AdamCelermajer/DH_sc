@@ -1,6 +1,7 @@
 #include "level_manifest.hpp"
 #include "../level-loader/vendor/tinyxml/tinyxml.h"
 #include "../engine-math/math.hpp"
+#include "../scene-materials/scene.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -139,6 +140,7 @@ bool decode_level_manifest(const std::vector<std::uint8_t>& bytes,
                 module.visible = visible != "0";
                 module.activateCondition = attribute(element, "activate_cond");
                 module.conditionDescription = attribute(element, "condition_desc");
+                module.visualPath = attribute(element, "mvp");
                 module.templatePath = attribute(element, "template");
                 if (module.templatePath.empty()) module.templatePath = attribute(element, "templateName");
                 staged.push_back(std::move(module));
@@ -148,6 +150,65 @@ bool decode_level_manifest(const std::vector<std::uint8_t>& bytes,
         visit(*root);
         if (staged.empty()) throw std::runtime_error("Level XML contains no authored modules");
         output.swap(staged);
+        error.clear();
+        return true;
+    } catch (const std::exception& exception) {
+        error = exception.what();
+        return false;
+    }
+}
+
+std::string decode_level_skybox(const std::vector<std::uint8_t>& bytes) {
+    if (bytes.empty() || bytes.size() > max_bytes) return {};
+    if (std::find(bytes.begin(), bytes.end(), 0) != bytes.end()) return {};
+    const std::string xml(bytes.begin(), bytes.end());
+    TiXmlDocument document;
+    document.Parse(xml.c_str());
+    if (document.Error() || !document.RootElement()) return {};
+    std::string skybox;
+    std::function<void(const TiXmlElement&)> visit = [&](const TiXmlElement& element) {
+        if (!skybox.empty()) return;
+        if (attribute(element, "gametype") == "LevelConfig") skybox = attribute(element, "skybox");
+        for (const TiXmlElement* child = element.FirstChildElement(); child; child = child->NextSiblingElement()) visit(*child);
+    };
+    visit(*document.RootElement());
+    return skybox;
+}
+
+bool decode_module_decor(const std::vector<std::uint8_t>& mvpBytes, const Mat4& modulePlacement,
+                         std::vector<ModulePlacement>& output, std::string& error) {
+    try {
+        if (mvpBytes.empty() || mvpBytes.size() > max_bytes) throw std::runtime_error("Module visual XML size outside limits");
+        if (std::find(mvpBytes.begin(), mvpBytes.end(), 0) != mvpBytes.end()) throw std::runtime_error("Module visual XML contains a NUL byte");
+        const std::string xml(mvpBytes.begin(), mvpBytes.end());
+        preflight(xml);
+        TiXmlDocument document;
+        document.Parse(xml.c_str());
+        if (document.Error()) throw std::runtime_error(std::string("Invalid module visual XML: ") + document.ErrorDesc());
+        const TiXmlElement* root = document.RootElement();
+        if (!root) throw std::runtime_error("Module visual XML has no root element");
+        std::vector<ModulePlacement> staged;
+        std::function<void(const TiXmlElement&)> visit = [&](const TiXmlElement& element) {
+            const auto gametype = attribute(element, "gametype");
+            if (gametype == "Decor" || gametype == "AnimatedDecor") {
+                const auto visible = attribute(element, "visible");
+                const auto assetPath = attribute(element, "dae");
+                const auto node = attribute(element, "xrefobject");
+                if (visible != "0" && !assetPath.empty() && !node.empty()) {
+                    if (staged.size() == max_modules) throw std::runtime_error("Module decor limit exceeded");
+                    ModulePlacement decor;
+                    decor.name = attribute(element, "name");
+                    decor.gametype = gametype;
+                    decor.assetPath = assetPath;
+                    decor.authoredNode = node + "-node";
+                    decor.placement = dh2::scene::multiply(modulePlacement, placement(element));
+                    staged.push_back(std::move(decor));
+                }
+            }
+            for (const TiXmlElement* child = element.FirstChildElement(); child; child = child->NextSiblingElement()) visit(*child);
+        };
+        visit(*root);
+        output.insert(output.end(), std::make_move_iterator(staged.begin()), std::make_move_iterator(staged.end()));
         error.clear();
         return true;
     } catch (const std::exception& exception) {

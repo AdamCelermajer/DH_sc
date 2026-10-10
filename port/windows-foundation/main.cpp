@@ -4,6 +4,7 @@
 #include "actor_profiles.hpp"
 #include "actor_population.hpp"
 #include "features/levels/level_class_registry.hpp" // P16 LEVELS: one-time unsupported class log
+#include "features/procedural/procedural_level_v1.hpp" // P17 PROCGEN: procedural .rule.xml levels (generate per session seed)
 #include "actor_movement.hpp"
 #include "collision_scene.hpp"
 #include "controller_policy.hpp"
@@ -361,6 +362,7 @@ struct Options {
     std::vector<int> transitionConfirmFrames;                   // P17 TRANSITIONS test aid: --transition-confirm FRAME
     std::vector<int> transitionKeyFrames;                       // P17 TRANSITIONS2 test aid: --transition-key FRAME (one scripted E press)
     std::vector<std::pair<int,std::string>> transitionCaptures; // P17 TRANSITIONS test aid: --capture-at FRAME:PATH
+    std::optional<std::uint32_t> proceduralSeed;                // P17 PROCGEN test aid: --procedural-seed N (session seed override, recorded in the save)
     int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
     int captionAutoTapMs=0; // OPENING2: verification only; taps tap-wait captions after N ms (0 = the player taps)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
@@ -485,6 +487,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--player-to") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--player-to expects ZONE@FRAME");o.playerToZoneFrames.emplace_back(at.substr(0,sep),std::stoi(at.substr(sep+1)));} // P17 TRANSITIONS
         else if(arg=="--transition-confirm") o.transitionConfirmFrames.push_back(std::stoi(value())); // P17 TRANSITIONS
         else if(arg=="--transition-key") o.transitionKeyFrames.push_back(std::stoi(value())); // P17 TRANSITIONS2 (test aid; the player presses E)
+        else if(arg=="--procedural-seed") o.proceduralSeed=static_cast<std::uint32_t>(std::stoul(value())); // P17 PROCGEN
         else if(arg=="--capture-at") {const auto at=value();const auto sep=at.find(':');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--capture-at expects FRAME:PATH");o.transitionCaptures.emplace_back(std::stoi(at.substr(0,sep)),at.substr(sep+1));} // P17 TRANSITIONS
         else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
         else if(arg=="--caption-auto-tap-ms") o.captionAutoTapMs=std::stoi(value()); // OPENING2 (verification input)
@@ -730,6 +733,8 @@ int main(int argc,char** argv) {
         for(;;) {
         auto sharedCharacter=std::make_shared<f::CharacterState>(f::make_default_character());
         auto& state=*sharedCharacter;
+        std::optional<std::uint32_t> proceduralSessionSeed; // P17 PROCGEN: seed of a procedural level, set before its level load
+        std::int32_t proceduralDifficulty=0;
         f::frontend::creation::RuntimeCreationSourceOwnerV1 menuSourceOwner;
         dh2::data::LootRandom8V2 creationRandom{};
         bool frontendStarted=false;
@@ -1290,6 +1295,28 @@ int main(int argc,char** argv) {
             locomotionLibrary=std::move(next);
         }
         if(options.populationTemplates)populationStartupRandom=frontendRandomState.value_or(dh2::data::CombatRandom{*populationStartupSeed,0});
+        // P17 PROCGEN: a procedural `.rule.xml` level is generated from the session seed (the per-difficulty seed of
+        // the profile, or --procedural-seed) and served under its own path, so every loader below reads it like a
+        // fixed map. A failed generation falls back to the authored x<NN>_<name>_backup.mlx (IDA Level stage 7).
+        if(!options.level.empty()&&f::procedural::is_procedural_level_uri(options.level.generic_string())) {
+            f::CharacterState seedSource;
+            bool haveSeedSource=false;
+            // The frontend (menu start) and a transition arrival already hold the profile in `state`.
+            if(options.transitionEntryId>=0||frontendStarted) {seedSource=state;haveSeedSource=true;}
+            else if(!frontendStarted&&fs::exists(options.save)) {std::string peekError;haveSeedSource=f::load_character(options.save,seedSource,peekError);}
+            if(haveSeedSource) proceduralDifficulty=f::character_current_difficulty(seedSource);
+            const auto seed=f::procedural::session_seed(seedSource,proceduralDifficulty,options.proceduralSeed,f::procedural::fresh_seed());
+            f::procedural::GeneratedLevel generated;std::string generateError;
+            if(f::procedural::generate_level(assets,options.level.generic_string(),seed,generated,generateError)) {
+                f::procedural::install_generated_level(assets,generated);
+                std::cout<<"Procedural level generated rule="<<generated.rule_uri<<" seed="<<seed<<" difficulty="<<proceduralDifficulty<<" tiles="<<generated.tiles<<" modules="<<generated.modules<<" unplaced="<<generated.unplaced_modules<<" signature="<<std::hex<<f::procedural::layout_signature(generated)<<std::dec<<'\n';
+            } else {
+                const auto backup=f::procedural::resolve_procedural_backup(assets,options.level.generic_string());
+                std::cout<<"Procedural level generation failed rule="<<options.level.generic_string()<<" seed="<<seed<<" reason="<<generateError<<" fallback="<<backup<<'\n';
+                options.level=backup;
+            }
+            proceduralSessionSeed=seed;
+        }
         if(!options.level.empty()) {
             if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
             loadingScreen.progress(0.4);  // level stage complete
@@ -1764,6 +1791,7 @@ int main(int argc,char** argv) {
         std::map<f::ActorId,MotionReceipt> motionReceipts;
         if(options.movable) {
             if(!f::load_collision_level(assets,options.level,collision,error))throw std::runtime_error("Collision: "+error);
+            std::cout<<"Collision triangles="<<collision.triangles.size()<<" floors="<<collision.floorInstances<<" colliders="<<collision.collisionInstances<<" level="<<options.level.generic_string()<<'\n'; // P17 PROCGEN: collision coverage evidence
             f::ActorMovementConfig config;config.turnSpeedRadians=actorProperties.turn_radians_per_second;config.forwardAxis={0,-1,0};
             if(!visual.update(0,error))throw std::runtime_error("Initial movement pose: "+error);
             f::Vec3 lo{},hi{};
@@ -1774,6 +1802,9 @@ int main(int argc,char** argv) {
             std::string provenance;if(!f::load_controller_policy(assets,options.controllerPolicy,config,provenance,error))throw std::runtime_error("Controller policy: "+error);
             std::cout<<"Ground controller policy="<<provenance<<" radius="<<config.bodyRadius<<" height="<<config.bodyHeight<<"; speed from authored root motion\n";
             motor=std::make_unique<f::ActorMovement>(config);motor->setPosition(options.actorPosition,options.transitionHeading); // P17 TRANSITIONS: arrival facing (0 otherwise)
+            // P17 PROCGEN: the authored spawn height may sit below the floor surface; place the feet on the floor under it.
+            {const bool supportedAtStart=motor->snap_to_floor(collision);options.actorPosition=motor->state().position;
+             std::cout<<"Placement floor snap grounded="<<supportedAtStart<<" position="<<options.actorPosition.x<<','<<options.actorPosition.y<<','<<options.actorPosition.z<<'\n';}
         }
         std::optional<f::OriginalActorBoundsResult> playerSourceBox;
         std::map<f::ActorId,f::OriginalActorBodyPlan> sourceBodyPlans;
@@ -1988,6 +2019,8 @@ int main(int argc,char** argv) {
         }
         // Preview 13 behaviour kept: without a combat session the save is loaded here (fresh runs loaded it above).
         if(!frontendStarted&&!combatSession&&!options.freshPlayer&&fs::exists(options.save)) {if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);}
+        // P17 PROCGEN: the seed this session generated is kept by the profile, so the next save writes it (schema v5).
+        if(proceduralSessionSeed) f::procedural::record_session_seed(state,proceduralDifficulty,*proceduralSessionSeed);
         // P14 FAERY: legacy slots without Faery rows get creation-equivalent zero rows at first use, so Swamp_Intro can unlock Celest.
         if(f::faery_menu::ensure_source_faery_rows_v1(state)) std::cout<<"Legacy save Faery rows initialized to creation zeros\n";
         if(!options.characterName.empty())state.name=options.characterName;
@@ -2615,6 +2648,11 @@ int main(int argc,char** argv) {
             const auto& m=scene.materials[i];
             const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             scene.mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
+        }
+        // P17 PROCGEN2: the LevelConfig skybox materials (drawn by the sky pass before the level).
+        if(scene.skybox) for(std::size_t i=0;i<scene.skybox->materials.size()&&i<scene.skybox->mesh.ranges.size();++i) {
+            const auto& m=scene.skybox->materials[i];
+            scene.skybox->mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,false);
         }
         if(visual.loaded()) for(std::size_t i=0;i<visual.mutable_meshes().size();++i)
             for(auto& r:visual.mutable_meshes()[i].ranges) r.material.texture=loadTexture(visual.texture_uris()[i]);
@@ -4500,7 +4538,6 @@ int main(int argc,char** argv) {
                             if(!zone.built||zone.kind!=f::transitions::ZoneKind::level_exit||!zone.inside) continue;
                             armed=true;
                             if(!zone.condition.empty()&&!transitionConditions.condition_active(zone.condition)) {std::cout<<"Exit zone="<<zone.name<<" status=condition_false frame="<<drawn<<'\n';continue;}
-                            if(zone.target_procedural) {std::cout<<"Transition refused zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" reason=procedural level has no EXE path yet frame="<<drawn<<'\n';continue;}
                             pendingTransition=f::transitions::PendingTransition{zone.name,zone.kind,zone.target_name,zone.target_file,zone.entry_id};
                             std::cout<<"Transition confirmed zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
                             break;
@@ -5330,6 +5367,15 @@ int main(int argc,char** argv) {
             auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
             actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
             actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
+            // P17 PROCGEN2 sky pass: the skybox follows the eye and writes no depth, so the level and actors draw over it.
+            if(scene.skybox&&!scene.skybox->mesh.vertices.empty()) {
+                const auto skyWorld=f::translation(activeCamera.eye);
+                for(auto range:scene.skybox->mesh.ranges) {
+                    auto pass=range.material.sourcePass.value_or(f::SourceMaterialPass{});
+                    pass.depthWrite=false;range.material.sourcePass=pass;
+                    renderer.drawRange(scene.skybox->mesh,range,skyWorld);
+                }
+            }
             f::RenderQueue queue;
             scene.mesh.staticGeometry=true; // B066: level geometry never changes after load (GPU buffers, range caches, frustum culling)
             if(!scene.mesh.vertices.empty())queue.submit(scene.mesh);
@@ -6015,6 +6061,14 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             {std::string worldError;if(!saveLevelWorld("transition",worldError))throw std::runtime_error("Level world save: "+worldError);}
             f::transitions::set_entry_component(state,transition.target_file,transition.entry_id); // P17 TRANSITIONS2: SG_SetLevelEntryPoint
             stampSaveMetadata(state,transition.target_file);
+            // P17 PROCGEN: a procedural target takes the profile's seed for the active difficulty (generated once, then kept,
+            // so every later visit regenerates the same layout). The arrival session reads this seed from the save.
+            if(f::procedural::is_procedural_level_uri(transition.target_file)) {
+                const auto difficulty=f::character_current_difficulty(state);
+                const auto seed=f::procedural::session_seed(state,difficulty,options.proceduralSeed,f::procedural::fresh_seed());
+                f::procedural::record_session_seed(state,difficulty,seed);
+                std::cout<<"Transition procedural seed target="<<transition.target_file<<" seed="<<seed<<" difficulty="<<difficulty<<" frame="<<drawn<<'\n';
+            }
             std::string transitionSaveError;
             if(options.save.empty()||!f::save_character(options.save,state,transitionSaveError))throw std::runtime_error("Transition save: "+transitionSaveError);
             std::cout<<"Transition leave level="<<options.level.generic_string()<<" zone="<<transition.zone_name<<" target="<<transition.target_name<<" file="<<transition.target_file<<" entry="<<transition.entry_id<<" frame="<<drawn<<'\n';

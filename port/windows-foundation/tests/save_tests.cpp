@@ -154,7 +154,8 @@ int main() {
         // schema3 payload length. Loading it must preserve unknown progress.
         // Schema v4 appended a fixed 41-byte tail (difficulty, menu metadata, empty
         // visited list) after the quest payload; strip it for the older layouts.
-        constexpr std::size_t v4_empty_tail=4+4+1+4+12+12+4;
+        // The component count (u32 0) follows the visited list; it is part of the v4 tail too.
+        constexpr std::size_t v4_empty_tail=4+4+1+4+12+12+4+4;
         auto old_v2=bytes;old_v2[12]=2;old_v2.resize(old_v2.size()-v4_empty_tail-4);
         write_bytes(corrupt,old_v2);auto migrated_v2=loaded;
         require(load_character(corrupt,migrated_v2,error)&&migrated_v2.source_quest_progress_cqpg.empty(),"schema2 quest migration differs");

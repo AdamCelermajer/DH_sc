@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -28,8 +29,19 @@ public:
     std::vector<AssetEntry> original_levels() const;
     std::vector<AssetEntry> prince_resources() const;
 
+    // P17 PROCGEN: in-memory document served under a relative path (generated
+    // procedural levels). It shadows a file of the same path, is never written
+    // to disk, and is returned by resolve() and read() like a real file.
+    void set_virtual_file(const std::filesystem::path& relative, const std::vector<std::uint8_t>& bytes);
+    bool has_virtual_file(const std::filesystem::path& relative) const;
+    // P17 PROCGEN: the authored file on disk, ignoring virtual documents (the procedural generator's rule source).
+    std::filesystem::path resolve_authored(const std::filesystem::path& relative) const;
+    std::vector<std::uint8_t> read_authored(const std::filesystem::path& relative) const;
+
 private:
+    static std::vector<std::uint8_t> read_disk(const std::filesystem::path& path, const std::filesystem::path& relative);
     std::filesystem::path root_;
+    std::map<std::string, std::vector<std::uint8_t>> virtual_files_;
 };
 
 } // namespace dh::foundation

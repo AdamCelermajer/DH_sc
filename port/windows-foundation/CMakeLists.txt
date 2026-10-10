@@ -1031,3 +1031,32 @@ target_sources(foundation_data PRIVATE features/transitions/transition_prompt_v1
 add_executable(level_transitions_tests features/transitions/level_transitions_v1_tests.cpp)
 target_link_libraries(level_transitions_tests PRIVATE foundation_data foundation_frontend)
 add_test(NAME level_transitions COMMAND level_transitions_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+
+# P17 PROCGEN: procedural `.rule.xml` levels. The canonical generator (port/level-loader procedural_*_v1,
+# reader interface in procedural_asset_source_v1) runs over the AssetCatalog; features/procedural emits a
+# Level document per (rule, seed) that the fixed-map loaders consume. See coordination/claude-preview17/PROCGEN-report.md.
+add_library(foundation_procedural STATIC
+  features/procedural/procedural_level_v1.cpp
+  ../level-loader/procedural_asset_source_v1.cpp
+  ../level-loader/procedural_random_v1.cpp ../level-loader/procedural_file_list_v1.cpp
+  ../level-loader/procedural_sources_v1.cpp ../level-loader/procedural_blocks_v1.cpp
+  ../level-loader/procedural_connections_v1.cpp ../level-loader/procedural_lists_v1.cpp
+  ../level-loader/procedural_rules_v1.cpp ../level-loader/procedural_instances_v1.cpp
+  ../level-loader/procedural_layout_v1.cpp ../level-loader/procedural_modules_v1.cpp)
+target_include_directories(foundation_procedural PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_options(foundation_procedural PRIVATE -fno-fast-math -ffp-contract=off)
+target_link_libraries(foundation_procedural PUBLIC foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_procedural)
+add_executable(procedural_level_v1_tests features/procedural/procedural_level_v1_tests.cpp)
+target_link_libraries(procedural_level_v1_tests PRIVATE foundation_procedural)
+add_test(NAME procedural_level_v1 COMMAND procedural_level_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 PROCGEN2: RNG and layout locked against the original ARM oracle (features/procedural/reference/*.tsv).
+add_executable(procedural_layout_fidelity_tests features/procedural/procedural_layout_fidelity_tests.cpp)
+target_link_libraries(procedural_layout_fidelity_tests PRIVATE foundation_procedural)
+add_test(NAME procedural_layout_fidelity COMMAND procedural_layout_fidelity_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 PROCGEN diagnostic: per-rule generation and fixed-map load coverage over the asset root (not a ctest).
+add_executable(procedural_coverage features/procedural/procedural_coverage.cpp)
+target_link_libraries(procedural_coverage PRIVATE foundation_procedural)
+# P17 PROCGEN2 diagnostic: module node triangle counts (voidmaze 14-22 triangles investigation; not a ctest).
+add_executable(procedural_module_probe features/procedural/procedural_module_probe.cpp)
+target_link_libraries(procedural_module_probe PRIVATE foundation_procedural)

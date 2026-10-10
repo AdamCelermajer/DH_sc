@@ -126,7 +126,7 @@ struct SourceRootScopes::Impl {
                 for(const auto& definition:definitions)
                     if(definition.moduleName.rfind(prefix,0)==0&&definition.moduleName.find('/',1)==std::string::npos)
                         scopes.insert(definition.moduleName);
-                if(scopes.size()!=1){e="Source Module requires explicit unique declaration occurrence association";return false;}
+                if(scopes.size()!=1){e="Source Module requires explicit unique declaration occurrence association: "+*name+" matches "+std::to_string(scopes.size())+" declaration hosts";return false;}
                 host=*scopes.begin();return true;
             };
             if(!construction.begin(std::move(p),uri,loadState->bytes,options.fileOccurrence,error))return false;

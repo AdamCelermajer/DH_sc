@@ -77,6 +77,18 @@ void ActorMovement::setPosition(Vec3 feet,float facing) {
     state_.action=ActorAction::Idle;state_.animationName=config_.idleAnimation;motionScale_=0;
     state_.desiredHeading={};
 }
+bool ActorMovement::snap_to_floor(const CollisionScene& collision) {
+    FloorHit hit;
+    constexpr float search = 2000.0f; // generous both ways: the authored point is not the floor surface
+    if(!collision.floor(state_.position.x,state_.position.y,state_.position.z,hit,search,search)) {
+        state_.grounded=false;return false;
+    }
+    state_.position.z=hit.point.z;
+    Vec3 ground=state_.position;
+    state_.grounded=supported(ground,state_.position,collision,config_);
+    if(state_.grounded) state_.position=ground;
+    return state_.grounded;
+}
 void ActorMovement::sync_source_position(Vec3 feet,float facing) {
     if(!finite(feet)||!std::isfinite(facing))throw std::invalid_argument("Invalid source actor placement");
     state_.position=feet;state_.facingRadians=facing;

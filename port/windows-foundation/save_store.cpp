@@ -157,14 +157,11 @@ std::vector<unsigned char> encode(const CharacterState& state) {
     for(const auto& entry:state.visited_modules){
         w.string(entry.level_uri);w.integer(entry.module_id,4);w.integer(entry.visited,1);
     }
-    // P17 TRANSITIONS2: optional component tail (append-only). Written only when present, so a character without
-    // components keeps the exact v4 layout; older v4 saves end after the visited modules.
-    if(!state.components.empty()){
-        w.integer(state.components.size(),4);
-        for(const auto& component:state.components){
-            w.string(component.id);w.integer(component.bytes.size(),4);
-            w.bytes.insert(w.bytes.end(),component.bytes.begin(),component.bytes.end());
-        }
+    // P17 TRANSITIONS2: optional component tail (append-only; absent in older v4 saves).
+    w.integer(state.components.size(),4);
+    for(const auto& component:state.components){
+        w.string(component.id);w.integer(component.bytes.size(),4);
+        w.bytes.insert(w.bytes.end(),component.bytes.begin(),component.bytes.end());
     }
     w.check_size();
     return std::move(w.bytes);

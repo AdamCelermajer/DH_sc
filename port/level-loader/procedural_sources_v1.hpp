@@ -1,7 +1,8 @@
 #pragma once
 #include "xml_document_v1.hpp"
-#include "../asset-payloads/zip_asset_pack_v1.hpp"
+#include "procedural_asset_source_v1.hpp"
 #include <memory>
+#include <functional>
 namespace dh2::loader {
 struct ProceduralBlockSourceV1 {
     std::string filename,name;
@@ -34,7 +35,7 @@ public:
     // matching root. No parser error is converted into a clean parse claim.
     // Missing dependencies fail explicitly; original silent block omission is
     // not used to make a falsely complete graph.
-    bool prepare(const assets::ZipAssetPackV1&,std::string identity,
+    bool prepare(const ProceduralAssetSourceV1&,std::string identity,
                  const std::string& definition,std::string& error);
     Borrow borrow()const{return Borrow(snapshot_);}
 };
