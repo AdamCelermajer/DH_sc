@@ -1,5 +1,7 @@
 #include "world_drop_runtime_v1.hpp"
 #include "../../renderer.hpp"
+#include "../../asset_catalog.hpp"
+#include "../../content_paths.hpp"
 
 namespace dh::foundation::interactions {
 
@@ -44,6 +46,15 @@ bool WorldDropRuntimeV1::load(AssetCatalog& assets,
         error = "World-item store is required";
         return false;
     }
+    try {
+        const auto records = read_content(assets, "data/fonts_pyarray.bin");
+        const auto schema = read_content(assets, "data/fonts_pystructnames.bin");
+        if (!palette_.load({records.data(), records.size()}, {schema.data(), schema.size()}, error))
+            return false;
+    } catch (const std::exception& exception) {
+        error = std::string("Original FontPalette is unavailable: ") + exception.what();
+        return false;
+    }
     return SourceWorldItemDropRenderV1::load(assets, *store, std::move(audiovisual),
                                              std::move(services), renderer_, error);
 }
@@ -56,6 +67,12 @@ bool WorldDropRuntimeV1::prepare(std::string& error) {
     }
     frame_.reset();
     return renderer_->prepare(frame_, error);
+}
+
+bool WorldDropRuntimeV1::item_color(const loot::RuntimeWorldItemEntryV1&, std::uint32_t& rgb,
+                                    std::string& error) const {
+    // Dropped items have no powers (NumPowers 0) -> ItemPowerColor zero row.
+    return palette_.text_color(loot::item_power_font_palette_row_v1(0), rgb, error);
 }
 
 std::vector<std::string> WorldDropRuntimeV1::resolved_visuals() const {

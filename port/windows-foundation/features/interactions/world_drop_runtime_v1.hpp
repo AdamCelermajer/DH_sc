@@ -9,6 +9,7 @@
 #include "source_world_item_drop_material_v1.hpp"
 #include "source_world_item_drop_render_v1.hpp"
 #include "../loot/world_drop_rules_v1.hpp"
+#include "../../../engine-ui/character_menu_font_palette_v1.hpp"
 #include <memory>
 #include <string>
 
@@ -37,6 +38,11 @@ public:
     bool prepare(std::string& error);
     const SourceWorldItemDropRenderFrameV1* frame() const noexcept { return frame_.get(); }
 
+    // Source ItemInstance::GetColor -> FontPalette textcolor (0xRRGGBB) for the
+    // name label/status text. Items dropped by this port carry no powers.
+    bool item_color(const loot::RuntimeWorldItemEntryV1&, std::uint32_t& rgb,
+                    std::string& error) const;
+
     std::vector<std::string> resolved_visuals() const;
     const std::map<std::string, std::string>& unresolved_visuals() const;
 
@@ -45,6 +51,7 @@ private:
     std::unique_ptr<Impl> impl_;
     std::unique_ptr<SourceWorldItemDropRenderV1> renderer_;
     std::shared_ptr<const SourceWorldItemDropRenderFrameV1> frame_;
+    dh2::ui::CharacterMenuFontPaletteV1 palette_;
 };
 
 } // namespace dh::foundation::interactions

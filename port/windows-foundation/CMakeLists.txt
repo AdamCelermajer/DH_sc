@@ -612,7 +612,9 @@ target_sources(foundation_runtime_loot PRIVATE features/loot/world_drop_rules_v1
 target_sources(dh-foundation PRIVATE
   features/interactions/session_world_item_consumer_v1.cpp
   features/interactions/source_world_item_drop_render_v1.cpp
-  features/interactions/source_world_item_drop_material_v1.cpp)
+  features/interactions/source_world_item_drop_material_v1.cpp
+  features/interactions/world_drop_runtime_v1.cpp
+  ../engine-ui/character_menu_font_palette_v1.cpp)
 add_executable(world_drop_rules_v1_tests features/loot/world_drop_rules_v1_tests.cpp)
 target_link_libraries(world_drop_rules_v1_tests PRIVATE foundation_runtime_loot foundation_data)
 add_test(NAME world_drop_rules_v1 COMMAND world_drop_rules_v1_tests

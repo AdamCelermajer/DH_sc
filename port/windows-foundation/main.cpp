@@ -42,6 +42,10 @@
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
+// P14 DROPS: world item presentation, pickup rules and item name text
+#include "features/interactions/world_drop_runtime_v1.hpp"
+#include "features/inventory/source_item_descriptors.hpp"
+#include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
 #if defined(_WIN32)
@@ -151,6 +155,30 @@ std::string glyphTextureKey(const f::HudGlyphQuad& glyph,const char* prefix) {
     return std::string(prefix)+"/"+std::to_string(glyph.codepoint)+"/"+
         std::to_string(glyph.image.width)+"/"+std::to_string(glyph.image.height)+"/"+std::to_string(hash);
 }
+// P14 DROPS: centred world/status label from the original Fontin glyph owner.
+// rgb is 0xRRGGBB; (centreX, baselineY) are window pixels; scale = window px per source px.
+bool drawScreenLabel(f::HudGlyphFont& font,const std::string& text,std::uint32_t rgb,int sourceHeight,
+                     float centreX,float baselineY,float scale,f::Renderer& renderer,f::OverlayRenderer& overlay,
+                     std::map<std::string,std::uint32_t>& textures,std::string& error) {
+    f::HudGlyphRun run;
+    if(!font.raster(text,sourceHeight,scale,run,error))return false;
+    const std::array<float,4> color{float((rgb>>16)&255)/255.f,float((rgb>>8)&255)/255.f,float(rgb&255)/255.f,1.f};
+    for(const auto& glyph:run.glyphs) {
+        if(glyph.width<=0||glyph.height<=0)continue;
+        const auto key=glyphTextureKey(glyph,"drop-glyph");
+        auto handle=textures.find(key);
+        if(handle==textures.end()) {
+            const auto texture=renderer.createTexture(glyph.image.width,glyph.image.height,glyph.image.rgba.data());
+            if(!texture){error="Original item-label glyph upload failed";return false;}
+            handle=textures.emplace(key,texture).first;
+        }
+        f::OverlaySprite sprite;
+        sprite.x=centreX+(glyph.x-run.advance*.5f)*scale;sprite.y=baselineY+glyph.y*scale;
+        sprite.width=glyph.width*scale;sprite.height=glyph.height*scale;sprite.u1=glyph.u1;sprite.v1=glyph.v1;
+        sprite.texture=handle->second;sprite.color=color;overlay.drawSprite(sprite);
+    }
+    error.clear();return true;
+}
 bool drawCombatGlyphs(const std::vector<f::CombatTextGlyph>& glyphs,f::Renderer& renderer,
                      f::OverlayRenderer& overlay,std::map<std::string,std::uint32_t>& textures,
                      std::string& error) {
@@ -231,6 +259,7 @@ struct Options {
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
+    std::vector<int> pickupFrames; // P14 DROPS: scripted world-item pickup key presses (same action as E)
     std::vector<std::pair<int,int>> spaceKeyIntervals;
     int menuCloseFrame=-1;
     int pausePageFrame=-1,pauseCloseFrame=-1;
@@ -331,6 +360,7 @@ Options parse(int argc, char** argv) {
             o.menuReleases.push_back(release);
         }
         else if(arg=="--menu-close-frame") o.menuCloseFrame=std::stoi(value());
+        else if(arg=="--pickup-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Pickup frame must be nonnegative");o.pickupFrames.push_back(frame);}
         else if(arg=="--skill-key-frame") {
             const auto text=value();const auto split=text.find(':');
             if(split==std::string::npos)throw std::runtime_error("HUD key frame requires FRAME:KEY(1..5)");
@@ -1814,10 +1844,12 @@ int main(int argc,char** argv) {
         const f::EquipmentAttachmentSet* runtimeEquipmentAttachments=nullptr;
         std::weak_ptr<const void> equipmentAttemptLease;
         bool menuUsedSkillPoint=false;
+        bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
         const auto bindEquipmentPage=[&]() {
             if(!combatSession||!menuSourceOwner.valid())return;
             std::string equipmentError;
-            if(runtimeEquipment&&runtimeEquipment->ready(equipmentError))return;
+            if(equipmentRebindRequested){equipmentRebindRequested=false;equipmentAttemptLease={};}
+            else if(runtimeEquipment&&runtimeEquipment->ready(equipmentError))return;
             const auto currentLease=combatSession->actor_binding_lease();
             if(!currentLease.expired()&&!equipmentAttemptLease.expired()&&
                !currentLease.owner_before(equipmentAttemptLease)&&!equipmentAttemptLease.owner_before(currentLease))return;
@@ -1998,6 +2030,14 @@ int main(int argc,char** argv) {
         }
         f::loot::RuntimeSessionDeathRewardsV1 deathRewards;
         std::shared_ptr<f::loot::RuntimeWorldItemAdapterV1> worldItems;
+        // P14 DROPS: presentation + pickup state for items lying in the world.
+        std::unique_ptr<f::interactions::WorldDropRuntimeV1> worldDrops;
+        f::loot::RuntimeWorldItemIdV1 worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+        double worldItemFractionMs=0;
+        std::string worldItemStatus;std::uint32_t worldItemStatusRgb=0xFFFFFF;int worldItemStatusFrames=0;
+        dh2::ui::HudTextV1* dropHudText=nullptr;dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
+        std::unique_ptr<dh2::ui::ItemTextOwnerV5> dropTextOwner;
+        std::map<std::string,std::string> dropNameCache;
         auto rewardContext=std::make_shared<GameplayRewardContext>();
         std::uint64_t rewardBindingGeneration{};
         rewardContext->debug=[&](const char* key,bool& value,std::string& e) {
@@ -2014,6 +2054,9 @@ int main(int argc,char** argv) {
             deathRewards.reset();
             if(!combatSession||!menuSourceOwner.valid())return;
             if(!worldItems)worldItems=std::make_shared<f::loot::RuntimeWorldItemAdapterV1>(menuSourceOwner.loot_owner->borrow());
+            // P14 DROPS: ground items belong to the session being bound. A reload
+            // (R/F5-F9) or new session clears them; nothing is granted or duplicated.
+            if(worldItems){worldItems->clear();worldItemTarget=f::loot::invalid_runtime_world_item_v1;}
             ++rewardBindingGeneration;
             f::loot::RuntimeSessionDeathRewardBindingsV1 rewardBindings;
             rewardBindings.gameplay_context_lease=rewardContext;rewardBindings.context=rewardContext.get();
@@ -2026,6 +2069,36 @@ int main(int argc,char** argv) {
                 throw std::runtime_error("Source death rewards: "+error);
         };
         bindDeathRewards();
+        // P14 DROPS: source itemdrops.bdae presentation over the same world-item store.
+        const auto bindWorldDrops=[&]() {
+            if(worldDrops||!combatSession||!worldItems||!menuSourceOwner.valid()||!deathRewards.bound())return;
+            auto drops=std::make_unique<f::interactions::WorldDropRuntimeV1>();
+            std::string dropError;
+            if(!drops->load(assets,worldItems,deathRewards.loot_source().audiovisual,renderer,dropError)) {
+                std::cerr<<"World item presentation diagnostic: "<<dropError<<'\n';return;
+            }
+            std::cout<<"World item presentation resolved visuals:";
+            for(const auto& name:drops->resolved_visuals())std::cout<<' '<<name;
+            std::cout<<" unresolved:";
+            for(const auto& pair:drops->unresolved_visuals())std::cout<<' '<<pair.first<<'('<<pair.second<<')';
+            std::cout<<'\n';
+            worldDrops=std::move(drops);
+        };
+        bindWorldDrops();
+        // ItemInstance name text through the same source ItemText owner the inventory uses.
+        const auto itemDisplayName=[&](const f::InventoryItem& item,std::string& out,std::string& e)->bool {
+            const auto cached=dropNameCache.find(item.definition_id);
+            if(cached!=dropNameCache.end()){out=cached->second;e.clear();return true;}
+            if(!menuSourceOwner.valid()){e="Item name requires the source loot tables";return false;}
+            const auto& itemTable=menuSourceOwner.source().loot.items();
+            if(!dropTextOwner) {
+                if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(dropHudText,dropTextEnvironment,e)||!dropHudText){if(e.empty())e="Item name text owner unavailable";return false;}
+                dropTextOwner=std::make_unique<dh2::ui::ItemTextOwnerV5>(itemTable,properties.characters,*dropHudText,dropTextEnvironment);
+            }
+            f::inventory::SourceDescriptors descriptors;
+            if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
+            dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
+        };
         sourceEffectsCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
@@ -2432,6 +2505,7 @@ int main(int argc,char** argv) {
                 }
             }
             if(returnToFrontend) {
+                if(worldItems)worldItems->clear(); // P14 DROPS: ground items never survive a return to the main menu
                 // B040: original MenuMainMenu::Hide StopMusic(1000); must run while the gameplay audio host is still alive.
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->on_return_to_menu(audioError))std::cerr<<"Audio return-to-menu diagnostic: "<<audioError<<'\n';}
                 std::string saveError;
@@ -2831,6 +2905,48 @@ int main(int argc,char** argv) {
                                  <<" spawned="<<reward.spawned_items<<" store="<<worldItems->size()
                                  <<" suppressed="<<reward.rewards_suppressed<<'\n';
                 }
+                // P14 DROPS: ground items travel to their landing point, the nearest item whose
+                // sensor box contains the player becomes the target (ItemObject::OnCollisionBegins ->
+                // tooltip), and PC adaptation: the interact key (E) while targeted runs ItemObject::Interact.
+                if(!gameplayPaused&&worldItems&&worldDrops) {
+                    const double worldItemMs=gameplayDt*1000+worldItemFractionMs;const auto worldItemWhole=std::uint32_t(worldItemMs);worldItemFractionMs=worldItemMs-worldItemWhole;
+                    worldItems->advance(worldItemWhole);
+                    const auto* itemPlayer=combatSession->actor(combatSession->player_id());
+                    const auto previousTarget=worldItemTarget;
+                    worldItemTarget=itemPlayer&&itemPlayer->alive()?f::loot::select_world_item_target_v1(*worldItems,itemPlayer->transform.position):f::loot::invalid_runtime_world_item_v1;
+                    f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
+                    if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
+                        std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<','<<targetEntry.source_position[1]<<','<<targetEntry.source_position[2]<<'\n';
+                    const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
+                    if((uiInput.actions.interact||scheduledPickup)&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1) {
+                        f::loot::RuntimeWorldItemInteractionServicesV1 pickupServices;
+                        pickupServices.context=&sharedCharacter;
+                        pickupServices.resolve_character_state=[](void* raw,f::ActorId,std::shared_ptr<f::CharacterState>& out,std::string& e){out=*static_cast<std::shared_ptr<f::CharacterState>*>(raw);e.clear();return bool(out);};
+                        f::loot::WorldItemPickupRulesV1 pickupRules;
+                        if(const auto* sheet=combatSession->world()->combat_properties(combatSession->player_id()))pickupRules.potion_capacity=std::max<std::int32_t>(0,sheet->sheets.resolved[194]);
+                        if(sourceScopes){bool infinite=false;std::string debugError;if(sourceScopes->debug_switch("InfiniteInventory",infinite,debugError))pickupRules.infinite_inventory=infinite;}
+                        std::string pickedId;if(worldItems->inspect(worldItemTarget,targetEntry,targetError)&&targetEntry.authored_item)pickedId=worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id));
+                        const auto goldBefore=state.gold;const auto stacksBefore=state.inventory.size();
+                        f::loot::WorldItemPickupReportV1 pickup;
+                        const bool picked=f::loot::interact_world_item_v1(*worldItems,worldItemTarget,combatSession->player_id(),true,itemPlayer,pickupServices,pickupRules,pickup);
+                        std::cout<<"World item pickup frame="<<drawn<<" item="<<worldItemTarget<<" id="<<pickedId<<" outcome="<<int(pickup.outcome)<<" picked="<<picked<<" gold="<<goldBefore<<"->"<<state.gold<<" stacks="<<stacksBefore<<"->"<<state.inventory.size()<<" potionCapacity="<<pickupRules.potion_capacity<<" store="<<worldItems->size()<<" detail="<<pickup.error<<'\n';
+                        std::string textError;
+                        if(picked) {
+                            worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+                            equipmentRebindRequested=true; // the equipment page's bare-definition policy lists held items
+                            std::uint32_t rgb=0xFFFFFF;worldDrops->item_color(targetEntry,rgb,textError);
+                            f::InventoryItem shown;shown.definition_id=pickedId;shown.quantity=targetEntry.quantity;
+                            std::string shownName;
+                            if(pickup.item_type==f::loot::item_type_gold_v1)shownName=std::to_string(targetEntry.source_outcome.resolved_gold_value.value_or(0))+" gold";
+                            else if(!itemDisplayName(shown,shownName,textError))shownName=pickedId;
+                            worldItemStatus=shownName;worldItemStatusRgb=rgb;worldItemStatusFrames=90;
+                        } else if(pickup.outcome==f::loot::WorldItemPickupOutcomeV1::inventory_full) {
+                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError))worldItemStatus=text;else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
+                            worldItemStatusRgb=0xFFFFFF;worldItemStatusFrames=90;
+                        }
+                    }
+                    if(worldItemStatusFrames>0)--worldItemStatusFrames;
+                }
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->after_update(audioError))std::cerr<<"Audio output diagnostic: "<<audioError<<'\n';}
                 if(!gameplayPaused) {
                 for(const auto& event:combatSession->original_animation_dispatches())
@@ -2989,6 +3105,23 @@ int main(int argc,char** argv) {
                 if(original!=population.actors().end()){placement[0]=std::hypot(original->transform[0],original->transform[1]);placement[5]=std::hypot(original->transform[4],original->transform[5]);placement[10]=original->transform[10];}
                 queue.submit(targetMarker.mesh,placement);
             }
+            // P14 DROPS: world items drawn from the original itemdrops.bdae packets in the normal queue.
+            if(worldDrops&&worldItems&&worldItems->size()) {
+                std::string dropError;
+                if(worldDrops->prepare(dropError)) {
+                    if(const auto* dropFrame=worldDrops->frame()) {
+                        for(const auto& draw:dropFrame->draws)if(draw.mesh&&draw.source_pass_ready)queue.submit(*draw.mesh,draw.world);
+                        static std::set<std::string> reportedDropIssues;
+                        for(const auto& skipped:dropFrame->unresolved)
+                            if(reportedDropIssues.insert(skipped.visual_uri+"|"+skipped.reason).second)
+                                std::cerr<<"World item not drawn visual="<<skipped.visual_uri<<" item="<<skipped.item_id<<": "<<skipped.reason<<'\n';
+                        if(!dropFrame->renderer_ready&&reportedDropIssues.insert("pass|"+std::to_string(dropFrame->draws.size())).second)
+                            std::cerr<<"World item source pass unresolved for "<<dropFrame->draws.size()<<" draw(s); those meshes are not drawn\n";
+                        static std::size_t lastDrawCount=~std::size_t(0);
+                        if(lastDrawCount!=dropFrame->draws.size()){lastDrawCount=dropFrame->draws.size();std::cout<<"World item draws frame="<<drawn<<" count="<<lastDrawCount<<" store="<<worldItems->size()<<'\n';}
+                    }
+                } else std::cerr<<"World item presentation diagnostic frame="<<drawn<<": "<<dropError<<'\n';
+            }
             queue.flush(renderer,activeCamera);
             if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);
             if(options.hud) {
@@ -3044,6 +3177,26 @@ int main(int argc,char** argv) {
                                 sprite.width=glyph.width*scale;sprite.height=glyph.height*scale;sprite.u1=glyph.u1;sprite.v1=glyph.v1;sprite.texture=handle->second;overlay.drawSprite(sprite);
                             }
                         }
+                    }
+                }
+                // P14 DROPS: ItemObject::ShowTooltip name text (item rarity colour) over the targeted
+                // ground item, plus the transient pickup / inventory-full status line.
+                if(worldItems&&worldDrops&&!characterMenu.is_open()&&!pauseMenuOpen) {
+                    f::loot::RuntimeWorldItemEntryV1 labelEntry;std::string labelError;
+                    if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItems->inspect(worldItemTarget,labelEntry,labelError)&&labelEntry.authored_item) {
+                        std::array<float,2> itemScreen{};
+                        if(project(activeCamera,f::Vec3{labelEntry.source_position[0],labelEntry.source_position[1],labelEntry.source_position[2]},window.width(),window.height(),itemScreen)) {
+                            f::InventoryItem shown;shown.definition_id=worldItems->tables().items().identifiers.at(std::size_t(labelEntry.source_outcome.item_id));shown.quantity=labelEntry.quantity;
+                            std::string labelText;std::uint32_t labelRgb=0xFFFFFF;
+                            if(labelEntry.authored_item->record.words[f::loot::item_word_type_v1]==f::loot::item_type_gold_v1)labelText=std::to_string(labelEntry.source_outcome.resolved_gold_value.value_or(0))+" gold";
+                            else if(!itemDisplayName(shown,labelText,labelError))labelText=shown.definition_id;
+                            worldDrops->item_color(labelEntry,labelRgb,labelError);
+                            if(!drawScreenLabel(targetFont,labelText,labelRgb,12,itemScreen[0],itemScreen[1]-18.f*scale,scale,renderer,overlay,textures,labelError))throw std::runtime_error("World item label: "+labelError);
+                        }
+                    }
+                    if(worldItemStatusFrames>0&&!worldItemStatus.empty()) {
+                        std::string statusError;
+                        if(!drawScreenLabel(targetFont,worldItemStatus,worldItemStatusRgb,14,window.width()*.5f,window.height()*.25f,scale,renderer,overlay,textures,statusError))throw std::runtime_error("World item status: "+statusError);
                     }
                 }
                 if(options.combatText&&!characterMenu.is_open()) {

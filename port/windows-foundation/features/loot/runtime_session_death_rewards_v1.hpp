@@ -71,6 +71,8 @@ public:
 
     void reset() noexcept;
     bool bound() const noexcept { return session_ != nullptr; }
+    // P14: the exact source snapshot (incl. ItemAudioVisualTable) bound by bind(); valid while bound().
+    const RuntimeLootSourceV1& loot_source() const noexcept { return loot_source_; }
 };
 
 } // namespace dh::foundation::loot
