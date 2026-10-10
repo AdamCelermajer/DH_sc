@@ -86,6 +86,11 @@ public:
     bool activate(const CharacterState&, const dh2::data::QuestTablesPersistenceV51&,
                   const CharacterQuestIdV1&, const CharacterQuestLogPolicyV1&,
                   std::string& error);
+    // Original Character::SG_SetCurrentQuest from quest state transitions (Active
+    // sets the row, PostActive clears it with row -1). Not a player action: the
+    // Make Active path must use activate().
+    bool set_current_quest(const CharacterState&, std::uint32_t collection,
+                           std::int32_t difficulty, std::int32_t row, std::string& error);
 };
 
 } // namespace dh::foundation
