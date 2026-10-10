@@ -61,6 +61,8 @@ int main() {
     check(!details_row_hit(*r1, b1.x0 - 20.0f, mid(b1)) && !details_row_hit(*r1, b1.x1 + 20.0f, mid(b1)), "row hit leaked outside its width");
     check(!details_row_hit(*r1, cx, b1.y1 + 15.0f), "row hit leaked below the row");
 
+    check(!details_row_shows_count(1) && details_row_shows_count(2) && details_row_shows_count(32767), "single items must show no row count; stacks keep it");
+
     if (failures) { std::cerr << failures << " failure(s)\n"; return 1; }
     std::cout << "inventory_details_row_geometry PASS (row +1 y=[" << b1.y0 << "," << b1.y1 << "] x=[" << b1.x0 << "," << b1.x1 << "])\n";
     return 0;

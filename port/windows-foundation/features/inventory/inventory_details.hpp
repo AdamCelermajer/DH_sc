@@ -12,6 +12,8 @@ struct DetailArt {character_menu::MenuArt panel;std::vector<DetailRowArt> rows;s
 const DetailArt& original_inventory_details();
 // B045: true when (x,y) is on the visible body of a list row (the row art box), not only its border sliver.
 bool details_row_hit(const DetailRowArt& row,float x,float y);
+// Original list rows show a count only for stacks: a single item shows no digit (reference t=336/t=372).
+inline bool details_row_shows_count(std::uint32_t quantity){return quantity>1;}
 // The native character preview is an SWF display callback, not a panel-wide
 // overlay. These generated records retain its exact authored pane and sibling
 // insertion point so the renderer can interleave the existing preview owner.
