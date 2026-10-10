@@ -12,6 +12,7 @@
 //   characterControllerBlocked) stay the single truth; this host wraps the lambdas to track and restore them.
 #include "trigger_zones.hpp"
 #include "../cinematics/source_campaign_dispatch_v1.hpp"
+#include "../cinematic_runner/cinematic_runner.hpp" // P16 CINE
 #include "../../original_campaign_world_adapter.hpp"
 #include <array>
 #include <cstdint>
@@ -57,6 +58,13 @@ public:
     // Builds trigger zones from the loaded level declarations (any map). Call after bind_executor.
     bool build_zones(const std::vector<ActorDefinition>& declarations,std::string& error);
 
+    // P16 CINE: StrID resolver for caption lines (main binds the original MenuLocalization after its load).
+    // Without it a caption line shows an explicit "[StrID n unresolved]" marker.
+    void set_caption_text(std::function<bool(std::int32_t,std::string&,std::string&)> resolver) { caption_text_=std::move(resolver); }
+    // P16 CINE: cinematic presentation state and draw description (authored 480x320 space).
+    const cinematic_runner::CinematicRunner& cinematic() const noexcept { return cinematic_; }
+    bool cinematic_skip_hit(float x,float y,float window_w,float window_h) const noexcept { return cinematic_.skip_hit(x,y,window_w,window_h); }
+
     // Abstract SKIP press. Ignored unless the SKIP control is currently visible.
     void press_skip();
     bool hud_visible() const noexcept { return hud_visible_; }
@@ -88,6 +96,8 @@ private:
     std::set<ActorId> character_blocked_;
     std::set<ActorId> scripted_;
     std::set<int> consumed_tutorials_;
+    cinematic_runner::CinematicRunner cinematic_; // P16 CINE
+    std::function<bool(std::int32_t,std::string&,std::string&)> caption_text_; // P16 CINE
     bool hud_visible_=true;
     bool skip_visible_=false;
     bool skip_pressed_=false;
