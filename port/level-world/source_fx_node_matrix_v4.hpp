@@ -13,4 +13,15 @@ void source_fx_trs_matrix_v4(math::Matrix4f&,const float*,const float*,const flo
 // actual graph values, never a second Scene or a guessed identity matrix.
 bool source_fx_node_world_matrix_v4(const scene::Scene&,std::uint32_t,math::Matrix4f&,std::string&);
 bool source_fx_rebuild_graph_world_v4(scene::Scene&,std::string&);
+
+// P16 LEVELUP2 (I026 column): glitch CBillboardSceneNode world matrices.
+// Builds the camera absolute matrix in FX scene space from the scene camera callback
+// (view16 = column-major world-to-eye with rows right/up/-forward, position3 = eye).
+// Plain nodes use the same TRS composition as source_fx_rebuild_graph_world_v4. Billboard
+// records (BillboardRecordV1) are oriented per frame from the camera (see the .cpp for
+// the decoded CBillboardSceneNode::updateAbsolutePosition steps). Writes graph and instance worlds.
+bool source_fx_rebuild_graph_world_billboards_v1(scene::Scene&,const math::Matrix4f& outer,
+    const float view16[16],const float position3[3],std::string& error);
+// True when any graph node carries a billboard record (callers skip camera work otherwise).
+bool source_fx_scene_has_billboards_v1(const scene::Scene&) noexcept;
 }

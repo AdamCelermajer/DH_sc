@@ -57,10 +57,21 @@ public:
  const InstanceStorageV91& source_storage_v91()const noexcept{return *storage_;}
  std::shared_ptr<InstanceStorageV91> source_owner_v91()const noexcept{return storage_;}
 };
+// P16 LEVELUP2: glitch collada CBillboardSceneNode record. CColladaDatabase::constructNode
+// (0x61b2f4) creates a billboard instead of a plain node when SNode+76 is non-zero (factory
+// slot 64 createBillboard 0x631830). The word at +76 points at {mode, sub, axisA[3], axisB[3]};
+// level_up.bdae _mesh_levelup_nobatch_PIVOT has mode 1, sub 1, A=(0,0,1), B=(0,1,0). The
+// camera-facing matrix is computed per frame from the active camera (BillboardSceneNode 0x60cf88).
+struct BillboardRecordV1 {
+ bool present{};
+ std::uint32_t mode{},sub{};
+ std::array<float,3> axis_a{0,0,1},axis_b{0,1,0};
+};
 struct NodeStorageV91 {
  std::string id,sid,name,user_properties;std::int32_t parent{-1};
  float translation[3]{},quaternion[4]{0,0,0,1},scale[3]{1,1,1};
  std::array<float,16> world{};std::uint32_t flags{0x60fu};VisibilityV91 visibility;std::uint8_t detached{};
+ BillboardRecordV1 billboard;
 };
 struct Node {
 private:std::shared_ptr<NodeStorageV91> storage_;

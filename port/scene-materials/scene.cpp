@@ -150,6 +150,8 @@ struct Loader {
         Node state;state.id=r.field(p);state.sid=r.field(p+8,true);state.name=r.field(p+4,true);state.parent=parent_index;state.world=world;
         // CSceneNode::getUserPropertyStr reads the first String at SNode+72.
         if(const auto properties=r.w(p+72))state.user_properties=r.field(properties,true);
+        // P16 LEVELUP2: SNode+76 is the glitch billboard record (BillboardRecordV1). Plain nodes carry 0.
+        if(const auto billboard=r.w(p+76)){r.at(billboard,32);auto& b=state.source_storage_v91().billboard;b.present=true;b.mode=r.w(billboard);b.sub=r.w(billboard+4);for(unsigned i=0;i<3;++i){b.axis_a[i]=r.f(billboard+8+4*i);b.axis_b[i]=r.f(billboard+20+4*i);}}
         std::copy(translation,translation+3,state.translation);std::copy(scale,scale+3,state.scale);std::copy(quaternion,quaternion+4,state.quaternion);
         s.graph.push_back(std::move(state));
         const bool local_visible=r.w(p+52)!=0;visible=visible&&local_visible;
