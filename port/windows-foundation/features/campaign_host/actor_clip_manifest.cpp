@@ -20,6 +20,20 @@ std::vector<ActorClipRequest> collect_actor_clip_requests(const OriginalCampaign
     return requests;
 }
 
+std::vector<SceneObjectClipRequest> collect_scene_object_clip_requests(const OriginalCampaignRuntime& runtime) {
+    std::vector<SceneObjectClipRequest> requests;
+    for (const auto& script : runtime.scripts()) {
+        for (const auto& command : script.commands) {
+            if (command.kind != 19) continue;
+            const auto object = command.strings.find(24);
+            const auto clip = command.strings.find(12);
+            if (object == command.strings.end() || clip == command.strings.end()) continue;
+            requests.push_back({object->second, clip->second});
+        }
+    }
+    return requests;
+}
+
 std::string actor_clip_name(std::int32_t dictionary_id) {
     return "cs:" + std::to_string(dictionary_id);
 }

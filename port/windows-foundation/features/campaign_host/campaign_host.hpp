@@ -58,6 +58,12 @@ struct ActorVerbServices {
     // pool, not a stored handle). Failures are logged by the host and do not stop the cutscene (the source ignores the result).
     std::function<bool(std::int32_t set,const std::array<float,3>& position,std::string& e)> play_effect;
     std::function<bool(std::int32_t set,std::string& e)> stop_effect;
+    // P16 OPENING4: Script_PlayAnimByName (kind 19): the named scene object's visual plays the clip (not blocking).
+    // found=false when no scene object of that name is instantiated (logged once, the cutscene continues).
+    std::function<bool(const std::string& object,const std::string& clip,bool& found,std::string& e)> play_object_clip;
+    // P16 OPENING4: UnEquipHands (kind 51, equipped=false) and ReEquipHands (kind 52, equipped=true) on the actor
+    // (IDA Script_UnEquipHands / Script_ReEquipHands: the hand slots 1 and 2 of the actor's inventory).
+    std::function<bool(ActorId id,bool equipped,std::string& e)> hands;
 };
 
 // Facts the host cannot own. main supplies them from the live combat session.

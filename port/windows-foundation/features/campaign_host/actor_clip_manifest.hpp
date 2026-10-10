@@ -20,6 +20,13 @@ struct ActorClipRequest {
 // Every PlayActorAnim clip of every loaded script. Chained clips (scalar 12, not -1) are included.
 std::vector<ActorClipRequest> collect_actor_clip_requests(const OriginalCampaignRuntime& runtime);
 
+// P16 OPENING4: Script_PlayAnimByName (kind 19) requests: scene object @24 plays clip @12 (every loaded script).
+struct SceneObjectClipRequest {
+    std::string object;
+    std::string clip;
+};
+std::vector<SceneObjectClipRequest> collect_scene_object_clip_requests(const OriginalCampaignRuntime& runtime);
+
 // The visual clip name of a dictionary clip (the same name everywhere: profile bank, player bank, the session).
 std::string actor_clip_name(std::int32_t dictionary_id);
 

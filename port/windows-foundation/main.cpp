@@ -62,6 +62,7 @@
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
 #include "features/containers/container_runtime_v1.hpp" // P16 containers (T2/T3)
+#include "features/scene_decor/scene_decor_v1.hpp" // P16 OPENING4: scripted scene objects (PlayAnimByName, kind 19)
 #include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
 #include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen contract)
 #include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
@@ -301,6 +302,7 @@ bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& fon
 
 struct Options {
     fs::path assets, scene, level, profiles, save = "character.save", liveSave="gameplay.save", capture;
+    std::vector<std::uint64_t> captureFrames; // P16 OPENING4 verification: extra captures at these drawn frames (<capture dir>/f<frame>.ppm)
     std::set<std::string> activeConditions;
     std::set<std::string> inactiveConditions;
     std::string module, characterName, playClip;
@@ -581,6 +583,10 @@ Options parse(int argc, char** argv) {
         else if(arg=="--clip-rate") {auto v=value();auto split=v.find('=');if(split==std::string::npos||split==0)throw std::runtime_error("Clip rate must be NAME=POSITIVE_RATE");auto rate=std::stod(v.substr(split+1));if(!std::isfinite(rate)||rate<=0)throw std::runtime_error("Clip rate must be finite and positive");o.clipRates[v.substr(0,split)]=rate;}
         else if(arg=="--frames") {o.frames=std::stoi(value());if(o.frames<1) throw std::runtime_error("Frames must be positive");}
         else if(arg=="--capture") o.capture=value();
+        else if(arg=="--capture-frames") { // P16 OPENING4: comma list of drawn frames captured next to --capture (f<frame>.ppm)
+            std::string list=value(),item;std::istringstream stream(list);
+            while(std::getline(stream,item,',')) if(!item.empty()) o.captureFrames.push_back(std::stoull(item));
+        }
         else if(arg=="--fixed-step") {o.fixedStep=std::stod(value());if(!std::isfinite(o.fixedStep)||o.fixedStep<=0||o.fixedStep>1)throw std::runtime_error("Fixed step must be in (0,1]");}
         else if(arg=="--probe") o.probe=true;
         else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
@@ -1883,6 +1889,15 @@ int main(int argc,char** argv) {
             for(auto& placed:population.actors())if(placed.definition.stableId==id)return &placed;
             return nullptr;
         };
+        // P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName, kind 19) and their clip owner.
+        f::scene_decor::SceneDecorRuntimeV1 sceneDecor;
+        // P16 OPENING4: hand verbs (UnEquipHands 51 / ReEquipHands 52) act on the equipment binding, which exists after the
+        // session; the owner is set when the binding is ready (below). Slots 1 and 2 = the hand slots of IDA Script_UnEquipHands.
+        std::function<bool(f::ActorId,bool,std::string&)> handVerbOwner;
+        std::array<bool,3> handHeldBeforeUnequip{};
+        hostServices.actor_verbs.hands=[&](f::ActorId id,bool equipped,std::string& e){
+            return handVerbOwner?handVerbOwner(id,equipped,e):true;
+        };
         hostServices.actor_verbs.resolve_actor=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){
             if(name=="LocalPlayer"||name=="Player") {
                 if(!combatSession){e="Actor lookup needs the live combat session";return false;}
@@ -1952,6 +1967,9 @@ int main(int argc,char** argv) {
             } else {e="Actor clip actor is unavailable";return false;}
             std::cout<<"[campaign] actor clip "<<clip<<" "<<path<<" duration_ms="<<duration<<" actor="<<id<<'\n';
             return true;
+        };
+        hostServices.actor_verbs.play_object_clip=[&](const std::string& object,const std::string& clip,bool& found,std::string& e){
+            return sceneDecor.play(object,clip,found,e); // P16 OPENING4: PlayAnimByName on an instantiated scene object
         };
         f::campaign_host::CampaignHost campaignHost(hostServices);
         bool globalControllerBlocked=false;
@@ -2341,6 +2359,10 @@ int main(int argc,char** argv) {
             if(!campaignHost.bind_executor(sourceCampaign,campaignWorld,error))throw std::runtime_error("Campaign host: "+error);
             // D3 (OPENING3): campaign lifecycle component on a neutral object (save component mechanism).
             if(options.campaignTriggers){std::string lifecycleBindError;if(!campaignHost.bind_lifecycle_object(*combatSession->world(),lifecycleBindError))throw std::runtime_error("Campaign lifecycle object: "+lifecycleBindError);combatSession->set_lifecycle_serialized_by_host(true);}
+            // P16 OPENING4: scene objects named by the campaign scripts (kind 19) get their visuals at the authored transform.
+            {std::vector<std::string> sceneNotices,sceneNames;for(const auto& request:f::campaign_host::collect_scene_object_clip_requests(sourceCampaign))sceneNames.push_back(request.object);
+             if(!sceneDecor.adopt(assets,population.definitions(),sceneNames,sceneNotices,error))throw std::runtime_error("Scene objects: "+error);
+             for(const auto& notice:sceneNotices)std::cout<<"[scene] "<<notice<<'\n';}
             if(!campaignHost.build_zones(population.definitions(),error))throw std::runtime_error("Campaign trigger zones: "+error);
             // P16 CINE: harness start of an authored script by name (same runtime start as DoTutorial; not a production starter).
             if(!options.campaignStart.empty()) {
@@ -2696,6 +2718,23 @@ int main(int argc,char** argv) {
                 runtimeEquipmentAttachments=initialRender.attachments;
             } else if(!equipmentError.empty())throw std::runtime_error(equipmentError);
             runtimeEquipment=std::move(binding);runtimeEquipmentPage=std::move(page);
+            // P16 OPENING4: the hand verbs of the campaign act on the local player's equipment (IDA Script_UnEquipHands).
+            handVerbOwner=[&](f::ActorId id,bool equipped,std::string& e)->bool{
+                if(!combatSession||id!=combatSession->player_id()||!runtimeEquipment)return true; // only the player carries equipment
+                for(unsigned slot:{1u,2u}) {
+                    if(!equipped) {
+                        handHeldBeforeUnequip[slot]=false;
+                        for(const auto& binding:state.equipment)
+                            if((binding.source_slot==int(slot)||(binding.source_slot<0&&binding.slot=="slot"+std::to_string(slot)))&&!binding.item_instance_id.empty())handHeldBeforeUnequip[slot]=true;
+                        if(handHeldBeforeUnequip[slot]&&!runtimeEquipment->unequip(slot,e))return false;
+                    } else if(handHeldBeforeUnequip[slot]) {
+                        if(!runtimeEquipment->auto_equip_slot(slot,e))return false;
+                        handHeldBeforeUnequip[slot]=false;
+                    }
+                }
+                std::cout<<"[campaign] hands "<<(equipped?"re-equipped":"unequipped")<<" actor="<<id<<'\n';
+                return true;
+            };
             syncPlayerBodyParts(); // B061
         };
         const auto retireEquipmentPage=[&]() {
@@ -4705,6 +4744,8 @@ int main(int argc,char** argv) {
             if(!equipment.attachments().empty()&&!equipment.update(visual,error))throw std::runtime_error("Equipment pose: "+error);
             if(runtimeEquipmentAttachments&&(!runtimeEquipment||!runtimeEquipment->sample_render_pose(error)))throw std::runtime_error("Runtime equipment pose: "+error);
             for(auto& actor:population.actors())if(!gameplayPaused&&actor.enabled&&(!combatSession||!combatSession->owns_population_pose(actor.definition.stableId))&&!actor.visual.update(gameplayDt,error))throw std::runtime_error("Actor pose: "+error);
+            // P16 OPENING4: scripted scene objects advance their clips on the gameplay clock.
+            if(!gameplayPaused){std::string sceneError;if(!sceneDecor.update(gameplayDt,sceneError))throw std::runtime_error("Scene objects: "+sceneError);}
             // P16 containers: advance activating clips; the authored 'opened' marker is DoOpen (loot via T4, Lua OnOpen later).
             if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';runContainerOpen(event.index,drawn);}
                 if(combatSession){std::string persistError;if(!f::containers::persist_container_world_state_v1(*combatSession->world(),containerRuntime,persistError))throw std::runtime_error("Container persist: "+persistError);}}
@@ -4834,6 +4875,8 @@ int main(int argc,char** argv) {
             }
             // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).
             for(const auto& view:containerRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
+            // P16 OPENING4: scripted scene objects at their authored transform (the cage and other PlayAnimByName targets).
+            for(const auto& view:sceneDecor.views())if(view.visual)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.transform);
             // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
             const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
             if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {
@@ -5364,6 +5407,12 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_drain);
             ++drawn;
             if(options.frames&&drawn>=options.frames&&!options.capture.empty()) capture(options.capture,window.width(),window.height());
+            // P16 OPENING4: verification captures at the requested drawn frames (same size and format as --capture).
+            if(!options.capture.empty()) for(const auto frame:options.captureFrames) if(frame==drawn) {
+                const auto path=options.capture.parent_path()/("f"+std::to_string(frame)+".ppm");
+                capture(path,window.width(),window.height());
+                std::cout<<"Captured frame="<<frame<<" path="<<path.generic_string()<<'\n';
+            }
             window.swap();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::swap_present);
             if(options.frames&&drawn>=options.frames) break;
             framePacer.wait();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sleep_wait); // B066

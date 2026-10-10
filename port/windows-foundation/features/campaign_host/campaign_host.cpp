@@ -452,7 +452,15 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     // the release default is off (IDA Script_CONSOLE::Execute), so the command does nothing and never blocks.
     case 3:  if (phase == CampaignCommandPhase::execute) unsupported_.note("Script_CONSOLE is a debug command (no-op: DisplayScriptConsoleAsDialog is off)"); return true;
     case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
-    case 19: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayAnimByName (object clips for scene objects are not bound)"); return true;
+    case 19: { // Script_PlayAnimByName: object @24 plays clip @12 on its visual (IDA: visual animator Play(clip,0,0,0)); no wait
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!v.play_object_clip) { unsupported_.note("stub PlayAnimByName (no scene object owner bound)"); return true; }
+        const auto object = string_field(c, 24);
+        bool placed = false;
+        if (!v.play_object_clip(object, string_field(c, 12), placed, e)) { unsupported_.note("PlayAnimByName failed: " + e); e.clear(); return true; }
+        if (!placed) note_unresolved(object);
+        return true;
+    }
     case 20: { // Script_PlayEffect: set @8 at the position of the object @32 plus the authored offsets @16/@20/@24 (IDA Script_PlayEffect::Execute)
         if (phase != CampaignCommandPhase::execute) return true;
         const auto waypoint = string_field(c, 32);
@@ -473,8 +481,14 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         return true;
     }
     case 14: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub StopSound (scripted sound stop not bound)"); return true;
-    case 51: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub UnEquipHands (equipment visuals not switched)"); return true;
-    case 52: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ReEquipHands (equipment visuals not switched)"); return true;
+    case 51:   // Script_UnEquipHands: actor @12 (IDA: remember the hand items, unequip slots 1 and 2)
+    case 52: { // Script_ReEquipHands: actor @12 (IDA: re-equip the remembered hand slots)
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c, 12), id, found, e)) return false;
+        if (!found) return true;
+        if (!v.hands) { unsupported_.note("stub UnEquipHands/ReEquipHands (no equipment owner bound)"); return true; }
+        return v.hands(id, c.kind == 52, e);
+    }
     default: e = "Unsupported original campaign actor verb kind " + std::to_string(c.kind); return false;
     }
 }
