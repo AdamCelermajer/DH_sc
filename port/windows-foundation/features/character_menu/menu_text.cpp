@@ -69,6 +69,10 @@ const char* original_menu_label_symbol(const std::string& path)noexcept {
         // InventorySheetMain onShow actions (authored-actions.txt 00019d7f..00019dcf): NativeGetStringFromSymbol.
         ,{"menu_InventorySheetMain/btn_GAMEPLAYMENUS_AUTOEQUIP_ALL/","GAMEPLAYMENUS_AUTOEQUIP_ALL"}
         ,{"menu_InventorySheetMain/Title/","GAMEPLAYMENUS_INVENTORY_TITLE"}
+        // P16 map (MenuCharMenu_Map sheet menu_MapSheet): page title and control captions by symbol.
+        ,{"menu_MapSheet/menu_title/","GAMEPLAYMENUS_MAP_TITLE"}
+        ,{"menu_MapSheet/btn_Legend/TextBox/","MENU_MAP_LEGEND"}
+        ,{"menu_MapSheet/btn_ResetZoom/TextBox/","MENU_MAP_RESET_ZOOM"}
     };
     for(const auto& label:labels)if(path.find(label.source_path)!=std::string::npos)return label.symbol;
     return nullptr;

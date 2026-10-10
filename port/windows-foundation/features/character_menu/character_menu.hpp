@@ -4,8 +4,10 @@
 #include "../../original_combat_properties.hpp"
 #include <functional>
 namespace dh::foundation::character_menu {
-enum class Tab { stats,equipment,skills,faery };
-enum class Action { none,stats,equipment,skills,faery,close };
+// P16 map: Tab::map is the Map page (menu_MapSheet, MenuCharMenu_Map). Its controls
+// (Show legend / Reset zoom) are accepted only while the Map tab is selected.
+enum class Tab { stats,equipment,skills,faery,map };
+enum class Action { none,stats,equipment,skills,faery,map,map_legend,map_reset_zoom,close };
 struct MenuTextField {
     std::string path;std::uint32_t character_id=0,font_id=0;float source_height=0;
     std::array<float,4> bounds{};std::array<std::uint8_t,4> rgba{};unsigned align=0;
@@ -23,6 +25,8 @@ struct MenuSolidBatch {
 struct MenuArt { std::vector<HudGeometryBatch> batches;std::vector<MenuTextField> text_fields;std::vector<MenuSolidBatch> solids; };
 struct MenuHitZone { Action action=Action::none;std::string path;std::vector<HudGeometryVertex> triangles; };
 const MenuArt& original_menu_art(Tab,bool has_stat_points=true);
+// Map legend popup (LegendPopup in menu_MapSheet); drawn only while the legend is shown.
+const MenuArt& original_map_legend_art();
 const std::vector<MenuHitZone>& original_menu_hit_zones();
 // Original FlashCamera.Update -> SetViewport(driverW/H), SetBounds mode0:
 // independently scaled axes, no fit-letterbox. `scale` is raster detail only.
@@ -49,8 +53,14 @@ struct Bindings {
 };
 class Presenter {
     bool open_=false;Tab tab_=Tab::stats;
+    bool map_legend_=false;bool map_reset_requested_=false;
 public:
-    void open() noexcept {open_=true;tab_=Tab::stats;}
+    void open() noexcept {open_=true;tab_=Tab::stats;map_legend_=false;}
+    // Map page controls. Show legend toggles the legend popup; Reset zoom is a request the
+    // host consumes (take_map_reset_zoom) because the zoom state is owned by the Map page model.
+    bool map_legend_shown() const noexcept{return map_legend_;}
+    Action map_control(Action control) noexcept;
+    bool take_map_reset_zoom() noexcept{const bool requested=map_reset_requested_;map_reset_requested_=false;return requested;}
     // Optional close policy (Preview 15 Stats confirmation): consulted by every close
     // path (Back, Escape, profile key). Returning false keeps the menu open.
     std::function<bool()> close_guard;
