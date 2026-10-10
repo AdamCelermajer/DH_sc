@@ -12,6 +12,12 @@ struct DetailTextVariant {std::vector<HudGeometryBatch> batches;std::vector<char
 struct DetailTextStates {DetailTextVariant transmute_idle,transmute_disabled;};
 struct DetailArt {character_menu::MenuArt panel;std::vector<DetailRowArt> rows;std::vector<DetailHit> actions;DetailTextStates text_states;};
 const DetailArt& original_inventory_details();
+// B057 requirement gate art (authored-actions.txt 0001c98b/0001d2ee): a list row whose ItemEquippable is false shows its
+// Status clip at frame "No" (red X); the selected unmet item's btn_EquipItem goes to its "disabled" frame (dark button).
+// row_no_status[i]: relative_index plus Status art for the Unselected/Selected row states.
+struct DetailGateRowArt {int relative_index{};DetailTextVariant status_no[2];};
+struct DetailGateArt {DetailTextVariant equip_disabled;std::vector<DetailGateRowArt> rows;};
+const DetailGateArt& original_inventory_gate_art();
 // B045: true when (x,y) is on the visible body of a list row (the row art box), not only its border sliver.
 bool details_row_hit(const DetailRowArt& row,float x,float y);
 // Details slot rail (menu_InventorySheetDetails/SideList/btn_TypeN, N = InvSlotId 0..9, top to bottom). Each icon's hit

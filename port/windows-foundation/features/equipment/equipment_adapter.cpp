@@ -9,8 +9,6 @@
 
 namespace dh::foundation {
 namespace {
-// ARM ASR #8, including negative fractional values.
-std::int32_t integer(std::int32_t raw) { return raw >= 0 ? raw/256 : -1 - (-(std::int64_t(raw)+1))/256; }
 int service(void*,dh2::data::EquipmentState72V3*,const dh2::data::EquipmentRequest40V3* q,
             dh2::data::EquipmentResponse16V3* r) {
     // This adapter supports ordinary individually owned equipment. Stackable
@@ -24,8 +22,14 @@ bool equipment_meets_requirements(const dh2::data::Item& item,const OriginalActo
 }
 bool equipment_meets_requirements(const dh2::data::Item& item,const dh2::data::PropertyState& p,bool bypass) noexcept {
     if(bypass)return true;
+    // ItemInstance::IsEquippableBy (003fa330): level cell (Character+4164 = property 19) >= req<<8, and for each attribute
+    // (base Stat_* 149..152) + (Prereq_* 153..156, Character+4700..) >= req<<8. Raw 8.8 compare; B057: Prereq_* was ignored.
     constexpr unsigned properties[]{19,149,150,151,152};
-    for(unsigned i=0;i<5;++i)if(item.record.words[29+i]>integer(p.resolved[properties[i]]))return false;
+    for(unsigned i=0;i<5;++i){
+        std::int64_t have=p.resolved[properties[i]];
+        if(i>0)have+=p.resolved[properties[i]+4];
+        if(have<(std::int64_t(item.record.words[29+i])<<8))return false;
+    }
     return true;
 }
 namespace {

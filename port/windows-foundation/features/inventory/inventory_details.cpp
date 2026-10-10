@@ -111,6 +111,16 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
     if(rail_highlight_hidden(batch.role,selection_.selected_slot(),rail_normal))continue;next.art.batches.push_back(batch);}
    next.solids.insert(next.solids.end(),art.panel.solids.begin(),art.panel.solids.end());
   }
+ // B057: displaySelectedItemInfos sends btn_EquipItem to "disabled" when the selected ItemEquippable (IsEquippableBy) is false.
+ const bool equip_blocked=!rows.empty()&&!rows[current].equipped&&!rows[current].requirements_met;
+ const auto& gate=original_inventory_gate_art();
+ if(equip_blocked){
+  const char* equip_prefix="menu_InventorySheetDetails/btn_EquipItem/";
+  next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[&](const auto& batch){return prefix(batch.role,equip_prefix);}),next.art.batches.end());
+  next.solids.erase(std::remove_if(next.solids.begin(),next.solids.end(),[&](const auto& value){return prefix(value.geometry.role,equip_prefix);}),next.solids.end());
+  next.art.batches.insert(next.art.batches.end(),gate.equip_disabled.batches.begin(),gate.equip_disabled.batches.end());
+  next.solids.insert(next.solids.end(),gate.equip_disabled.solids.begin(),gate.equip_disabled.solids.end());
+ }
  // Drop is not offered for an equipped selection: the original hides btn_Drop on the ItemEquipped path of
  // displaySelectedItemInfos (authored-actions.txt ~0001cbbe-0001cc09). Part 1 t=336 (Torso) and t=342 (Hands) are
  // equipped and show no Drop; t=372 (Feet, unequipped) shows Drop. The flag also covers the Drop label text below.
@@ -118,7 +128,10 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  if(!drop_available)next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[](const auto& batch){return prefix(batch.role,"menu_InventorySheetDetails/btn_Drop/");}),next.art.batches.end());
  std::string selected_name;if(!rows.empty()&&!name(b,owner_,table_,rows[current].instance_id,selected_name,error))return false;
  if(!equipped_id.empty()&&!name(b,owner_,table_,equipped_id,equipped_name,error))return false;
- for(const auto& field:art.panel.text_fields){std::string value;const auto& path=field.path;
+ for(const auto& panel_field:art.panel.text_fields){std::string value;const auto& path=panel_field.path;
+  // The disabled EQUIP frame restyles its label (sprite 179 frame "disabled"); same path, authored disabled text style.
+  const auto* disabled_field=equip_blocked?[&]()->const character_menu::MenuTextField*{for(const auto& f:gate.equip_disabled.fields)if(f.path==path)return &f;return nullptr;}():nullptr;
+  const auto& field=disabled_field?*disabled_field:panel_field;
   if(has_transmute_variant&&prefix(path,"menu_InventorySheetDetails/btn_GAMEPLAYMENUS_TRANSMUTE2/"))continue;
   if(!drop_available&&prefix(path,"menu_InventorySheetDetails/btn_Drop/"))continue;
   if(prefix(path,"menu_InventorySheetDetails/SelectedItemName/"))value=selected_name;
@@ -156,6 +169,12 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  for(const auto& row_art:art.rows){const auto index=static_cast<std::int64_t>(current)+row_art.relative_index;if(index<0||std::size_t(index)>=rows.size())continue;const auto& row=rows[std::size_t(index)];const auto* owned=owned_item(owner_,row.instance_id);if(!owned){error="Original list item disappeared";return false;}std::string title;if(!name(b,owner_,table_,row.instance_id,title,error))return false;const auto& item_art=row_art.relative_index==0?row_art.selected:row_art.unselected;
   next.art.batches.insert(next.art.batches.end(),item_art.batches.begin(),item_art.batches.end());
   next.solids.insert(next.solids.end(),item_art.solids.begin(),item_art.solids.end());
+  // B057: an unmet row's Status clip is gotoAndStop("No") (red X) instead of "Empty" (GenerateInventoryListItems 0001d2ee).
+  if(!row.requirements_met&&!row.equipped)for(const auto& gate_row:gate.rows)if(gate_row.relative_index==row_art.relative_index){
+   const auto& status=gate_row.status_no[row_art.relative_index==0?1:0];
+   next.art.batches.insert(next.art.batches.end(),status.batches.begin(),status.batches.end());
+   next.solids.insert(next.solids.end(),status.solids.begin(),status.solids.end());
+  }
   for(const auto& field:item_art.text_fields){if(field.path.find("/Host")!=std::string::npos)next.text.push_back({field,title});else if(field.path.find("/Number")!=std::string::npos&&details_row_shows_count(owned->quantity))next.text.push_back({field,std::to_string(owned->quantity)});}
   // Original rows show no digit for a single item (authored GenerateInventoryListItems clears Number; Part 1 t=336/t=372 show none).
   // Stacks keep their count. The equipped-row glyph that the reference shows in this field is not reproduced (see the B042 report).
@@ -170,7 +189,10 @@ bool DetailsPresenter::release(float x,float y,DetailAction& action,std::string&
  if(const int rail=details_rail_slot_at(art,x,y);rail>=0){if(!open(unsigned(rail),error))return false;action=DetailAction::slot;error.clear();return true;}
  std::vector<equipment_menu::OwnedSelection> rows;if(!candidates(rows,error))return false;const auto current=focus(rows,selection_.selected_instance());
  // Transmute is disabled and Drop hidden by displaySelectedItemInfos for an equipped selection (authored-actions.txt 0001cbbe-0001cc44): no command is produced.
- for(const auto& hit:art.actions)if(contains(hit.triangles,x,y)){action=hit.action;if((action==DetailAction::transmute||action==DetailAction::drop)&&(rows.empty()||rows[current].equipped)){action=DetailAction::none;error.clear();return true;}
+ for(const auto& hit:art.actions)if(contains(hit.triangles,x,y)){action=hit.action;
+  // B057: btn_EquipItem is gotoAndStop("disabled") for an unmet item (authored-actions.txt 0001c9b8): a disabled button gives no release.
+  if(action==DetailAction::equip&&!rows.empty()&&!rows[current].equipped&&!rows[current].requirements_met){action=DetailAction::none;error.clear();return true;}
+  if((action==DetailAction::transmute||action==DetailAction::drop)&&(rows.empty()||rows[current].equipped)){action=DetailAction::none;error.clear();return true;}
   // btn_left/btn_right: ClassChangeUp/ClassChangeDown (authored-actions.txt 0001d9ea-0001daeb): InvSlotId -1 with wrap to 9, or +1 with wrap to 0.
   if(action==DetailAction::previous||action==DetailAction::next){const unsigned slot=selection_.selected_slot();if(slot>9){action=DetailAction::none;error.clear();return true;}
    const unsigned target=action==DetailAction::previous?(slot>0?slot-1:9u):(slot<9?slot+1:0u);if(!open(target,error))return false;}
