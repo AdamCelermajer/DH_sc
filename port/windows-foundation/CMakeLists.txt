@@ -115,6 +115,17 @@ if(NOT WIN32)
   target_link_libraries(linux_sdl2_source_session_control_smoke_tests PRIVATE foundation_runtime_audio)
   add_test(NAME linux_sdl2_source_session_control COMMAND linux_sdl2_source_session_control_smoke_tests)
 endif()
+# Preview 15 startup (boot state machine, portable intro stream + inflate). Plain C++, no platform calls.
+add_library(foundation_startup STATIC features/startup/boot_flow_v1.cpp
+  features/startup/intro_stream_v1.cpp features/startup/inflate_raw_v1.cpp)
+target_include_directories(foundation_startup PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(dh-foundation PRIVATE foundation_startup)
+add_executable(startup_boot_flow_v1_tests features/startup/boot_flow_v1_tests.cpp)
+target_link_libraries(startup_boot_flow_v1_tests PRIVATE foundation_startup)
+add_test(NAME startup_boot_flow_v1 COMMAND startup_boot_flow_v1_tests)
+add_executable(startup_intro_stream_v1_tests features/startup/intro_stream_v1_tests.cpp)
+target_link_libraries(startup_intro_stream_v1_tests PRIVATE foundation_startup)
+add_test(NAME startup_intro_stream_v1 COMMAND startup_intro_stream_v1_tests)
 add_library(foundation_runtime_skills_menu STATIC
   features/generic_skills/generic_skills_page_v1.cpp
   features/generic_skills/runtime_skills_menu_v1.cpp
