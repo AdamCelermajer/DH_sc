@@ -119,6 +119,7 @@
 #include <sstream>
 #include <stdexcept>
 #include "features/spawn/spawn_character_v1.hpp" // P16 SPAWN: --spawn-test owner (default off)
+#include "features/spawn/actor_profile_derivation_v1.hpp" // P16 PROFILES: profile/melee/policy derivation from pydata (default path for unauthored rows)
 
 namespace f = dh::foundation;
 namespace fs = std::filesystem;
@@ -884,6 +885,9 @@ int main(int argc,char** argv) {
         // P16 SPAWN: pool of admitted slots and the CharacterTemplate table (both used only with --spawn-test).
         f::spawn::SpawnPoolV1 spawnPool;
         dh2::data::CharacterTemplateTableV78 spawnTemplateTable;
+        // P16 PROFILES: tables for profiles derived from CharacterTable/AnimTable rows, and the derived IDs to publish
+        // into the melee bindings once they load.
+        f::spawn::ProfileDerivationTablesV1 derivedTables;bool derivedTablesLoaded=false;std::vector<std::string> derivedProfileIds;
         auto loadContent=[&](f::OriginalScene& scene,f::CharacterVisual& visual) {
         if(sourcePlayerStanceEnabled) {
             const auto* profile=profiles.find(options.combat.playerProfileId);
@@ -1018,6 +1022,29 @@ int main(int argc,char** argv) {
                     std::vector<std::string> candidates;
                     if(!f::spawn::spawn_candidate_profiles_v1(test.name,properties.characters,spawnTemplateTable,candidates,error))throw std::runtime_error("Spawn test: "+error);
                     for(const auto& profileId:candidates) {
+                        // P16 PROFILES: a CharacterTable row with no authored profile/policy is derived from the original
+                        // tables (features/spawn/actor_profile_derivation_v1). Authored entries always win; derived melee
+                        // bindings are published after the melee XML loads (initializeCombat).
+                        if(!profiles.find(profileId)||options.combat.profiles.find(profileId)==options.combat.profiles.end()) {
+                            if(!derivedTablesLoaded) {
+                                if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))throw std::runtime_error("Profile derivation tables: "+error);
+                                derivedTablesLoaded=true;
+                            }
+                            if(!profiles.find(profileId)) {
+                                f::ActorProfile derived;
+                                if(f::spawn::derive_actor_profile_v1(derivedTables,profileId,derived,error)) {
+                                    if(!profiles.add_derived(derived,error))throw std::runtime_error("Derived profile: "+error);
+                                    derivedProfileIds.push_back(profileId);
+                                    std::cout<<"SPAWN profile derived from tables: "<<profileId<<" animationTable="<<derived.animation_table<<" states="<<derived.states.size()<<'\n';
+                                } else std::cout<<"SPAWN profile not derivable: "<<profileId<<" ("<<error<<")\n";
+                            }
+                            if(profiles.find(profileId)&&options.combat.profiles.find(profileId)==options.combat.profiles.end()) {
+                                f::CombatSessionProfile derivedPolicy;
+                                if(!f::spawn::derive_enemy_combat_policy_v1(derivedTables,profileId,derivedPolicy,error))throw std::runtime_error("Derived combat policy: "+error);
+                                derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&profileId!=options.combat.playerProfileId;
+                                options.combat.profiles.emplace(profileId,std::move(derivedPolicy));
+                            }
+                        }
                         const auto* profile=profiles.find(profileId);
                         const auto policy=options.combat.profiles.find(profileId);
                         if(!profile||policy==options.combat.profiles.end()||!reservedProfiles.insert(profileId).second) {
@@ -1069,6 +1096,14 @@ int main(int argc,char** argv) {
                 }
             }
             if(!meleeBindings.load(assets,options.meleeBindings,error))throw std::runtime_error("Melee bindings: "+error);
+            // P16 PROFILES: melee bindings for profiles derived from CharacterTable/AnimTable (no authored melee entry).
+            for(const auto& derivedId:derivedProfileIds) {
+                if(meleeBindings.find_actor(derivedId))continue;
+                f::OriginalMeleeActor derivedActor;
+                if(!f::spawn::derive_melee_actor_v1(derivedTables,derivedId,derivedActor,error))throw std::runtime_error("Derived melee: "+error);
+                if(!meleeBindings.add_derived_actor(std::move(derivedActor),error))throw std::runtime_error("Derived melee: "+error);
+                std::cout<<"SPAWN melee bindings derived from tables: "<<derivedId<<'\n';
+            }
             options.combat.playerVisualConfig=options.character;
             options.combat.selectedPlayerProfile=frontendStarted?&state:nullptr;
             if(populationStartupRandom){options.combat.initialRandomState=*populationStartupRandom;options.combat.diagnosticRngSeed.reset();}
