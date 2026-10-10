@@ -11,6 +11,7 @@
 #include <array>
 #include <cstdint>
 #include <optional>
+#include <map>
 #include <set>
 #include <string>
 #include <vector>
@@ -136,21 +137,25 @@ RuntimeWorldItemIdV1 select_world_item_target_v1(const RuntimeWorldItemAdapterV1
 // body begins contact with the item sensor and CharStateMachine::SM_IsMoving(0) holds,
 // the character is stored in the item (+0x2E4); GameObject::Update 0x38cbe8 then calls
 // Interact(character) (vtable +152) on the next update and clears it. No key and no
-// action button. This tracker reports the items whose sensor BEGINS contact with the
-// player while the player is moving, nearest first. Contact that begins while the player
-// is idle is remembered but reports nothing (original: no pickup until contact begins
-// again). Each contact is attempted once: a rejected item (inventory full, owner window,
-// potion capacity) is not retried until the player leaves its sensor and re-enters, so
-// a dropped item is not instantly re-collected. An item sliding into a walking player
-// begins contact when its box overlaps.
+// action button. This tracker returns the items to Interact with this frame, nearest
+// first: items whose sensor contains the player while the player is moving and for which
+// no attempt was made during this contact. Contact that begins while the player is idle
+// does nothing until the player moves (PC adaptation: the original mobile build had the
+// attack/action button -> Character::UseOOI as the fallback for that case; PC has no
+// pickup key). One attempt per contact: a rejected item (inventory full, owner window,
+// potion capacity) is not retried until the player leaves its sensor and re-enters.
+// Items the player dropped (owner set) always need a re-entry, so dropping an item and
+// walking away does not collect it again. An item sliding into a walking player is
+// collected the moment its box overlaps.
 class WorldItemContactTrackerV1 {
 public:
     std::vector<RuntimeWorldItemIdV1> begin_contacts(const RuntimeWorldItemAdapterV1&,
                                                      const std::array<float, 3>& player_position,
                                                      bool player_moving);
-    void clear() noexcept { inside_.clear(); }
+    void clear() noexcept { inside_.clear(); seen_.clear(); }
 private:
-    std::set<RuntimeWorldItemIdV1> inside_;
+    std::map<RuntimeWorldItemIdV1, bool> inside_; // item in contact -> pickup already attempted
+    std::set<RuntimeWorldItemIdV1> seen_;          // items the tracker has already observed
 };
 
 // PickUpType == "Automatic" (0), read from the ItemTable row.

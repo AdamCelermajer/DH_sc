@@ -317,14 +317,29 @@ int main(int argc, char** argv) try {
         check(contacts.begin_contacts(ground, {1000.0f, -200.0f, 10.0f}, true).empty(), "standing inside does not retrigger");
         check(contacts.begin_contacts(ground, {1005.0f, 0.0f, 10.0f}, true).size() == 1, "second item enters while the first is held");
         check(contacts.begin_contacts(ground, {1005.0f, 0.0f, 10.0f}, true).empty(), "no retrigger for either item");
-        // Contact that begins while the player stands still never picks up (SM_IsMoving gate), even after moving on inside.
+        // Contact that begins while the player stands still does nothing until the player moves (SM_IsMoving gate).
         check(contacts.begin_contacts(ground, {1000.0f, 900.0f, 10.0f}, false).empty(), "leaving while idle reports nothing");
         check(contacts.begin_contacts(ground, {1000.0f, 0.0f, 10.0f}, false).empty(), "idle contact begin reports nothing");
-        check(contacts.begin_contacts(ground, {1000.0f, 20.0f, 10.0f}, true).empty(), "starting to walk inside does not pick up");
+        { const auto started = contacts.begin_contacts(ground, {1000.0f, 20.0f, 10.0f}, true); check(started.size() == 2, "starting to walk inside the box collects (PC fallback for the action button)"); }
+        check(contacts.begin_contacts(ground, {1000.0f, 30.0f, 10.0f}, true).empty(), "one attempt per contact");
         // Leave and come back: contact begins again (a dropped/rejected item can be picked after re-entering).
         check(contacts.begin_contacts(ground, {1000.0f, 900.0f, 10.0f}, true).empty(), "leaving reports nothing");
         began = contacts.begin_contacts(ground, {1050.0f, 100.0f, 10.0f}, true);
         check(began.size() == 2 && began[0] == far_id && began[1] == near_id, "re-entering reports both, nearest first");
+        // An item the player dropped (owner set) needs a real re-entry: dropping while standing on it and walking away keeps it.
+        {
+            RuntimeWorldItemAdapterV1 dropped(env.tables);
+            WorldItemContactTrackerV1 own;
+            InventoryItem held; held.instance_id = "held-1"; held.definition_id = "Longsword01"; held.quantity = 1;
+            RuntimeWorldItemIdV1 dropped_id{};
+            check(dropped.publish_inventory_drop(held, {500.0f, 500.0f, 10.0f}, 1, 5000, dropped_id, error), error);
+            check(own.begin_contacts(dropped, {500.0f, 500.0f, 10.0f}, false).empty(), "dropped item under an idle player: nothing");
+            check(own.begin_contacts(dropped, {520.0f, 500.0f, 10.0f}, true).empty(), "walking away from a dropped item keeps it");
+            check(own.begin_contacts(dropped, {500.0f, 900.0f, 10.0f}, true).empty(), "left the dropped item's box");
+            check(own.begin_contacts(dropped, {500.0f, 730.0f, 10.0f}, true).empty(), "just outside the box (225 units)");
+            const auto back = own.begin_contacts(dropped, {500.0f, 650.0f, 10.0f}, true);
+            check(back.size() == 1 && back[0] == dropped_id, "re-entering the dropped item's box collects it");
+        }
         // A retired item (store cleared) drops out of the contact set; a new item sliding into a standing player begins contact.
         ground.clear();
         check(contacts.begin_contacts(ground, {1050.0f, 100.0f, 10.0f}, true).empty(), "retired item reports nothing");

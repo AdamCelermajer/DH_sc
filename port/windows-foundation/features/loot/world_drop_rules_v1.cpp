@@ -62,21 +62,33 @@ RuntimeWorldItemIdV1 select_world_item_target_v1(const RuntimeWorldItemAdapterV1
 
 std::vector<RuntimeWorldItemIdV1> WorldItemContactTrackerV1::begin_contacts(
     const RuntimeWorldItemAdapterV1& store, const std::array<float, 3>& player, bool player_moving) {
-    std::vector<std::pair<float, RuntimeWorldItemIdV1>> entered;
-    std::set<RuntimeWorldItemIdV1> now;
+    std::vector<std::pair<float, RuntimeWorldItemIdV1>> due;
+    std::map<RuntimeWorldItemIdV1, bool> now;
+    std::set<RuntimeWorldItemIdV1> seen;
     for (const auto& pair : store.entries()) {
         const auto& item = pair.second;
+        const bool first_sight = seen_.find(pair.first) == seen_.end();
+        seen.insert(pair.first);
         const float dx = item.source_position[0] - player[0];
         const float dy = item.source_position[1] - player[1];
         if (std::fabs(dx) > world_item_sensor_half_extent_v1 ||
             std::fabs(dy) > world_item_sensor_half_extent_v1) continue;
-        now.insert(pair.first);
-        if (player_moving && inside_.find(pair.first) == inside_.end()) entered.emplace_back(dx * dx + dy * dy, pair.first);
+        const auto known = inside_.find(pair.first);
+        // An item the player dropped (owner set) that appears under the player starts as attempted:
+        // it needs a real re-entry before it is collected again.
+        bool attempted = known != inside_.end() ? known->second
+                                                : (first_sight && item.owner_actor != invalid_actor_id);
+        if (player_moving && !attempted) {
+            attempted = true;
+            due.emplace_back(dx * dx + dy * dy, pair.first);
+        }
+        now[pair.first] = attempted;
     }
     inside_ = std::move(now);
-    std::sort(entered.begin(), entered.end());
+    seen_ = std::move(seen);
+    std::sort(due.begin(), due.end());
     std::vector<RuntimeWorldItemIdV1> out;
-    for (const auto& e : entered) out.push_back(e.second);
+    for (const auto& e : due) out.push_back(e.second);
     return out;
 }
 

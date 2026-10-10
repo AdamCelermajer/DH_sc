@@ -255,6 +255,7 @@ struct Options {
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
     f::InputMove2D scriptedMove{};
     int moveFrames=0;
+    std::vector<std::tuple<int,int,f::InputMove2D>> moveSegments; // B063 test hook: --move-segment FROM:TO:X,Y scripted stick input for frames [FROM,TO)
     bool scriptedRun=true;
     bool sourceBodyBounds=false;
     bool sourceNativeBodies=false;
@@ -405,6 +406,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-text") o.combatText=true;
         else if(arg=="--hud-portrait") {auto n=std::stoi(value());if(n<0||n>2)throw std::runtime_error("HUD portrait source frame must be 0..2");o.hudPortrait=unsigned(n);}
         else if(arg=="--move-axis") {auto v=vector(value());o.scriptedMove={v.x,v.y};}
+        else if(arg=="--move-segment") {const auto text=value();const auto c1=text.find(':'),c2=text.find(':',c1==std::string::npos?0:c1+1);if(c1==std::string::npos||c2==std::string::npos)throw std::runtime_error("Move segment requires FROM:TO:X,Y");auto v=vector(text.substr(c2+1)+",0");o.moveSegments.emplace_back(std::stoi(text.substr(0,c1)),std::stoi(text.substr(c1+1,c2-c1-1)),f::InputMove2D{v.x,v.y});}
         else if(arg=="--move-frames") {o.moveFrames=std::stoi(value());if(o.moveFrames<1)throw std::runtime_error("Move frames must be positive");}
         else if(arg=="--move-run") o.scriptedRun=true;
         else if(arg=="--move-walk") o.scriptedRun=false;
@@ -2973,6 +2975,7 @@ int main(int argc,char** argv) {
             if(frontendStarted&&!combatSession){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
             gameplayInput.run=runBound&&gameplayInput.run;
             if(drawn<options.moveFrames){gameplayInput.move2D=options.scriptedMove;gameplayInput.run=options.scriptedRun&&runBound;}
+            for(const auto& segment:options.moveSegments)if(int(drawn)>=std::get<0>(segment)&&int(drawn)<std::get<1>(segment)){gameplayInput.move2D=std::get<2>(segment);gameplayInput.run=options.scriptedRun&&runBound;}
             if(gameplayPaused)gameplayInput={};
             const bool playerControllerBlocked=combatSession&&(!combatSession->actor(combatSession->player_id())->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]);
             bindEnemyAI();
@@ -3271,7 +3274,8 @@ int main(int argc,char** argv) {
                             else if(!itemDisplayName(shown,shownName,textError))shownName=pickedId;
                             worldItemStatus=shownName;worldItemStatusRgb=rgb;worldItemStatusFrames=90;
                         } else if(pickup.outcome==f::loot::WorldItemPickupOutcomeV1::inventory_full) {
-                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError))worldItemStatus=text;else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
+                            // B063: the localized line carries font markup and may carry line breaks; the single-line HUD label needs plain text.
+                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError)){{std::string plain;bool inTag=false;for(const char ch:text){if(ch=='<'){inTag=true;continue;}if(ch=='>'&&inTag){inTag=false;continue;}if(!inTag)plain+=(static_cast<unsigned char>(ch)<32||ch==127)?' ':ch;}text=plain;}worldItemStatus=text;}else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
                             worldItemStatusRgb=0xFFFFFF;worldItemStatusFrames=90;
                         }
                     };
