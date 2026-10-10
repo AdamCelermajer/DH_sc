@@ -25,3 +25,19 @@ Preview11 release acceptance: B003/B006/B008/B026/B033/B034/B036 included; full 
 | B020 | Skill-tree Lock glyphs are drawn on top of the greyed skill icons (they were hidden under the opaque icon batch). Fresh Knight: Lock on cells 1,2,3,5,6,7, none on 0 and 4. | M-report.md: draw-order test failed before the fix at runtime_skills_menu_v1_tests.cpp:263; runtime_tests and generic_skills_page tests pass. | Preview 13 EXE 418FDB56: verify-ui-report.md and verify-final-report.md (locks present over greyed icons; Preview 12 has none). | Prerequisite chains: the SkillTable has no prerequisite field, the only gate is level vs RequiredLevel. B021 (subclass icons) is separate and open. |
 | B043 | Rogue/Mage: key-5 potion works after a Celest/Hotty MP spend (the Faery casts now spend MP through the same property add as the original UseMana). | I-report.md: Hotty runner with a negative control that fails on the old source; potion runner post-MP case. | Preview 13 EXE: `Source potion key=5 result=1 consumed=1 quantity=5->4 MPraw=7744->10304`; Preview 12: `could not synchronize live actor vital` (verify-play-report.md, verify-final-report.md). | HP restore not observed (HP was full); Mage path checked in verify-play only. |
 | B044 | A Rogue without an offhand weapon no longer fails at startup with `no damage marker: RoguePlayerBase/attack_offhand`; the offhand marker is required only when an offhand is equipped. | I-report.md; main.cpp one-line hunk. | Preview 13 EXE: Rogue Swamp run reaches gameplay and kills a lizard (dead=1, xp 8 then 16); Preview 12 fails. | Dual-dagger path not re-run in the final batch. |
+
+Preview 15 (package `windows-source-clock-v19-preview-15`, EXE SHA256 `2B70D38C18B92B3924913C7CB3FD795B7E9A375FBADB0AEE397594D584440E2B`, source `p15/integrate` c7027452; accepted by the user without the independent verifier's final verdict; the user tests by hand and reports errors). Evidence for each row is in `coordination/claude-preview15/<NAME>-report.md` and `verify-rc4-report.md` / `verify-rc5-report.md` (rc5 report is partial).
+
+| ID | Resolved behavior | Evidence | Remaining boundary |
+|---|---|---|---|
+| B046 | Equipment slot rail: icons clickable directly plus up/down arrows. | EQRAIL report; rc4 verifier. | none reported |
+| B047 | Dropped items use the original arc/scatter motion (no Z motion, stop 80 units short). | DROPANIM report; rc4 verifier. | rarity colour on drops |
+| B048 | Drop and pickup cues play (iPad sample assets staged). | DROPSOUND report; rc4 verifier (cue resolves, submitted). | audibility not confirmed by ear |
+| B049 | All stat points of a level-up are spendable; confirm-on-exit as the original. | POINTS report; rc4/rc5 reload checks match. | none reported |
+| B050 | Faery cast sound plays with no enemy hit. | FAERYSOUND report. | none reported |
+| B051 | Equipment avatar shows the idle stance. | AVATARPOSE report. | none reported |
+| B052 | Skill cast from a saved profile works (load ordering fix 0f722ba9). | CASTFIX report; repro job x-save-cast-k2. | none reported |
+| I025 | PC HUD uses the game's skill/potion button art with cooldown. | HUDBTN report. | Space action button art (Preview 16) |
+| I026 | Level-up feedback (portrait, FX set 135, sound). | LEVELUP / LEVELUPFX reports. | vertical column/burst not drawn (placeholder decision open) |
+| B028 | Lizard hurt cue wired (`Combat cue uid=284 event=hurt ... status=submitted`). | LIZARDHURT report; rc5 verifier log lines. | attack/death cues depend on assets |
+| B039 (final) | Audio stalls under CPU load fixed: WinMM control thread time-critical priority. Cause was CPU starvation, not the new sound files. | AUDIOSTALL report: shipped EXE 1/6/12 underruns vs fixed 0/0/0 in 3 loaded runs. | 1.8-3.2 s gaps never reproduced; not listened to; rc5 verifier did not finish its audio runs |
