@@ -46,11 +46,6 @@ constexpr std::array<float, 4> kBarTrack{0.07f, 0.03f, 0.02f, 1.0f};
 constexpr std::array<float, 4> kBarFill{0.82f, 0.1f, 0.07f, 1.0f};
 constexpr std::array<float, 4> kBarSpark{1.0f, 0.78f, 0.55f, 1.0f};
 
-// The authored tip field of menu_Loading is 437 px wide but the original reference frames show tip
-// lines about 650 stage px wide (the field is resized by the menu script); 680 reproduces the
-// reference line breaks. Inference from the video, not a recovered constant.
-constexpr float kTipWrapWidth = 680.0f;
-
 // Sutherland-Hodgman clip of a triangle against an axis-aligned rectangle (u,v interpolated).
 void clip_triangle(const ArtVertex* t, float x0, float x1, float y0, float y1, std::vector<ArtVertex>& out) {
     std::vector<ArtVertex> poly(t, t + 3), next;
@@ -104,22 +99,16 @@ void LoadingScreenV1::set_tip(LoadingTip tip) {
 void LoadingScreenV1::build_art() {
     if (artBuilt_ || !assets_) return;
     artBuilt_ = true;
-    static const char* const files[] = {"", "MenuGraphics01.tga", "MenuGraphics02.tga", "MenuGraphics03.tga",
-                                        "MenuGraphics04.tga", "MenuGraphics05.tga", "MenusGraphics.tga"};
-    bool ok = true;
-    for (int i = 1; i <= 6; ++i) {
-        try {
-            TextureImage image;
-            std::string error;
-            const auto path = resolve_content_path(*assets_, std::string("data/3d/textures/") + files[i]);
-            if (!load_texture(path, image, error)) {
-                ok = false;
-                continue;
-            }
-            artTex_[i] = renderer_.createTexture(int(image.width), int(image.height), image.rgba.data());
-        } catch (const std::exception&) {
-            ok = false;
+    bool ok = false;
+    try {
+        TextureImage image;
+        std::string error;
+        const auto path = resolve_content_path(*assets_, "data/3d/textures/MenusGraphics_droid.tga");
+        if (load_texture(path, image, error)) {
+            artTex_[1] = renderer_.createTexture(int(image.width), int(image.height), image.rgba.data());
+            ok = true;
         }
+    } catch (const std::exception&) {
     }
     artOk_ = ok;
 }
@@ -176,9 +165,8 @@ void LoadingScreenV1::build_labels(int w, int h) {
                         hr.w * s, rgba(hr), heading_);
     if (hasTip_) {
         const TextRect& tr = art.tip;
-        const float cx = tr.x + tr.w * 0.5f;
-        build_wrapped_label(renderer_, *assets_, tip_.text, int(std::lround(tr.size * s)),
-                            ox + (cx - kTipWrapWidth * 0.5f) * s, tr.y * s, kTipWrapWidth * s, rgba(tr), tipText_);
+        build_wrapped_label(renderer_, *assets_, tip_.text, int(std::lround(tr.size * s)), ox + tr.x * s, tr.y * s,
+                            tr.w * s, rgba(tr), tipText_);
     }
 }
 
