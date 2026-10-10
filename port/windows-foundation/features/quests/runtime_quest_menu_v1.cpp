@@ -8,6 +8,21 @@ bool fail(std::string& error,const char* message){error=message;return false;}
 bool same_quest(const CharacterQuestIdV1& a,const CharacterQuestIdV1& b){
     return a.collection==b.collection&&a.difficulty==b.difficulty&&a.row==b.row;
 }
+// One authored list (Assigned or Completed) as page rows; authored_row_index is the list position.
+std::vector<RuntimeQuestMenuRowV1> rows_of_list_v1(const CharacterQuestPageSnapshotV1& snapshot,
+    const RuntimeQuestMenuArtV1& art){
+    std::vector<RuntimeQuestMenuRowV1> rows;rows.reserve(snapshot.rows.size());
+    for(std::size_t index=0;index<snapshot.rows.size();++index){
+        const auto& row=snapshot.rows[index];
+        rows.push_back({row.id,row.title,row.current,
+            static_cast<std::uint32_t>(index),static_cast<std::uint32_t>(index*art.row_step_swf_pixels)});
+    }
+    return rows;
+}
+bool list_contains_v1(const CharacterQuestPageSnapshotV1& snapshot,const CharacterQuestIdV1& id){
+    return std::any_of(snapshot.rows.begin(),snapshot.rows.end(),
+        [&](const auto& row){return same_quest(row.id,id);});
+}
 std::array<float,6> compose(const std::array<float,6>& a,const std::array<float,6>& b){
     return {a[0]*b[0]+a[2]*b[1],a[1]*b[0]+a[3]*b[1],
             a[0]*b[2]+a[2]*b[3],a[1]*b[2]+a[3]*b[3],
@@ -109,15 +124,24 @@ bool RuntimeQuestMenuV1::refresh(std::uint32_t collection,
         staged.availability=RuntimeQuestMenuAvailabilityV1::unknown;
         frame_=std::move(staged);current_page_valid_=false;error.clear();return true;
     }
-    CharacterQuestPageSnapshotV1 snapshot;
-    if(!page_.refresh(collection,difficulty,category,policy_,snapshot,error))return false;
+    // Both authored lists are shown at once (source sheet: AllQuests/content/Assigned and .../Completed).
+    CharacterQuestPageSnapshotV1 assigned,completed;
+    if(!page_.refresh(collection,difficulty,CharacterQuestCategoryV1::assigned,policy_,assigned,error))return false;
+    if(!page_.refresh(collection,difficulty,CharacterQuestCategoryV1::completed,policy_,completed,error))return false;
     staged.availability=RuntimeQuestMenuAvailabilityV1::ready;
     staged.progress_origin=bucket.origin;
-    staged.rows.reserve(snapshot.rows.size());
-    for(std::size_t index=0;index<snapshot.rows.size();++index){
-        const auto& row=snapshot.rows[index];
-        staged.rows.push_back({row.id,row.title,row.current,
-            static_cast<std::uint32_t>(index),static_cast<std::uint32_t>(index*source_art.row_step_swf_pixels)});
+    staged.rows=rows_of_list_v1(assigned,source_art);
+    staged.completed_rows=rows_of_list_v1(completed,source_art);
+    // The CharacterMenu binding refreshes every frame while the tab is open. Keep the selected row while it is
+    // still listed (its details are re-read from the same progress), otherwise the selection is cleared.
+    if(frame_.selection){
+        const auto& id=frame_.selection->row.id;
+        const auto* list=list_contains_v1(assigned,id)?&assigned:list_contains_v1(completed,id)?&completed:nullptr;
+        if(list){
+            CharacterQuestPageSelectionV1 selection;
+            if(!page_.select(*list,id,selection,error))return false;
+            staged.selection=std::move(selection);
+        }
     }
     frame_=std::move(staged);current_page_valid_=true;error.clear();return true;
 }
@@ -126,15 +150,19 @@ bool RuntimeQuestMenuV1::route_hit(RuntimeQuestMenuHitV1 hit,
     const CharacterQuestIdV1& id,std::string& error) {
     if(!current_page_valid_||frame_.availability!=RuntimeQuestMenuAvailabilityV1::ready)
         return fail(error,"Quest SWF hit route requires a ready source page snapshot");
-    CharacterQuestPageSnapshotV1 snapshot;
-    if(!page_.refresh(frame_.collection,frame_.difficulty,frame_.category,
-                      policy_,snapshot,error))return false;
+    CharacterQuestPageSnapshotV1 assigned,completed;
+    if(!page_.refresh(frame_.collection,frame_.difficulty,CharacterQuestCategoryV1::assigned,
+                      policy_,assigned,error))return false;
+    if(!page_.refresh(frame_.collection,frame_.difficulty,CharacterQuestCategoryV1::completed,
+                      policy_,completed,error))return false;
     if(hit==RuntimeQuestMenuHitV1::quest_row_release){
+        // A row release selects from whichever authored list holds the row (Completed rows show details only).
+        const auto& list=list_contains_v1(assigned,id)?assigned:completed;
         CharacterQuestPageSelectionV1 selection;
-        if(!page_.select(snapshot,id,selection,error))return false;
+        if(!page_.select(list,id,selection,error))return false;
         frame_.selection=std::move(selection);error.clear();return true;
     }
-    if(!page_.activate(snapshot,id,policy_,error))return false;
+    if(!page_.activate(assigned,id,policy_,error))return false;
     if(!persist_progress_to_character(error))return false;
     frame_.selection.reset();
     // Source `NativeSetCurrentQuest` mutates currentquest; refresh consumes
@@ -177,40 +205,49 @@ bool RuntimeQuestCharacterMenuBindingV1::append_source_page(
             next.text.push_back({field,*snapshot.selection->details.title});
         else if(field.path=="menu_QuestLogSheetNEW/QuestDesc/Description/text"&&snapshot.selection&&snapshot.selection->details.pre_description)
             next.text.push_back({field,*snapshot.selection->details.pre_description});
+        // Tag above the title: Quest::IsPrimary selects MAIN QUEST, otherwise SIDE QUEST (menu.english 317/316).
+        else if(field.path=="menu_QuestLogSheetNEW/QuestMain/text"&&snapshot.selection)
+            key=snapshot.selection->details.primary?"MENU_MAIN_QUEST":"MENU_SIDE_QUEST";
         if(key){std::string value;if(!symbol(key,value))return false;
             if(!value.empty())next.text.push_back({field,std::move(value)});}
     }
 
-    const auto category_index=snapshot.category==CharacterQuestCategoryV1::assigned?0u:1u;
-    const auto parent=art.row_parent_matrices[category_index];
-    for(const auto& row:snapshot.rows){
-        const bool selected=snapshot.selection&&same_quest(snapshot.selection->row.id,row.id);
-        auto placement=parent;
-        const auto offset=static_cast<float>(row.authored_row_index*snapshot.art.row_step_swf_pixels);
-        placement[4]+=placement[2]*offset;placement[5]+=placement[3]*offset;
-        const auto state=selected?1u:0u;
-        const auto suffix=std::string("/row")+std::to_string(row.authored_row_index);
-        std::string last_role;
-        for(auto batch:art.row_art[state]){
-            place_batch(batch,placement,suffix);last_role=batch.role;
-            next.art.batches.push_back(std::move(batch));
-        }
-        for(auto solid:art.row_solids[state]){
-            next.solids.push_back(place_solid(std::move(solid),placement,suffix,last_role));
-        }
-        if(row.is_current){
-            for(auto batch:art.current_marker_art){place_batch(batch,placement,suffix);next.art.batches.push_back(std::move(batch));}
-            for(auto solid:art.current_marker_solids)next.solids.push_back(place_solid(solid,placement,suffix,last_role));
-        }
-        if(row.title){
-            for(auto field:art.row_fields[state]){
-                field.path="menu_QuestLogSheetNEW/AllQuests/"+
-                    std::string(category_index==0?"content/Assigned":"content/Completed")+
-                    "/btnQuests/TextBox/QuestName";
-                next.text.push_back({place_field(std::move(field),placement),*row.title});
+    // Assigned rows (parent 0, current marker, selectable) and Completed rows (parent 1, never selected
+    // with the orange state here: the source Completed list uses the same unselected button art).
+    auto draw_rows=[&](const std::vector<RuntimeQuestMenuRowV1>& rows,bool assigned_list){
+        const auto category_index=assigned_list?0u:1u;
+        const auto parent=art.row_parent_matrices[category_index];
+        for(const auto& row:rows){
+            const bool selected=snapshot.selection&&same_quest(snapshot.selection->row.id,row.id);
+            auto placement=parent;
+            const auto offset=static_cast<float>(row.authored_row_index*snapshot.art.row_step_swf_pixels);
+            placement[4]+=placement[2]*offset;placement[5]+=placement[3]*offset;
+            const auto state=selected?1u:0u;
+            const auto suffix=std::string(assigned_list?"/row":"/completed")+std::to_string(row.authored_row_index);
+            std::string last_role;
+            for(auto batch:art.row_art[state]){
+                place_batch(batch,placement,suffix);last_role=batch.role;
+                next.art.batches.push_back(std::move(batch));
+            }
+            for(auto solid:art.row_solids[state]){
+                next.solids.push_back(place_solid(std::move(solid),placement,suffix,last_role));
+            }
+            if(row.is_current&&assigned_list){
+                for(auto batch:art.current_marker_art){place_batch(batch,placement,suffix);next.art.batches.push_back(std::move(batch));}
+                for(auto solid:art.current_marker_solids)next.solids.push_back(place_solid(solid,placement,suffix,last_role));
+            }
+            if(row.title){
+                for(auto field:art.row_fields[state]){
+                    field.path="menu_QuestLogSheetNEW/AllQuests/"+
+                        std::string(assigned_list?"content/Assigned":"content/Completed")+
+                        "/btnQuests/TextBox/QuestName";
+                    next.text.push_back({place_field(std::move(field),placement),*row.title});
+                }
             }
         }
-    }
+    };
+    draw_rows(snapshot.rows,true);
+    draw_rows(snapshot.completed_rows,false);
     if(snapshot.selection&&snapshot.selection->activation_visible){
         next.art.batches.insert(next.art.batches.end(),art.activate_art.begin(),art.activate_art.end());
         next.solids.insert(next.solids.end(),art.activate_solids.begin(),art.activate_solids.end());

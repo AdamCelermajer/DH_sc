@@ -8,17 +8,15 @@
 namespace dh::foundation::quest_runtime {
 namespace {
 
-// Authored objective description StringID of the row (first objective with a usable id).
-// The none sentinel (1835016) and negative ids mean "no authored text". The source objective
-// sentence is built by ObjectiveList::GetDesc through each objective's GetDescription
-// (not decoded yet), so Act 1 rows normally yield -1 here; text_fields[2] is the AREA name.
+// Authored quest description StringID: Quest::GetPreDescription (definition +8 = text_fields[1]).
+// IDA Quest::SetState case 6 (NEW QUEST) and case 12 (QUEST COMPLETED) use this string, and the Quest
+// Log pane shows it as the description. The objective-list sentence (Quest::GetObjectiveDescription,
+// text_fields[3] then ObjectiveList::GetDesc) is empty for every Act 1 row because the objective
+// description ids are -1, so it is not used here. The none sentinel (1835016) means "no text".
 constexpr std::int32_t kSourceNoneStringV1 = 1835016;
 std::int32_t row_objective_text_v1(const dh2::data::QuestDefinitionV51& def) {
-    for (const auto& objective : def.objectives) {
-        const auto id = objective.description;
-        if (id >= 0 && id != kSourceNoneStringV1) return id;
-    }
-    return -1;
+    const auto id = def.text_fields[1];
+    return (id >= 0 && id != kSourceNoneStringV1) ? id : -1;
 }
 
 using Objective = dh2::data::QuestObjectiveDefinitionV51;

@@ -51,44 +51,52 @@ bool resolve_source_quest_menu_hit_v1(const RuntimeQuestMenuFrameV1& frame,
     if(authored_stage_x<0.f||authored_stage_x>480.f||
        authored_stage_y<0.f||authored_stage_y>320.f){out=staged;error.clear();return true;}
 
-    // Activate is a sibling control, visible only for a selected Assigned row.
-    if(frame.category==CharacterQuestCategoryV1::assigned&&frame.selection&&
-       frame.selection->activation_visible&&in_activate_source_hitzone(
+    // Activate is a sibling control, visible only for a selected Assigned row (activation_visible is set by the page).
+    if(frame.selection&&frame.selection->activation_visible&&in_activate_source_hitzone(
            authored_stage_x,authored_stage_y)) {
         staged.handled=true;staged.hit=RuntimeQuestMenuHitV1::activate_release;
         staged.quest=frame.selection->row.id;out=staged;error.clear();return true;
     }
 
-    const auto category=frame.category==CharacterQuestCategoryV1::assigned?0u:1u;
+    // Row contours: the unselected button shape (parent 0 = Assigned, parent 1 = Completed).
     const auto& art=original_runtime_quest_menu_art_v1();
-    const auto& source_rows=art.row_solids[category];
+    const auto& source_rows=art.row_solids[0];
     const auto hit_shape=std::find_if(source_rows.begin(),source_rows.end(),[](const auto& solid){
         return solid.geometry.shape_id==106&&solid.geometry.role=="btnQuests/d9";
     });
     if(hit_shape==source_rows.end()||hit_shape->geometry.triangles.empty()||
        hit_shape->geometry.triangles.size()%3!=0)
         return fail(error,"Original Quest row hit contour shape 106 is unavailable or malformed");
-    const auto& parent=art.row_parent_matrices[category];
-    for(const auto& row:frame.rows) {
-        if(row.id.collection!=frame.collection||row.id.difficulty!=frame.difficulty)
-            return fail(error,"Quest source hit row identity differs from the current page owner/category");
-        const float offset=static_cast<float>(row.authored_row_index*frame.art.row_step_swf_pixels);
-        for(std::size_t i=0;i<hit_shape->geometry.triangles.size();i+=3) {
-            auto project=[&](const HudGeometryVertex& vertex){
-                return HudGeometryVertex{
-                    parent[0]*vertex.x+parent[2]*vertex.y+parent[4]+parent[2]*offset,
-                    parent[1]*vertex.x+parent[3]*vertex.y+parent[5]+parent[3]*offset,
-                    0.f,0.f};
-            };
-            const auto a=project(hit_shape->geometry.triangles[i]);
-            const auto b=project(hit_shape->geometry.triangles[i+1]);
-            const auto c=project(hit_shape->geometry.triangles[i+2]);
-            if(in_triangle(authored_stage_x,authored_stage_y,a,b,c)) {
-                staged.handled=true;staged.hit=RuntimeQuestMenuHitV1::quest_row_release;
-                staged.quest=row.id;out=staged;error.clear();return true;
+    bool identity_ok=true;
+    auto hit_list=[&](const std::vector<RuntimeQuestMenuRowV1>& rows,std::size_t category)->bool {
+        const auto& parent=art.row_parent_matrices[category];
+        for(const auto& row:rows) {
+            if(row.id.collection!=frame.collection||row.id.difficulty!=frame.difficulty) {
+                identity_ok=false;return false;
+            }
+            const float offset=static_cast<float>(row.authored_row_index*frame.art.row_step_swf_pixels);
+            for(std::size_t i=0;i<hit_shape->geometry.triangles.size();i+=3) {
+                auto project=[&](const HudGeometryVertex& vertex){
+                    return HudGeometryVertex{
+                        parent[0]*vertex.x+parent[2]*vertex.y+parent[4]+parent[2]*offset,
+                        parent[1]*vertex.x+parent[3]*vertex.y+parent[5]+parent[3]*offset,
+                        0.f,0.f};
+                };
+                const auto a=project(hit_shape->geometry.triangles[i]);
+                const auto b=project(hit_shape->geometry.triangles[i+1]);
+                const auto c=project(hit_shape->geometry.triangles[i+2]);
+                if(in_triangle(authored_stage_x,authored_stage_y,a,b,c)) {
+                    staged.handled=true;staged.hit=RuntimeQuestMenuHitV1::quest_row_release;
+                    staged.quest=row.id;return true;
+                }
             }
         }
-    }
+        return false;
+    };
+    if(!hit_list(frame.rows,0)&&identity_ok)
+        hit_list(frame.completed_rows,1);
+    if(!identity_ok)
+        return fail(error,"Quest source hit row identity differs from the current page owner/category");
     out=staged;error.clear();return true;
 }
 

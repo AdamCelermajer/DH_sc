@@ -46,7 +46,8 @@ struct RuntimeQuestMenuFrameV1 {
     CharacterQuestCategoryV1 category{CharacterQuestCategoryV1::assigned};
     std::uint32_t collection{};
     std::int32_t difficulty{};
-    std::vector<RuntimeQuestMenuRowV1> rows;
+    std::vector<RuntimeQuestMenuRowV1> rows;            // Assigned list (AllQuests/content/Assigned)
+    std::vector<RuntimeQuestMenuRowV1> completed_rows;  // Completed list (AllQuests/content/Completed); no activate
     std::optional<CharacterQuestPageSelectionV1> selection;
 };
 

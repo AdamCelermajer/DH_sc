@@ -10,6 +10,7 @@ struct SourceQuestPageTextV1 {
     std::optional<std::string> pre_description;
     std::optional<std::string> objective_description;
     std::optional<std::string> post_description;
+    bool primary{};   // Quest::IsPrimary (MAIN QUEST tag when true, SIDE QUEST otherwise)
 };
 
 // Borrows the already-loaded source StringManager cache/environment. It does
