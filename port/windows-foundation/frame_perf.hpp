@@ -39,6 +39,11 @@ public:
     DrawCounters& counters() noexcept {return counters_;}
     // Free-form line (e.g. GL vendor, swap interval) to stdout and the log file.
     void note(const std::string& text) {if(enabled_)emit(text);}
+    // GPU frame time from timestamp queries (collected asynchronously; may lag a few frames behind).
+    void record_gpu(double elapsedMs) noexcept {
+        if(!enabled_)return;
+        ++gpuCount_;gpuTotal_+=elapsedMs;gpuWorst_=std::max(gpuWorst_,elapsedMs);++secondGpuCount_;secondGpuTotal_+=elapsedMs;
+    }
     // Charge the time since the previous mark to `phase` (and the counters accumulated since then).
     void mark(Phase phase) noexcept {
         if(!enabled_)return;
@@ -115,6 +120,8 @@ private:
                  <<" clientKB="<<double(c.clientBytes)/1024.0/n<<" vboDraws="<<double(c.vboDraws)/n<<" culled="<<double(c.culledRanges)/n;}
             std::uint64_t uploads=0;for(const auto& c:secondCounters_)uploads+=c.textureUploads;
             g<<" | textureUploads="<<uploads;
+            if(secondGpuCount_)g<<" | gpuMsPerFrame="<<secondGpuTotal_/double(secondGpuCount_);
+            secondGpuCount_=0;secondGpuTotal_=0;
             emit(g.str());
             secondStart_=now;secondFrames_=0;secondTotal_=0;secondWorst_=0;secondPhase_.fill(0.0);secondCounters_.fill(DrawCounters{});
         }
@@ -129,7 +136,7 @@ private:
         stats_={sorted.size(),sum/sorted.size(),pct(.5),pct(.95),pct(.99),sorted.back(),workTotal_/sorted.size(),over};
         std::ostringstream o;
         o<<"Perf summary frames="<<sorted.size()<<" avgMs="<<sum/sorted.size()<<" p50="<<pct(.5)<<" p95="<<pct(.95)<<" p99="<<pct(.99)<<" maxMs="<<sorted.back()
-         <<" workMs="<<workTotal_/sorted.size();
+         <<" workMs="<<workTotal_/sorted.size()<<" gpuAvgMs="<<(gpuCount_?gpuTotal_/double(gpuCount_):-1.0)<<" gpuMaxMs="<<gpuWorst_;
         for(int i=0;i<phase_count;++i)o<<' '<<phase_names[i]<<'='<<totalPhase_[i]/sorted.size();
         o<<" over33ms="<<over;
         emit(o.str());
@@ -141,6 +148,7 @@ private:
     std::array<DrawCounters,phase_count> phaseCounters_{},secondCounters_{};
     std::uint64_t frameIndex_=0,secondFrames_=0,spikes_=0;
     double secondTotal_=0,secondWorst_=0,workTotal_=0;
+    std::uint64_t gpuCount_=0,secondGpuCount_=0;double gpuTotal_=0,gpuWorst_=0,secondGpuTotal_=0;
     std::vector<float> all_;
     std::vector<ProbeStat> probes_;
     std::ofstream file_;

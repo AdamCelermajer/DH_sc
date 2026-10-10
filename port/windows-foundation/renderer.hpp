@@ -119,7 +119,11 @@ public:
     void setGlLoader(void* (*loader)(const char*)) noexcept { glLoader_ = loader; }
     // Drop cached GPU buffers/scans of static meshes (call when level geometry is replaced).
     void invalidateStaticGeometry();
+    // B066 (DH_PERF only): GPU frame time via timestamp queries (ARB_timer_query), read back a few frames later without stalling.
+    struct GpuTimer { std::uint32_t queries[4][2] = {}; unsigned next = 0, pending = 0; bool tried = false, usable = false; } gpuTimer_;
     void endFrame();
+    void gpuTimerBegin();
+    void gpuTimerEnd();
 
     // RGBA8 rows are supplied in OpenGL texture coordinate order.
     std::uint32_t createTexture(int width, int height, const std::uint8_t* rgba);

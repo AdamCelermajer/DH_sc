@@ -149,6 +149,7 @@ void Renderer::resize(int width, int height) {
 }
 
 void Renderer::beginFrame(const Camera& camera) {
+    gpuTimerBegin();
     camera_ = camera;
     glEnable(GL_DEPTH_TEST);glDepthFunc(GL_LEQUAL);glCullFace(GL_BACK);glFrontFace(GL_CCW);
     glDisable(GL_BLEND);glDisable(GL_ALPHA_TEST);
@@ -554,7 +555,10 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
     glPopMatrix();
 }
 
-void Renderer::endFrame() { glFlush(); }
+void Renderer::endFrame() {
+    gpuTimerEnd();
+    glFlush();
+}
 
 std::uint32_t Renderer::createTexture(int width, int height, const std::uint8_t* rgba) {
     if (width <= 0 || height <= 0 || !rgba) return 0;
@@ -606,4 +610,61 @@ void Renderer::destroyTexture(std::uint32_t texture) {
     }
 }
 
+} // namespace dh::foundation
+
+// B066: GPU-side frame time (DH_PERF=1 only). Two GL_TIMESTAMP queries bracket the frame; results are collected a few
+// frames later when available, so nothing ever waits for the GPU.
+namespace dh::foundation {
+namespace {
+constexpr GLenum kTimestamp = 0x8E28, kResultAvailable = 0x8867, kResult = 0x8866;
+struct TimerApi {
+    using GenQ = void (APIENTRY*)(GLsizei, GLuint*);
+    using Counter = void (APIENTRY*)(GLuint, GLenum);
+    using GetI = void (APIENTRY*)(GLuint, GLenum, GLint*);
+    using GetU64 = void (APIENTRY*)(GLuint, GLenum, std::uint64_t*);
+    GenQ gen = nullptr; Counter counter = nullptr; GetI geti = nullptr; GetU64 get64 = nullptr;
+};
+TimerApi& timerApi() { static TimerApi api; return api; }
+} // namespace
+
+void Renderer::gpuTimerBegin() {
+    if (!perf::FramePerf::get().enabled() || !glLoader_) return;
+    auto& timer = gpuTimer_;
+    auto& api = timerApi();
+    if (!timer.tried) {
+        timer.tried = true;
+        api.gen = reinterpret_cast<TimerApi::GenQ>(glLoader_("glGenQueries"));
+        api.counter = reinterpret_cast<TimerApi::Counter>(glLoader_("glQueryCounter"));
+        api.geti = reinterpret_cast<TimerApi::GetI>(glLoader_("glGetQueryObjectiv"));
+        api.get64 = reinterpret_cast<TimerApi::GetU64>(glLoader_("glGetQueryObjectui64v"));
+        if (api.gen && api.counter && api.geti && api.get64) {
+            for (auto& pair : timer.queries) api.gen(2, pair);
+            timer.usable = true;
+        }
+    }
+    if (!timer.usable || timer.pending >= 4) return;
+    api.counter(timer.queries[timer.next][0], kTimestamp);
+}
+
+void Renderer::gpuTimerEnd() {
+    auto& timer = gpuTimer_;
+    if (!timer.usable) return;
+    auto& api = timerApi();
+    if (timer.pending < 4) {
+        api.counter(timer.queries[timer.next][1], kTimestamp);
+        timer.next = (timer.next + 1) % 4; ++timer.pending;
+    }
+    // Collect finished frames, oldest first.
+    while (timer.pending > 0) {
+        const unsigned oldest = (timer.next + 4 - timer.pending) % 4;
+        GLint available = 0;
+        api.geti(timer.queries[oldest][1], kResultAvailable, &available);
+        if (!available) break;
+        std::uint64_t t0 = 0, t1 = 0;
+        api.get64(timer.queries[oldest][0], kResult, &t0);
+        api.get64(timer.queries[oldest][1], kResult, &t1);
+        perf::FramePerf::get().record_gpu(double(t1 - t0) / 1.0e6);
+        --timer.pending;
+    }
+}
 } // namespace dh::foundation

@@ -10,8 +10,9 @@ namespace dh::foundation {
 void OverlayRenderer::begin(int width, int height) {
     if (active_) end();
     glGetIntegerv(GL_MATRIX_MODE,&previousMatrixMode_);
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+    // B066: only the state groups the overlay (and its scissored HUD clips) can change; ALL_ATTRIB_BITS copies every group each frame.
+    glPushAttrib(GL_ENABLE_BIT|GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_TEXTURE_BIT|GL_CURRENT_BIT|GL_TRANSFORM_BIT|GL_SCISSOR_BIT|GL_VIEWPORT_BIT|GL_LIGHTING_BIT|GL_POLYGON_BIT|GL_STENCIL_BUFFER_BIT);
+    glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT|GL_CLIENT_PIXEL_STORE_BIT);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();

@@ -2,6 +2,7 @@
 
 #include <GL/gl.h>
 
+#include <cstdlib>
 #include <limits>
 #include <utility>
 
@@ -129,7 +130,11 @@ bool RuntimeEffectsRendererV1::finish_and_drain(std::string& error) {
     }
     if (!draw_started_)
         return fail(error, "FX frame loans require draw and GL completion before drain");
-    glFinish();
+    // B066: glFinish here forced a full CPU/GPU round trip every frame an FX packet was on screen (CPU+GPU time per frame
+    // instead of max). Client-array draws are consumed when glDrawElements returns, so the loaned packet memory is already
+    // safe to release; keep the synchronous finish only for diagnostics (DH_GL_FINISH=1).
+    static const bool synchronousFinish=[]{const char* v=std::getenv("DH_GL_FINISH");return v&&*v&&*v!='0';}();
+    if(synchronousFinish)glFinish();
     const auto gl_error = glGetError();
     if (gl_error != GL_NO_ERROR)
         return fail(error, "Root Renderer reported a GL error before FX queue drain");
