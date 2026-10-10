@@ -2754,6 +2754,7 @@ int main(int argc,char** argv) {
                 std::cerr<<"Door condition diagnostic: "<<doorError<<'\n';
             for(const auto& n:doorNotices)std::cerr<<"Door notice: "<<n<<'\n';
             if(!f::doors::restore_door_world_state_v1(*combatSession->world(),doorRuntime,doorError))throw std::runtime_error("Door restore: "+doorError);
+            for(auto& dv:doorRuntime.views())std::cout<<"Door view "<<dv.instance->name<<" state="<<int(dv.state)<<" present="<<(dv.present?1:0)<<" meshes="<<(dv.visual?dv.visual->meshes().size():0)<<" at="<<dv.instance->transform[12]<<','<<dv.instance->transform[13]<<','<<dv.instance->transform[14]<<'\n';
             std::size_t presentDoors=0;for(std::size_t i=0;i<doorRuntime.size();++i)if(doorRuntime.present(i))++presentDoors;
             std::cout<<"Doors refreshed present="<<presentDoors<<"/"<<doorRuntime.size()<<" levers="<<leverRuntime.size()<<" decor="<<decorRuntime.size()<<" (after condition watch prime)"<<'\n';
         };
