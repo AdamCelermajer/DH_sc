@@ -17,11 +17,17 @@ struct ProceduralModuleV1 {
     // serialization or a replacement for main-owned registered defaults.
     std::map<std::string,std::string> overrides;
 };
+struct ProceduralReferenceRepairV1 {
+    std::uint32_t tile{};
+    std::string property,authored_uri,resolved_uri,reason;
+};
 struct ProceduralModulePlanV1 {
     ProceduralLayoutResultV1 layout; // Retains full rule/MGX/list graph and visit identity.
     std::vector<XmlDocumentV1::Borrow> mvx_documents;
     std::vector<ProceduralModuleV1> modules;
     std::uint32_t returned_index{};
+    // Original setter_attempts and retained XML stay unchanged by this overlay.
+    std::vector<ProceduralReferenceRepairV1> reference_repairs;
 };
 bool project_procedural_module_v1(const ProceduralLayoutTileV1&,std::uint32_t index,
     const ProceduralBlockV1&,const std::string& folder,const std::string& target,
@@ -30,6 +36,7 @@ bool project_procedural_module_v1(const ProceduralLayoutTileV1&,std::uint32_t in
 // Missing MVX is retained explicitly, matching the original optional Open branch.
 // Missing MGP/MVP dependencies are checked by the subsequent source stage.
 // Failed candidates leave out unchanged, including its retained source graph.
-bool prepare_procedural_modules_v1(const assets::ZipAssetPackV1&,
+// Original production MVX LoadFromBuffer path; inspection API stays separate.
+bool prepare_procedural_modules_v1(const ProceduralAssetSourceV1&,
     const ProceduralLayoutResultV1&,ProceduralModulePlanV1& out,std::string& error);
 }
