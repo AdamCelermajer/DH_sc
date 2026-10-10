@@ -146,6 +146,17 @@ std::vector<unsigned char> encode(const CharacterState& state) {
     }
     w.integer(state.source_quest_progress_cqpg.size(),4);
     w.bytes.insert(w.bytes.end(),state.source_quest_progress_cqpg.begin(),state.source_quest_progress_cqpg.end());
+    // Schema v4 tail (append-only): difficulty, per-slot menu metadata, visited modules.
+    w.integer(unsigned_bits(state.current_difficulty),4);
+    w.integer(unsigned_bits(state.unlocked_difficulty),4);
+    w.integer(state.menu_metadata.known?1:0,1);
+    w.integer(state.menu_metadata.save_time,4);
+    for(const auto row:state.menu_metadata.level_row)w.integer(unsigned_bits(row),4);
+    for(const auto act:state.menu_metadata.current_act)w.integer(unsigned_bits(act),4);
+    w.integer(state.visited_modules.size(),4);
+    for(const auto& entry:state.visited_modules){
+        w.string(entry.level_uri);w.integer(entry.module_id,4);w.integer(entry.visited,1);
+    }
     w.check_size();
     return std::move(w.bytes);
 }
@@ -210,6 +221,22 @@ CharacterState decode(const std::vector<unsigned char>& bytes) {
         const auto size=r.u32();
         if(size>character_quest_blob_limit||size>bytes.size()-r.position)throw std::runtime_error("Invalid source quest progress length");
         state.source_quest_progress_cqpg.assign(bytes.begin()+r.position,bytes.begin()+r.position+size);r.position+=size;
+    }
+    if(serialized_schema>=4){
+        state.current_difficulty=signed_bits(r.u32());
+        state.unlocked_difficulty=signed_bits(r.u32());
+        state.menu_metadata.known=r.flag();
+        state.menu_metadata.save_time=r.u32();
+        for(auto& row:state.menu_metadata.level_row)row=signed_bits(r.u32());
+        for(auto& act:state.menu_metadata.current_act)act=signed_bits(r.u32());
+        const auto visited=r.u32();
+        if(visited>character_visited_limit)throw std::runtime_error("Invalid save visited-module length");
+        for(auto count=visited;count>0;--count){
+            CharacterVisitedModule entry;
+            entry.level_uri=r.string();entry.module_id=r.u32();
+            entry.visited=static_cast<std::uint8_t>(r.integer(1));
+            state.visited_modules.push_back(std::move(entry));
+        }
     }
     if (r.position != bytes.size()) throw std::runtime_error("Unexpected trailing save data");
     require_valid(state);

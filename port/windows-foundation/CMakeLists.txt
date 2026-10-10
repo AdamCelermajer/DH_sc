@@ -255,6 +255,9 @@ add_library(foundation_frontend STATIC
   ../game-data/class_preview_setup.cpp ../game-data/loot_tables_v2.cpp
   ../game-data/fresh_player_profile_v1.cpp
   ../engine-ui/edit_text_definition_v1.cpp)
+# P14 schema: per-slot menu metadata stamping + panel projection (engine-ui menu_save_slot_projection_v1).
+target_sources(foundation_frontend PRIVATE features/menu_metadata/menu_metadata_v1.cpp ../game-data/level_tables.cpp
+  ../engine-ui/menu_save_slot_projection_v1.cpp ../engine-ui/save_slot_date_v1.cpp)
 target_link_libraries(foundation_frontend PUBLIC foundation_data ${DH2_PLATFORM_LIBRARIES})
 target_include_directories(foundation_frontend PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
@@ -710,3 +713,14 @@ add_executable(combat_session_presentation_state_tests tests/combat_session_pres
 target_link_libraries(combat_session_presentation_state_tests PRIVATE foundation_data)
 add_test(NAME combat_session_presentation_state COMMAND combat_session_presentation_state_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+
+# P14 schema v4: CharacterState codec (difficulty, menu metadata, visited modules, CQPG v2 counters).
+add_executable(schema_v4_tests tests/schema_v4_tests.cpp)
+target_link_libraries(schema_v4_tests PRIVATE foundation_data)
+add_test(NAME schema_v4 COMMAND schema_v4_tests)
+# P14 schema: LevelList row 41 = 001_swamp (The Boglands), stamping rules, slot panel projection.
+add_executable(menu_metadata_v1_tests features/menu_metadata/menu_metadata_v1_tests.cpp)
+target_link_libraries(menu_metadata_v1_tests PRIVATE foundation_frontend)
+add_test(NAME menu_metadata_v1 COMMAND menu_metadata_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../android-native/app/src/main/assets")

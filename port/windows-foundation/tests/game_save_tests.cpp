@@ -45,6 +45,9 @@ static std::vector<char> legacy_game_save_v1(const std::vector<char>& v2){
     at+=1;count=read_u32(v2,at);at+=std::size_t(count)*12;
     at+=4+1+3*(4+5*3); // faery list, known flag, three exact five-entry saves
     if(schema>=3){const auto quest_bytes=read_u32(v2,at);at+=quest_bytes;}
+    if(schema>=4){ // difficulty x2, known, save date, 3 level rows, 3 acts, visited list
+        at+=4+4+1+4+12+12;count=read_u32(v2,at);for(std::uint32_t i=0;i<count;++i){skip_text(v2,at);at+=4+1;}
+    }
     if(at>payload_end)throw std::runtime_error("test v2 extension parser overflow");
     erase_ranges.emplace_back(extension_start,at);
     std::vector<char> legacy(v2.begin(),v2.begin()+static_cast<std::ptrdiff_t>(payload_end));
@@ -91,6 +94,11 @@ int main(int argc,char** argv){try{
     character.source_faery_list_id=1;character.source_faery_state_known=true;
     character.faery_by_difficulty[0].current_faery=2;
     character.faery_by_difficulty[0].faeries[2]={1,7};
+    // Schema v4 tail (P14): difficulty, per-slot menu metadata, visited modules.
+    character.current_difficulty=1;character.unlocked_difficulty=2;
+    character.menu_metadata.known=true;character.menu_metadata.save_time=1760113980u;
+    character.menu_metadata.level_row={41,43,-1};character.menu_metadata.current_act={1,2,3};
+    character.visited_modules={{"original/level",3,1},{"original/level",9,0}};
     auto* live=world.find_actor(1);live->transform.position={13,27,4};live->action=CharacterAction::attacking;live->target_id=2;
     apply_actor_damage(*live,5.5f);apply_actor_damage(*world.find_actor(2),world.find_actor(2)->health);
     rng.seed=98765;rng.calls=117; // Explicit already-advanced test stream.
@@ -106,6 +114,11 @@ int main(int argc,char** argv){try{
         loaded.actors[0].combat.sheets.gear==saved.actors[0].combat.sheets.gear&&
         loaded.actors[0].traits.main_item->words[35]==12*256&&
         loaded.character.schema_version==character_schema_version&&
+        loaded.character.current_difficulty==1&&loaded.character.unlocked_difficulty==2&&
+        loaded.character.menu_metadata.known&&loaded.character.menu_metadata.save_time==1760113980u&&
+        loaded.character.menu_metadata.level_row==character.menu_metadata.level_row&&
+        loaded.character.menu_metadata.current_act==character.menu_metadata.current_act&&
+        loaded.character.visited_modules.size()==2&&loaded.character.visited_modules[1].module_id==9&&
         loaded.character.source_quest_progress_cqpg==character.source_quest_progress_cqpg&&
         loaded.character.stats.endurance==18.5f&&loaded.character.stats.energy==6.25f&&
         loaded.character.source_endurance_energy_known&&loaded.character.source_points_known&&
@@ -135,6 +148,8 @@ int main(int argc,char** argv){try{
           !migrated.character.source_skill_slots_known&&
           !migrated.character.source_faery_state_known&&migrated.character.skill_slots.empty()&&
           migrated.character.source_quest_progress_cqpg.empty()&&
+          migrated.character.current_difficulty==0&&migrated.character.unlocked_difficulty==0&&
+          !migrated.character.menu_metadata.known&&migrated.character.visited_modules.empty()&&
           migrated.character.source_faery_list_id==-1&&migrated.character.equipment[0].equipment_set==-1&&
           migrated.character.equipment[0].source_slot==-1,
           "legacy game save v1 fields/new-field unknown defaults differ");

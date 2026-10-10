@@ -108,18 +108,18 @@ DynamicTextResult saved_profile_text_bindings(const CharacterState& state,
         return result;
     }
     result.fields.push_back(plain(prefix + "player_class/text", class_label));
-    result.fields.push_back(plain(prefix + "Hud_Level/text", "LEVEL " + std::to_string(state.stats.level)));
+    result.fields.push_back(plain(prefix + "Hud_Level/text", p.level_text.empty() ? "LEVEL " + std::to_string(state.stats.level) : p.level_text));
     // Emit the exact SWF text receivers even when this portable save schema
     // has no source fact for them. Empty text clears the timeline's static
     // Warrior placeholder instead of presenting it as selected-profile data.
-    result.fields.push_back(plain(prefix + "Hud_Act/text", p.current_act_known ? "Act " + std::to_string(p.current_act) : ""));
+    result.fields.push_back(plain(prefix + "Hud_Act/text", p.current_act_known ? (p.act_text.empty() ? "Act " + std::to_string(p.current_act) : p.act_text) : ""));
     result.fields.push_back(plain(prefix + "Hud_Location/text", p.localized_location));
     if(p.difficulty_known&&p.difficulty>2){result.error="Saved-profile difficulty is outside the original three modes";result.fields.clear();return result;}
-    result.fields.push_back(plain(prefix + "Last_Save/text", p.formatted_save_date.empty() ? "" : "Last Save"));
+    result.fields.push_back(plain(prefix + "Last_Save/text", p.formatted_save_date.empty() ? "" : (p.last_save_label.empty() ? "Last Save" : p.last_save_label)));
     result.fields.push_back(plain(prefix + "Last_Save_Infos/text", p.formatted_save_date));
     static constexpr const char* difficulties[] = {"Normal", "Hard", "Heroic"};
-    result.fields.push_back(plain(prefix + "DifficultyTitle/text", p.difficulty_known ? "Difficulty:" : ""));
-    result.fields.push_back(plain(prefix + "Difficulty/text", p.difficulty_known ? difficulties[p.difficulty] : ""));
+    result.fields.push_back(plain(prefix + "DifficultyTitle/text", p.difficulty_known ? (p.difficulty_title.empty() ? "Difficulty:" : p.difficulty_title) : ""));
+    result.fields.push_back(plain(prefix + "Difficulty/text", p.difficulty_known ? (p.difficulty_text.empty() ? difficulties[p.difficulty] : p.difficulty_text) : ""));
     return result;
 }
 }
