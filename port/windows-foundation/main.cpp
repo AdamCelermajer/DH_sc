@@ -92,6 +92,7 @@
 #include "original_scene.hpp"
 #include "platform_win32.hpp"
 #include "renderer.hpp"
+#include "frame_perf.hpp" // B062 diagnostic timing (DH_PERF)
 #include "features/equipment/source_equipment_material_binding.hpp"
 #include "render_queue.hpp"
 #include "save_store.hpp"
@@ -2685,13 +2686,14 @@ int main(int argc,char** argv) {
         };
         loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
         while(!window.should_close()) {
+            dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
             if(options.hud&&combatSession)bindEquipmentPage();
             combatTextFrame=drawn;
             if(drawn==options.resizeFrame) {
                 if(!window.resize(options.resizeWidth,options.resizeHeight))throw std::runtime_error("Window resize: "+window.error());
                 std::cout<<"Window resized frame="<<drawn<<" width="<<options.resizeWidth<<" height="<<options.resizeHeight<<'\n';
             }
-            window.poll();
+            window.poll();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::poll);
             if(drawn==options.pausePageFrame){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source-page diagnostic\n";}
             if(!window.key_down(VK_ESCAPE))escapeClosedMenu=false;
             semanticInput.set_menu_open(characterMenu.is_open()||pauseMenuOpen);
@@ -2850,6 +2852,7 @@ int main(int argc,char** argv) {
             semanticInput.set_menu_open(characterMenu.is_open()||pauseMenuOpen);
             if(characterMenu.is_open()||pauseMenuOpen)uiInput.actions={};
             double now=window.seconds();dt=options.fixedStep>0?options.fixedStep:std::clamp(now-previous,0.,.1);previous=now;
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::input);
             // B039 measurement: per-second frame count and worst clamped frame time, printed only with --frames.
             if(options.frames>0) {static double secondStart=now,worstDt=0;static int secondFrames=0,secondIndex=0;++secondFrames;worstDt=std::max(worstDt,dt);if(now-secondStart>=1.0){++secondIndex;std::cout<<"Frame rate second="<<secondIndex<<" frames="<<secondFrames<<" worstFrameMs="<<worstDt*1000.0<<'\n';secondStart=now;secondFrames=0;worstDt=0;}}
             if(runtimeAudio) {std::string audioError;if(!runtimeAudio->window_activity(window.focused(),window.minimized(),audioError))std::cerr<<"Audio activity diagnostic: "<<audioError<<'\n';}
@@ -3202,18 +3205,20 @@ int main(int argc,char** argv) {
                 bindEnemyAI();
                 const f::RetainedFrameAudioClock* audioClock=nullptr;
                 if(runtimeAudio) {
+                    dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::input);
                     bool minimalRandoms=false;std::string audioError;
                     const bool settingsKnown=!sourceScopes||sourceScopes->debug_switch("MP_MinimalRandoms",minimalRandoms,audioError);
                     auto listenerCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
                     if(settingsKnown)audioClock=runtimeAudio->before_update(listenerCamera,window.focused(),window.minimized(),minimalRandoms,std::uint64_t(drawn),audioError);
                     // P15 FAERYSOUND (B050): submit this frame's queued Faery cast sounds on the same device clock (nullptr drops them, logged).
                     if(runtimeAudio){std::string faeryAudioError;if(!runtimeAudio->flush_faery_pre_sounds(audioClock,faeryAudioError)&&!faeryAudioError.empty())std::cerr<<"Faery cast sound diagnostic: "<<faeryAudioError<<'\n';}
+                    dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::audio_pre);
                     if(!audioError.empty()&&drawn==0)std::cerr<<"Audio frame diagnostic: "<<audioError<<'\n';
                     if(gameplayPaused&&audioClock&&(gameplayPausedFrames==1||gameplayPausedFrames%60==0))
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
-                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest); // B004/B029
+                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest); // B004/B029dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update);
                 sourcePhysicalPlayerControls={};
                 if(!gameplayPaused) {
                     const auto* livePlayer=combatSession->actor(combatSession->player_id());
@@ -3370,6 +3375,7 @@ int main(int argc,char** argv) {
                     sourceTargetNodeQueries+=result.node_queried;sourceTargetCacheWrites+=result.cache_written;
                 }
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::post_update);
             renderer.resize(window.width(),window.height());
             if(options.sourceCamera) {
                 const double elapsedMs=gameplayDt*1000+cameraFractionMs;
@@ -3410,6 +3416,7 @@ int main(int argc,char** argv) {
                 const double elapsed=gameplayDt*1000+combatTextFractionMs;const auto integerMs=std::uint32_t(elapsed);combatTextFractionMs=elapsed-integerMs;
                 if(!combatText.after_host_update(std::uint64_t(drawn),integerMs,window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text update: "+error);
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_prepare);
             renderer.beginFrame(activeCamera);
             auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
             actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
@@ -3465,8 +3472,9 @@ int main(int argc,char** argv) {
                     }
                 } else {static std::string lastDropError;if(lastDropError!=dropError){lastDropError=dropError;std::cerr<<"World item presentation diagnostic frame="<<drawn<<": "<<dropError<<'\n';}}
             }
-            queue.flush(renderer,activeCamera);
-            if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::scene_build);
+            queue.flush(renderer,activeCamera);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::world_draw);
+            if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_draw);
             if(options.hud) {
                 auto frame=[&](unsigned current,unsigned maximum){auto n=std::int32_t(std::uint32_t(actorProperties.sheets.resolved[current])*100u);auto d=actorProperties.sheets.resolved[maximum];if(!d)throw std::runtime_error("Unbound HUD maximum");return unsigned(std::clamp(int(std::int64_t(n)/d)-1,0,99));};
                 auto liveFrame=[](float current,float maximum){if(!std::isfinite(current)||!std::isfinite(maximum)||maximum<=0)throw std::runtime_error("Unbound live HUD maximum");return unsigned(std::clamp(int(current*100/maximum)-1,0,99));};
@@ -3680,15 +3688,17 @@ int main(int argc,char** argv) {
                 if(characterMenu.is_open()&&statConfirmOpen)drawPauseArt(pauseConfirmArt,true,"GAMEPLAYMENUS_POINTS_CONFIRM");
                 overlay.end();
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::hud_ui);
             renderer.endFrame();
             if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);
             ++drawn;
             if(options.frames&&drawn>=options.frames&&!options.capture.empty()) capture(options.capture,window.width(),window.height());
-            window.swap();
+            window.swap();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_drain_swap);
             if(options.frames&&drawn>=options.frames) break;
-            dh::foundation::platform_sleep_milliseconds(1);
+            dh::foundation::platform_sleep_milliseconds(1);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sleep_wait);
         }
         std::cout<<"Source FX final packetFrames="<<sourceEffectsPacketFrames<<" packets="<<sourceEffectsPackets<<" textureUploads="<<sourceEffectsRenderer.texture_uploads()<<" presentationFailed="<<sourceEffectsPresentationFailed<<'\n';
+        dh::foundation::perf::FramePerf::get().finish();
         retireSourceEffects();
         if(options.combatText)std::cout<<"Combat text final results="<<combatTextResults<<" labels="<<combatTextLabels<<" drawnFrames="<<combatTextDrawnFrames<<" active="<<combatText.active_count()<<"; original source snapshots and styles, full CUI call ordering remains incomplete\n";
         if(runtimeAudio) {
