@@ -2059,7 +2059,7 @@ bool CombatSession::refresh_actor_combat_permissions(std::string& error){
 }
 bool CombatSession::set_actor_original_state(ActorId id,std::int32_t state,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Original lifecycle state actor is unavailable";return false;}
-    if(state!=0&&state!=1&&state!=3&&state!=17){error="Session lifecycle state must be original0/1/3/17";return false;}
+    if(state!=0&&state!=1&&state!=2&&state!=3&&state!=17){error="Session lifecycle state must be original0/1/2/3/17";return false;} // P16 DESPAWN: 2 = Despawn
     auto& entry=impl_->entries.at(id);
     // P16 LIFECYCLE: under a bound handler the target was already published by its admitted transition (idempotent).
     if(impl_->actorTransitionHandler&&!impl_->publish_source_state(id,state,error))return false;
@@ -2138,7 +2138,7 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     CombatRuntimeTransition receipt;
     if(s.actorTransitionHandler){
         // P16 LIFECYCLE: a legacy OriginalActorLifecycle program is admitted only with its explicit target state.
-        if(!generic&&policy.lifecycle_to_state!=1&&policy.lifecycle_to_state!=3&&policy.lifecycle_to_state!=17){
+        if(!generic&&policy.lifecycle_to_state!=1&&policy.lifecycle_to_state!=2&&policy.lifecycle_to_state!=3&&policy.lifecycle_to_state!=17){
             error="Legacy lifecycle source program has no admitted physical transition recipe";return false;
         }
         const auto to=generic?policy.original_state:policy.lifecycle_to_state;

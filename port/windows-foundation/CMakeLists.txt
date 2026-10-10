@@ -98,6 +98,14 @@ target_link_libraries(foundation_container_drops PUBLIC foundation_containers fo
 target_link_libraries(dh-foundation PRIVATE foundation_container_drops)
 add_executable(container_open_script_v1_tests features/containers/container_open_script_v1_tests.cpp)
 target_link_libraries(container_open_script_v1_tests PRIVATE foundation_container_drops)
+
+# P16 DESPAWN: automatic despawn after death (state machine; isolated test with fake owners).
+add_library(foundation_despawn STATIC features/despawn/despawn_after_death_v1.cpp)
+target_include_directories(foundation_despawn PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(dh-foundation PRIVATE foundation_despawn)
+add_executable(despawn_after_death_v1_tests features/despawn/despawn_after_death_v1_tests.cpp)
+target_link_libraries(despawn_after_death_v1_tests PRIVATE foundation_despawn)
+add_test(NAME despawn_after_death_v1 COMMAND despawn_after_death_v1_tests)
 add_test(NAME container_open_script_v1 COMMAND container_open_script_v1_tests)
 target_sources(foundation_data PRIVATE ../game-data/character_templates_v78.cpp)
 target_sources(foundation_data PRIVATE player_profile_properties.cpp)

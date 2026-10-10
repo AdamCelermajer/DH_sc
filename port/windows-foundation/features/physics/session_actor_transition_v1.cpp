@@ -175,6 +175,10 @@ bool SessionActorTransitionConsumerV1::blur(
         return set_body_pinned(session,actor.id,true,error);
     }
     case 7:error.clear();return true;
+    case 2:
+        // P16 DESPAWN. CSDespawn::OnBlur deletes summoned actors and sends others to Limbus; the pool slot and the Limbus
+        // transition are owned by DespawnAfterDeathV1 and OriginalActorLifecycle, so the physics consumer has no effect here.
+        error.clear();return true;
     case 0:
         // P16 DESPAWN. CSLimbus::OnBlur: SetPosition/SetRotation to the authored anchor, Revive, and the limbus group
         // bookkeeping (SM_SetLimbusState). These are the lifecycle's own effects; no body is pinned here.
@@ -248,6 +252,10 @@ bool SessionActorTransitionConsumerV1::focus_prefix(
     case 7:
         actor.source_flags520=0x6301u;
         error.clear();return true;
+    case 2:
+        // P16 DESPAWN. CSDespawn::OnFocus writes flags328 = 512 (Despawn clip selection is the lifecycle's effect).
+        actor.source_flags520=0x200u;
+        error.clear();return true;
     case 0:
         // P16 DESPAWN. CSLimbus::OnFocus clears flags328 (0) and hides the actor; the respawn timer and AI_ClearAllAggro
         // are the lifecycle's effects (OriginalActorLifecycle::change for state 0).
@@ -310,6 +318,7 @@ bool SessionActorTransitionConsumerV1::focus_suffix(
         // and animation publication have completed.
         return set_body_pinned(session,actor.id,false,error);
     case 7:error.clear();return true;
+    case 2:
     case 0:
     case 1:
     case 17:

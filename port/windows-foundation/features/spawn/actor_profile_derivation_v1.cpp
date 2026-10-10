@@ -17,6 +17,12 @@ namespace {
 const char* const kProfileStates[] = {"Template", "Idle", "Walk", "Run", "Attack", "Died", "Limbus"};
 const char* const kMeleeStates[] = {"Attack", "AttackStatic", "Died", "Idle", "Injured", "PreSpawn", "Run", "Spawn", "Walk"};
 // Source scale fields carry the original-character-scale encoding (authored profiles agree).
+const char* const kDespawnState = "Despawn";
+
+bool has_despawn_state(const ProfileDerivationTablesV1& tables) {
+    const auto& names = tables.animations.state_names;
+    return std::find(names.begin(), names.end(), std::string(kDespawnState)) != names.end();
+}
 const char* const kScaleFields[] = {"Scale_X", "Scale_Y", "Scale_Z"};
 
 std::size_t character_index(const ProfileDerivationTablesV1& tables, const std::string& row, std::string& error) {
@@ -209,7 +215,14 @@ bool derive_actor_profile_v1(const ProfileDerivationTablesV1& tables, const std:
     profile.property_row = std::to_string(index);
     profile.animation_table = std::to_string(animation_table);
     profile.animation_table_name = tables.animations.character_names[static_cast<std::size_t>(animation_table)];
-    for (const auto& state : profile_states_v1()) {
+    // P16 DESPAWN: Despawn is published only when the AnimTable carries Despawn clips (authored XML omits it).
+    std::vector<std::string> profile_states = profile_states_v1();
+    if (has_despawn_state(tables)) {
+        std::vector<std::string> despawn;
+        if (!state_clips(tables, static_cast<std::int32_t>(animation_table), kDespawnState, despawn, error)) return false;
+        if (!despawn.empty()) profile_states.push_back(kDespawnState);
+    }
+    for (const auto& state : profile_states) {
         std::vector<std::string> clips;
         if (!state_clips(tables, static_cast<std::int32_t>(animation_table), state, clips, error)) return false;
         std::vector<ActorClip> entries;
@@ -276,7 +289,14 @@ bool derive_melee_actor_v1(const ProfileDerivationTablesV1& tables, const std::s
         error = "AI row has no decoded properties: " + tables.ai.names[static_cast<std::size_t>(ai_id)];
         return false;
     }
-    for (const auto& state : melee_states_v1()) {
+    // P16 DESPAWN: the Despawn sequences join the melee states when the AnimTable carries them.
+    std::vector<std::string> melee_states = melee_states_v1();
+    if (has_despawn_state(tables)) {
+        std::vector<std::int32_t> despawn;
+        if (!state_sequence_ids(tables, animation_table, kDespawnState, despawn, error)) return false;
+        if (!despawn.empty()) melee_states.push_back(kDespawnState);
+    }
+    for (const auto& state : melee_states) {
         std::vector<std::int32_t> ids;
         if (!state_sequence_ids(tables, animation_table, state, ids, error)) return false;
         std::vector<OriginalMeleeSequence> sequences;
