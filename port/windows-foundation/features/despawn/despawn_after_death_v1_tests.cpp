@@ -47,6 +47,10 @@ struct Fake {
             calls.push_back("release_slot " + std::to_string(a));
             return true;
         };
+        s.respawn = [this](std::uint64_t a, std::string&) {
+            calls.push_back("respawn " + std::to_string(a));
+            return true;
+        };
         s.log = [this](const std::string& line) { lines.push_back(line); };
         return s;
     }
@@ -102,13 +106,13 @@ int main() {
         owner.track(10, true, false, 0, error);
         owner.death_ended(10, services, error);
         owner.advance(0, services, error);
-        expect(fake.count("hide 10") == 1 && fake.count("play_clip") == 0 && fake.count("release_slot 10") == 1 &&
+        expect(fake.count("play_clip 10") == 1 && fake.count("hide 10") == 1 && fake.count("release_slot 10") == 1 &&
                    !owner.tracked(10),
-               "no clip: hide then release slot in the same step");
+               "no clip: enter Despawn, hide, then release slot in the same step");
         owner.track(11, false, false, 2000, error);
         owner.death_ended(11, services, error);
         owner.advance(2000, services, error);
-        expect(fake.count("hide 11") == 1 && fake.count("release_slot 11") == 0 && !owner.tracked(11),
+        expect(fake.count("play_clip 11") == 1 && fake.count("hide 11") == 1 && fake.count("release_slot 11") == 0 && !owner.tracked(11),
                "non-summoned no clip: hidden, no slot release");
     }
 
@@ -147,6 +151,48 @@ int main() {
         owner.death_ended(31, services, error);
         owner.advance(0, services, error);
         expect(fake.count("play_clip 31") == 1, "zero delay expires on the next step");
+    }
+
+    // 5. Respawnable authored actor (GetRespawnDelay > 0): hidden, waits for event 47 in Limbus, then respawns once.
+    //    A summoned actor never respawns; its slot is released instead.
+    {
+        DespawnAfterDeathV1 owner;
+        Fake fake;
+        auto services = fake.services();
+        owner.track(40, false, false, 2000, error, 5000);
+        owner.death_ended(40, services, error);
+        owner.advance(2000, services, error);
+        expect(fake.count("hide 40") == 1 && owner.tracked(40) && owner.record(40)->phase == Phase::awaiting_respawn &&
+                   fake.count("respawn") == 0,
+               "respawnable actor waits in Limbus after the hide");
+        owner.advance(4999, services, error);
+        expect(fake.count("respawn") == 0 && owner.tracked(40), "respawn timer does not fire early");
+        owner.advance(1, services, error);
+        expect(fake.count("respawn 40") == 1 && !owner.tracked(40), "event 47 respawns exactly once and clears the record");
+        owner.advance(10000, services, error);
+        expect(fake.count("respawn 40") == 1, "a finished respawn is not repeated");
+
+        owner.track(41, true, false, 2000, error, 5000);
+        owner.death_ended(41, services, error);
+        owner.advance(2000, services, error);
+        expect(fake.count("respawn 41") == 0 && !owner.tracked(41) && fake.count("release_slot 41") == 1,
+               "a summoned actor never respawns; its slot is released");
+    }
+
+    // 6. Respawn through the clip path: the Limbus transition after the Despawn clip also schedules the respawn.
+    {
+        DespawnAfterDeathV1 owner;
+        Fake fake;
+        auto services = fake.services();
+        owner.track(42, false, true, 0, error, 1000);
+        owner.death_ended(42, services, error);
+        owner.advance(0, services, error);
+        fake.clip_done = true;
+        owner.poll(services, error);
+        expect(owner.tracked(42) && owner.record(42)->phase == Phase::awaiting_respawn,
+               "clip completion schedules the respawn in Limbus");
+        owner.advance(1000, services, error);
+        expect(fake.count("respawn 42") == 1 && !owner.tracked(42), "clip path respawns after event 47");
     }
 
     std::cout << (failures == 0 ? "despawn_after_death_v1 OK" : "despawn_after_death_v1 FAILED") << '\n';

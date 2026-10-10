@@ -199,6 +199,7 @@ bool ActorCombatRuntime::apply_calculated_hit(ActorId attacker, ActorId target,
 
 bool ActorCombatRuntime::start_pose(Binding& binding, Pose pose, std::string& error,
     const CombatRuntimeTransition* admitted,bool silent,bool prefix_delivered) {
+    binding.yielded = false; // P16 DESPAWN2: the runtime starts a pose again (a hand-over ends here)
     const auto& clip = pose == Pose::death ? binding.poses.death_clip_id : binding.poses.react_clip_id;
     if (clip.empty()) return true;
     const AnimationMarkers* track = nullptr; std::uint64_t duration = 0;
@@ -277,7 +278,7 @@ bool ActorCombatRuntime::start_injure_reaction(Binding& binding,const DamageEven
 bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
     auto& actor = *binding.actor;
     if (!actor.alive()) {
-        if (binding.pose != Pose::death) {
+        if (binding.pose != Pose::death && !binding.yielded) {
             if (!start_pose(binding, Pose::death, error)) return false;
         }
         return true;
@@ -301,6 +302,16 @@ bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
 
 bool ActorCombatRuntime::interrupt(ActorId actor) {
     std::string error;return interrupt(actor,error);
+}
+// P16 DESPAWN2: the pose of an actor is handed to a lifecycle state sequence (Despawn after death). A binding without a
+// pose is a successful no-op; a dead binding is then not re-asserted into its Death pose by synchronize.
+bool ActorCombatRuntime::yield_pose(ActorId actor,std::string& error) {
+    error.clear();if(!validate_transition_checkpoint(error))return false;
+    const auto entry = bindings_.find(actor);
+    if (entry == bindings_.end()) return true;
+    if (entry->second.pose != Pose::none && !depart(entry->second,CombatRuntimeTransitionCause::interruption,error)) return false;
+    entry->second.yielded = true;
+    return true;
 }
 bool ActorCombatRuntime::interrupt(ActorId actor,std::string& error) {
     error.clear();if(!validate_transition_checkpoint(error))return false;

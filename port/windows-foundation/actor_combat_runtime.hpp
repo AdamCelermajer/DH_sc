@@ -114,6 +114,9 @@ public:
                               DamageEvent& result, std::string& error);
     bool interrupt(ActorId actor);
     bool interrupt(ActorId actor,std::string& error);
+    // P16 DESPAWN2: hands the actor's pose to a lifecycle-owned state sequence. The death pose is released and not re-asserted
+    // while the actor is dead (synchronize); a new pose from this runtime clears the hand-over.
+    bool yield_pose(ActorId actor,std::string& error);
     bool validate_transition_checkpoint(std::string& error)const;
     // This is the sole combat cooldown updater. Effects/errors are incremental:
     // already applied damage is retained; a failed action is safely interrupted.
@@ -140,6 +143,7 @@ private:
         std::uint64_t duration_ms = 0;
         float source_injury_gate_ms=-1.0f;
         bool terminal_hold=false;
+        bool yielded=false; // P16 DESPAWN2: pose handed to a lifecycle state sequence (no death re-assertion)
         bool delivering_transition=false;
         std::string transition_failure;
     };

@@ -556,6 +556,31 @@ int main(int argc, char** argv) {
         check(rebindCalls > 0 && queuedDelivered > 0,
               "Between-update samples were not delivered to the rebound handler at the next update");
         check(session.clear_motion_phase_handler(error), error);
+        // P16 DESPAWN2: a lifecycle state sequence on a DEAD actor (the Despawn clip after death) advances to completion,
+        // and the death pose is handed over (the runtime does not re-assert it while the actor is dead).
+        {
+            ActorState* dead = session.actor(1);
+            check(dead != nullptr, "Player actor unavailable for the dead-sequence block");
+            dead->health = 0;
+            dead->action = CharacterAction::dead;
+            for (int frame = 0; frame < 3; ++frame)
+                check(session.update(0.05, {}, position_of(*session.actor(1)), 0, error), error);
+            OriginalAttackSelection despawnSelection;despawnSelection.state="Injured";despawnSelection.variant=0;despawnSelection.group_path={0};
+            std::size_t finishedCalls = 0;
+            CombatSessionStateAnimationServices despawnServices;
+            despawnServices.event = [](ActorId, const RetainedAnimationEvent&, std::string&) { return true; };
+            despawnServices.finished = [&](ActorId, std::string&) { ++finishedCalls; return true; };
+            check(session.play_actor_state_sequence(1, despawnSelection, despawnServices, error),
+                  "Lifecycle sequence on the dead actor was refused: " + error);
+            bool sequenceEnded = false;
+            for (int frame = 0; frame < 400 && !sequenceEnded; ++frame) {
+                check(session.update(0.05, {}, position_of(*session.actor(1)), 0, error), error);
+                sequenceEnded = finishedCalls > 0;
+            }
+            check(sequenceEnded, "Lifecycle sequence on the dead actor never completed (pose still owned by the death owner)");
+            check(finishedCalls == 1, "Dead-actor lifecycle sequence completion was not reported exactly once");
+            std::cout << "PASS P16 DESPAWN2 dead-actor lifecycle sequence completes once after the death pose hand-over\n";
+        }
         std::cout << "PASS actual retained source attack marker before ordered motion samples; same-Session NativeWorld/PF floor import and root movement; zero-dt actor callbacks; restore requires fresh phase binding\n";
         return 0;
     } catch (const std::exception& failure) {

@@ -155,6 +155,15 @@ int main(int argc, char** argv) {
         require(pool.release(a, f.error) && !pool.release(a, f.error), "release once, second release refused");
         require(pool.acquire(lizard, 0, c, f.error) && c == a, "freed slot is reusable");
         require(!pool.release(12345, f.error), "unknown slot release refused");
+        // P16 DESPAWN2 restore rule: a world replacement re-declares every slot free (busy, failed and summoner dropped); the
+        // stable IDs are kept, so the next summon reuses them without duplicates.
+        require(pool.busy_count() == 2, "two busy slots before reload");
+        pool.mark_failed(b);
+        pool.free_all();
+        require(pool.busy_count() == 0 && pool.slot(a) && !pool.slot(a)->busy && pool.slot(a)->summoner == 0 && !pool.slot(b)->failed,
+                "free_all re-declares every slot free");
+        require(pool.acquire(lizard, 0, c, f.error) && c == a, "first slot after free_all keeps its stable ID");
+        require(pool.release(c, f.error), "released after free_all");
 
         // --- real population admission (same loader family as authored actors) ---
         ActorPopulation population;

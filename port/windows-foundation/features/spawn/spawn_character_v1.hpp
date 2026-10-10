@@ -124,6 +124,8 @@ public:
     bool acquire(const std::string& profile_id, std::uint64_t summoner, std::uint64_t& stable_id, std::string& error);
     // Frees a slot after despawn. Failed slots are not freed here.
     bool release(std::uint64_t stable_id, std::string& error);
+    // P16 DESPAWN2: a world replacement (reload/restore) re-declares every slot free; stable IDs are kept.
+    void free_all() noexcept;
     // Marks a busy slot whose owner state became unknown after begin().
     void mark_failed(std::uint64_t stable_id) noexcept;
     std::size_t busy_count() const noexcept;

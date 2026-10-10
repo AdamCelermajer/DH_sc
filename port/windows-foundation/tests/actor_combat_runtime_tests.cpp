@@ -449,6 +449,21 @@ void calculated_result_application() {
 }
 }
 
+// P16 DESPAWN2: a dead actor takes its death pose from the runtime. After yield_pose (the lifecycle hand-over) the runtime does
+// not re-assert that pose while the actor stays dead; before the hand-over it does.
+void yielded_death_pose_not_reasserted() {
+    TestWorld world;world.actors[1]=actor(1);world.actors[1].health=0;world.actors[1].action=CharacterAction::dead;
+    Visual visual;visual.add("death",0,200,1000);visual.add("despawn",0,300,1000);
+    CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+    CombatPoseBindings poses;poses.death_clip_id="death";
+    check(runtime.bind(world.actors[1],visual.binding(),poses,error),error);
+    std::vector<DamageEvent> events;
+    check(runtime.update(0.05,events,error)&&runtime.owns_pose(1),"Dead actor did not take its death pose");
+    check(runtime.yield_pose(1,error)&&!runtime.owns_pose(1),"Hand-over did not release the death pose");
+    for(int frame=0;frame<3;++frame)
+        check(runtime.update(0.05,events,error)&&!runtime.owns_pose(1),"Dead actor re-asserted its death pose after the hand-over");
+    check(runtime.yield_pose(99,error),"Hand-over of an unbound actor must be a no-op");
+}
 int main() {
     try {
         nullable_melee_swing();
@@ -456,6 +471,7 @@ int main() {
         departure_timing();
         source_clock_timing();
         restored_terminal_death();
+        yielded_death_pose_not_reasserted();
         synchronous_source_delivery();
         source_outcome_reactions();
         source_injury_gate();

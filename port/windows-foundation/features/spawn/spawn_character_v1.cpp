@@ -254,6 +254,15 @@ bool SpawnPoolV1::acquire(const std::string& profile_id, std::uint64_t summoner,
     return false;
 }
 
+// P16 DESPAWN2: reload/restore. Every slot is free again; failed and summoner records are dropped, stable IDs are kept.
+void SpawnPoolV1::free_all() noexcept {
+    for (auto& slot : slots_) {
+        slot.busy = false;
+        slot.failed = false;
+        slot.summoner = 0;
+    }
+}
+
 bool SpawnPoolV1::release(std::uint64_t stable_id, std::string& error) {
     for (auto& slot : slots_) {
         if (slot.stable_id != stable_id) continue;

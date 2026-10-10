@@ -1527,7 +1527,11 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     }
     for(auto& entry:s.entries){
         if(s.runtime->owns_pose(entry.first))continue;
-        const auto* a=s.world->find_actor(entry.first);if(!a->alive()&&!entry.second.animationOnly)continue;
+        const auto* a=s.world->find_actor(entry.first);
+        // P16 DESPAWN2: a lifecycle-owned state sequence (the Despawn clip after death, CSDespawn) keeps playing on a dead
+        // actor. Generic source sequences (Skill/Cast/KnockedBack) still stop with the actor, as before.
+        const bool lifecycleSequenceOnDead=entry.second.stateManaged&&entry.second.stateSequence&&!entry.second.sourceStatePolicy;
+        if(!a->alive()&&!entry.second.animationOnly&&!lifecycleSequenceOnDead)continue;
         if(entry.second.stateManaged){
             if(entry.second.stateSequence){if(!entry.second.retained->advance(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;}
             else if(entry.second.retained->seeded()){if(!entry.second.retained->advance_seeded(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;}
@@ -2172,7 +2176,7 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
         if(!s.actor_transition(id,receipt,error,nullptr,&policy))return false;
     }
     {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
-        if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
+        if(s.runtime->owns_pose(id)&&!s.runtime->yield_pose(id,error))return false;
         s.combat->interrupt(id);
         // Interrupted source combo swing: drop continuation/last so the next swing starts fresh.
         entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
