@@ -287,6 +287,7 @@ add_library(foundation_runtime_quests STATIC
   features/quests/character_quest_progress_v1.cpp
   ../game-data/quest_persistence_v51.cpp ../game-data/quest_savegame_v1.cpp)
 target_link_libraries(foundation_runtime_quests PUBLIC foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_runtime_quests)
 add_executable(quest_runtime_v1_tests features/quest_runtime/quest_runtime_v1_tests.cpp)
 target_link_libraries(quest_runtime_v1_tests PRIVATE foundation_runtime_quests)
 add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests

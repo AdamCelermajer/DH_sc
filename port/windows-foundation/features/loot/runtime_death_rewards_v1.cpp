@@ -291,6 +291,26 @@ bool distribute_xp(dh::foundation::PlayableActorWorld& world, ActorState& victim
 }
 }
 
+
+// P16 QUESTS: quest XP reward. Same owner and raw conversion as distribute_xp.
+bool RuntimeDeathRewardsV1::award_experience(::dh::foundation::PlayableActorWorld& world,
+    dh::foundation::ActorId player_id, float xp, const RuntimeDeathRewardServicesV1& services,
+    std::string& error) {
+    if (!services.properties || !services.xp_design || !services.resolve_character)
+        return fail(error, "Quest XP requires the same-session progression authorities");
+    auto* player = world.find_actor(player_id);
+    if (!player) return fail(error, "Quest XP recipient is absent from the session");
+    const auto* props = world.combat_properties(player_id);
+    if (!props) return fail(error, "Quest XP recipient has no original resolved property sheet");
+    dh2::data::PropertyRules rules;
+    if (!dh2::data::load_property_rules(services.properties->characters, rules, error)) return false;
+    RuntimeDeathActorV1 resolved;
+    if (!services.resolve_character(services.context, player_id, resolved, error)) return false;
+    if (!resolved.binding_lifecycle || !resolved.character)
+        return fail(error, "Quest XP recipient requires actual actor lifetime and shared CharacterState");
+    const auto raw = dh2::character::progression_award_raw_v1(xp);
+    return award_player_xp(world, *player, std::move(resolved.character), *props, raw, services, rules, error);
+}
 bool RuntimeDeathRewardsV1::consume(dh::foundation::CombatSession& session,
     const RuntimeDeathRewardServicesV1& services,
     std::vector<RuntimeDeathRewardOutcomeV1>& outcomes, std::string& error) {
